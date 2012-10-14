@@ -1,0 +1,45 @@
+/*
+    CSS2 for the Accessible WebForm
+*/
+
+body {
+    font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+p.error {
+    font-weight: bold;
+}
+
+p.bug {
+    font-weight: bold;
+    background: red;
+    color: white;
+    padding: 0.5em;
+}
+
+.question {
+    padding-bottom: 0.75em;
+}
+
+.qnum {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: green;
+    float: left;
+    clear: left;
+}
+
+.qcontent {
+    margin-left: 5em;
+	margin-right: 1em;
+}
+
+input:focus, select:focus {
+    background: #FFB;
+}
+
+/* END */

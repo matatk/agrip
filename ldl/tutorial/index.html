@@ -1,0 +1,1117 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>LDL Concept Release Tutorial</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#ldl_concept_release_tutorial">LDL Concept Release Tutorial</a></li>
+	<li><a href="#what_is_ldl">What is LDL?</a></li>
+	<ul>
+
+		<li><a href="#before_ldl">Before LDL</a></li>
+		<li><a href="#how_does_ldl_work">How Does LDL Work?</a></li>
+		<li><a href="#what_does_the_ldl_test_release_do">What Does the LDL Test Release Do?</a></li>
+		<li><a href="#what_does_it_not_do">What Does it <em>Not</em> do?</a></li>
+		<li><a href="#supported__planned_and_blue_sky_features">Supported, Planned and Blue Sky Features</a></li>
+	</ul>
+
+	<li><a href="#getting_ldl">Getting LDL</a></li>
+	<ul>
+
+		<li><a href="#requirements">Requirements</a></li>
+		<li><a href="#getting_ldl">Getting LDL</a></li>
+		<li><a href="#running_ldl">Running LDL</a></li>
+		<ul>
+
+			<li><a href="#___on_linux">...on Linux</a></li>
+			<li><a href="#___on_windows">...on Windows</a></li>
+			<li><a href="#expected_test_results">Expected Test Results</a></li>
+		</ul>
+
+	</ul>
+
+	<li><a href="#making_maps_with_ldl">Making Maps with LDL</a></li>
+	<ul>
+
+		<li><a href="#basic_concepts">Basic Concepts</a></li>
+		<li><a href="#hello__world_">Hello, World!</a></li>
+		<li><a href="#room_sizes">Room Sizes</a></li>
+		<ul>
+
+			<li><a href="#xml_errors">XML Errors</a></li>
+		</ul>
+
+		<li><a href="#connecting_rooms">Connecting Rooms</a></li>
+		<li><a href="#items_and_monsters">Items and Monsters</a></li>
+		<ul>
+
+			<li><a href="#compass_points">Compass Points</a></li>
+		</ul>
+
+		<li><a href="#making_deathmatchsuitable_maps">Making Deathmatch-Suitable Maps</a></li>
+		<ul>
+
+			<li><a href="#directional_issues">Directional Issues</a></li>
+			<li><a href="#cooperative_maps">Co-Operative Maps</a></li>
+		</ul>
+
+		<li><a href="#connections_reloaded">Connections Reloaded</a></li>
+		<ul>
+
+			<li><a href="#even_more_positioning">Even More Positioning</a></li>
+			<li><a href="#making_connection_corridors">Making Connection Corridors</a></li>
+			<li><a href="#vertical_connections_to_other_rooms">Vertical Connections to Other Rooms</a></li>
+		</ul>
+
+		<li><a href="#feedback">Feedback</a></li>
+	</ul>
+
+	<li><a href="#some_golden_rules">Some Golden Rules</a></li>
+	<li><a href="#test_maps_included_with_ldl">Test Maps Included with LDL</a></li>
+	<li><a href="#the_end">The End</a></li>
+	<li><a href="#reference_information">Reference Information</a></li>
+	<ul>
+
+		<li><a href="#the_style_file__automating_texturing_and_lighting">The Style File - Automating Texturing and Lighting</a></li>
+		<li><a href="#list_of_valid_entities">List of Valid Entities</a></li>
+	</ul>
+
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="ldl_concept_release_tutorial">LDL Concept Release Tutorial</a></h1>
+<p>This document is about the preliminary LDL concept release.  For the latest information on LDL, which will be changing frequently at this early stage, please visit <a href="http://www.agrip.org.uk/ldl/">http://www.agrip.org.uk/ldl/</a>.</p>
+<p>Please help out Matthew's research by filling in the short survey on your feelings about LDL, which is available at <a href="http://www.agrip.org.uk/ldl/survey/">http://www.agrip.org.uk/ldl/survey/</a>.  I need answers to these questions by the start of May if possible (though up to and including the 4th would be manageable).  Please accept my apologies for the short notice but it's been a very busy few months working on LDL and also applying for funding for my work.</p>
+<p>
+</p>
+<hr />
+<h1><a name="what_is_ldl">What is LDL?</a></h1>
+<p>The AGRIP <em>Level Description Language</em>, or LDL, is a language being developed to allow people to easily describe 3D spaces. Currently the description is written in a type of XML file, but later we aim to expand to more natural language and also provide level-editing programs. LDL is currently aimed at blind gamers who want to make maps for Quake. This is a very preliminary concept release, so it's important to say what it does, doesn't and will do (this will be discussed shortly).</p>
+<p>
+</p>
+<h2><a name="before_ldl">Before LDL</a></h2>
+<p>How would one go about making maps for Quake before LDL?  If you just want to find out how to use LDL you can skip this section, however it does provide useful background information on the area that we are now working on providing access to.</p>
+<ol>
+<li>
+<p>Well first off you'd have to be able to see well enough to use a graphical CAD-like program - a level/map editor - to draw the shapes of your rooms on the screen.</p>
+</li>
+<li>
+<p>The shapes you draw - brushes - would make up the rooms in the map.  It works like building blocks and you have to put many blocks together to make a single room - one for the floor, ceiling and all of the sides.  If you wanted to put a hole in a wall (for a door, for example), you would have to build the brushes around the space where you wanted the hole to be.</p>
+<p>Later editors alleviated the difficulties caused by this system and made up ``smart'' brushes that automatically created the gaps for holes (the editor used by the AGRIP project, QuArK, does this).</p>
+</li>
+<li>
+<p>Textures would have to be applied to the brushes.  Entities (weapons, lights, monsters) would be added to the map to make it more interesting.  Doors and buttons are special entities that are associated with a brush (that moves, for example, when you walk near it).</p>
+</li>
+<li>
+<p>When the map is finished it must be saved as a <em>.map</em> file so that the level compilation tools can read it.  The <em>.map</em> file is even lower-level than many level editors' internal formats.  It contains a list of the brushes and entities in the map, but with the bushes defined in terms of triples of points on the 3D planes that make them up.</p>
+</li>
+<li>
+<p>Finally the <em>.map</em> file can be compiled with the Quake map compilation tools.  These would be run as follows.</p>
+<dl>
+<dt><strong><a name="item_bsp_mapname">bsp <em>mapname</em></a></strong></dt>
+
+<dd>
+<p>This converts the textual description of planes and so on in the text file to a binary format that can be read by the engine.</p>
+</dd>
+<dt><strong><a name="item_light_mapname">light <em>mapname</em></a></strong></dt>
+
+<dd>
+<p>This calculates all of the lighting values (more modern game engines do some/all of this on-the-fly during game-play but doing it as a pre-processing stage saves a lot of resource requirement later on).</p>
+</dd>
+<dt><strong><a name="item_vis_mapname">vis <em>mapname</em></a></strong></dt>
+
+<dd>
+<p>This helps the engine work out which parts of the map don't need to be displayed depending on the viewpoint of the player, thus saving the engine from having to draw everything in the map at all times and speeding things up dramatically.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>
+</p>
+<h2><a name="how_does_ldl_work">How Does LDL Work?</a></h2>
+<p>The operating principle of LDL is that we start with as high-level a description as possible and gradually transform it, by filling in the details, into a low-level description suitable for compiling with the standard Quake map tools.  This allows you to talk in terms of rooms and connections between them, whereas the map tools at the bottom of the chain want to know about scary things like intersecting 3D planes.</p>
+<p>LDL - the code - is actually a chain as mentioned above.  Each stage is a separate program and the whole thing works by feeding the output of one into the next, until we have our final answer - the <em>.map</em> file.</p>
+<p>You start by writing a pretty high-level XML file that describes your map (later we plan to add even easier ways to get data into the system, such as natural language, or an interactive editor program but for now we need to test the basic premise).  An XML file is just a plain text file (think similar to HTML if you've used that before), which you can edit with any text editor (e.g. Notepad, Notepad++, ViM, ...)</p>
+<p>The work-flow for using LDL is as follows.</p>
+<ol>
+<li>
+<p>Write your XML file with a text editor, as per the examples in the tutorial section below.</p>
+</li>
+<li>
+<p>Run the LDL tools on it (a script/batch file is provided to automate this).  They should be run from a terminal/command window.</p>
+<p>The scripts will check that your XML file is ``well-formed'' before going further.  This means checking that you have typed it in without mistakes such as unclosed tags.</p>
+<p>If it doesn't work, there could be an error in your XML file (or a bug in the LDL code, which we implore you to report!)  Go back to the XML, try to fix the problem (error messages will try to help you do this) and try again.</p>
+<p>If/when it does work, you will then be able to play the map in AudioQuake.</p>
+</li>
+</ol>
+<p>
+</p>
+<h2><a name="what_does_the_ldl_test_release_do">What Does the LDL Test Release Do?</a></h2>
+<p>The test release is focused on describing the spaces and making simple deathmatch maps. It does the following.</p>
+<ul>
+<li>
+<p>Allows you to describe rooms - their size and style (which causes texturing and lighting to be automatically applied so that sighted people can play your maps too).</p>
+</li>
+<li>
+<p>Allows you to specify how rooms are connected (directly) to each other - i.e. you can specify that a given room is positioned north of another room and that there should be a door between them and both rooms will be positioned correctly - including at the right height - and the door - and any required stairs or an elevation platform - inserted.</p>
+</li>
+<li>
+<p>Placement of items within rooms (such as player start points and weapons) on a compass directions system (this is planned to be expanded into percentage-based coordinates in the future).</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="what_does_it_not_do">What Does it <em>Not</em> do?</a></h2>
+<ul>
+<li>
+<p>It can't make connections between rooms that are not next to each other - that is to say you need to specify the corridors that connect between rooms (as rooms themselves, which they are - they're usually just longer and thinner).</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="supported__planned_and_blue_sky_features">Supported, Planned and Blue Sky Features</a></h2>
+<p>The lower levels of LDL support many features, not all of which are currently enabled.  The test release is designed mainly to assess how well the tool works as a way to allow blind people to specify 3D spaces, so doesn't contain all of the features of regular Quake, but we will be adding many (and fixing reported bugs) quickly over the coming weeks and months.</p>
+<p>Some features are planned for future releases of LDL, as follows.</p>
+<ul>
+<li>
+<p>Higher-level descriptions - giving you the ability to say roughly where some rooms are in 3D space and the programs working out the best way to link them (i.e. with corridors, stairs or lifts).</p>
+</li>
+<li>
+<p>Providing a natural language-like interface.</p>
+</li>
+<li>
+<p>Providing a level editor application to make writing the descriptions and make error-checking easier.</p>
+</li>
+</ul>
+<p>Some limitations of the system that may be addressed in future include the inability of it to cope with angled/slanted brushes.  This isn't so much of a limitation at the moment as we can use stairs and so on - and are not aware of the best way to present such complex structures.  Once we've done more research into how to navigate such maps and how to represent them in LDL this may be an area of improvement.</p>
+<p>For now, however, there's a great deal you <em>can</em> do - as we hope the tutorial below will show.</p>
+<p>
+</p>
+<hr />
+<h1><a name="getting_ldl">Getting LDL</a></h1>
+<p>
+</p>
+<h2><a name="requirements">Requirements</a></h2>
+<p>LDL currently runs on Linux and Windows, with plans to support MacOS X as soon as possible.  To make it run, you will need Python 2.5.  If you're on Linux this should be as easy as</p>
+<pre>
+ apt-get install python2.5</pre>
+<p>or similar.  On Windows, you should get the Windows Installer package from <a href="http://python.org/ftp/python/2.5.2/python-2.5.2.msi">http://python.org/ftp/python/2.5.2/python-2.5.2.msi</a> and install it.</p>
+<p>
+</p>
+<h2><a name="getting_ldl">Getting LDL</a></h2>
+<p>The test release is available from <a href="http://www.agrip.org.uk/ldl/">http://www.agrip.org.uk/ldl/</a>.  It contains the LDL map translation scripts and Quake map compilation tools.</p>
+<p>
+</p>
+<h2><a name="running_ldl">Running LDL</a></h2>
+<p>Here are the (brief) instructions for setting up LDL on your system.</p>
+<p>
+</p>
+<h3><a name="___on_linux">...on Linux</a></h3>
+<p>There are no restrictions on where you should unpack the zip file and run the scripts from.  However, you'll need to copy the Quake map compilation tools (<em>qbsp</em>, <em>light</em> and <em>vis</em>) to somewhere on your path (such as /usr/local/bin/ or ~/bin/ if it's on your path).</p>
+<p>To test your installation, open a terminal and issue the following commands.</p>
+<pre>
+ cd ~/.zquake/ldl/
+ ./mkmap.sh tut08</pre>
+<p>
+</p>
+<h3><a name="___on_windows">...on Windows</a></h3>
+<p>When you've installed Python 2.5 and downloaded the test release, please unzip it into your AudioQuake directory, so that the <em>ldl/</em> folder is inside your AudioQuake folder, alongside <em>id1/</em>.</p>
+<p>To test your installation, open a command prompt and issue the following commands.</p>
+<pre>
+ cd &quot;C:\Program Files\AudioQuake\ldl\&quot;
+ mkmap tut08</pre>
+<p>Once this command has completed, issue the following command to test the map.</p>
+<pre>
+ test tut08</pre>
+<p>
+</p>
+<h3><a name="expected_test_results">Expected Test Results</a></h3>
+<p>This should (a) transform the XML into a <em>.map</em> file using the LDL scripts, then (b) compile the map using the quake map tools and (c) run it using AudioQuake.</p>
+<p>If this is not what happens, consult <a href="http://www.agrip.org.uk/ldl/">http://www.agrip.org.uk/ldl/</a> and the AGRIP-discuss mailing list for help - <a href="http://lists.agrip.org.uk/cgi-bin/mailman/listinfo/agrip-discuss">http://lists.agrip.org.uk/cgi-bin/mailman/listinfo/agrip-discuss</a>.  Any error messages will be output to the command window for you to read and submit as part of your email to the mailing list.  If you are working on your own map, it's also a good idea to send in your XML file so we can see if there are any errors in it.</p>
+<p>
+</p>
+<hr />
+<h1><a name="making_maps_with_ldl">Making Maps with LDL</a></h1>
+<p>This section is a tutorial on making levels with LDL.  It assumes you've followed the set-up instructions above and that the system is working.</p>
+<p>
+</p>
+<h2><a name="basic_concepts">Basic Concepts</a></h2>
+<p>Before you start, please be aware of the following.</p>
+<ul>
+<li>
+<p>LDL maps are XML files (which are plain text files and look similar to HTML files).  You can edit them with any text editor.  You should be able to copy and paste from this document into a text file - name it something like <em>tutorial.xml</em> and run it through the LDL system in a terminal/command window, as above.</p>
+<p>If you are new to XML don't worry - you can copy the examples given here.  Also, there is a tutorial on XML at <a href="http://xml.resource.org/authoring/draft-mrose-writing-rfcs.html#xml_basics">http://xml.resource.org/authoring/draft-mrose-writing-rfcs.html#xml_basics</a>.</p>
+</li>
+<li>
+<p>When you run the LDL scripts on a map, you should not include the <em>.xml</em> part of the map's name.</p>
+</li>
+<li>
+<p>It is strongly recommended that you compile and test the map as you go along with writing it as often as you can do so.  This will help you appreciate how the system works and help you to determine when an error in your map (or bug in our code) has been introduced.</p>
+<p>The LDL scripts will point out errors in the XML file such as unclosed tags.  These need to be fixed before you can continue (an example is given below).</p>
+</li>
+<li>
+<p>Unless you add enough deathmatch player start points, you will have great problems running the map in deathmatch mode, as all of the bots will try to spawn out of one start point.  You'll read later how to add start points.</p>
+<p>For now, be aware that the map test script/batch file is provided so that you can test your maps in non-deathmatch mode.  For that to work, you have to have one - and only one - info_player_start entity in your map.  Again, more on this later.</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="hello__world_">Hello, World!</a></h2>
+<p>Let's start with a very simple example map.</p>
+<pre>
+ &lt;map name='tut01' style='base'&gt;
+     &lt;room id='start'&gt;
+        &lt;item type='info_player_start' pos='c' /&gt;
+     &lt;/room&gt;
+ &lt;/map&gt;</pre>
+<p>That's the simplest map you can make with LDL that can be played.  Let's take a look at each line and see what it does...</p>
+<pre>
+ &lt;map name='tut01' style='base'&gt;</pre>
+<p>This starts our map off; it's an XML <em>element</em> called ``map''.  Elements are written inside angle-brackets and may also have additional information specified about them by way of <em>attributes</em>.  The map element has two attributes:</p>
+<ul>
+<li>
+<p>A name, which is ``test'' in this case.  This is what is displayed in the console when the map is loaded.</p>
+</li>
+<li>
+<p>A <em>style</em>, which is ``base'' in this case.  This affects lighting, texturing, sounds and key types used in the map.</p>
+<p>The style of a map is used to denote which texture, lighting and - to some extent - sound scheme is applied.  Currently, LDL supports ``base'' and ``medieval''.</p>
+</li>
+</ul>
+<p>As well as having attributes, an element can contain other elements.  When we get to the end of the map, we must <em>close</em> the map element with &lt;/map&gt;.</p>
+<p>Back to the map file...</p>
+<pre>
+ &lt;room id='start'&gt;</pre>
+<p>This and the following 2 lines represent a room and its contents.  Note that you must always close &lt;room&gt; elements, just like any other.</p>
+<p>The room has been given an <em>id</em> so that LDL can uniquely identify it later.  You must supply an ID for all rooms in your map.  We didn't bother to specify a size for it, so it will default to being ``medium'' in size in all 3 directions - width, depth and height.</p>
+<pre>
+ &lt;item type='info_player_start' pos='c' /&gt;</pre>
+<p>This room contains one <em>item</em> - a player start point which, according to its <a href="#item_pos"><code>pos</code></a> attribute, is to be positioned in the centre of its containing room.  The item itself does not contain anything (this wouldn't make much sense) so it can be closed simply by writing a forward slash before the closing angle bracket.  This is the same as if we had written it out in full, as follows.</p>
+<pre>
+ &lt;item type='info_player_start' pos='c'&gt;&lt;/item&gt;</pre>
+<p>We close the room element because we have no more items to add.</p>
+<pre>
+ &lt;/room&gt;</pre>
+<p>Finally we have got to the end of the map file so we can close the map element.</p>
+<pre>
+ &lt;/map&gt;</pre>
+<p>Try running this map through the LDL system.  As part of the conversion to a <em>.map</em> file (which will be converted by the standard Quake mapping tools to a <em>.bsp</em>) the level will be textured and lit appropriately for the style chosen above.  Save the XML as <em>tut01.xml</em> and convert, compile and test the map with, if you're using Linux:</p>
+<pre>
+ ./mkmap.sh tut01</pre>
+<p>or, in Windows:</p>
+<pre>
+ mkmap tut01
+ test tut01</pre>
+<p>Remember to just type the part of the filename before the <em>.xml</em> extension.  Once the LDL scripts have run and the Quake map tools have finished processing, the game will start and you should be in a medium-sized room with not much else going on.</p>
+<p>
+</p>
+<h2><a name="room_sizes">Room Sizes</a></h2>
+<p>When you don't specify a size for the room, it's made ``medium'' by default.  Let's try specifying a different size for the room.  Here's the whole map, with the size altered.</p>
+<pre>
+ &lt;map name='tut02' style='base'&gt;
+    &lt;room id='start' size='large'&gt;
+        &lt;item type='info_player_start' pos='c' /&gt;
+    &lt;/room&gt;
+ &lt;/map&gt;
+ 
+Try saving it and running it.  You should find that you can walk much further in any direction before hitting the walls.</pre>
+<p>There are several room sizes: vsmall, small, med, big, large, vlarge, xlarge, huge, vhuge and xhuge.</p>
+<p>If you were to specify a size that is not valid, you would get an error message.  Try that now, with the following input.</p>
+<pre>
+ &lt;map name='tut03' style='base'&gt;
+    &lt;room id='start' size='reallyreallyreallysmall'&gt;
+        &lt;item type='info_player_start' pos='c' /&gt;
+    &lt;/room&gt;
+ &lt;/map&gt;</pre>
+<p>Because the room is a 3D object, you can also specify its size in the 3 dimensions - width, depth and height.  Different programs and systems use these terms differently, so to avoid any possible confusion, we'll define them as LDL uses them here.</p>
+<dl>
+<dt><strong><a name="item_width">width</a></strong></dt>
+
+<dd>
+<p>is, if you are stood inside the room facing north (which is how you start off), the size of the room from left to right.</p>
+</dd>
+<dt><strong><a name="item_depth">depth</a></strong></dt>
+
+<dd>
+<p>is the distance from back to front</p>
+</dd>
+<dt><strong><a name="item_height">height</a></strong></dt>
+
+<dd>
+<p>is the distance from floor to ceiling.</p>
+</dd>
+</dl>
+<p>When you only give one word for the size, LDL will work out an appropriate 3D room size based on the one given.  If you want more control, though, you'll need to specify all three (note that you can't specify just 2 of the 3 dimensions - in that case, LDL could not know which 2 of the 3 you were referring to).</p>
+<p>Try making the room into a corridor - copy and paste the following into a file, then save, compile and test it.</p>
+<pre>
+ &lt;map name='tut04' style='base'&gt;
+    &lt;room id='start' size='vsmall big small'&gt;
+        &lt;item type='info_player_start' pos='c' /&gt;
+    &lt;/room&gt;
+ &lt;/map&gt;</pre>
+<p>You will spawn in the middle of a thin, but long, corridor-shaped room.  Try strafing left/right and notice you hit the walls almost immediately.  Then try going back and forward.</p>
+<p>One last thing to note about room sizes in LDL is that the sizes in the width and depth dimensions have been designed to increase more quickly than in height - that is to say that a room with the size ``med'' (which is the same as ``med med med'') will be wider and deeper than it is tall.  It will be as wide as it is deep but it won't be quite as high.  This is because in most Quake maps, as with most buildings, rooms are not completely cube-shaped.  This feature is designed to make it easy for you to make realistically-sized rooms even when you only specify one word for the size attribute.</p>
+<p>If you really really want to make your room exactly cube-shaped, you can - use any of the following for your room's size attribute ``vsmall vsmall small'', ``small small big'', ``med med vlarge'', ``big big xlarge'', ``large large huge'', ``xlarge xlarge vhuge'' or ``huge huge xhuge''.</p>
+<p>
+</p>
+<h3><a name="xml_errors">XML Errors</a></h3>
+<p>We will now purposely introduce an error into the file, so that you can experience the effects and the solution, which will hopefully help you fix errors in your own maps, should they occur.  Because XML files are very structured in nature, in our case with rooms inside maps and items inside rooms, they are sensitive to errors such as omitted information.</p>
+<p>In the example above we have a &lt;map&gt; element and a &lt;room&gt; element, which in turn contains an &lt;item&gt;.  The map has a start and an end, signified by &lt;map name='tut04' style='base'&gt; in this case, and an end, signified by &lt;/map&gt;.  The room likewise has a start and end, as does the item (though the end is signified by putting a slash before the end of the element, as the item doesn't itself contain anything).  If we miss off the closing &lt;/room&gt; tag, it will cause an error because the computer will find the end of the map (&lt;/map&gt;) before it finds the end of the room.</p>
+<p>Try removing the closing room tag (&lt;/room&gt;) and run LDL on the map as usual.  You will get an error such as the following.</p>
+<pre>
+ Stage 05 ERROR! The XML you supplied is not valid: mismatched tag: line 4, column 3</pre>
+<p>This is saying that on what is now line 4 of the map file, there was an unexpected tag.  Line 4 used to be ``&lt;/room&gt;'' but now it is ``&lt;/map&gt;''.  This means that the computer was expecting something other than ``&lt;/map&gt;'' which was, in this case the closing room tag ``&lt;/room&gt;''.  The computer complains because it doesn't make sense structurally to put the marker that says ``that's the end of the entire map'' inside one of the rooms!  Naturally you can fix the error by reintroducing the expected &lt;/room&gt; tag.</p>
+<p>A similar thing would have happened if you had changed the &lt;item&gt; line, from</p>
+<pre>
+ &lt;item type='info_player_start' pos='c' /&gt;</pre>
+<p>to</p>
+<pre>
+ &lt;item type='info_player_start' pos='c'&gt;</pre>
+<p>Now we've just got the start of the item tag.  What the computer reads next it will assume is meant to be insie the item (which doesn't make any sense to us of course, as items, like weapons, spawn points or powerups can't actually contain anything).  On reading the &lt;/room&gt; tag, the computer will realise there is a problem as the thing we've effectively tried to put inside the item is the end of the room!  Clearly there has been an error (we know this to be a missing &lt;/item&gt; or a missing ``/'' before the end of the &lt;item&gt; tag) but the computer doesn't have the brains to work out what that error is, so it will just tell you about it.</p>
+<p>So, if you ever get such errors on your own maps, you now know what they mean.  If you want help in fixing them, please mail the AGRIP-discuss list.</p>
+<p>
+</p>
+<h2><a name="connecting_rooms">Connecting Rooms</a></h2>
+<p>Now to make the map a bit more interesting!  We will create two rooms and link them.</p>
+<pre>
+ &lt;map name='tut05' style='base'&gt;
+    &lt;room id='start'&gt;
+        &lt;item type='info_player_start' pos='c' /&gt;
+        &lt;con wall='n' target='other' type='door' /&gt;
+    &lt;/room&gt;
+    &lt;room id='other' /&gt;
+ &lt;/map&gt;</pre>
+<p>There are now 2 rooms, ``start'' and ``other'', which are linked by a door.  LDL places the room ``other'' to the north of ``start'' because we asked the connection to ``other'' to be made via the north wall (``n'') of ``start''.  The north wall is the one you face when spawning in the map for the first time; west and east correspond to left and right respectively and south is behind you.</p>
+<p>This is the same as the way directions work in most Interactive Fiction games.  If it helps, you could imagine being above the map and looking down on it as if it was an, erm, map.  Then, north would be to the top, south to the bottom, west to the left and east to the right.  (Both ways of imagining the situation are the same - hopefully at least one will be helpful.)</p>
+<p>Above we specified the connection inside the room ``start''.  It works the other way around too, so that was exactly the same as if we had said the following instead.</p>
+<pre>
+ &lt;map name='tut06' style='base'&gt;
+    &lt;room id='start'&gt;
+        &lt;item type='info_player_start' pos='c' /&gt;
+    &lt;/room&gt;
+    &lt;room id='other'&gt;
+        &lt;con wall='s' target='start' type='door' /&gt;    
+    &lt;/room&gt;
+ &lt;/map&gt;</pre>
+<p>Run the map through LDL and experiment.  The room you start in will lead onto another room, which you will access via a door that is directly in front of you when you start (LDL places doors in the middle of the wall they're on and at ground level by default - more on this later).</p>
+<p>
+</p>
+<h2><a name="items_and_monsters">Items and Monsters</a></h2>
+<p>Let's make the last map a little more interesting.  We'll move the player start point to the south end of the start room, add a shiny weapon for you to pick up and, in the northern room, place a monster for you to use it on.</p>
+<pre>
+ &lt;map name='tut07' style='medieval'&gt;
+    &lt;room id='start'&gt;
+        &lt;item type='info_player_start' pos='s' /&gt;
+        &lt;item type='weapon_supernailgun' pos='c' /&gt;
+        &lt;con wall='n' target='other' type='door' /&gt;
+    &lt;/room&gt;
+    &lt;room id='other'&gt;
+        &lt;item type='monster_ogre' pos='n' /&gt;
+    &lt;/room&gt;
+ &lt;/map&gt;</pre>
+<p>As this map is in the medieval style, you may have noticed the door making a different sound when it opened.  The texturing and lighting of the level will also be different and more appropriate to the medieval style (meaning that sighted games might like to play your map too).</p>
+<p>
+</p>
+<h3><a name="compass_points">Compass Points</a></h3>
+<p>Currently the way to specify the location of items within rooms is to use compass points.  When you specify the location of an item, it works in a similar way to connections above.</p>
+<p>We plan to implement other ways to specify locations soon but, for now, you can specify the following points: ``nw'' (north-west); ``n'' (north); ``ne'' (north-east); ``e'' (east); ``se'' (south-east); ``sw'' (south-west); ``w'' (west) and ``c'' (centre).</p>
+<p>Currently we don't provide a mechanism to control at what height within the room that items will be placed; this will be added later.</p>
+<p>
+</p>
+<h2><a name="making_deathmatchsuitable_maps">Making Deathmatch-Suitable Maps</a></h2>
+<p>So far we have made some simple maps that are designed for the single-player version of the game.  Single-player maps have one <a href="#item_info_player_start"><code>info_player_start</code></a>.  Deathmatch maps require many <a href="#item_info_player_deathmatch"><code>info_player_deathmatch</code></a> spawn points.  If you only have one <a href="#item_info_player_deathmatch"><code>info_player_deathmatch</code></a>, all of the bots and clients will spawn from that one point and keep telefragging each other, causing the level to be over quite quickly!  Let's make a very simple deathmatch level, suitable for a small number of players.  This time, we'll construct the map step by step before giving the whole XML file that you can copy and paste.</p>
+<p>Let's make our map have one large central room that is surrounded by four smaller rooms, which will contain the spawn points.  One of those rooms can also contain an <a href="#item_info_player_start"><code>info_player_start</code></a> so we can test the level in single-player mode without being fragged by bots.  It's safe to put both of these on the same spot in your map as only one would ever be used at a given time (the <a href="#item_info_player_start"><code>info_player_start</code></a> if we're in single-player mode, or the <a href="#item_info_player_deathmatch"><code>info_player_deathmatch</code></a> otherwise).</p>
+<p>The basics of the central room may be something like this</p>
+<pre>
+ &lt;room id='central' size='large'&gt;
+     &lt;item pos='c' type='weapon_rocketlauncher' /&gt;
+     &lt;item pos='n' type='item_armorInv' /&gt;
+     &lt;item pos='s' type='item_armorInv' /&gt;
+     &lt;item pos='w' type='item_health' /&gt;
+     &lt;item pos='e' type='item_health' /&gt;
+ &lt;/room&gt;</pre>
+<p>Each surrounding room may be something like this</p>
+<pre>
+ &lt;room id='spawn'&gt;
+     &lt;item pos='c' type='info_player_deathmatch' /&gt;
+ &lt;/room&gt;</pre>
+<p>We need to give each of these rooms a unique ID attribute, however, so we may as well name them partly after the compass points, as we'll be using those to place them around the outside of the central room.  So, our side room IDs will be ``spawn_south'', ``spawn_north'', ``spawn_east'' and ``spawn_west''.  We'll put our <a href="#item_info_player_start"><code>info_player_start</code></a> in the southern one, so it will look more like this:</p>
+<pre>
+ &lt;room id='spawn_south'&gt;
+     &lt;item pos='c' type='info_player_start' /&gt;
+     &lt;item pos='c' type='info_player_deathmatch' /&gt;
+     &lt;item pos='n' type='item_rockets' /&gt;
+ &lt;/room&gt;</pre>
+<p>Note that we've also added some rockets for the player as no ammo was given in the main room above.  To make it easy for the player to pick up the rockets, we've put them in the north of this room (which is on the way from the centre of this spawn room to the main room, because the main spawn room is to the north of the southern spawn room).</p>
+<p>We'll need to list the connections to the spawn rooms in the main room's definition.  These will be as follows and can be placed anywhere between the opening and closing &lt;room&gt; tags for the central room.</p>
+<pre>
+ &lt;con wall='s' target='spawn_south' /&gt;
+ &lt;con wall='n' target='spawn_north' /&gt;
+ &lt;con wall='w' target='spawn_west' /&gt;
+ &lt;con wall='e' target='spawn_east' /&gt;</pre>
+<p>We've got the basics of a deathmatch map covered, but before we compile it, we need to consider one last thing: the direction the player faces when spawning.  We have positioned spawn rooms around a central room.  By default the player will spawn facing north.  This is fine if they spawn in the southern room because they'd spawn facing the door that leads onto the main room.  However, when the player spawns in one of the other side rooms, they will be facing the wrong way.  To correct this, we can supply an <code>angle</code> attribute for the spawn points.</p>
+<p>For example: consider the westerly spawn room.  This is positioned to the west of the main room so if someone spawns there they'll need to move to the east to get out of the spawn room and into the main room.  In that case, we can make their life easier by writing the spawn point in the west room as follows.</p>
+<pre>
+ &lt;item pos='c' angle='e' type='info_player_deathmatch' /&gt;</pre>
+<p>This ensures that when the player spawns there they'll be facing east and thus be able to walk straight forward into the main room.</p>
+<p>Now we've discussed all the parts of the map we need, here is the full version of it, which you can paste in and try for yourself.</p>
+<pre>
+ &lt;map name='tut08' style='medieval'&gt;
+    &lt;room id='central' size='large'&gt;
+        &lt;con wall='s' target='spawn_south' type='door' /&gt;
+        &lt;con wall='n' target='spawn_north' type='door' /&gt;
+        &lt;con wall='w' target='spawn_west' type='door' /&gt;
+        &lt;con wall='e' target='spawn_east' type='door' /&gt;
+        &lt;item pos='c' type='weapon_rocketlauncher' /&gt;
+        &lt;item pos='n' type='item_armorInv' /&gt;
+        &lt;item pos='s' type='item_armorInv' /&gt;
+        &lt;item pos='w' type='item_health' /&gt;
+        &lt;item pos='e' type='item_health' /&gt;
+    &lt;/room&gt;
+    &lt;room id='spawn_south'&gt;
+        &lt;item pos='c' type='info_player_start' /&gt;
+        &lt;item pos='c' type='info_player_deathmatch' /&gt;
+        &lt;item pos='n' type='item_rockets' /&gt;
+    &lt;/room&gt;
+    &lt;room id='spawn_north'&gt;
+        &lt;item pos='c' type='info_player_deathmatch' angle='s' /&gt;
+        &lt;item pos='s' type='item_rockets' /&gt;
+    &lt;/room&gt;
+    &lt;room id='spawn_west'&gt;
+        &lt;item pos='c' type='info_player_deathmatch' angle='e' /&gt;
+        &lt;item pos='e' type='item_rockets' /&gt;
+    &lt;/room&gt;
+    &lt;room id='spawn_east'&gt;
+        &lt;item pos='c' type='info_player_deathmatch' angle='w' /&gt;
+        &lt;item pos='w' type='item_rockets' /&gt;
+    &lt;/room&gt;
+ &lt;/map&gt;</pre>
+<p>When you run the normal LDL compilation and test scripts on this map, you'll be in single-player mode and can walk around and test the shape of the map as normal.  To play in deathmatch mode, issue the following console commands.</p>
+<pre>
+ deathmatch 1
+ kill</pre>
+<p>Hopefully you have now had a pleasant deathmatch experience in your own map!</p>
+<p>
+</p>
+<h3><a name="directional_issues">Directional Issues</a></h3>
+<p>Up until AudioQuake 0.3.0.1, there was a bug that caused the direction the player faced when spawning to always be labelled as ``north''.  This has now been alleviated and thus if you upgrade your AudioQuake installation, you will be able to use LDL with it and not have this problem. Maps made with LDL will still work fine on older versionos of AudioQuake, but there may well be some confusion with directions.  It is best to at least test your maps on at least version 0.3.0.1 of AudioQuake for this reason.</p>
+<p>
+</p>
+<h3><a name="cooperative_maps">Co-Operative Maps</a></h3>
+<p>These are similar to deathmatch maps in that you need to include more than one spawn point.  However, the spawn points are usually situated together at the ``start'' of the map and must be of type <a href="#item_info_player_coop"><code>info_player_coop</code></a> (you can have as many as you like).</p>
+<p>Remember, to play a co-op map, set the console variables as follows.</p>
+<pre>
+ deathmatch 0
+ coop 1
+ map mapname</pre>
+<p>
+</p>
+<h2><a name="connections_reloaded">Connections Reloaded</a></h2>
+<p>We'll now revisit our previous example of two connected rooms.  So far we're able to specify that two rooms are linked by making a connection from one to another, which may be in the form of a door or just a hole in the connecting wall.  By default the connection is made in the middle of the wall at floor level.</p>
+<p>To make things a bit more exciting, however, you might want to make some rooms have different heights relative to each other.  Here's a quick example.</p>
+<pre>
+ &lt;map name='tut09' style='base'&gt;
+    &lt;room id='start'&gt;
+        &lt;item pos='c' type='info_player_start' /&gt;
+        &lt;con type='door' target='other' wall='n' pos='t' elevtype='stairs' /&gt;
+    &lt;/room&gt;
+    &lt;room id='other' /&gt;
+ &lt;/map&gt;</pre>
+<p>This is very similar to the example above (<em>tut05</em>), however, we have added two attributes to the connection from the room ``start'' to the room ``other''.  These are:</p>
+<dl>
+<dt><strong><a name="item_pos">pos</a></strong></dt>
+
+<dd>
+<p>This is the position <em>on the connecting wall</em> that you want the hole/door to be created.  That is to say: when you specify a position - ``top'' (t) in this case - you are specifying the position on that wall where you want the hole to be made, as if you were standing in front of the wall itself.</p>
+<p>Valid positions are: ``tl'' (top left), ``t'' (top centre), ``tr'' (top right), ``r'' (right), ``br'' (bottom right), ``b'' (bottom centre - which is the default), ``bl'' (bottom left) and ``c'' (centre).</p>
+</dd>
+<dt><strong><a name="item_elevtype">elevtype</a></strong></dt>
+
+<dd>
+<p>When you specify that the connecting hole/door is to be placed somewhere other than at ground level on the wall, it might be necessary to provide some means for the player to access the hole - i.e. stairs or a plat (lifting platform).  You will be warned when this may be necessary, but as it's a design decision and you may not wish the player to be granted access through this route, you can specify ``none'' to disable the creation of such a device.</p>
+</dd>
+</dl>
+<p>Try running this map - walk straight forward and you will find some stairs.  Carry on and you'll go up into the second room.</p>
+<p>If you'd like to try a plat instead of stairs, change the value of the <a href="#item_elevtype"><code>elevtype</code></a> attribute for the connection to ``plat'' and try the map again.</p>
+<p>
+</p>
+<h3><a name="even_more_positioning">Even More Positioning</a></h3>
+<p>Try changing the <a href="#item_pos"><code>pos</code></a> to ``tl'' from ``t'' and you'll find that you have to move to the left/west to find the stairs up to room ``other''.</p>
+<p>It is important to note that even when you use the <a href="#item_pos"><code>pos</code></a> attribute to change the position on the wall in the ``start'' room, you still always end up in ``other'' at the same place - the connection on that side is made in the default place of the middle of the connecting wall, at ground level.</p>
+<p>Once you're happy with this, you might be asking how you can reposition the connector on the target room's side.  The answer is that you can.  Let's take the example above and change it so that both rooms are actually at the same height but the door between them is at the top of the wall.  Stairs will be built to get up to and down from the door on both sides.</p>
+<pre>
+ &lt;map name='tut10' style='base'&gt;
+    &lt;room id='start'&gt;
+        &lt;item pos='c' type='info_player_start' /&gt;
+        &lt;con type='door' target='other' wall='n' pos='t' elevtype='stairs' /&gt;
+    &lt;/room&gt;
+    &lt;room id='other'&gt;
+        &lt;con target='start' wall='s' pos='t' elevtype='stairs' /&gt;
+    &lt;/room&gt;
+ &lt;/map&gt;</pre>
+<p>
+</p>
+<h3><a name="making_connection_corridors">Making Connection Corridors</a></h3>
+<p>Say you have two rooms, at different heights and you want to make a connection between them, in the form of a corridor with stairs in it.  This is an example of how you might go about doing so.</p>
+<p>We have two rooms - ``start'' and ``other'' as ever.  We will position ``other'' to the north of ``start'', also as ever.  This time, though, we will place a corridor between the two.  The corridor will be not very wide, quite long and quite tall so that it can accommodate the change in height from ``start'' to ``other''.</p>
+<p>As the corridor will be connecting ``start'' and ``other'' we'll give it the ID ``start2other''.  This quickly identifies it as a corridor.  Here is the map...</p>
+<pre>
+ &lt;map name='tut11' style='base'&gt;
+    &lt;room id='start'&gt;
+        &lt;item type='info_player_start' pos='c' /&gt;
+        &lt;con wall='n' type='door' target='start2other' /&gt;
+    &lt;/room&gt;
+    &lt;room id='start2other' size='vsmall small big'&gt;
+        &lt;con wall='n' target='other' pos='t' elevtype='stairs' /&gt;
+    &lt;/room&gt;
+    &lt;room id='other'&gt;
+        &lt;item pos='c' type='weapon_rocketlauncher' /&gt;
+    &lt;/room&gt;
+ &lt;/map&gt;</pre>
+<p>When you enter this map, you'll find a door in front of you and then a corridor, which has a set of steps at the end that lead (without a door) into a room with the rocket launcher.</p>
+<p>But those steps are very steep and - as you're using the entirety of start2other as a corridor - it would be much better if those steps filled the whole room rather than just a small part of it.  You can make this happen, as follows...</p>
+<pre>
+ &lt;con wall='n' target='other' pos='t' elevtype='stairs' extent='+' /&gt;</pre>
+<p>We've added an attribute, <code>extent</code>, to the connection and given it the size ``+''.  That should be read as ``fill all available space''.  Try making this change and running the map - the stairs will take up all of the available space in the corridor but not above the height they're meant to be).</p>
+<p>You can specify sizes (``small'', ``med'' and so on) in the <code>extent</code> attribute, as you can with rooms.  You can also mix and match, so saying <code>extent='+ med'</code> means ``take up all available width, but be only medium-sized in depth''.  Bear in mind that if the corridor was going from east to west (or vice-verse) these would be reversed (which is why it's often easier to just use ``+'' as the size specifier).</p>
+<p>
+</p>
+<h3><a name="vertical_connections_to_other_rooms">Vertical Connections to Other Rooms</a></h3>
+<p>It is possible for you to position one room entirely on top of or underneath another and link them with connections as discussed earlier, though you'd use ``u'' (up) and ``d'' (down) to identify the walls the connections lie on.  Currently it is not possible to make elevation devices for these connections (e.g. a plat) but this is under development and will be released soon.</p>
+<p>We're also working on implementing teleporters, so you can move between rooms instantaneously.</p>
+<p>
+</p>
+<h2><a name="feedback">Feedback</a></h2>
+<p>This has been a tutorial of the LDL system's concept release.  There is a lot more to do and a lot of feedback to collect on how it is going so far!  If you need more information, please consult <a href="http://www.agrip.org.uk/ldl/">http://www.agrip.org.uk/ldl/</a> and the AGRIP-discuss mailing list - <a href="http://lists.agrip.org.uk/cgi-bin/mailman/listinfo/agrip-discuss">http://lists.agrip.org.uk/cgi-bin/mailman/listinfo/agrip-discuss</a>.</p>
+<p>Please, if you can, help Matthew in his research and us in building a great level-editing system for you by providing constructive criticism of the system.  Bear in mind the stage we're at and let us know what direction it should take in future.</p>
+<p>Please also feel free to send us your maps (in XML form) - we'd love to play them!</p>
+<p>
+</p>
+<hr />
+<h1><a name="some_golden_rules">Some Golden Rules</a></h1>
+<ul>
+<li>
+<p>Always write well-formed XML.  This means closing tags and quotes properly, or you will get a ``parse error''.</p>
+</li>
+<li>
+<p>Maps must only contain one &lt;map&gt; element.</p>
+</li>
+<li>
+<p>Rooms must all have a unique <code>id</code> attribute.</p>
+</li>
+<li>
+<p>Connections between rooms are seen as if we're looking down onto the map, as in Interactive Fiction games.  We use compass directions like ``e'' (east) to say that, when we are in room A and room B is to the east, we must turn to the right.</p>
+<p>If a room is on top of, or underneath another room, we use the directions ``u'' (up) and ``d'' (down).</p>
+</li>
+<li>
+<p>We place items in rooms according to the same compass direction scheme.</p>
+</li>
+<li>
+<p>When assigning sizes to things like rooms, we may say ``large'' or, if we want to be more precise, specify the size in each of the 3 dimensions of width, depth and height, separated by spaces - e.g. ``medium large medium''.  When facing north in a room, its width is the distance from your left to your right; its depth is the distance from back to front and its height is vertical distance between its floor and ceiling.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="test_maps_included_with_ldl">Test Maps Included with LDL</a></h1>
+<p>The tutorial files (<em>tut*.xml</em> are also provided for your reference.</p>
+<p>The test maps (<em>test_nn_*.xml</em> files) included with LDL provide some examples on how to use the system.  The number in the name indicates which level of the system the map is written for.  You will only be interested in level 05 maps because the lower levels rely on absolute coordinates and are there only to allow the higher levels to be simpler (and will not work with the mkmap script).</p>
+<p>
+</p>
+<hr />
+<h1><a name="the_end">The End</a></h1>
+<p>This has been a tutorial of the LDL system's concept release.  There is a lot more to do and a lot of feedback to collect on how it is going so far!  If you need more information, please consult <a href="http://www.agrip.org.uk/ldl/">http://www.agrip.org.uk/ldl/</a> and the AGRIP-discuss mailing list - <a href="http://lists.agrip.org.uk/cgi-bin/mailman/listinfo/agrip-discuss">http://lists.agrip.org.uk/cgi-bin/mailman/listinfo/agrip-discuss</a>.</p>
+<p>Please, if you can, help Matthew in his research and us in building a great level-editing system for you by providing constructive criticism of the system.  Bear in mind the stage we're at and let us know what direction it should take in future.</p>
+<p>Please also feel free to send us your maps (in XML form) - we'd love to play them!</p>
+<p>
+</p>
+<hr />
+<h1><a name="reference_information">Reference Information</a></h1>
+<p>
+</p>
+<h2><a name="the_style_file__automating_texturing_and_lighting">The Style File - Automating Texturing and Lighting</a></h2>
+<p>One helpful feature of LDL is that it automates the process of texturing and lighting a map.  This often tedious stage involves applying appropriate pictures to the walls of the brushes (solid shapes) in the map and also adding light entities in the right places to create the desired ``look''.  Though LDL cannot compete with a sighted human on artistic grounds, it goes a long way and provides somewhat atmospheric lighting for sighted players.</p>
+<p>The file <em>style.xml</em> included with LDL contains information on the textures and lighting.  It will be document more fully in the coming releases.</p>
+<p>
+</p>
+<h2><a name="list_of_valid_entities">List of Valid Entities</a></h2>
+<p>This list is available on most Quake mapping websites, such as ``Quake MAP Specs''.</p>
+<p>Please note that most, but not all, entities are supported by the current release of LDL.  We will be adding support for the rest quickly as time goes on and according to user demand.</p>
+<dl>
+<dt><strong><a name="item_air_bubbles">air_bubbles</a></strong></dt>
+
+<dd>
+<p>Rising bubbles</p>
+</dd>
+<dt><strong><a name="item_ambient_drip">ambient_drip</a></strong></dt>
+
+<dd>
+<p>Dripping sound</p>
+</dd>
+<dt><strong><a name="item_ambient_drone">ambient_drone</a></strong></dt>
+
+<dd>
+<p>Engine/machinery sound</p>
+</dd>
+<dt><strong><a name="item_ambient_comp_hum">ambient_comp_hum</a></strong></dt>
+
+<dd>
+<p>Computer background sounds</p>
+</dd>
+<dt><strong><a name="item_ambient_flouro_buzz">ambient_flouro_buzz</a></strong></dt>
+
+<dd>
+<p>Flourescent buzzing sound</p>
+</dd>
+<dt><strong><a name="item_ambient_light_buzz">ambient_light_buzz</a></strong></dt>
+
+<dd>
+<p>Buzzing sound from light</p>
+</dd>
+<dt><strong><a name="item_ambient_suck_wind">ambient_suck_wind</a></strong></dt>
+
+<dd>
+<p>Wind sound</p>
+</dd>
+<dt><strong><a name="item_ambient_swamp1">ambient_swamp1</a></strong></dt>
+
+<dd>
+<p>Frogs croaking</p>
+</dd>
+<dt><strong><a name="item_ambient_swamp2">ambient_swamp2</a></strong></dt>
+
+<dd>
+<p>Slightly different sounding frogs croaking</p>
+</dd>
+<dt><strong><a name="item_ambient_thunder">ambient_thunder</a></strong></dt>
+
+<dd>
+<p>Thunder sound</p>
+</dd>
+<dt><strong><a name="item_event_lightning">event_lightning</a></strong></dt>
+
+<dd>
+<p>Lightning (Used to kill Cthon, shareware boss)</p>
+</dd>
+<dt><strong><a name="item_func_door">func_door</a></strong></dt>
+
+<dd>
+<p>Door</p>
+</dd>
+<dt><strong><a name="item_func_door_secret">func_door_secret</a></strong></dt>
+
+<dd>
+<p>A door that is triggered to open</p>
+</dd>
+<dt><strong><a name="item_func_wall">func_wall</a></strong></dt>
+
+<dd>
+<p>A moving wall?</p>
+</dd>
+<dt><strong><a name="item_func_button">func_button</a></strong></dt>
+
+<dd>
+<p>A button</p>
+</dd>
+<dt><strong><a name="item_func_train">func_train</a></strong></dt>
+
+<dd>
+<p>A platform (moves along a ``train'')</p>
+</dd>
+<dt><strong><a name="item_func_plat">func_plat</a></strong></dt>
+
+<dd>
+<p>A lift/elevator</p>
+</dd>
+<dt><strong><a name="item_func_dm_only">func_dm_only</a></strong></dt>
+
+<dd>
+<p>A teleporter that only appears in deathmatch</p>
+</dd>
+<dt><strong><a name="item_func_illusionary">func_illusionary</a></strong></dt>
+
+<dd>
+<p>Creates brush that appears solid, but isn't.</p>
+</dd>
+<dt><strong><a name="item_info_null">info_null</a></strong></dt>
+
+<dd>
+<p>Used as a placeholder (removes itself)</p>
+</dd>
+<dt><strong><a name="item_info_notnull">info_notnull</a></strong></dt>
+
+<dd>
+<p>Used as a placeholder (does not remove itself)</p>
+</dd>
+<dt><strong><a name="item_info_intermission">info_intermission</a></strong></dt>
+
+<dd>
+<p>Cameras positioning for intermission (?)</p>
+</dd>
+<dt><strong><a name="item_info_player_start">info_player_start</a></strong></dt>
+
+<dd>
+<p>Main player starting point (only one allowed)</p>
+</dd>
+<dt><strong><a name="item_info_player_deathmatch">info_player_deathmatch</a></strong></dt>
+
+<dd>
+<p>A deathmatch start (more than one allowed)</p>
+</dd>
+<dt><strong><a name="item_info_player_coop">info_player_coop</a></strong></dt>
+
+<dd>
+<p>A coop player start (more than one allowed)</p>
+</dd>
+<dt><strong><a name="item_info_player_start2">info_player_start2</a></strong></dt>
+
+<dd>
+<p>Return point from episode</p>
+</dd>
+<dt><strong><a name="item_info_teleport_destination">info_teleport_destination</a></strong></dt>
+
+<dd>
+<p>Gives coords for a teleport destination using a targetname</p>
+</dd>
+<dt><strong><a name="item_item_cells">item_cells</a></strong></dt>
+
+<dd>
+<p>Ammo for the Thunderbolt</p>
+</dd>
+<dt><strong><a name="item_item_rockets">item_rockets</a></strong></dt>
+
+<dd>
+<p>Ammo for Rocket/Grenade Launcher</p>
+</dd>
+<dt><strong><a name="item_item_shells">item_shells</a></strong></dt>
+
+<dd>
+<p>Ammo for both Shotgun and SuperShotgun</p>
+</dd>
+<dt><strong><a name="item_item_spikes">item_spikes</a></strong></dt>
+
+<dd>
+<p>Ammo for Perforator and Super Perforator</p>
+</dd>
+<dt><strong><a name="item_item_weapon">item_weapon</a></strong></dt>
+
+<dd>
+<p>Generic weapon class</p>
+</dd>
+<dt><strong><a name="item_item_health">item_health</a></strong></dt>
+
+<dd>
+<p>Medkit</p>
+</dd>
+<dt><strong><a name="item_item_artifact_envirosuit">item_artifact_envirosuit</a></strong></dt>
+
+<dd>
+<p>Environmental Protection Suit</p>
+</dd>
+<dt><strong><a name="item_item_artifact_super_damage">item_artifact_super_damage</a></strong></dt>
+
+<dd>
+<p>Quad Damage</p>
+</dd>
+<dt><strong><a name="item_item_artifact_invulnerability">item_artifact_invulnerability</a></strong></dt>
+
+<dd>
+<p>Pentagram of Protection</p>
+</dd>
+<dt><strong><a name="item_item_artifact_invisibility">item_artifact_invisibility</a></strong></dt>
+
+<dd>
+<p>Ring of Shadows (Invisibility)</p>
+</dd>
+<dt><strong><a name="item_item_armorinv">item_armorInv</a></strong></dt>
+
+<dd>
+<p>Red armor</p>
+</dd>
+<dt><strong><a name="item_item_armor2">item_armor2</a></strong></dt>
+
+<dd>
+<p>Yellow armor</p>
+</dd>
+<dt><strong><a name="item_item_armor1">item_armor1</a></strong></dt>
+
+<dd>
+<p>Green armor</p>
+</dd>
+<dt><strong><a name="item_item_key1">item_key1</a></strong></dt>
+
+<dd>
+<p>Silver Key</p>
+</dd>
+<dt><strong><a name="item_item_key2">item_key2</a></strong></dt>
+
+<dd>
+<p>Gold Key</p>
+</dd>
+<dt><strong><a name="item_item_sigil">item_sigil</a></strong></dt>
+
+<dd>
+<p>Sigil (a rune)</p>
+</dd>
+<dt><strong><a name="item_light">light</a></strong></dt>
+
+<dd>
+<p>A projected light. No visible lightsource.</p>
+</dd>
+<dt><strong><a name="item_light_torch_small_walltorch">light_torch_small_walltorch</a></strong></dt>
+
+<dd>
+<p>Small wall torch (gives off light)</p>
+</dd>
+<dt><strong><a name="item_light_flame_large_yellow">light_flame_large_yellow</a></strong></dt>
+
+<dd>
+<p>Large yellow fire (gives off light)</p>
+</dd>
+<dt><strong><a name="item_light_flame_small_yellow">light_flame_small_yellow</a></strong></dt>
+
+<dd>
+<p>Small yellow fire (gives off light)</p>
+</dd>
+<dt><strong><a name="item_light_flame_small_white">light_flame_small_white</a></strong></dt>
+
+<dd>
+<p>Small white fire  (gives off light)</p>
+</dd>
+<dt><strong><a name="item_light_fluoro">light_fluoro</a></strong></dt>
+
+<dd>
+<p>Fluorescent light? (Gives off light, humming sound?)</p>
+</dd>
+<dt><strong><a name="item_light_fluorospark">light_fluorospark</a></strong></dt>
+
+<dd>
+<p>Fluorescent light? (Gives off light, makes sparking sound)</p>
+</dd>
+<dt><strong><a name="item_light_globe">light_globe</a></strong></dt>
+
+<dd>
+<p>Light that appears as a globe sprite</p>
+</dd>
+<dt><strong><a name="item_monster_army">monster_army</a></strong></dt>
+
+<dd>
+<p>Grunt</p>
+</dd>
+<dt><strong><a name="item_monster_dog">monster_dog</a></strong></dt>
+
+<dd>
+<p>Attack dog</p>
+</dd>
+<dt><strong><a name="item_monster_ogre">monster_ogre</a></strong></dt>
+
+<dd>
+<p>Ogre</p>
+</dd>
+<dt><strong><a name="item_monster_ogre_marksman">monster_ogre_marksman</a></strong></dt>
+
+<dd>
+<p>Ogre (synonymous with monster_ogre)</p>
+</dd>
+<dt><strong><a name="item_monster_knight">monster_knight</a></strong></dt>
+
+<dd>
+<p>Knight</p>
+</dd>
+<dt><strong><a name="item_monster_zombie">monster_zombie</a></strong></dt>
+
+<dd>
+<p>Zombie</p>
+</dd>
+<dt><strong><a name="item_monster_wizard">monster_wizard</a></strong></dt>
+
+<dd>
+<p>Scragg (Wizard)</p>
+</dd>
+<dt><strong><a name="item_monster_demon1">monster_demon1</a></strong></dt>
+
+<dd>
+<p>Fiend (Demon)</p>
+</dd>
+<dt><strong><a name="item_monster_shambler">monster_shambler</a></strong></dt>
+
+<dd>
+<p>Shambler</p>
+</dd>
+<dt><strong><a name="item_monster_boss">monster_boss</a></strong></dt>
+
+<dd>
+<p>Cthon (Boss of Shareware Quake)</p>
+</dd>
+<dt><strong><a name="item_monster_enforcer">monster_enforcer</a></strong></dt>
+
+<dd>
+<p>Enforcer</p>
+</dd>
+<dt><strong><a name="item_monster_hell_knight">monster_hell_knight</a></strong></dt>
+
+<dd>
+<p>Hell Knight</p>
+</dd>
+<dt><strong><a name="item_monster_shalrath">monster_shalrath</a></strong></dt>
+
+<dd>
+<p>Shalrath</p>
+</dd>
+<dt><strong><a name="item_monster_tarbaby">monster_tarbaby</a></strong></dt>
+
+<dd>
+<p>Slime</p>
+</dd>
+<dt><strong><a name="item_monster_fish">monster_fish</a></strong></dt>
+
+<dd>
+<p>Fish</p>
+</dd>
+<dt><strong><a name="item_monster_oldone">monster_oldone</a></strong></dt>
+
+<dd>
+<p>Shubb-Niggurath (requires a misc_teleportrain and a info_intermission)</p>
+</dd>
+<dt><strong><a name="item_misc_fireball">misc_fireball</a></strong></dt>
+
+<dd>
+<p>Small fireball (gives off light, harms player)</p>
+</dd>
+<dt><strong><a name="item_misc_explobox">misc_explobox</a></strong></dt>
+
+<dd>
+<p>Large Nuclear Container</p>
+</dd>
+<dt><strong><a name="item_misc_explobox2">misc_explobox2</a></strong></dt>
+
+<dd>
+<p>Small Nuclear Container</p>
+</dd>
+<dt><strong><a name="item_misc_teleporttrain">misc_teleporttrain</a></strong></dt>
+
+<dd>
+<p>Spiked ball needed to telefrag monster_oldone</p>
+</dd>
+<dt><strong><a name="item_path_corner">path_corner</a></strong></dt>
+
+<dd>
+<p>Used to define path of func_train platforms</p>
+</dd>
+<dt><strong><a name="item_trap_spikeshooter">trap_spikeshooter</a></strong></dt>
+
+<dd>
+<p>Shoots spikes (nails)</p>
+</dd>
+<dt><strong><a name="item_trap_shooter">trap_shooter</a></strong></dt>
+
+<dd>
+<p>Fires nails without needing to be triggered.</p>
+</dd>
+<dt><strong><a name="item_trigger_teleport">trigger_teleport</a></strong></dt>
+
+<dd>
+<p>Teleport (all trigger_ tags are triggered by walkover)</p>
+</dd>
+<dt><strong><a name="item_trigger_changelevel">trigger_changelevel</a></strong></dt>
+
+<dd>
+<p>Changes to another level</p>
+</dd>
+<dt><strong><a name="item_trigger_setskill">trigger_setskill</a></strong></dt>
+
+<dd>
+<p>Changes skill level</p>
+</dd>
+<dt><strong><a name="item_trigger_counter">trigger_counter</a></strong></dt>
+
+<dd>
+<p>Triggers action after it has been triggered count times.</p>
+</dd>
+<dt><strong><a name="item_trigger_once">trigger_once</a></strong></dt>
+
+<dd>
+<p>Triggers action only once</p>
+</dd>
+<dt><strong><a name="item_trigger_multiple">trigger_multiple</a></strong></dt>
+
+<dd>
+<p>Triggers action (can be retriggered)</p>
+</dd>
+<dt><strong><a name="item_trigger_onlyregistered">trigger_onlyregistered</a></strong></dt>
+
+<dd>
+<p>Triggers only if game is registered (registered == 1)</p>
+</dd>
+<dt><strong><a name="item_trigger_secret">trigger_secret</a></strong></dt>
+
+<dd>
+<p>Triggers action and awards secret credit.</p>
+</dd>
+<dt><strong><a name="item_trigger_monsterjump">trigger_monsterjump</a></strong></dt>
+
+<dd>
+<p>Causes triggering monster to jump in a direction</p>
+</dd>
+<dt><strong><a name="item_trigger_relay">trigger_relay</a></strong></dt>
+
+<dd>
+<p>Allows delayed/multiple actions from one trigger</p>
+</dd>
+<dt><strong><a name="item_trigger_push">trigger_push</a></strong></dt>
+
+<dd>
+<p>Pushes a player in a direction (like a windtunnel)</p>
+</dd>
+<dt><strong><a name="item_trigger_hurt">trigger_hurt</a></strong></dt>
+
+<dd>
+<p>Hurts whatever touches the trigger</p>
+</dd>
+<dt><strong><a name="item_weapon_supershotgun">weapon_supershotgun</a></strong></dt>
+
+<dd>
+<p>Super Shotgun</p>
+</dd>
+<dt><strong><a name="item_weapon_nailgun">weapon_nailgun</a></strong></dt>
+
+<dd>
+<p>Perforator</p>
+</dd>
+<dt><strong><a name="item_weapon_supernailgun">weapon_supernailgun</a></strong></dt>
+
+<dd>
+<p>Super Perforator</p>
+</dd>
+<dt><strong><a name="item_weapon_grenadelauncher">weapon_grenadelauncher</a></strong></dt>
+
+<dd>
+<p>Grenade Launcher</p>
+</dd>
+<dt><strong><a name="item_weapon_rocketlauncher">weapon_rocketlauncher</a></strong></dt>
+
+<dd>
+<p>Rocket Launcher</p>
+</dd>
+<dt><strong><a name="item_weapon_lightning">weapon_lightning</a></strong></dt>
+
+<dd>
+<p>Lightning Gun</p>
+</dd>
+</dl>
+
+</body>
+
+</html>

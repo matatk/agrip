@@ -1,0 +1,101 @@
+body {
+    background: #eee;
+    margin: 1em;
+	font-family: Verdana, Geneva, sans-serif;
+}
+
+#container-all-min {
+	width: 60em;
+	max-width: 95%;
+	margin-top: 2em;
+	margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#logo {
+	float: right;
+	width: 416px;
+	height: 225px;
+    background-image: url(/agrip/images/bigjoy.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+#container-all-min .blurb, #container-all-min h1 {
+	font-family: 'Coustard', Verdana, Geneva, sans-serif;
+	font-size: 2em;
+}
+
+#container-all-min h1 {
+	margin-top: 2em;
+}
+
+#container-all-min p {
+	font-size: 1.2em;
+	line-height: 1.5em;
+}
+
+#container-all {
+    width: 60em;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    background-image: url(/agrip/images/joy+text+motto.small.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    padding-top: 115px;
+}
+#container-content {
+    max-width: 45em;
+}
+#container-nav {
+    float: right;
+    width: 13em;
+    margin-left: 0.5em;
+}
+
+dl#nav {
+    margin: 0;
+    padding: 1em;
+    border: 2px solid #406;
+}
+dl#nav dt#nav-page {
+    font-weight: bold;
+}
+dl#nav dt#nav-site {
+    font-weight: bold;
+    margin-top: 1em;
+}
+dl#nav dd {
+    margin-left: 1em;
+}
+
+#container-all-min #footer {
+    padding-top: 4em;
+    font-size: 0.8em;
+}
+
+#container-all #footer {
+    margin-top: 4em;
+    border-top: 2px solid #406;
+    font-size: 0.8em;
+    color: #406;
+}
+
+.info {
+    border: 2px dashed #406;
+    padding: 1em;
+	background-color: #CAF;
+}
+
+h1  { margin-top: 0; padding: 0.1em; color: #406; border-bottom: 2px solid #406; }
+h2  { margin-top: 0; padding: 0.1em; color: #406; border: 0px solid #406; }
+h3  { margin-top: 0; padding: 0.1em; color: #406; border: 0px dashed #406; }
+a:link      { color: #406; }
+a:visited   { color: black; }
+
+dt a:hover, dd a:hover, p a:hover, li a:hover {
+    color: #eee;
+    background-color: #406;
+}
