@@ -1,39 +1,39 @@
 body {
     background: #eee;
     margin: 1em;
-	font-family: Verdana, Geneva, sans-serif;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 #container-all-min {
-	width: 60em;
-	max-width: 95%;
-	margin-top: 2em;
-	margin-bottom: 0;
+    width: 60em;
+    max-width: 95%;
+    margin-top: 2em;
+    margin-bottom: 0;
     margin-left: auto;
     margin-right: auto;
 }
 
 #logo {
-	float: right;
-	width: 416px;
-	height: 225px;
-    background-image: url(/agrip/images/bigjoy.png);
+    float: right;
+    width: 416px;
+    height: 225px;
+    background-image: url(../images/bigjoy.png);
     background-repeat: no-repeat;
     background-position: top right;
 }
 
 #container-all-min .blurb, #container-all-min h1 {
-	font-family: 'Coustard', Verdana, Geneva, sans-serif;
-	font-size: 2em;
+    font-family: 'Coustard', Verdana, Geneva, sans-serif;
+    font-size: 2em;
 }
 
 #container-all-min h1 {
-	margin-top: 2em;
+    margin-top: 2em;
 }
 
 #container-all-min p {
-	font-size: 1.2em;
-	line-height: 1.5em;
+    font-size: 1.2em;
+    line-height: 1.5em;
 }
 
 #container-all {
@@ -41,7 +41,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
-    background-image: url(/agrip/images/joy+text+motto.small.png);
+    background-image: url(../images/joy+text+motto.small.png);
     background-repeat: no-repeat;
     background-position: top center;
     padding-top: 115px;
@@ -72,7 +72,7 @@ dl#nav dd {
 }
 
 #container-all-min #footer {
-    padding-top: 4em;
+    padding-top: 2em;
     font-size: 0.8em;
 }
 
@@ -86,7 +86,7 @@ dl#nav dd {
 .info {
     border: 2px dashed #406;
     padding: 1em;
-	background-color: #CAF;
+    background-color: #CAF;
 }
 
 h1  { margin-top: 0; padding: 0.1em; color: #406; border-bottom: 2px solid #406; }
