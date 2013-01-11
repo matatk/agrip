@@ -1,8 +1,0 @@
-Sitemap: http://www.agrip.org.uk/sitemap.xml.gz
-
-User-Agent: *
-Disallow: _nav/
-Disallow: _inc/
-Disallow: _style/
-Disallow: _images/
-Disallow: sitemap.conf.xml
