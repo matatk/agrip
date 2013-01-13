@@ -1,0 +1,28 @@
+<map name='LDL Test: Complex 3D Connections' style='base'>
+	<room id='start' size='big'>
+		<item type='info_player_start' pos='s' />
+		<con wall='n' target='north' pos='tl' elevtype='stairs' />
+		<con wall='s' target='south' pos='tl' elevtype='plat' />
+		<con wall='e' target='east' pos='tl' elevtype='stairs' />
+		<con wall='w' target='start2west' elevtype='stairs' />
+	</room>
+	<room id='north'>
+		<con wall='s' target='start' pos='c' elevtype='stairs' />
+		<item type='weapon_supernailgun' pos='c' />
+	</room>
+	<room id='south'>
+		<con wall='n' target='start' pos='c' elevtype='stairs' />
+		<item type='weapon_grenadelauncher' pos='c' />
+	</room>
+	<room id='east'>
+		<con wall='w' target='start' pos='c' elevtype='plat' />
+		<item type='weapon_supershotgun' pos='c' />
+	</room>
+	<room id='start2west' size='med vsmall big'>
+		<con wall='w' target='west' pos='n' elevtype='stairs' extent='+' />
+	</room>
+	<room id='west' size='big'>
+		<con wall='e' target='start2west' />
+		<item type='item_artifact_super_damage' pos='c' />
+	</room>
+</map>

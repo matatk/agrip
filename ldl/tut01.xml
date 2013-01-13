@@ -1,0 +1,5 @@
+ <map name='LDL Tutorial Map 01: Hello, World!' style='base'>
+        <room id='start'>
+                <item type='info_player_start' pos='c' />
+        </room>
+ </map>

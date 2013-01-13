@@ -1,0 +1,5 @@
+ <map name='LDL Tutorial Map 04: South-North Corridor' style='base'>
+    <room id='start' size='vsmall big small'>
+        <item type='info_player_start' pos='c' />
+    </room>
+ </map>

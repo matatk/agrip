@@ -1,0 +1,32 @@
+#!/bin/bash
+echo "AudioQuake.app build script"
+echo
+
+. common.sh
+
+# Variables...
+D_BASE=`pwd`
+D_MOD="id1/" ; chk_dir $D_MOD
+D_APP="AudioQuake.app"
+D_SKEL="app-skel" ; chk_dir $D_SKEL
+D_ENG="zq-repo/zquake/release-mac"
+ENG_SERVER="$D_ENG/zqds" ; chk_file $ENG_SERVER
+ENG_CLIENT="$D_ENG/zquake-glsdl" ; chk_file $ENG_CLIENT
+
+clean_ds
+
+if [[ -d $D_APP ]]; then
+	echo Removing existing .app...
+	rm -rf $D_APP
+fi
+
+echo Copying .app from skeleton...
+cp -a $D_SKEL $D_APP
+
+echo Copying in engine...
+cp $ENG_SERVER $ENG_CLIENT $D_APP/Contents/MacOS/
+
+echo Copying in mod...
+cp -a $D_MOD $D_APP/Contents/MacOS/$D_MOD
+
+echo build complete!

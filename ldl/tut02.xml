@@ -1,0 +1,5 @@
+ <map name='LDL Tutorial Map 02: Large Room' style='base'>
+    <room id='start' size='large'>
+        <item type='info_player_start' pos='c' />
+    </room>
+ </map>

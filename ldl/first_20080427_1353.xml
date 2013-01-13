@@ -1,0 +1,33 @@
+<!-- This is a work-in-progress map by Matthew McLarren.  It was posted to the AGRIP-discuss mailing list soon after the first LDL test release was made and is included here for historical reasons, because it was the first time a blind person has made a map for a mainstream 3D game.  It was successfully compiled and run at 1353 on Sunday the 27th of April 2008 by Matthew Tylee Atkinson. -->
+<map name='level1' style='base'>
+  <room id='startroom' size='xlarge'>
+    <item type='info_player_start' pos='s' />
+    <item type='weapon_nailgun' pos='e' />
+    <item type='item_spikes' pos='w' />
+    <con wall='n' target='co1' type='door' />
+  </room>
+  <room id='co1' size='vsmall large small'>
+    <item type='monster_dog' pos='n' />
+    <con wall='n' type='door' target='admin' />
+    <item type='item_armorInv' pos='s' />
+  </room>
+  <room id='admin' size='big med med'>
+    <item type='ambient_comp_hum' pos='e' />
+    <item type='monster_enforcer' pos='w' />
+    <item type='monster_enforcer' pos='e' />
+    <con wall='e' target='checkpoint' type='door' />
+  </room>
+  <room id='checkpoint' size='small vsmall med'>
+    <item type='misc_explobox2' map='e1m1' pos='e' />
+  </room>
+  <room id='stairwell' size='vlarge vsmall big'>
+    <item type='ambient_suck_wind' pos='c' />
+    <item type='ambient_suck_wind' pos='w' />
+    <item type='ambient_suck_wind' pos='e' />
+    <con wall='w' target='co1' />
+  </room>
+  <room id='store' size='med'>
+    <con target='stairwell' wall='w' />
+  </room>
+</map>
+

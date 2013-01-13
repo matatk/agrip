@@ -1,0 +1,2349 @@
+<?xml version='1.0' encoding="utf-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+    "/usr/share/sgml/docbook/dtd/xml/4.3/docbookx.dtd"
+
+    [   <!ENTITY gnu-gpl SYSTEM "gpl.xml">
+        <!ENTITY gnu-fdl SYSTEM "fdl.xml">
+]>
+
+<!--
+    The AGRIP AudioQuake Manual
+    in DocBook XML
+
+    by Matthew Tylee Atkinson
+!-->
+
+<book lang="en" id="audioquake-manual">
+    <bookinfo>
+        <title>AGRIP AudioQuake Manual</title>
+
+        <authorgroup>
+            <author>
+                <firstname>Matthew</firstname>
+                <othername>Tylee</othername>
+                <surname>Atkinson</surname>
+            </author>
+        </authorgroup>
+        
+        <releaseinfo>0.3.0</releaseinfo>
+
+        <pubdate>2nd January 2008</pubdate>
+
+        <abstract>
+            <para>
+                This is the user manual and reference guide for AudioQuake. We hope you'll find it helpful and informative.  Please help us improve the manual by reporting any bugs and/or submitting update requests to <email>docs@agrip.org.uk</email>.
+            </para>
+            <para>
+                The AGRIP web site, which provides a number of resources for those using and developing AudioQuake, can be found at: <ulink url="http://www.agrip.org.uk/">http://www.agrip.org.uk/</ulink>
+            </para>
+            <para>
+                The latest version of this manual can be found at: <ulink url="http://docs.agrip.org.uk/">http://docs.agrip.org.uk/</ulink>
+            </para>
+            <para>
+                The revision number of the manual follows the same format as the AudioQuake version number.  If the first two digits of the version numbers match, the manual and AudioQuake will correspond.
+            </para>
+        </abstract>
+        
+        <copyright>
+            <year>2004&ndash;2007</year>
+            <holder>Matthew Tylee Atkinson</holder>
+        </copyright>
+
+        <legalnotice>
+            <para>
+                Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+            </para>
+            <para>
+                Please note that AudioQuake itself is distributed under the GNU General Public License.  This is included as an appendix to this document as with the FDL.
+            </para>
+        </legalnotice>
+
+        <keywordset>
+            <keyword>AGRIP</keyword>
+            <keyword>AccessibleQuake</keyword>
+            <keyword>AudioQuake</keyword>
+            <keyword>Quake</keyword>
+            <keyword>accessible</keyword>
+            <keyword>accessibility</keyword>
+            <keyword>game</keyword>
+            <keyword>FPS</keyword>
+            <keyword>vision</keyword>
+            <keyword>vision-impaired</keyword>
+            <keyword>blind</keyword>
+        </keywordset>
+    </bookinfo>
+
+    <toc/>
+    <lot/>
+
+
+    <part id="intro">
+        <title>Introduction</title>
+        <para>
+            This part of the manual aims to introduce AudioQuake and gives you details on how to get it set up on your computer.
+        </para>
+
+        <chapter id="important">
+            <title>Important Note</title>
+            <para>
+                AudioQuake builds on the foundation laid by AccessibleQuake.  This is a tried-and-tested stable release, which allows you to take advantage of the new features that have been implemented over and above our previous game.  Currently these are full support of Internet play, various related enhancements to the user interface and manual, a new setup routine and a large number of minor improvements to the gameplay.  The other planned improvements will be introduced as we reach version 1.0.0.
+            </para>
+            <para>
+                By all means, join in the development and make AudioQuake what you want it to be.  Feel free to give feedback on the <ulink url="http://www.agrip.org.uk/CommunityResources/MailingLists">mailing lists</ulink>, join the web community and voice your opinions.  This project has always been and will always be what you make of it.
+            </para>
+        </chapter>
+        
+        <chapter id="intro-what">
+            <title>What is AudioQuake?</title>
+            <para>
+                AudioQuake is essentially a series of modifications to the game Quake by id Software that enable blind and vision-impaired people to play it.  Actually, it is (or will be) quite a lot more than just that.  This chapter explains the main things you need to know about AudioQuake to understand what it does and why it's here.
+            </para>
+            <para>
+                So, AudioQuake is...
+            </para>
+            <section>
+                <title>More than just an <quote>Accessible Game</quote></title>
+                <para>
+                    AudioQuake is based on earlier software from AGRIP called <quote>AccessibleQuake</quote>.  The previous game's ethos was to prove that accessibility barriers can be lowered and it allowed blind gamers to play singleplayer Quake (or offline multiplayer with computer-generated opponents).  AudioQuake's philosophy is to take this idea to its logical extreme and allow blind and vision-impaired players not only access to Quake, but <emphasis>equal</emphasis> access to both the game <emphasis>and</emphasis> the community of Internet play and level design and creation of new modified games that surrounds it.  AudioQuake provides this via the following three main features:
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Support for Internet multiplayer games in a variety of game modes such as co-operative, deathmatch, team deathmatch and capture the flag (provided via our use of the ZQuake <quote>QuakeWorld</quote> game engine).  The traditional singleplayer gametypes are, of course, supported.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <quote>Implicit Accessibility</quote> &ndash; The use of modern 3D audio and special effects technology to make the game inherently more accessible.  This, in turn, means that the difference between the software that the sighted and blind use is dramatically minimised.  For all intents and purposes, you'll be playing <emphasis>the same</emphasis> game.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Accessible level-editing tools.  These will allow you to create your own levels (<quote>maps</quote>) for the game; something that sighted gamers have been able to do for some time.  Coupling this with the fact that you can create your own code modifications easily, AudioQuake could be used as a platform for making your own games!
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <note>
+                    <para>
+                        Please remember that at the current stage of development only the first of these three features have been fully implemented.  We await community feedback on how we're doing so far and will continue to develop AudioQuake over time to bring you these benefits.
+                    </para>
+                </note>
+            </section>
+            <section id="intro-what-quake">
+                <title>Quake</title>
+                <para>
+                    At first it may seem obvious that AudioQuake is, well, Quake.  This idea, however, has had a profound impact on how the game is designed.  At all times, we have tried to maintain the spirit of Quake.  You will not find a lot of voice-over information because Quake didn't have it &ndash; our accessibility features are designed to use intuitive techniques and sounds so that you are not distracted from playing the game.  We have only added the accessibility features necessary to play the game effectively.  To keep things fair, we've not allowed AudioQuake players to do anything Quake players can't (within reason).
+                </para>
+                <para>
+                    This design philosophy comes across in the way the accessibility features present themselves in the game.  The idea is that an AudioQuake player is no different than a Quake player, but they have in their possession certain <quote>objects</quote> that provide accessibility features such as enemy detection (the EtherScan RADAR), item detection (the Detector 5000) and navigation (the Navigation Helper).  Many features can be toggled on or off according to your individual taste and level of sight.
+                </para>
+                <sidebar>
+                    <title>ImplicitAccessibility</title>
+                    <para>
+                        As AudioQuake development brings more of the key features mentioned above into play, these objects, or parts of them, should start to disappear.  This is because the information they provide will be presented through the more realistic (audio) modelling of the environment.
+                    </para>
+                </sidebar>
+                <para>
+                    We have tried our best to make it possible for AudioQuake players to use the original Quake maps.  Currently there are a number of maps from the game that cam be played by blind players.  A series of tutorial maps is provided to help you get used to the game and we hope to provide a range of custom-built accessible maps in the future.
+                </para>
+                <para>
+                    In the end, the main point of AudioQuake is not to prove that video game accessibility is possible, as this has already been established.  The main point is that <emphasis>community</emphasis> accessibility is possible &ndash; that blind and vision-impaired players can use <emphasis>the exact same software</emphasis>, join Internet games and contribute new maps and modifications, just as the sighted are able to.
+                </para>
+                <section id="intro-what-quake-age">
+                    <title>Not for Under-15s</title>
+                    <para>
+                        Quake has a <quote>15</quote> certificate.  For obvious reasons, this also applies to AudioQuake.  We do not recommend or condone the use of this software by anyone below 15 years of age.
+                    </para>
+                </section>
+            </section>
+            <section id="intro-what-customisable">
+                <title>Customisable</title>
+                <para>
+                    The game has been built to be customisable. You can change a great many of the game-play aspects described below quite easily so that they suit your taste and style of play. We are here to cater for a large range of people from the blind to the vision-impaired. Everyone is different and we're confident that you'll get a lot more out of AudioQuake if you customise it.
+                </para>
+                <para>
+                    The process of customisation is described <link linkend="customising">later on</link>. It's not difficult and there is help provided along the way.  It is probably a good idea to read the next part and learn how to play the game before you delve in to tweaking it, however!
+                </para>
+            </section>
+            <section id="intro-what-free">
+                <title>Free (as in Freedom)</title>
+                <para>
+                    Everything we have created for the project (code, sounds, tools) is available for you to use, modify and redistribute.  The licence we have used for the project, the GNU General Public Licence, permits anyone to do these things as long as they keep the source code to their work available for others, just as we have for you.
+                </para>
+                <para>
+                    Our reasons for making AudioQuake Free are that it should make it easier for people to get hold of and play the game.  The most important reason, however, is described in the following section...
+                </para>
+            </section>
+            <section id="intro-what-more">
+                <title>Only the Beginning</title>
+                <para>
+                    We're building not just a game, but a framework with which you can create your own games.  This framework currently allows you to alter all aspects of the way the game works and sounds, with level editing planned for the future, as we get closer to the 1.0.0 version number.
+                </para>
+                <para>
+                    With a number of commercial game engines now made Open Source, the possibility of making other titles accessible is a reality.  Some even use the Quake engine &ndash; Half-Life would make a most amazing and immersive accessible game due to its amazing sounds, AI, story line and massively popular online game modes.
+                </para>
+                <para>
+                    It is possible that later engines such as Quake3 and Unreal could be made accessible even without access to the engine code.  We wanted to produce a Free game, which is why we didn't choose these titles.  We also thought that Quake would be a good starting point as it marked the dawn of modern game engine design.
+                </para>
+                <para>
+                    We would love to see a community spring up around AudioQuake and make other games based on it.  You can use any of our code and sounds.  The techniques we've used should be applicable to newer engines, too.
+                </para>
+            </section>
+        </chapter>
+
+        <chapter id="intro-install">
+            <title>Installing AudioQuake</title>
+            <para>
+                This chapter explains how to get the game set up on your computer and how to start it.  For details on playing the game, please read the next part of the book.  The <ulink url="http://www.agrip.org.uk/DownloadPage">download page</ulink> on our web site provides all of the information you'll need to get hold of the software.  This section explains what to do after you've got hold of it.
+            </para>
+            <section id="intro-install-quakereq">
+                <title>Why Quake is Required and How to Try Before You Buy</title>
+                <para>
+                    As explained above, AudioQuake is a series of modifications to the game Quake.  For AudioQuake to function correctly, you must have Quake.  Our website details <ulink url="http://www.agrip.org.uk/DownloadPage/GettingQuake">how you can get hold of the game</ulink>.
+                </para>
+                <para>
+                    If you're uncertain as to whether you should go to the trouble of getting hold of a copy of Quake, you can try running AudioQuake with the <quote>shareware</quote> version of the game.  This is a demonstration version that only includes one of the four <quote>episodes</quote> of the full game.  It contains no deathmatch arenas so two game modes (deathmatch and team deathmatch) will not be fully available.  It should, however, give you a good idea of if AudioQuake is for you.
+                </para>
+                <para>
+                    The setup program for AudioQuake will give you the option of having the shareware version of Quake automatically downloaded and installed.  If you've got the full version of the game on CD, this isn't necessary.
+                </para>
+            </section>
+            <section id="intro-install-mindgrid">
+                <title>mindgrid:audio</title>
+                <para>
+                    An excellent expansion pack has been created that upgrades many of the sounds in the game to much more high-resolution and visceral levels.  You can elect to have this pack installed when you install the game &ndash; and it is highly recommended.
+                </para>
+                <para>
+                    The pack was not made by AGRIP; more information on mindgrid:audio can be found <ulink url='http://www.mindabuse.com/mindgrid/audio/quake/'>on its web page</ulink>. 
+                </para>
+            </section>
+            <section id="intro-install-linux">
+                <title>Installing AudioQuake on Linux</title>
+                <para>
+                    Currently, binary packages are available for PowerPC and x86 machines.  To install the game from one of these packages, simply download it, ensure it is executable and run it.  For example:
+                </para>
+                <screen>
+<prompt>$</prompt> <command>./AudioQuake-0.3.0_linux-ppc.run</command>
+                </screen>
+                <para>
+                    Then simply follow the on-screen instructions.
+                </para>
+                <note>
+                    <para>
+                        To ensure that you don't lose any data from previous installations, the installer will back up your <filename>.zquake</filename> directory to a <filename>dot-zquake-<replaceable>date</replaceable></filename> directory.  This may be safely deleted when you're usre that all is well with the new install.
+                    </para>
+                </note>
+            </section> 
+            <section id="intro-install-windoze">
+                <title>Installing AudioQuake on Windows</title>
+                <para>
+                    A setup program is provided to ease the task of getting AudioQuake up and running.  Because some people may already have some of the speech software AudioQuake requires, we've created three different sizes of setup program.  This means that you can download the smallest one you need.   The following list should help you decide which size is appropriate for you:
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            The smallest download contains just AudioQuake.  This is suitable for people who've either used AudioQuake before or already have Microsoft SAPI 5.0 or greater and the extra SAPI voices.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            If you use Windows XP, you already have a suitable version of SAPI (5.0), but you may wish to install some extra voices (Mary and Mike) if you don't already have these, as they're much clearer than the voice Windows XP comes with by default (Sam).  If this applies to you, choose the medium-sized AudioQuake download.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            If you have an older version of SAPI than 5.0 (most likely if you're running an earlier version of Windows than XP) you'll need to download the largest AudioQuake setup program.  This includes SAPI 5.1 and the additional voices mentioned above.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para>
+                    You only need to download <emphasis>one</emphasis> of the setup programs mentioned above.  Once you've decided which you need (choose the largest one if you're unsure), you can follow the installation procedure as described below:
+                </para>
+                <procedure>
+                    <step>
+                        <para>
+                            Download your chosen setup package from the <ulink url="http://www.agrip.org.uk/DownloadPage">download page</ulink> on the AGRIP web site.
+                        </para>
+                    </step>
+                    <step>
+                        <para>
+                            Run the program you downloaded.  The installer uses a familiar <quote>wizard</quote>-type interface and will guide you through the setup process.
+                        </para>
+                        <para>
+                            The setup program will automatically download and install the Shareware version of Quake for you, if you ask it to (likewise for mindgrid:audio).  It will also offer you the choice of installing SAPI and/or the extra voices for Windows XP, if you downloaded one of the setup programs with speech components included.
+                        </para>
+                        <note>
+                            <para>
+                                If you have the CD version of Quake, you don't need to install the shareware version &ndash; make sure that you ask the installer <emphasis>not</emphasis> to download it for you.  Then, when you first run AudioQuake, you'll be given the option of installing the game data from your CD.
+                            </para>
+                        </note>
+                    </step>
+                </procedure>
+                <para>
+                    You should now be ready to play the game &ndash; read on for information on how to do this...
+                </para>
+            </section>
+            <section>
+                <title>Installing from Source</title>
+                <para>
+                    If you're a developer, or a curious user, you may be interested in looking at the source code for AudioQuake.  Source packages are provided for both Linux and Windows.  Instructions for installing AudioQuake from source are provided <link linkend="ref-installsrc">in an appendix</link>.
+                </para>
+            </section>
+        </chapter>
+    </part>
+
+    <part id="playing">
+        <title>Playing AudioQuake</title>
+        <para>
+            This part of the manual is a guide to playing AudioQuake.  It is aimed at people who have played accessible games such as Shades of Doom and Monkey Business before. If you'd like more help and/or information than is provided here, please contact us and we'll do what we can to help you out.
+        </para>
+        <para>
+            AudioQuake has a number of game modes.  This part explains only what is common between all game modes.  Please read the next part of the manual to find out more about each individual mode.
+        </para>
+        <tip>
+            <para>
+                The following sections tell you which keys you can use to toggle various gameplay elements on and off. Please be aware that you're welcome to change these &ndash; only the defaults are listed here.  To learn how to redefine keys, please read the <link linkend="customising">Customising AudioQuake</link> section.
+            </para>
+        </tip>
+        <chapter id="playing-starting">
+            <title>Starting AudioQuake</title>
+            <para>
+                This section describes how to get the game running.  Later sections in this part provide information on how to actually play it.
+            </para>
+            <section>
+                <title>Running the Game</title>
+                <para>
+                    The <quote>game launcher</quote> (described in more detail shortly) is your entry point to AudioQuake.  To start the game launcher in Linux, simply run <command>start.pl</command> from the directory where AudioQuake was installed.  In Windows you can run the launcher via the Start Menu &ndash; Choose <constant>Start</constant>, <constant>Programs</constant>, <constant>AudioQuake</constant>, <constant>Start AudioQuake</constant>.
+                </para>
+                <warning>
+                    <para>
+                        Please unload any access software such as a screen reader or magnifier before running AudioQuake.  The game is self-voicing so additional access software is not required.  You may also find that running access software alongside AudioQuake makes the game run slowly.
+                    </para>
+                </warning>
+                <para>
+                    The game launcher should now begin talking to you.  Please send an e-mail to our tech support address (found on the <ulink url="http://www.agrip.org.uk/ContactUs">ContactUs</ulink> page of our site) if you are having problems and we'll do our best to help you out.
+                </para>
+            </section>
+            <section>
+                <title>Initial Data File Set&ndash;up</title>
+                <para>
+                    When run AudioQuake for the first time, the game will asess which version of the data files you have available.  It will search for the registered Quake data on your hard disk (which is useful if you've purchased the electronic download of the game or have installed it from CD before).  If when you installed AudioQuake, you indicated that you have a retail CD (by not having the Shareware episode downloaded for you), this is when you'll be asked to insert the CD so that the data can be installed.
+                </para>
+            </section>
+            <section>
+                <title>How Best to Listen</title>
+                <para>
+                    AudioQuake runs in stereo sound and gives far superior performance on headphones than with traditional desktop computer speakers.  We strongly recommend the use of headphones as they will let you get the most out of the game.
+                </para>
+                <para>
+                    Many people are now looking into, or own, surround-sound systems. Surround sound is something that we are going to be adding before AudioQuake reaches 1.0.0 (it is the core of the <quote>Implicit Accessibility</quote> feature).
+                </para>
+            </section>
+        </chapter>
+
+        <chapter id="playing-ui">
+            <title>The User Interface</title>
+            <para>
+                AudioQuake gives you the ability to interact with Quake the same way that sighted gamers do.  This chapter describes the main user interface for the game (the <firstterm>console</firstterm>) as well as the <firstterm>game launcher</firstterm>, which we provided to make setting some options more convenient.
+            </para>
+            <section>
+                <title>The Game Launcher</title>
+                <para>
+                    As mentioned above, this program acts as a front-end to AudioQuake.  It exists to allow you to adjust many accessibility-related options and review your keybindings before starting the game.  The launcher has a spoken menu-based interface.  To enter a menu choice simply type the letter that corresponds to your choice and press ENTER.
+                </para>
+                <para>
+                    You can adjust many settings of the game by using the launcher &ndash; visit <xref linkend="customising"/> for more information.
+                </para>
+            </section>
+            <section>
+                <title>The Console</title>
+                <para>
+                    When you start Quake itself, you'll be presented with a pre-recorded demo.  To get to the console, press the key below ESC on your keyboard.  Here you can type in commands to start new games, play the tutorial maps or join in a multiplayer match.  Instructions on how to do this can be found throughout the rest of the manual.  All of the in-game events are self-voicing, including text editing within the console.  After you exit the game by typing the <quote>quit</quote> command into the console, the launcher's main menu will re-appear.  To fully exit AudioQuake, choose the exit (X) option from the main menu.
+                </para>
+                <tip>
+                    <para>
+                        Type the <command>aghelp</command> command to get a list of some very useful commands you can use to interact with the game.
+                    </para>
+                </tip>
+                <tip>
+                    <para>
+                        If you get the syntax of a command wrong when you type it into the console, you'll be presented with a message that explains the correct syntax for that command.
+                    </para>
+                </tip>
+            </section>
+            <section>
+                <title>Quake Menu</title>
+                <para>
+                    In the original Quake, there was a traditional hierarchical menu.  This is not present in AudioQuake as the console allows you to do more, is faster to use and is also the way most players choose to interact with the game nowadays, anyway.
+                </para>
+            </section>
+        </chapter>
+
+        <chapter id="playing-navigation">
+            <title>Navigation</title>
+            <section>
+                <title>Moving Around</title>
+                <para>
+                    To move around, use the arrow keys.  Turning is implemented in a familiar way to users of accessible games &ndash; pressing the arrow keys snaps the player round a certain number of degrees. By default, the player has a 16-point turn (that is to say each tap of the arrow keys will turn you 22.5 degrees in that direction).
+                </para>
+                <tip>
+                    <para>
+                        You can adjust the turning value, as well as many other aspects of the game &ndash; read <link linkend="customising">Customising AudioQuake</link> to find out how.
+                    </para>
+                </tip>
+                <para>
+                    A very important move in Quake is <quote>strafing</quote>.  To strafe, hold down ALT and press-and-hold the left or right arrow key. This moves you from side-to-side and helps you avoid incoming enemy fire.
+                </para>
+                <para>
+                    To jump, press SPACE.  To jump over a gap in front of you, move up to the gap using the up arrow and press SPACE as you reach the edge.  If you need to do a running jump, hold down the SHIFT key as well as the up arrow.  Holding down SHIFT makes you run instead of walk.
+                </para>
+            </section>
+            <section>
+                <title>Navigation Helper</title>
+                <para>
+                    AudioQuake provides a number of features to help you get around maps. These can all be toggled on/off.  Some, but not all of them, are on by default (again, please read the customisation section for more information).
+                </para>
+                <para>
+                    To toggle the whole of the navigation subsystem on/off, use the N key.
+                </para>
+                <section>
+                    <title>Obstacle (Wall, Door and Slope) Indications</title>
+                    <para>
+                        If turned on, you'll hear a sound to your left, in front of you and to your right to indicate if a <ulink url="../id1/sound/nav/wall.wav">wall</ulink>, <ulink url="../id1/sound/nav/slope.wav">slope</ulink> (which could be some steps or a ramp) or a <ulink url="../id1/sound/nav/door.wav">door</ulink> is present near you in any of these directions. The sounds get louder the closer you are to the obstacle in question.
+                    </para>
+                    <para>
+                        The sound that walls make falls off more quickly than the sound steps/ramps and doors make.  Also, side wall warnings are off by default &ndash; though you'll always be told about doors and slopes to your left and right.  The fact that walls are given lower priority than slopes and doors should allow you to locate the key features of the map more efficiently. You can toggle the announcement of walls to your left and right with the E key. All obstacle sounds can be turned off with the W key.
+                    </para>
+                    <section>
+                        <title>Wall Hit and Touch Warnings</title>
+                        <para>
+                            If you bump in to a wall, you'll hear an <quote>oomph</quote> sound to indicate this has happened.  Depending on how you've set up AudioQuake, you may also hear a continuous <quote>wall-touch</quote> sound played as long as you are still touching the wall.
+                        </para>
+                        <para>
+                            To toggle the sound that indicates you're still right next to a wall, use the T key.
+                        </para>
+                    </section>
+                </section>
+                <section>
+                    <title>Hazard Detection</title>
+                    <para>
+                        The Navigation Helper also tells you when you are coming up to a ledge, drop or pit of some kind. If you are, it will produce a beep every half-second in the direction the drop can be found. Toggle hazard warnings with H and toggle the announcement of drops to your sides on/off with I.
+                    </para>
+                    <para>
+                        Press J to be told if you can make a jump or a running jump over the drop.  If you're not facing a ledge, you'll hear an <ulink url="../id1/sound/deny.wav"><quote>access denied</quote></ulink> sound.
+                    </para>
+                    <tip>
+                        <para>
+                            The EtherScan RADAR (which you'll learn about shortly) has a mode that helps you to make jumps over pits.
+                        </para>
+                    </tip>
+                    <para>
+                        You can find out how big a drop is by the pitch of the beep. There are 4 classifications:
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                Negligible drop &ndash; not announced.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <ulink url="../id1/sound/haz/drop-small.wav">Small drop</ulink> &ndash; requires jumping to get over.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <ulink url="../id1/sound/haz/drop-big.wav">Big drop</ulink> &ndash; a drop that is too tall for you to jump back out of and get back to where you were before you fell down it.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <ulink url="../id1/sound/haz/drop-huge.wav">Huge drop</ulink> &ndash; a drop this big will hurt you if you fall all the way to the ground (note that water will cushion you). 
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>
+                        To find out what's at the bottom, use the K key. You will get the <ulink url="../id1/sound/deny.wav"><quote>access denied</quote></ulink> sound if you are too far away or not facing a ledge. If you are successful, you'll be told that the drop is either onto the ground or into water, slime or the dreaded lava.
+                    </para>
+                    <tip>
+                        <para>
+                            Pick up a BioSuit Power-Up to survive slime.
+                        </para>
+                    </tip>
+                </section>
+                <section>
+                    <title>Open Space Detection</title>
+                    <para>
+                        This gives you a bit more of a feel for how big the area around you actually is.  It will play a <ulink url="../id1/sound/nav/wind.wav">gentle wind</ulink> sound at various points in front of you if there are no walls or other obstacles in that direction.  The sounds are generated in a sweep from left to right around you, in response to a pres of the L key.  It works as if you were using a mobility cane to scan the area &ndash; though it has significantly greater range.
+                    </para>
+                    <para>
+                        The distance over which obstacles are scanned for is the navigation detection range and is customisable (please read <link linkend="customising">Customising AudioQuake</link> for more details).
+                    </para>
+                </section>
+                <section>
+                    <title>Corner Detection</title>
+                    <para>
+                        Corner detection searches for corners that could lead to corridors, alcoves, etc.  Left and Right turnings are detected in the direction the player is facing.  When a turning is detected, you'll be alerted by a sound right in front of you.  This sound is quickly followed by the same tone played from the position just 'round the corner.
+                    </para>
+                    <para>
+                        If corners are detected in both the left and right directions, the left corner is announced first.
+                    </para>
+                    <para>
+                        Toggle corner detection on/off with the X key.
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title>Independent Navigation Aids</title>
+                <para>
+                    The navigation helper described in the previous section has a number of sub-features.  They are all disengaged when you toggle the navigation helper off (as they are all linked).
+                </para>
+                <para>
+                    This chapter describes some helpful features that are not tied to, or part of, the main navigation helper.
+                </para>
+                <section>
+                    <title>Footsteps</title>
+                    <para>
+                        Footsteps can tell you a lot &ndash; whether you're moving and, if so, how fast.  They can be toggled with the letter F key. As with all other keys, this can be customised.
+                    </para>
+                    <para>
+                        When you are totally stuck on an object, you will not be able to move. Consequently your footsteps will stop. If you're scraping along a wall (i.e. caught on it but still moving) you'll hear a <ulink url="../id1/sound/nav/wall-scrape.wav">scraping sound</ulink> as you walk along &ndash; you'll also hear the footsteps' speed drop to indicate you're not walking freely.
+                    </para>
+                    <para>
+                        If you're stuck on an object, you'll continue to hear the <quote>oomph</quote> sound described above when you try to move in the direction it lies.
+                    </para>
+                </section>
+                <section>
+                    <title>The Compass</title>
+                    <para>
+                        To find out what direction you're pointing in, use the compass (C by default). As a convention, you're always pointing <quote>North</quote> when you start a map.
+                    </para>
+                    <note>
+                        <para>
+                            The compass works best when the player turn angle (the number of degrees you've specified that the player should turn for each press of an arrow key, <constant>agv_mov_turnvalue</constant> in <filename>autoexec.cfg</filename>) is 30, 22.5 or 45. This is because the compass only knows the names of so many directions you could be pointing in. It'll announce the nearest one it can if you're not pointing at a known direction exactly.
+                        </para>
+                    </note>
+                </section>
+                <section>
+                    <title>Waypoint Markers</title>
+                    <para>
+                        This is a helpful feature that will tell you if you've been somewhere before.  You can leave a marker at any point in a map.  It will make a <ulink url="../id1/sound/nav/marker.wav">sound</ulink> continuously to let you know it is there.  When you walk through it, you'll be informed which marker number it is (the number is incremented each time you drop a marker).
+                    </para>
+                    <para>
+                        To drop a marker, press INSERT.  To delete the last one you dropped, press DELETE.
+                    </para>
+                </section>
+            </section>
+        </chapter>
+
+        <chapter id="playing-esr">
+            <title>Creature and Hazard Detection &ndash; The EtherScan RADAR</title>
+            <para>
+                The EtherScan RADAR (<quote>ESR</quote> as it is known for short) is a device that alerts you to proximity of things. It has two modes, described below.
+            </para>
+            <section id="playing-esr-monster">
+                <title>Monster Detection</title>
+                <para>
+                    To toggle monster detection on/off, press R. This acts as a kind of RADAR that lets you know where enemies are. The faster the beeps, the nearer the monster.  The sound is actually two close-together beeps; the pitch difference between which tells you where (vertically) the monster is with respect to you.  For example, if the monster is <ulink url="../id1/sound/esr/monster-lower.wav">lower</ulink> or <ulink url="../id1/sound/esr/monster-higher.wav">higher</ulink> than you.  If the monster is roughly on the <ulink url="../id1/sound/esr/monster-same.wav">same level</ulink> as you, the beeps will both have the same pitch.
+                </para>
+                <note>
+                    <para>
+                        Just as in regular Quake, you're not given the ability to detect enemies through walls with the ESR.  In AccessibleQuake, this was the case and it proved to be both unnecessary and potentially confusing.  This way is much more fun :-).
+                    </para>
+                </note>
+            </section>
+            <section id="playing-esr-hazard">
+                <title>Hazard Detection</title>
+                <para>
+                    If there is a hazard in front of you &ndash; some kind of ledge/drop &ndash; you'll be told about it by the navigation helper. If you want to try and jump over the pit, you can use this alternative ESR mode to help you do so. Pressing the R key again when you have a drop in front of you will make the ESR lock onto it instead of enemies. It automatically falls back to detecting enemies when you lose the lock on the pit (by jumping over it successfully, falling in or just turning and facing another way).
+                </para>
+                <para>
+                    If it can't find a pit, it will just turn the ESR off.
+                </para>
+                <tip>
+                    <para>
+                        It is a good idea to check that you <emphasis>can</emphasis> make the jump (with the K key) first.  Also, if you are not terribly confident of bing able to make it, you should check, with the D key, that the pit doesn't contain something harmful.
+                    </para>
+                </tip>
+            </section>
+            <section id="playing-esr-multi">
+                <title>Is it a Monster, Enemy or Friend?</title>
+                <para>
+                    The ESR is capable of detecting the nearest <ulink url="../id1/sound/esr/monster-same.wav">monster</ulink>, <ulink url="../id1/sound/esr/enemy-same.wav">enemy</ulink> (player or bot not on your team) and <ulink url="../id1/sound/esr/friend-same.wav">friend</ulink> (player or bot team member) to the player.  It uses a different sound to indicate which is which, so that you know not to fire at team mates (vertical level information, as described for monsters above, is provided for all three types of detection).
+                </para>
+                <para>
+                    By default, the T key toggles if monsters are detected, Y toggles enemy detection and U enables/disables the announcement of friends.  All three features are enabled by default.
+                </para>
+            </section>
+        </chapter>
+
+        <chapter id="playing-detnitems">
+            <title>Item Detection, Weapons, Health and Ammo</title>
+            <section>
+                <title>The Detector 5000</title>
+                <para>
+                    You have at your disposal a device called the Detector 5000 (or the <quote>D5k</quote> for short). It will help you find a number of things that'll enhance your chances of survival.  The items it looks for include health, ammo, armour, weapons and keys.
+                </para>
+                <para>
+                    If the D5k finds more than one item in your vicinity, it will space out the announcement of the items so that you can get a better fix on where they are.
+                </para>
+                <para>
+                    Item detection can pick up ammo, weapons, armour and health. You can toggle it with the D key.
+                </para>
+            </section>
+            <section>
+                <title>Using the Weapons</title>
+                <para>
+                    To fire, press CTRL.
+                </para>
+                <para>
+                    To switch weapons, use the keys 1-8 on they keyboard. You won't start off with more than an Axe (1) and a Shotgun (2). By default, you'll be using the gun at the start of any game.
+                </para>
+                <para>
+                    From 1 to 8, the weapons available in Quake are: Axe, Shotgun, Double-Barrelled Shotgun, Nailgun, Super Nailgun, Grenade Launcher (grenades are often affectionately known as pineapples), Rocket Launcher (the <quote>boomstick</quote>) and the Lightning Gun.  There are four different types of ammo you can pick up: Shells, Nails, Rockets and Cells (the grenade launcher uses Rocket ammo).
+                </para>
+                <para>
+                    Some weapons are more effective against certain types of enemy than others &ndash; you'll begin to get an idea of how your implements of destruction are working as you play the game.  There are also a number of special moves you can do with some of the weapons.  Again, you'll begin to learn techniques as you play but to help you on your way, here are the names of some of the most interesting ones are the <quote>rocket jump</quote> and the <quote>pineapple jump</quote>.  Beware of mixing liquids and electricity, too...
+                </para>
+                <para>
+                    If you run out of ammo, you'll automatically switch to the next best weapon for which you do have enough for at least 1 shot.  For more information on weapons, please consult Quake's <filename>MANUAL.txt</filename> file.
+                </para>
+            </section>    
+            <section>
+                <title>Health, Ammo and Armour Indicators</title>
+                <para>
+                    You're going to need to know when it's time to find some health or when your favourite weapon is running low on ammo.
+                </para>
+                <para>
+                    To be given a verbal report on your health and armour levels, press 9.  Your current level of health will be announced, along with how many armour points you have.  There are three types of armour in the game, each saves a certain fraction of the damage that would otherwise take health points off you.  This fraction is also read out.
+                </para>
+                <para>
+                    Unless you have a special power-up, your health will never get above 100 points.  Even if you do find a MegaHealth power-up, your health can't go over 200 points and it'll gradually decay back down to 100 over time.
+                </para>
+                <para>
+                    To get a rundown of your ammo counts, press 0.  The quantity of each ammo type that you posses will be announced.
+                </para>
+            </section>
+        </chapter>
+
+        <chapter id="playing-completemisc">
+            <title>Completing a Map and Miscellaneous Keys</title>
+            <section>
+                <title>Completing a Map</title>
+                <para>
+                    When you've come to the end of a map, the game will pause for a few moments.  To move on, press SPACE (you'll only be able to do this after a few seconds).
+                </para>
+                <para>
+                    A number of things may cause a map to end.  This largely depends on what game mode you're playing in and could include such events as: You've reached a slipgate or exit, one of your team has reached a slipgate or exit, the timelimit has been reached or the fraglimit has been reached.  The meaning of these events will become clear after you've read the next part of the manual.
+                </para>
+            </section>    
+            <section>
+                <title>Other Keys and Exiting the Game</title>
+                <para>
+                    One of Quake's strengths is that it allows total control over which keys do what. AudioQuake does not take any of this control away from you (please read the <link linkend="customising">Customising AudioQuake</link> section for details) but it does, by default, limit the number of defined keys. Originally, there were many ways to perform some game actions (like jumping or shooting). We have disabled a lot of the keys so that the likelihood of pressing a key you don't mean to and getting yourself into an unknown situation because of it is reduced.
+                </para>
+                <para>
+                    Some extra keys you may be interested in are:
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Home &ndash; To have the last message that was announced repeated, press this key.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            End &ndash; Pressing this key mutes all currently queued speech.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            F10 &ndash; Press F10 to exit Quake and return to the AudioQuake launcher's main menu.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Pause &ndash; Erm, pauses the game. Press again (or ESC, or FIRE) to un-pause. 
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <note>
+                    <para>
+                        You'll find that there are some keys for keeping up with chat messages in multiplayer games.  These are discussed later on.
+                    </para>
+                </note>
+            </section>
+        </chapter>
+    </part>
+
+    <part id="smodes">
+        <title>Singleplayer Game Modes</title>
+        <para>
+            This part describes the singleplayer game moves on offer and how you can start playing them.
+        </para>
+
+        <chapter id="smodes-tutorial">
+            <title>The AudioQuake Tutorial</title>
+            <para>
+                A series of tutorial maps has been created for you to practice with before entering the world of Quake.  These maps start very simple and the learning curve is quite shallow.  Topics covered include:
+            </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Navigation (including stairs, corners, open spaces, drops and jumps).
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        How to detect where enemies are and switch weapons.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Using switches and doors.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para>
+                    Please <ulink url="http://www.agrip.org.uk/ContactUs">ContactUs</ulink> if you have any suggestions for more tutorial maps &ndash; they're very welcome!
+                </para>
+            </note>
+            <para>
+                The idea of the tutorial maps is to let you get used to the features of AudioQuake and Quake slowly before jumping in to a real game.  To start the tutorial, either choose the appropriate option from the game launcher or, if you're already in the game, bring down the console and enter:
+            </para>
+            <screen>
+<command>tut</command>
+            </screen>
+            <tip>
+                <para>
+                    For power users, the above is equivalent to entering the following three commands...
+                </para>
+                <screen>
+<command>deathmatch</command> 0
+<command>maxclients</command> 1
+<command>map</command> agtut01
+                </screen>
+            </tip>
+            <para>
+                This takes the game out of multiplayer mode and loads the first tutorial map.  You can then play through the entire set of tutorials.  Each tutorial map is linked to the next.  If you wish to jump into a certain tutorial map, don't!  You can use the save and load features of the game to pause and resume your journey through the tutorial &ndash; for example...
+            </para>
+            <screen>
+<command>save</command> <replaceable>tutorial</replaceable>
+            </screen>
+            <para>
+                Would save your current game under the name <quote>tutorial</quote>.  To later resume this game, use the <command>load</command> command, specifying the same game name.
+            </para>
+            <para>
+                As you move around the tutorial maps, you'll receive short messages that include important information and/or tips on how to play.  You can repeat these messages by using the repeat last message key if you miss any of them.
+            </para>
+            <para>
+                Remember that when you've come to the end of a map, the game will pause for a few moments.  To move on, press SPACE (you'll only be able to do this after a few seconds).
+            </para>
+        </chapter>
+
+        <chapter id="smodes-single">
+            <title>Single-Player</title>
+            <para>
+                The traditional game mode.  This is the classic <quote>story</quote> mode in which you fight your way through four episodes of monsters in various evil hideouts.  You're encouraged to read id Software's <filename>MANUAL.txt</filename> file if you want to know the full <quote>plot</quote> of the game.
+            </para>
+            <para>
+                The basic idea is that scientists have created devices called <quote>slipgates</quote> that allow people to travel to other dimensions.  Sadly those that go through seem to come back in some form of rage (if at all).  It is down to you to dive in, get to whatever is in charge of all this destruction and kill it.
+            </para>
+            <para>
+                There are four episodes in Quake.  Each one starts on Earth, in one of the four slipgate facilities.  When you've fought your way through these facilities, you leave to the dimension that the slipgate points to.  At the end of each episode, you collect a <quote>Rune</quote>.  When you have all four of these, the door to Quake's domain is opened!
+            </para>
+            <para>
+                At the start of the game, there is a special map that allows you to chose your skill level and episode.  To open it, bring down the console and type:
+            </para>
+            <screen>
+<command>sp</command>
+            </screen>
+            <tip>
+                <para>
+                    For power users, the above is equivalent to entering the following three commands...
+                </para>
+                <screen>
+<command>deathmatch</command> 0
+<command>maxclients</command> 1
+<command>map</command> start
+                </screen>
+            </tip>
+            <para>
+                This disables deathmatch mode and loads the map.  You'll be facing three corridors.  The one to the left sets the skill to EASY.  The one in the middle to NORMAL and if you are able to survive the right-hand corridor, it will set the skill to HARD as you walk down the corridors, you'll be told this.  When you get to the end, step through the teleporter to be taken to the next chamber.
+            </para>
+            <para>
+                Choosing which episode to play is done by entering one of the four doors in the room you'll now find yourself in.  As with the skill corridors you just walked through, the game tells you which episode you're attempting to enter.  Episode 1 is forward a little and on the left as you arrive here and is a good place to start.  (It's up some stairs; walk forward a little, turn to your left and go forward to find it.)
+            </para>
+            <warning>
+                <para>
+                    AudioQuake provides fairly decent accessibility on some of the game's maps.  We are hoping to create a number of custom maps at some point so that you can experience a fully accessible singleplayer episode.  Users who've played accessible games before, however, may find that they get on OK with some of the real Quake maps.
+                </para>
+                <para>
+                    Please tell us which maps you like and we may be able to combine them into an accessible Quake episode!  The maps are named <quote>eXmY</quote> where X is a number from 1 to 4 and Y is a number between 1 and 8.  Episodes 2 and 3 only have 7 maps so that second (map) number is lower for them.  The last map is always the secret one for that episode (i.e. it is found via a secret area on one of the other maps).
+                </para>
+                <para>
+                    To load a map in single-player mode, type
+                </para>
+                <screen>
+<command>deathmatch</command> 0
+<command>maxclients</command> 1
+<command>map</command> e1m1
+                </screen>
+                <para>
+                    (for example) into the console.  The command shown would take you to the first map of episode 1.  Of course, this is not how you are meant to play the game, but we thought it best to let you in on this information so that you could at least find maps you like to play.
+                </para>
+            </warning>
+            <section id="smodes-single-skill">
+                <title>Difficulty Level</title>
+                <para>
+                    The skill setting has been touched on above.  By default, if you start AudioQuake from the launcher and tell it to jump straight in to a certain episode, the medium (<quote>normal</quote>) difficulty level will be used.  If you are new to the game, it can be quite hard.  To switch to the <quote>easy</quote> skill level, bring down the console and type:
+                </para>
+                <screen>
+<command>skill</command> 0
+                </screen>
+                <para>
+                    This will set the game to a slightly less unfair skill level.  Some monsters will disappear and other monsters' attacks will not harm you as much.
+                </para>
+                <note>
+                    <para>
+                        You must re-open the map you want to play on after changing the skill level.  The new skill level will then take effect until you change it again (set it to 1 for medium, 2 for hard and 3 for nightmare difficulty).
+                    </para>
+                </note>
+            </section>
+            <section id="smodes-single-saveload">
+                <title>Game Saving and Loading</title>
+                <para>
+                    As you progress through the game and collect bigger, badder weapons and the almighty runes, you'll want to preserve your progress.  To save and load games, use the console.  Here are the commands you'll need to know about:
+                </para>
+                <variablelist>
+                    <varlistentry>
+                        <term><command>save</command></term>
+                        <listitem>
+                            <para>
+                                This command requires that you type in a name for your game.  You can save as many games as you like.  They'll end up in the <filename>agrip/</filename> directory under your AudioQuake installation.
+                            </para>
+                        </listitem>
+                    </varlistentry>
+                    <varlistentry>
+                        <term><command>load</command></term>
+                        <listitem>
+                            <para>
+                                This command is used to restore games saved with the <command>save</command>.  Remember to supply the game's name when you use it.
+                            </para>
+                        </listitem>
+                    </varlistentry>
+                </variablelist>
+                <tip>
+                    <para>
+                        The commands only work if you've previously used <quote>maxclients 1</quote> as described above.  That forces the Quake into single-player mode (allows only you to enter the game) and makes saving of games possible.
+                    </para>
+                </tip>
+            </section>
+        </chapter>
+    </part>
+
+    <part id="mmodes">
+        <title>Multiplayer Game Modes</title>
+        <para>
+            Quake is not just a singleplayer fragfest!  In fact, many would say that it is far more fun to play over the Internet both with and against other humans.  This part explains the variety of game modes on offer and how you can join in the fun.
+        </para>
+        <para>
+            AudioQuake gives you the ability to play true Internet multiplayer games in a variety of modes.  You can also play offline practice games against computer-generated <quote>bots</quote>.  This will allow you to hone your skills before joining real multiplayer games and allows you to play any time you like (not just when your friends are online).
+        </para>
+        <para>
+            Because the gametypes available are common to both practice matches and multiplayer games, the gametypes will be described in the next chapter.  The following chapters detail how you can actually play practice matches and multiplayer games.
+        </para>
+        <para>
+            Finally, details are given on how you can run your own Quake server.  This is allows you total control over the gametypes and maps you play, as well as broadening the availability of accessible Quake matches for others on the Internet (more on this later).
+        </para>
+
+        <chapter id="mmodes-gametypes">
+            <title>Gametypes</title>
+            <para>
+                This chapter details the three main multiplayer gametypes currently available in AudioQuake.  At this time, three popular gametypes are on offer.  More gametypes will be made available as AudioQuake develops.
+            </para>
+            <section id="mmodes-gametypes-deathmatch">
+                <title>Deathmatch</title>
+                <para>
+                    The classic multiplayer game mode.  No monsters to get in the way.  No exit.  An arena designed solely for combat between players.
+                </para>
+                <para>
+                    In a deathmatch game, you have to move around the deathmatch arena (a special map designed to make this type of play more enjoyable through being easy to navigate) and find other players.  You must <firstterm>frag</firstterm> (blow to bits) any players you do find along the way.
+                </para>
+                <tip>
+                    <para>
+                        In deathmatch games, the ESR can detect your nearest enemy instead of the nearest monster (this behaviour is enabled by default).
+                    </para>
+                </tip>
+                <section id="mmodes-gametypes-deathmatch-variants">
+                    <title>Deathmatch Variations</title>
+                    <para>
+                        There are a few different variations on how items behave in deathmatch games.  These variants on the basic deathmatch rules are described below:
+                    </para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>Deathmatch 1</term>
+                            <listitem>
+                                <para>
+                                    Weapons disappear after being picked up but will <firstterm>respawn</firstterm> (come back) after a short delay.  Items (powerups and ammo) will respawn.  This is one of the most popular types of deathmatch and allows for more tactical gameplay because areas of the map that contain important weapons and/or items can be guarded.
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Deathmatch 2</term>
+                            <listitem>
+                                <para>
+                                    Weapons will not disappear after being picked up.  Items (powerups and ammo) will disappear.  This variation is hardly ever played; it's a throwback to the old days of multiplayer Doom games.
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Deathmatch 3</term>
+                            <listitem>
+                                <para>
+                                    Weapons don't disappear after being picked up.  Items (powerups and ammo) will respawn.  This is also one of the most popular types of deathmatch, especially with new players.
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </section>
+                <section id="mmodes-gametypes-deathmatch-limits">
+                    <title>Frag and Time Limits</title>
+                    <para>
+                        All multiplayer games go on for as long as it takes for one of the preset game limits to be reached.  There are two main limits; the fraglimit and the timelimit.
+                    </para>
+                    <para>
+                        The fraglimit is the target score for the match.  The first player to get this many frags is the winner.
+                    </para>
+                    <para>
+                        The above may take some time, so a timelimit is usually set.  This ends the match after a specific number of minutes has gone past.  The winner is the player with the highest number of frags at the end of this time.
+                    </para>
+                </section>
+            </section>
+            <section id="mmodes-gametypes-teamdm">
+                <title>Team Deathmatch</title>
+                <para>
+                    This mode is similar to the last one but has one main difference:  You are not on your own &ndash; you can have an epic battle in which all the players on your team are against all the players/bots on the enemy team!
+                </para>
+                <para>
+                    Team Deathmatch games are started in the same way as regular deathmatches and can have frag and time limits, except that the fraglimit is the number of frags that a team must score to win.
+                </para>
+                <tip>
+                    <para>
+                        In team games, the ESR detects enemy players or bots, as it does in deathmatch.  It can also detect your team mates.  To help you distinguish between the two, it makes a different sound to represent team mates than it makes when it detects enemies.
+                    </para>
+                </tip>
+                <para>
+                    To actively participate in team deathmatches, you must set your <quote>teamname</quote> the same as a group of other players on the map.  You can do this using the following console command:
+                </para>
+                <screen>
+<command>team</command> <replaceable>red</replaceable>
+                </screen>
+                <para>
+                    The above example would put you on the <quote>red</quote> team.
+                </para>
+                <section id="mmodes-gametypes-teamdm-variants">
+                    <title>Additional Team Deathmatch Variations</title>
+                    <para>
+                        Team deathmatch games are based on deathmatch games.  Consequently, they can use any of the deathmatch variations discussed in the section on that gametype above.  There are also a number of teamplay-specific variations which can be coupled with the deathmatch ones.  They're described below.
+                    </para>
+                    <variablelist>
+                        <varlistentry>
+                            <term>Teamplay 1</term>
+                            <listitem>
+                                <para>
+                                    You can't hurt yourself and you can't hurt your teammates.
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Teamplay 2</term>
+                            <listitem>
+                                <para>
+                                    You can hurt yourself and your teammates.  You'll lose one frag for killing a teammate.  This is pretty much the most popular teamplay mode.
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>Teamplay 3</term>
+                            <listitem>
+                                <para>
+                                    You can hurt yourself but not your teammates.  This mode is quite popular with new players.
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                </section>
+            </section> 
+            <section id="mmodes-gametypes-coop">
+                <title>Co-Operative (<quote>co-op</quote>)</title>
+                <para>
+                    This is probably the most interesting game mode and has been the focus of many a LAN party.  In this mode, you play the singleplayer campaign with the help of other players or bots.  You can all work together against the monsters.  Coupled with eh chat facilities on offer, this gametype can be very enjoyable.
+                </para>
+                <tip>
+                    <para>
+                        As with deathmatch and team games, the ESR can help you out in co-op mode too.  It will identify the nearest monster, enemy and team mate and will use a different type of sound for each.
+                    </para>
+                </tip>
+            </section>
+        </chapter>
+
+        <chapter id="mmodes-offline">
+            <title>Offline Practice with Bots</title>
+            <para>
+                This chapter explains how to play the gametypes listed above with bots, so that you can practice in preparation for real Internet games.
+            </para>
+            <section id="mmodes-offline-deathmatch">
+            <title>Deathmatch</title>
+                <para>
+                    The quickest way to start a deathmatch game in the first deathmatch level is to enter the <command>dm</command> console command.  However, you'll find that this limits the variety of your games, as it always uses the same deathmatch mode and map.  To customise the game mode and map, bring down the console and type:
+                </para>
+                <screen>
+<command>deathmatch</command> <replaceable>mode</replaceable>
+                </screen>
+                <para>
+                    where <replaceable>mode</replaceable> is a number that corresponds to the variation on the weapon/item rules as described in the last chapter.  For example, if you wanted to play the most popular type of deathmatch, you'd specify number one.
+                </para>
+                <tip>
+                    <para>
+                        If you specify a zero in the above command, deathmatch mode is disabled.  This (coupled with <quote>maxclients 1</quote>) switches you into singleplayer mode.
+                    </para>
+                </tip>
+                <para>
+                    The above command simply tells the game that when you next start a map, you'll want to play it in deathmatch.  You now need to chose a map to play on.  In the full version of Quake (not shareware), there are 6 deathmatch maps.  They are named <quote>dm1</quote> to <quote>dm6</quote>.  AudioQuake provides a number of extra maps.  Use the <quote>map</quote> console command to load one of them (just as with single-player).
+                </para>
+                <screen>
+<command>map</command> agdm01
+                </screen>
+                <para>
+                    When you're in the map, you will notice that there is not much going on.  To create (<quote>spawn</quote>) a bot, press the comma or dot key on your keyboard.  An enemy will be provided for you to play with.  When either of you is fragged, you'll <quote>respawn</quote> at a random teleporter in the map, ready to resume the game &ndash; but with a slightly decreased frag count (your score).
+                </para>
+                <para>
+                    Please note that the bots act like players; they use all the weapons and navigate the map on their own.  In other words, they're tough!
+                </para>
+                <note>
+                    <para>
+                        You <emphasis>can</emphasis> play deathmatch and other multiplayer gametypes on the singleplayer maps but it is not as fun due to them only having one spawnpoint and not looping back on themselves.  A deathmatch game is only as good as the <quote>flow</quote> from room to room in the map.
+                    </para>
+                </note>
+                <section>
+                    <title>Setting Frag and Time Limits</title>
+                    <para>
+                        It is possible to set limits as described in the previous chapter.  This section explains how to do this.
+                    </para>
+                    <warning>
+                        <para>
+                            You must type in the commands described here before you open the deathmatch map you want to play on, or they won't take effect.
+                        </para>
+                    </warning>
+                    <para>
+                        To set the fraglimit, simply enter the following command in the console:
+                    </para>
+                    <screen>
+<command>fraglimit</command> <replaceable>frags</replaceable>
+                    </screen>
+                    <para>
+                        where <replaceable>frags</replaceable> is the number of frags a player must get to win the match.  Set this depending on how many bots you expect to add.  A good general value is 20.  The time limit can be set similarly.  To set a 10-minute time limit, for example, you'd enter the following into the console:
+                        </para>
+                        <screen>
+<command>timelimit</command> 10
+                        </screen>
+                </section>
+            </section>
+            <section id="mmodes-offline-teamdm">
+                <title>Team Deathmatch</title>
+                <para>
+                    Team Deathmatch games are started in the same way as regular deathmatches and can have frag and time limits.  The previous section explains how to set these up.  The important thing to note about starting team deathmatches is that the teamplay mode must be set before you open the map and start spawning bots.  This can be achieved by using the simple <command>teamdm</command> console command.  As above, you can take more control over the game mode and may by setting them manually &ndash; for example:
+                </para>
+                <screen>
+<command>teamplay</command> 1
+                </screen>
+                <para>
+                    You can of course replace the number one above with the number corresponding to the teamplay rules you prefer (described in the previous chapter) or specify a zero to disable teamplay (useful when returning to a singleplayer game afterwards).
+                </para>
+                <para>
+                    Once you're in the game, you can spawn friendly bots with the comma key and enemy bots with the dot key.  You can also call bots to your aid with the forward slash key.  When they hear your call, they'll let you know and try to get to you.  If they make it, they'll let you know when they arrive, too.  When they get to your side, they'll start looking for enemies again.
+                </para>
+                <tip>
+                    <para>
+                        In team games, the ESR detects enemy players or bots, as it does in deathmatch.  It can also detect your team mates.  To help you distinguish between the two, it makes a different sound to represent team mates than it makes when it detects enemies.
+                    </para>
+                </tip>
+            </section> 
+            <section id="mmodes-offline-coop">
+                <title>Co-Op</title>
+                <para>
+                    You can start a basic co-op game in the start map using the <command>co</command> console command.  Once again, to get more control over the game, you can do things manually, as follows:
+                </para>
+                <screen>
+<command>deathmatch</command> 0
+<command>teamplay</command> <replaceable>mode</replaceable>
+<command>coop</command> 1
+                </screen>
+                <para>
+                    Deathmatch mode needs to be disabled to allow access to the co-op gametype.  The <command>coop</command> command toggles the game into co-operative mode and <replaceable>mode</replaceable> in the <command>teamplay</command> command signifies that you can, as with team deathmatch, choose which teamplay rules you'd like to use.  After the above commands have been entered, you can start the map you wish to play.  For example:
+                </para>
+                <screen>
+<command>map</command> e1m1
+                </screen>
+                <para>
+                    As with team deathmatch practice games, you can spawn friendly bots with the comma key and enemy bots with the dot key.  You can still call bots to your aid with the forward slash key.  When they hear your call, they'll let you know and try to get to you.  If they make it, they'll let you know when they arrive, too.  When they get to your side, they'll start looking for enemies again.
+                </para>
+                <tip>
+                    <para>
+                        As with deathmatch and team deathmatch games, the ESR can help you out in co-op mode too.  It will identify the nearest monster, enemy and team mate and will use a different type of sound for each.
+                    </para>
+                </tip>
+            </section>
+        </chapter>
+
+        <chapter id="mmodes-online">
+            <title>Playing Matches with other People</title>
+            <para>
+                Now you know how to play the various game modes and have had some practice with bots, you are ready to pit your skills against the world!  This chapter explains how you can play games against other humans over the Internet.
+            </para>
+            <section>
+                <title>Multiplayer Basics</title>
+                <para>
+                    When you play any of the gametypes (singleplayer or practice matches) mentioned above, it is your computer that controls all aspects of the game &ndash; from the generation of game sounds to the behaviour of the monsters or bots you're playing the game with.  When you play a game over the Internet, this isn't the case.  What happens is that your computer connects to another computer which acts as a <firstterm>server</firstterm>.  The server manages connections from all of the players and controls most game-related things (such as keeping track of players' scores and movements round a map).  Your computer still takes care of dealing with your input and playing back sounds, but it doesn't control the match being played in any way.
+                </para>
+                <para>
+                    So, to join an Internet game, you need to connect to a server that other people may also connect to.  There are many QuakeWorld servers out there but most don't provide the accessibility features that AudioQuake does.  You'll need to connect to a specific AudioQuake server in order to play the game.
+                </para>
+                <note>
+                    <para>
+                        We're hoping that AudioQuake will become popular enough that many people start running servers and many people start playing on these servers.  This will mean that, as with sighted games, you'll always be able to find some humans to game with.  It will, however, take time for such networks to spring up.  In the meantime, we've set up a couple of servers you can use, but please feel free (and encouraged) to set up your own servers for you and your friends!
+                    </para>
+                </note>
+            </section>
+            <section>
+                <title>Setting Your Player Information</title>
+                <para>
+                    When you install AudioQuake, your player name will be set to <quote>AGRIPUser</quote>.  Before you join a multiplayer game, it is a very good idea to change this to something else, so that your friends can recognise you (and so that everyone has a different name).
+                </para>
+                <para>
+                    To change your name, you can use the following console command:
+                </para>
+                <screen>
+<command>name</command> <replaceable>yourname</replaceable>
+                </screen>
+                <para>
+                    Most characters are acceptable in player names.  If you include any carets in your name, they won't be displayed as they are a signal to Quake that you want the next character in your name to be displayed with a highlight.
+                </para>
+                <para>
+                    If you're going to be playing a team deathmatch game, you'll probably want to give yourself a team (maybe the collective name that you and your friends play under, or perhaps a colour).  You can do this with the <command>team</command>, as described in the first chapter of this part.
+                </para>
+                <para>
+                    There are two other personalisations you can make regarding your appearance to others in multiplayer games.  These are the colour of your character's uniform within the game.  The console commands <command>topcolor</command> and <command>bottomcolor</command> can be used to change these.  We mention them here for completeness.
+                </para>
+                <para>
+                    Now you've made yourself a little more unique in the virtual world, it is time to join a game...
+                </para>
+            </section>
+            <section id="mmodes-online-joining">
+                <title>Joining a Game</title>
+                <para>
+                    We have set up a few game servers under the AGRIP banner (details can be found in an appendix), but you're certainly not restricted to playing AudioQuake on one of these &ndash; in fact, we encourage you to seek out other servers on the Internet to play on and/or to set up a server of your own.  This can be especially rewarding if you know a few people that you'd like to play the game with.  Anyone who sets up a server (covered later in the manual) can have it automatically advertised to every other AudioQuake player, via the AGRIP master server.  This keeps a list of all active AudioQuake game servers on the Internet.  By using a program that searches this list (known as a <firstterm>server browser</firstterm>), you can find a game to join.  As server admins are free to chose any gametype and selection of maps that their server runs, you should be able to find a match that suits your tastes.
+                </para>
+                <para>
+                    To search for games over the whole Internet, you can use either the AudioQuake Stats and Servers site, or a command-line program called <application>QStat</application>.  This is a very powerful, popular and accessible tool, which allows you fine control over your searches.  For more information on using <application>QStat</application>, visit it's web site at <ulink url="http://www.qstat.org/">http://www.qstat.org/</ulink>.  Information on the AudioQuake Stats and Servers web site can be found <link linkend="mmodes-statsnservers">in the next chapter</link>.
+                </para>
+                <para>
+                    When you've found a server to join, you can connect to it from within AudioQuake by issuing the <command>connect</command> command, specifying the IP address or host name of the server.  For example, the following two commands both connect to the primary AGRIP server:
+                </para>
+                <screen>
+<command>connect</command> agrip.org.uk
+<command>connect</command> 195.137.71.106
+                </screen>
+                <para>
+                    Remember to seek out and join servers other than the official AGRIP ones, especially if they are geographically closer to you, as they'll offer better performance.  This will also encourage others to run third-party servers, thus spreading the AudioQuake work network.
+                </para>
+            </section>
+            <section>
+                <title>Chatting</title>
+                <para>
+                    When you're in the game, you may notice some additional messages being announced, other than the usual item/powerup-related ones.  These are chat messages that are being sent from one player to the other players on the server.  You can send a chat message too; in the console, issue:
+                </para>
+                <screen>
+<command>say</command> <replaceable>message</replaceable>
+                </screen>
+                <para>
+                    This will broadcast a message to all other players.  Your message can contain spaces and there is no requirement to surround it in quotes.  If you only want to send a message to your teammates (perhaps because it reveals where you are or some other tactical information), you can use the following command:
+                </para>
+                <screen>
+<command>say_team</command> <replaceable>message</replaceable>
+                </screen>
+                <warning>
+                    <para>
+                        Be nice to the other people on the server &ndash; if you're not, the server admin has the power to <firstterm>kick</firstterm> you from the game and ban you from reconnecting!
+                    </para>
+                </warning>
+                <section>
+                    <title>Chat History</title>
+                    <para>
+                        It's quite likely that, in the heat of battle, you'll miss some chat message uttered by other players.  The following keys can be used to havigate around the chat history whilst you play:
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                To move back through the history, from the newest to the olders message, press PAGE UP.  Your position in the list is remembered, even when new messages arrive.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                To move from older to newer messages, press PAGE DOWN.  Again, your position in the list is saved even when new messages come in.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                Pressing END mutes all speech and moves you to the newest message in the history.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                If you simply want to repeat the last message that came in, but don't want to lose your place in the history, press HOME.
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                </section>
+            </section>
+            <section>
+                <title>Playing the Game</title>
+                <para>
+                    There is not much to say specifically about this stage, other than have fun!  Try to be considerate of your teammates, if you're playing a team gametype.  If not, then friendly competition is always good!
+                </para>
+                <section>
+                    <title>Scores and Scoreboards</title>
+                    <para>
+                        To view the current scoreboard press the TAB key.  Players are listed from the leader down.  Scoring is relatively simple; you get one frag for each enemy you kill.  If you kill a team-mate or yourself, you lose a frag.
+                    </para>
+                    <para>
+                        The scorebaord will display different information based on what game mode you're playing in.  Team information, for example, is displayed in team deathmatch games.
+                    </para>
+                </section>
+                <section>
+                    <title>Online Statistics</title>
+                    <para>
+                        As you play games on any of the public servers, your progress is tracked and can be viewed relative to that of other players on the web.  Please read the section on the <link linkend="mmodes-statsnservers">AudioQuake Stats and Servers Site</link> for more information.
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title>Leaving a Game</title>
+                <para>
+                    There are three main ways to leave a game:
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Say bye to everyone and leave with the <command>disconnect</command> command.  This will remove you from the game in progress, returning you to the console.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Network problems may forcibly disconnect you from the server.  If this happens, you could try reconnecting with the <command>reconnect</command> command.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            You may have been kicked from the server because of unacceptable behaviour.  Leaving a game in this way is not recommended.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para>
+                    When you've left a game, you'll be back at the console.  From here you can quit AudioQuake, or start a new single or multiplayer game.
+                </para>
+            </section>
+        </chapter>
+
+        <chapter id="mmodes-statsnservers">
+            <title>AudioQuake Stats and Servers Website</title>
+            <para>
+                This chapter describes the web-based extension to AudioQuake; what it is, why it's here and how you can use it.
+            </para>
+            <section>
+                <title>What is it?</title>
+                <para>
+                    The Stats and Servers website is part of the online community surrounding AudioQuake.  As well as <ulink url="http://www.agrip.org.uk/CommunityResources">the community resources on the AGRIP Wiki</ulink>, the Stats and Servers site exists to help you get more out of the game.  By visiting the site, you can: 
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Track your progress as an AudioQuake player.  Examine the statistics gleaned from your recorded frags when playing the game.  These include your efficiency, kill ratio and overall rank.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Compare how you're doing to other players via the global ranking tables.  these list the top AudioQuake players in a number of orders and over varying timeframes.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Find Internet games using a web-based server browser (as opposed to using the command-line tool <ulink url="http://www.qstat.org/">QStat</ulink>).
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Quick Tour</title>
+                <para>
+                    When you visit the stats and servers site, you're presented with a number of choices on where to go.  The main page lists the sections you can visit, providing a brief description of each one.  The most important areas of the site fall under a few categories:
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            Pages containing global ranking tables, based on a number of criteria.  They may be frags, efficiency, overall ranking or time-based (e.g. frags for the current day or month).
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Detailed stats for each known AudioQuake player (accessed via global players list).
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            The active servers list.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Help and support in the form of a FAQ section.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para>
+                    You can skip to any section at any time by using the global navigation bar, which is present on most pages in the site.
+                </para>
+            </section>
+            <section>
+                <title>Getting Your Stats Included</title>
+                <para>
+                    To get your stats included, all you need to do is play on any of the public servers that advertise themselves as logging stats.  Most servers do this; some may not (because they're aimed at providing practice for new players, for example).
+                </para>
+            </section>
+        </chapter>
+
+        <chapter id="mmodes-serveradmin">
+            <title>Setting up and Running your own Server</title>
+            <para>
+                Running your own AudioQuake server allows total control over which maps, gametypes and rules you play.  It can also be a fun and rewarding thing to do.  If you would like to try setting up your own server, we recommend that you have a go &ndash; it will provide you with your ideal game setup and other AudioQuake players with an extra place to play (if you run a public server).
+            </para>
+            <section>
+                <title>Clients and Dedicated vs. Listen Servers</title>
+                <para>
+                    Quake is a <quote>client-server</quote> game.  This means that at any time, to play the game you need a client and a server.  The client is the program that the user interacts with, that outputs audio/video and captures input (to be used when moving the player or typing in the console).  The server runs the game itself.  It controls the environment (lifts, buttons) and items in it (powerups, monsters) and keeps track of scoring in multiplayer games.  If you're playing a singleplayer game or practice match on your own computer, the client and the server are both running on your computer.  If you're playing an Internet multiplayer game, the server could be hundreds of miles away.
+                </para>
+                <para>
+                    When setting up a server, the most fundamental decision is what type of server to set up.  Dedicated servers are programs that only perform the task of running the game.  They do not output any audio/video and don't allow you to play a game on them directly.  Listen servers, however, act as the singleplayer and offline game modes do &ndash; except that they allow connections from other players on the Internet.  From your point-of-view, this makes listen servers <quote>feel</quote> very similar to the on or offline games you've been accustomed to playing up until now.
+                </para>
+                <section>
+                    <title>Why Use Dedicated Servers?</title>
+                    <para>
+                        Though they may seem much more convenient and useful, it is generally seen as bad practice to run a listen server.  The main idea is that there is a delay involved for all players on a server (measured by their <quote>ping</quote> time).  This delay is introduced due to the fact that the player's input and output data has to be transmitted over the Internet to and from the server.  A player who is directly connected to a listen server has no delay and therefore the lowest ping time on that server.  This gives them a great advantage when playing the game.
+                    </para>
+                    <para>
+                        Most servers on the Internet are dedicated ones.  They try to be as fair as possible with respect to ping times by being remote from all players.  For this reason, we strongly recommend that you run a dedicated server if you can.  Even if you only have one computer or the server is on your local network (and therefore quick to access) we still recommend you run a dedicated server because it's the standard.  The instructions in this chapter will assume you're using a dedicated server but they will work similarly in listen mode.
+                    </para>
+                    <para>
+                        Another advantage to dedicated servers (which is most likely welcomed by anyone setting one up) is that they don't require terribly fancy computers to run on.  This is partly because they don't need to perform any rendering of audio/video data, which can take quite a lot of computing power.
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title>Public vs. Private and Stats Logging</title>
+                <para>
+                    This topic and many others is dealt with on the <ulink url='http://stats.agrip.org.uk/'>Stats and Servers site</ulink> (in the FAQ section) &ndash; be sure to check it out for the latest information.
+                </para>
+            </section>
+            <section>
+                <title>Interacting with the Server Directly</title>
+                <para>
+                    You can do all sorts of things with the server by interacting with its console when you start it.  Tasks such as setting the gametype and map, getting status and kicking players (as well as chatting to the players from outside) can be done via the server's console directly.  However, this is not always practical (you may be in the game yourself when you want to change the map, for example).  In this case, you can use the <quote>remote console</quote> admin feature.  It is beyond the scope of this manual to explain, but you can find out a lot about it and many other features by using the approach detailed in <xref linkend='ref-weblinks'/>.
+                </para>
+                <para>
+                    It is recommended that you run a dedicated server on Linux, using the <ulink url='http://www.gnu.org/software/screen/'>screen</ulink> program.  This allows you to safely detatch from the machine without stopping the server.  Furthermore, it is recommended that you copy the standard output of the server to a log file (this will help us fix bugs, should they arise).
+                </para>
+            </section>
+            <section>
+                <title>Configuring Your Server</title>
+                <para>
+                    It is very important that you configure your server properly before running it.  To do this you will need to edit the <filename>server.cfg</filename> file, which lives in the <filename>id1/</filename> subdirectory of your AudioQuake installation.  Please use a plain text editor on the file.  There are many comments in the file that explain how to set things up, so they will not be reiterated here.
+                </para>
+                <para>
+                    This section does, however, explain some of the more complex parts of the configuration.
+                </para>
+                <section id='modes-serveradmin-config-port'>
+                    <title>Port</title>
+                    <para>
+                        You may need your server to listen for incoming connections on a port other than the standard one (27500).  This could be because of restrictions on your network, for example.  To configure the server to listen on a particular port, you'll need to specify the port you want it to listen on on the command line.  The following is an example of setting the dedicated server to listen on port 4242.
+                    </para>
+                    <screen>
+<prompt>$</prompt> <command>zqds</command> <replaceable>[other options]</replaceable> <option>-port</option> <replaceable>4242</replaceable>
+                    </screen>
+                    <para>
+                        The port should show up in the Stats and Servers site, but it may be a good idea to remind your players to type in your server's address in the form <filename>hostname:port</filename> when they wish to connect to it.
+                    </para>
+                </section>
+                <section>
+                    <title>Map Cycles</title>
+                    <para>
+                        You can specify a list of maps in your config file so that the server is not always playing on the same level.  The server will move to the next map after each game is over.  By making this list circular (i.e. after the last map, we tell the server to start again) we can keep the rotation going.
+                    </para>
+                    <para>
+                        Here is an example of how you'd set up such a map cycle (or <quote>rotation</quote>) in <filename>server.cfg</filename>.  Say you have four maps; A, B, C and D.  You wish for them all to be used one after the other ad infinitum.  Here is what you'd put into the config file:
+                    </para>
+                    <programlisting>
+localinfo A B
+localinfo B C
+localinfo C D
+localinfo D A
+                    </programlisting>
+                    <note>
+                        <para>
+                            You can only specify two maps with each use of <command>localinfo</command> &ndash; you're effectively telling the game which map is next given the current one.
+                        </para>
+                    </note>
+                </section>
+            </section>
+            <section>
+                <title>Admin Tasks</title>
+                <para>
+                    You'll find yourself needing to carry out a number of tasks as an admin.  To get the best information on how to do these jobs, please consult <xref linkend='ref-weblinks'/>.  Also, please join the mailing list for server admins.  We use it to provide a lot of useful information and arrange regular matches.
+                </para>
+            </section>
+        </chapter>
+    </part>
+
+    <part id='maps'>
+        <title>Maps</title>
+        <para>
+            There are quite a few maps supplied with AudioQuake that are extra to those that the shareware and registered versions of Quake provide.  This part describes them.  The description of the tutorial maps has been left a surprise.
+        </para>
+        <chapter id='maps-dm'>
+            <title>Deathmatch/Team Deathmatch Maps</title>
+            <para>
+                The AGRIP deathmatch maps all begin with <quote>agdm</quote>, then have a number.  Some of them end with a letter &ndash; <quote>t</quote> indicates the map is a 1on1 arena and <quote>l</quote> indicates a large map.
+            </para>
+            <section>
+                <title>agdm01: The Melee</title>
+                <para>
+                    This is a simple map with a large central rectangular room surrounded by a corridor.  There is a door on each side of the central room into this corridor (these doors are at one or other extreme of each side; not in the middle).  Opposite the middle of each side of the central room, across the corridor, are short corridors with spawnpoints at the ends.  You therefore begin the game facing a side of the large central room.
+                </para>
+            </section>
+            <section>
+                <title>agdm01t: The Melee &ndash; 1on1 Edition</title>
+                <para>
+                    This map is as above, but has been adapted for two-player <quote>tournament</quote> games by cutting the number of doors onto the central room, and the number of spawnpoints, from 4 to 2.
+                </para>
+            </section>
+            <section>
+                <title>agdm02: Halls of Retribution</title>
+                <para>
+                    A large building with 4 levels.  There are stairs between each level that announce the level number you're leaving/arriving at.  Some levels have obstacles in them such as crates that are used to hide weapons, ammo and other goodies.  The bottom and top levels contain teleporters that increase flow.
+                </para>
+                <para>
+                    The stairs are round the edge of each floor and are arranged such that when you have gone up one set of stairs, you can follow the side of the floor you're around to find the next set.
+                </para>
+            </section>
+            <section>
+                <title>agdm02l: Halls of Retribution &ndash; Warring Factions Remix</title>
+                <para>
+                    As in the previous level, but there are two buildings with four floors.  This may one day make an excellent <quote>Capture The Flag</quote> map!
+                </para>
+            </section>
+        </chapter>
+    </part>
+
+    <part id="customising">
+        <title>Customising AudioQuake</title>
+        <para>
+            As has been touched on before, you are strongly encouraged to tailor the way AudioQuake works to suit your own taste and level of sight.  Here are examples of the types of thing you can customise in the game:
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Navigation aid and EtherScan RADAR detection ranges.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Detector 5000 detection interval.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    How far the player turns (angle-wise) per press of the left and right arrow keys.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    The keys you press to use any of the navigation aids/devices.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    How the spoken interface works &ndash; changing voices or using hardware synthesisers or Braille displays.
+                </para>
+            </listitem>
+        </itemizedlist>
+        <para>
+            In this part, you'll learn how to change settings such as these and more.
+        </para>
+
+        <chapter id="customising-easy">
+            <title>Menu&ndash;Based Customisation with the Launcher</title>
+            <para>
+                The game launcher provides a few important features for customising the accessibility-related features of the game.  Using the menu items of the launcher, you can:
+            </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        Examine and edit your keybindings.  These are the settings that determine which keys activate which game features or player actions (e.g. toggling the D5k or firing your weapon).
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Adjust options such as which devices are activated when you enter the game, which sub-features of the devices are enabled by default, sound volume levels and detection distances.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <para>
+                Instructions are provided by the launcher on how to make use of these features and change/review your settings.
+            </para>
+            <tip>
+                <para>
+                    If you're an advanced user, you might like to edit the configuration files directly.  They are all commented to explain how things work.  Read the next section for details.
+                </para>
+            </tip>
+        </chapter>
+
+        <chapter id="customising-autoexec">
+            <title><filename>autoexec.cfg</filename></title>
+            <para>
+                If you're an advanced user, or are thinking of setting up a server, you'll not be a stranger to editing text files and may find doing so to be more productive than using the menu as described in the previous chapter.
+            </para>
+            <para>
+                As part of the start-up procedure, the game looks for user settings in a number of files.  <filename>autoexec.cfg</filename> is one of these files.  By convention, it is the place where all AudioQuake-specific settings are kept.  As the game starts, it reads this file and acts on the commands found in it.
+            </para>
+            <tip>
+                <para>
+                    There is another file, called <filename>config.cfg</filename> that is also read.  This contains general Quake settings.  The curious may want to read this file too, but it is beyond the scope of this book.
+                </para>
+            </tip>
+            <para>
+                You can customise the way AudioQuake behaves by editing the file <filename>autoexec.cfg</filename>.  This file can be found in your <filename>~/.zquake/AudioQuake/</filename> directory on Linux, or the <filename>AudioQuake</filename> folder where you installed AudioQuake if you're using Windows (if you used the default, that would make it <filename>C:\Program Files\AudioQuake\autoexec.cfg</filename>).
+            </para>
+            <para>
+                The file has a number of sections and has many comments in it to explain what each individual setting actually does.  This part of the book will not repeat what is written in the file, but gives a general overview of what each section of the file is for.
+            </para>
+            <tip>
+                <para>
+                    To edit the file, you need to use a plain-text editor.  Vim, Emacs, Nano or Notepad will do the job.
+                </para>
+            </tip>
+            <section id="customising-autoexec-objtog">
+                <title>Object Toggle Settings</title>
+                <para>
+                    This section controls which objects and which features of these objects, are to be activated when the game starts.
+                </para>
+                <para>
+                    If you use the toggle keys to turn things on/off and then complete a map, the settings you had at the end of the last one will be carried on to the new map.
+                </para>
+            </section>
+            <section id="customising-autoexec-det">
+                <title>Detection Settings</title>
+                <para>
+                    This part of the file allows you to configure things like the detection distance, ESR and D5k field of view and if they are to make sounds when an item or enemy is outside of your field of view.  You can specify the default player turning angle here, too (this is the angle the player turns when you press the left or right arrow key).
+                </para>
+            </section>
+            <section id="customising-autoexec-vol">
+                <title>Sound Volume Settings</title>
+                <para>
+                    Here you can control how loud various sounds AudioQuake makes actually are.  They act as <quote>throttles</quote> that AudioQuake will apply before it makes sounds.  You can control the volume of all of the AudioQuake objects.
+                </para>
+            </section>
+            <section id="customising-autoexec-bindings">
+                <title>Key Bindings</title>
+                <para>
+                    Key bindings just tell the game what you want to happen when you press a certain key on the keyboard.  This section allows you to redefine which keys cause which things to happen in the game (such as toggling devices on/off or using the compass).
+                </para>
+                <para>
+                    Bindings work by specifying a key and then the command that key is meant to activate.  In Quake, these commands can be quite cryptic so we have added <quote>aliases</quote> for them.  These aliases are much more readable names for the in-game commands and should make configuring AudioQuake much easier for you.
+                </para>
+            </section>
+            <section id="customising-autoexec-aliases">
+                <title>Aliases</title>
+                <para>
+                    As mentioned above, aliases exist to provide human-readable equivalents to the commands Quake actually uses.  You don't need to edit this section &ndash; it is maintained by us for each release.  It only exists to make configuration easier.
+                </para>
+            </section>
+        </chapter>
+
+        <chapter id="customising-launcher">
+            <title>The Launcher &ndash; Alternative Speech/Braille Settings</title>
+            <para>
+                Customising the launcher itself is not hard to do and allows you to make big changes to how the interface of AudioQuake works.  Read on for more information.
+            </para>
+            <section id="customising-launcher-sapivoice">
+                <title>Changing the Default SAPI Voice</title>
+                <para>
+                    This is not strictly customising the launcher, but does have a great effect on how AudioQuake sounds if you're using the SAPI interface.  Your default voice is set in the <quote>Speech</quote> Control Panel applet and it is this voice that the SAPI interface uses to talk to you.  Here are the steps you would need to follow to change the default voice:
+                </para>
+                <procedure>
+                    <step>
+                        <para>
+                            Get to the Control Panel (<constant>Start</constant>, <constant>Settings</constant>, <constant>Control Panel</constant>).
+                        </para>
+                    </step>
+                    <step>
+                        <para>
+                            Open the <quote>Speech</quote> icon to start the Speech Control Panel applet.
+                        </para>
+                    </step>
+                    <step>
+                        <para>
+                            When the applet opens, you'll be on the first of three tabs (<quote>Speech Recognition</quote>).  The option for the default voice is on the second tab, <quote>Text To Speech</quote>.  Move to the second tab and then down through the controls.  Quite soon, you'll get to a section labelled <quote>Voice Selection</quote>.  There is a drop-down list here that allows you to chose the default voice.  We recommend either Mary or Mike.
+                        </para>
+                    </step>
+                    <step>
+                        <para>
+                            To save your changes, move to the <constant>OK</constant> button and activate it.
+                        </para>
+                    </step>
+                    <step>
+                        <para>
+                            You can now close the Control Panel.  Your new choice of default voice will be used when you next start the AudioQuake launcher.
+                        </para>
+                    </step>
+                </procedure>
+            </section>
+            <section id="customising-launcher-editing">
+                <title>Editing Launcher Options</title>
+                <para>
+                    The next sections in this chapter cover options you set inside the launcher itself.  This section explains the general procedure for editing launcher settings.
+                </para>
+                <para>
+                    The launcher is actually a plain text file and can be easily edited with your favourite text editor (such as vim or notepad).  In this file, there are a number of lines you can edit to change the way speech output works.  They've been grouped together into a configuration section.  At the time of writing, this section starts on line 46 of the <filename>start.pl</filename> file (there are comments in the file that explain where it starts and ends).
+                </para>
+                <section id="customising-launcher-editing-variables">
+                    <title>What to Configure</title>
+                    <para>
+                        There are a number of settings (<quote>variables</quote>) you can configure.  For example, if you want to change from using the SAPI interface to using a hardware synthesiser and you're running Windows, you'd change the line:
+                    </para>
+                    <programlisting>
+my $win32_talker = '|ag_say.exe';
+                    </programlisting>
+                    <para>
+                        To something more like this:
+                    </para>
+                    <programlisting>
+my $win32_talker = '>COM1:';
+                    </programlisting>
+                    <note>
+                        <para>
+                            When you're changing a variable, only edit what lies between the two single or double quotes on that line of the script.
+                        </para>
+                    </note>
+                    <para>
+                        Please read on for more specific information about changing to a hardware speech synthesiser; this was just an example.
+                    </para>
+                    <tip>
+                        <para>
+                            There are a lot of comments in the file (lines beginning with a hash) that explain the meaning of these variables and give suggestions of how you might like to alter them.
+                        </para>
+                    </tip>
+                </section>
+                <section id="customising-launcher-editing-nix">
+                    <title>Linux and Windows Differences</title>
+                    <para>
+                        The <command>start.pl</command> program is the same on Linux and Windows.  Some configuration variables only take effect on either of the two systems.
+                    </para>
+                    <para>
+                        If you're running Linux, you can ignore all variables that have <quote>win32</quote> in their names &ndash; you need to edit variables with <quote>nix</quote> in their names.
+                    </para>
+                    <para>
+                        Likewise, if you're running Windows, you need to edit only the variables with <quote>win32</quote> in their names and can safely ignore variables with <quote>nix</quote> in their names.
+                    </para>
+                </section>
+            </section>
+            <section id="customising-launcher-software">
+                <title>Using a Different Software Synthesiser</title>
+                <para>
+                    If you're using Linux, you might want to customise which software synthesiser AudioQuake should use.  Do this by editing the <quote>$nix_talker</quote> variable.  Examples of possible TTS engines are given in the script.
+                </para>
+                <para>
+                    It is not expected that Windows users would need to use a different TTS program but it is as simple as altering the <quote>$win32_talker</quote> variable.
+                </para>
+                <note>
+                    <para>
+                        Remember that if you're using a software synthesiser, you'll want to put the pipe (<quote>|</quote>) character before the first letter of the path to the program.  This instructs the AudioQuake launcher to send data to the program in the correct way.
+                    </para>
+                </note>
+            </section>
+            <section id="customising-launcher-hardware">
+                <title>Using a Hardware Speech Synthesiser or Braille Display</title>
+                <para>
+                    If you have a hardware speech synthesiser or Braille display attached to your computer's serial port, you can set up the launcher to work with it instead of the SAPI interface.
+                </para>
+                <para>
+                    To set up a serial speech synthesiser or Braille display, you will need to change the following variables:
+                </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            If you're on Linux, change the <quote>$nix_talker</quote> variable to <quote>>/dev/ttyS0</quote> (or ttyS1 if the device is attached to your second serial port).
+                        </para>
+                        <para>
+                            If you're running Windows, change the <quote>$win32_talker</quote> variable to <quote>>COM1</quote> (or COM2 if the device is attached to your second serial port).
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Modify the <quote>$nix_init_command</quote> or <quote>$win32_init_command</quote> variable accordingly.  These variables are used to set up the serial port so that it sends data to the device in the right format.
+                        </para>
+                        <para>
+                            Examples of commands you could put into these variables are given in the file and in most cases a simple copy and paste should be all that's required to get things going.  If it's not working, consult the device's manual.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Modify the <quote>$init_string</quote> variable if necessary.  Some synthesisers require a message to be sent to them before they can start talking (to set up the voice, for example).  This variable contains that message.  Not all devices require this, so you might not need to alter it.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            You'll probably want to change the <quote>$high_priority_prefix</quote> variable too.  This is the data that is sent to the device just before a message of high importance.  The reason for having this feature is so that we can force the device to stop speaking what it was saying and say an important message straight away.
+                        </para>
+                        <para>
+                            Again, details on what you'll probably want to change this variable to can be found in the <filename>start.pl</filename> script.
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section id="customising-launcher-otheropts">
+                <title>Other Options</title>
+                <para>
+                    Currently there is only one other launcher option.  This controls if the launcher prints out anything on the console/screen it was started from.  It's on by default.
+                </para>
+                <para>
+                    The variable is called <quote>$print_to_stdout_flag</quote> and there are comments below it that explain why you may or may not want to alter it.
+                </para>
+            </section>
+        </chapter>
+    </part>
+
+    <part id="reference">
+        <title>Reference Information</title>
+        <para>
+            This part of the manual provides detailed technical and summary information that can be used by players to refer back to various important points, without having to read through the main text again.
+        </para>
+
+        <appendix id="ref-sounds">
+            <title>Key to the AudioQuake Sounds</title>
+            <para>
+                This appendix is a list of the sounds AudioQuake uses to tell you what's going on.  It contains links to the sounds and descriptions of them.  Additionally, it gives you an example or two of when you'll hear the sounds.
+            </para>
+            <para>
+                Depending on how your browser is set up, you should be able to listen to these sounds quite easily whilst reading the book (tell your browser to open them with a program that can play WAVE files and also tell it to do this automatically for all WAVE files).
+            </para>
+            <note>
+                <para>
+                    Many in-game events are spoken to you so you won't find them included in this list.  Also, some of the sounds we use are in the Quake data files and as such cannot be included here because we don't own the copyright on the Quake data.
+                </para>
+            </note>
+            <section id="ref-sounds-toggles">
+                <title>Toggle Sounds</title>
+                <para>
+                    This section explains the meaning of the various toggle sounds used in the game.
+                </para>
+                <informaltable>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><ulink url="../id1/sound/toggles/on.wav">On</ulink></entry>
+                                <entry>The generic <quote>item is activated</quote> sound.</entry>
+                                <entry>Played when any device (for example the ESR, D5k or side hazard detection) is turned on.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/toggles/off.wav">Off</ulink></entry>
+                                <entry>The generic <quote>item has been de-activated</quote> sound.</entry>
+                                <entry>Played when any device (for example the ESR, D5k or side hazard detection) is turned off.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/toggles/mode.wav">Mode switch</ulink></entry>
+                                <entry>Used to indicate when a multi-mode device switches to another mode.</entry>
+                                <entry>Played when the ESR switches from mode 1 to mode 2 or back from mode 2 to mode 1.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section id="ref-sounds-nav">
+                <title>Navigation Sounds</title>
+                <para>
+                    This section explains the meaning of the sounds that the navigation helper makes.
+                </para>
+                <table>
+                    <title>Structures</title>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><ulink url="../id1/sound/nav/wall.wav">Wall</ulink></entry>
+                                <entry>Sound indicating a wall has been detected.</entry>
+                                <entry>Played when there is a wall near you (at a volume proportional to your distance from it).  Walls are <quote>sounded</quote> at half the volume of stairs and doors (to stop them getting in the way).</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/nav/slope.wav">Slope</ulink></entry>
+                                <entry>Sound indicating a up or downwards slope (or set of stairs) has been detected.</entry>
+                                <entry>Played when there is a slope near you (at a volume proportional to your distance from it).</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/nav/door.wav">Door</ulink></entry>
+                                <entry>Sound indicating a door has been detected.</entry>
+                                <entry>Played when there is a door near you (at a volume proportional to your distance from it).</entry>
+                            </row>
+                            <row>
+                                <entry><!--<ulink url="../id1/sound/nav/wall-touch.wav">-->Touching a Wall (in Quake's sounds)</entry>
+                                <entry>This indicates you're stood right next to (touching) a wall.</entry>
+                                <entry>Played when you're touching a wall and have wall touch warnings enabled.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/nav/wall-scrape.wav">Scraping a Wall</ulink></entry>
+                                <entry>This indicates you're walking but a wall is in your way and you're scraping along it.</entry>
+                                <entry>Played when a wall is in your way but you are able to walk, sliding along it.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/nav/wind.wav">Wind</ulink></entry>
+                                <entry>This indicates that a lot of empty space can be found in a certain direction.</entry>
+                                <entry>Played when there is a large amount of empty space in a given direction from you (when a sweep has been initiated with the L key).</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+                <table>
+                    <title>Vertical Movement</title>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><ulink url="../id1/sound/nav/up.wav">Up</ulink></entry>
+                                <entry>This sound indicates you're going up in the world.</entry>
+                                <entry>Played when you go up stairs, slopes or on lifts.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/nav/down.wav">Down</ulink></entry>
+                                <entry>This sound indicates you're going down in the world.</entry>
+                                <entry>Played when you go down stairs, slopes or on lifts.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+                <table>
+                    <title>Hazard (Drop/Ledge) Warnings</title>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><ulink url="../id1/sound/haz/drop-small.wav">Small drop</ulink></entry>
+                                <entry>Indicates a small drop.</entry>
+                                <entry>Played when a small drop is detected near you (and hazard warnings and/or side hazard warnings are turned on).</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/haz/drop-big.wav">Big drop</ulink></entry>
+                                <entry>Indicates a big drop.</entry>
+                                <entry>Played when a big drop is detected near you (and hazard warnings and/or side hazard warnings are turned on).</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/haz/drop-huge.wav">Huge drop</ulink></entry>
+                                <entry>Indicates a huge drop.</entry>
+                                <entry>Played when a huge drop is detected near you (and hazard warnings and/or side hazard warnings are turned on).</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+                <section id="ref-sounds-nav-jumpdesc">
+                    <title>Jump Descriptions</title>
+                    <para>
+                        When you ask if you can make a jump, you'll either be told (via speech or Braille, depending on how you've set AudioQuake up) that you can make it with a normal jump or you'll need to do a running jump.
+                    </para>
+                    <para>
+                        If this information is not available (i.e. if there is no jump in front of you, or you're too far away from one), you'll hear this generic <ulink url="../id1/sound/deny.wav"><quote>access denied</quote></ulink>-type sound.
+                    </para>
+                    <para>
+                        You'll also hear the above sound if you ask for a description of what lies in the drop (ground, water, slime or lava) and there is no drop in front of you or you are too far away from one.
+                    </para>
+                </section>
+            </section>
+            <section id="ref-sounds-inav">
+                <title>Independent Navigation Aid Sounds</title>
+                <para>
+                    This section explains the meaning of sounds made by the independent navigation aids.
+                </para>
+                <table>
+                    <title>Waypoint Marker Sounds</title>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><ulink url="../id1/sound/nav/marker.wav">Marker homing signal</ulink></entry>
+                                <entry>Emanates from the marker's location.</entry>
+                                <entry>This lets you know where a marker is.  When you touch a marker, you'll be told which waypoint number it is (the number increases with every marker you add).</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/deny.wav">Denied</ulink></entry>
+                                <entry>Indicates that an action is not possible.</entry>
+                                <entry>This sound is used in a number of places to let you know that you can't do something.  In this case, it is played when you press the <quote>delete last marker</quote> key and there is no marker to delete.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+                <section id="ref-sounds-inav-compass">
+                    <title>Compass Sounds</title>
+                    <para>
+                        When you activate the compass, you will be told the name of the direction you're pointing in (or your bearing in degrees if the direction doesn't have a full name).
+                    </para>
+                </section>
+            </section>
+            <section id="ref-sounds-d5k">
+                <title>Detector 5000 Sounds</title>
+                <para>
+                    This section explains the meaning of the sounds the D5k makes.
+                </para>
+                <informaltable>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>(standard Quake sounds)</entry>
+                                <entry>The Quake <quote>item activation</quote> sounds (such as health, ammo, armour, weapon or power-up pickup sounds) are played to indicate what type of object has been detected.</entry>
+                                <entry>The sounds are played when you're near an object (at a volume proportional to your distance from it).</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/d5k/backpack.wav">Backpack</ulink></entry>
+                                <entry>A dropped backpack. (Quake didn't have a sound for these.)</entry>
+                                <entry>Played when a dropped backpack is near you.  Monsters drop them when they die (if they've not been exploded).</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/d5k/outside-fov.wav">Item is outside FOV</ulink></entry>
+                                <entry>Indicates that a D5k-detected item lies beyond your field of view.</entry>
+                                <entry>Played when the D5k detects an item outside of your FOV (at a volume proportional to your distance from it).</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section id="ref-sounds-weapons">
+                <title>Weapon Sounds</title>
+                <para>
+                    When you pick up a new weapon, or switch weapons, the name of the weapon you're using is announced.
+                </para>
+                <para>
+                    If you run out of ammo, you'll hear the <ulink url="../id1/sound/ammo-out.wav">ammo-out</ulink> sound.  You'll also hear this sound if you try to switch to a weapon that you possess but don't have any ammo for.
+                </para>
+                <para>
+                    If you try to use a weapon you don't yet possess, you'll hear this <ulink url="../id1/sound/deny.wav"><quote>access denied</quote></ulink> sound.
+                </para>
+            </section>
+
+            <section id="ref-sounds-esr">
+                <title>EtherScan RADAR Sounds</title>
+                <para>
+                    This section explains the meaning of the sounds that the ESR makes.
+                </para>
+                <table>
+                    <title>Monster Indication Sounds</title>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/monster-lower.wav">Monster on lower level</ulink></entry>
+                                <entry>Sound indicating that a monster is at a lower level (elevation) to the player.</entry>
+                                <entry>Played when a monster is detected and is on the lower level as the player.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/monster-same.wav">Monster on same level</ulink></entry>
+                                <entry>Sound indicating that a monster is at a similar level (elevation) to the player.</entry>
+                                <entry>Played when a monster is detected and is on the same level as the player.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/monster-higher.wav">Monster on higher level</ulink></entry>
+                                <entry>Sound indicating that a monster is at a higher level (elevation) to the player.</entry>
+                                <entry>Played when a monster is detected and is on the higher level as the player.</entry>
+                            </row>
+
+                        </tbody>
+                    </tgroup>
+                </table>
+                <table>
+                    <title>Enemy (Player or Bot) Indication Sounds</title>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/enemy-lower.wav">Enemy on lower level</ulink></entry>
+                                <entry>Sound indicating that a enemy is at a lower level (elevation) to the player.</entry>
+                                <entry>Played when a enemy is detected and is on the lower level as the player.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/enemy-same.wav">Enemy on same level</ulink></entry>
+                                <entry>Sound indicating that a enemy is at a similar level (elevation) to the player.</entry>
+                                <entry>Played when a enemy is detected and is on the same level as the player.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/enemy-higher.wav">Enemy on higher level</ulink></entry>
+                                <entry>Sound indicating that a enemy is at a higher level (elevation) to the player.</entry>
+                                <entry>Played when a enemy is detected and is on the higher level as the player.</entry>
+                            </row>
+
+                        </tbody>
+                    </tgroup>
+                </table>
+                <table>
+                    <title>Friend (Player or Bot) Indication Sounds</title>
+                    <tgroup cols="3">
+                        <thead>
+                            <row>
+                                <entry>Sound</entry>
+                                <entry>Description</entry>
+                                <entry>Played when...</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/friend-lower.wav">Friend on lower level</ulink></entry>
+                                <entry>Sound indicating that a friend is at a lower level (elevation) to the player.</entry>
+                                <entry>Played when a friend is detected and is on the lower level as the player.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/friend-same.wav">Friend on same level</ulink></entry>
+                                <entry>Sound indicating that a friend is at a similar level (elevation) to the player.</entry>
+                                <entry>Played when a friend is detected and is on the same level as the player.</entry>
+                            </row>
+                            <row>
+                                <entry><ulink url="../id1/sound/esr/friend-higher.wav">Friend on higher level</ulink></entry>
+                                <entry>Sound indicating that a friend is at a higher level (elevation) to the player.</entry>
+                                <entry>Played when a friend is detected and is on the higher level as the player.</entry>
+                            </row>
+
+                        </tbody>
+                    </tgroup>
+                </table>
+                <section id="ref-sounds-esr-haz">
+                    <title>Hazard Detection Mode</title>
+                    <para>
+                        When the ESR is in mode 2 (hazard detection), it makes a <ulink url="../id1/sound/esr/haz.wav"><quote>hazard detected</quote> sound</ulink> if there is a near-by hazard.
+                    </para>
+                </section>
+            </section>
+            <section id="ref-sounds-endlevel">
+                <title>End of Level</title>
+                <para>
+                    When you complete a map, you'll hear <ulink url="../id1/sound/endlevel.wav">this delightful little tune</ulink>.
+                </para>
+            </section>
+        </appendix>
+
+        <appendix id="ref-weblinks">
+            <title>Finding out More &ndash; The Web is Your Friend!</title>
+            <para>
+                If you wish to learn anything about Quake/QuakeWorld (the online version), the best place to look is the web.  The game is still very popular and you'll find all sorts out about console commands, server admininstration and fancy moves when playing.  A great set of starting points is:
+            </para>
+            <itemizedlist>
+                <listitem><para><ulink url='http://www.challenge-smackdown.com/qwguide/'>QuakeWorld for Freshies</ulink></para></listitem>
+                <listitem><para><ulink url='http://www.planetquake.com/console/commands/quakeworld_client.html'>QuakeWorld Client Console Commands</ulink></para></listitem>
+                <listitem><para><ulink url='http://www.planetquake.com/console/commands/quakeworld_server.html'>QuakeWorld Server Console Commands</ulink></para></listitem>
+            </itemizedlist>
+            <para>
+                Please visit our web site and/or contact us if you need any further information on, or help with, any aspect of AudioQuake. You can find our contact details on the web site:
+            </para>
+            <para>
+                <ulink url="http://www.agrip.org.uk/">http://www.agrip.org.uk/</ulink>
+            </para>
+            <para>
+                Remember that that latest version of the manual can always be found at:
+            </para>
+            <para>
+                <ulink url="http://docs.agrip.org.uk/">http://docs.agrip.org.uk/</ulink>
+            </para>
+            <para>
+                If you have any suggestions or queries relating to any aspect of the game, the documentation or the web site, please contact us via the addresses listed on the following page:
+            </para>
+            <para>
+                <ulink url="http://www.agrip.org.uk/ContactUs">http://www.agrip.org.uk/ContactUs</ulink>
+            </para>
+        </appendix>
+
+        <appendix id="ref-installsrc">
+            <title>Installing AudioQuake from Source</title>
+            <para>
+                This appendix is primarily aimed at developers who wish to learn how AudioQuake works, contribute to the project or use it in their own works (remember that if you do this, you're bound by the GNU General Public Licence and must keep your code open).
+            </para>
+            <para>
+                The game can be installed from source on both Linux and Windows.  The following sections describe how this can be done.
+            </para>
+            <section id="ref-installsrc-linux">
+                <title>Installing from Source on Linux</title>
+                <para>
+                    To install from a source package on Linux, follow the procedure below:
+                </para>
+                <procedure>
+                    <step>
+                        <para>
+                            Extract the package you downloaded.  For example:
+                        </para>
+                        <screen>
+<prompt>$</prompt> <command>tar</command> <option>zxf</option> <filename>AudioQuake-0.3.0_linux-ppc.tar.gz</filename>
+                        </screen>
+                    </step>
+                    <step>
+                        <para>
+                            Change into this directory and run the <quote>setup</quote> program.  This will guide you through most of the installation process.
+                        </para>
+                        <screen>
+<prompt>$</prompt> <command>cd</command> <filename>AudioQuake-0.3.0_linux-ppc</filename>
+<prompt>$</prompt> <command>./setup</command>
+                        </screen>
+                        <para>
+                            The setup program will detect that you're using a source package and will inform you that you need to compile ZQuake and the QuakeC code in order to play the game.  This can be achieved by following the remaining steps in this procedure.
+                        </para>
+                    </step>
+                    <step>
+                        <para>
+                            You'll need to compile <quote>ZQCC</quote> &ndash; ZQuake's QuakeC compiler.  It can be found in the <filename>zquake-cvs/zqcc/</filename> directory in your extracted source package.  The program is written in C and compiling it is as simple as issuing the <command>make</command> command.
+                        </para>
+                        <para>
+                            Be sure to put the resultant <command>zqcc</command> binary somewhere on your path to make the next step more convenient.
+                        </para>
+                    </step>
+                    <step>
+                        <para>
+                            Once you've compiled <command>zqcc</command>, you can use it to compile the gamecode portion of AudioQuake.  This is a customised version of the original Quake gamecode, which adds a number of accessibility features (such as the EtherScan RADAR and Detector 5000).
+                        </para>
+                        <substeps>
+                            <step>
+                                <para>
+                                    Move into the <filename>zquake-cvs/qc/agrip/</filename> directory in your source package, then issue the following command:
+                                </para>
+                                <screen>
+<prompt>$</prompt> <command>zqcc</command> <option>-progs</option> <filename>progs.src</filename>
+                                </screen>
+                                <para>
+                                    This will produce the <filename>qwprogs.dat</filename> file, which is the gamecode for the multiplayer game modes.
+                                </para>
+                            </step>
+                            <step>
+                                <para>
+                                    You'll then need to issue the same command as above but specifying <filename>spprogs.dat</filename> instead of <filename>progs.src</filename>, which will generate the singleplayer gamecode.
+                                </para>
+                            </step>
+                            <step>
+                                <para>
+                                    Finally, move the two <quote>.dat</quote> files to the <filename>agrip/</filename> directory under your ZQuake installation directory (usually <filename>~/.zquake/</filename>).
+                                </para>
+                            </step>
+                        </substeps>
+                    </step>
+                    <step>
+                        <para>
+                            Finally, you can compile the ZQuake engine itself.  To do this, move into the <filename>zquake-cvs/zquake/</filename> directory within your extracted source package and issue the <command>make</command> command.  You'll be given help on what each of the make rules does.  This should help you decide which one to use to compile the engine.  For AudioQuake releases, we provide both the full game engine and a dedicated server binary.
+                        </para>
+                        <para>
+                            When compilation has finished, you can move the binary from the <filename>release-<replaceable>architecture</replaceable>/</filename> directory into your ZQuake installation directory (usually <filename>~/.zquake/</filename>).
+                        </para>
+                    </step>
+                </procedure>
+            </section>
+            <section id="ref-installsrc-windoze">
+                <title>Installing from Source on Windows</title>
+                <para>
+                    We recommend the use of <ulink url="http://www.mingw.org/">MinGW</ulink>, <ulink url="http://www.cs.virginia.edu/~lcc-win32/">LCC-Win32</ulink>, <ulink url="http://www.openwatcom.org/">Open Watcom</ulink> or Visual C++ for compilation of ZQuake/AudioQuake on Windows.  To install from a source package on Windows, follow the procedure below.  We'll assume you're using Visual C++ at some stages, but this shouldn't have too much of an impact on you if you're using some of the other systems.
+                </para>
+                <procedure>
+                    <step>
+                        <para>
+                            Extract the package you downloaded.  You can do this with any decent archiving utility (such as <ulink url="http://www.7-zip.org/">7-Zip</ulink>).  This extracted setup package will become your AudioQuake installation, so you might want to rename and move it so that it is convenient to get to.
+                        </para>
+                        <tip>
+                            <para>
+                                If you'd rather make your own binary setup packages from the source package, you can use <ulink url="http://www.jrsoftware.org/isinfo.php">Inno Setup</ulink> on the <filename>setup.iss</filename> file in this directory (after you've followed the rest of these steps.  Then you can use your own customised setup program to install AudioQuake (which will mean that you get the Start Menu shortcuts, too).
+                            </para>
+                        </tip>
+                    </step>
+                    <step>
+                        <para>
+                            You'll need to compile <quote>ZQCC</quote> &ndash; ZQuake's QuakeC compiler.  It can be found in the <filename>zquake-cvs/zqcc/</filename> directory in your extracted source package.  The program is written in C and can be compiled with your favourite C development system.
+                        </para>
+                        <para>
+                            Be sure to put the resultant <command>zqcc</command> binary somewhere on your path to make the next step more convenient.
+                        </para>
+                    </step>
+                    <step>
+                        <para>
+                            Once you've compiled <command>zqcc</command>, you can use it to compile the gamecode portion of AudioQuake.  This is a customised version of the original Quake gamecode, which adds a number of accessibility features (such as the EtherScan RADAR and Detector 5000).
+                        </para>
+                        <substeps>
+                            <step>
+                                <para>
+                                    Move into the <filename>zquake-cvs/qc/agrip/</filename> directory in your source package, then issue the following command:
+                                </para>
+                                <screen>
+<prompt>></prompt> <command>zqcc</command> <option>-progs</option> <filename>progs.src</filename>
+                                </screen>
+                                <para>
+                                    This will produce the <filename>qwprogs.dat</filename> file, which is the gamecode for the multiplayer game modes.
+                                </para>
+                            </step>
+                            <step>
+                                <para>
+                                    You'll then need to issue the same command as above but specifying <filename>spprogs.dat</filename> instead of <filename>progs.src</filename>, which will generate the singleplayer gamecode.
+                                </para>
+                            </step>
+                            <step>
+                                <para>
+                                    Finally, move the two <quote>.dat</quote> files to the <filename>agrip/</filename> directory under your extracted source package.
+                                </para>
+                            </step>
+                        </substeps>
+                    </step>
+                    <step>
+                        <para>
+                            Finally, you can compile the ZQuake engine itself.  To do this, move into the <filename>zquake-cvs/zquake/source/</filename> directory within your extracted source package.  There are a few steps involved in compiling ZQuake.  They're described below, with the assumption that you're using Visual C++.
+                        </para>
+                        <substeps>
+                            <step>
+                                <para>
+                                    Before you begin, you'll need to download the compile support tools from ZQuake's website.  They're needed for compiling the software (non-OpenGL) version of the engine.  They come in a ZIP file and need to be placed in the <filename>zquake-cvs/zquake/source/</filename> directory in your extracted source package directory.
+                                </para>
+                                <para>
+                                    The tools can be downloaded from <ulink url="http://zquake.frag.ru/eng/download/">ZQuake download page</ulink>.  They're in the <ulink url="http://zquake.frag.ru/files/mgl_redist.zip"><filename>mgl_redist.zip</filename></ulink> file.
+                                </para>
+                            </step>
+                            <step>
+                                <para>
+                                    Open <filename>zquake.dsw</filename> with Visual C++.  In the Project Settings dialog, make sure (on the <quote>C/C++</quote> tab) that you define a symbol called <quote>AGRIP</quote>.  This enables the AGRIP extensions to the engine during compilation.
+                                </para>
+                            </step>
+                            <step>
+                                <para>
+                                    In AudioQuake releases, we provide a full game engine and a dedicated server binary.  To compile the full game engine, make sure that <quote>zquake - Win32 Release</quote> is selected as the active project.  You can then choose to <quote>Build zquake.exe</quote>
+                                </para>
+                            </step>
+                            <step>
+                                <para>
+                                    You can then set <quote>zqds - Win32 Release</quote> as the active project and choose <quote>Build zqds.exe</quote> from the menu.
+                                </para>
+                            </step>
+                        </substeps>
+                    </step>
+                    <step>
+                        <para>
+                            When compilation has finished, you can move the binary from the <filename>release/</filename> directory created by your compiler into the extracted source package directory.  If you're using this extracted directory as your AudioQuake installation, you can now safely (re)move the <filename>zquake-cvs/</filename> directory from it.
+                        </para>
+                    </step>
+                </procedure>
+            </section>
+        </appendix>
+
+        <appendix id="ref-revhistory">
+            <title>Manual Revision History</title>
+            <revhistory>
+                <revision>
+                    <revnumber>0.3.0</revnumber>
+                    <date>Day N<superscript>th</superscript> December 2004</date>
+                    <revremark>
+                        A huge number of major updates and minor tweaks to reflect the move to ZQuake and new features introduced in the first milestone of AudioQuake.
+                    </revremark>
+                </revision>
+                <revision>
+                    <revnumber>0.2.1</revnumber>
+                    <date>Thursday 29<superscript>th</superscript> July 2004</date>
+                    <revremark>
+                        Updated for the name change and new features in 0.2.1.  Updated jumping and game save/loading instructions.  Removed Perl from the installation instructions (as it is now included in the setup package).
+                    </revremark>
+                </revision>
+                <revision>
+                    <revnumber>0.2.0</revnumber>
+                    <date>Monday 5<superscript>th</superscript> July 2004</date>
+                    <revremark>
+                        Added information on the new installer, speech integration and the tutorial maps, plus how to move on after exiting a level.  Removed redundant information, moved the info on how to extract registered data to the reference section.  A great deal of minor updates for 0.2.0.
+                    </revremark>
+                </revision>
+                <revision>
+                    <revnumber>0.1.0</revnumber>
+                    <date>Thursday 10<superscript>th</superscript> June 2004</date>
+                    <revremark>
+                        Added section on how to obtain and set up shareware Quake.  Added age limit information.  Also created the sounds reference section for beta.
+                    </revremark>
+                </revision>
+                <revision>
+                    <revnumber>0.0.2</revnumber>
+                    <date>Saturday 22<superscript>nd</superscript> May 2004</date>
+                    <revremark>
+                        Updated for the 0.0.4 release (now includes bots).
+                    </revremark>
+                </revision>
+                <revision>
+                    <revnumber>0.0.1</revnumber>
+                    <date>Tuesday 18<superscript>th</superscript> May 2004</date>
+                    <revremark>
+                        Initial version, written for AGRIP 0.0.4.
+                    </revremark>
+                </revision>
+            </revhistory>
+        </appendix>
+
+        &gnu-gpl;
+        &gnu-fdl;
+    </part>
+</book>

@@ -1,0 +1,12 @@
+ <map name='LDL Tutorial Map 11: Corridor Connectors' style='base'>
+    <room id='start'>
+        <item type='info_player_start' pos='c' />
+        <con wall='n' type='door' target='start2other' />
+    </room>
+    <room id='start2other' size='vsmall small big'>
+        <con wall='n' target='other' pos='t' elevtype='stairs' />
+    </room>
+    <room id='other'>
+        <item pos='c' type='weapon_rocketlauncher' />
+    </room>
+ </map>

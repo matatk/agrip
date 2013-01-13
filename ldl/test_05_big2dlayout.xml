@@ -1,0 +1,70 @@
+<map name='LDL Test: 2D Nested Layout' style='base'>
+	<room id='start' size='med' style='medieval'>
+		<item pos='c' type='info_player_start' />
+		<item pos='c' type='info_player_deathmatch' />
+		<item pos='s' type='weapon_rocketlauncher' />
+		<item pos='w' type='item_rockets' />
+		<item pos='e' type='item_rockets' />
+		<item pos='n' type='item_armor2' />
+		<con wall='n' size='med' target='start2north' />
+	</room>
+	<room id='start2north' size='small med small' />
+	<room id='north' size='huge' style='outsidelight'>
+		<con type='door' wall='s' size='med' target='start2north' />
+		<room id='north_inner_c' size='big' pos='c'>
+			<item pos='c' type='item_armorInv' />
+			<item pos='w' type='item_health' />
+			<item pos='e' type='item_health' />
+			<item pos='n' type='item_health' />
+			<item pos='s' type='item_health' />
+			<con type='door' wall='n' size='med' />
+			<con type='door' wall='s' size='med' />
+			<con type='door' wall='e' size='med' />
+			<con type='door' wall='w' size='med' />
+		</room>
+		<room id='north_inner_nw' size='big' pos='nw'>
+			<item pos='c' type='info_player_deathmatch' />
+			<item pos='w' type='item_cells' />
+			<item pos='e' type='item_health' />
+			<item pos='n' type='item_cells' />
+			<item pos='s' type='item_health' />
+			<con type='door' wall='n' size='med' />
+			<con type='door' wall='s' size='med' />
+			<con type='door' wall='e' size='med' />
+			<con type='door' wall='w' size='med' />
+		</room>
+		<room id='north_inner_ne' size='big' pos='ne'>
+			<item pos='c' type='weapon_nailgun' />
+			<item pos='w' type='item_spikes' />
+			<item pos='e' type='item_health' />
+			<item pos='n' type='item_spikes' />
+			<item pos='s' type='item_health' />
+			<con type='door' wall='n' size='med' />
+			<con type='door' wall='s' size='med' />
+			<con type='door' wall='e' size='med' />
+			<con type='door' wall='w' size='med' />
+		</room>
+		<room id='north_inner_sw' size='big' pos='sw'>
+			<item pos='c' type='weapon_lightning' />
+			<item pos='w' type='item_cells' />
+			<item pos='e' type='item_health' />
+			<item pos='n' type='item_cells' />
+			<item pos='s' type='item_health' />
+			<con type='door' wall='n' size='med' />
+			<con type='door' wall='s' size='med' />
+			<con type='door' wall='e' size='med' />
+			<con type='door' wall='w' size='med' />
+		</room>
+		<room id='north_inner_se' size='big' pos='se'>
+			<item pos='c' type='info_player_deathmatch' />
+			<item pos='w' type='item_cells' />
+			<item pos='e' type='item_health' />
+			<item pos='n' type='item_cells' />
+			<item pos='s' type='item_health' />
+			<con type='door' wall='n' size='med' />
+			<con type='door' wall='s' size='med' />
+			<con type='door' wall='e' size='med' />
+			<con type='door' wall='w' size='med' />
+		</room>
+	</room>
+</map>

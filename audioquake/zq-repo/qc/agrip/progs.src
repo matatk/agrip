@@ -1,0 +1,37 @@
+./qwprogs.dat
+
+../qw/defs.qc
+../qw/defs_ext.qc
+agrip_defs.qc // Accessibility definitions
+
+../qw/subs.qc
+../qw/combat.qc
+../qw/items.qc
+
+epi.qc      // AGRIP Auxiliary Player Information Object
+se.qc       // AGRIP Sound Entity
+misc.qc     // AGRIP Utility Functions
+nav.qc      // AGRIP Navigation Helper
+extnav.qc   // External navigation utilities
+d5k.qc      // AGRIP Detector 5000
+esr.qc      // AGRIP EtherScan RADAR
+marker.qc   // AGRIP Waypoint Marker
+hooks.qc    // Hook functions (moves accessibility code out of main QC)
+
+../qw/weapons.qc
+../qw/world.qc
+../qw/client.qc
+../qw/spectate.qc
+../qw/player.qc
+../qw/doors.qc
+../qw/buttons.qc
+../qw/triggers.qc
+../qw/plats.qc
+../qw/misc.qc
+../qw/server.qc
+../qw/commands.qc
+
+../qwsp/sp_defs.qc
+tutor_support.qc
+tutor.qc            // a bot that supports team dm
+                    // (coop suported via spprogs.dat)

@@ -1,0 +1,9 @@
+ <map name='LDL Tutorial Map 10: Advanced 3D Connections' style='base'>
+    <room id='start'>
+        <item pos='c' type='info_player_start' />
+        <con type='door' target='other' wall='n' pos='t' elevtype='stairs' />
+    </room>
+    <room id='other'>
+        <con target='start' wall='s' pos='t' elevtype='stairs' />
+    </room>
+ </map>

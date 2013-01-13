@@ -1,0 +1,114 @@
+#!/bin/bash
+echo "AudioQuake Mod Compilation Script"
+echo " - Compiles QC, creates up-to-date mod directory"
+echo "   and puts it in the ZQuake installation"
+echo
+
+. common.sh
+
+# Variables...
+D_BASE=`pwd`
+D_ZQ_DEV_BASE="$D_BASE/zq-repo"
+D_MOD="id1/"
+D_MOD_DEV="agrip-dev/" ; chk_dir $D_MOD_DEV
+D_QC="$D_ZQ_DEV_BASE/qc/agrip/" ; chk_dir $D_QC
+D_ZQCCS="$D_ZQ_DEV_BASE/zqcc" ; chk_dir $D_ZQCCS
+ZQCC="$D_ZQCCS/zqcc"
+F_MAPS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip"
+F_DEMOS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip"
+F_SKINS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/QlAYOO3MLl/devfiles/skins.zip"
+MSG="    I will download the default set of maps for AudioQuake."
+
+chk_cmd curl "downloading development resources"
+chk_cmd unzip "uncompressing downloaded map, demo and skin data"
+
+if [[ -d $D_MOD ]]; then
+    echo "Removing existing compiled $D_MOD tree..."
+    rm -rf $D_MOD
+fi
+
+echo "Creating compiled mod ($D_MOD) directory..."
+mkdir $D_MOD
+
+echo "Checking for ZQCC..."
+if [[ -x $ZQCC ]]; then
+    $ZQCC > /dev/null
+    if [[ $? == 126 ]]; then
+        echo "ZQCC was compiled for another architecture; removing..."
+        rm $ZQCC
+    fi
+fi
+if [[ ! -x $ZQCC ]]; then
+    echo "No ZQCC found; trying to make..."
+    cd $D_ZQCCS
+    make release > /dev/null 2> /dev/null
+    cd - > /dev/null
+fi
+if [[ ! -x $ZQCC ]]; then
+    echo "ZQCC Make failed -- perhaps you don't have a C++ compiler installed?"
+    echo "Go to $D_ZQCCS to try to fix the problem."
+    echo "Exiting..."
+    exit 42
+fi
+
+echo "Compiling QC code..."
+cd "$D_QC"
+$ZQCC -progs progs.src > /dev/null
+if [[ $? == "0" ]]; then
+    echo "    qwprogs.dat OK"
+else
+    echo "    qwprogs.dat FAILED; running zqcc again, verbosely..."
+    $ZQCC -progs progs.src
+    exit 42
+fi
+$ZQCC -progs spprogs.src > /dev/null
+if [[ $? == "0" ]]; then
+    echo "    spprogs.dat OK"
+else
+    echo "    spprogs.dat FAILED; running zqcc again, verbosely..."
+    $ZQCC -progs spprogs.src
+    exit 42
+fi
+cd - > /dev/null
+
+echo "Moving the .dat files to compiled mod directory ($D_MOD)..."
+mv $D_QC/*.dat "$D_MOD"
+
+echo "Copying dev mod directory's contents to compiled mod directory..."
+cp -r $D_MOD_DEV/* "$D_MOD/"
+
+echo Copying maps in...
+if [[ ! -d maps ]] || [[ ! -r maps/agdm01.bsp ]]; then
+    echo "    It appears you don't have any maps in this development tree;"
+    echo $MSG
+    echo "    Make sure you compile any maps you add and store them in the"
+    echo "    \`\`maps'' directory."
+    echo "    Downloading $F_MAPS..."
+    curl -O $F_MAPS && unzip maps.zip && rm maps.zip
+fi
+mkdir $D_MOD/maps
+cp maps/*.bsp $D_MOD/maps/
+
+echo Copying demos in...
+if [[ ! -d demos ]] || [[ ! -r demos/final2.dem ]]; then
+    echo "    It appears you don't have any demos in this development tree;"
+    echo $MSG
+    echo "    Make sure you compile any demos you add and store them in the"
+    echo "    \`\`demos'' directory."
+    echo "    Downloading $F_DEMOS..."
+    curl -O $F_DEMOS && unzip demos.zip && rm demos.zip
+fi
+cp demos/* $D_MOD/
+
+echo Copying base skin in...
+if [[ ! -d skins ]] || [[ ! -r skins/base.pcx ]]; then
+    echo "    It appears you don't have any skins in this development tree;"
+    echo $MSG
+    echo "    Make sure you compile any skins you add and store them in the"
+    echo "    \`\`skins'' directory."
+    echo "    Downloading $F_SKINS..."
+    curl -O $F_SKINS && unzip skins.zip && rm skins.zip
+fi
+cp -r skins/ $D_MOD/
+
+echo Compilation complete!

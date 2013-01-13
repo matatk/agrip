@@ -1,0 +1,7 @@
+ <map name='LDL Tutorial Map 05: Two Connected Rooms' style='base'>
+    <room id='start'>
+        <item type='info_player_start' pos='c' />
+        <con wall='n' target='other' type='door' />
+    </room>
+    <room id='other' />
+ </map>

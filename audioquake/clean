@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "AudioQuake Repository Cleanup Script"
+echo
+
+# Generated files
+rm -rf id1 AudioQuake.app
+
+# Support files
+rm maps/*bsp
+rm -rf skins demos
+
+# Engine
+cd zq-repo
+./agrip-cleanup
+
+echo Cleanup complete!

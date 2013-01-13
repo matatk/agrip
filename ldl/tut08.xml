@@ -1,0 +1,30 @@
+ <map name='LDL Tutorial Map 08: Simple Deathmatch Arena' style='medieval'>
+    <room id='central' size='large'>
+        <con wall='s' target='spawn_south' type='door' />
+        <con wall='n' target='spawn_north' type='door' />
+        <con wall='w' target='spawn_west' type='door' />
+        <con wall='e' target='spawn_east' type='door' />
+        <item pos='c' type='weapon_rocketlauncher' />
+        <item pos='n' type='item_armorInv' />
+        <item pos='s' type='item_armorInv' />
+        <item pos='w' type='item_health' />
+        <item pos='e' type='item_health' />
+    </room>
+    <room id='spawn_south'>
+        <item pos='c' type='info_player_start' />
+        <item pos='c' type='info_player_deathmatch' />
+        <item pos='n' type='item_rockets' />
+    </room>
+    <room id='spawn_north'>
+        <item pos='c' type='info_player_deathmatch' angle='s' />
+        <item pos='s' type='item_rockets' />
+    </room>
+    <room id='spawn_west'>
+        <item pos='c' type='info_player_deathmatch' angle='e' />
+        <item pos='e' type='item_rockets' />
+    </room>
+    <room id='spawn_east'>
+        <item pos='c' type='info_player_deathmatch' angle='w' />
+        <item pos='w' type='item_rockets' />
+    </room>
+ </map>

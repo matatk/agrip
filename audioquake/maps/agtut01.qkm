@@ -1,0 +1,392 @@
+QQRKSRC1
+// This file has been written by QuArK QuArK 6.4 alpha
+// It's the text version of file: agtut01.qkm
+
+{
+  Game = "Quake 1"
+  Root = "worldspawn:b"
+  worldspawn:b =
+  {
+    message = "AGRIP Tutorial 01: Your first steps"
+    c1:g =
+    {
+      info_player_start:e =
+      {
+        origin = "0 0 32"
+        angle = "90"
+      }
+      func_door:b =
+      {
+        angle = "-1"
+        sounds = "2"
+        message = "Go through here to exit the level..."
+        lip = ""
+        dmg = ""
+        speed = "300"
+        door:p =
+        {
+          east:f =
+          {
+            v = '80 792 64 80 920 64 80 792 192'
+            tex = "door03_3"
+            tv = '0 0 128 0 0 -128'
+          }
+          west:f =
+          {
+            v = '-80 792 64 -80 664 64 -80 792 192'
+            tex = "door03_3"
+            tv = '0 0 128 0 0 -128'
+          }
+          north:f =
+          {
+            v = '0 744 64 -128 744 64 0 744 192'
+            tex = "door03_3"
+            tv = '0 0 128 0 0 -128'
+          }
+          south:f =
+          {
+            v = '0 728 64 128 728 64 0 728 192'
+            tex = "door03_3"
+            tv = '0 0 128 0 0 -128'
+          }
+          up:f =
+          {
+            v = '0 792 112 128 792 112 0 920 112'
+            tex = "door03_3"
+            tv = '0 0 0 128 128 0'
+          }
+          down:f =
+          {
+            v = '0 792 8 128 792 8 0 664 8'
+            tex = "door03_3"
+            tv = '0 0 0 -128 -128 0'
+          }
+        }
+      }
+      ambient_drone:e =
+      {
+        origin = "0 960 64"
+      }
+      ambient_light_buzz:e =
+      {
+        origin = "80 320 96"
+      }
+      trigger_multiple:b =
+      {
+        origin = "0 0 0"
+        angle = "0"
+        message = "Walk through the door to find a slipgate."
+        wait = "2"
+        new cube:p =
+        {
+          east:f =
+          {
+            v = '88 448 8 88 576 8 88 448 136'
+            tex = "bricka2_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          west:f =
+          {
+            v = '-88 448 8 -88 320 8 -88 448 136'
+            tex = "bricka2_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          north:f =
+          {
+            v = '0 416 8 -128 416 8 0 416 136'
+            tex = "bricka2_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          south:f =
+          {
+            v = '0 408 8 128 408 8 0 408 136'
+            tex = "bricka2_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          up:f =
+          {
+            v = '0 448 64 128 448 64 0 576 64'
+            tex = "bricka2_2"
+            tv = '0 0 0 128 128 0'
+          }
+          down:f =
+          {
+            v = '0 448 8 128 448 8 0 320 8'
+            tex = "bricka2_2"
+            tv = '0 0 0 -128 -128 0'
+          }
+        }
+      }
+      info_intermission:e =
+      {
+        origin = "-64 768 64"
+        mangle = "0 60 0"
+      }
+      c:d =
+      {
+        macro = "hollow maker"
+        depth = "8"
+        poly:p =
+        {
+          east:f =
+          {
+            v = '96 -96 0 96 32 0 96 -96 128'
+            tex = "tech03_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          west:f =
+          {
+            v = '-96 -96 0 -96 -96 128 -96 32 0'
+            tex = "tech08_1"
+            tv = '0 0 -128 0 0 -128'
+          }
+          north:f =
+          {
+            v = '-96 736 0 -96 736 128 32 736 0'
+            tex = "tech02_2"
+            tv = '0 0 -128 0 0 -128'
+          }
+          south:f =
+          {
+            v = '-96 -96 0 32 -96 0 -96 -96 128'
+            tex = "tech06_2"
+            tv = '96 0 224 0 96 -128'
+          }
+          up:f =
+          {
+            v = '-96 -96 128 32 -96 128 -96 32 128'
+            tex = "tech01_5"
+            tv = '0 0 0 128 128 0'
+          }
+          down:f =
+          {
+            v = '-96 -96 0 -96 32 0 32 -96 0'
+            tex = "sfloor4_1"
+            tv = '0 0 0 -128 128 0'
+          }
+        }
+      }
+    }
+    Digger:d =
+    {
+      macro = "digger"
+      poly:p =
+      {
+        east:f =
+        {
+          v = '80 696 -8 80 824 -8 80 696 120'
+          tex = "tech02_2"
+          tv = '0 0 128 0 0 -128'
+        }
+        west:f =
+        {
+          v = '-80 696 -8 -80 696 120 -80 824 -8'
+          tex = "tech02_2"
+          tv = '0 0 -128 0 0 -128'
+        }
+        north:f =
+        {
+          v = '-88 744 -8 -88 744 120 40 744 -8'
+          tex = "tech02_2"
+          tv = '0 0 -128 0 0 -128'
+        }
+        south:f =
+        {
+          v = '-88 728 -8 40 728 -8 -88 728 120'
+          tex = "tech02_2"
+          tv = '0 0 128 0 0 -128'
+        }
+        up:f =
+        {
+          v = '-88 696 112 40 696 112 -88 824 112'
+          tex = "tech02_2"
+          tv = '0 0 0 128 128 0'
+        }
+        down:f =
+        {
+          v = '-88 696 8 -88 824 8 40 696 8'
+          tex = "sfloor4_1"
+          tv = '0 0 0 -128 128 0'
+        }
+      }
+    }
+    sr:g =
+    {
+      cube:p =
+      {
+        east:f =
+        {
+          v = '64 920 72 64 1048 72 64 920 200'
+          tex = "tech02_2"
+          tv = '0 0 128 0 0 -128'
+        }
+        west:f =
+        {
+          v = '-64 920 72 -64 920 200 -64 1048 72'
+          tex = "tech02_2"
+          tv = '0 0 -128 0 0 -128'
+        }
+        north:f =
+        {
+          v = '8 984 72 8 984 200 136 984 72'
+          tex = "tech02_2"
+          tv = '0 0 -128 0 0 -128'
+        }
+        south:f =
+        {
+          v = '8 920 72 136 920 72 8 920 200'
+          tex = "tech02_2"
+          tv = '0 0 128 0 0 -128'
+        }
+        up:f =
+        {
+          v = '8 920 16 136 920 16 8 1048 16'
+          tex = "+0slip"
+          tv = '0 -8 0 120 128 -8'
+        }
+        down:f =
+        {
+          v = '8 920 8 8 1048 8 136 920 8'
+          tex = "tech02_2"
+          tv = '0 0 0 -128 128 0'
+        }
+      }
+      trigger_changelevel:b =
+      {
+        origin = "0 0 24"
+        angle = "360"
+        map = "agtut02"
+        platform:p =
+        {
+          face:f =
+          {
+            v = '-64 856 24 -64 856 152 -64 984 24'
+            tex = "+0slip"
+            tv = '0 0 -128 0 0 -128'
+          }
+          face:f =
+          {
+            v = '64 856 24 64 984 24 64 856 152'
+            tex = "+0slip"
+            tv = '0 0 128 0 0 -128'
+          }
+          face:f =
+          {
+            v = '40 936 24 168 936 24 40 936 152'
+            tex = "+0slip"
+            tv = '0 0 128 0 0 -128'
+          }
+          face:f =
+          {
+            v = '40 984 24 40 984 152 168 984 24'
+            tex = "+0slip"
+            tv = '0 0 -128 0 0 -128'
+          }
+          face:f =
+          {
+            v = '40 856 16 40 984 16 168 856 16'
+            tex = "+0slip"
+            tv = '0 0 0 -128 128 0'
+          }
+          face:f =
+          {
+            v = '40 856 48 168 856 48 40 984 48'
+            tex = "+0slip"
+            tv = '0 0 0 128 128 0'
+          }
+        }
+      }
+      trigger_multiple:b =
+      {
+        origin = "0 0 0"
+        angle = "360"
+        message = "Step onto the platform to exit."
+        wait = "2"
+        new cube:p =
+        {
+          east:f =
+          {
+            v = '88 864 8 88 992 8 88 864 136'
+            tex = "bricka2_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          west:f =
+          {
+            v = '-88 864 8 -88 736 8 -88 864 136'
+            tex = "bricka2_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          north:f =
+          {
+            v = '0 832 8 -128 832 8 0 832 136'
+            tex = "bricka2_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          south:f =
+          {
+            v = '0 824 8 128 824 8 0 824 136'
+            tex = "bricka2_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          up:f =
+          {
+            v = '0 864 64 128 864 64 0 992 64'
+            tex = "bricka2_2"
+            tv = '0 0 0 128 128 0'
+          }
+          down:f =
+          {
+            v = '0 864 8 128 864 8 0 736 8'
+            tex = "bricka2_2"
+            tv = '0 0 0 -128 -128 0'
+          }
+        }
+      }
+      Wall Maker:d =
+      {
+        macro = "wall maker"
+        depth = "8"
+        miter = "1"
+        poly:p =
+        {
+          east:f =
+          {
+            v = '88 856 -8 88 984 -8 88 856 120'
+            tex = "tech08_1"
+            tv = '0 0 128 0 0 -128'
+          }
+          west:f =
+          {
+            v = '-88 856 -8 -88 856 120 -88 984 -8'
+            tex = "tech08_1"
+            tv = '0 0 -128 0 0 -128'
+          }
+          north:f =
+          {
+            v = '-88 984 -8 -88 984 120 40 984 -8'
+            tex = "tech08_1"
+            tv = '0 0 -128 0 0 -128'
+          }
+          south:f =
+          {
+            v = '-88 744 -8 40 744 -8 -88 744 120'
+            tex = "tech02_2"
+            tv = '0 0 128 0 0 -128'
+          }
+          up:f =
+          {
+            v = '-88 856 120 40 856 120 -88 984 120'
+            tex = "tech01_5"
+            tv = '0 0 0 128 128 0'
+          }
+          down:f =
+          {
+            v = '-88 856 8 -88 984 8 40 856 8'
+            tex = "sfloor4_1"
+            tv = '0 0 0 -128 128 0'
+          }
+        }
+      }
+    }
+  }
+}

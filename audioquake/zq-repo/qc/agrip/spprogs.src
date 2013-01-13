@@ -1,0 +1,56 @@
+./spprogs.dat
+
+../qw/defs.qc
+../qw/defs_ext.qc
+../qwsp/sp_defs.qc
+agrip_defs.qc // Accessibility definitions
+../qw/subs.qc
+../qwsp/sp_subs.qc
+../qwsp/fight.qc
+../qwsp/ai.qc
+../qw/combat.qc
+../qw/items.qc
+
+epi.qc      // AGRIP Auxiliary Player Information Object
+se.qc       // AGRIP Sound Entity
+misc.qc     // AGRIP Utility Functions
+nav.qc      // AGRIP Navigation Helper
+extnav.qc   // External navigation utilities
+d5k.qc      // AGRIP Detector 5000
+esr.qc      // AGRIP EtherScan RADAR
+marker.qc   // AGRIP Waypoint Marker
+hooks.qc    // Hook functions (moves accessibility code out of main QC)
+
+../qw/weapons.qc
+../qw/world.qc
+../qw/client.qc
+../qwsp/sp_client.qc
+../qw/spectate.qc
+../qw/player.qc
+../qwsp/monsters.qc
+../qw/doors.qc
+../qw/buttons.qc
+../qw/triggers.qc
+../qw/plats.qc
+../qw/misc.qc
+../qw/commands.qc
+../qwsp/sp_commands.qc
+
+../qwsp/ogre.qc
+../qwsp/demon.qc
+../qwsp/shambler.qc
+../qwsp/knight.qc
+../qwsp/soldier.qc
+../qwsp/wizard.qc
+../qwsp/dog.qc
+../qwsp/zombie.qc
+../qwsp/boss.qc
+
+../qwsp/tarbaby.qc		// registered
+../qwsp/hknight.qc		// registered
+../qwsp/fish.qc			// registered
+../qwsp/shalrath.qc		// registered
+../qwsp/enforcer.qc		// registered
+../qwsp/oldone.qc		// registered
+
+tutor.qc                        // a bot that supports coop

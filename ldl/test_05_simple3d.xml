@@ -1,0 +1,30 @@
+<map name='LDL Test: 3D Connections' style='base'>
+	<room id='start' size='big'>
+		<con wall='n' target='north' />
+		<con wall='s' target='south' />
+		<con wall='e' target='east' />
+		<con wall='w' target='west' />
+		<con wall='u' pos='tr' target='up' elevtype='none' />
+		<con wall='d' pos='sw' target='down' />
+	</room>
+	<room id='north'>
+		<item pos='c' type='weapon_supershotgun' />
+	</room>
+	<room id='south'>
+		<item pos='c' type='weapon_nailgun' />
+	</room>
+	<room id='east'>
+		<item pos='c' type='weapon_supernailgun' />
+	</room>
+	<room id='west'>
+		<item pos='c' type='weapon_grenadelauncher' />
+	</room>
+	<room id='up'>
+		<item pos='s' type='info_player_start' />
+		<item pos='c' type='weapon_rocketlauncher' />
+	</room>
+	<room id='down'>
+		<item pos='c' type='weapon_lightning' />
+		<con target='start' elevtype='none' />
+	</room>
+</map>

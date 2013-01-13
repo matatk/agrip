@@ -1,0 +1,107 @@
+// ZQuake keymap, version 3
+
+keymap_name "Default"
+keymap_version	3
+
+// keycode [ext] <scancode> <key> [<shifted key> [<altgr key>]]
+// a-z are converted to uppercase by default, for everything else you must
+// specify <shifted key>
+
+keycode		1	ESCAPE
+keycode		2	1	!
+keycode		3	2	@
+keycode		4	3	#
+keycode		5	4	$
+keycode		6	5	%
+keycode		7	6	^
+keycode		8	7	&
+keycode		9	8	*
+keycode		10	9	(
+keycode		11	0	)
+keycode		12	-	_
+keycode		13	=	+
+keycode		14	BACKSPACE
+keycode		15	TAB
+keycode		16	q
+keycode		17	w
+keycode		18	e
+keycode		19	r
+keycode		20	t
+keycode		21	y
+keycode		22	u
+keycode		23	i
+keycode		24	o
+keycode		25	p
+keycode		26	[	{
+keycode		27	]	}
+keycode		28	ENTER
+keycode	ext	28	KP_ENTER
+keycode		29	CTRL
+keycode		30	a
+keycode		31	s
+keycode		32	d
+keycode		33	f
+keycode		34	g
+keycode		35	h
+keycode		36	j
+keycode		37	k
+keycode		38	l
+keycode		39	;	:
+keycode		40	'	#34
+keycode		41	`	~
+keycode		42	SHIFT
+keycode		43	\	|
+keycode		44	z
+keycode		45	x
+keycode		46	c
+keycode		47	v
+keycode		48	b
+keycode		49	n
+keycode		50	m
+keycode		51	,	<
+keycode		52	.	>
+keycode		53	/	?
+keycode	ext	53	KP_SLASH
+keycode		54	SHIFT
+keycode		55	KP_STAR
+keycode		56	ALT
+keycode		57	SPACE
+keycode		58	CAPSLOCK
+keycode		59	F1
+keycode		60	F2
+keycode		61	F3
+keycode		62	F4
+keycode		63	F5
+keycode		64	F6
+keycode		65	F7
+keycode		66	F8
+keycode		67	F9
+keycode		68	F10
+keycode		69	PAUSE
+keycode	ext	69	NUMLOCK
+keycode		70	SCRLCK
+keycode		71	KP_HOME
+keycode	ext	71	HOME
+keycode		72	KP_UPARROW
+keycode	ext	72	UPARROW
+keycode		73	KP_PGUP
+keycode	ext	73	PGUP
+keycode		74	KP_MINUS
+keycode		75	KP_LEFTARROW
+keycode	ext	75	LEFTARROW
+keycode		76	KP_5
+keycode		77	KP_RIGHTARROW
+keycode	ext	77	RIGHTARROW
+keycode		78	KP_PLUS
+keycode		79	KP_END
+keycode	ext	79	END
+keycode		80	KP_DOWNARROW
+keycode	ext	80	DOWNARROW
+keycode		81	KP_PGDN
+keycode	ext	81	PGDN
+keycode		82	KP_INS
+keycode	ext	82	INS
+keycode		83	KP_DEL
+keycode	ext	83	DEL
+keycode		87	F11
+keycode		88	F12

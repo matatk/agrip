@@ -1,0 +1,42 @@
+./spprogs.dat
+
+../qw/defs.qc
+../qw/defs_ext.qc
+sp_defs.qc
+../qw/subs.qc
+sp_subs.qc
+fight.qc
+ai.qc
+../qw/combat.qc
+../qw/items.qc
+../qw/weapons.qc
+../qw/world.qc
+../qw/client.qc
+sp_client.qc
+../qw/spectate.qc
+../qw/player.qc
+monsters.qc
+../qw/doors.qc
+../qw/buttons.qc
+../qw/triggers.qc
+../qw/plats.qc
+../qw/misc.qc
+../qw/commands.qc
+sp_commands.qc
+
+ogre.qc
+demon.qc
+shambler.qc
+knight.qc
+soldier.qc
+wizard.qc
+dog.qc
+zombie.qc
+boss.qc
+
+tarbaby.qc		// registered
+hknight.qc		// registered
+fish.qc			// registered
+shalrath.qc		// registered
+enforcer.qc		// registered
+oldone.qc		// registered

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- This is a test map for LDL from The AGRIP Project. -->
+<map>
+  <info>
+	<property name='mapname' value='LDL Test' />
+	<property name='worldtype' value='medieval' />
+  </info>
+
+  <hollow id='toproom2-roomA' origin='1024 1268 256' extent='1024 128 128' style='medieval'>
+	<absentwalls>
+	  <absentwall value='e' />
+	  <absentwall value='w' />
+	</absentwalls>
+  </hollow>
+
+  <hollow id='room1-roomA' origin='1024 500 0' extent='1024 128 128' style='base'>
+	<absentwalls>
+	  <absentwall value='e' />
+	  <absentwall value='w' />
+	</absentwalls>
+  </hollow>
+
+  <hollow id='roomA-pit' origin='2500 1000 -92' extent='200 200 100' style='base'>
+	<absentwalls>
+	  <absentwall value='u' />
+	</absentwalls>
+	<solid origin='0 0 0' extent='184 184 84' texture='water3' />
+  </hollow>
+
+  <hollow id='roomA' origin='2048 300 0' extent='1024 2048 1024' style='base'>
+	<holes>
+	  <hole wall='w' origin='200 0' extent='112 112' type='door' />
+	  <hole wall='w' origin='968 256' extent='112 112' type='door' />
+	  <hole wall='d' origin='460 708' extent='184 184' />
+	</holes>
+	<solid origin='700 300 20' extent='200 200 200' texture='ground' holeface='n'>
+	  <hole origin='20 20' extent='80 80' type='door' />
+	</solid>
+	<builder origin='0 968 0' extent='500 112 256'>
+	  <shape type='stairs' stepheight='15' dir='w' />
+	</builder>
+  </hollow>
+
+  <hollow id='room1' origin='0 0 0' extent='1024 768 256' style='base'>
+	<holes>
+	  <hole wall='n' origin='50 50' extent='50 50' />
+	  <hole wall='n' origin='200 90' extent='50 70' />
+	  <hole wall='n' origin='200 0' extent='70 70' type='door' />
+	  <hole wall='n' origin='700 200' extent='100 30' />
+	  <hole wall='n' origin='800 0' extent='100 100' type='door' />
+	  <hole wall='u' origin='100 50' extent='200 200' />
+	  <hole wall='e' origin='500 0' extent='112 112' />
+	</holes>
+	<builder origin='0 100 0' extent='100 100 160' texture='ground'>
+	  <shape type='plat' position='d' />
+	</builder>
+	<hollow id='room1_inner' origin='100 100 10' extent='500 300 150' style='base'>
+	  <absentwalls>
+		<absentwall value='s' />
+	  </absentwalls>
+	  <holes>
+		<hole wall='n' origin='300 10' extent='70 80' />
+		<hole wall='n' origin='400 10' extent='70 80' type='door' />
+	  </holes>
+	  <entity>
+		<property name='classname' value='item_key1' />
+		<property name='origin' value='100 20 50' />
+	  </entity>
+	</hollow>
+	<entity>
+	  <property name='classname' value='info_player_start' />
+	  <property name='origin' value='800 600 50' />
+	  <property name='angle' value='90' />
+	</entity>
+  </hollow>
+
+  <hollow id='room2' origin='0 768 0' extent='1024 768 256' style='medieval'>
+	<holes>
+	  <hole wall='u' origin='100 50' extent='200 300' />
+	  <hole wall='s' origin='200 18' extent='800 220' />
+	</holes>
+	<solid origin='700 300 20' extent='200 200 200' texture='water1' holeface='n'>
+	  <hole origin='50 50' extent='100 100' type='door' key='silver' />
+	</solid>
+	<builder origin='100 50 0' extent='200 400 256' texture='ground'>
+	  <shape type='stairs' steplength='20' stepheight='15' dir='s' />
+	</builder>
+	<entity>
+	  <property name='classname' value='monster_army' />
+	  <property name='origin' value='500 500 150' />
+	</entity>
+	<entity>
+	  <property name='classname' value='item_health' />
+	  <property name='origin' value='400 600 50' />
+	</entity>
+	<entity>
+	  <property name='classname' value='weapon_lightning' />
+	  <property name='origin' value='700 600 50' />
+	</entity>
+	<entity>
+	  <property name='classname' value='info_player_deathmatch' />
+	  <property name='origin' value='600 600 50' />
+	  <property name='angle' value='90' />
+	</entity>
+  </hollow>
+
+  <hollow id='toproom1' origin='0 0 256' extent='1024 768 256' style='medieval'>
+	<holes>
+	  <hole wall='d' origin='100 50' extent='200 200' />
+	  <hole wall='n' origin='500 10' extent='200 200' />
+	</holes>
+	<hollow id='toproom1_inner' origin='350 256 26' extent='256 256 64' style='medieval'>
+	  <absentwalls>
+		<absentwall value='u' />
+	  </absentwalls>
+	  <holes>
+		<hole wall='s' origin='20 20' extent='40 20' />
+	  </holes>
+	  <entity>
+		<property name='classname' value='light_torch_small_walltorch' />
+		<property name='origin' value='10 10 10' />
+		<property name='light' value='700' />
+	  </entity>
+	</hollow>
+	<entity>
+	  <property name='classname' value='info_player_deathmatch' />
+	  <property name='origin' value='600 600 50' />
+	  <property name='angle' value='90' />
+	</entity>
+  </hollow>
+
+  <hollow id='toproom2' origin='0 768 256' extent='1024 768 256' style='base'>
+	<holes>
+	  <hole wall='d' origin='100 50' extent='200 300' />
+	  <hole wall='s' origin='500 10' extent='200 200' />
+	  <hole wall='e' origin='500 0' extent='112 112' />
+	</holes>
+	<entity>
+	  <property name='classname' value='info_player_deathmatch' />
+	  <property name='origin' value='600 600 50' />
+	  <property name='angle' value='90' />
+	</entity>
+  </hollow>
+</map>

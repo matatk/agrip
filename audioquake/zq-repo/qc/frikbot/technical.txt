@@ -1,0 +1,402 @@
+*** Foreword ***
+
+This is a technical examination of the Frikbot. It is not a definitive
+guide to how to use the bot, see the FBX manual for that. I hope to
+clear up any confusion as to how the bot works. I'm probably not going
+to be successful, but I'll try. 
+
+This document is not laid out very well at current, and I keep referring
+to future sections that may or may not exist. Over time, I hope to
+improve and homogonize the layout and more properly group the
+information contained herein.
+
+*** Basic Layout of the QC ***
+
+The bot comes as 9 qc files (As well as a half dozen waypoint qc files)
+for readability. It could easily be merged into one file (early frikbot
+revisions were done this way). The nine major files are:
+
+bot.qc: This contains a lot of misc functions with a wide variety of
+uses. The one and only thing they really have in common is their
+reliance on low level things that are dependant on this being Normal
+Quake. Most importantly is the all the "hook" functions that are
+directly called by the mod. In addition there's the bot's scoreboard
+functions.
+
+bot_qw.qc: The QuakeWorld equivalents to bot.qc. Some features can't be
+replicated at all due to QuakeWorld limitation, like the bot camera, so
+they are not mirrored in this file at all. I will only briefly mention
+the more significant differences between this file and bot.qc
+
+bot_ai.qc: This file contains the highest level of the bot's
+intelligence. He makes all his primary decisions here.
+
+bot_fight.qc: This contains combat ai and functions related to that
+purpose. The combat ai, although considered "a layer beneath" the main
+ai, actually just takes over pretty much entirely when the bot
+encounters an enemy. More on this later.
+
+bot_way.qc: This is an intermediate layer in the bot's functioning,
+below the main AI and above the movement. This is the traditional path
+finding layer. Also in this file are a few functions dealing with
+waypoints in general.
+
+bot_move.qc: This can be considered the lowest level of the bot's AI,
+after this we deal with bot_phys.qc pretty much directly. The general
+goal of this code is to make direct decisions on where and how the bot
+should move to reach his goal.
+
+bot_phys.qc: This file is a port of Quake engine physics, done prior to
+the Quake source release, and somewhat tweaked and redone. Some
+additional elements to properly simulate MOVETYPE_WALK are the most
+obvious changes.
+
+bot_misc.qc: This contains library functions used throughout the bot,
+and unimportant noncritcal details like chat and bot names.
+
+bot_ed.qc: This is the waypoint editor. I will not be covering this at
+all.
+
+*** Execution ***
+
+This section is a basic preliminary and will tell you the essentials of
+what gets called when. Because what gets called when is also very much
+the result of the physics, we'll hae somewhat of an overview of the
+Physics aswell.
+
+* BotInit
+
+BotInit first finds the maximum number of players using essentially the
+Alan Kivlin method of counting entities. Although technically speaking,
+the cvar sv_maxplayers could be read, this is not reliable. How this
+works is quite simple. Quake, by design, begins by spawning world then
+immediately spawns a bunch of blank entities. These blanks are
+placeholders for clients. the function nextent is able to find these
+blank entities, and by looping until we hit world again we can quickly
+and easily find out how many player slots the game spawned. This
+information is kept in the max_clients global.
+
+Following this, BotInit creates "fisents". The word fisent is the result
+of homophonic coding. (Using something that sounds like something, but
+is not spelled the same. In this case it's phys ent it's trying to sound
+like, which is in turn a shortened term for "physics entity". Why the
+bot has physics entities and what they're used for is complicated. But
+the basic idea is this: The Quake engine uses a function formerly called
+tracebox. It's like traceline but it's player sized, instead of point
+sized. Meaning if you shot it at a row of bars that aren't far enough
+apart for the play to get through, the tracebox wouldn't make it
+through. In fact, the very reason the player can't get through in the
+first place is because of tracebox (can't remember the proper engine
+name at current)'s use in the physics code.
+
+FrikBot gets around QC's lack of direct access to tracebox by using a
+MOVETYPE_FLY entity to achieve pretty much the same deal. It's flung at
+walls at high speeds to see where the bot will end up. To actually fling
+the bot itself around like this is impossible (for details I'll get into
+a little later), so physics entities for each bot must be made. Actually
+it makes one for every client slot and the reason for this and why it
+makes them now will be clear when I get more heavily into the physics
+discussion.
+
+BotInit also does a few other duties, it precaches some sprites needed
+for the editor mode, grabs some cvars that are used for the "saved bots"
+system, a way to make bots return between levels, it sets the waypoint
+flow control cvar (saved4) to 0, then exec's the appropriate way file
+for this level. It also called bot_map_load, which is a user fill in
+function at the top of the file for adding QC waypoint maps.
+
+* BotFrame
+
+Each frame Quake calls functions like this:
+
+StartFrame
+Player 0's PlayerPreThink
+Player 0's .think
+Player 0's PlayerPostThink
+Player 1's PlayerPreThink
+Player 1's .think
+Player 1's PlayerPostThink
+....
+entity 17's .think
+entity 18's .think
+entity 19's .think
+
+until it reaches the end of the entity list. Then, a little while after,
+a new StartFrame is called. If a player slot is empty, the corresponding
+PlayerPreThink, PostPostThink, and .think are not called and no physics
+at all are run. Even though the entity is spawned and by all other
+accounts a valid game entity. This key irregularity is what makes
+FrikBot work, actually. But as you can see by this list, StartFrame,
+called at the start of each game frame is really really important. Well,
+maybe why it's really really important is not clear, but it is.
+
+FrikBot hooks into this very very important source of per frame
+information with it's function "BotFrame". Bot frame does for the bots
+what the engine does for the players and one little thing more. BotFrame
+begins by loading a bunch of cvars into globals. The reason, as is
+declared in the comment is for the sake of speed. FrikBot uses these
+variables a lot and to continually call the cvar builtin simply was
+costing too many opcodes, especially in loops.
+
+BotFrame is really where it all begins. For each active bot, a number of
+functions are called:
+
+frik_obstacles - this AI function adjusts the bot's keys to dodge
+obstacles such as lava. As this is a very time important thing to watch
+out for, we do it every frame. frik_obstacles function will be further
+explored in the Movement section.
+
+CL_KeyMove - This is more or less a port of an engine function. In
+FrikBot it combines a number of things, but basically what it does is
+translate FrikBot's native movement system (.keys) to something the
+physics code understands (movevect). In an ideal world, frikbot would
+use the movevect directly and get some analog movement going, but I
+believe the keyboard simulation helps the bot's believability. It does
+however make him less of a threat.
+
+SV_ClientThink - This function performs a lot of engine related jobs
+such as water jump physics, fixangle and other things. We won't be going
+into much detail on this function and it's related code, as alll this is
+basically here to mimic what goes on in the engine for a real player and
+not really relevant to how the bot works.
+
+SV_PhysicsClient - This function, another port of the engine physics,
+performs the bot's actual movement...well...almost. In normal cases the
+code will call SV_FlyMove, which will send the bot's physics entity
+flying off into space, this simulates the tracebox function of the
+engine. The physics entity's .think will be set to the function
+PostPhysics and will be called after the move (all of this is in
+bot_phys.qc). PostPhysics will set the bot to the new location, make
+tweaks to the end result and finally, FINALLY call BotAI. It also calls
+the qc mods PlayerPostThink.
+
+The end result will attempt to mimic the sequence: PlayerPreThink,
+.think, PlayerPostThink, BotAI. However what the net result is is this:
+
+StartFrame
+Bot 1's PlayerPreThink
+Bot 1's .think
+Bot 2's PlayerPreThink
+Bot 2's .think
+Player 0's PlayerPreThink
+Player 0's .think
+Player 0's PlayerPostThink
+Bot 1's PlayerPostThink
+Bot 1's BotAI
+Bot 2's PlayerPostThink
+Bot 2's BotAI
+
+This, unfortunately, is neccassary due to the tracebox being performed
+through regular physics, we have to wait until the engine gets to
+processing the regular entities. The bot has to wait for it's spawned
+physics entity to move before it can move. However, this does have an
+advantage: QuakeC's runaway loop counter is reset every time the engine
+calls a function. Since the AI and PlayerPostThink are basically the
+only things done from the call of the physics entity's .think and aren't
+stacked on StartFrame's call, they can be much more complex with less
+fear of tripping the runaway loop counter.
+
+Coming back to BotFrame, the code runs the function WaypointWatch.
+WaypointWatch is what is sometimes called a sentinel, it's a function
+that continually checks for a certain case and reacts when that case
+happens. It's purpose is to monitor the cvars used for .way file
+loading, when it spots one of them being changed (specifically the "flow
+control cvar" saved4, it reacts. Loading each of the waypoint's data
+(via a call to LoadWaypoint) from cvars. The origin's _x, _y and _z
+component are read from 3 cvars, the links (by waypoint number) are read
+from four others and saved4 holds, on top of it's flow control, the
+b_aiflags for the waypoint. Once one waypoint has been loaded, the
+waypoint mode is switched to WM_LOADED, to prevent the Dynamic
+waypointing system from messing up the waypoints that now exist on the
+level.
+
+Finally in the function BotFrame, we do bot_return. This function uses
+the saved off variables (saved_bots, saved_skills1, and saved_skill2)
+from BotInit. These were the very same cvars used for waypoint loading,
+captured at the very start of the level and remembered. The code
+translates these values using bit masks to basically 16 values for bot
+skill (0-3, 2 bits each) and a single flag to see if the bot was active
+last level. If any of the bots were active and we want to bring them
+back this level, a call to BotConnect is made to spawn them.
+
+*** Path Finding Concepts ***
+
+To understand bot_way.qc and elements of bot_ai.qc it is necessary to
+understand how the bot deals with navigation in general. FrikBot uses a
+series of nodes, called waypoints, that link to one another by one of
+their .target fields (.target1, target2, target3, target4). Each
+waypoint has a position and up to four links to other waypoints.
+
+The simplest explanation is that the bot finds the nearest waypoint he
+believes he can reach, then finds one close to his goal, and finally
+just plots a path there by following each link field. But FBX goes a
+little bit further than this and due to other technical reasons it's not
+quite so simple.
+
+First off let's get a little 'custom terminology' out of the way. Nodes
+are called waypoints in FBX. Links refer to merely a target field
+pointing to another waypoint. Target fields point to waypoints or world,
+if found pointing to anything else, it's invalid. If a target field
+points to world, is considered an empty link.
+
+Telelink is a normal link with a corresponding aiflag set that means
+there's instantaneous travel through this link (via a trigger_teleport),
+and that the bot shouldn't judge the distance between the two points as
+literal walking distance. When following this patch later, in bot_path,
+the bot will look for a trigger_teleport stepping stone in between
+telelinked points.
+
+The route table refers to the .enemy field on waypoint entities. Since
+there's only one such field there's only one route table - all bots
+time-share it. The route_table is initialized through begin_route.
+Generally the word "route" is reserved for actions dealing with the
+route table, however, there are some functions misnamed (FindRoute and
+ClearMyRoute) that actually deal with paths.
+
+Paths are a compressed form of the route table. Rather than creating
+fields for every bot to have a complete route table, the bot begins the
+routing process by calling begin_route, the complete routing table, over
+the course of a few frames to avoid tripping the runaway loop counter,
+is generated. The route table describes to the bot what objects he can
+reach and how far they are. Using this information, the bot selects
+something he wants from everything in the level, then marks a path to he
+desired goal.
+
+A path is basically a bare minimum to get from point A to B and doesn't
+have nearly as much information as the full route table. It's just the
+bot's client bit flag set on the b_sound field of each waypoint. This
+acts like a breadcrumb trail, and the bot can go to the next closest
+waypoint with his flag set on it. The path system, apart from saving us
+from the need to have fields for every bot, also makes it so we don't
+need to recurse every time the bot reaches a waypoint to figure out
+where he's going.
+
+*** AI ***
+
+* Target Stack
+
+This is not a function, but a general concept you must understand to
+deal with the FBX AI. FrikBot uss a stack, in programming terms it's a
+LIFO stack meaning "last in, first out". You can think of it as a stack
+of papers. You put a piece of paper on top of the stack to be dealt with
+later, then the first one you look at is the top one one on the stack,
+the next is the one underneath that top one, etc. So as you add, you add
+to the immediate item, and all the old stuff moves down a list.
+
+FBX has a short list. It's only four items: .target1, .target2,
+.target3, and .target4. It will go after target1 until reached, then the
+list will move up, target2 will become target1, target3 target2, target4
+target3. Then the bot will go after the new target1. If something more
+important and more immediate comes up, it will be added on top of the
+stack, at target1 and everything that was on the stack will move down.
+
+This stack allows him to use doors, buttons, waypoints, etc,
+effectively. For example, if the bot encounters a door it cannot open,
+it will search the world, find the trigger for it and put it on the
+stack. This immediately becomes the new main goal, and when he presses
+the button, it clears from the stack, causiung the bot to resume what he
+was doing before he encountered the door.
+
+To facilitate the functioning of the target stack, bot_ai.qc opens up
+with 3 functions dealing with it. The first, target_onstack checks to
+see if an entity is already on the stack at some spot, and returns the
+spot number.
+
+target_add pushes a new entry onto the stack. And target_drop clears up
+to an entity. This is the one feature I didn't mention. If we're
+dropping a target, we drop all targets UP TO that entity on the stack.
+So if the bot is following waypoints to a mega health andf decides he
+doesn't want it for whatever reason, everything "above" (think back to
+the stack of paper) the mega health is dropped also. This includes
+waypoints, buttons, anything he was doing to reach that goal.
+Understanding the target stack is key to understanding how the rest of
+bot_ai.qc works.
+
+* BotAI
+
+This function, located at the bottom of bot_ai.qc (fancy that) is the
+definite center of all the decision making process going on in the bot.
+As was described in the execution section above, it's called after a bot
+has moved, thunk and is basically making decisions to be done next
+frame.
+
+The top of the function uses the variable self.ai_time to limit the
+amount of CPU time the bot uses, as on low end machines (like my Pentium
+90 laptop I used to test the load capability of the bot on) would bog
+down otherwise. Another feature is "stagger_think" which allows the bots
+ai, although delayed to occur on different frames, preventing a lot of
+code being done on one frame thereby causing a noticable pause on low
+end machines.
+
+The bot's button0 and button2 buttons are shut offa t the top of the
+function. These are normally the attack and jump buttons, FrikBot does
+basically what the engine does, turns these values on then let's the QC
+pick them up next frame and do what it will with them.
+
+After this we get into the main sequence of decisions:
+
+if (the route table is in use by me) // route_table == self
+{
+if (it's done calculating) // busy_waypoints <= 0
+find something to go get; // bot_look_for_crap(TRUE);
+don't move(); // self.keys = 0; self.b_aiflags = 0;
+}
+
+The route table is discussed in the Pathfinding Concepts section
+elsewhere in this document. We'll be covering bot look for crap soon.
+The reason why the bot is stopped from moving is, if the bot blindly
+moves ahead now, not knowing where he's going, he could be walking
+straight into lava, off an edge, etc.
+
+else if (self.target1)
+{
+frik_movetogoal();
+bot_path();
+}
+
+So if we're not waiting for the route table, and we've already got
+something to go toward, let's do that. self.target1 should be
+understandable to you after having read the Target Stack section, this
+is the bot's immediate goal. frik_movetogoal is a little function that
+sets up the bot's keys to move toward self.target1. It's part of the
+movement AI. bot_path is an bot_ai.qc function for following paths,
+which we will discuss in a bit.
+
+(ignoring editor code)
+
+else
+{
+if (self.route_failed)
+{
+frik_bot_roam();
+self.route_failed = 0;
+}
+
+So now we're not waiting for the route table and we don't have anything
+we're currently going after, the next thing to check for is if we tried
+using our pathfinding to get out of wherever we are, and we failed. In
+this case we'll try to roam out. Note, due to some idiosyncracies with
+allowing the bots to place dynamic waypoints, this roaming stuff simply
+doesn't work, here's why:
+
+The bot spawns. Immediately, because of dynamic waypointing, the bot
+spawns a waypoint at his current position. The waypoint has no outbound
+links, so routing works, but the bot determines he can't go anywhere.
+What's needed to solve this is for FBX only to turn on dynamic
+waypointing when it has entered the actual main waypoint grid somehow,
+or to switch it off for bots again. I leave this up to an excercise for
+the reader.
+
+else if(!begin_route())
+{ 
+bot_look_for_crap(FALSE);
+}
+
+Finally if we can't begin route, most likely because another bot is
+using the route table, we'll 'look for local objects'. This is done by
+calling bot_look_for_crap with a FALSE parameter, meaning we don't have
+free reign of the entire level, look for nearby stuff.
+
+This concludes the basic decision making in BotAI. After this, BotAI
+calls some functions that will override or augment what was just done.
+

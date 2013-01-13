@@ -1,0 +1,10 @@
+ <map name='LDL Tutorial Map 07: Adding Items and Monsters' style='medieval'>
+    <room id='start'>
+        <item type='info_player_start' pos='s' />
+        <item type='weapon_supernailgun' pos='c' />
+        <con wall='n' target='other' type='door' />
+    </room>
+    <room id='other'>
+        <item type='monster_ogre' pos='n' />
+    </room>
+ </map>

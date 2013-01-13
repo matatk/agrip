@@ -1,0 +1,57 @@
+./zeus_qwprogs.dat
+
+                    // defs.qc
+../qw/defs.qc
+../qw/defs_ext.qc
+
+../qwsp/sp_defs.qc
+zeus_defs.qc
+
+zeus.h              // Zeus prototypes and variables
+
+../qw/subs.qc
+../qwsp/sp_subs.qc
+../qwsp/fight.qc
+../qwsp/ai.qc
+hud.qc              // heads up display 1.0
+
+../qw/combat.qc     // modified for ZEUSbot v2.0 FIXME: might need to bring some stuff in from currentdir combat.qc
+
+// plasma.qc        // plasma gun 1.0
+
+../qw/items.qc      // modified for ZEUSbot v2.0 FIXME: might need to bring some stuff in from currentdir items.qc
+../qw/weapons.qc    // modified for ZEUSbot v2.0 ditto weapons.qc
+../qw/world.qc      // modified for ZEUSbot v2.0 ditto world.qc
+../qw/client.qc     // modified for ZEUSbot v2.0 ditto client.qc
+../qwsp/sp_client.qc
+../qw/spectate.qc
+
+../qw/player.qc
+../qwsp/monsters.qc
+../qw/doors.qc      
+../qw/buttons.qc
+../qw/triggers.qc   // modified for ZEUSbot v2.0 might need to bring some if statements in
+../qw/plats.qc      // modified for ZEUSbot v2.0 ditto
+../qw/misc.qc
+../qw/commands.qc
+../qwsp/sp_commands.qc
+
+zeusmap.qc          // ZEUSbot v2.0 mapping routines
+zeus.qc             // ZEUSbot v2.0 source
+
+../qwsp/ogre.qc
+../qwsp/demon.qc
+../qwsp/shambler.qc
+../qwsp/knight.qc
+../qwsp/soldier.qc
+../qwsp/wizard.qc
+../qwsp/dog.qc
+../qwsp/zombie.qc
+../qwsp/boss.qc
+
+../qwsp/tarbaby.qc  // registered
+../qwsp/hknight.qc  // registered
+../qwsp/fish.qc     // registered
+../qwsp/shalrath.qc // registered
+../qwsp/enforcer.qc // registered
+../qwsp/oldone.qc   // registered

@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='utf-8'?>
+<style>
+	<!-- FIXME put these into an element -->
+	<texture name='ground'			desc='FIXME' value='GROUND1_6' />
+	<texture name='brick_vine'	desc='FIXME' value='bricka2_1' />
+	<texture name='brick_crack'	desc='FIXME' value='bricka2_2' />
+	<texture name='brick_norm'	desc='FIXME' value='bricka2_4' />
+	<texture name='brick_blood'	desc='FIXME' value='bricka2_6' />
+	<texture name='base_wall1'	desc='FIXME' value='tech03_2' />
+	<texture name='base_wall2'	desc='FIXME' value='tech06_2' />
+	<texture name='base_ceil'		desc='FIXME' value='tech01_5' />
+	<texture name='med_ceil'		desc='FIXME' value='grave01_3' />
+	<texture name='base_floor'	desc='FIXME' value='sfloor4_1' />
+	<texture name='med_floor1'	desc='FIXME' value='afloor1_4' />
+	<texture name='med_floor2'	desc='FIXME' value='afloor3_1' />
+	<texture name='base_door'		desc='FIXME' value='door02_7' />
+	<texture name='med_door1'		desc='FIXME' value='adoor03_3' />
+	<texture name='med_door2'		desc='FIXME' value='adoor03_5' />
+	<texture name='water1'			desc='FIXME' value='*water0' />
+	<texture name='water2'			desc='FIXME' value='*water2' />
+	<texture name='water3'			desc='FIXME' value='*water1' />
+	<texture name='slime1'			desc='FIXME' value='*slime' />
+	<texture name='slime2'			desc='FIXME' value='*slime0' />
+	<texture name='slime3'			desc='FIXME' value='*slime1' />
+	<texture name='lava'				desc='FIXME' value='*lava1' />
+	<texture name='teleport'		desc='FIXME' value='*teleport' />
+	<texture name='sky_light'				desc='FIXME' value='sky4' />
+	<texture name='sky_dark'				desc='FIXME' value='sky1' />
+
+	<worldtype style='outsidelight' value='base'/>
+	<worldtype style='outsidedark' value='base'/>
+	<worldtype style='base' value='base'/>
+	<worldtype style='medieval' value='medieval'/>
+
+	<textureset name='outsidelight'>
+		<surface id='n' texture='sky_light' />
+		<surface id='s' texture='sky_light' />
+		<surface id='e' texture='sky_light' />
+		<surface id='w' texture='sky_light' />
+		<surface id='u' texture='sky_light' />
+		<surface id='d' texture='ground' />
+		<surface id='door' texture='base_door' />
+		<surface id='plat' texture='ground' />
+		<surface id='step' texture='ground' />
+	</textureset>
+
+	<textureset name='outsidedark'>
+		<surface id='n' texture='sky_dark' />
+		<surface id='s' texture='sky_dark' />
+		<surface id='e' texture='sky_dark' />
+		<surface id='w' texture='sky_dark' />
+		<surface id='u' texture='sky_dark' />
+		<surface id='d' texture='ground' />
+		<surface id='door' texture='base_door' />
+		<surface id='plat' texture='ground' />
+		<surface id='step' texture='ground' />
+	</textureset>
+
+	<textureset name='base'>
+		<surface id='n' texture='base_wall1' />
+		<surface id='s' texture='base_wall1' />
+		<surface id='e' texture='base_wall2' />
+		<surface id='w' texture='base_wall2' />
+		<surface id='u' texture='base_ceil' />
+		<surface id='d' texture='base_floor' />
+		<surface id='door' texture='base_door' />
+		<surface id='plat' texture='ground' />
+		<surface id='step' texture='ground' />
+	</textureset>
+
+	<textureset name='medieval'>
+		<surface id='n' texture='brick_vine' />
+		<surface id='s' texture='brick_norm' />
+		<surface id='e' texture='brick_crack' />
+		<surface id='w' texture='brick_blood' />
+		<surface id='u' texture='med_ceil' />
+		<surface id='d' texture='med_floor1' />
+		<surface id='door' texture='med_door1' />
+		<surface id='plat' texture='ground' />
+		<surface id='step' texture='ground' />
+	</textureset>
+
+	<soundset name='base'>
+		<!-- FIXME -->
+	</soundset>
+
+	<lightingset name='outsidelight'>
+		<lighting id='outsidelight_small' maxs='700 700 300' type='perimeter'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105'/>
+			<min dim='x' value='300'/>
+			<min dim='y' value='300'/>
+			<min dim='z' value='500'/>
+			<level value='400' />
+			<entity value='light_fluoro'/>
+		</lighting>
+		<lighting id='outsidelight_med' maxs='1000 1000 300' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min type='perimeter' dim='x' value='300'/>
+			<min type='perimeter' dim='y' value='300'/>
+			<min type='centre' dim='x' value='300'/>
+			<min type='centre' dim='y' value='300'/>
+			<min dim='z' value='500'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='300' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+		<lighting id='outsidelight_large' maxs='2000 2000 500' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min type='perimeter' dim='x' value='300'/>
+			<min type='perimeter' dim='y' value='300'/>
+			<min type='centre' dim='x' value='500'/>
+			<min type='centre' dim='y' value='500'/>
+			<min dim='z' value='1000'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='400' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+		<lighting id='outsidelight_huge' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min dim='x' value='500' type='perimeter'/>
+			<min dim='x' value='1000' type='centre'/>
+			<min dim='y' value='500' type='perimeter'/>
+			<min dim='y' value='1000' type='centre'/>
+			<min dim='z' value='1500'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='400' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+	</lightingset>
+
+	<lightingset name='outsidedark'>
+		<lighting id='outsidedark_small' maxs='700 700 300' type='perimeter'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105'/>
+			<min dim='x' value='300'/>
+			<min dim='y' value='300'/>
+			<min dim='z' value='500'/>
+			<level value='400' />
+			<entity value='light_fluoro'/>
+		</lighting>
+		<lighting id='outsidedark_med' maxs='1000 1000 300' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min type='perimeter' dim='x' value='300'/>
+			<min type='perimeter' dim='y' value='300'/>
+			<min type='centre' dim='x' value='300'/>
+			<min type='centre' dim='y' value='300'/>
+			<min dim='z' value='500'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='300' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+		<lighting id='outsidedark_large' maxs='2000 2000 500' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min type='perimeter' dim='x' value='300'/>
+			<min type='perimeter' dim='y' value='300'/>
+			<min type='centre' dim='x' value='500'/>
+			<min type='centre' dim='y' value='500'/>
+			<min dim='z' value='1000'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='400' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+		<lighting id='outsidedark_huge' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min dim='x' value='500' type='perimeter'/>
+			<min dim='x' value='1000' type='centre'/>
+			<min dim='y' value='500' type='perimeter'/>
+			<min dim='y' value='1000' type='centre'/>
+			<min dim='z' value='1500'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='400' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+	</lightingset>
+
+	<lightingset name='base'>
+		<lighting id='base_small' maxs='700 700 300' type='perimeter'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105'/>
+			<min dim='x' value='300'/>
+			<min dim='y' value='300'/>
+			<min dim='z' value='500'/>
+			<level value='400' />
+			<entity value='light_fluoro'/>
+		</lighting>
+		<lighting id='base_med' maxs='1000 1000 300' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min type='perimeter' dim='x' value='300'/>
+			<min type='perimeter' dim='y' value='300'/>
+			<min type='centre' dim='x' value='300'/>
+			<min type='centre' dim='y' value='300'/>
+			<min dim='z' value='500'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='300' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+		<lighting id='base_large' maxs='2000 2000 2000' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min type='perimeter' dim='x' value='300'/>
+			<min type='perimeter' dim='y' value='300'/>
+			<min type='centre' dim='x' value='500'/>
+			<min type='centre' dim='y' value='500'/>
+			<min dim='z' value='1000'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='400' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+		<lighting id='base_huge' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='105' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min dim='x' value='500' type='perimeter'/>
+			<min dim='x' value='1000' type='centre'/>
+			<min dim='y' value='500' type='perimeter'/>
+			<min dim='y' value='1000' type='centre'/>
+			<min dim='z' value='1500'/>
+			<level type='perimeter' value='400' />
+			<level type='centre' value='400' />
+			<entity type='perimeter' value='light_fluoro'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+	</lightingset>
+
+	<lightingset name='medieval'>
+		<lighting id='medieval_small' maxs='700 700 300' type='perimeter'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='80'/>
+			<min dim='x' value='350'/>
+			<min dim='y' value='350'/>
+			<min dim='z' value='500'/>
+			<level value='300' />
+			<entity value='light_torch_small_walltorch'/>
+		</lighting>
+		<lighting id='medieval_med' maxs='1000 1000 300' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='80' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min type='perimeter' dim='x' value='350'/>
+			<min type='perimeter' dim='y' value='350'/>
+			<min type='centre' dim='x' value='300'/>
+			<min type='centre' dim='y' value='300'/>
+			<min dim='z' value='500'/>
+			<level type='perimeter' value='300' />
+			<level type='centre' value='300' />
+			<entity type='perimeter' value='light_torch_small_walltorch'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+		<lighting id='medieval_large' maxs='2000 2000 2000' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='80' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min type='perimeter' dim='x' value='350'/>
+			<min type='perimeter' dim='y' value='350'/>
+			<min type='centre' dim='x' value='500'/>
+			<min type='centre' dim='y' value='500'/>
+			<min dim='z' value='1000'/>
+			<level type='perimeter' value='300' />
+			<level type='centre' value='300' />
+			<entity type='perimeter' value='light_torch_small_walltorch'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+		<lighting id='medieval_huge' type='centre'>
+			<offset dim='x' value='10'/>
+			<offset dim='y' value='10'/>
+			<offset dim='z' value='80' type='perimeter'/>
+			<offset dim='z' value='175' type='centre'/>
+			<min dim='x' value='500' type='perimeter'/>
+			<min dim='x' value='1000' type='centre'/>
+			<min dim='y' value='500' type='perimeter'/>
+			<min dim='y' value='1000' type='centre'/>
+			<min dim='z' value='1500'/>
+			<level type='perimeter' value='300' />
+			<level type='centre' value='300' />
+			<entity type='perimeter' value='light_torch_small_walltorch'/>
+			<entity type='centre' value='light_globe'/>
+		</lighting>
+	</lightingset>
+</style>

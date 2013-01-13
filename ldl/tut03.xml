@@ -1,0 +1,5 @@
+ <map name='LDL Tutorial Map 03: Invalid Room Size' style='base'>
+    <room id='start' size='reallyreallyreallysmall'>
+        <item type='info_player_start' pos='c' />
+    </room>
+ </map>
