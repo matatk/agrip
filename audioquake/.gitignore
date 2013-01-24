@@ -1,2 +1,8 @@
 id1
 AudioQuake.app
+*.bsp
+demos
+skins
+zq-repo/zquake/release-*
+zq-repo/zqcc/*.o
+zq-repo/zqcc/zqcc

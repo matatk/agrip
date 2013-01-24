@@ -4,7 +4,7 @@ What is AudioQuake?
 AudioQuake is essentially a series of modifications to the game Quake by id Software that enable blind and vision-impaired people to play it.  It is based on our earlier game, AccessibleQuake, and already provides you with the ability to play Quake.  However, when AudioQuake reaches version 1.0.0, it will provide the following outstanding new features:
 
 * Full Internet multiplayer support - play with and against your friends on-line!
-* ``Implicit Accessibility'' - Enhanced fun and better accessibility provided by 3D sound and special effects (currently the game uses stereo).
+* "Implicit Accessibility" - Enhanced fun and better accessibility provided by 3D sound and special effects (currently the game uses stereo).
 * Accessible level editing!
 
 This version fully supports Internet play.  The other two features mentioned above will be implemented as we reach 1.0.0.
@@ -19,9 +19,9 @@ This is not the full documentation for AudioQuake - the user manual and referenc
 
 * The Community & Support section of our web site.  This can be reached at http://www.agrip.org.uk/CommunityResources
 
-* In the ``AudioQuake-manual'' directory where you installed AudioQuake, you'll find a multiple-page version.  To read it, open the ``index.html'' file.
+* In the "AudioQuake-manual" directory where you installed AudioQuake, you'll find a multiple-page version.  To read it, open the "index.html" file.
 
-* There is also a single page version - open ``AudioQuake-manual-singlepage.html'' in the directory where you installed AudioQuake.
+* There is also a single page version - open "AudioQuake-manual-singlepage.html" in the directory where you installed AudioQuake.
 
 You can also read the latest manuals on our web page, at the following address:
 

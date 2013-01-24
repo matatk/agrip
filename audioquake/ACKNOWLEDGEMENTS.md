@@ -16,13 +16,13 @@ The contributions of the various people and parties here have helped make this p
 * QuakeForge -- for making the engine even cooler (and packaging it).
 * Ze0, Bot Epidemic webmaster -- Footsteps (modified by me).
 * David "DarkGrue" Hesprich (darkgrue@iname.com) -- QuakeC Reference Manual.
-* Ferrara Francesco (frank@aerre.it) and Olivier Montanuy for the ``QuakeC Manual 1.0'' (1996) and the example (not sure who its by, unfortunately; may have come from the Quake-C Patch Archives) 13.6 - the Radar.
-* Daniel Rinehart <danielr@neophi.com>, Lauri Alanko <mivars@cc.helsinki.fi>, Juergen P. Meier <JPM@mailserv.rz.fh-muenchen.de>, Pat Pinatiello <pat@telmaron.com> for the ``Quake Console Command Pages, Quake v1.06''.
-* venomus <MrMan@mrman58.freeserve.co.uk> for his ``3D Holographic Radar'' tutorial -- this showed how to find the origin of a brush entity.  [ No longer used. ]
+* Ferrara Francesco (frank@aerre.it) and Olivier Montanuy for the "QuakeC Manual 1.0" (1996) and the example (not sure who its by, unfortunately; may have come from the Quake-C Patch Archives) 13.6 - the Radar.
+* Daniel Rinehart <danielr@neophi.com>, Lauri Alanko <mivars@cc.helsinki.fi>, Juergen P. Meier <JPM@mailserv.rz.fh-muenchen.de>, Pat Pinatiello <pat@telmaron.com> for the "Quake Console Command Pages, Quake v1.06".
+* venomus <MrMan@mrman58.freeserve.co.uk> for his "3D Holographic Radar" tutorial -- this showed how to find the origin of a brush entity.  [ No longer used. ]
 * LordHavoc (of DarkPlaces fame) for the tracebox() QuakeC built-in.
 * Darryl "Coffee" Atchison <coffee@planetquake.com> for the Tutor Bot.  This is used pretty much in its entirety.  (It's PD so therefore GPL compatible.)
 * The residents of the QuakeSrc forums -- including Spike, for the advice and information they've given to me.
-* The Win32 port of ``unzip'' by the GNU Utilities for Win32 project at unxutils.sourceforge.net.
+* The Win32 port of "unzip" by the GNU Utilities for Win32 project at unxutils.sourceforge.net.
 
 
 Sounds
@@ -41,7 +41,7 @@ Documentation
 
 A very important, often overlooked area!  The DocBook manual and README files were written by Matthew Tylee Atkinson.  Here is the list of external resources and people that have helped:
 
-* David Rugge <davidrugge@mindspring.com>, Mark Galassi <rosalia@galassi.org> and Eric Bischoff <e.bischoff@noos.fr> for ``Writing Documentation Using DocBook - A Crash Course''.
+* David Rugge <davidrugge@mindspring.com>, Mark Galassi <rosalia@galassi.org> and Eric Bischoff <e.bischoff@noos.fr> for "Writing Documentation Using DocBook - A Crash Course".
 * Norman Walsh and the DocBook Team.
 * Jim Crafton of the Code Project for his article on DocBook and XSL.
 * Dan York for the tldp.org XSL files.
