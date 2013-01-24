@@ -3,6 +3,8 @@ AudioQuake.app
 *.bsp
 demos
 skins
+quake-shareware-1.06
+mindgrid-audio_quake_2003.09.22
 zq-repo/zquake/release-*
 zq-repo/zqcc/*.o
 zq-repo/zqcc/zqcc

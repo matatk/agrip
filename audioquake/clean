@@ -1,16 +1,22 @@
 #!/bin/bash
 echo "AudioQuake Repository Cleanup Script"
-echo
+echo " $0 [all] -- clean all files and code"
+echo " $0 files -- clean files only"
 
-# Generated files
+echo Generated files...
 rm -rf id1 AudioQuake.app
 
-# Support files
+echo Support files...
 rm maps/*bsp
 rm -rf skins demos
 
-# Engine
-cd zq-repo
-./agrip-cleanup
+echo Shareware and mindgrid data files...
+rm -rf quake-shareware-1.06 mindgrid-audio_quake_2003.09.22
+
+if [ "$1" == "all" ] || [ "$1" != "files" ]; then
+	echo Engine...
+	cd zq-repo
+	./agrip-cleanup
+fi
 
 echo Cleanup complete!

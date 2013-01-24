@@ -1,12 +1,32 @@
 #!/bin/bash
 echo "AudioQuake Mod Compilation Script"
-echo " - Compiles QC, creates up-to-date mod directory"
+echo " - Ensures required data files are present;"
+echo "   compiles QuakeC, creates up-to-date mod directory"
 echo "   and puts it in the ZQuake installation"
 echo
 
 . common.sh
 
-# Variables...
+function get_summat() {
+	# Checks for presence of a certain type of file; downloads the
+	# default data of the type if need be.
+	# $1 is the dir to check for
+	# $2 is the file to check for
+	# $3 is the plural name of the type of thing
+	# $4 is the messaage about the download
+	# $5 is the URL to download
+	# $6 is the basename
+	echo Copying $3 in...
+	if [[ ! -d $1 ]] || [[ ! -r $2 ]]; then
+		echo "    It appears you don't have any $3 in this development tree;"
+		echo "    the default set of these will now be downloaded."
+		[[ "$4" ]] && echo "    $4"
+	    echo "    Downloading $5..."
+	    curl --silent --remote-name $5 && unzip -q $6.zip && rm $6.zip
+	fi
+}
+
+# Variables
 D_BASE=`pwd`
 D_ZQ_DEV_BASE="$D_BASE/zq-repo"
 D_MOD="id1/"
@@ -17,10 +37,12 @@ ZQCC="$D_ZQCCS/zqcc"
 F_MAPS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip"
 F_DEMOS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip"
 F_SKINS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/QlAYOO3MLl/devfiles/skins.zip"
-MSG="    I will download the default set of maps for AudioQuake."
+F_SHAREWARE="https://dl.dropbox.com/sh/quqwcm244sqoh5a/jhcvn0KyLd/data/quake-shareware-1.06.zip"
+F_MINDGRID="https://dl.dropbox.com/sh/quqwcm244sqoh5a/tS5qRFx_Am/data/mindgrid-audio_quake_2003.09.22.zip"
 
+# Check for commands
 chk_cmd curl "downloading development resources"
-chk_cmd unzip "uncompressing downloaded map, demo and skin data"
+chk_cmd unzip "uncompressing downloaded data"
 
 if [[ -d $D_MOD ]]; then
     echo "Removing existing compiled $D_MOD tree..."
@@ -77,38 +99,55 @@ mv $D_QC/*.dat "$D_MOD"
 echo "Copying dev mod directory's contents to compiled mod directory..."
 cp -r $D_MOD_DEV/* "$D_MOD/"
 
-echo Copying maps in...
-if [[ ! -d maps ]] || [[ ! -r maps/agdm01.bsp ]]; then
-    echo "    It appears you don't have any maps in this development tree;"
-    echo $MSG
-    echo "    Make sure you compile any maps you add and store them in the"
-    echo "    \`\`maps'' directory."
-    echo "    Downloading $F_MAPS..."
-    curl -O $F_MAPS && unzip maps.zip && rm maps.zip
-fi
+# Get/copy in maps
+get_summat \
+	maps \
+	maps/agdm01.bsp \
+	maps \
+	'Compile any maps you add and store them in the "maps" directory.' \
+	$F_MAPS \
+	maps
 mkdir $D_MOD/maps
 cp maps/*.bsp $D_MOD/maps/
 
-echo Copying demos in...
-if [[ ! -d demos ]] || [[ ! -r demos/final2.dem ]]; then
-    echo "    It appears you don't have any demos in this development tree;"
-    echo $MSG
-    echo "    Make sure you compile any demos you add and store them in the"
-    echo "    \`\`demos'' directory."
-    echo "    Downloading $F_DEMOS..."
-    curl -O $F_DEMOS && unzip demos.zip && rm demos.zip
-fi
+# Get/copy in demos
+get_summat \
+	demos \
+	demos/final2.dem \
+	demos \
+	'Compile any demos you add and store them in the "demos" directory.' \
+	$F_DEMOS \
+	demos
 cp demos/* $D_MOD/
 
-echo Copying base skin in...
-if [[ ! -d skins ]] || [[ ! -r skins/base.pcx ]]; then
-    echo "    It appears you don't have any skins in this development tree;"
-    echo $MSG
-    echo "    Make sure you compile any skins you add and store them in the"
-    echo "    \`\`skins'' directory."
-    echo "    Downloading $F_SKINS..."
-    curl -O $F_SKINS && unzip skins.zip && rm skins.zip
-fi
+# Get/copy in skins
+get_summat \
+	skins \
+	skins/base.pcx \
+	skins \
+	'Compile any skins you add and store them in the "skins" directory.' \
+	$F_SKINS \
+	skins
 cp -r skins/ $D_MOD/
+
+# Get/copy in shareware data
+get_summat \
+	quake-shareware-1.06 \
+	quake-shareware-1.06/id1/pak0.pak \
+	'shareware data' \
+	'' \
+	$F_SHAREWARE \
+	quake-shareware-1.06
+cp quake-shareware-1.06/id1/pak0.pak $D_MOD/
+
+# Get/copy in shareware data
+get_summat \
+	mindgrid-audio_quake_2003.09.22 \
+	mindgrid-audio_quake_2003.09.22/pak2.pak \
+	'mindgrid sounds' \
+	'' \
+	$F_MINDGRID \
+	mindgrid-audio_quake_2003.09.22
+cp mindgrid-audio_quake_2003.09.22/pak2.pak $D_MOD/
 
 echo Compilation complete!

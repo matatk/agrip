@@ -29,4 +29,9 @@ cp $ENG_SERVER $ENG_CLIENT $D_APP/Contents/MacOS/
 echo Copying in mod...
 cp -a $D_MOD $D_APP/Contents/MacOS/$D_MOD
 
+# Fairness -- copy in shareware and mindgrid anciliary files as requested
+echo Copying in shareware and mindgrid files...
+cp -a quake-shareware-1.06/* $D_APP/Contents/MacOS/
+cp -a mindgrid-audio_quake_2003.09.22/* $D_APP/Contents/MacOS/
+
 echo build complete!

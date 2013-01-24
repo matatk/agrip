@@ -905,6 +905,7 @@ void FS_AddGameDirectory (char *dir)
 	search->next = com_searchpaths;
 	com_searchpaths = search;
 
+#ifndef AGRIP
 //
 // add any pak files in the format pak0.pak pak1.pak, ...
 //
@@ -919,7 +920,19 @@ void FS_AddGameDirectory (char *dir)
 		search->next = com_searchpaths;
 		com_searchpaths = search;		
 	}
-
+#else
+	for (i=0 ; i<10 ; i++)
+	{
+		sprintf (pakfile, "%s/pak%i.pak", dir, i);
+		pak = FS_LoadPackFile (pakfile);
+		if (!pak)
+			continue;
+		search = Hunk_Alloc (sizeof(searchpath_t));
+		search->pack = pak;
+		search->next = com_searchpaths;
+		com_searchpaths = search;		
+	}
+#endif
 }
 
 /*
