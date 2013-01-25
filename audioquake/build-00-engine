@@ -9,7 +9,7 @@ D_BASE=`pwd`
 D_ZQ_DEV_BASE="$D_BASE/zq-repo"
 
 cd $D_ZQ_DEV_BASE
-if [ $1 == "clean" ]; then
+if [ "$1" == "clean" ]; then
 	./agrip-cleanup
 fi
 cd zquake
