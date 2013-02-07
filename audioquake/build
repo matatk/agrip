@@ -1,4 +1,4 @@
 #!/bin/bash
-./build-00-engine $1 && \
+./build-00-engine && \
 ./build-01-compile-mod-tree && \
 ./build-02-app

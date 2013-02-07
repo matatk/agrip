@@ -1,22 +1,40 @@
 #!/bin/bash
 echo "AudioQuake Repository Cleanup Script"
-echo " $0 [all] -- clean all files and code"
-echo " $0 files -- clean files only"
+echo " $0 gen  -- clean generated files."
+echo " $0 most -- clean generated files, code."
+echo " $0 all  -- clean generated files, code and support files."
+echo
+echo "code: the zquake repository (zqcc, qc and the engine)."
+echo "generated files: id1/ and AudioQuake.app/."
+echo "support files: map bsp files, skins, demos, shareware and mindgrid."
+echo "  -- they will need to be re-downloaded in future."
+echo
+
+# Trap help or invalid options
+if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "help" ]; then
+	exit
+fi
+if [ "$1" != "gen" ] && [ "$1" != "most" ] && [ "$1" != "all" ]; then
+	exit
+fi
 
 echo Generated files...
 rm -rf id1 AudioQuake.app
 
-echo Support files...
-rm maps/*bsp
-rm -rf skins demos
-
-echo Shareware and mindgrid data files...
-rm -rf quake-shareware-1.06 mindgrid-audio_quake_2003.09.22
-
-if [ "$1" == "all" ] || [ "$1" != "files" ]; then
+if [ "$1" == "most" ] || [ "$1" == "all" ]; then
 	echo Engine...
 	cd zq-repo
 	./agrip-cleanup
+	cd -
+fi
+
+if [ "$1" == "all" ]; then
+	echo Support files...
+	rm maps/*bsp
+	rm -rf skins demos
+
+	echo Shareware and mindgrid data files...
+	rm -rf quake-shareware-1.06 mindgrid-audio_quake_2003.09.22
 fi
 
 echo Cleanup complete!

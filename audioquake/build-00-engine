@@ -1,18 +1,8 @@
 #!/bin/bash
 echo "AudioQuake Engine Compilation Script"
-echo " - pass 'clean' as first param to distclean first."
 echo
 
-. common.sh
-
-D_BASE=`pwd`
-D_ZQ_DEV_BASE="$D_BASE/zq-repo"
-
-cd $D_ZQ_DEV_BASE
-if [ "$1" == "clean" ]; then
-	./agrip-cleanup
-fi
-cd zquake
+cd zq-repo/zquake/
 make server && make gl
 
 echo Compilation complete!

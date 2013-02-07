@@ -33,5 +33,6 @@ cp -a $D_MOD $D_APP/Contents/MacOS/$D_MOD
 echo Copying in shareware and mindgrid files...
 cp -a quake-shareware-1.06/* $D_APP/Contents/MacOS/
 cp -a mindgrid-audio_quake_2003.09.22/* $D_APP/Contents/MacOS/
+rm $D_APP/Contents/MacOS/pak2.pak  # it's already in id1/
 
 echo build complete!
