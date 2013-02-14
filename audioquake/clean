@@ -6,9 +6,11 @@ echo " $0 all  -- clean generated files, code and support files."
 echo
 echo "code: the zquake repository (zqcc, qc and the engine)."
 echo "generated files: id1/ and AudioQuake.app/."
-echo "support files: map bsp files, skins, demos, shareware and mindgrid."
+echo "support files: map bsp files, skins, demos, shareware, mindgrid, PyGUI"
 echo "  -- they will need to be re-downloaded in future."
 echo
+
+. common.sh
 
 # Trap help or invalid options
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "help" ]; then
@@ -25,13 +27,13 @@ if [ "$1" == "most" ] || [ "$1" == "all" ]; then
 	echo Engine...
 	cd zq-repo
 	./agrip-cleanup
-	cd -
+	cd - > /dev/null
 fi
 
 if [ "$1" == "all" ]; then
 	echo Support files...
-	rm maps/*bsp
-	rm -rf skins demos
+	rm -f maps/*bsp
+	rm -rf skins demos $PYGUI
 
 	echo Shareware and mindgrid data files...
 	rm -rf quake-shareware-1.06 mindgrid-audio_quake_2003.09.22

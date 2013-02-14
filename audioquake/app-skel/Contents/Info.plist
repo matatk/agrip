@@ -5,6 +5,6 @@
   <key>CFBundleIconFile</key>
   <string>aq.icns</string>
   <key>CFBundleExecutable</key>
-  <string>aqgui.py</string>
+  <string>AudioQuake.py</string>
 </dict>
 </plist>
