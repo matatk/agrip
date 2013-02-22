@@ -31,7 +31,8 @@ body {
     margin-top: 2em;
 }
 
-#container-all-min p {
+#container-all-min p,
+#container-all-min li {
     font-size: 1.2em;
     line-height: 1.5em;
 }
