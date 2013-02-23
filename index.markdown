@@ -26,9 +26,12 @@ We'll work on a GUI for the Level Description Language and a new easy-to-install
 </a>
 # Get it; Get Involved
 
+Links to keep up-to-date with and download the latest AudioQuake and Level Description Language releases.
+
  * go to [The AGRIP Google Group](https://groups.google.com/group/agrip-project).
  * join in the [continued development effort](https://github.com/matatk/agrip/).
  * visit the home of [JediQuake](http://tbrn.andrelouis.com/modgirl/); the most popular AudioQuake mod and version of the game **(this is probably the option you want if you want to play the game ;-))**.
+ * visit [Matthew's 'blog](http://matatk.agrip.org.uk/).
  * download the [experimental Mac application bundle](https://www.dropbox.com/sh/quqwcm244sqoh5a/CiKpeYHOTi).
 
 <a name='why'>
@@ -57,5 +60,5 @@ For some time now, many people and organisations (such as [the IGDA Game Accessi
 
 Development continues in the community.  In line with revamping AudioQuake and the Level Description Language for modern platforms, we are dusting off the old site that has been preserved for posterity for the past few years.  For now, you can read the following pages for more information.
 
- * read our preserved "[about](about/)" page.
+ * visit our preserved "[about](about/)" page.
  * investigate the [Level Description Language](ldl/).
