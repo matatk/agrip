@@ -2,14 +2,22 @@
 import sys, os  # chdir hack
 import subprocess  # controller
 from GUI import Window, Button, application
+from GUI.StdMenus import basic_menus, fundamental_cmds
 
 
 class GameController(object):
-	_opts_default = ("./zquake-glsdl", "-window", "+set sensitivity 0")
-	_opts_tutorial = ("+coop 0", "+deathmatch 0", "+map agtut01")
+	_opts_default = (
+		"./zquake-glsdl",
+		"-window",
+		"+set sensitivity 0")
+
+	_opts_tutorial = (
+		"+coop 0",
+		"+deathmatch 0",
+		"+map agtut01")
 	
 	def _say(self, line):
-		sys.stdout.write("say: " + line)
+		sys.stdout.write("say: " + line)  # TODO remove for production
 		subprocess.Popen(('/usr/bin/say', line))
 
 	def _launch_core(self, command_line):
@@ -30,7 +38,12 @@ class GameController(object):
 
 class LauncherSingletonWindow(Window):
 	def __init__(self, application, *args, **kwargs):
-		super(LauncherSingletonWindow, self).__init__(*args, **kwargs)
+		super(LauncherSingletonWindow, self).__init__(
+			title = "Launcher",
+			resizable = False,
+			zoomable = False,
+			*args,
+			**kwargs)
 		self._application = application
 		self._game = GameController()
 
@@ -74,6 +87,7 @@ class LauncherSingletonWindow(Window):
 if __name__ == '__main__':
 	os.chdir(os.path.dirname(sys.argv[0]))
 	app = application()
+	app.menus = basic_menus(include = fundamental_cmds)
 	launcher = LauncherSingletonWindow(app)
 	launcher.show()
 	app.run()

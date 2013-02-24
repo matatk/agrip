@@ -652,9 +652,11 @@ void CL_Quit_f (void)
 	else
 #endif
 	{
+#ifndef AGRIP
 		if (cl_confirmquit.value)
 			M_Menu_Quit_f ();
 		else
+#endif
 			Host_Quit ();
 	}
 }

@@ -180,7 +180,6 @@ M_ToggleMenu_f
 */
 void M_ToggleMenu_f (void)
 {
-#ifndef AGRIP
 	m_entersound = true;
 
 	if (key_dest == key_menu)
@@ -198,7 +197,6 @@ void M_ToggleMenu_f (void)
 	{
 		M_Menu_Main_f ();
 	}
-#endif
 }
 
 /*
@@ -208,6 +206,7 @@ M_EnterMenu
 */
 void M_EnterMenu (int state)
 {
+#ifndef AGRIP
 	if (key_dest != key_menu) {
 		m_topmenu = state;
 		Con_ClearNotify ();
@@ -220,6 +219,7 @@ void M_EnterMenu (int state)
 	key_dest = key_menu;
 	m_state = state;
 	m_entersound = true;
+#endif
 }
 
 /*
@@ -2599,6 +2599,7 @@ void M_Quit_Draw (void)
 
 void M_Init (void)
 {
+#ifndef AGRIP
 	Cvar_Register (&scr_centerMenu);
 #ifdef GLQUAKE
 	Cvar_Register (&scr_scaleMenu);
@@ -2623,6 +2624,7 @@ void M_Init (void)
 	Cmd_AddCommand ("help", M_Menu_Help_f);
 	Cmd_AddCommand ("menu_help", M_Menu_Help_f);
 	Cmd_AddCommand ("menu_quit", M_Menu_Quit_f);
+#endif
 }
 
 
