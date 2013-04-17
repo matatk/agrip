@@ -9,3 +9,4 @@ zq-repo/zquake/release-*
 zq-repo/zqcc/*.o
 zq-repo/zqcc/zqcc
 PyGUI-2.5.3
+pyttsx-1.1

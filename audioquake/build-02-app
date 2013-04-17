@@ -36,6 +36,7 @@ cp -a mindgrid-audio_quake_2003.09.22/* $D_APP/Contents/MacOS/
 rm $D_APP/Contents/MacOS/pak2.pak  # it's already in id1/
 
 # Get PyGUI if needed
+PYGUI="PyGUI-2.5.3"
 get_summat \
 	$PYGUI \
 	$PYGUI/README.txt \
@@ -44,5 +45,16 @@ get_summat \
 	"http://www.cosc.canterbury.ac.nz/greg.ewing/python_gui/$PYGUI.tar.gz" \
 	'tar.gz'
 cp -a $PYGUI/GUI $D_APP/Contents/MacOS/
+
+# Get pyttsx if needed
+PYTTSX="pyttsx-1.1"
+get_summat \
+	$PYTTSX \
+	$PYTTSX/README.rst \
+	'the pyttsx libary' \
+	'' \
+	"https://pypi.python.org/packages/source/p/pyttsx/pyttsx-1.1.tar.gz" \
+	'tar.gz'
+cp -a $PYTTSX/pyttsx $D_APP/Contents/MacOS/
 
 echo build complete!

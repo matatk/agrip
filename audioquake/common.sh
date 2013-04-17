@@ -1,5 +1,3 @@
-PYGUI="PyGUI-2.5.3"
-
 function get_summat() {
 	# Checks for presence of a certain type of file; downloads the
 	# default data of the type if need be.  Then removes the download.

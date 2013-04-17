@@ -3,6 +3,7 @@ import sys, os  # chdir hack
 import subprocess  # controller
 from GUI import Window, Button, application
 from GUI.StdMenus import basic_menus, fundamental_cmds
+import pyttsx
 
 
 class GameController(object):
@@ -73,8 +74,14 @@ class LauncherSingletonWindow(Window):
 		    title = "Quit Launcher",
 			action = self.close_cmd
 		))
+
+		self.engine = pyttsx.init()
+		self.engine.say('Welcome to Quake')
+		self.engine.startLoop(False)
+		self.engine.iterate()
 	
 	def close_cmd(self):
+		self.engine.endLoop()
 		self._application.quit_cmd()
 	
 	def btn_default(self):
