@@ -15,11 +15,11 @@ D_MOD_DEV="agrip-dev/" ; chk_dir $D_MOD_DEV
 D_QC="$D_ZQ_DEV_BASE/qc/agrip/" ; chk_dir $D_QC
 D_ZQCCS="$D_ZQ_DEV_BASE/zqcc" ; chk_dir $D_ZQCCS
 ZQCC="$D_ZQCCS/zqcc"
-F_MAPS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip"
-F_DEMOS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip"
-F_SKINS="https://dl.dropbox.com/sh/quqwcm244sqoh5a/QlAYOO3MLl/devfiles/skins.zip"
-F_SHAREWARE="https://dl.dropbox.com/sh/quqwcm244sqoh5a/jhcvn0KyLd/data/quake-shareware-1.06.zip"
-F_MINDGRID="https://dl.dropbox.com/sh/quqwcm244sqoh5a/tS5qRFx_Am/data/mindgrid-audio_quake_2003.09.22.zip"
+F_MAPS="https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip"
+F_DEMOS="https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip"
+F_SKINS="https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/QlAYOO3MLl/devfiles/skins.zip"
+F_SHAREWARE="https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/jhcvn0KyLd/data/quake-shareware-1.06.zip"
+F_MINDGRID="https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/tS5qRFx_Am/data/mindgrid-audio_quake_2003.09.22.zip"
 
 # Check for commands
 chk_cmd curl "downloading development resources"

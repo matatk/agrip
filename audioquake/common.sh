@@ -1,3 +1,7 @@
+# These need to be here for cleaning script as well as app-building script
+PYGUI="PyGUI-2.5.3"
+PYTTSX="pyttsx-1.1"
+
 function get_summat() {
 	# Checks for presence of a certain type of file; downloads the
 	# default data of the type if need be.  Then removes the download.
