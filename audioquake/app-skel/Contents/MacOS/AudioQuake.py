@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 import sys, os  # chdir hack
 import subprocess  # controller
+
 from GUI import Window, Button, application
 from GUI.StdMenus import basic_menus, fundamental_cmds
+
 import pyttsx
 
 
@@ -17,18 +19,20 @@ class GameController(object):
 		"+deathmatch 0",
 		"+map agtut01")
 	
-	def _say(self, line):
-		sys.stdout.write("say: " + line)  # TODO remove for production
-		subprocess.Popen(('/usr/bin/say', line))
-
 	def _launch_core(self, command_line):
 		proc = subprocess.Popen(command_line, stdout=subprocess.PIPE)
+		speaker = pyttsx.init()
+		speaker.startLoop(False)
 		while True:
 			retcode = proc.poll()
-			line = proc.stdout.readline()
-			self._say(line)
+			line = proc.stdout.readline().rstrip()
+			print 'say:', line
+			speaker.say(line)
+			# With the following line, we get one utterance (zero without).
+			speaker.iterate()
 			if retcode is not None:
 				break
+		speaker.endLoop()
 
 	def launch_default(self):
 		self._launch_core(self._opts_default)
@@ -75,13 +79,7 @@ class LauncherSingletonWindow(Window):
 			action = self.close_cmd
 		))
 
-		self.engine = pyttsx.init()
-		self.engine.say('Welcome to Quake')
-		self.engine.startLoop(False)
-		self.engine.iterate()
-	
 	def close_cmd(self):
-		self.engine.endLoop()
 		self._application.quit_cmd()
 	
 	def btn_default(self):
