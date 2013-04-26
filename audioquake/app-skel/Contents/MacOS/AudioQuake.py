@@ -20,10 +20,9 @@ class EngineWrapper(threading.Thread):
 		self._out_queue.put(False)
 
 	def run(self):
-		BLANKS = 2
-		proc = subprocess.Popen(self._command_line, stdout=subprocess.PIPE)
-		blank_lines = 0
+		seen_blank = False
 		initialised = False
+		proc = subprocess.Popen(self._command_line, stdout=subprocess.PIPE)
 
 		while True:
 			retcode = proc.poll()
@@ -39,12 +38,11 @@ class EngineWrapper(threading.Thread):
 				# When the engine has finished splurting out stuff
 				# during initialisation, the game has started, so
 				# clear the queue and start announcing game messages.
-				if initialised or blank_lines > BLANKS:
+				if not initialised and seen_blank:
 					self._shut_up()
+					initialised = True
 				else:
-					blank_lines += 1
-					initialised = True if blank_lines > BLANKS else False
-				pass  # Sometimes the game prints blank lines
+					seen_blank = True
 
 			if retcode is not None:
 				self._shut_up()

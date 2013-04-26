@@ -8,7 +8,7 @@ function get_summat() {
 	# $1 is the dir to check for and to extract to
 	# $2 is the file to check for
 	# $3 is the plural name of the type of thing
-	# $4 is the messaage about the download
+	# $4 is the message about the download
 	# $5 is the URL to download
 	# $6 is the type ('zip' or 'tar.gz')
 

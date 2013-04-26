@@ -109,7 +109,7 @@ get_summat \
 	'Compile any skins you add and store them in the "skins" directory.' \
 	$F_SKINS \
 	'zip'
-cp -r skins/ $D_MOD/
+cp -r skins $D_MOD/
 
 # Get/copy in shareware data
 get_summat \
