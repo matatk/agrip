@@ -2,7 +2,7 @@ ACKNOWLEDGEMENTS
 =================
 
 Code
-=====
+-----
 
 The ZQuake QuakeWorld engine and QuakeC repository are used as the basis for AudioQuake.  They are contributed to by a number of developers.  You can find out more at: http://zquake.frag.ru/
 
@@ -26,7 +26,7 @@ The contributions of the various people and parties here have helped make this p
 
 
 Sounds
-=======
+-------
 
 The sounds in AudioQuake were all designed and worked on by Sabahattin Gucukoglu.  However, some of the sounds were based on sounds in other projects.  The AGRIP project deeply thanks the following open projects and/or people for making their sounds available to us under compatible licenses that permit liberal reuse, modification and redistribution in our own project -- the job would have been a heck of a lot harder without their gracious contributions to open artwork:
 
@@ -37,7 +37,7 @@ The sounds in AudioQuake were all designed and worked on by Sabahattin Gucukoglu
 * Nexuiz Project ( http://www.nexuiz.com/ ) for some nicely refinable sound used in the ESR line-of-sight, for the sounds used in our ICC 2005 sound mod demonstration, and generally for their commitment to opening everything necessary, artwork included, for an entirely playable open source deathmatch first-person shooter.
 
 Documentation
-==============
+--------------
 
 A very important, often overlooked area!  The DocBook manual and README files were written by Matthew Tylee Atkinson.  Here is the list of external resources and people that have helped:
 

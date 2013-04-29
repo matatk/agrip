@@ -141,21 +141,21 @@ class LauncherSingletonWindow(Window):
 		self.add(Button(
 			position = (10, 10), 
 			size = (120, 25),
-		    title = "Play Quake",
+			title = "Play Quake",
 			action = self._btn_default
 		))
 
 		self.add(Button(
 			position = (10, 40), 
 			size = (120, 25),
-		    title = "Play Tutorial",
+			title = "Play Tutorial",
 			action = self._btn_tutorial
 		))
 
 		self.add(Button(
 			position = (10, 100), 
 			size = (120, 25),
-		    title = "Quit Launcher",
+			title = "Quit Launcher",
 			action = self._close_cmd
 		))
 
