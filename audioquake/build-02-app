@@ -55,4 +55,7 @@ get_summat \
 	'tar.gz'
 cp -a $PYTTSX/pyttsx $D_APP/Contents/MacOS/
 
+echo Copying in README and LICENCE info...
+cp ../README.md ../LICENCE.md $D_APP/Contents/MacOS/
+
 echo build complete!

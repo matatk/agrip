@@ -109,7 +109,7 @@ class GameController(object):
 				self._speaker,
 				self._in_queue,
 				self._game_ended),
-			0.25,
+			0.1,
 			True,
 			True)
 
@@ -134,7 +134,7 @@ class LauncherSingletonWindow(Window):
 
 		self.auto_position = False
 		self.position = (200, 250)
-		self.size = (140, 135)
+		self.size = (140, 170)
 		self.resizable = 0
 		self.zoomable = 0
 
@@ -153,7 +153,21 @@ class LauncherSingletonWindow(Window):
 		))
 
 		self.add(Button(
+			position = (10, 70), 
+			size = (120, 25),
+			title = "README",
+			action = self._btn_readme
+		))
+
+		self.add(Button(
 			position = (10, 100), 
+			size = (120, 25),
+			title = "Licence",
+			action = self._btn_licence
+		))
+
+		self.add(Button(
+			position = (10, 140), 
 			size = (120, 25),
 			title = "Quit Launcher",
 			action = self._close_cmd
@@ -168,6 +182,12 @@ class LauncherSingletonWindow(Window):
 
 	def _btn_tutorial(self):
 		self._game_controller.launch_tutorial()
+
+	def _btn_readme(self):
+		subprocess.call(('open', '-a', 'TextEdit', 'README.md'))
+
+	def _btn_licence(self):
+		subprocess.call(('open', '-a', 'TextEdit', 'LICENCE.md'))
 
 
 if __name__ == '__main__':
