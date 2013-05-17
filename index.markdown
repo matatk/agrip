@@ -16,13 +16,13 @@ title: The AGRIP Project
 
 <a name='update'>
 </a>
-# Project Update: April 2013
+# Project Update: May 2013
 
-Since the last update, we have started working on cross-platform text-to-speech improvements, so as to make the game actually usable, starting on the Mac but keeping Windows in mind.  The previous update text is below for your information.
+Since the last update we've got text-to-speech working on the Mac and are hoping to release a new version of that soon.  We're also looking into updating the documentation and getting it working on Windows too.  Here are some links to more information.
 
-We're working to get AudioQuake and the Level Description Language working and much more easily installable on modern platforms.  We've got a new GUI launcher in the works and an application bundle for Mac OS X users.  You can download the latest [experimental Mac version](https://www.dropbox.com/sh/quqwcm244sqoh5a/CiKpeYHOTi) and/or check out the [source code on github](https://github.com/matatk/agrip) and build it for yourself.
-
-We'll work on a GUI for the Level Description Language and a new easy-to-install-and-run Windows version of both as soon as we're able.  Meantime, please also check out the [Google Group](https://groups.google.com/group/agrip-project).  We'll try to keep this page (at least) updated, too...
+ * Our [Google Group](https://groups.google.com/group/agrip-project).
+ * The [AGRIP folder on Dropbox](https://www.dropbox.com/sh/quqwcm244sqoh5a/CiKpeYHOTi) contains experimental releases (built often).
+ * The [source code on github](https://github.com/matatk/agrip).
 
 <a name='gigo'>
 </a>
