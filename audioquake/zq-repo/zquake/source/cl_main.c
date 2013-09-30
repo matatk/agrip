@@ -705,7 +705,7 @@ void CL_ConnectionlessPacket (void)
 
 	if (c == S2C_CONNECTION) {
 #ifndef AGRIP
-		if (!com_serveractie || developer.value)
+		if (!com_serveractive || developer.value)
 			Com_Printf ("%s: connection\n", NET_AdrToString(net_from));
 #endif
 		if (cls.state >= ca_connected)
