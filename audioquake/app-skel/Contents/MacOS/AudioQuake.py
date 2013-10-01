@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys, os  # chdir hack
+import platform
 import subprocess, threading, Queue  # launching the game
 
 from GUI import Window, Button, application, Task
@@ -51,17 +52,16 @@ class EngineWrapper(threading.Thread):
 
 
 class GameController(object):
-	_opts_default = (
-		"./zquake-glsdl",
-		"-window",
-		"+set sensitivity 0")
-
-	_opts_tutorial = (
-		"+coop 0",
-		"+deathmatch 0",
-		"+map agtut01")
+	_engine = None
+	_opts_default = ("-window", "+set sensitivity 0")
+	_opts_tutorial = ("+coop 0", "+deathmatch 0", "+map agtut01")
 
 	def __init__(self):
+		if platform.system() == 'Windows':
+			self._engine = 'zquake-gl.exe'
+		else:  # assume Mac for now (may also work on Linux)
+			self._engine = './zquake-glsdl'
+
 		self._messages_task = None
 		self._running = False
 		self._in_queue = Queue.Queue()
@@ -114,14 +114,22 @@ class GameController(object):
 			True)
 
 	def launch_default(self):
-		self._launch_core(self._opts_default)
+		self._launch_core((self._engine,) + self._opts_default)
 
 	def launch_tutorial(self):
-		self._launch_core(self._opts_default + self._opts_tutorial)
+		# FIXME the tutorial options are ignored on Windows
+		self._launch_core((self._engine,) + self._opts_default + self._opts_tutorial)
 
 
 class LauncherSingletonWindow(Window):
+	_text_viewer_command = None
+
 	def __init__(self, application, *args, **kwargs):
+		if platform.system() == 'Windows':
+			self._text_viewer_command = ('cmd', '/c', 'start', 'wordpad')
+		else:  # assume Mac for now (won't work on Linux)
+			self._text_viewer_command = ('open', '-a', 'TextEdit')
+
 		super(LauncherSingletonWindow, self).__init__(
 			title = "Launcher",
 			resizable = False,
@@ -184,10 +192,10 @@ class LauncherSingletonWindow(Window):
 		self._game_controller.launch_tutorial()
 
 	def _btn_readme(self):
-		subprocess.call(('open', '-a', 'TextEdit', 'README.md'))
+		subprocess.call(self._text_viewer_command + ('README.md',))
 
 	def _btn_licence(self):
-		subprocess.call(('open', '-a', 'TextEdit', 'LICENCE.md'))
+		subprocess.call(self._text_viewer_command + ('LICENCE.md',))
 
 
 if __name__ == '__main__':
