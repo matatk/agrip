@@ -1,11 +1,11 @@
 #!/bin/bash
 echo "AudioQuake Repository Cleanup Script"
 echo " $0 gen  -- clean generated files."
-echo " $0 most -- clean generated files, code."
-echo " $0 all  -- clean generated files, code and support files."
+echo " $0 most -- clean generated files, ZQ code."
+echo " $0 all  -- clean generated files, ZQ code and support files."
 echo
 echo "generated files: id1/ and AudioQuake.app/."
-echo "code: the zquake repository (zqcc, qc and the engine)."
+echo "ZQ code: the zquake repository (zqcc, qc and the engine)."
 echo "support files: map bsp files, skins, demos, shareware, mindgrid, PyGUI, pyttsx"
 echo "  -- they will need to be re-downloaded in future."
 echo
@@ -25,7 +25,7 @@ rm -rf id1 AudioQuake.app
 echo
 
 if [ "$1" == "most" ] || [ "$1" == "all" ]; then
-	echo Code...
+	echo ZQ Code...
 	cd zq-repo
 	./agrip-cleanup
 	cd - > /dev/null

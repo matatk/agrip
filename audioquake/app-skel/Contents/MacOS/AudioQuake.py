@@ -80,10 +80,10 @@ class GameController(object):
 		self._running = False
 
 	def _launch_core(self, command_line):
-		if self._running:
-			return
-		self._running = True
+		assert not self._running
 		assert self._messages_task is None
+
+		self._running = True
 		engine_wrapper = EngineWrapper(command_line, self._in_queue)
 		engine_wrapper.start()
 
