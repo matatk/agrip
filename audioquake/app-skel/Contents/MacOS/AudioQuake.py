@@ -199,7 +199,7 @@ class LauncherSingletonWindow(Window):
 
 
 if __name__ == '__main__':
-	os.chdir(os.path.dirname(sys.argv[0]))
+	os.chdir(os.path.abspath(os.path.dirname(sys.argv[0])))
 	app = application()
 	app.menus = basic_menus(include = fundamental_cmds)
 	launcher = LauncherSingletonWindow(app)
