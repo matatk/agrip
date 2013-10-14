@@ -8,7 +8,7 @@ title: The AGRIP Project
 
 # Navigation
 
- * [Project Update: April 2013](#update)
+ * [Project Update: October 2013](#update)
  * [Get it; Get Involved](#gigo)
  * [Why?](#why)
  * [Whom](#whom)
@@ -16,13 +16,11 @@ title: The AGRIP Project
 
 <a name='update'>
 </a>
-# Project Update: May 2013
+# Project Update: October 2013
 
-Since the last update we've got text-to-speech working on the Mac and are hoping to release a new version of that soon.  We're also looking into updating the documentation and getting it working on Windows too.  Here are some links to more information.
+We are now close to being able to make a Windows re-release.  We have the engine and Launcher working and compiling on Windows and are just missing a setup routine.  We are also working on getting the <code>zqcc</code> QuakeC compiler going on Windows and on using <code>cx_Freeze</code> to make the build process more cross-platform (meaning sharing as much code as possible across Mac and Windows, thus simplifying the process and helping everyone run a build, no matter which platform they're using).
 
- * Our [Google Group](https://groups.google.com/group/agrip-project).
- * The [AGRIP folder on Dropbox](https://www.dropbox.com/sh/quqwcm244sqoh5a/CiKpeYHOTi) contains experimental releases (built often).
- * The [source code on github](https://github.com/matatk/agrip).
+Technical information can be [found in the Google Group discussion thread](https://groups.google.com/forum/#!topic/agrip-project/jFjf5vYcopA).
 
 <a name='gigo'>
 </a>
@@ -34,7 +32,7 @@ Links to keep up-to-date with and download the latest AudioQuake and Level Descr
  * join in the [continued development effort](https://github.com/matatk/agrip/).
  * visit the home of [JediQuake](http://tbrn.andrelouis.com/modgirl/); the most popular AudioQuake mod and version of the game **(this is probably the option you want if you want to play the game ;-))**.
  * visit [Matthew's 'blog](http://matatk.agrip.org.uk/).
- * download the [experimental Mac application bundle](https://www.dropbox.com/sh/quqwcm244sqoh5a/CiKpeYHOTi).
+ * The [AGRIP folder on Dropbox](https://www.dropbox.com/sh/quqwcm244sqoh5a/CiKpeYHOTi) contains experimental releases (built often).
 
 <a name='why'>
 </a>
@@ -60,7 +58,7 @@ For some time now, many people and organisations (such as [the IGDA Game Accessi
 </a>
 # More Info
 
-Development continues in the community.  In line with revamping AudioQuake and the Level Description Language for modern platforms, we are dusting off the old site that has been preserved for posterity for the past few years.  For now, you can read the following pages for more information.
+Development continues in the community.  The old site that was been preserved for posterity in 2009 (with minor updates continuing into 2012).  You can read the following pages for more information.
 
  * visit our preserved "[about](about/)" page.
  * investigate the [Level Description Language](ldl/).
