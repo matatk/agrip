@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import sys, os  # chdir hack
 import platform
 import subprocess, threading, Queue  # launching the game

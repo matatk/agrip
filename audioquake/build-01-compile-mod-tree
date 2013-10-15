@@ -1,8 +1,7 @@
 #!/bin/bash
 echo "AudioQuake Mod Compilation Script"
 echo " - Ensures required data files are present;"
-echo "   compiles QuakeC, creates up-to-date mod directory"
-echo "   and puts it in the ZQuake installation"
+echo "   compiles QuakeC, creates up-to-date mod directory."
 echo
 
 . common.sh

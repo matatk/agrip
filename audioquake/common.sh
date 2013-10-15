@@ -1,8 +1,8 @@
-# These need to be here for cleaning script as well as app-building script
-PYGUI="PyGUI-2.5.3"
-PYTTSX="pyttsx-1.1"
+# For app-staging and cleanup scripts...
+D_MOD="id1"
+D_APP="app-staging"
 
-function get_summat() {
+function get_summat {
 	# Checks for presence of a certain type of file; downloads the
 	# default data of the type if need be.  Then removes the download.
 	# $1 is the dir to check for and to extract to
@@ -19,7 +19,7 @@ function get_summat() {
 		echo "    It appears you don't have $3 in this development tree;"
 		echo "    default(s) will now be downloaded."
 		[[ "$4" ]] && echo "    $4"
-	    echo "    Downloading $5..."
+		echo "    Downloading $5..."
 		if [ $6 == 'zip' ]; then
 			$GET_CMD && unzip -q $1.zip && rm $1.zip
 		elif [ $6 == 'tar.gz' ]; then
@@ -38,52 +38,36 @@ function clean_ds
 
 function chk_dir
 {
-    if [[ ! -d $1 ]]; then
-        echo -n "Couldn't find the directory $1"
-        if [[ $2 ]]; then
-            echo ", which is needed for $2."
-        else
-            echo
-        fi
-        exit 42
-    fi
+	_chk_fd_core 'directory' "$1" "$2"
 }
 
 function chk_file
 {
-    if [[ ! -r $1 ]]; then
-        echo -n "Couldn't find the directory $1"
-        if [[ $2 ]]; then
-            echo ", which is needed for $2."
-        else
-            echo
-        fi
-        exit 42
-    fi
+	_chk_fd_core 'file' "$1" "$2"
+}
+
+function _chk_fd_core
+{
+	if [[ ! -r $2 ]]; then
+		echo -n "Couldn't find the $1 $2"
+		if [[ $3 ]]; then
+			echo ", which is needed for $3."
+		else
+			echo
+		fi
+		exit 42
+	fi
 }
 
 function chk_cmd
 {
-    if [[ ! -x $(which $1) ]]; then
-        echo -n "Can't execute the command $1"
-        if [[ $2 ]]; then
-            echo ", which is needed for $2."
-        else
-            echo
-        fi
-        exit 42
-    fi
-}
-
-function chk_cmd_local
-{
-    if [[ ! -x $1 ]]; then
-        echo -n "Can't execute the command $1"
-        if [[ $2 ]]; then
-            echo ", which is needed for $2."
-        else
-            echo
-        fi
-        exit 42
-    fi
+	if [[ ! -x $(which $1) ]]; then
+		echo -n "Can't execute the command $1"
+		if [[ $2 ]]; then
+			echo ", which is needed for $2."
+		else
+			echo
+		fi
+		exit 42
+	fi
 }

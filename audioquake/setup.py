@@ -1,20 +1,69 @@
-import sys
+import platform
 from cx_Freeze import setup, Executable
 
-# GUI applications require a different base on Windows (the default is for a
-# console application).
+include_files = [
+	"COPYING",
+	"ACKNOWLEDGEMENTS.md",
+	"CHANGELOG.md",
+	"LICENCE.md",
+	"README.md",
+	"cwsdpmi.exe",
+	"genvxd.dll",
+	"help.txt",
+	"id1/",
+	"licinfo.txt",
+	"mgenvxd.vxd",
+	"mindgrid-audio_-_quake.txt",
+	"order.txt",
+	"pdipx.com",
+	"q95.bat",
+	"qlaunch.exe",
+	"quake.exe",
+	"quakeudp.dll",
+	"readme.txt",
+	"readv106.txt",
+	"slicnse.txt",
+	"techinfo.txt"
+]
+
+includes = None
 base = None
-if sys.platform == "win32":
-    base = "Win32GUI"
+packages = None
+
+if platform.system() == "Windows":
+	base = "Win32GUI"
+	#includes = ["pyttsx", "pyttsx.drivers.sapi5"]
+	includes = ["pyttsx.drivers.sapi5"]
+	packages = ["win32com.gen_py"]
+	include_files += [
+		'zquake-gl.exe',
+		'zqds.exe'
+	]
+elif platform.system() == "Darwin":
+	includes = [
+		"pyttsx.drivers.nsss",
+		"PyObjCTools",
+		"pkg_resources"
+	]
+	include_files += [
+		'zquake-glsdl',
+		'zqds'
+	]
+else:
+	raise "Platform " + platform.system() + " is not currently supported."
 
 setup(
-	name = "AudioQuke",
-	version = "42",
+	name = "AudioQuake",
+	version = "FIXME",
 	options = {
 		'build_exe': {
-			'includes': ["pyttsx", "pyttsx.drivers.sapi5"],
-			'packages': ["win32com.gen_py"]
+			'includes': includes,
+			'packages': packages,
+			'include_files': include_files
+		},
+		'bdist_mac': {
+			#'iconfile': "../aq.icns"
 		}
 	},
-        executables = [Executable("AudioQuake.py", base=base)]
+	executables = [Executable("AudioQuake.py", base=base)]
 )

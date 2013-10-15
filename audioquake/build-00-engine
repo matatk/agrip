@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "AudioQuake Engine Compilation Script"
+echo " - Compiles the engine in server and (client+server) OpenGL variants"
 echo
 
 cd zq-repo/zquake/
