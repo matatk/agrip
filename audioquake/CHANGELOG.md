@@ -1,3 +1,9 @@
+AudioQuake 2013.1 (???)
+========================
+
+This is a re-release where we've revamped the code to run on modern platforms, with a new launcher and modern, cross-platform build system and installer (if applicable on your platform).  There are no functionality changes, but it should be a great deal easier to get, play and modify the game now!
+
+
 AudioQuake 0.3.0 (02/01/2008)
 ==============================
 
