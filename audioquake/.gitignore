@@ -1,7 +1,7 @@
+# App staging area
+app-staging
 # Compiled mod tree
 id1
-# Mac
-AudioQuake.app
 # Compiled maps
 *.bsp
 # Support files
@@ -12,12 +12,9 @@ mindgrid-audio_quake_2003.09.22
 # *nix compilation
 zq-repo/zquake/release-*
 zq-repo/zqcc/*.o
-zq-repo/zqcc/zqcc
+zq-repo/zqcc/zqcc*
 # Visual Studio
 zq-repo/zquake/source/Release-*
 zq-repo/zquake/source/*.v12.suo
 zq-repo/zquake/source/*.sdf
 zq-repo/zquake/source/*.user
-# Libraries
-PyGUI-2.5.3
-pyttsx-1.1

@@ -9,7 +9,6 @@ echo
 # Variables
 D_BASE=`pwd`
 D_ZQ_DEV_BASE="$D_BASE/zq-repo"
-D_MOD="id1/"
 D_MOD_DEV="agrip-dev/" ; chk_dir $D_MOD_DEV
 D_QC="$D_ZQ_DEV_BASE/qc/agrip/" ; chk_dir $D_QC
 D_ZQCCS="$D_ZQ_DEV_BASE/zqcc" ; chk_dir $D_ZQCCS

@@ -28,7 +28,7 @@ For various reasons, it is recommended to build your own Python and not use the 
 * To test it's set up correctly, run `which python` and you should find that the result is: `/usr/local/bin/python`
 * You'll need PyObjC, which you should install by running `pip install -U pyobjc-core` and then `pip -U pyobjc`
 * Get the text-to-speech library with: `pip install pyttsx`
-* To install PyGUI, download <http://www.cosc.canterbury.ac.nz/greg.ewing/python_gui/PyGUI-2.5.3.tar.gz>, extract it, then run: `python setup.py install`
+* Install PyGUI by downloading the .tar.gz file from <http://www.cosc.canterbury.ac.nz/greg.ewing/python_gui/> and extracting it.  Then run: `python setup.py install`
 * To install cx_Freeze, download from <http://cx-freeze.sourceforge.net>, extract and then run: `python setup.py install`
 
 ### Engine and AudioQuake code

@@ -69,8 +69,9 @@ ifeq ($(CC_BASEVERSION),2)
 	# gcc 2.95.x does not know about -falign-XXX optimizations...
 	BASE_RELEASE_CFLAGS	+= -O3
 else
-	# NOTE: taken out for clang on OS X
+	# NOTE: altered for clang on OS X
 	#BASE_RELEASE_CFLAGS	+= -O6
+	BASE_RELEASE_CFLAGS	+= -O4
 ifeq ($(ARCH),ppc)
 	BASE_RELEASE_CFLAGS	+= -falign-loops=16 -falign-jumps=16 -falign-functions=16
 else

@@ -6,9 +6,5 @@
 	<string>AudioQuake</string>
 	<key>CFBundleIconFile</key>
 	<string>icon.icns</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>AudioQuake</string>
 </dict>
 </plist>

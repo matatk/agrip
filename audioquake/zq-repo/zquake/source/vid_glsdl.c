@@ -23,6 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "gl_local.h"
 #include "keys.h"
 #include "input.h"
+// Mavericks gamma bug
+// FIXME: only disable gamma setting on Mavericks?
+#if __APPLE__
+    #include "TargetConditionals.h"
+#endif
 
 static SDL_Surface *screen = NULL;
 Uint32 flags = 0; // SDL flags
@@ -821,6 +826,8 @@ void VID_SetCaption (char *text) {
 	SDL_WM_SetCaption(text, text);
 }
 void VID_SetDeviceGammaRamp (unsigned short *ramps) {
+#ifndef TARGET_OS_MAC
 	SDL_SetGammaRamp (ramps, ramps + 256, ramps + 512);
+#endif
 }
 

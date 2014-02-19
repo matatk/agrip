@@ -801,7 +801,13 @@ int		 main (int argc, char **argv)
 	char	*src2;
 	int		 arg, crc;
 	char	 sourcedir[1024];
+// Mavericks crash
+// Not really sure about the root cause, but this works :-/
+#if __APPLE__
+	char     progssrc[512];
+#else
 	char     progssrc[1024];
+#endif
 	char	 filename[1024];
 	eval_t	 zqcc_value;
 

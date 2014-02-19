@@ -1,6 +1,7 @@
+#!/bin/bash
 ./build && \
+echo && echo ======================================================================= && echo && \
 cd app-staging && \
 cp -a /System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC/PyObjCTools . && \
 cp -a /System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py . && \
-python setup.py bdist_mac && \
-cp ../Info.plist build/AudioQuake-FIXME.app/Contents/
+python setup.py bdist_mac
