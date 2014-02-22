@@ -19,7 +19,7 @@ class Info:
 	base_dir = os.getcwd()
 
 class Config:
-	do_compile = False
+	do_compile = True
 	dir_make_zqcc = os.path.join('zq-repo', 'zqcc')
 	dir_make_zquake = 'zq-repo/zquake'
 	dir_qc = os.path.join('zq-repo', 'qc', 'agrip')
