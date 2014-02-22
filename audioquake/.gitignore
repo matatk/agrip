@@ -15,6 +15,11 @@ zq-repo/zqcc/zqcc*
 # Gamecode
 zq-repo/qc/agrip/*.dat
 # Visual Studio
+zq-repo/zqcc/Release
+zq-repo/zqcc/Debug
+zq-repo/zqcc/*.v12.suo
+zq-repo/zqcc/*.sdf
+zq-repo/zqcc/*.user
 zq-repo/zquake/source/Release-*
 zq-repo/zquake/source/*.v12.suo
 zq-repo/zquake/source/*.sdf

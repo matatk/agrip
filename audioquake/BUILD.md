@@ -65,5 +65,5 @@ To get the Python side of things working, including the program that will turn t
 For compiling the ZQuake engine binaries, follow these steps.
 
 * We used Visual Studio Express 2013, though 2010 and 2012 should work fine.
-* You need to install 'Microsoft Foundation Classes for C++' by following CodeProject's instructions: <http://www.codeproject.com/Articles/30439/How-to-compile-MFC-code-in-Visual-C-Express> -- however the download link for the Windows 2003 DDK is actually now <http://download.microsoft.com/download/9/0/f/90f019ac-8243-48d3-91cf-81fc4093ecfd/1830_usa_ddk.iso>.
+* You need to install 'Microsoft Foundation Classes for C++' as the code depends on these. We have updated the project files so that you should not need to do anything other than install the extensions.  Instructions to download and install them, and update project config files are provided by CodeProject: <http://www.codeproject.com/Articles/30439/How-to-compile-MFC-code-in-Visual-C-Express> -- however the download link for the Windows 2003 DDK is actually now <http://download.microsoft.com/download/9/0/f/90f019ac-8243-48d3-91cf-81fc4093ecfd/1830_usa_ddk.iso>.  Again, you only need to follow the installation instructions, as we've updated the project files to reference the required include files and libraries.
 * You should then be able to compile the engine executables on Windows.
