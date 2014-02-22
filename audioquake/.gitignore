@@ -1,18 +1,19 @@
-# App staging area
+# Staging area
 app-staging
-# Compiled mod tree
-id1
 # Compiled maps
 *.bsp
 # Support files
-demos
-skins
-quake-shareware-1.06
-mindgrid-audio_quake_2003.09.22
+maps.zip
+demos*
+skins*
+quake-shareware-1.06*
+mindgrid-audio_quake_2003.09.22*
 # *nix compilation
 zq-repo/zquake/release-*
 zq-repo/zqcc/*.o
 zq-repo/zqcc/zqcc*
+# Gamecode
+zq-repo/qc/agrip/*.dat
 # Visual Studio
 zq-repo/zquake/source/Release-*
 zq-repo/zquake/source/*.v12.suo

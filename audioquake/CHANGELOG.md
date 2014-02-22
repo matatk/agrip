@@ -1,7 +1,9 @@
-AudioQuake 2013.1 (???)
+AudioQuake 2014.0 (???)
 ========================
 
-This is a re-release where we've revamped the code to run on modern platforms, with a new launcher and modern, cross-platform build system and installer (if applicable on your platform).  There are no functionality changes, but it should be a great deal easier to get, play and modify the game now!
+This is a re-release where we've revamped the code to run on modern platforms, with a new launcher and modern, cross-platform build system.  There are no functionality changes, but it should be a great deal easier to get, play and modify the game now!
+
+We'll be updating the user and development documentation, and including LDL as part of the bundle in future releases, to make it even easier to get into and to modify and create maps for the game.
 
 
 AudioQuake 0.3.0 (02/01/2008)

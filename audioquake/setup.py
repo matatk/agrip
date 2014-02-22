@@ -2,9 +2,9 @@ import platform
 from cx_Freeze import setup, Executable
 
 with open('../release', 'r') as f:
-    release_number = f.readline().rstrip()
-    release_name = f.readline().rstrip()
-    print 'Building', release_number, '--', release_name, '...'
+	release_number = f.readline().rstrip()
+	release_name = f.readline().rstrip()
+	print 'Building', release_number, '--', release_name, '...'
 
 include_files = [
 	'COPYING',
@@ -68,7 +68,7 @@ setup(
 		},
 		'bdist_mac': {
 			'iconfile': '../aq.icns',
-                        'custom_info_plist': '../Info.plist'
+						'custom_info_plist': '../Info.plist'
 		}
 	},
 	executables = [Executable('AudioQuake.py', base=base)]
