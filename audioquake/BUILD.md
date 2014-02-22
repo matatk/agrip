@@ -3,6 +3,8 @@ Building AudioQuake
 
 This is very-much a work-in-progress as we move to a new build system that should work across Mac and Windows.
 
+**Note:** if you build on the Mac, you will get a Mac bundled version of AudioQuake; if you build on Windows you'll get a Windows version.  You can only build an AudioQuake package for the OS you're running.
+
 Mac
 ----
 
@@ -40,13 +42,15 @@ For various reasons, it is recommended to build your own Python and not use the 
 ### Using the AudioQuake build system
 
 * Dependencies will be downloaded by the build scripts when run (and kept locally for future reuse).
-* There are several build scripts that build different parts of the overall system.  To build everything, simply issue `./build' in the `audioquake` directory of the master branch of the git repo.
-* The results of running the build script will be an 'app staging area' called `app-staging`, which includes all of the files needed to build an redistributable version of AudioQuake (i.e. AudioQuake.app, if run on the Mac).  To actually create the redistributable using `cx_Freeze`, run the `./freeze` script, which runs a build and then the freezing process, with some tweaks to work around problems with that process.
+* To ensure that the engine and gamecode are compiled, download the support files (if need be) and get all the files ready to be built into an application, run the `prepare.py` script.
+* The results of running the build script will be "staging area" called `app-staging`, which includes all of the files needed to build an redistributable version of AudioQuake (i.e. AudioQuake.app, if run on the Mac).  To actually create the redistributable using `cx_Freeze`, run `python setup.py bdist_mac` from within the staging directory.
 * You can also clean various parts of the software using the `./clean` script, which will print out help/usage information when run with no parameters.
 
 
 Windows
 --------
+
+**Note:** currently there's no way to run a proper build on Windows; this will change very shortly as the new build system written in Python is now being tested on and tweaked for Windows.
 
 To get the Python side of things working, including the program that will turn the Python code and all the supporting libraries into an executable for easy redistribution, follow these steps.
 
