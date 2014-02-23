@@ -16,11 +16,9 @@ title: The AGRIP Project
 
 <a name='update'>
 </a>
-# Project Update: October 2013
+# Project Update: February 2014
 
-We are now close to being able to make a Windows re-release.  We have the engine and Launcher working and compiling on Windows and are just missing a setup routine.  We are also working on getting the <code>zqcc</code> QuakeC compiler going on Windows and on using <code>cx_Freeze</code> to make the build process more cross-platform (meaning sharing as much code as possible across Mac and Windows, thus simplifying the process and helping everyone run a build, no matter which platform they're using).
-
-Technical information can be [found in the Google Group discussion thread](https://groups.google.com/forum/#!topic/agrip-project/jFjf5vYcopA).
+As [detailed in the Google Group discussion](https://groups.google.com/d/msg/agrip-project/dg-TpWRcaCM/ibngkBjllcwJ) we are now very close to a Windows re-release, as the engine and build system are, finally, both working fine on Mac and Windows.  Whilst there are some rough edges, these are now almost exclusively in the documentation of the process, rather than software bugs.  Watch this space!
 
 <a name='gigo'>
 </a>
