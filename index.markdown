@@ -8,7 +8,7 @@ title: The AGRIP Project
 
 # Navigation
 
- * [Project Update: October 2013](#update)
+ * [Project Update: February 2014](#update)
  * [Get it; Get Involved](#gigo)
  * [Why?](#why)
  * [Whom](#whom)
