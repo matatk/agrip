@@ -37,9 +37,8 @@ packages = None
 
 if platform.system() == 'Windows':
 	base = 'Win32GUI'
-	#includes = ['pyttsx', 'pyttsx.drivers.sapi5']
 	includes = ['pyttsx.drivers.sapi5']
-	packages = ['win32com.gen_py']
+	packages = ['win32com.server.util']
 	include_files += [
 		'zquake-gl.exe',
 		'zqds.exe'

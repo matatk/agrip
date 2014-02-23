@@ -8,6 +8,9 @@ import shutil  # removing a tree; copying files
 import urllib
 import zipfile
 
+def is_mac(): return platform.system() == 'Darwin'
+def is_windows(): return platform.system() == 'Windows'
+
 # Bit of a hack doing it this way, but I have not got custom build
 # commands working yet -- cx_Freeze overrides them and I'm not sure
 # how best to play with that.  So, for now, the build steps are done
@@ -24,9 +27,14 @@ class Config:
 	dir_make_zquake = 'zq-repo/zquake'
 	dir_qc = os.path.join('zq-repo', 'qc', 'agrip')
 
-	bin_zqcc = os.path.join(dir_make_zqcc, 'zqcc')
-	bin_zqgl = os.path.join(dir_make_zquake, 'release-mac', 'zquake-glsdl')
-	bin_zqds = os.path.join(dir_make_zquake, 'release-mac', 'zqds')
+	if is_mac():
+		bin_zqcc = os.path.join(dir_make_zqcc, 'zqcc')
+		bin_zqgl = os.path.join(dir_make_zquake, 'release-mac', 'zquake-glsdl')
+		bin_zqds = os.path.join(dir_make_zquake, 'release-mac', 'zqds')
+	elif is_windows():
+		bin_zqcc = os.path.join(dir_make_zqcc, 'Release', 'zqcc.exe')
+		bin_zqgl = os.path.join(dir_make_zquake, 'source', 'Release-GL', 'zquake-gl.exe')
+		bin_zqds = os.path.join(dir_make_zquake, 'source', 'Release-server', 'zqds.exe')
 
 	dir_staging = 'app-staging'
 	dir_mod_compiled = os.path.join(dir_staging, 'id1')
@@ -51,16 +59,10 @@ def comeback(function):
 	return wrapper
 
 def die(message):
-	backtrace = sys.exc_info()[0]
+	backtrace = sys.exc_info()
 	if backtrace: print backtrace
 	print 'Error:', message
 	sys.exit(42)
-
-def is_mac():
-	return platform.system() == 'Darwin'
-
-def is_windows():
-	return platform.system() == 'Windows'
 
 def check_platform():
 	if not is_mac() and not is_windows():
@@ -152,17 +154,17 @@ def _compile(path, name, targets=[]):
 
 
 # QuakeC Compilation
-@comeback
-def compile_gamecode():
-	_chdir_gamecode()
-	_compile_gamecode('progs.src')
-	_compile_gamecode('spprogs.src')
-
 def _chdir_gamecode():
 	try:
 		os.chdir(Config.dir_qc)
 	except:
 		die("can't change to QuakeC directory: " + Config.dir_qc)
+
+@comeback
+def compile_gamecode():
+	_chdir_gamecode()
+	_compile_gamecode('progs.src')
+	_compile_gamecode('spprogs.src')
 
 def _compile_gamecode(progs):
 	try:
@@ -221,7 +223,7 @@ if Config.do_compile:
 		print 'Compiling zquake'
 		compile_zquake()
 	if is_windows():
-		die("haven't written this bit yet")
+		print "On Windows, we don't compile the engine here; we just pick up the existing binaries."
 
 print 'Preparing empty staging area'
 prep_empty_dir(Config.dir_staging)
