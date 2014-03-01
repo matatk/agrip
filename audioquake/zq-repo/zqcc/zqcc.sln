@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zqcc", "zqcc.vcxproj", "{B5131A97-3D4A-40C0-B093-5C9064C3A72F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zqcc", "zqcc.vcxproj", "{E170BCEF-E5D5-43FE-93C3-29A4C97D198B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B5131A97-3D4A-40C0-B093-5C9064C3A72F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B5131A97-3D4A-40C0-B093-5C9064C3A72F}.Debug|Win32.Build.0 = Debug|Win32
-		{B5131A97-3D4A-40C0-B093-5C9064C3A72F}.Release|Win32.ActiveCfg = Release|Win32
-		{B5131A97-3D4A-40C0-B093-5C9064C3A72F}.Release|Win32.Build.0 = Release|Win32
+		{E170BCEF-E5D5-43FE-93C3-29A4C97D198B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E170BCEF-E5D5-43FE-93C3-29A4C97D198B}.Debug|Win32.Build.0 = Debug|Win32
+		{E170BCEF-E5D5-43FE-93C3-29A4C97D198B}.Release|Win32.ActiveCfg = Release|Win32
+		{E170BCEF-E5D5-43FE-93C3-29A4C97D198B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

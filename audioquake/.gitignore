@@ -11,7 +11,8 @@ mindgrid-audio_quake_2003.09.22*
 # *nix compilation
 zq-repo/zquake/release-*
 zq-repo/zqcc/*.o
-zq-repo/zqcc/zqcc*
+zq-repo/zqcc/zqcc
+zq-repo/zqcc/zqcc_debug
 # Gamecode
 zq-repo/qc/agrip/*.dat
 # Visual Studio
@@ -20,7 +21,8 @@ zq-repo/zqcc/Debug
 zq-repo/zqcc/*.v12.suo
 zq-repo/zqcc/*.sdf
 zq-repo/zqcc/*.user
-zq-repo/zquake/source/Release-*
+zq-repo/zquake/source/Release*
+zq-repo/zquake/source/Debug*
 zq-repo/zquake/source/*.v12.suo
 zq-repo/zquake/source/*.sdf
 zq-repo/zquake/source/*.user

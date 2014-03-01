@@ -31,14 +31,20 @@ include_files = [
 	'techinfo.txt'
 ]
 
-includes = None
 base = None
+includes = None
 packages = None
 
 if platform.system() == 'Windows':
 	base = 'Win32GUI'
-	includes = ['pyttsx.drivers.sapi5']
-	packages = ['win32com.server.util']
+	includes = [
+		'pyttsx',
+		'pyttsx.drivers.sapi5'
+	]
+	packages = [
+		'win32com.gen_py',
+		'win32com.server.util'
+	]
 	include_files += [
 		'zquake-gl.exe',
 		'zqds.exe'
@@ -67,7 +73,7 @@ setup(
 		},
 		'bdist_mac': {
 			'iconfile': '../aq.icns',
-						'custom_info_plist': '../Info.plist'
+			'custom_info_plist': '../Info.plist'
 		}
 	},
 	executables = [Executable('AudioQuake.py', base=base)]
