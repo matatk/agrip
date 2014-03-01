@@ -1,7 +1,9 @@
 Building AudioQuake
 ====================
 
-The build process is similar whether you are on a Mac or Windows.  However, before you can run your first build, you need to set up your development environment.  The instructions for this depends on which platform you are using.
+AudioQuake can be built into a stand-alone application for Mac or Windows (which does not require the user to install either it, or anything else, in order to run).
+
+The build process is simple and similar whether you are on a Mac or Windows.  However, before you can run your first build, you need to set up your development environment.  The instructions for this depends on which platform you are using.
 
 Please note that builds are platform-psecific, i.e. if you build on the Mac, you will get a Mac version of AudioQuake; if you build on Windows you'll get a Windows version.  You can only build an AudioQuake package for the OS you're running.
 
@@ -77,8 +79,22 @@ To get the Python side of things working, including the program that will turn t
 Building AudioQuake
 --------------------
 
-During the build process, support files (compiled maps, skins, demos and the shareware and mindgrid data) will be downloaded by the build scripts when run (and kept locally for future reuse).
+The result of the build process is a stand-alone application that can be run on a given platform (an .app bundle on the Mac; a simple folder on Windows).  There are two steps to the build process.
 
- * To run a build, which will ensure that the engine and gamecode are compiled, download the support files (if need be) and get all the files ready to be built into an application, run the `prepare.py` script.  (Note: on Windows you must compile the engine and QuakeC compiler separately, as above.)
- * The results of running the build script will be "staging area" called `app-staging`, which includes all of the files needed to build an redistributable version of AudioQuake (i.e. AudioQuake.app, if run on the Mac).  To actually create the redistributable using `cx_Freeze`, run `python setup.py bdist_mac` from within the staging directory.
- * You can also clean various parts of the software using the `./clean` script, which will print out help/usage information when run with no parameters.
+ 1. A "preparation" script is run that will get everything required to run AudioQuake into a "staging area".  This script downloads support files (compiled maps, skins, demos and the shareware and mindgrid data), compiles the gamecode and puts all of the required engine binaries and data in the staging area.  On the Mac this will automatically compile the engine and QuakeC compiler; on Windows you need to have done this previously (as above).  The launcher in the staging area is still just a Python script.
+
+ 2. A cx_Freeze "setup" script is run to ask cx_Freeze to convert the staging area into an application.  This includes converting the launcher into a stand-alone program that does not require Python to be installed on the end-user's machine.
+
+To run a build, the steps are as follows (using a command line in the `audioquake` directory).
+
+ * If you are using Windows, ensure you've compiled the engine and QuakeC compiler, as above (you don't need to do this if they have not changed since the last build).
+ * Run `prepare.py` to create the staging area.
+ * Run the setup script, according to your platform as follows.
+    - On a Mac, run `./prepare.py`.
+    - On Windows, run `prepare.py`.
+ * Change directory into `app-staging`.
+ * Run the setup script in there, as follows.
+    - On a Mac, run `python setup.py bdist_mac`.
+    - On Windows, run `setup.py build`.
+
+There is a cleanup script to help tidy things back to varying degrees (e.g. removing the compiled code, support files), but currently this is only available for the Mac.
