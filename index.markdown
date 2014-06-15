@@ -8,7 +8,7 @@ title: The AGRIP Project
 
 # Navigation
 
- * [Project Update: February 2014](#update)
+ * [Project Update: June 2014](#update)
  * [Get it; Get Involved](#gigo)
  * [Why?](#why)
  * [Whom](#whom)
@@ -16,9 +16,9 @@ title: The AGRIP Project
 
 <a name='update'>
 </a>
-# Project Update: February 2014
+# Project Update: June 2014
 
-As [detailed in the Google Group discussion](https://groups.google.com/d/msg/agrip-project/dg-TpWRcaCM/ibngkBjllcwJ) we are now very close to a Windows re-release, as the engine and build system are, finally, both working fine on Mac and Windows.  Whilst there are some rough edges, these are now almost exclusively in the documentation of the process, rather than software bugs.  Watch this space!
+[Check out the latest development news from our Google Group.](https://groups.google.com/forum/#!topic/agrip-project/MFa0D7PsFTY)
 
 <a name='gigo'>
 </a>
