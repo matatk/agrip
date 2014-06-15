@@ -3,7 +3,6 @@ import platform
 import subprocess, threading, Queue  # launching the game
 
 from GUI import Window, Button, application, Task
-from GUI.StdMenus import basic_menus, fundamental_cmds
 
 import pyttsx
 
@@ -68,14 +67,14 @@ class GameController(object):
 		self._speaker.startLoop(False)
 
 	def quit(self):
-		pass  # TODO: terminate the engine if the GUI quits
+		# TODO: terminate the engine if the GUI quits
+		self._game_ended()
 
 	def _game_ended(self):
-		assert self._running
-		assert self._messages_task is not None
-		self._messages_task.stop()
-		self._messages_task = None
-		self._speaker.stop()
+		if self._messages_task is not None:
+			self._messages_task.stop()
+			self._messages_task = None
+		self._speaker.endLoop()
 		self._running = False
 
 	def _launch_core(self, command_line):
@@ -177,12 +176,12 @@ class LauncherSingletonWindow(Window):
 			position = (10, 140), 
 			size = (120, 25),
 			title = "Quit Launcher",
-			action = self._close_cmd
+			action = self.close_cmd
 		))
 
-	def _close_cmd(self):
+	def close_cmd(self):
 		self._game_controller.quit()
-		self._application.quit_cmd()
+		application().quit_cmd()
 
 	def _btn_default(self):
 		self._game_controller.launch_default()
@@ -200,7 +199,6 @@ class LauncherSingletonWindow(Window):
 if __name__ == '__main__':
 	os.chdir(os.path.abspath(os.path.dirname(sys.argv[0])))
 	app = application()
-	app.menus = basic_menus(include = fundamental_cmds)
 	launcher = LauncherSingletonWindow(app)
 	launcher.show()
 	app.run()
