@@ -74,7 +74,10 @@ class GameController(object):
 		if self._messages_task is not None:
 			self._messages_task.stop()
 			self._messages_task = None
-		self._speaker.endLoop()
+		try:
+			self._speaker.endLoop()
+		except RuntimeError:
+			pass  # speaker was not runing (TODO make this neater!)
 		self._running = False
 
 	def _launch_core(self, command_line):

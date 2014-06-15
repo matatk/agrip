@@ -95,6 +95,6 @@ To run a build, the steps are as follows (using a command line in the `audioquak
  * Change directory into `app-staging`.
  * Run the setup script in there, as follows.
     - On a Mac, run `python setup.py bdist_mac`.
-    - On Windows, run `setup.py build`.
+    - On Windows, you first need to run `AudioQuake.py` to ensure that the code is properly hooked up to the Speech API through COM, then you can freeze the code for distribution by running `setup.py build`.
 
 There is a cleanup script to help tidy things back to varying degrees (e.g. removing the compiled code, support files), but currently this is only available for the Mac.
