@@ -1,52 +1,53 @@
 import sys, os  # chdir hack
 import platform
-import subprocess, threading, Queue  # launching the game
+import subprocess  # launching the game
+import threading  # engine TTS wrapper
 
-from GUI import Window, Button, application, Task
+from GUI import Window, Button, application
 
 import pyttsx
 
 
 class EngineWrapper(threading.Thread):
-	def __init__(self, command_line, out_queue):
+	def __init__(self, command_line, speaker):
 		threading.Thread.__init__(self)
 		self._command_line = command_line
-		self._out_queue = out_queue
-
-	def _shut_up(self):
-		with self._out_queue.mutex:
-			self._out_queue.queue.clear()
-		self._out_queue.put(False)
+		self._speaker = speaker
 
 	def run(self):
-		seen_blank = False
-		initialised = False
-		proc = subprocess.Popen(self._command_line, stdout=subprocess.PIPE)
+		# The docs imply this shouldn't be necessary but it seems to be...
+		if platform.system() is 'Windows':
+			self._command_line = ' '.join(self._command_line)
+		# Buffering may be necessary for Windows; seems not to affect Mac
+		proc = subprocess.Popen(
+			self._command_line, bufsize=1, stdout=subprocess.PIPE)
 
 		while True:
 			retcode = proc.poll()
 			line = proc.stdout.readline().rstrip()
 
-			# Some messages are high priority, others are critical.
-			# These need to be spoken instead of anything else queued up.
-			if len(line) > 0:
-				if len(line) is 1 or line[0] is '!':
-					self._shut_up()
-				self._out_queue.put(line)
+			length = len(line)
+			if length > 0:
+				# Some messages are high priority, others are critical.
+				# These need to be spoken instead of anything else queued up.
+				if length is 1 or line[0] is '!':
+					print 'STOPPING'
+					self._speaker.stop()
+
+				print 'SAYING', line
+				self._speaker.say(line)
 			else:
-				# When the engine has finished splurting out stuff
-				# during initialisation, the game has started, so
-				# clear the queue and start announcing game messages.
-				if not initialised and seen_blank:
-					self._shut_up()
-					initialised = True
-				else:
-					seen_blank = True
+				# Blank line occurs after all the initialisation spewage
+				print 'BLANK'
+				self._speaker.stop()
+
+			print 'TICK'
+			self._speaker.iterate()
 
 			if retcode is not None:
-				self._shut_up()
-				self._out_queue.put(None)
 				break
+
+		print 'Game thread done.'
 
 
 class GameController(object):
@@ -60,59 +61,25 @@ class GameController(object):
 		else:  # assume Mac for now (may also work on Linux)
 			self._engine = './zquake-glsdl'
 
-		self._messages_task = None
-		self._running = False
-		self._in_queue = Queue.Queue()
-		self._speaker = pyttsx.init()
-		self._speaker.startLoop(False)
+		self._engine_wrapper = None
+		self._tts = pyttsx.init()
+		self._tts.startLoop(False)
 
-	def quit(self):
-		# TODO: terminate the engine if the GUI quits
-		self._game_ended()
-
-	def _game_ended(self):
-		if self._messages_task is not None:
-			self._messages_task.stop()
-			self._messages_task = None
-		try:
-			self._speaker.endLoop()
-		except RuntimeError:
-			pass  # speaker was not runing (TODO make this neater!)
-		self._running = False
+	def _running(self):
+		if not self._engine_wrapper or not self._engine_wrapper.is_alive():
+			print 'Game running? No'
+			return False
+		elif self._engine_wrapper.is_alive():
+			print 'Game running? Yes'
+			return True
 
 	def _launch_core(self, command_line):
-		assert not self._running
-		assert self._messages_task is None
-
-		self._running = True
-		engine_wrapper = EngineWrapper(command_line, self._in_queue)
-		engine_wrapper.start()
-
-		def get_messages(speaker, queue, callback):
-			try:
-				message = queue.get_nowait()
-				if message is None:
-					callback()
-				else:
-					assert message is False or type(message) is str
-					# We may have been told to cancel the current utterance
-					if message is False:
-						speaker.stop()
-					else:
-						speaker.say(message)
-						speaker.iterate()
-			except Queue.Empty:
-				pass
-
-		# Keep checking for and saying new messages
-		self._messages_task = Task(
-			lambda: get_messages(
-				self._speaker,
-				self._in_queue,
-				self._game_ended),
-			0.1,
-			True,
-			True)
+		if self._running(): return
+		# Saying something is necessary on 'doze; probably inits COM
+		self._tts.say(' ')
+		self._tts.iterate()
+		self._engine_wrapper = EngineWrapper(command_line, self._tts)
+		self._engine_wrapper.start()
 
 	def launch_default(self):
 		self._launch_core((self._engine,) + self._opts_default)
@@ -120,6 +87,14 @@ class GameController(object):
 	def launch_tutorial(self):
 		# FIXME the tutorial options are ignored on Windows
 		self._launch_core((self._engine,) + self._opts_default + self._opts_tutorial)
+
+	def quit(self, application):
+		if self._running(): return
+		print 'Closing TTS...'
+		self._tts.endLoop()
+		print 'Quitting...'
+		application.quit_cmd()
+		print 'Quat!'
 
 
 class LauncherSingletonWindow(Window):
@@ -183,8 +158,7 @@ class LauncherSingletonWindow(Window):
 		))
 
 	def close_cmd(self):
-		self._game_controller.quit()
-		application().quit_cmd()
+		self._game_controller.quit(self._application)
 
 	def _btn_default(self):
 		self._game_controller.launch_default()
