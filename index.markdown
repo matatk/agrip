@@ -8,21 +8,17 @@ title: The AGRIP Project
 
 # Navigation
 
- * [Project Update: June 2014](#update)
+ * [Project Update: October 2014](#update)
  * [Get it; Get Involved](#gigo)
  * [Why?](#why)
  * [Whom](#whom)
  * [More Info](#more-info)
 
-<a name='update'>
-</a>
-# Project Update: June 2014
+# Project Update: October 2014 {#update}
 
-[Check out the latest development news from our Google Group.](https://groups.google.com/forum/#!topic/agrip-project/MFa0D7PsFTY)
+We have got to a beta of the re-release of AQ for Mac and Windows.  Please check out the [release notes and download information on GitHub](https://github.com/matatk/agrip/releases/latest) and provide feedback via the [AGRIP Google Group](https://groups.google.com/group/agrip-project).
 
-<a name='gigo'>
-</a>
-# Get it; Get Involved
+# Get it; Get Involved {#gigo}
 
 Links to keep up-to-date with and download the latest AudioQuake and Level Description Language releases.
 
@@ -30,18 +26,13 @@ Links to keep up-to-date with and download the latest AudioQuake and Level Descr
  * join in the [continued development effort](https://github.com/matatk/agrip/).
  * visit the home of [JediQuake](http://tbrn.andrelouis.com/modgirl/); the most popular AudioQuake mod and version of the game **(this is probably the option you want if you want to play the game ;-))**.
  * visit [Matthew's 'blog](http://matatk.agrip.org.uk/).
- * The [AGRIP folder on Dropbox](https://www.dropbox.com/sh/quqwcm244sqoh5a/CiKpeYHOTi) contains experimental releases (built often).
 
-<a name='why'>
-</a>
 # Why
 
 We started working on what became AudioQuake in 2003.  At this time, there were no popular mainstream games that had been made accessible for blind and vision-impaired players.  There was already a blossoming community of developers making games specifically for blind people, but we set out to show that social inclusion of gamers with disabilities was possible, even in the fast-paced first person shooter (FPS) world.
 
 **It is of paramount importance for access to be afforded not just to the game, but its surrounding community, including the coding of game modifications and authoring of new levels (or "maps") for the game.  Both of these activities are creative and socially enriching and have been enjoyed by mainstream gamers for many years.  We're pleased to have demonstrated that these goals are achievable---and have released [the code](https://github.com/matatk/agrip) for others to use.**
 
-<a name='whom'>
-</a>
 # Whom
 
 The project was started by [Matthew Tylee Atkinson](http://matatk.agrip.org.uk/) and [Sabahattin Gucukoglu](http://sabahattin-gucukoglu.com/).
@@ -52,8 +43,6 @@ Since then, we've handed over development to the community and we're now working
 
 For some time now, many people and organisations (such as [the IGDA Game Accessibility SIG](http://igda-gasig.org/), [Game Accessibility](http://www.gameaccessibility.com/) and [AbleGamers](http://www.ablegamers.com/) have begun to lobby for and support mainstream developers in providing accessibility in their games.  This really seems to be taking off and getting industry attention.  We are all showing it's both not all that hard (*and* it makes commercial sense) and are looking forward to seeing many more accessible---at the point of release---mainstream games in future.
 
-<a name='more-info'>
-</a>
 # More Info
 
 Development continues in the community.  The old site that was been preserved for posterity in 2009 (with minor updates continuing into 2012).  You can read the following pages for more information.
