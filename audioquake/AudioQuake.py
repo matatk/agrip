@@ -97,7 +97,6 @@ class GameController(object):
         return self._launch_core((self._engine,) + self._opts_default)
 
     def launch_tutorial(self):
-        # FIXME the tutorial options are ignored on Windows
         return self._launch_core((self._engine,) + self._opts_default + self._opts_tutorial)
 
     def quit(self, application):
