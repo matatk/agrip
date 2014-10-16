@@ -2,11 +2,6 @@
 title: AGRIP AudioQuake Manual
 ...
 
-AGRIP AudioQuake Manual
-=======================
-
-### Matthew Tylee Atkinson {#matthew-tylee-atkinson .author}
-
 0.3.0
 
 Copyright © 2004–2007 Matthew Tylee Atkinson

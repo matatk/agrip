@@ -2,13 +2,6 @@
 title: AGRIP AudioQuake Development Manual
 ...
 
-AGRIP AudioQuake Development Manual
-===================================
-
-### Matthew Tylee Atkinson {#matthew-tylee-atkinson .author}
-
-### Sabahattin Gucukoglu {#sabahattin-gucukoglu .author}
-
 0.3.0 BETA
 
 Copyright © 2005–2007 Matthew Tylee Atkinson
