@@ -27,5 +27,6 @@ zq-repo/zquake/source/*.v12.suo
 zq-repo/zquake/source/*.sdf
 zq-repo/zquake/source/*.user
 # Manual intermediate files
+# The first one would be cleaned up by the scripts if all run
 manuals/*-manual.md
 manuals/*.html
