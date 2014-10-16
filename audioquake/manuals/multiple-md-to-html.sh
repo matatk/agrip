@@ -1,5 +1,7 @@
 function munge() {
 	NAME=$1
+	HTMLFILE=${NAME}.html
+	echo "Converting $NAME (in multiple Markdown files) to HTML..."
 	pandoc \
 		--to html5 \
 		--standalone \
@@ -8,9 +10,10 @@ function munge() {
 		--toc-depth 6 \
 		--number-sections \
 		${NAME}*.md \
-		--output ${NAME}.html \
-	&& open ${NAME}.html
+		--output $HTMLFILE \
+	&& echo Created $HTMLFILE
 }
 
 munge user-manual
+echo
 munge development-manual

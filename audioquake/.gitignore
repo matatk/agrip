@@ -26,3 +26,6 @@ zq-repo/zquake/source/Debug*
 zq-repo/zquake/source/*.v12.suo
 zq-repo/zquake/source/*.sdf
 zq-repo/zquake/source/*.user
+# Manual intermediate files
+manuals/*-manual.md
+manuals/*.html

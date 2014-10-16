@@ -4,6 +4,9 @@ function doit() {
 	NAME=$1
 	TEMPFILE=${NAME}-from-docbook.temp.html
 	HTMLFILE=${NAME}-from-docbook.html
+	MDFILE=${NAME}.md
+	echo "Converting $NAME to Markdown"
+	echo "(DocBook XML --[ XSL ]--> HTML --[ Pandoc ]--> Markdown)..."
 	xsltproc \
 		--output $TEMPFILE \
 		--param generate.toc nop \
@@ -20,10 +23,12 @@ function doit() {
 		--from html \
 		--to markdown \
 		--standalone \
-		--output ${NAME}.md \
+		--output $MDFILE \
 		$HTMLFILE \
-	&& rm -fv $HTMLFILE
+	&& rm $HTMLFILE \
+	&& echo Created $MDFILE
 }
 
 doit user-manual
+echo
 doit development-manual
