@@ -35,5 +35,3 @@ The latest version of this manual can be found at:
 The revision number of the manual follows the same format as the
 AudioQuake version number. If the first two digits of the version
 numbers match, the manual and AudioQuake will correspond.
-
-* * * * *

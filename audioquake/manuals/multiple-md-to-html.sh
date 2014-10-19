@@ -9,11 +9,14 @@ function munge() {
 		--table-of-contents \
 		--toc-depth 6 \
 		--number-sections \
-		${NAME}*.md \
+		--css agrip.css \
+		--include-in-header in-head.html \
 		--output $HTMLFILE \
+		${NAME}*.md \
 	&& echo Created $HTMLFILE
 }
 
 munge user-manual
 echo
 munge development-manual
+open *-manual.html

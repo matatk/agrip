@@ -90,4 +90,3 @@ external resources and people that have helped:
 -   Norman Walsh and the DocBook Team.
 -   Jim Crafton of the Code Project for his article on DocBook and XSL.
 -   Dan York for the tldp.org XSL files.
-

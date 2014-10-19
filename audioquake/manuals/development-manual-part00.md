@@ -41,5 +41,3 @@ numbers match, the manual and AudioQuake will correspond. In the context
 of development, this means that any modifications you make will be
 compatible with that release series. If you are making a total
 conversion, this will not be so much of a concern.
-
-* * * * *

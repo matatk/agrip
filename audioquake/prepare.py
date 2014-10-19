@@ -24,7 +24,7 @@ class Info:
 class Config:
     do_compile = True
     dir_make_zqcc = os.path.join('zq-repo', 'zqcc')
-    dir_make_zquake = 'zq-repo/zquake'
+    dir_make_zquake = os.path.join('zq-repo', 'zquake')
     dir_qc = os.path.join('zq-repo', 'qc', 'agrip')
 
     if is_mac():
@@ -35,8 +35,12 @@ class Config:
         bin_zqcc = os.path.join(dir_make_zqcc, 'Release', 'zqcc.exe')
         bin_zqgl = os.path.join(dir_make_zquake, 'source', 'Release-GL', 'zquake-gl.exe')
         bin_zqds = os.path.join(dir_make_zquake, 'source', 'Release-server', 'zqds.exe')
+    else:
+        raise NotImplementedError
 
+    dir_manuals = 'manuals'
     dir_staging = 'app-staging'
+    dir_staging_manuals = os.path.join(dir_staging, 'manuals')
     dir_mod_compiled = os.path.join(dir_staging, 'id1')
     dir_mod_dev = 'agrip-dev'
 
@@ -213,72 +217,78 @@ def get_summat(dest_dir, check_file, plural_name, url):
 
 
 # Let's script like it's 1989...
-banner()
-check_platform()
+if __name__ == '__main__':
+    banner()
+    check_platform()
 
-if Config.do_compile:
+    if Config.do_compile:
+        if is_mac():
+            print 'Compiling zqcc'
+            compile_zqcc()
+            print 'Compiling zquake'
+            compile_zquake()
+        elif is_windows():
+            print "On Windows, we don't compile the engine here; we just pick up the existing binaries."
+        else:
+            raise NotImplementedError
+
+    print 'Preparing empty staging area'
+    prep_empty_dir(Config.dir_staging)
+    prep_empty_dir(Config.dir_staging_manuals)
+
+    print "Copying in 'static' assets"
+    copy_tree(Config.dir_mod_dev, Config.dir_mod_compiled)
+
+    if Config.do_compile:
+        print 'Compiling gamecode'
+        compile_gamecode()
+    print 'Copying in gamecode'
+    copy_gamecode()
+
+    # Get stuff...
+    get_summat('maps', 'agdm01.bsp', 'maps', Config.url_maps)
+    make_subdir(Config.dir_mod_compiled, 'maps')
+    copy_glob('maps', '*.bsp', os.path.join(Config.dir_mod_compiled, 'maps'))
+
+    get_summat('demos', 'final2.dem', 'demos', Config.url_demos)
+    copy_glob('demos', '*.dem', Config.dir_mod_compiled)
+
+    get_summat('skins', 'base.pcx', 'skins', Config.url_skins)
+    make_subdir(Config.dir_mod_compiled, 'skins')
+    copy_file('skins', 'base.pcx', os.path.join(Config.dir_mod_compiled, 'skins'))
+
+    get_summat(
+        'quake-shareware-1.06',
+        'q95.bat',
+        'shareware data',
+        Config.url_shareware)
+    copy_glob('quake-shareware-1.06', '*.*', Config.dir_staging)
+    copy_glob(
+        os.path.join('quake-shareware-1.06', 'id1'),
+        '*.*',
+        Config.dir_mod_compiled)
+
+    get_summat(
+        'mindgrid-audio_quake_2003.09.22',
+        'pak2.pak',
+        'mindgrid sounds',
+        Config.url_mindgrid)
+    copy_glob('mindgrid-audio_quake_2003.09.22', '*.txt', Config.dir_staging)
+    copy_glob('mindgrid-audio_quake_2003.09.22', '*.pak', Config.dir_mod_compiled)
+
+    print 'Copying in other files (engine binaries, launcher, setup, docs)'
+    copy_file('..', 'COPYING', Config.dir_staging)
+    copy_glob('..', '*.md', Config.dir_staging)
+    copy_glob('.', '*.md', Config.dir_staging)
+    copy_file('.', 'AudioQuake.py', Config.dir_staging)
+    copy_file('.', 'rcon.py', Config.dir_staging)
+    copy_file('.', 'setup.py', Config.dir_staging)
+    copy_file_abs(Config.bin_zqds, Config.dir_staging)
+    copy_file_abs(Config.bin_zqgl, Config.dir_staging)
+    copy_glob(Config.dir_manuals, '*-manual.html', Config.dir_staging_manuals)
+    copy_file(Config.dir_manuals, 'agrip.css', Config.dir_staging_manuals)
+
     if is_mac():
-        print 'Compiling zqcc'
-        compile_zqcc()
-        print 'Compiling zquake'
-        compile_zquake()
-    if is_windows():
-        print "On Windows, we don't compile the engine here; we just pick up the existing binaries."
-
-print 'Preparing empty staging area'
-prep_empty_dir(Config.dir_staging)
-
-print "Copying in 'static' assets"
-copy_tree(Config.dir_mod_dev, Config.dir_mod_compiled)
-
-if Config.do_compile:
-    print 'Compiling gamecode'
-    compile_gamecode()
-print 'Copying in gamecode'
-copy_gamecode()
-
-# Get stuff...
-get_summat('maps', 'agdm01.bsp', 'maps', Config.url_maps)
-make_subdir(Config.dir_mod_compiled, 'maps')
-copy_glob('maps', '*.bsp', os.path.join(Config.dir_mod_compiled, 'maps'))
-
-get_summat('demos', 'final2.dem', 'demos', Config.url_demos)
-copy_glob('demos', '*.dem', Config.dir_mod_compiled)
-
-get_summat('skins', 'base.pcx', 'skins', Config.url_skins)
-make_subdir(Config.dir_mod_compiled, 'skins')
-copy_file('skins', 'base.pcx', os.path.join(Config.dir_mod_compiled, 'skins'))
-
-get_summat(
-    'quake-shareware-1.06',
-    'q95.bat',
-    'shareware data',
-    Config.url_shareware)
-copy_glob('quake-shareware-1.06', '*.*', Config.dir_staging)
-copy_glob(
-    os.path.join('quake-shareware-1.06', 'id1'),
-    '*.*',
-    Config.dir_mod_compiled)
-
-get_summat(
-    'mindgrid-audio_quake_2003.09.22',
-    'pak2.pak',
-    'mindgrid sounds',
-    Config.url_mindgrid)
-copy_glob('mindgrid-audio_quake_2003.09.22', '*.txt', Config.dir_staging)
-copy_glob('mindgrid-audio_quake_2003.09.22', '*.pak', Config.dir_mod_compiled)
-
-print 'Copying in other files (engine binaries, launcher, setup, docs)'
-copy_file('..', 'COPYING', Config.dir_staging)
-copy_glob('..', '*.md', Config.dir_staging)
-copy_glob('.', '*.md', Config.dir_staging)
-copy_file('.', 'AudioQuake.py', Config.dir_staging)
-copy_file('.', 'rcon.py', Config.dir_staging)
-copy_file('.', 'setup.py', Config.dir_staging)
-copy_file_abs(Config.bin_zqds, Config.dir_staging)
-copy_file_abs(Config.bin_zqgl, Config.dir_staging)
-
-if is_mac():
-    print 'Hacking in Python support files for freeze'
-    copy_tree('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC/PyObjCTools', Config.dir_staging + '/PyObjCTools')
-    copy_file_abs('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py', Config.dir_staging)
+        print 'Hacking in Python support files for freeze on Mac'
+        copy_tree('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC/PyObjCTools', Config.dir_staging + '/PyObjCTools')
+        copy_file_abs('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py', Config.dir_staging)

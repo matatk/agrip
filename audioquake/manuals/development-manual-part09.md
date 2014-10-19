@@ -24,8 +24,7 @@ files**
   watch\_config     Should your mod be updated with the user's latest `config.cfg`{.filename} file when it changes? Note that this does not change your mod's `mod.cfg`{.filename} file, which has precedence.     yes (or anything else if you don't want this)
   watch\_autoexec   Should your mod be updated with the user's latest `autoexec.cfg`{.filename} file when it changes? Note that this does not change your mod's `mod.cfg`{.filename} file, which has precedence.   yes (or anything else if you don't want this)
 
-\
- \#\#\#\# Example
+#### Example
 
 For your convenience, here's an example “general” section:
 

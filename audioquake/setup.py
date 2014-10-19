@@ -12,6 +12,7 @@ include_files = [
     'CHANGELOG.md',
     'LICENCE.md',
     'README.md',
+    'manuals/',
     'cwsdpmi.exe',
     'genvxd.dll',
     'help.txt',

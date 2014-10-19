@@ -1,14 +1,20 @@
 Building AudioQuake
 ===================
 
-AudioQuake can be built into a stand-alone application for Mac or
-Windows (which does not require the user to install either it, or
-anything else, in order to run).
+**Note:** currently this file does not explain how to build the user and
+development manuals, because this process is Mac-specific, though we are
+working on making it cross-platform as we have the rest of the build
+process.
 
-The build process is simple and similar whether you are on a Mac or
-Windows. However, before you can run your first build, you need to set
-up your development environment. The instructions for this depends on
-which platform you are using.
+AudioQuake can be built into a stand-alone application for Mac or
+Windows. This can be run directly by the user, without having to install
+anything.
+
+The build process is fairly simple (though compiling the engine on
+Windows takes some time to set up) and similar whether you are on a Mac
+or Windows. However, before you can run your first build, you need to
+set up your development environment. The instructions for this depends
+on which platform you are using.
 
 Please note that builds are platform-psecific, i.e. if you build on the
 Mac, you will get a Mac version of AudioQuake; if you build on Windows
@@ -75,6 +81,12 @@ installation.
     `git checkout master`.
 -   You will also need the SDL library and development files:
     `brew install sdl`.
+
+### User and Development Manuals
+
+The manuals are written in Markdown (previously they were written in
+DocBook XML and those original files are still lurking, for now). We use
+a program called Pandoc to
 
 Set-up: Windows
 ---------------

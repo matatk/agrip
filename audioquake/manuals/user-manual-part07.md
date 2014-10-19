@@ -67,8 +67,7 @@ helper makes.
   [Big drop](../id1/sound/haz/drop-big.wav)       Indicates a big drop.     Played when a big drop is detected near you (and hazard warnings and/or side hazard warnings are turned on).
   [Huge drop](../id1/sound/haz/drop-huge.wav)     Indicates a huge drop.    Played when a huge drop is detected near you (and hazard warnings and/or side hazard warnings are turned on).
 
-\
- \#\#\#\# Jump Descriptions
+#### Jump Descriptions
 
 When you ask if you can make a jump, you'll either be told (via speech
 or Braille, depending on how you've set AudioQuake up) that you can make
@@ -94,8 +93,7 @@ navigation aids.
   [Marker homing signal](../id1/sound/nav/marker.wav)   Emanates from the marker's location.        This lets you know where a marker is. When you touch a marker, you'll be told which waypoint number it is (the number increases with every marker you add).
   [Denied](../id1/sound/deny.wav)                       Indicates that an action is not possible.   This sound is used in a number of places to let you know that you can't do something. In this case, it is played when you press the “delete last marker” key and there is no marker to delete.
 
-\
- \#\#\#\# Compass Sounds
+#### Compass Sounds
 
 When you activate the compass, you will be told the name of the
 direction you're pointing in (or your bearing in degrees if the
@@ -154,8 +152,7 @@ This section explains the meaning of the sounds that the ESR makes.
   [Friend on same level](../id1/sound/esr/friend-same.wav)       Sound indicating that a friend is at a similar level (elevation) to the player.   Played when a friend is detected and is on the same level as the player.
   [Friend on higher level](../id1/sound/esr/friend-higher.wav)   Sound indicating that a friend is at a higher level (elevation) to the player.    Played when a friend is detected and is on the higher level as the player.
 
-\
- \#\#\#\# Hazard Detection Mode
+#### Hazard Detection Mode
 
 When the ESR is in mode 2 (hazard detection), it makes a [“hazard
 detected” sound](../id1/sound/esr/haz.wav) if there is a near-by hazard.
