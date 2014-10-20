@@ -42,7 +42,7 @@ class Config:
     dir_staging = 'app-staging'
     dir_staging_manuals = os.path.join(dir_staging, 'manuals')
     dir_mod_compiled = os.path.join(dir_staging, 'id1')
-    dir_mod_dev = 'agrip-dev'
+    dir_mod_static = 'mod-static'
 
     url_maps = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip'
     url_demos = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip'
@@ -237,7 +237,7 @@ if __name__ == '__main__':
     prep_empty_dir(Config.dir_staging_manuals)
 
     print "Copying in 'static' assets"
-    copy_tree(Config.dir_mod_dev, Config.dir_mod_compiled)
+    copy_tree(Config.dir_mod_static, Config.dir_mod_compiled)
 
     if Config.do_compile:
         print 'Compiling gamecode'
@@ -273,6 +273,8 @@ if __name__ == '__main__':
         'pak2.pak',
         'mindgrid sounds',
         Config.url_mindgrid)
+    copy_file('mindgrid-audio_quake_2003.09.22', 'readme.txt',
+        os.path.join(Config.dir_staging, 'mindgrid-audio-readme.txt'))
     copy_glob('mindgrid-audio_quake_2003.09.22', '*.txt', Config.dir_staging)
     copy_glob('mindgrid-audio_quake_2003.09.22', '*.pak', Config.dir_mod_compiled)
 
@@ -289,6 +291,8 @@ if __name__ == '__main__':
     copy_file(Config.dir_manuals, 'agrip.css', Config.dir_staging_manuals)
 
     if is_mac():
+        print 'Copying Mac command-line starter scripts'
+        copy_glob('wrapper-mac', 'start-*.command', Config.dir_staging)
         print 'Hacking in Python support files for freeze on Mac'
         copy_tree('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC/PyObjCTools', Config.dir_staging + '/PyObjCTools')
         copy_file_abs('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py', Config.dir_staging)

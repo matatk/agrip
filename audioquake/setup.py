@@ -59,7 +59,9 @@ elif platform.system() == 'Darwin':
     ]
     include_files += [
         'zquake-glsdl',
-        'zqds'
+        'zqds',
+        'start-server.command',
+        'start-rcon.command'
     ]
 else:
     raise 'Platform ' + platform.system() + ' is not currently supported.'
@@ -71,11 +73,13 @@ setup(
         'build_exe': {
             'includes': includes,
             'packages': packages,
-            'include_files': include_files
+            'include_files': include_files,
+            'silent': True,
+            'compressed': True
         },
         'bdist_mac': {
-            'iconfile': '../aq.icns',
-            'custom_info_plist': '../Info.plist'
+            'iconfile': '../wrapper-mac/aq.icns',
+            'custom_info_plist': '../wrapper-mac/Info.plist'
         }
     },
     executables = [

@@ -6,11 +6,12 @@ import readline
 
 PACKING_STRING = '\xFF\xFF\xFF\xFF'
 BUFFER_SIZE = 10240
-SOCKET_TIMEOUT = 5
+SOCKET_TIMEOUT = 4
 
 def usage():
     print 'Quake Remote Console (part of AGRIP AudioQuake)'
     print 'Usage:', sys.argv[0], '[host [port]]'
+    print '   or:', sys.argv[0], '--ask'
 
 
 def _log_command():
@@ -33,17 +34,25 @@ def _filter_response(received):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        usage()
-    elif sys.argv[1] == '-h' or sys.argv[1] == '--help':
-        usage()
-        sys.exit(0)
-
-    host = sys.argv[1] if len(sys.argv) > 1 else 'localhost'
-    port = sys.argv[2] if len(sys.argv) > 2 else 27500
+    if len(sys.argv) is 2 and sys.argv[1] == '--ask':
+        # Ask user for host and port (used when run from launcher)
+        host = raw_input('Server hostname or IP [default: localhost]: ') \
+            or 'localhost'
+        port = raw_input('Server port [default: 27500]: ') or '27500'
+        port = int(port)
+    else:
+        # Standard command-line use
+        if len(sys.argv) < 2:
+            usage()
+        elif sys.argv[1] == '-h' or sys.argv[1] == '--help':
+            usage()
+            sys.exit(0)
+        host = sys.argv[1] if len(sys.argv) > 1 else 'localhost'
+        port = int(sys.argv[2]) if len(sys.argv) > 2 else 27500
     print 'Will connect to:', host, port
     address = (host, port)
 
+    # Create and bind to socket (but we are not really connecting yet)
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(SOCKET_TIMEOUT)
@@ -51,10 +60,11 @@ if __name__ == '__main__':
         print 'There was an error making the socket:', str(e)
         sys.exit(1)
 
+    # Main loop
     print "Ready to talk: 'quit' shuts down the server; 'exit' leaves rcon."
     while True:
         try:
-            user_input = raw_input('] ').strip()
+            user_input = raw_input('] ')
             if not user_input:
                 continue
             elif user_input == 'exit':

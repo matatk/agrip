@@ -1,3 +1,4 @@
+"""AudioQuake Game Launcher"""
 import sys         # chdir
 import os          # chdir, stamp file
 import platform    # conditional stuff
@@ -111,14 +112,7 @@ class GameController(object):
 
 
 class LauncherSingletonWindow(Window):
-    _text_viewer_command = None
-
     def __init__(self, application, *args, **kwargs):
-        if platform.system() == 'Windows':
-            self._text_viewer_command = ('cmd', '/c', 'start', 'wordpad')
-        else:  # assume Mac for now (won't work on Linux)
-            self._text_viewer_command = ('open', '-a', 'TextEdit')
-
         super(LauncherSingletonWindow, self).__init__(
             title = "Launcher",
             resizable = False,
@@ -126,49 +120,44 @@ class LauncherSingletonWindow(Window):
             *args,
             **kwargs)
 
+        if platform.system() == 'Windows':
+            self._text_viewer = ('cmd', '/c', 'start', 'wordpad')
+            self._open = ('cmd', '/c', 'start')
+            self._rcon = ('rcon.exe',)
+            self._server = ('cmd', '/k', 'zqds.exe')
+        else:  # assume Mac for now (won't work on Linux)
+            self._text_viewer = ('open', '-a', 'TextEdit')
+            self._open = ('open',)
+            self._rcon = ('open', './start-rcon.command')
+            self._server = ('open', './start-server.command')
+
         self._application = application
         self._game_controller = GameController()
 
         self.auto_position = False
         self.position = (200, 250)
-        self.size = (140, 170)
-        self.resizable = 0
-        self.zoomable = 0
+        self._next_button_y = 10
 
-        self.add(Button(
-            position = (10, 10),
-            size = (120, 25),
-            title = "Play Quake",
-            action = self._btn_default
-        ))
+        self._add_button("AudioQuake README", self._btn_readme)
+        self._add_button("AudioQuake Manual", self._btn_manual)
+        self._add_button("Licence Information", self._btn_licence)
+        self._add_button("Play Quake", self._btn_default)
+        self._add_button("Play Tutorial", self._btn_tutorial)
+        self._add_button("Start Server", self._btn_server)
+        self._add_button("Remote Console", self._btn_rcon)
+        self._add_button("Show all Files", self._btn_folder)
+        self._add_button("Quit Launcher", self.close_cmd)
 
-        self.add(Button(
-            position = (10, 40),
-            size = (120, 25),
-            title = "Play Tutorial",
-            action = self._btn_tutorial
-        ))
+        self.size = (200, self._next_button_y)
 
-        self.add(Button(
-            position = (10, 70),
-            size = (120, 25),
-            title = "README",
-            action = self._btn_readme
-        ))
-
-        self.add(Button(
-            position = (10, 100),
-            size = (120, 25),
-            title = "Licence",
-            action = self._btn_licence
-        ))
-
-        self.add(Button(
-            position = (10, 140),
-            size = (120, 25),
-            title = "Quit Launcher",
-            action = self.close_cmd
-        ))
+    def _add_button(self, title, action):
+       self.add(Button(
+            position = (10, self._next_button_y),
+            size = (180, 25),
+            title = title,
+            action = action
+       ))
+       self._next_button_y += 30
 
     def close_cmd(self):
         self._game_controller.quit(self._application)
@@ -186,10 +175,23 @@ class LauncherSingletonWindow(Window):
         self._launch_button_core(self._game_controller.launch_tutorial)
 
     def _btn_readme(self):
-        subprocess.call(self._text_viewer_command + ('README.md',))
+        subprocess.call(self._text_viewer + ('README.md',))
+
+    def _btn_manual(self):
+        subprocess.call(self._open +
+            (os.path.join('manuals', 'user-manual.html'),))
 
     def _btn_licence(self):
-        subprocess.call(self._text_viewer_command + ('LICENCE.md',))
+        subprocess.call(self._text_viewer + ('LICENCE.md',))
+
+    def _btn_server(self):
+        subprocess.call(self._server)
+
+    def _btn_rcon(self):
+        subprocess.call(self._rcon)
+
+    def _btn_folder(self):
+        subprocess.call(self._open + ('.',))
 
     def _first_time_check(self):
         if platform.system() == 'Windows':
