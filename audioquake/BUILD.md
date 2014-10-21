@@ -86,7 +86,18 @@ installation.
 
 The manuals are written in Markdown (previously they were written in
 DocBook XML and those original files are still lurking, for now). We use
-a program called Pandoc to
+a program called Pandoc to convert them from Markdown to HTML. There are
+three ways to get this installed, as follows.
+
+-   **Quick'n'simple way:** get and run the [installer
+    package](https://github.com/jgm/pandoc/releases/latest/).
+-   **Homebrew way:** if you use Homebrew and wish to compile and
+    install Pandoc this way, issue `brew install haskell-platform` and
+    then `cabal install --global pandoc` (if you don't specify
+    `--global` it will instal in the current user's home directory).
+-   **MacPorts:** if you use MacPorts and want to compile and install
+    Pandoc with it, there is a pandoc package that should also work
+    (though we have not tested it).
 
 Set-up: Windows
 ---------------
@@ -166,6 +177,15 @@ executable for easy redistribution, follow these steps.
     4.3.2](https://bitbucket.org/anthony_tuininga/cx_freeze/issue/44/win32com-relies-on-modules-with-non),
     you will need to get version 4.3.1 from:
     <http://sourceforge.net/projects/cx-freeze/files/4.3.1/>.
+
+### User and Development Manuals
+
+The manuals are written in Markdown (previously they were written in
+DocBook XML and those original files are still lurking, for now). We use
+a program called Pandoc to convert them from Markdown to HTML.
+
+Download and run the latest [Windows
+installer](https://github.com/jgm/pandoc/releases/latest/).
 
 Building AudioQuake
 -------------------

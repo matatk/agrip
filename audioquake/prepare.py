@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 import platform
 import os
-import sys  # exit
+import sys         # exit
 import subprocess
-import glob  # picking up .dat files
-import shutil  # removing a tree; copying files
+import glob        # picking up .dat files
+import shutil      # removing a tree; copying files
 import urllib
 import zipfile
+from manuals import convert
 
 def is_mac(): return platform.system() == 'Darwin'
 def is_windows(): return platform.system() == 'Windows'
@@ -51,7 +52,10 @@ class Config:
     url_mindgrid = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/tS5qRFx_Am/data/mindgrid-audio_quake_2003.09.22.zip'
 
 
+#
 # Utilities
+#
+
 def comeback(function):
     def wrapper(*args, **kwargs):
         original = os.getcwd()
@@ -126,7 +130,10 @@ def banner():
         print 'Building', Info.release_number, ':', Info.release_name
 
 
+#
 # Engine compilation
+#
+
 def compile_zqcc():
     _compile(Config.dir_make_zqcc, 'zqcc')
 
@@ -157,7 +164,10 @@ def _compile(path, name, targets=[]):
             _make(name, targ)
 
 
+#
 # QuakeC Compilation
+#
+
 def _chdir_gamecode():
     try:
         os.chdir(Config.dir_qc)
@@ -193,7 +203,27 @@ def copy_gamecode():
             die('copying ' + datfile + ' to ' + full_mod_dir)
 
 
+#
+# Converting the manuals
+#
+
+def _chdir_manuals():
+    try:
+        os.chdir(Config.dir_manuals)
+    except:
+        die("can't change to manuals' directory: " + Config.dir_manuals)
+
+@comeback
+def convert_manuals():
+    _chdir_manuals()
+    print 'Converting manuals from Markdown to HTML...'
+    convert.convert()
+
+
+#
 # Downloading support files
+#
+
 def get_summat(dest_dir, check_file, plural_name, url):
     print 'Checking:', plural_name
     if not os.path.isdir(dest_dir) \
@@ -216,7 +246,10 @@ def get_summat(dest_dir, check_file, plural_name, url):
             die('when extracting ' + zip_file_name)
 
 
+#
 # Let's script like it's 1989...
+#
+
 if __name__ == '__main__':
     banner()
     check_platform()
@@ -244,6 +277,9 @@ if __name__ == '__main__':
         compile_gamecode()
     print 'Copying in gamecode'
     copy_gamecode()
+
+    # Markdown to HTML...
+    convert_manuals()
 
     # Get stuff...
     get_summat('maps', 'agdm01.bsp', 'maps', Config.url_maps)
