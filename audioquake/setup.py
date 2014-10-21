@@ -51,6 +51,7 @@ if platform.system() == 'Windows':
         'zquake-gl.exe',
         'zqds.exe'
     ]
+    release_number = release_number.translate(None, 'abcdefghijklmnopqrstuvwxyz-_')
 elif platform.system() == 'Darwin':
     includes = [
         'pyttsx.drivers.nsss',
@@ -74,8 +75,7 @@ setup(
             'includes': includes,
             'packages': packages,
             'include_files': include_files,
-            'silent': True,
-            'compressed': True
+            'silent': True
         },
         'bdist_mac': {
             'iconfile': '../wrapper-mac/aq.icns',
