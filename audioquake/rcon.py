@@ -2,7 +2,10 @@
 """Remote Console"""
 import sys
 import socket
-import readline
+try:
+    import readline
+except:
+    pass
 
 PACKING_STRING = '\xFF\xFF\xFF\xFF'
 BUFFER_SIZE = 10240

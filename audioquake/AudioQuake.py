@@ -123,8 +123,8 @@ class LauncherSingletonWindow(Window):
         if platform.system() == 'Windows':
             self._text_viewer = ('cmd', '/c', 'start', 'notepad')
             self._open = ('cmd', '/c', 'start')
-            self._rcon = ('rcon.exe',)
-            self._server = ('cmd', '/k', 'zqds.exe')
+            self._rcon = ('cmd', '/c', 'start', 'rcon.exe', '--ask')
+            self._server = ('cmd', '/c', 'start', 'zqds.exe')
         else:  # assume Mac for now (won't work on Linux)
             self._text_viewer = ('open', '-a', 'TextEdit')
             self._open = ('open',)
