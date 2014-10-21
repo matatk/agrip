@@ -121,7 +121,7 @@ class LauncherSingletonWindow(Window):
             **kwargs)
 
         if platform.system() == 'Windows':
-            self._text_viewer = ('cmd', '/c', 'start', 'wordpad')
+            self._text_viewer = ('cmd', '/c', 'start', 'notepad')
             self._open = ('cmd', '/c', 'start')
             self._rcon = ('rcon.exe',)
             self._server = ('cmd', '/k', 'zqds.exe')
