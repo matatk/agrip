@@ -135,7 +135,7 @@ class LauncherSingletonWindow(Window):
         self._game_controller = GameController()
 
         self.auto_position = False
-        self.position = (200, 250)
+        self.position = (200, 175)
         self._next_button_y = 10
 
         self._add_button("AudioQuake README", self._btn_readme)

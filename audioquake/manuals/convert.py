@@ -9,14 +9,14 @@ def convert():
         result = subprocess.call([
             'pandoc',
             '--to', 'html5',
-		'--standalone',
-		'--smart',
-		'--table-of-contents',
-		'--toc-depth', '6',
-		'--number-sections',
-		'--css', 'agrip.css',
-		'--include-in-header', 'in-head.html',
-		'--output', manual + '.html']
+            '--standalone',
+            '--smart',
+            '--table-of-contents',
+            '--toc-depth', '6',
+            '--number-sections',
+            '--css', 'agrip.css',
+            '--include-in-header', 'in-head.html',
+            '--output', manual + '.html']
             + mdfiles)
         if result is not 0:
             raise Exception("It appears there was an error using Pandoc.")

@@ -7,6 +7,7 @@ import glob        # picking up .dat files
 import shutil      # removing a tree; copying files
 import urllib
 import zipfile
+import traceback   # die
 from manuals import convert
 
 def is_mac(): return platform.system() == 'Darwin'
@@ -43,7 +44,7 @@ class Config:
     dir_staging = 'app-staging'
     dir_staging_manuals = os.path.join(dir_staging, 'manuals')
     dir_mod_compiled = os.path.join(dir_staging, 'id1')
-    dir_mod_static = 'mod-static'
+    dir_mod_static = 'mod-static-files'
 
     url_maps = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip'
     url_demos = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip'
@@ -67,8 +68,9 @@ def comeback(function):
     return wrapper
 
 def die(message):
-    backtrace = sys.exc_info()
-    if backtrace: print backtrace
+    exc_type, exc_value, exc_traceback = sys.exc_info()
+    if exc_type:
+        traceback.print_exc()
     print 'Error:', message
     sys.exit(42)
 
@@ -142,11 +144,14 @@ def compile_zquake():
 
 def _make(name, target = None):
     try:
-        if target is not None:
-            ret = subprocess.call(('make', target))
-        else:
-            ret = subprocess.call('make')
-        if ret != 0:
+        with open(os.devnull, 'w') as DEVNULL:
+            if target is not None:
+                result = subprocess.call(['make', target],
+                    stdout=DEVNULL, stderr=subprocess.STDOUT)
+            else:
+                result = subprocess.call(['make'],
+                    stdout=DEVNULL, stderr=subprocess.STDOUT)
+        if result is not 0:
             die('failed to compile ' + name + ' target: ' + str(target))
     except:
         die('failed to run make for ' + name + ', target: ' + str(target))
@@ -182,11 +187,14 @@ def compile_gamecode():
 
 def _compile_gamecode(progs):
     try:
-        ret = subprocess.call((
-            os.path.join(Info.base_dir, Config.bin_zqcc),
-            '-progs',
-            progs))
-        if ret != 0:
+        with open(os.devnull, 'w') as DEVNULL:
+            result = subprocess.call((
+                os.path.join(Info.base_dir, Config.bin_zqcc),
+                '-progs',
+                progs),
+                stdout=DEVNULL,
+                stderr=subprocess.STDOUT)
+        if result is not 0:
             die('failed compiling gamecode: ' + progs)
     except:
         die('failed calling zqcc to compile gamecode: ' + progs)
@@ -216,7 +224,7 @@ def _chdir_manuals():
 @comeback
 def convert_manuals():
     _chdir_manuals()
-    print 'Converting manuals from Markdown to HTML...'
+    print 'Converting manuals from Markdown to HTML'
     convert.convert()
 
 
