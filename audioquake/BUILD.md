@@ -24,7 +24,8 @@ for the OS you're running.
 Set-up: Mac
 -----------
 
-These instructions were tested on OS X "Mavericks" (10.9).
+These instructions were tested on OS X "Mavericks" (10.9) and "Yosemite"
+(10.10).
 
 ### Pre-requisites
 

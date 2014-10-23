@@ -133,7 +133,8 @@ ifeq ($(ARCH),mac)
 	# NB: we support Tiger and Leopard only.
 	# NB2: we add all that stuff about OpenGL because of a bug in Leopard -- see http://wiki.finkproject.org/index.php/Fink:Packaging:Preparing_for_10.5#OpenGL_Bug
 	# NB3: Add trick to disable security checks in Mavericks
-	ARCH_CFLAGS :=-I/opt/local/include/ -D_FORTIFY_SOURCE=0
+	# NB4: Add include path for Yosemite
+	ARCH_CFLAGS :=-I/opt/local/include/ -I/usr/local/include -D_FORTIFY_SOURCE=0
 	LDFLAGS :=-Wl,-dylib_file,/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
 endif
 ifeq ($(ARCH),hppa)		# HP-UX/PA-RISC
