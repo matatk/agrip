@@ -212,7 +212,7 @@ def copy_gamecode():
 
 
 #
-# Converting the manuals
+# Converting the manuals and other docs
 #
 
 def _chdir_manuals():
@@ -225,7 +225,14 @@ def _chdir_manuals():
 def convert_manuals():
     _chdir_manuals()
     print 'Converting manuals from Markdown to HTML'
-    convert.convert()
+    convert.manuals()
+
+@comeback
+def convert_standalone_docs():
+    os.chdir(Config.dir_staging)
+    convert.all_single_md_files()
+    for mdfile in glob.glob('*.md'):
+        os.remove(mdfile)
 
 
 #
@@ -340,3 +347,6 @@ if __name__ == '__main__':
         print 'Hacking in Python support files for freeze on Mac'
         copy_tree('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC/PyObjCTools', Config.dir_staging + '/PyObjCTools')
         copy_file_abs('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py', Config.dir_staging)
+
+    print 'Finally, converting all standalone .md files to .html'
+    convert_standalone_docs()

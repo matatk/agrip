@@ -121,12 +121,10 @@ class LauncherSingletonWindow(Window):
             **kwargs)
 
         if platform.system() == 'Windows':
-            self._text_viewer = ('cmd', '/c', 'start', 'notepad')
             self._open = ('cmd', '/c', 'start')
             self._rcon = ('cmd', '/c', 'start', 'rcon.exe', '--ask')
             self._server = ('cmd', '/c', 'start', 'zqds.exe')
         else:  # assume Mac for now (won't work on Linux)
-            self._text_viewer = ('open', '-a', 'TextEdit')
             self._open = ('open',)
             self._rcon = ('open', './start-rcon.command')
             self._server = ('open', './start-server.command')
@@ -175,14 +173,14 @@ class LauncherSingletonWindow(Window):
         self._launch_button_core(self._game_controller.launch_tutorial)
 
     def _btn_readme(self):
-        subprocess.call(self._text_viewer + ('README.md',))
+        subprocess.call(self._open + ('README.html',))
 
     def _btn_manual(self):
         subprocess.call(self._open +
             (os.path.join('manuals', 'user-manual.html'),))
 
     def _btn_licence(self):
-        subprocess.call(self._text_viewer + ('LICENCE.md',))
+        subprocess.call(self._open + ('LICENCE.html',))
 
     def _btn_server(self):
         subprocess.call(self._server)
