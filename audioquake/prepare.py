@@ -225,7 +225,7 @@ def _chdir_manuals():
 def convert_manuals():
     _chdir_manuals()
     print 'Converting manuals from Markdown to HTML'
-    convert.manuals()
+    convert.manuals()  # also converts the sound legend individual file
 
 @comeback
 def convert_standalone_docs():
@@ -338,7 +338,7 @@ if __name__ == '__main__':
     copy_file('.', 'setup.py', Config.dir_staging)
     copy_file_abs(Config.bin_zqds, Config.dir_staging)
     copy_file_abs(Config.bin_zqgl, Config.dir_staging)
-    copy_glob(Config.dir_manuals, '*-manual.html', Config.dir_staging_manuals)
+    copy_glob(Config.dir_manuals, '*-manual*.html', Config.dir_staging_manuals)
     copy_file(Config.dir_manuals, 'agrip.css', Config.dir_staging_manuals)
 
     if is_mac():

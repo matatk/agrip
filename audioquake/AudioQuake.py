@@ -138,6 +138,7 @@ class LauncherSingletonWindow(Window):
 
         self._add_button("AudioQuake README", self._btn_readme)
         self._add_button("AudioQuake Manual", self._btn_manual)
+        self._add_button("Key to Sounds", self._btn_sound_legend)
         self._add_button("Licence Information", self._btn_licence)
         self._add_button("Play Quake", self._btn_default)
         self._add_button("Play Tutorial", self._btn_tutorial)
@@ -178,6 +179,10 @@ class LauncherSingletonWindow(Window):
     def _btn_manual(self):
         subprocess.call(self._open +
             (os.path.join('manuals', 'user-manual.html'),))
+
+    def _btn_sound_legend(self):
+        subprocess.call(self._open +
+            (os.path.join('manuals', 'user-manual-part07-b.html'),))
 
     def _btn_licence(self):
         subprocess.call(self._open + ('LICENCE.html',))

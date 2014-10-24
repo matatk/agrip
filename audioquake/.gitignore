@@ -29,4 +29,4 @@ zq-repo/zquake/source/*.user
 # Manual intermediate files
 # The first one would be cleaned up by the scripts if all run
 manuals/*-manual.md
-manuals/*-manual.html
+manuals/*-manual*.html

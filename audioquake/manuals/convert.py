@@ -41,8 +41,11 @@ def manuals():
         mdfiles = glob.glob(manual + '*md')
         _convert_core(manual + '.html', mdfiles, True)
 
+    sound_legend = 'user-manual-part07-b'
+    _convert_core(sound_legend + '.html', [sound_legend + '.md'], True)
 
-def single_md_to_html(file_name):
+
+def _single_md_to_html(file_name):
     print 'single_md_to_html:', file_name
     if file_name.endswith('.md'):
         output_file = file_name[:-3] + '.html'
@@ -55,12 +58,13 @@ def single_md_to_html(file_name):
 def all_single_md_files():
     mdfiles = glob.glob('*.md')
     for mdfile in mdfiles:
-        single_md_to_html(mdfile)
+        _single_md_to_html(mdfile)
 
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print 'Usage:', sys.argv[0], 'manuals|all-single'
+        print 'Usage:', sys.argv[0], 'manuals'
+        print '   or:', sys.argv[0], 'all-single'
     else:
         if sys.argv[1] == 'manuals':
             manuals()
