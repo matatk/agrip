@@ -162,7 +162,7 @@ class LauncherSingletonWindow(Window):
         self._game_controller.quit(self._application)
 
     def _launch_button_core(self, method):
-        self._first_time_check()
+        self._first_time_check('game')
         result = method()
         if not result:
             self._launch_problem()
@@ -188,6 +188,7 @@ class LauncherSingletonWindow(Window):
         subprocess.call(self._open + ('LICENCE.html',))
 
     def _btn_server(self):
+        self._first_time_check('server')
         subprocess.call(self._server)
 
     def _btn_rcon(self):
@@ -196,13 +197,22 @@ class LauncherSingletonWindow(Window):
     def _btn_folder(self):
         subprocess.call(self._open + ('.',))
 
-    def _first_time_check(self):
+    def _first_time_check(self, name):
         if platform.system() == 'Windows':
-            stamp_file_name = 'not-first-run'
-            prompt = 'When the Quake engine first runs, Windows may ask you to allow it through the firewall; this will be done in a secure window that pops up above the Quake engine, which you will need an Assistive Technology (such as Narrator) to access.'
+            stamp_file_name = 'not-first-run-' + name
+            prompt = 'When you run the ' + name + ' for the first time, Windows may ask you to allow it through the firewall.'
+            if name == 'game':
+                prompt += ' This will be done in a secure window that pops up above the Quake engine, which you will need to use ALT-TAB and an Assistive Technology to access.'
+            elif name == 'server':
+                prompt += ' Please also note that the server output window, and the remote console facility, are not self-voicing.'
+            else:
+                raise TypeError
+
             if not os.path.exists(stamp_file_name):
                 Alerts.alert('caution', prompt)
                 open(stamp_file_name, 'a').close()
+        else:
+            pass
 
     def _launch_problem(self):
         Alerts.alert('stop', 'There was a problem launching the game; it is likely the Quake engine could not be found.')
