@@ -55,6 +55,10 @@ if __name__ == '__main__':
     print 'Will connect to:', host, port
     address = (host, port)
 
+    # Ask for password
+    password = raw_input('Server rcon password [default: rconpasswd]: ') \
+            or 'rconpasswd'
+
     # Create and bind to socket (but we are not really connecting yet)
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -76,7 +80,7 @@ if __name__ == '__main__':
             elif user_input == 'log':
                 sock.sendto(_log_command(), address)
             else:
-                sock.sendto(_command(user_input, 'rconpasswd'), address)
+                sock.sendto(_command(user_input, password), address)
 
             if user_input == 'quit':
                 print 'Sent server shutdown command; leaving rcon...'
