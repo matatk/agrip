@@ -8,10 +8,10 @@ with open('../release', 'r') as f:
 
 include_files = [
     'COPYING',
-    'ACKNOWLEDGEMENTS.md',
-    'CHANGELOG.md',
-    'LICENCE.md',
-    'README.md',
+    'ACKNOWLEDGEMENTS.html',
+    'CHANGELOG.html',
+    'LICENCE.html',
+    'README.html',
     'manuals/',
     'cwsdpmi.exe',
     'genvxd.dll',
