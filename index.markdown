@@ -8,15 +8,15 @@ title: The AGRIP Project
 
 # Navigation
 
- * [Project Update: October 2014](#update)
+ * [Project Update: January 2015](#update)
  * [Get it; Get Involved](#gigo)
  * [Why?](#why)
  * [Whom](#whom)
  * [More Info](#more-info)
 
-# Project Update: October 2014 {#update}
+# Project Update: January 2015 {#update}
 
-We have got to a beta of the re-release of AQ for Mac and Windows.  Please check out the [release notes and download information on GitHub](https://github.com/matatk/agrip/releases/latest) and provide feedback via the [AGRIP Google Group](https://groups.google.com/group/agrip-project).
+Towards the end of last year, we got to a beta of the re-release of AQ for Mac and Windows.  Since then we've been without a fully-functioning development machine due to a computer failure, but we are working on getting a new one set up.  In the meantime, please check out the [release notes and download information on GitHub](https://github.com/matatk/agrip/releases/latest) and provide feedback via the [AGRIP Google Group](https://groups.google.com/group/agrip-project).
 
 # Get it; Get Involved {#gigo}
 
