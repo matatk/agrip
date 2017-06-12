@@ -7,10 +7,11 @@ echo
 echo "generated files: mod and app staging area"
 echo "ZQ code: the zquake repository (zqcc, qc and the engine)."
 echo "support files: map bsp files, demos, skins, shareware, mindgrid"
-echo "  -- they will need to be re-downloaded in future."
+echo "  -- they will be re-extracted if the ZIPs are still there"
 echo
 
-. common.sh
+D_MOD="id1"
+D_APP="app-staging"
 
 # Trap help or invalid options
 if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "help" ]; then

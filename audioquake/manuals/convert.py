@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Convert manuals from Markdown to HTML using Pandoc"""
 import subprocess
 import glob
@@ -37,7 +36,7 @@ def _convert_core(output_name, input_names, manuals_mode=False):
 
 def manuals():
     for manual in ['user-manual', 'development-manual']:
-        print 'manual:', manual
+        print('manual:', manual)
         mdfiles = glob.glob(manual + '*md')
         _convert_core(manual + '.html', mdfiles, True)
 
@@ -46,11 +45,11 @@ def manuals():
 
 
 def _single_md_to_html(file_name):
-    print 'single_md_to_html:', file_name
+    print('single_md_to_html:', file_name)
     if file_name.endswith('.md'):
         output_file = file_name[:-3] + '.html'
     else:
-        print 'File name', file_name, 'does not end with .md'
+        print('File name', file_name, 'does not end with .md')
         return
     _convert_core(output_file, [file_name])
 
@@ -63,12 +62,12 @@ def all_single_md_files():
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print 'Usage:', sys.argv[0], 'manuals'
-        print '   or:', sys.argv[0], 'all-single'
+        print('Usage:', sys.argv[0], 'manuals')
+        print('   or:', sys.argv[0], 'all-single')
     else:
         if sys.argv[1] == 'manuals':
             manuals()
         elif sys.argv[1] == 'all-single':
             all_single_md_files()
         else:
-            print 'Unrecognised sub-command:', sys.argv[1]
+            print('Unrecognised sub-command:', sys.argv[1])

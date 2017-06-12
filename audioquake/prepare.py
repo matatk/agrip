@@ -1,11 +1,10 @@
-#!/usr/bin/env python
 import platform
 import os
 import sys         # exit
 import subprocess
 import glob        # picking up .dat files
 import shutil      # removing a tree; copying files
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import zipfile
 import traceback   # die
 from manuals import convert
@@ -71,7 +70,7 @@ def die(message):
     exc_type, exc_value, exc_traceback = sys.exc_info()
     if exc_type:
         traceback.print_exc()
-    print 'Error:', message
+    print('Error:', message)
     sys.exit(42)
 
 def check_platform():
@@ -129,7 +128,7 @@ def banner():
     with open('release', 'r') as f:
         Info.release_number = f.readline().rstrip()
         Info.release_name = f.readline().rstrip()
-        print 'Building', Info.release_number, ':', Info.release_name
+        print('Building', Info.release_number, ':', Info.release_name)
 
 
 #
@@ -224,7 +223,7 @@ def _chdir_manuals():
 @comeback
 def convert_manuals():
     _chdir_manuals()
-    print 'Converting manuals from Markdown to HTML'
+    print('Converting manuals from Markdown to HTML')
     convert.manuals()  # also converts the sound legend individual file
 
 @comeback
@@ -240,18 +239,18 @@ def convert_standalone_docs():
 #
 
 def get_summat(dest_dir, check_file, plural_name, url):
-    print 'Checking:', plural_name
+    print('Checking:', plural_name)
     if not os.path.isdir(dest_dir) \
     or not os.path.isfile(os.path.join(dest_dir, check_file)):
-        print "It seems you don't have", plural_name
+        print("It seems you don't have", plural_name)
         # Try to re-extract, or re-download
         zip_file_name = dest_dir + '.zip'
         if os.path.isfile(zip_file_name):
-            print 'Re-extracting...'
+            print('Re-extracting...')
         else:
-            print 'Downloading...'
+            print('Downloading...')
             try:
-                urllib.urlretrieve(url, zip_file_name)
+                urllib.request.urlretrieve(url, zip_file_name)
             except:
                 die('whilst downloading ' + url)
         # Actually try to extract
@@ -271,26 +270,26 @@ if __name__ == '__main__':
 
     if Config.do_compile:
         if is_mac():
-            print 'Compiling zqcc'
+            print('Compiling zqcc')
             compile_zqcc()
-            print 'Compiling zquake'
+            print('Compiling zquake')
             compile_zquake()
         elif is_windows():
-            print "On Windows, we don't compile the engine here; we just pick up the existing binaries."
+            print("On Windows, we don't compile the engine here; we just pick up the existing binaries.")
         else:
             raise NotImplementedError
 
-    print 'Preparing empty staging area'
+    print('Preparing empty staging area')
     prep_empty_dir(Config.dir_staging)
     prep_empty_dir(Config.dir_staging_manuals)
 
-    print "Copying in 'static' assets"
+    print("Copying in 'static' assets")
     copy_tree(Config.dir_mod_static, Config.dir_mod_compiled)
 
     if Config.do_compile:
-        print 'Compiling gamecode'
+        print('Compiling gamecode')
         compile_gamecode()
-    print 'Copying in gamecode'
+    print('Copying in gamecode')
     copy_gamecode()
 
     # Markdown to HTML...
@@ -329,7 +328,7 @@ if __name__ == '__main__':
     copy_glob('mindgrid-audio_quake_2003.09.22', '*.txt', Config.dir_staging)
     copy_glob('mindgrid-audio_quake_2003.09.22', '*.pak', Config.dir_mod_compiled)
 
-    print 'Copying in other files (engine binaries, launcher, setup, docs)'
+    print('Copying in other files (engine binaries, launcher, setup, docs)')
     copy_file('..', 'COPYING', Config.dir_staging)
     copy_glob('..', '*.md', Config.dir_staging)
     copy_glob('.', '*.md', Config.dir_staging)
@@ -342,11 +341,11 @@ if __name__ == '__main__':
     copy_file(Config.dir_manuals, 'agrip.css', Config.dir_staging_manuals)
 
     if is_mac():
-        print 'Copying Mac command-line starter scripts'
+        print('Copying Mac command-line starter scripts')
         copy_glob('wrapper-mac', 'start-*.command', Config.dir_staging)
-        print 'Hacking in Python support files for freeze on Mac'
-        copy_tree('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC/PyObjCTools', Config.dir_staging + '/PyObjCTools')
-        copy_file_abs('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py', Config.dir_staging)
+        print('Hacking in Python support files for freeze on Mac')
+        copy_tree('/usr/local/lib/python2.7/site-packages/PyObjCTools', Config.dir_staging + '/PyObjCTools')
+        #copy_file_abs('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py', Config.dir_staging)
 
-    print 'Finally, converting all standalone .md files to .html'
+    print('Finally, converting all standalone .md files to .html')
     convert_standalone_docs()
