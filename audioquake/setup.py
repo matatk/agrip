@@ -4,7 +4,7 @@ from cx_Freeze import setup, Executable
 with open('../release', 'r') as f:
     release_number = f.readline().rstrip()
     release_name = f.readline().rstrip()
-    print 'Building', release_number, '--', release_name, '...'
+    print('Building', release_number, '--', release_name, '...')
 
 include_files = [
     'COPYING',
@@ -54,9 +54,8 @@ if platform.system() == 'Windows':
     release_number = release_number.translate(None, 'abcdefghijklmnopqrstuvwxyz-_')
 elif platform.system() == 'Darwin':
     includes = [
-        'pyttsx.drivers.nsss',
-        'PyObjCTools',
-        'pkg_resources'
+        # 'PyObjCTools',
+        # 'pkg_resources'
     ]
     include_files += [
         'zquake-glsdl',
@@ -68,9 +67,9 @@ else:
     raise 'Platform ' + platform.system() + ' is not currently supported.'
 
 setup(
-    name = 'AudioQuake',
-    version = release_number,
-    options = {
+    name='AudioQuake',
+    version=release_number,
+    options={
         'build_exe': {
             'includes': includes,
             'packages': packages,
@@ -82,8 +81,8 @@ setup(
             'custom_info_plist': '../wrapper-mac/Info.plist'
         }
     },
-    executables = [
-        Executable('AudioQuake.py', base = base_gui),
-        Executable('rcon.py', base = base_cli),
+    executables=[
+        Executable('AudioQuake.py', base=base_gui),
+        Executable('rcon.py', base=base_cli),
     ]
 )

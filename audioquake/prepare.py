@@ -333,6 +333,7 @@ if __name__ == '__main__':
     copy_glob('..', '*.md', Config.dir_staging)
     copy_glob('.', '*.md', Config.dir_staging)
     copy_file('.', 'AudioQuake.py', Config.dir_staging)
+    shutil.copy('launcherlib.py', Config.dir_staging)
     copy_file('.', 'rcon.py', Config.dir_staging)
     copy_file('.', 'setup.py', Config.dir_staging)
     copy_file_abs(Config.bin_zqds, Config.dir_staging)
@@ -343,9 +344,9 @@ if __name__ == '__main__':
     if is_mac():
         print('Copying Mac command-line starter scripts')
         copy_glob('wrapper-mac', 'start-*.command', Config.dir_staging)
-        print('Hacking in Python support files for freeze on Mac')
-        copy_tree('/usr/local/lib/python2.7/site-packages/PyObjCTools', Config.dir_staging + '/PyObjCTools')
-        #copy_file_abs('/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py', Config.dir_staging)
+        # print('Hacking in Python support files for freeze on Mac')
+        # copy_tree('/usr/local/lib/python3.6/site-packages/PyObjCTools', Config.dir_staging + '/PyObjCTools')
+        # copy_tree('/usr/local/lib/python3.6/site-packages/pkg_resources', Config.dir_staging + '/pkg_resources')
 
     print('Finally, converting all standalone .md files to .html')
     convert_standalone_docs()
