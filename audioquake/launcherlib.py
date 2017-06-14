@@ -9,6 +9,12 @@ import os
 def on_windows(): return platform.system() == 'Windows'
 
 
+if on_windows():
+    raise NotImplementedError
+else:
+    from AppKit import NSSpeechSynthesizer
+
+
 class LaunchState(enum.Enum):
     OK = enum.auto()
     NOT_FOUND = enum.auto()
@@ -17,13 +23,9 @@ class LaunchState(enum.Enum):
 
 class SpeechSynth():
     def __init__(self):
-        if on_windows():
-            raise NotImplementedError
-        else:
-            from AppKit import NSSpeechSynthesizer
-            nssp = NSSpeechSynthesizer
-            self.ve = nssp.alloc().init()
-            self.ve.setVoice_("com.apple.speech.synthesis.voice.Alex")
+        nssp = NSSpeechSynthesizer
+        self.ve = nssp.alloc().init()
+        self.ve.setVoice_("com.apple.speech.synthesis.voice.Alex")
 
     def say(self, text):
         if on_windows():
@@ -122,8 +124,8 @@ class GameController():
 
     def launch_tutorial(self):
         return self._launch_core((self._engine,)
-                                 + self._opts_default
-                                 + self._opts_tutorial)
+                + self._opts_default
+                + self._opts_tutorial)
 
     def quit(self):
         if self._running():

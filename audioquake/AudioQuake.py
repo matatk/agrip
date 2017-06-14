@@ -138,7 +138,13 @@ def stamp_file_check(name):
 
 
 if __name__ == '__main__':
-    os.chdir(os.path.abspath(os.path.dirname(sys.argv[0])))
+    def get_path():
+        if getattr(sys, 'frozen', False):
+            return os.path.dirname(sys.executable)
+        else:
+            return os.path.abspath(os.path.dirname(sys.argv[0]))
+
     app = wx.App(False)
+    os.chdir(get_path())
     frame = LauncherWindow(None, "AudioQuake Launcher")
     app.MainLoop()

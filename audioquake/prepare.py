@@ -1,16 +1,22 @@
 import platform
 import os
-import sys         # exit
+import sys
 import subprocess
-import glob        # picking up .dat files
-import shutil      # removing a tree; copying files
-import urllib.request, urllib.parse, urllib.error
+import glob
+import shutil
+import urllib.request
+import urllib.parse
+import urllib.error
 import zipfile
-import traceback   # die
+import traceback
 from manuals import convert
 
+
 def is_mac(): return platform.system() == 'Darwin'
+
+
 def is_windows(): return platform.system() == 'Windows'
+
 
 # Bit of a hack doing it this way, but I have not got custom build
 # commands working yet -- cx_Freeze overrides them and I'm not sure
@@ -21,6 +27,7 @@ class Info:
     release_number = None
     release_name = None
     base_dir = os.getcwd()
+
 
 class Config:
     do_compile = True
@@ -66,6 +73,7 @@ def comeback(function):
             die("couldn't return to original directory: " + original)
     return wrapper
 
+
 def die(message):
     exc_type, exc_value, exc_traceback = sys.exc_info()
     if exc_type:
@@ -73,9 +81,11 @@ def die(message):
     print('Error:', message)
     sys.exit(42)
 
+
 def check_platform():
     if not is_mac() and not is_windows():
         die('platform ' + plat + ' is not supported yet; sorry!')
+
 
 def prep_empty_dir(directory):
     if os.path.exists(directory):
@@ -92,11 +102,13 @@ def prep_empty_dir(directory):
     except:
         die('creating ' + directory)
 
+
 def copy_tree(source, dest):
     try:
         shutil.copytree(source, dest)
     except:
         die("copying " + source + " to " + dest)
+
 
 def copy_glob(source_dir, pattern, dest_dir):
     files = glob.glob(os.path.join(source_dir, pattern))
@@ -106,11 +118,13 @@ def copy_glob(source_dir, pattern, dest_dir):
         except:
             die("copying " + thing + " to " + dest_dir)
 
+
 def copy_file(source_dir, name, dest_dir):
     try:
         shutil.copy(os.path.join(source_dir, name), dest_dir)
     except:
         die("copying " + name + " from " + source_dir + " to " + dest_dir)
+
 
 def copy_file_abs(source, dest_dir):
     try:
@@ -118,11 +132,13 @@ def copy_file_abs(source, dest_dir):
     except:
         die("copying " + source + " to " + dest_dir)
 
+
 def make_subdir(path, name):
     try:
         os.mkdir(os.path.join(path, name))
     except:
         die("making directory " + name + " under " + path)
+
 
 def banner():
     with open('release', 'r') as f:
@@ -138,8 +154,10 @@ def banner():
 def compile_zqcc():
     _compile(Config.dir_make_zqcc, 'zqcc')
 
+
 def compile_zquake():
     _compile(Config.dir_make_zquake, 'zquake', ['gl', 'server'])
+
 
 def _make(name, target = None):
     try:
@@ -154,6 +172,7 @@ def _make(name, target = None):
             die('failed to compile ' + name + ' target: ' + str(target))
     except:
         die('failed to run make for ' + name + ', target: ' + str(target))
+
 
 @comeback
 def _compile(path, name, targets=[]):
@@ -178,6 +197,7 @@ def _chdir_gamecode():
     except:
         die("can't change to QuakeC directory: " + Config.dir_qc)
 
+
 @comeback
 def compile_gamecode():
     _chdir_gamecode()
@@ -197,6 +217,7 @@ def _compile_gamecode(progs):
             die('failed compiling gamecode: ' + progs)
     except:
         die('failed calling zqcc to compile gamecode: ' + progs)
+
 
 @comeback
 def copy_gamecode():
@@ -220,11 +241,13 @@ def _chdir_manuals():
     except:
         die("can't change to manuals' directory: " + Config.dir_manuals)
 
+
 @comeback
 def convert_manuals():
     _chdir_manuals()
     print('Converting manuals from Markdown to HTML')
     convert.manuals()  # also converts the sound legend individual file
+
 
 @comeback
 def convert_standalone_docs():
@@ -241,7 +264,7 @@ def convert_standalone_docs():
 def get_summat(dest_dir, check_file, plural_name, url):
     print('Checking:', plural_name)
     if not os.path.isdir(dest_dir) \
-    or not os.path.isfile(os.path.join(dest_dir, check_file)):
+            or not os.path.isfile(os.path.join(dest_dir, check_file)):
         print("It seems you don't have", plural_name)
         # Try to re-extract, or re-download
         zip_file_name = dest_dir + '.zip'
@@ -323,10 +346,16 @@ if __name__ == '__main__':
         'pak2.pak',
         'mindgrid sounds',
         Config.url_mindgrid)
-    copy_file('mindgrid-audio_quake_2003.09.22', 'readme.txt',
-        os.path.join(Config.dir_staging, 'mindgrid-audio-readme.txt'))
-    copy_glob('mindgrid-audio_quake_2003.09.22', '*.txt', Config.dir_staging)
-    copy_glob('mindgrid-audio_quake_2003.09.22', '*.pak', Config.dir_mod_compiled)
+    copy_file(
+            'mindgrid-audio_quake_2003.09.22',
+            'readme.txt',
+            os.path.join(Config.dir_staging, 'mindgrid-audio-readme.txt'))
+    copy_glob(
+            'mindgrid-audio_quake_2003.09.22', '*.txt', Config.dir_staging)
+    copy_glob(
+            'mindgrid-audio_quake_2003.09.22',
+            '*.pak',
+            Config.dir_mod_compiled)
 
     print('Copying in other files (engine binaries, launcher, setup, docs)')
     copy_file('..', 'COPYING', Config.dir_staging)
@@ -335,7 +364,6 @@ if __name__ == '__main__':
     copy_file('.', 'AudioQuake.py', Config.dir_staging)
     shutil.copy('launcherlib.py', Config.dir_staging)
     copy_file('.', 'rcon.py', Config.dir_staging)
-    copy_file('.', 'setup.py', Config.dir_staging)
     copy_file_abs(Config.bin_zqds, Config.dir_staging)
     copy_file_abs(Config.bin_zqgl, Config.dir_staging)
     copy_glob(Config.dir_manuals, '*-manual*.html', Config.dir_staging_manuals)
