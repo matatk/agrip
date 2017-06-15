@@ -1,3 +1,4 @@
+"""Get all the bits and bobs ready to build AudioQuake"""
 import platform
 import os
 import sys
@@ -17,11 +18,6 @@ def is_mac(): return platform.system() == 'Darwin'
 
 def is_windows(): return platform.system() == 'Windows'
 
-
-# Bit of a hack doing it this way, but I have not got custom build
-# commands working yet -- cx_Freeze overrides them and I'm not sure
-# how best to play with that.  So, for now, the build steps are done
-# as part of a linear script; how hideous! :-)
 
 class Info:
     release_number = None
@@ -46,10 +42,8 @@ class Config:
     else:
         raise NotImplementedError
 
+    dir_assets = 'downloaded-assets'
     dir_manuals = 'manuals'
-    dir_staging = 'app-staging'
-    dir_staging_manuals = os.path.join(dir_staging, 'manuals')
-    dir_mod_compiled = os.path.join(dir_staging, 'id1')
     dir_mod_static = 'mod-static-files'
 
     url_maps = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip'
@@ -84,23 +78,19 @@ def die(message):
 
 def check_platform():
     if not is_mac() and not is_windows():
-        die('platform ' + plat + ' is not supported yet; sorry!')
+        die('Sorry, your platform is not supported yet.')
 
 
-def prep_empty_dir(directory):
+def prep_dir(directory):
     if os.path.exists(directory):
         if not os.path.isdir(directory):
             die(directory + ' exists but is not a directory')
-        # It exists and is a directory; remove it
+    else:
+        # It's been removed or didn't exist; create an empty one
         try:
-            shutil.rmtree(directory)
+            os.mkdir(directory)
         except:
-            die('removing previous directory: ' + directory)
-    # It's been removed or didn't exist; create an empty one
-    try:
-        os.mkdir(directory)
-    except:
-        die('creating ' + directory)
+            die('creating ' + directory)
 
 
 def copy_tree(source, dest):
@@ -159,17 +149,17 @@ def compile_zquake():
     _compile(Config.dir_make_zquake, 'zquake', ['gl', 'server'])
 
 
-def _make(name, target = None):
+def _make(name, target=None):
     try:
         with open(os.devnull, 'w') as DEVNULL:
             if target is not None:
                 result = subprocess.call(['make', target],
-                    stdout=DEVNULL, stderr=subprocess.STDOUT)
+                        stdout=DEVNULL, stderr=subprocess.STDOUT)
             else:
                 result = subprocess.call(['make'],
-                    stdout=DEVNULL, stderr=subprocess.STDOUT)
-        if result is not 0:
-            die('failed to compile ' + name + ' target: ' + str(target))
+                        stdout=DEVNULL, stderr=subprocess.STDOUT)
+                if result is not 0:
+                    die('failed to compile ' + name + ' target: ' + str(target))
     except:
         die('failed to run make for ' + name + ', target: ' + str(target))
 
@@ -204,6 +194,7 @@ def compile_gamecode():
     _compile_gamecode('progs.src')
     _compile_gamecode('spprogs.src')
 
+
 def _compile_gamecode(progs):
     try:
         with open(os.devnull, 'w') as DEVNULL:
@@ -213,8 +204,8 @@ def _compile_gamecode(progs):
                 progs),
                 stdout=DEVNULL,
                 stderr=subprocess.STDOUT)
-        if result is not 0:
-            die('failed compiling gamecode: ' + progs)
+            if result is not 0:
+                die('failed compiling gamecode: ' + progs)
     except:
         die('failed calling zqcc to compile gamecode: ' + progs)
 
@@ -251,10 +242,8 @@ def convert_manuals():
 
 @comeback
 def convert_standalone_docs():
-    os.chdir(Config.dir_staging)
+    # TODO LICENCE and README from above
     convert.all_single_md_files()
-    for mdfile in glob.glob('*.md'):
-        os.remove(mdfile)
 
 
 #
@@ -263,11 +252,12 @@ def convert_standalone_docs():
 
 def get_summat(dest_dir, check_file, plural_name, url):
     print('Checking:', plural_name)
-    if not os.path.isdir(dest_dir) \
-            or not os.path.isfile(os.path.join(dest_dir, check_file)):
+    real_dest_dir = os.path.join(Config.dir_assets, dest_dir)
+    if not os.path.isdir(real_dest_dir) \
+            or not os.path.isfile(os.path.join(real_dest_dir, check_file)):
         print("It seems you don't have", plural_name)
         # Try to re-extract, or re-download
-        zip_file_name = dest_dir + '.zip'
+        zip_file_name = real_dest_dir + '.zip'
         if os.path.isfile(zip_file_name):
             print('Re-extracting...')
         else:
@@ -278,7 +268,7 @@ def get_summat(dest_dir, check_file, plural_name, url):
                 die('whilst downloading ' + url)
         # Actually try to extract
         try:
-            zipfile.ZipFile(zip_file_name).extractall()
+            zipfile.ZipFile(zip_file_name).extractall(Config.dir_assets)
         except:
             die('when extracting ' + zip_file_name)
 
@@ -302,79 +292,44 @@ if __name__ == '__main__':
         else:
             raise NotImplementedError
 
-    print('Preparing empty staging area')
-    prep_empty_dir(Config.dir_staging)
-    prep_empty_dir(Config.dir_staging_manuals)
-
-    print("Copying in 'static' assets")
-    copy_tree(Config.dir_mod_static, Config.dir_mod_compiled)
+    print('Preparing downloaded assets dir')
+    prep_dir(Config.dir_assets)
 
     if Config.do_compile:
         print('Compiling gamecode')
         compile_gamecode()
-    print('Copying in gamecode')
-    copy_gamecode()
+    #print('Copying in gamecode')
+    #copy_gamecode()
 
     # Markdown to HTML...
     convert_manuals()
 
     # Get stuff...
-    get_summat('maps', 'agdm01.bsp', 'maps', Config.url_maps)
-    make_subdir(Config.dir_mod_compiled, 'maps')
-    copy_glob('maps', '*.bsp', os.path.join(Config.dir_mod_compiled, 'maps'))
-
-    get_summat('demos', 'final2.dem', 'demos', Config.url_demos)
-    copy_glob('demos', '*.dem', Config.dir_mod_compiled)
-
-    get_summat('skins', 'base.pcx', 'skins', Config.url_skins)
-    make_subdir(Config.dir_mod_compiled, 'skins')
-    copy_file('skins', 'base.pcx', os.path.join(Config.dir_mod_compiled, 'skins'))
-
     get_summat(
-        'quake-shareware-1.06',
-        'q95.bat',
-        'shareware data',
-        Config.url_shareware)
-    copy_glob('quake-shareware-1.06', '*.*', Config.dir_staging)
-    copy_glob(
-        os.path.join('quake-shareware-1.06', 'id1'),
-        '*.*',
-        Config.dir_mod_compiled)
-
+            'maps',
+            'agdm01.bsp',
+            'maps',
+            Config.url_maps)
     get_summat(
-        'mindgrid-audio_quake_2003.09.22',
-        'pak2.pak',
-        'mindgrid sounds',
-        Config.url_mindgrid)
-    copy_file(
+            'demos',
+            'final2.dem',
+            'demos',
+            Config.url_demos)
+    get_summat(
+            'skins',
+            'base.pcx',
+            'skins',
+            Config.url_skins)
+    get_summat(
+            'quake-shareware-1.06',
+            'q95.bat',
+            'shareware data',
+            Config.url_shareware)
+    get_summat(
             'mindgrid-audio_quake_2003.09.22',
-            'readme.txt',
-            os.path.join(Config.dir_staging, 'mindgrid-audio-readme.txt'))
-    copy_glob(
-            'mindgrid-audio_quake_2003.09.22', '*.txt', Config.dir_staging)
-    copy_glob(
-            'mindgrid-audio_quake_2003.09.22',
-            '*.pak',
-            Config.dir_mod_compiled)
-
-    print('Copying in other files (engine binaries, launcher, setup, docs)')
-    copy_file('..', 'COPYING', Config.dir_staging)
-    copy_glob('..', '*.md', Config.dir_staging)
-    copy_glob('.', '*.md', Config.dir_staging)
-    copy_file('.', 'AudioQuake.py', Config.dir_staging)
-    shutil.copy('launcherlib.py', Config.dir_staging)
-    copy_file('.', 'rcon.py', Config.dir_staging)
-    copy_file_abs(Config.bin_zqds, Config.dir_staging)
-    copy_file_abs(Config.bin_zqgl, Config.dir_staging)
-    copy_glob(Config.dir_manuals, '*-manual*.html', Config.dir_staging_manuals)
-    copy_file(Config.dir_manuals, 'agrip.css', Config.dir_staging_manuals)
-
-    if is_mac():
-        print('Copying Mac command-line starter scripts')
-        copy_glob('wrapper-mac', 'start-*.command', Config.dir_staging)
-        # print('Hacking in Python support files for freeze on Mac')
-        # copy_tree('/usr/local/lib/python3.6/site-packages/PyObjCTools', Config.dir_staging + '/PyObjCTools')
-        # copy_tree('/usr/local/lib/python3.6/site-packages/pkg_resources', Config.dir_staging + '/pkg_resources')
+            'pak2.pak',
+            'mindgrid sounds',
+            Config.url_mindgrid)
 
     print('Finally, converting all standalone .md files to .html')
     convert_standalone_docs()

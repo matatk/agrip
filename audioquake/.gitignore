@@ -1,13 +1,5 @@
-# Staging area
-app-staging
-# Compiled maps
-*.bsp
-# Support files
-maps.zip
-demos*
-skins*
-quake-shareware-1.06*
-mindgrid-audio_quake_2003.09.22*
+# Downloaded assets
+downloaded-assets
 # *nix compilation
 zq-repo/zquake/release-*
 zq-repo/zqcc/*.o

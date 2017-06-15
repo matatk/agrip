@@ -1,6 +1,18 @@
 AudioQuake 2014.0 (???)
 =======================
 
+* Shiny new GUI launcher, now based on wxWidgets.
+? The GUI can load in the registered Quake data if you bought the game.
+? You can now also install QMOD files via the GUI.
+* Slicker Text-to-Speech performance.
+? Documentation updates.
+* Much code cleanup behind the scenes.
+  - All of the Python code has been tidied up a lot.
+  - We are now using PyInstaller to bundle the app.
+
+AudioQuake 2014.0 (???)
+=======================
+
 This is a re-release where we've massively revamped the code to run on
 modern platforms, with a new launcher and modern, cross-platform build
 system. There are no functionality changes, but it should be a great

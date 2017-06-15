@@ -3,6 +3,7 @@ import subprocess
 import glob
 import sys  # command-line
 
+
 def _convert_core(output_name, input_names, manuals_mode=False):
     main_command_bits = [
         'pandoc',
