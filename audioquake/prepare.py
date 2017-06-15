@@ -3,8 +3,6 @@ import platform
 import os
 import sys
 import subprocess
-import glob
-import shutil
 import urllib.request
 import urllib.parse
 import urllib.error
@@ -26,7 +24,6 @@ class Info:
 
 
 class Config:
-    do_compile = True
     dir_make_zqcc = os.path.join('zq-repo', 'zqcc')
     dir_make_zquake = os.path.join('zq-repo', 'zquake')
     dir_qc = os.path.join('zq-repo', 'qc', 'agrip')
@@ -44,7 +41,6 @@ class Config:
 
     dir_assets = 'downloaded-assets'
     dir_manuals = 'manuals'
-    dir_mod_static = 'mod-static-files'
 
     url_maps = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip'
     url_demos = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip'
@@ -86,48 +82,10 @@ def prep_dir(directory):
         if not os.path.isdir(directory):
             die(directory + ' exists but is not a directory')
     else:
-        # It's been removed or didn't exist; create an empty one
         try:
             os.mkdir(directory)
         except:
             die('creating ' + directory)
-
-
-def copy_tree(source, dest):
-    try:
-        shutil.copytree(source, dest)
-    except:
-        die("copying " + source + " to " + dest)
-
-
-def copy_glob(source_dir, pattern, dest_dir):
-    files = glob.glob(os.path.join(source_dir, pattern))
-    for thing in files:
-        try:
-            shutil.copy(thing, dest_dir)
-        except:
-            die("copying " + thing + " to " + dest_dir)
-
-
-def copy_file(source_dir, name, dest_dir):
-    try:
-        shutil.copy(os.path.join(source_dir, name), dest_dir)
-    except:
-        die("copying " + name + " from " + source_dir + " to " + dest_dir)
-
-
-def copy_file_abs(source, dest_dir):
-    try:
-        shutil.copy(source, dest_dir)
-    except:
-        die("copying " + source + " to " + dest_dir)
-
-
-def make_subdir(path, name):
-    try:
-        os.mkdir(os.path.join(path, name))
-    except:
-        die("making directory " + name + " under " + path)
 
 
 def banner():
@@ -181,7 +139,7 @@ def _compile(path, name, targets=[]):
 # QuakeC Compilation
 #
 
-def _chdir_gamecode():
+def _chdir_gamecode():  # TODO remove
     try:
         os.chdir(Config.dir_qc)
     except:
@@ -210,23 +168,11 @@ def _compile_gamecode(progs):
         die('failed calling zqcc to compile gamecode: ' + progs)
 
 
-@comeback
-def copy_gamecode():
-    _chdir_gamecode()
-    datfiles = glob.glob('*.dat')
-    full_mod_dir = os.path.join(Info.base_dir, Config.dir_mod_compiled)
-    for datfile in datfiles:
-        try:
-            shutil.copy(datfile, full_mod_dir)
-        except:
-            die('copying ' + datfile + ' to ' + full_mod_dir)
-
-
 #
 # Converting the manuals and other docs
 #
 
-def _chdir_manuals():
+def _chdir_manuals():  # TODO remove
     try:
         os.chdir(Config.dir_manuals)
     except:
@@ -281,7 +227,7 @@ if __name__ == '__main__':
     banner()
     check_platform()
 
-    if Config.do_compile:
+    if True:  # TODO replace with a check if it needs doing
         if is_mac():
             print('Compiling zqcc')
             compile_zqcc()
@@ -295,14 +241,12 @@ if __name__ == '__main__':
     print('Preparing downloaded assets dir')
     prep_dir(Config.dir_assets)
 
-    if Config.do_compile:
+    if True:  # TODO replace with a check if it needs doing
         print('Compiling gamecode')
         compile_gamecode()
-    #print('Copying in gamecode')
-    #copy_gamecode()
 
     # Markdown to HTML...
-    convert_manuals()
+    convert_manuals()  # TODO replace with a check if it needs doing
 
     # Get stuff...
     get_summat(
