@@ -8,7 +8,11 @@ import urllib.parse
 import urllib.error
 import zipfile
 import traceback
-from manuals import convert
+import glob
+import string
+
+import mistune
+import mistune_contrib.toc
 
 
 def is_mac(): return platform.system() == 'Darwin'
@@ -41,6 +45,7 @@ class Config:
 
     dir_assets = 'downloaded-assets'
     dir_manuals = 'manuals'
+    dir_manuals_converted = 'manuals-converted'
 
     url_maps = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip'
     url_demos = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip'
@@ -80,12 +85,9 @@ def check_platform():
 def prep_dir(directory):
     if os.path.exists(directory):
         if not os.path.isdir(directory):
-            die(directory + ' exists but is not a directory')
+            raise Exception(directory + ' exists but is not a directory')
     else:
-        try:
-            os.mkdir(directory)
-        except:
-            die('creating ' + directory)
+        os.mkdir(directory)
 
 
 def banner():
@@ -172,24 +174,37 @@ def _compile_gamecode(progs):
 # Converting the manuals and other docs
 #
 
-def _chdir_manuals():  # TODO remove
-    try:
-        os.chdir(Config.dir_manuals)
-    except:
-        die("can't change to manuals' directory: " + Config.dir_manuals)
+class TocRenderer(mistune_contrib.toc.TocMixin, mistune.Renderer):
+    pass
 
 
-@comeback
+def convert_markdown_files(base_name, markdown_files, output_dir):
+    toc = TocRenderer()
+    md = mistune.Markdown(renderer=toc)
+
+    source = ''
+    fancy_name = base_name.translate({ord('-'): ' '}).title()
+    html_head_template = open(
+            os.path.join(Config.dir_manuals, 'header.html'), 'r').read()
+    html_head = string.Template(html_head_template).substitute(
+            manual_title=fancy_name)
+
+    for markdown_file in markdown_files:
+        source += open(markdown_file, 'r').read()
+
+    toc.reset_toc()
+    html_main = md.parse(source)
+    html_toc = toc.render_toc(level=3)
+
+    open(os.path.join(output_dir, base_name + '.html'), 'w').write(
+            html_head + html_toc + html_main + '</body></html>')
+
+
 def convert_manuals():
-    _chdir_manuals()
-    print('Converting manuals from Markdown to HTML')
-    convert.manuals()  # also converts the sound legend individual file
-
-
-@comeback
-def convert_standalone_docs():
-    # TODO LICENCE and README from above
-    convert.all_single_md_files()
+    for manual in ['user-manual', 'development-manual']:
+        print('Converting', manual + '...')
+        sources = glob.glob(os.path.join(Config.dir_manuals, manual) + '*')
+        convert_markdown_files(manual, sources, Config.dir_manuals_converted)
 
 
 #
@@ -227,6 +242,11 @@ if __name__ == '__main__':
     banner()
     check_platform()
 
+    print('Preparing downloaded assets dir')
+    prep_dir(Config.dir_assets)
+    print('Preparing converted (HTML) manual dir')
+    prep_dir(Config.dir_manuals_converted)
+
     if True:  # TODO replace with a check if it needs doing
         if is_mac():
             print('Compiling zqcc')
@@ -237,9 +257,6 @@ if __name__ == '__main__':
             print("On Windows, we don't compile the engine here; we just pick up the existing binaries.")
         else:
             raise NotImplementedError
-
-    print('Preparing downloaded assets dir')
-    prep_dir(Config.dir_assets)
 
     if True:  # TODO replace with a check if it needs doing
         print('Compiling gamecode')
@@ -274,6 +291,3 @@ if __name__ == '__main__':
             'pak2.pak',
             'mindgrid sounds',
             Config.url_mindgrid)
-
-    print('Finally, converting all standalone .md files to .html')
-    convert_standalone_docs()
