@@ -183,21 +183,29 @@ def convert_markdown_files(base_name, markdown_files, output_dir):
     md = mistune.Markdown(renderer=toc)
 
     source = ''
+
     fancy_name = base_name.translate({ord('-'): ' '}).title()
-    html_head_template = open(
-            os.path.join(Config.dir_manuals, 'header.html'), 'r').read()
-    html_head = string.Template(html_head_template).substitute(
-            manual_title=fancy_name)
+
+    document_template = open(
+            os.path.join(Config.dir_manuals, 'template.html'), 'r').read()
+
+    if not isinstance(markdown_files, list):
+        markdown_files = [markdown_files]
 
     for markdown_file in markdown_files:
         source += open(markdown_file, 'r').read()
 
     toc.reset_toc()
-    html_main = md.parse(source)
+    html_content = md.parse(source)
     html_toc = toc.render_toc(level=3)
 
+    full_document = string.Template(document_template).substitute(
+            title=fancy_name,
+            toc=html_toc,
+            content=html_content)
+
     open(os.path.join(output_dir, base_name + '.html'), 'w').write(
-            html_head + html_toc + html_main + '</body></html>')
+            full_document)
 
 
 def convert_manuals():
@@ -205,6 +213,12 @@ def convert_manuals():
         print('Converting', manual + '...')
         sources = glob.glob(os.path.join(Config.dir_manuals, manual) + '*')
         convert_markdown_files(manual, sources, Config.dir_manuals_converted)
+
+    print('Converting sound legend to HTML...')
+    convert_markdown_files(
+            'sound-legend',
+            os.path.join(Config.dir_manuals, 'user-manual-part07-b.md'),
+            Config.dir_manuals_converted)
 
 
 #

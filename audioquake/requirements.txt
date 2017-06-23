@@ -1,3 +1,5 @@
 wxPython==4.0.0a2
 pyobjc==3.2.1; sys_platform=="darwin"
+mistune==0.7.4
+mistune-contrib==0.1
 git+https://github.com/pyinstaller/pyinstaller.git@7e814646474efc868206beb8fb9dfe45af527109
