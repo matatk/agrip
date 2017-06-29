@@ -20,3 +20,6 @@ zq-repo/zquake/source/*.sdf
 zq-repo/zquake/source/*.user
 # Manual intermediate files
 manuals-converted/
+# PyInstaller output
+build/
+dist/

@@ -10,6 +10,7 @@ import zipfile
 import traceback
 import glob
 import string
+import shutil
 
 import mistune
 import mistune_contrib.toc
@@ -31,21 +32,25 @@ class Config:
     dir_make_zqcc = os.path.join('zq-repo', 'zqcc')
     dir_make_zquake = os.path.join('zq-repo', 'zquake')
     dir_qc = os.path.join('zq-repo', 'qc', 'agrip')
+    dir_dist = 'dist'
 
     if is_mac():
         bin_zqcc = os.path.join(dir_make_zqcc, 'zqcc')
         bin_zqgl = os.path.join(dir_make_zquake, 'release-mac', 'zquake-glsdl')
         bin_zqds = os.path.join(dir_make_zquake, 'release-mac', 'zqds')
+        dir_dist_aq = os.path.join(dir_dist, 'AudioQuake.app', 'Contents', 'MacOS')
     elif is_windows():
         bin_zqcc = os.path.join(dir_make_zqcc, 'Release', 'zqcc.exe')
         bin_zqgl = os.path.join(dir_make_zquake, 'source', 'Release-GL', 'zquake-gl.exe')
         bin_zqds = os.path.join(dir_make_zquake, 'source', 'Release-server', 'zqds.exe')
+        dir_dist_aq = os.path.join(dir_dist, 'AudioQuake')
     else:
         raise NotImplementedError
 
     dir_assets = 'downloaded-assets'
     dir_manuals = 'manuals'
     dir_manuals_converted = 'manuals-converted'
+    dir_dist_rcon = os.path.join(dir_dist, 'rcon')
 
     url_maps = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip'
     url_demos = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip'
@@ -97,6 +102,18 @@ def banner():
         print('Building', Info.release_number, ':', Info.release_name)
 
 
+def try_to_run(process_args, error_message):
+    with open(os.devnull, 'w') as DEVNULL:
+        result = subprocess.call(
+                process_args, stdout=DEVNULL, stderr=subprocess.STDOUT)
+        if result is not 0:
+            print('Error running: ' + str(process_args)
+                  + ' - trying again, with full output...')
+            result = subprocess.call(process_args)
+            if result is not 0:
+                die(error_message)
+
+
 #
 # Engine compilation
 #
@@ -110,18 +127,12 @@ def compile_zquake():
 
 
 def _make(name, target=None):
-    try:
-        with open(os.devnull, 'w') as DEVNULL:
-            if target is not None:
-                result = subprocess.call(['make', target],
-                        stdout=DEVNULL, stderr=subprocess.STDOUT)
-            else:
-                result = subprocess.call(['make'],
-                        stdout=DEVNULL, stderr=subprocess.STDOUT)
-                if result is not 0:
-                    die('failed to compile ' + name + ' target: ' + str(target))
-    except:
-        die('failed to run make for ' + name + ', target: ' + str(target))
+    error_message = 'failed to compile ' + name \
+            + ' [target: ' + str(target) + ']'
+    process_args = ['make']
+    if target is not None:
+        process_args.append(target)
+    try_to_run(process_args, error_message)
 
 
 @comeback
@@ -156,18 +167,9 @@ def compile_gamecode():
 
 
 def _compile_gamecode(progs):
-    try:
-        with open(os.devnull, 'w') as DEVNULL:
-            result = subprocess.call((
-                os.path.join(Info.base_dir, Config.bin_zqcc),
-                '-progs',
-                progs),
-                stdout=DEVNULL,
-                stderr=subprocess.STDOUT)
-            if result is not 0:
-                die('failed compiling gamecode: ' + progs)
-    except:
-        die('failed calling zqcc to compile gamecode: ' + progs)
+    try_to_run(
+            (os.path.join(Info.base_dir, Config.bin_zqcc), '-progs', progs),
+            'failed to compile gamecode file: ' + progs)
 
 
 #
@@ -249,6 +251,24 @@ def get_summat(dest_dir, check_file, plural_name, url):
 
 
 #
+# Running PyInstaller
+#
+
+def run_pyinstaller():
+    for spec in ['AudioQuake.spec', 'rcon.spec']:
+        print('Running PyInstaller on ' + spec + '...')
+        try_to_run(
+                ('pyinstaller', '-y', spec),
+                'failed to run PyInstaller on ' + spec)
+
+
+def copy_in_rcon():
+    shutil.copy(
+            os.path.join(Config.dir_dist_rcon, 'rcon'),
+            Config.dir_dist_aq)
+
+
+#
 # Let's script like it's 1989...
 #
 
@@ -305,3 +325,7 @@ if __name__ == '__main__':
             'pak2.pak',
             'mindgrid sounds',
             Config.url_mindgrid)
+
+    # Build the executables
+    run_pyinstaller()
+    copy_in_rcon()
