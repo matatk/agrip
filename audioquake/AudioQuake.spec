@@ -3,17 +3,24 @@ data_files = [
         ('mod-static-files/', 'id1'),
         ('downloaded-assets/quake-shareware-1.06', '.'),
         ('downloaded-assets/demos', '.'),
-        ('downloaded-assets/maps', 'id1'),
+        ('downloaded-assets/maps', 'id1/maps'),
         ('downloaded-assets/mindgrid-audio_quake_2003.09.22/*.txt',
             'mindgrid-docs'),
         ('downloaded-assets/mindgrid-audio_quake_2003.09.22/pak2.pak', 'id1'),
-        ('downloaded-assets/skins/', 'id1'),
+        ('downloaded-assets/skins/', 'id1/skins'),
         ('manuals-converted/', 'manuals'),
-        ('manuals/agrip.css', 'manuals')]
+        ('manuals/agrip.css', 'manuals'),
+        ('zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
+        ('zq-repo/qc/agrip/spprogs.dat', 'id1/'),
+        ('wrapper-mac/start-rcon.command', '.'),
+        ('wrapper-mac/start-server.command', '.')]
+binary_files = [
+        ('zq-repo/zquake/release-mac/zqds', '.'),
+        ('zq-repo/zquake/release-mac/zquake-glsdl', '.')]
 
 block_cipher = None
 a = Analysis(['AudioQuake.py'],
-             binaries=[],
+             binaries=binary_files,
              datas=data_files,
              hiddenimports=[],
              hookspath=[],

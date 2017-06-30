@@ -27,8 +27,8 @@ class LauncherWindow(wx.Frame):
             self._server = self._open + ('zqds.exe',)
         else:  # assume Mac for now (won't work on Linux)
             self._open = ('open',)
-            self._rcon = self._open + ('./rcon',)
-            self._server = self._open + ('./zqds',)
+            self._rcon = self._open + ('./start-rcon.command',)
+            self._server = self._open + ('./start-server.command',)
 
         # Launching the game
 
@@ -69,7 +69,7 @@ class LauncherWindow(wx.Frame):
                 'User Manual': os.path.join(
                     'manuals', 'user-manual.html'),
                 'Sound Legend': os.path.join(
-                    'manuals', 'user-manual-part07-b.html'),
+                    'manuals', 'sound-legend.html'),
                 'LICENCE': 'LICENCE.html',
                 'Show all Files': '.'}
 
