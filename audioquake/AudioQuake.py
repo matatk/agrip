@@ -66,7 +66,7 @@ class LauncherWindow(wx.Frame):
 
         things_to_open = {
                 'README': 'README.html',
-                'Manual': os.path.join(
+                'User Manual': os.path.join(
                     'manuals', 'user-manual.html'),
                 'Sound Legend': os.path.join(
                     'manuals', 'user-manual-part07-b.html'),

@@ -281,20 +281,16 @@ if __name__ == '__main__':
     print('Preparing converted (HTML) manual dir')
     prep_dir(Config.dir_manuals_converted)
 
-    if True:  # TODO replace with a check if it needs doing
-        if is_mac():
-            print('Compiling zqcc')
-            compile_zqcc()
-            print('Compiling zquake')
-            compile_zquake()
-        elif is_windows():
-            print("On Windows, we don't compile the engine here; we just pick up the existing binaries.")
-        else:
-            raise NotImplementedError
+    if is_mac():
+        print('Compiling zqcc')
+        compile_zqcc()
+        print('Compiling zquake')
+        compile_zquake()
+    else:
+        print("On Windows, we don't compile the engine here; we just pick up the existing binaries.")
 
-    if True:  # TODO replace with a check if it needs doing
-        print('Compiling gamecode')
-        compile_gamecode()
+    print('Compiling gamecode')
+    compile_gamecode()
 
     # Markdown to HTML...
     convert_manuals()  # TODO replace with a check if it needs doing
