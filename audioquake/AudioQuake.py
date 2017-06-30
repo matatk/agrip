@@ -65,12 +65,14 @@ class LauncherWindow(wx.Frame):
         sizer.Add(btn_open_rcon, 0, wx.EXPAND, 0)
 
         things_to_open = {
-                'README': 'README.html',
+                'README': os.path.join(
+                    'manuals', 'README.html'),
                 'User Manual': os.path.join(
                     'manuals', 'user-manual.html'),
                 'Sound Legend': os.path.join(
                     'manuals', 'sound-legend.html'),
-                'LICENCE': 'LICENCE.html',
+                'LICENCE': os.path.join(
+                    'manuals', 'LICENCE.html'),
                 'Show all Files': '.'}
 
         for title, thing_to_open in things_to_open.items():

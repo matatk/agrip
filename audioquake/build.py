@@ -51,6 +51,7 @@ class Config:
     dir_manuals = 'manuals'
     dir_manuals_converted = 'manuals-converted'
     dir_dist_rcon = os.path.join(dir_dist, 'rcon')
+    dir_readme_licence = '..'
 
     url_maps = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/8no8PzlJCW/devfiles/maps.zip'
     url_demos = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/HTM6QTjNTh/devfiles/demos.zip'
@@ -216,11 +217,15 @@ def convert_manuals():
         sources = glob.glob(os.path.join(Config.dir_manuals, manual) + '*')
         convert_markdown_files(manual, sources, Config.dir_manuals_converted)
 
-    print('Converting sound legend to HTML...')
-    convert_markdown_files(
-            'sound-legend',
-            os.path.join(Config.dir_manuals, 'user-manual-part07-b.md'),
-            Config.dir_manuals_converted)
+    single_docs_to_convert = {
+            'sound-legend': os.path.join(
+                Config.dir_manuals, 'user-manual-part07-b.md'),
+            'README': os.path.join(Config.dir_readme_licence, 'README.md'),
+            'LICENCE': os.path.join(Config.dir_readme_licence, 'LICENCE.md')}
+
+    for docname, docpath in single_docs_to_convert.items():
+        print('Converting ' + docname + '...')
+        convert_markdown_files(docname, docpath, Config.dir_manuals_converted)
 
 
 #
