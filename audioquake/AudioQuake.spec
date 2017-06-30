@@ -7,7 +7,8 @@ data_files = [
             'mindgrid-docs'),
         ('downloaded-assets/mindgrid-audio_quake_2003.09.22/pak2.pak', 'id1'),
         ('downloaded-assets/skins/', 'id1'),
-        ('manuals-converted/', '.')]
+        ('manuals-converted/', 'manuals/'),
+        ('manuals/agrip.css', 'manuals/')]
 
 block_cipher = None
 a = Analysis(['AudioQuake.py'],

@@ -27,8 +27,8 @@ class LauncherWindow(wx.Frame):
             self._server = self._open + ('zqds.exe',)
         else:  # assume Mac for now (won't work on Linux)
             self._open = ('open',)
-            self._rcon = self._open + ('./start-rcon.command',)
-            self._server = self._open + ('./start-server.command',)
+            self._rcon = self._open + ('./rcon',)
+            self._server = self._open + ('./zqds',)
 
         # Launching the game
 
