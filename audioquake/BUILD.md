@@ -1,7 +1,7 @@
 Building AudioQuake
 ===================
 
-AudioQuake can be built into a stand-alone application for Mac or Windows. This can be run directly by the user, without having to install anything. This file documents the following three main steps:
+AudioQuake can be built into a stand-alone application for Mac or Windows. This can be run directly by the user, without having to install anything. This file documents the following four main steps:
 
 -   Getting your development environment set up for the first time (this differs between Mac and Windows).
 -   Getting the AudioQuake code and required libraries.
@@ -20,7 +20,9 @@ These instructions were tested on macOS Sierra (10.12).
 -   To compile anything and to use the suggested package manager, you will need the XCode command line tools to have been installed. You can do this by running `xcode-select --install`.
 -   We strongly recommend using [Homebrew](http://brew.sh) as this makes the installation and update of third-party libraries and tools easy.
 -   We also strongly recommend that you install the packages `git` and `bash-completion` (which allows you to quickly tab-complete many commands) to make working on the command line easy. Do this by running `brew install bash-completion` and `brew install git`. If you prefer a graphical UI for Git (and GitHub), you can install [GitHub Desktop](http://desktop.github.com).
--   Make sure you've added homebrew's install location, `/usr/local/`, to your path, so that later on when you install Python via homebrew, it will run that version rather than the macOS system version. You should end up with something like the following in your `~/.bashrc` file—you'll probably need to restart your shell for this to take effect.
+-   Make sure you've added homebrew's install location, `/usr/local/`, to your path, so that later on when you install Python via homebrew, it will run that version rather than the macOS system version.
+
+After the above steps, you should end up with something like the following in your `~/.bashrc` file—you'll probably need to restart your shell for this to take effect.
 
 ``` {.bash}
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
@@ -63,7 +65,9 @@ Getting the AudioQuake code and Python libraries
 The following instructions give the Git command lines you need to complete them, but you can always use the [GitHub Desktop](http://desktop.github.com) GUI app if you prefer.
 
 -   Get the code by cloning from GitHub: `git clone https://github.com/matatk/agrip.git`
-    -   There are two main branches in this repo: "master", where the AudioQuake development is done, and "gh-pages" which holds the AGRIP website. You need to be on the "master" branch, in the `audioquake/` directory, to peform the rest of these steps.
+
+    There are two main branches in this repo: "master", where the AudioQuake development is done, and "gh-pages" which holds the AGRIP website. You need to be on the "master" branch, in the `audioquake/` directory, to peform the rest of these steps.
+
 -   Finally you can install the third-party Python libraries that AudioQuake needs: `pip3 install -r requirements.txt`
 
 Compiling the Engine (Windows-only)
@@ -77,7 +81,14 @@ On Windows this must be done separately to the main build process. The main buil
 Running the build script
 ------------------------
 
-The result of the build process is a stand-alone application that can be run on a given platform (an .app bundle on the Mac; a simple folder on Windows). The build script, which is written in Python, performs the following steps automatically.
+The result of the build process is a stand-alone application that can be run on a given platform (an .app bundle on the Mac; a simple folder on Windows).  To run a build, the steps are as follows.
+
+1.  If you are using Windows, ensure you've compiled the engine and QuakeC compiler, as above (you don't need to do this if they have not changed since the last build).
+2.  On Mac or Windows, run `python3 build.py` to perform all the steps above and create the standalone application.
+
+There is a cleanup script (`clean.py`) to tidy things up (e.g. removing the compiled code and data files) so that the repo is back to the state it was in when cloned.
+
+### What does the build script do?
 
 -   (On the Mac) compiles ZQuake, zqcc and the QuakeC gamecode.
 -   FIXME it's meant to compile the GC on windows too
@@ -89,10 +100,3 @@ The result of the build process is a stand-alone application that can be run on 
     -   Shareware Quake data.
     -   Mindgrid sounds.
 -   Runs [PyInstaller](http://www.pyinstaller.org) to "freeze" the Python code (so that it runs like a normal executable, without requiring Python on the player's computer) and combine it with the engine binaries and all the data mentioned above.
-
-To run a build, the steps are as follows.
-
-1.  If you are using Windows, ensure you've compiled the engine and QuakeC compiler, as above (you don't need to do this if they have not changed since the last build).
-2.  On Mac or Windows, run `python3 build.py` to perform all the steps above and create the standalone application.
-
-There is a cleanup script (`clean.py`) to tidy things up (e.g. removing the compiled code and data files) so that the repo is 
