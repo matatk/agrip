@@ -24,7 +24,7 @@ These instructions were tested on macOS Sierra (10.12).
 
 After the above steps, you should end up with something like the following in your `~/.bashrc` file—you'll probably need to restart your shell for this to take effect.
 
-``` {.bash}
+```bash
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 if [ -f `brew --prefix`/etc/bash_completion ]; then
     . `brew --prefix`/etc/bash_completion
