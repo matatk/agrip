@@ -81,7 +81,7 @@ On Windows this must be done separately to the main build process. The main buil
 Running the build script
 ------------------------
 
-The result of the build process is a stand-alone application that can be run on a given platform (an .app bundle on the Mac; a simple folder on Windows).  To run a build, the steps are as follows.
+The result of the build process is a stand-alone application that can be run on a given platform (an .app bundle on the Mac; a simple folder on Windows). To run a build, the steps are as follows.
 
 1.  If you are using Windows, ensure you've compiled the engine and QuakeC compiler, as above (you don't need to do this if they have not changed since the last build).
 2.  On Mac or Windows, run `python3 build.py` to perform all the steps above and create the standalone application.
@@ -100,3 +100,4 @@ There is a cleanup script (`clean.py`) to tidy things up (e.g. removing the comp
     -   Shareware Quake data.
     -   Mindgrid sounds.
 -   Runs [PyInstaller](http://www.pyinstaller.org) to "freeze" the Python code (so that it runs like a normal executable, without requiring Python on the player's computer) and combine it with the engine binaries and all the data mentioned above.
+
