@@ -4,8 +4,6 @@ import os
 import sys
 import subprocess
 import urllib.request
-import urllib.parse
-import urllib.error
 import zipfile
 import traceback
 import glob
@@ -78,7 +76,9 @@ def comeback(function):
 def die(message):
     exc_type, exc_value, exc_traceback = sys.exc_info()
     if exc_type:
+        print('\nAn error has ooccurred; details follow.\n')
         traceback.print_exc()
+        print()
     print('Error:', message)
     sys.exit(42)
 
