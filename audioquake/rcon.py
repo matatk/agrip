@@ -1,14 +1,16 @@
 """Remote Console"""
 import sys
 import socket
+import traceback
 try:
     import readline
 except:
     pass
 
-PACKING_STRING = '\xFF\xFF\xFF\xFF'
+PACKING_BYTES = b'\xFF\xFF\xFF\xFF'
 BUFFER_SIZE = 10240
 SOCKET_TIMEOUT = 4
+
 
 def usage():
     print('Quake Remote Console (part of AGRIP AudioQuake)')
@@ -16,23 +18,24 @@ def usage():
     print('   or:', sys.argv[0], '--ask')
 
 
-def _log_command():
-    return _command_core('log\n')  # leaving out the \n or having \x00 works too
+def _log_build_command_to_send():
+    # leaving out the \n or having \x00 works too
+    return _command_core('log\n')
 
 
-def _command(command, password):
+def _build_command_to_send(command, password):
     return _command_core('rcon ' + password + ' ' + command + '\x00')
 
 
 def _command_core(processed):
-    return PACKING_STRING + processed
+    return PACKING_BYTES + bytes(processed, 'ascii')
 
 
 def _filter_response(received):
-    if received.startswith(PACKING_STRING):
-        return received[5:].rstrip()  # an 'n' follows the padding
+    if received.startswith(PACKING_BYTES):
+        return received[5:].rstrip().decode()  # an 'n' follows the padding
     else:
-        return received.rstrip()
+        return received.rstrip().decode()
 
 
 if __name__ == '__main__':
@@ -56,7 +59,7 @@ if __name__ == '__main__':
 
     # Ask for password
     password = input('Server rcon password [default: rconpasswd]: ') \
-            or 'rconpasswd'
+        or 'rconpasswd'
 
     # Create and bind to socket (but we are not really connecting yet)
     try:
@@ -77,9 +80,10 @@ if __name__ == '__main__':
                 print('Leaving rcon...')
                 break
             elif user_input == 'log':
-                sock.sendto(_log_command(), address)
+                sock.sendto(_log_build_command_to_send(), address)
             else:
-                sock.sendto(_command(user_input, password), address)
+                sock.sendto(
+                        _build_command_to_send(user_input, password), address)
 
             if user_input == 'quit':
                 print('Sent server shutdown command; leaving rcon...')
@@ -95,6 +99,7 @@ if __name__ == '__main__':
             break
         except Exception as e:
             print('There was an unanticipated error:', str(e))
+            traceback.print_exc(file=sys.stdout)
             sys.exit(1)
 
     sock.close()
