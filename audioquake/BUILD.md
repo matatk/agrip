@@ -13,7 +13,7 @@ Please note that builds are platform-specific, i.e. if you build on the Mac, you
 First-time set-up: Mac
 ----------------------
 
-These instructions were tested on macOS Sierra (10.12).
+These instructions were tested on macOS High Sierra (10.13).
 
 ### Pre-requisites
 
@@ -35,7 +35,7 @@ fi
 
 We recommend installing your own Python and not using the system one: this makes it easy to clean up any third-party libraries you install, and to control precisely which Python version is used.
 
--   Install Python 3.x with: `brew install python3`.
+-   Install Python 3.x with: `brew install python`.
 -   To test it's set up correctly, run `which python3` and you should find that the result is: `/usr/local/bin/python3` (if it's not pointing to the correct python then later on you will get errors about missing packages even if you've installed them).
 
 ### The Simple DirectMedia Layer (SDL) library
@@ -45,9 +45,11 @@ You will also need the SDL library and development files: `brew install sdl`
 First-time set-up: Windows
 --------------------------
 
+**FIXME—these need updating**
+
 These instructions were tested on Windows 8.1 32-bit. If you experience problems, please let us know the version you are using, and include any error messages.
 
-### Visual Studio FIXME TODO
+### Visual Studio
 
 -   We used Visual Studio Express 2013. Make sure you get "Visual Studio Express for Windows Desktop". It's free, but you'll need a Microsoft Account.
 -   You need to install "Microsoft Foundation Classes for C++" as the code depends on these (if you don't, you'll get errors during compilation talking about `afxres.h`). We have updated the Visual Studio project files so that you should not need to do anything other than install MFC. You can do this by running a default install of the [Windows 2003 DDK](http://download.microsoft.com/download/9/0/f/90f019ac-8243-48d3-91cf-81fc4093ecfd/1830_usa_ddk.iso).
@@ -86,12 +88,12 @@ The result of the build process is a stand-alone application that can be run on 
 1.  If you are using Windows, ensure you've compiled the engine and QuakeC compiler, as above (you don't need to do this if they have not changed since the last build).
 2.  On Mac or Windows, run `python3 build.py` to perform all the steps above and create the standalone application.
 
-There is a cleanup script (`clean.py`) to tidy things up (e.g. removing the compiled code and data files) so that the repo is back to the state it was in when cloned.
+There is a cleanup script (`clean.py`) to tidy things up (i.e. remove the compiled code, data files and downloaded assets) so that the repo is back to the state it was in when cloned.
 
 ### What does the build script do?
 
 -   (On the Mac) compiles ZQuake, zqcc and the QuakeC gamecode.
--   FIXME it's meant to compile the GC on windows too
+-   FIXME it's meant to compile the GC on Windows too
 -   Converts the user manual, sound legend appendix (so it can be referred to separately), development manuals, README and LICENCE files from Markdown to HTML.
 -   Checks if you have local copies of the various game data files, as follows, and downloads them for you if not.
     -   AudioQuake maps (i.e. compiled, `.bsp` versions of the maps in the git repo).
