@@ -13,7 +13,7 @@ Please note that builds are platform-specific, i.e. if you build on the Mac, you
 First-time set-up: Mac
 ----------------------
 
-These instructions were tested on macOS High Sierra (10.13).
+These instructions were tested on macOS Mojave (10.14).
 
 ### Pre-requisites
 
