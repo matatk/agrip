@@ -1,17 +1,5 @@
-AudioQuake 2014.0 (???)
-=======================
-
-* Shiny new GUI launcher, now based on wxWidgets.
-? The GUI can load in the registered Quake data if you bought the game.
-? You can now also install QMOD files via the GUI.
-* Slicker Text-to-Speech performance.
-? Documentation updates.
-* Much code cleanup behind the scenes.
-  - All of the Python code has been tidied up a lot.
-  - We are now using PyInstaller to bundle the app.
-
-AudioQuake 2014.0 (???)
-=======================
+AudioQuake 2019.0 (??/??/2019)
+==============================
 
 This is a re-release where we've massively revamped the code to run on
 modern platforms, with a new launcher and modern, cross-platform build
@@ -22,6 +10,17 @@ We'll be updating the user and development documentation, and including
 Level Description Language (LDL) as part of the bundle in future
 releases, to make it even easier to get into and to modify and create
 maps for the game.
+
+**Technical change highlights:**
+
+* Shiny new GUI launcher, now based on wxWidgets.
+* Slicker Text-to-Speech performance.
+* Much code cleanup behind the scenes.
+  - All of the Python code has been tidied up a lot.
+  - We are now using PyInstaller to bundle the app.
+* ??? The GUI can load in the registered Quake data if you bought the game.
+* ??? You can now also install QMOD files via the GUI.
+* ??? Documentation updates.
 
 AudioQuake 0.3.0 (02/01/2008)
 =============================

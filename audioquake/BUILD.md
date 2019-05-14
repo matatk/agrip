@@ -13,7 +13,7 @@ Please note that builds are platform-specific, i.e. if you build on the Mac, you
 First-time set-up: Mac
 ----------------------
 
-These instructions were tested on macOS Mojave (10.14).
+These instructions were tested on macOS Mojave (10.14.4).
 
 ### Pre-requisites
 
@@ -45,21 +45,20 @@ You will also need the SDL library and development files: `brew install sdl`
 First-time set-up: Windows
 --------------------------
 
-**FIXME—these need updating**
+**TODO: work is still needed to get things back fully up-and-running on Windows.**
 
-These instructions were tested on Windows 8.1 32-bit. If you experience problems, please let us know the version you are using, and include any error messages.
+These instructions have been tested on Windows 10 (64-bit).
 
 ### Visual Studio
 
--   We used Visual Studio Express 2013. Make sure you get "Visual Studio Express for Windows Desktop". It's free, but you'll need a Microsoft Account.
--   You need to install "Microsoft Foundation Classes for C++" as the code depends on these (if you don't, you'll get errors during compilation talking about `afxres.h`). We have updated the Visual Studio project files so that you should not need to do anything other than install MFC. You can do this by running a default install of the [Windows 2003 DDK](http://download.microsoft.com/download/9/0/f/90f019ac-8243-48d3-91cf-81fc4093ecfd/1830_usa_ddk.iso).
+-   [Download Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/community/)
+-   When installing:
+    -   In "Workloads" choose "Desktop development with C++"
+    -   In the "Installation details" section (a list of checkboxes) be sure to select "C++ MFC for v142 build tools"
 
-For reference, though it should not be required, as explained above: full instructions to download and install MFC and update the Visual Studio project config files are [provided by CodeProject](http://www.codeproject.com/Articles/30439/How-to-compile-MFC-code-in-Visual-C-Express) -- though these instructions shouldn't be required and they refer to an older version of Visual Studio and an obsolete DDK download link.
-
-### Python and Python Windows Extensions
+### Python
 
 -   [Install Python 3.x](http://www.python.org/downloads/).
--   FIXME-TODO (can be done via pip if needed?): Install the [Python Windows Extensions](http://sourceforge.net/projects/pywin32/files/pywin32/) (the most recent build is the one nearest the top; you'll need to download the ".exe" file that matches your Python version (i.e. 2.7) and CPU type).
 
 Getting the AudioQuake code and Python libraries
 ------------------------------------------------
@@ -75,6 +74,8 @@ The following instructions give the Git command lines you need to complete them,
 Compiling the Engine (Windows-only)
 -----------------------------------
 
+**TODO: Update solution files in repo?**
+
 On Windows this must be done separately to the main build process. The main build script will pick up the compiled engine and QuakeC compiler binaries during the build process.
 
 -   To compile the ZQuake engine, go to the `audioquake\zq-repo\zquake\source\` folder and open `zquake.sln`. Be sure to select the whole solution in the "Solution Explorer" and then select the "GLRelease" configuration on the main Visual Studio toolbar before buidling the project. When the project is built, you will get the server, client/server and client binaries (only the first two are needed).
@@ -86,14 +87,16 @@ Running the build script
 The result of the build process is a stand-alone application that can be run on a given platform (an .app bundle on the Mac; a simple folder on Windows). To run a build, the steps are as follows.
 
 1.  If you are using Windows, ensure you've compiled the engine and QuakeC compiler, as above (you don't need to do this if they have not changed since the last build).
-2.  On Mac or Windows, run `python3 build.py` to perform all the steps above and create the standalone application.
+2.  Run the build script to perform all the steps above and create the standalone application.
+    - **Mac:** `python3 build.py`
+    - **Windows:** `python build.py`
 
-There is a cleanup script (`clean.py`) to tidy things up (i.e. remove the compiled code, data files and downloaded assets) so that the repo is back to the state it was in when cloned.
+There is a clean-up script (`clean.py`) to tidy things up (i.e. remove the compiled code, data files and downloaded assets) so that the repo is back to the state it was in when cloned.
 
 ### What does the build script do?
 
--   (On the Mac) compiles ZQuake, zqcc and the QuakeC gamecode.
--   FIXME it's meant to compile the GC on Windows too
+-   (On the Mac) compiles ZQuake and zqcc (the gamecode compiler).
+-   Compiles the QuakeC gamecode.
 -   Converts the user manual, sound legend appendix (so it can be referred to separately), development manuals, README and LICENCE files from Markdown to HTML.
 -   Checks if you have local copies of the various game data files, as follows, and downloads them for you if not.
     -   AudioQuake maps (i.e. compiled, `.bsp` versions of the maps in the git repo).
