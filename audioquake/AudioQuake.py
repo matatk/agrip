@@ -1,226 +1,152 @@
 """AudioQuake Game Launcher"""
-import sys         # chdir
-import os          # chdir, stamp file
-import platform    # conditional stuff
-import subprocess  # launching the game
-import threading   # engine TTS wrapper
+import sys
+import os
+import subprocess
 
-from GUI import Window, Button, Alerts, application
+import wx
 
-import pyttsx
+from launcherlib import LaunchState, GameController, on_windows
 
 
-class EngineWrapper(threading.Thread):
-    def __init__(self, command_line, speaker):
-        threading.Thread.__init__(self)
-        self._command_line = command_line
-        self._speaker = speaker
-
-    def run(self):
-        try:
-            # The docs imply this shouldn't be necessary but it seems to be...
-            if platform.system() is 'Windows':
-                self._command_line = ' '.join(self._command_line)
-
-            # Buffering may be necessary for Windows; seems not to affect Mac
-            print 'Running:', self._command_line
-            proc = subprocess.Popen(
-                self._command_line, bufsize=1, stdout=subprocess.PIPE)
-
-            while True:
-                retcode = proc.poll()
-                line = proc.stdout.readline().rstrip()
-
-                length = len(line)
-                if length > 0:
-                    # Some messages are high priority, others are critical.
-                    # These need to be spoken instead of anything else queued up.
-                    if length is 1 or line[0] is '!':
-                        print 'STOPPING'
-                        self._speaker.stop()
-
-                    print 'SAYING', line
-                    self._speaker.say(line)
-                else:
-                    # Blank line occurs after all the initialisation spewage
-                    print 'BLANK'
-                    self._speaker.stop()
-
-                print 'TICK'
-                self._speaker.iterate()
-
-                if retcode is not None:
-                    break
-        except:
-            pass
-
-        print 'Game thread done.'
+launch_messages = {
+        LaunchState.NOT_FOUND: 'Engine not found',
+        LaunchState.ALREADY_RUNNING: 'The game is already running'}
 
 
-class GameController(object):
-    _engine = None
-    _opts_default = ("-window", "+set sensitivity 0")
-    _opts_tutorial = ("+coop 0", "+deathmatch 0", "+map agtut01")
+class LauncherWindow(wx.Frame):
+    def __init__(self, parent, title):
+        wx.Frame.__init__(self, parent, title=title)
+        game_controller = GameController()
+        sizer = wx.BoxSizer(wx.VERTICAL)
 
-    def __init__(self):
-        if platform.system() == 'Windows':
-            self._engine = 'zquake-gl.exe'
-        else:  # assume Mac for now (may also work on Linux)
-            self._engine = './zquake-glsdl'
+        # Commands for opening/running stuff
 
-        self._engine_wrapper = None
-        self._tts = pyttsx.init()
-        self._tts.startLoop(False)
-
-    def _running(self):
-        if not self._engine_wrapper or not self._engine_wrapper.is_alive():
-            print 'Game running? No'
-            return False
-        elif self._engine_wrapper.is_alive():
-            print 'Game running? Yes'
-            return True
-
-    def _launch_core(self, command_line):
-        if self._running():
-            return
-        else:
-            if os.path.exists(self._engine):
-                # Saying something is necessary on 'doze; probably inits COM
-                self._tts.say(' ')
-                self._tts.iterate()
-                self._engine_wrapper = EngineWrapper(command_line, self._tts)
-                self._engine_wrapper.start()
-                return True
-            else:
-                return False
-
-    def launch_default(self):
-        return self._launch_core((self._engine,) + self._opts_default)
-
-    def launch_tutorial(self):
-        return self._launch_core((self._engine,) + self._opts_default + self._opts_tutorial)
-
-    def quit(self, application):
-        if self._running():
-            return
-        else:
-            print 'Closing TTS...'
-            self._tts.endLoop()
-            print 'Quitting...'
-            application.quit_cmd()
-            print 'Quat!'
-
-
-class LauncherSingletonWindow(Window):
-    def __init__(self, application, *args, **kwargs):
-        super(LauncherSingletonWindow, self).__init__(
-            title = "Launcher",
-            resizable = False,
-            zoomable = False,
-            *args,
-            **kwargs)
-
-        if platform.system() == 'Windows':
+        if on_windows():
             self._open = ('cmd', '/c', 'start')
-            self._rcon = ('cmd', '/c', 'start', 'rcon.exe', '--ask')
-            self._server = ('cmd', '/c', 'start', 'zqds.exe')
+            self._rcon = self._open + ('rcon.exe', '--ask')
+            self._server = self._open + ('zqds.exe',)
         else:  # assume Mac for now (won't work on Linux)
             self._open = ('open',)
-            self._rcon = ('open', './start-rcon.command')
-            self._server = ('open', './start-server.command')
+            self._rcon = self._open + ('./start-rcon.command',)
+            self._server = self._open + ('./start-server.command',)
 
-        self._application = application
-        self._game_controller = GameController()
+        # Launching the game
 
-        self.auto_position = False
-        self.position = (200, 175)
-        self._next_button_y = 10
+        game_modes = {
+                "Play": game_controller.launch_default,
+                "Tutorial": game_controller.launch_tutorial}
 
-        self._add_button("AudioQuake README", self._btn_readme)
-        self._add_button("AudioQuake Manual", self._btn_manual)
-        self._add_button("Key to Sounds", self._btn_sound_legend)
-        self._add_button("Licence Information", self._btn_licence)
-        self._add_button("Play Quake", self._btn_default)
-        self._add_button("Play Tutorial", self._btn_tutorial)
-        self._add_button("Start Server", self._btn_server)
-        self._add_button("Remote Console", self._btn_rcon)
-        self._add_button("Show all Files", self._btn_folder)
-        self._add_button("Quit Launcher", self.close_cmd)
+        for title, action in game_modes.items():
+            button = wx.Button(self, -1, title)
 
-        self.size = (200, self._next_button_y)
+            def make_launch_function(game_start_method):
+                def launch(event):
+                    self.launch_button_core(game_start_method)
+                return launch
 
-    def _add_button(self, title, action):
-       self.add(Button(
-            position = (10, self._next_button_y),
-            size = (180, 25),
-            title = title,
-            action = action
-       ))
-       self._next_button_y += 30
+            button.Bind(wx.EVT_BUTTON, make_launch_function(action))
+            sizer.Add(button, 0, wx.EXPAND, 0)
 
-    def close_cmd(self):
-        self._game_controller.quit(self._application)
+        # Opening things
 
-    def _launch_button_core(self, method):
-        self._first_time_check('game')
-        result = method()
-        if not result:
-            self._launch_problem()
+        def open_server(event):
+            self.first_time_check('server')
+            subprocess.call(self._server)
 
-    def _btn_default(self):
-        self._launch_button_core(self._game_controller.launch_default)
+        btn_open_server = wx.Button(self, -1, "Server")
+        btn_open_server.Bind(wx.EVT_BUTTON, open_server)
+        sizer.Add(btn_open_server, 0, wx.EXPAND, 0)
 
-    def _btn_tutorial(self):
-        self._launch_button_core(self._game_controller.launch_tutorial)
+        def open_rcon(event):
+            subprocess.call(self._rcon)
 
-    def _btn_readme(self):
-        subprocess.call(self._open + ('README.html',))
+        btn_open_rcon = wx.Button(self, -1, "Remote Console")
+        btn_open_rcon.Bind(wx.EVT_BUTTON, open_rcon)
+        sizer.Add(btn_open_rcon, 0, wx.EXPAND, 0)
 
-    def _btn_manual(self):
-        subprocess.call(self._open +
-            (os.path.join('manuals', 'user-manual.html'),))
+        things_to_open = {
+                'README': os.path.join(
+                    'manuals', 'README.html'),
+                'User Manual': os.path.join(
+                    'manuals', 'user-manual.html'),
+                'Sound Legend': os.path.join(
+                    'manuals', 'sound-legend.html'),
+                'LICENCE': os.path.join(
+                    'manuals', 'LICENCE.html'),
+                'Show all Files': '.'}
 
-    def _btn_sound_legend(self):
-        subprocess.call(self._open +
-            (os.path.join('manuals', 'user-manual-part07-b.html'),))
+        for title, thing_to_open in things_to_open.items():
+            button = wx.Button(self, -1, title)
 
-    def _btn_licence(self):
-        subprocess.call(self._open + ('LICENCE.html',))
+            def make_open_function(openee):
+                def open_thing(event):
+                    subprocess.call(self._open + (openee,))
+                return open_thing
 
-    def _btn_server(self):
-        self._first_time_check('server')
-        subprocess.call(self._server)
+            button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
+            sizer.Add(button, 0, wx.EXPAND, 0)
 
-    def _btn_rcon(self):
-        subprocess.call(self._rcon)
+        # Quitting
 
-    def _btn_folder(self):
-        subprocess.call(self._open + ('.',))
+        btn_quit = wx.Button(self, -1, "Quit Launcher")
 
-    def _first_time_check(self, name):
-        if platform.system() == 'Windows':
-            stamp_file_name = 'not-first-run-' + name
-            prompt = 'When you run the ' + name + ' for the first time, Windows may ask you to allow it through the firewall.'
-            if name == 'game':
-                prompt += ' This will be done in a secure window that pops up above the Quake engine, which you will need to use ALT-TAB and an Assistive Technology to access.'
-            elif name == 'server':
-                prompt += ' Please also note that the server output window, and the remote console facility, are not self-voicing.'
+        def quit_it(event):
+            if game_controller.quit():
+                self.Close()
             else:
-                raise TypeError
+                Warn(self, "Can't quit whilst Quake is still running.")
 
-            if not os.path.exists(stamp_file_name):
-                Alerts.alert('caution', prompt)
-                open(stamp_file_name, 'a').close()
+        btn_quit.Bind(wx.EVT_BUTTON, quit_it)
+        sizer.Add(btn_quit, 0, wx.EXPAND, 0)
+
+        sizer.SetSizeHints(self)
+        self.SetSizer(sizer)
+        self.Show()
+
+    def launch_button_core(self, method):
+        self.first_time_check('game')
+        launch_state = method()
+        if launch_state is not LaunchState.OK:
+            Warn(self, launch_messages[launch_state])
+
+    def first_time_check(self, name):
+        if on_windows():
+            stamp_file_check(name)
         else:
             pass
 
-    def _launch_problem(self):
-        Alerts.alert('stop', 'There was a problem launching the game; it is likely the Quake engine could not be found.')
+
+def Warn(parent, message, caption='Warning!'):
+    dlg = wx.MessageDialog(parent, message, caption, wx.OK | wx.ICON_WARNING)
+    dlg.ShowModal()
+    dlg.Destroy()
+
+
+def stamp_file_check(name):
+    # TODO decouple from GUI
+    # TODO needs to work on Mac? not think so
+    stamp_file_name = 'not-first-run-' + name
+    prompt = 'When you run the ' + name + ' for the first time, Windows may ask you to allow it through the firewall.'
+    if name == 'game':
+        prompt += ' This will be done in a secure window that pops up above the Quake engine, which you will need to use ALT-TAB and an Assistive Technology to access.'
+    elif name == 'server':
+        prompt += ' Please also note that the server output window, and the remote console facility, are not self-voicing.'
+    else:
+        raise TypeError
+
+    if not os.path.exists(stamp_file_name):
+        Alerts.alert('caution', prompt)
+        open(stamp_file_name, 'a').close()
 
 
 if __name__ == '__main__':
-    os.chdir(os.path.abspath(os.path.dirname(sys.argv[0])))
-    app = application()
-    launcher = LauncherSingletonWindow(app)
-    launcher.show()
-    app.run()
+    def get_path():
+        if getattr(sys, 'frozen', False):
+            return os.path.dirname(sys.executable)
+        else:
+            return os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    app = wx.App(False)
+    os.chdir(get_path())
+    frame = LauncherWindow(None, "AudioQuake Launcher")
+    app.MainLoop()

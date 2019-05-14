@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "Running the distclean target of the Makefile..."
 echo "  for zquake"
 cd zquake

@@ -1,13 +1,5 @@
-# Staging area
-app-staging
-# Compiled maps
-*.bsp
-# Support files
-maps.zip
-demos*
-skins*
-quake-shareware-1.06*
-mindgrid-audio_quake_2003.09.22*
+# Downloaded assets
+downloaded-assets/
 # *nix compilation
 zq-repo/zquake/release-*
 zq-repo/zqcc/*.o
@@ -27,6 +19,7 @@ zq-repo/zquake/source/*.v12.suo
 zq-repo/zquake/source/*.sdf
 zq-repo/zquake/source/*.user
 # Manual intermediate files
-# The first one would be cleaned up by the scripts if all run
-manuals/*-manual.md
-manuals/*-manual*.html
+manuals-converted/
+# PyInstaller output
+build/
+dist/
