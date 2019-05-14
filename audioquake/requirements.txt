@@ -1,5 +1,5 @@
 wxPython==4.0.4
-pyobjc==5.1.2; sys_platform=="darwin"
+pyobjc==5.2; sys_platform=="darwin"
 mistune==0.8.4
 mistune-contrib==0.1
 PyInstaller==3.4
