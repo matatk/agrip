@@ -196,7 +196,7 @@ def convert_markdown_files(base_name, markdown_files, output_dir):
         markdown_files = [markdown_files]
 
     for markdown_file in markdown_files:
-        source += open(markdown_file, 'r').read()
+        source += open(markdown_file, 'r', encoding='utf-8').read()
 
     toc.reset_toc()
     html_content = md.parse(source)

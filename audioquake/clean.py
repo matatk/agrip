@@ -11,7 +11,7 @@ things_to_remove = {
         'dist': 'PyInstaller dist directory',
         '__pycache__': 'Python cache'}
 
-if platform.system is not 'Windows':
+if platform.system() is not 'Windows':
     os.chdir('zq-repo')
     subprocess.call(('./agrip-cleanup.sh'),)
     os.chdir('..')
