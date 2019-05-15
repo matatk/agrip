@@ -99,5 +99,5 @@ coll = COLLECT(exe,
 
 app = BUNDLE(coll,
         name='AudioQuake.app',
-        icon=platform_icon)
+        icon=platform_icon,
         bundle_identifier=None)
