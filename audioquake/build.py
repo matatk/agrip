@@ -273,7 +273,7 @@ def run_pyinstaller():
 
 
 def copy_in_rcon():
-	if is_mac:
+	if is_mac():
 		rcon_bin = 'rcon'
 	else:
 		rcon_bin = 'rcon.exe'
