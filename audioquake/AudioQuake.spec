@@ -41,6 +41,11 @@ a = Analysis(['AudioQuake.py'],
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
+if platform.system() != 'Windows':
+    platform_icon = 'wrapper-mac/aq.icns'
+else:
+    platform_icon = None
+
 exe = EXE(pyz,
         a.scripts,
         exclude_binaries=True,
@@ -49,7 +54,7 @@ exe = EXE(pyz,
         strip=False,
         upx=True,
         console=False,
-        icon='wrapper-mac/aq.icns')
+        icon=platform_icon)
 
 coll = COLLECT(exe,
         a.binaries,
