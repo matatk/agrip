@@ -19,7 +19,7 @@ zq-repo/zquake/source/Debug*
 zq-repo/zquake/source/*.suo
 zq-repo/zquake/source/*.sdf
 zq-repo/zquake/source/*.user
-zq-repo/zquake/.vs/
+zq-repo/zquake/source/.vs/
 # Manual intermediate files
 manuals-converted/
 # PyInstaller output
