@@ -14,8 +14,8 @@ data_files = [
         ('manuals/agrip.css', 'manuals'),
         ('zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
         ('zq-repo/qc/agrip/spprogs.dat', 'id1/'),
-        ('wrapper-mac/start-rcon.command', '.'),
-        ('wrapper-mac/start-server.command', '.')]
+        ('app-support-files/start-rcon.command', '.'),
+        ('app-support-files/start-server.command', '.')]
 
 if platform.system() != 'Windows':
     binary_files = [
@@ -42,9 +42,9 @@ a = Analysis(['AudioQuake.py'],
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 if platform.system() != 'Windows':
-    platform_icon = 'wrapper-mac/aq.icns'
+    platform_icon = 'app-support-files/aq.icns'
 else:
-    platform_icon = None
+    platform_icon = 'app-support-files/aq.ico'
 
 exe = EXE(pyz,
         a.scripts,
@@ -87,7 +87,7 @@ exe = EXE(pyz,
         strip=False,
         upx=True,
         console=False,
-        icon='wrapper-mac/aq.icns')
+        icon='app-support-files/aq.icns')
 
 coll = COLLECT(exe,
         a.binaries,
@@ -99,5 +99,5 @@ coll = COLLECT(exe,
 
 app = BUNDLE(coll,
         name='AudioQuake.app',
-        icon='wrapper-mac/aq.icns',
+        icon='app-support-files/aq.icns',
         bundle_identifier=None)
