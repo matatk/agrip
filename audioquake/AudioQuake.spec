@@ -87,7 +87,7 @@ exe = EXE(pyz,
         strip=False,
         upx=True,
         console=False,
-        icon='app-support-files/aq.icns')
+        icon=platform_icon)
 
 coll = COLLECT(exe,
         a.binaries,
@@ -99,5 +99,5 @@ coll = COLLECT(exe,
 
 app = BUNDLE(coll,
         name='AudioQuake.app',
-        icon='app-support-files/aq.icns',
+        icon=platform_icon)
         bundle_identifier=None)
