@@ -1,7 +1,5 @@
 #!/bin/sh
 MAP=$1
-QID1PATH=../audioquake/dist/AudioQuake.app/Contents/Resources/id1
-QMAPPATH="$QID1PATH/maps"
 WAD=quake.wad
 
 if [ -x ./qbsp ]; then
@@ -24,18 +22,6 @@ if [ ! -r $MAP.map ]; then
     echo "ERROR: Can't find $MAP.map!"
     exit 42
 fi
-if [ ! -d $QMAPPATH ]; then
-    echo $QMAPPATH is not a directory!
-    exit 42
-fi
-if [ ! -r $QID1PATH/quake.wad ]; then
-    echo No $WAD in $QID1PATH - copying in...
-	cp $WAD $QID1PATH || exit 42
-fi
-
-cp $MAP.map $QMAPPATH
-rm $MAP.map
-cd $QMAPPATH
 
 echo Running BSP...
 $QBSP $MAP > /dev/null

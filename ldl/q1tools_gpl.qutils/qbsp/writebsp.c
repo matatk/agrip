@@ -37,7 +37,7 @@ int FindFinalPlane (dplane_t *p)
 {
 	int		i;
 	dplane_t	*dplane;
-	
+
 	for (i=0, dplane = dplanes ; i<numplanes ; i++, dplane++)
 	{
 		if (p->type != dplane->type)
@@ -52,7 +52,7 @@ int FindFinalPlane (dplane_t *p)
 			continue;
 		return i;
 	}
-	
+
 //
 // new plane
 //
@@ -61,7 +61,7 @@ int FindFinalPlane (dplane_t *p)
 	dplane = &dplanes[numplanes];
 	*dplane = *p;
 	numplanes++;
-	
+
 	return numplanes - 1;
 }
 
@@ -79,7 +79,7 @@ void WriteNodePlanes_r (node_t *node)
 	if (planemapping[node->planenum] == -1)
 	{	// a new plane
 		planemapping[node->planenum] = numplanes;
-		
+
 		if (numplanes == MAX_MAP_PLANES)
 			Error ("numplanes == MAX_MAP_PLANES");
 		plane = &planes[node->planenum];
@@ -94,7 +94,7 @@ void WriteNodePlanes_r (node_t *node)
 	}
 
 	node->outputplanenum = planemapping[node->planenum];
-	
+
 	WriteNodePlanes_r (node->children[0]);
 	WriteNodePlanes_r (node->children[1]);
 }
@@ -124,15 +124,15 @@ int WriteClipNodes_r (node_t *node)
 	int			i, c;
 	dclipnode_t	*cn;
 	int			num;
-	
-// FIXME: free more stuff?	
+
+// FIXME: free more stuff?
 	if (node->planenum == -1)
 	{
 		num = node->contents;
 		free (node);
 		return num;
 	}
-	
+
 // emit a clipnode
 	c = numclipnodes;
 	cn = &dclipnodes[numclipnodes];
@@ -140,7 +140,7 @@ int WriteClipNodes_r (node_t *node)
 	cn->planenum = node->outputplanenum;
 	for (i=0 ; i<2 ; i++)
 		cn->children[i] = WriteClipNodes_r(node->children[i]);
-	
+
 	free (node);
 	return c;
 }
@@ -170,7 +170,7 @@ void WriteLeaf (node_t *node)
 {
 	face_t		**fp, *f;
 	dleaf_t		*leaf_p;
-		
+
 // emit a leaf
 	leaf_p = &dleafs[numleafs];
 	numleafs++;
@@ -179,17 +179,17 @@ void WriteLeaf (node_t *node)
 
 //
 // write bounding box info
-//	
+//
 	VectorCopy (node->mins, leaf_p->mins);
 	VectorCopy (node->maxs, leaf_p->maxs);
-	
+
 	leaf_p->visofs = -1;	// no vis info yet
-	
+
 //
 // write the marksurfaces
 //
 	leaf_p->firstmarksurface = nummarksurfaces;
-	
+
 	for (fp=node->markfaces ; *fp ; fp++)
 	{
 	// emit a marksurface
@@ -203,7 +203,7 @@ void WriteLeaf (node_t *node)
 			f=f->original;		// grab tjunction split faces
 		} while (f);
 	}
-	
+
 	leaf_p->nummarksurfaces = nummarksurfaces - leaf_p->firstmarksurface;
 }
 
@@ -218,7 +218,7 @@ void WriteDrawNodes_r (node_t *node)
 	dnode_t	*n;
 	int		i;
 
-// emit a node	
+// emit a node
 	if (numnodes == MAX_MAP_NODES)
 		Error ("numnodes == MAX_MAP_NODES");
 	n = &dnodes[numnodes];
@@ -233,8 +233,8 @@ void WriteDrawNodes_r (node_t *node)
 
 //
 // recursively output the other nodes
-//	
-	
+//
+
 	for (i=0 ; i<2 ; i++)
 	{
 		if (node->children[i]->planenum == -1)
@@ -249,7 +249,7 @@ void WriteDrawNodes_r (node_t *node)
 		}
 		else
 		{
-			n->children[i] = numnodes;	
+			n->children[i] = numnodes;
 			WriteDrawNodes_r (node->children[i]);
 		}
 	}
@@ -276,20 +276,20 @@ void WriteDrawNodes (node_t *headnode)
 		Error ("nummodels == MAX_MAP_MODELS");
 	bm = &dmodels[nummodels];
 	nummodels++;
-	
+
 	bm->headnode[0] = numnodes;
 	bm->firstface = firstface;
-	bm->numfaces = numfaces - firstface;	
+	bm->numfaces = numfaces - firstface;
 	firstface = numfaces;
-	
+
 	start = numleafs;
 
-	if (headnode->contents < 0)	
+	if (headnode->contents < 0)
 		WriteLeaf (headnode);
 	else
 		WriteDrawNodes_r (headnode);
 	bm->visleafs = numleafs - start;
-	
+
 	for (i=0 ; i<3 ; i++)
 	{
 		bm->mins[i] = headnode->mins[i] + SIDESPACE + 1;	// remove the padding
@@ -315,7 +315,7 @@ void BumpModel (int hullnum)
 		Error ("nummodels == MAX_MAP_MODELS");
 	bm = &dmodels[nummodels];
 	nummodels++;
-	
+
 	bm->headnode[hullnum] = headclipnode;
 }
 
@@ -347,15 +347,15 @@ lumpinfo_t	*lumpinfo;
 void CleanupName (char *in, char *out)
 {
 	int		i;
-	
+
 	for (i=0 ; i< 16 ; i++ )
 	{
 		if (!in[i])
 			break;
-			
+
 		out[i] = toupper(in[i]);
 	}
-	
+
 	for ( ; i< 16 ; i++ )
 		out[i] = 0;
 }
@@ -369,7 +369,7 @@ TEX_InitFromWad
 void	TEX_InitFromWad (char *path)
 {
 	int			i;
-	
+
 	texfile = SafeOpenRead (path);
 	SafeRead (texfile, &wadinfo, sizeof(wadinfo));
 	if (strncmp (wadinfo.identification, "WAD2", 4))
@@ -379,7 +379,7 @@ void	TEX_InitFromWad (char *path)
 	fseek (texfile, wadinfo.infotableofs, SEEK_SET);
 	lumpinfo = malloc(wadinfo.numlumps*sizeof(lumpinfo_t));
 	SafeRead (texfile, lumpinfo, wadinfo.numlumps*sizeof(lumpinfo_t));
-	
+
 	for (i=0 ; i<wadinfo.numlumps ; i++)
 	{
 		CleanupName (lumpinfo[i].name, lumpinfo[i].name);
@@ -397,9 +397,9 @@ int LoadLump (char *name, byte *dest)
 {
 	int		i;
 	char	cname[16];
-	
+
 	CleanupName (name, cname);
-	
+
 	for (i=0 ; i<wadinfo.numlumps ; i++)
 	{
 		if (!strcmp(cname, lumpinfo[i].name))
@@ -409,7 +409,7 @@ int LoadLump (char *name, byte *dest)
 			return lumpinfo[i].disksize;
 		}
 	}
-	
+
 	printf ("WARNING: texture %s not found\n", name);
 	return 0;
 }
@@ -427,7 +427,7 @@ void AddAnimatingTextures (void)
 	char	name[32];
 
 	base = nummiptex;
-	
+
 	for (i=0 ; i<base ; i++)
 	{
 		if (miptex[i][0] != '+')
@@ -440,7 +440,7 @@ void AddAnimatingTextures (void)
 				name[1] = '0'+j;
 			else
 				name[1] = 'A'+j-10;		// alternate animation
-			
+
 
 		// see if this name exists in the wadfile
 			for (k=0 ; k<wadinfo.numlumps ; k++)
@@ -451,7 +451,7 @@ void AddAnimatingTextures (void)
 				}
 		}
 	}
-	
+
 	printf ("added %i texture frames\n", nummiptex - base);
 }
 
@@ -480,10 +480,11 @@ void WriteMiptex (void)
 		}
 	}
 	
-	sprintf (fullpath, "%s/%s", gamedir, path);
+	//sprintf (fullpath, "%s/%s", gamedir, path);
+	sprintf (fullpath, "%s", path);
 
 	TEX_InitFromWad (fullpath);
-	
+
 	AddAnimatingTextures ();
 
 	l = (dmiptexlump_t *)dtexdata;
@@ -520,7 +521,7 @@ void BeginBSPFile (void)
 	numleafs = 1;
 	dleafs[0].contents = CONTENTS_SOLID;
 
-	firstface = 0;	
+	firstface = 0;
 }
 
 
@@ -533,7 +534,7 @@ void FinishBSPFile (void)
 {
 	printf ("--- FinishBSPFile ---\n");
 	printf ("WriteBSPFile: %s\n", bspfilename);
-	
+
 	WriteMiptex ();
 
 	PrintBSPFileSizes ();
