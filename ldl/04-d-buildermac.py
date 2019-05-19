@@ -6,11 +6,13 @@
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
 
-import sys, ldl
+import sys
+import ldl
 from plane import Point
 from xml import sax
 from xml.sax.saxutils import XMLGenerator
 from xml.sax.saxutils import XMLFilterBase
+
 
 class BuilderFilter(XMLFilterBase):
 	"""
@@ -40,7 +42,10 @@ class BuilderFilter(XMLFilterBase):
 
 	def macro_plat(self, bi, si):
 		'''Make a plat
-		Note that we don't specify the size of plat here as later we need to make it either at the top or the bottom of the larger brush.'''
+
+		Note that we don't specify the size of plat here as
+		later we need to make it either at the top or the bottom of the larger
+		brush.'''
 		origin = ldl.getPoint(bi['origin'])
 		size = ldl.getPoint(bi['extent'])
 		if 'texture' in bi:
@@ -64,7 +69,8 @@ class BuilderFilter(XMLFilterBase):
 		size = ldl.getPoint(bi['extent'])
 		dir = si['dir']
 		texture = ''
-		if 'texture' in bi: texture = bi['texture']
+		if 'texture' in bi:
+			texture = bi['texture']
 		#slength = float(si['steplength'])
 		slength = 0
 		sheight = float(si['stepheight'])
@@ -83,7 +89,7 @@ class BuilderFilter(XMLFilterBase):
 			parts = self._macro_stairs_core(length, height, width, flip, slength, sheight, texture)
 			for part in parts:
 				part3d = ldl.Region3D(
-					Point(0,part.origin.x,part.origin.y) + origin,
+					Point(0, part.origin.x, part.origin.y) + origin,
 					Point(width, part.extent.x, part.extent.y)
 				)
 				parts3d.append(part3d)
@@ -96,7 +102,7 @@ class BuilderFilter(XMLFilterBase):
 			parts = self._macro_stairs_core(length, height, width, flip, slength, sheight, texture)
 			for part in parts:
 				part3d = ldl.Region3D(
-					Point(0,part.origin.x,part.origin.y) + origin,
+					Point(0, part.origin.x, part.origin.y) + origin,
 					Point(width, part.extent.x, part.extent.y)
 				)
 				parts3d.append(part3d)
@@ -139,43 +145,44 @@ class BuilderFilter(XMLFilterBase):
 		#ldl.uprint('create steps:\n\tstaircase length: ' + str(full_length) + '\n\tstaircase height: ' + str(full_height) + '\n\tstaircase depth: ' + str(full_depth) + '\n\tflip: ' + str(flip) + '\n\tstep length: ' + str(step_length) + '\n\tstep height: ' + str(step_height) + '\n\ttexture: ' + t)
 		# Find closest match for step length and height...
 		step_height = self._macro_stairs_match(full_height, step_height)
-		num_steps = full_height/step_height
-		step_length = full_length/num_steps
+		num_steps = full_height / step_height
+		step_length = full_length / num_steps
 		#ldl.uprint('\tnum_steps: ' + str(num_steps) + '\n\tstep_length: ' + str(step_length) + '\n\tstep_height: ' + str(step_height))
 		# Create parts...
-		length_iter = int(full_length/step_length)
+		length_iter = int(full_length / step_length)
 		if flip:
 			for i in range(length_iter):
 				parts.append(
 					ldl.Region3D(
-						ldl.Point2D(step_length*i,0),
-						ldl.Point2D( step_length,step_height*(length_iter-i) )
+						ldl.Point2D(step_length * i, 0),
+						ldl.Point2D(step_length, step_height * (length_iter - i))
 					)
 				)
 		else:
 			for i in range(length_iter):
 				parts.append(
 					ldl.Region3D(
-						ldl.Point2D(step_length*i,0),
-						ldl.Point2D( step_length,step_height*(i+1) )
+						ldl.Point2D(step_length * i, 0),
+						ldl.Point2D(step_length, step_height * (i + 1))
 					)
 				)
 		return parts
 
 	def _macro_stairs_match(self, full, individual):
-		'''Take in the dimension of the whole staircase and that of an individual step;
-		check that they divide w/o a remainder (i.e. the steps of length/height x fit an integer numer of times)
-		If they don't, find another value for the dimension of the individual step that allows a whole number of steps to fit in.
-		We allow a tollerance of 0.01.'''
+		'''Take in the dimension of the whole staircase and that of an
+		individual step; check that they divide w/o a remainder (i.e. the steps
+		of length/height x fit an integer numer of times) If they don't, find
+		another value for the dimension of the individual step that allows a
+		whole number of steps to fit in.  We allow a tollerance of 0.01.'''
 		tolerance = 0.01
 		difference = 1  # start high to get the loop going
 		decrement = 0.01
 		lower_bound = individual / 2  # abort if it reduces to this value
 
-		if full/individual != int(full/individual):
+		if full / individual != int(full / individual):
 			while individual > lower_bound and difference > tolerance:
 				individual = individual - decrement
-				difference = abs(full/individual - int(full/individual))
+				difference = abs(full / individual - int(full / individual))
 			if individual > lower_bound:
 				return individual
 			else:
@@ -247,8 +254,8 @@ class BuilderFilter(XMLFilterBase):
 	def characters(self, text):
 		self._accumulator.append(text)
 
-	def ignorableWhitespace(self, ws):
-		self._accumulator.append(text)
+	def ignorableWhitespace(self, ws):  # TODO needed by API?
+		self._accumulator.append(ws)
 
 	# Utility Functions...
 
@@ -256,6 +263,7 @@ class BuilderFilter(XMLFilterBase):
 		for i in range(self.padding_level):
 			ldl.uprint('  ', sameLine=True)
 		ldl.uprint(msg)
+
 
 if __name__ == "__main__":
 	ldl.stage = '04'
@@ -273,6 +281,6 @@ if __name__ == "__main__":
 		filter_handler.parse(sys.stdin)
 	except sax.SAXParseException as detail:
 		ldl.error('The XML you supplied is not valid: ' + str(detail))
-	except:
+	except:  # noqa E722
 		raise
 		ldl.failParse()
