@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 	01-d-brushsizes.py
-	Part of the Level Description Language (LDL) from the AGRIP project. 
+	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 
@@ -86,6 +86,6 @@ if __name__ == '__main__':
 	ldl.remove_whitespace_nodes(m)
 	m.getElementsByTagName('map')[0].setAttribute('stackdesc', ldl.stackdescs['01'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
-	#xml.dom.ext.PrettyPrint(m) 
+	#xml.dom.ext.PrettyPrint(m)
 	print m.toxml()
 	m.unlink()

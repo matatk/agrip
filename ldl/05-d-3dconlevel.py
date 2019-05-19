@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 	05-d-3dconlevel.py
-	Part of the Level Description Language (LDL) from the AGRIP project. 
+	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
@@ -54,7 +54,7 @@ dir_to_angle = {
 	ldl.DCP_EAST:		0,
 	ldl.DCP_NORTHEAST:	45,
 }
-	
+
 facepos_to_fract = {
 	ldl.DCP_BOTTOMLEFT:		( 0.25, 0.25 ),
 	ldl.DCP_LEFT:			( 0.25, 0.50 ),
@@ -150,7 +150,7 @@ def add_subsection_element(parent, secname, hash):
 	if not parent.has_key(secname):
 		#ldl.warning('add_subsection_element: parent doesn\'t have subsection \'' + str(secname) + '\'; creating it...')
 		add_subsection(parent, secname)
-	# Now add the thing we were here to add...	
+	# Now add the thing we were here to add...
 	if isinstance(secname, dict):
 		tmp = parent[secname]
 		parent[secname] = [tmp]
@@ -203,7 +203,7 @@ def get_childroom_origin(child_size, parent, pos, id):
 	check_childroom_size(parent, child_size, inparent_child_centre, id)
 
 	child_origin = inparent_child_centre - child_size/2
-	
+
 	# Fix Z...
 	# FIXME can this be improved? (absentwalls? - but that would affect other things...)
 	child_origin.z = -ldl.lip
@@ -249,7 +249,7 @@ def cwo_num(m):
 		ctr = ctr + cwo_num_room(r)
 	#ldl.uprint('cwo_num: ' + str(ctr))
 	return ctr
-		
+
 def cwo_update(id, origin):
 	global cwo
 	if cwo.has_key(id):
@@ -266,8 +266,8 @@ def ri_add(id):
 	else:
 		ril.append(id)
 	# Room doesn't have an origin...
-	rwo[id] = None	
-	
+	rwo[id] = None
+
 def set_room_size(r):
 	'''Convert into game units a room's size, then update the master hash with it.
 	Returns a Point object corresponding to the size.'''
@@ -299,7 +299,7 @@ def hole_origin(hole_centre, hole_size, hole_wall, brush_origin, brush_size, flo
 
 	if not brush_origin:
 		ldl.error('hole_origin: called without the origin for the parent brush')
-	
+
 	if hole_wall == ldl.DCP_NORTH or hole_wall == ldl.DCP_SOUTH:
 		hole_centre2d = ldl.Point2D(hole_centre.x, hole_centre.z)
 		brush_origin2d = ldl.Point2D(brush_origin.x, brush_origin.z)
@@ -488,7 +488,7 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 		out = r_origin + wall_origin + Point(hc.x, hc.y, 0)
 	else:
 		ldl.error('hole_centre: invalid wall specified whilst trying to put a hole into a wall.')
-	
+
 	ldl.uprint('hole_centre:\n\tr_origin: ' + str(r_origin) + ';\n\tr_extent: ' + str(r_extent) + ';\n\th_wall: ' + str(h_wall) + ';\n\th_extent: ' + str(h_extent) + ';\n\tpos: ' + str(pos) + '\n\thc: ' + str(hc) + ';\n\tout: ' + str(out))
 
 	# Check for holes that are too big...
@@ -552,7 +552,7 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 
 	if not parent:
 		ldl.error('convert_coords_compass_facepos: trying to place object of type \'' + objtype + '\' but not given a parent to place this object within.')
-	
+
 	if objtype == OT_ROOM:
 		if answer_hash.has_key(word):
 			x = answer_hash[word][0] * parent.x
@@ -673,7 +673,7 @@ def convert_coords(objtype, size, parent=None, dir=None):
 	# FIXME items can't be 'nw 10% <x>' but they can be '25% 70% 10%'
 	out = []
 	flat_out = None
-	
+
 	# Work out type of input...
 	size_parts, mode3d = convert_coords_check_size_type(objtype, size)
 	if mode3d:
@@ -684,7 +684,7 @@ def convert_coords(objtype, size, parent=None, dir=None):
 	# work out type of parent...
 	if parent: parent = convert_coords_check_parent_type(parent)
 	#ldl.uprint('convert_coords: parent is ' + str(parent))
-	
+
 	# make sure we've got the right number of coords
 	#ldl.uprint('convert_coords: ' + size)
 	if objtype == OT_ROOM:
@@ -785,7 +785,7 @@ def get_property(obj, field, mandatory=None):
 		retval = obj[field]
 	else:
 		retval = None
-	
+
 	if not retval and mandatory:
 		if obj.has_key('id') and obj['id']:
 			ldl.error('Field \'' + str(field) + '\' in element with id \'' + str(obj['id']) + '\' was not specified in your map, but is mandatory.')
@@ -958,7 +958,7 @@ def process_rooms_core(parentgroup, r, parent):
 					'pos': None
 				}
 
-				# FIXME	
+				# FIXME
 				ldl.uprint(coninfostr(con_info))
 				ldl.uprint(str(target_con_info))
 
@@ -1061,7 +1061,7 @@ def process_rooms_core(parentgroup, r, parent):
 					elevtype = get_property(con_info, 'elevtype', con_elev_err_msg(r_id, con_target['id'], 'you have not specified an elevation device type (e.g. \'' + ldl.ST_STAIRS + '\' or \'' + ldl.ST_PLAT + '\'); please do so.'))
 					#extent = get_property(con_info, 'extent', con_elev_err_msg(r_id, con_target['id'], 'you have not specifed an \'extent\' attribute for this connection, so I cannot determine how big the elevation device must be.'))
 					extent = get_property(con_info, 'extent')
-		
+
 					# Work out real area available (inside brush)...
 					area2d = real_wall_size(r_size)
 					area3d = Point(area2d.x, area2d.y, dist.z)#-con_info['size'].y/2-ldl.lip)
@@ -1117,7 +1117,7 @@ def process_rooms_core(parentgroup, r, parent):
 			pass  # don't set_property(c, 'origin', None)
 
 		# Finished processing this connection...
-	
+
 	# This room has no connections to other rooms.
 	# It could be an unconnected child of a room that does have an origin.
 	if parent and get_property(parent, 'origin'):
@@ -1141,7 +1141,7 @@ def process_rooms_core(parentgroup, r, parent):
 		i_pos = get_property(i, 'pos', True)
 		if r_compass.match(i_pos):
 			set_property(i, 'pos', convert_coords(OT_ITEM, i_pos, r))
-	
+
 	# Process child rooms (can't connect to anything but themselves and this room)...
 	process_rooms(get_children(r, OT_ROOM), r)
 

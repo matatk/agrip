@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 	02-d-roomsnstuf.py
-	Part of the Level Description Language (LDL) from the AGRIP project. 
+	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 
@@ -220,6 +220,6 @@ if __name__ == '__main__':
 	processMap(m)
 	m.getElementsByTagName('map')[0].setAttribute('stackdesc', ldl.stackdescs['02'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
-	#xml.dom.ext.PrettyPrint(m) 
+	#xml.dom.ext.PrettyPrint(m)
 	print m.toxml()
 	m.unlink()

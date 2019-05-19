@@ -1,6 +1,6 @@
 """
 	ldl.py
-	Part of the Level Description Language (LDL) from the AGRIP project. 
+	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 
@@ -148,7 +148,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 #
 
 class StyleFetcher:
-	
+
 	'''Lighting Style Set Stuff'''
 
 	def getLightingStyleId(self, stylename, size):
@@ -181,7 +181,7 @@ class StyleFetcher:
 			return largest
 		else:
 			error('StyleFetcher: unkown lighting set name \'' + stylename + '\'.')
-	
+
 	def getLightingStyleType(self, style, id):
 		'''Find out if a lighting substyle is of type perimeter or grid'''
 		return self.lightingSets[style][id]['type']
@@ -204,7 +204,7 @@ class StyleFetcher:
 								val = self.lightingSets[style][id][prop]['default']
 							else:
 								return None
-						# Got value; work out type to return...	
+						# Got value; work out type to return...
 						if prop_type == PT_TEXT:
 							return val
 						elif prop_type == PT_INT:
@@ -219,7 +219,7 @@ class StyleFetcher:
 				error('lighting style ' + style + ' doesn\'t have substyle with id ' + id)
 		else:
 			error('unknown lighting style ' + style)
-	
+
 	def getLightingSetEntity(self, style, id, type):
 		return self._getLightingSetSimpleProp(style, id, type, PT_TEXT, 'entities')
 
@@ -258,9 +258,9 @@ class StyleFetcher:
 
 	def getLightingSetOffset(self, style, id, type, dim):
 		return self._getLightingSetComplexProp(style, id, type, 'offsets', dim)
-	
+
 	def getLightingSetType(self, style):
-		if self.lightingSets.has_key(style):	
+		if self.lightingSets.has_key(style):
 			if self.lightingSets[style].has_key('type'):
 				type = self.lightingSets[style]['type']
 				if type == LS_CENTRE or type == LS_PERIMETER:
@@ -421,7 +421,7 @@ class StyleFetcher:
 		# Reset the hashes back to defaults...
 		self.lightingSets = tLS
 		tLS = {}
-	
+
 	def __str__(self):
 		pp = pprint.PrettyPrinter()
 		out = 'TEXTURE TABLE:\n' + pp.pformat(self.textureTable) + '\n'
@@ -643,7 +643,7 @@ def createProperty(doc, name, value):
 
 def remove_whitespace_nodes(node, unlink=False):
 	"""Removes all of the whitespace-only text decendants of a DOM node.
-	
+
 	When creating a DOM from an XML source, XML parsers are required to
 	consider several conditions when deciding whether to include
 	whitespace-only text nodes. This function ignores all of those
@@ -652,7 +652,7 @@ def remove_whitespace_nodes(node, unlink=False):
 	nodes are unlinked so that their storage can be reclaimed. If the
 	specified node is a whitespace-only text node then it is left
 	unmodified."""
-	
+
 	remove_list = []
 	for child in node.childNodes:
 		if child.nodeType == xml.dom.Node.TEXT_NODE and not child.data.strip():

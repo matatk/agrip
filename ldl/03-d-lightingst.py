@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 	03-d-lightingst.py
-	Part of the Level Description Language (LDL) from the AGRIP project. 
+	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
@@ -16,7 +16,7 @@ class LightingStyleFilter(XMLFilterBase):
 	"""
 	SAX filter to FIXME
 	"""
-	
+
 	def __init__(self, upstream, downstream):
 		XMLFilterBase.__init__(self, upstream)
 		self._downstream = downstream
@@ -69,7 +69,7 @@ class LightingStyleFilter(XMLFilterBase):
 		# Work out how many to go inbetween the corners (along walls).
 		# That may be repeated vertically according to zstep.
 		# Do we have them in middle of room?
-	
+
 		xgap = bounds.x# - 2*xoffs
 		ygap = bounds.y# - 2*yoffs
 		zgap = bounds.z# - 2*yoffs
@@ -91,7 +91,7 @@ class LightingStyleFilter(XMLFilterBase):
 				for k in range(zoffs, int(bounds.z), zmin):
 					# Do a test that the lights are near the perimeter of the room,
 					# if we are in perimeter mode...
-						
+
 					# If the spot is near the walls then use it...
 					xclose = self._check_proximity(bounds.x, i, xoffs*1.5)
 					yclose = self._check_proximity(bounds.y, j, yoffs*1.5)
@@ -111,7 +111,7 @@ class LightingStyleFilter(XMLFilterBase):
 							drawlight = True
 					else:
 						error('invalid lighting subscheme type ' + type + ' specified.')
-					
+
 					#ldl.uprint('Light: ' + str(i) + ' ' + str(j) + ' ' + str(k) + '\tclose: ' + str(close_to_perimeter) + '\tType: ' + type + '\tdraw: ' + str(drawlight))
 
 					# Now to render the light to XML...

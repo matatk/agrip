@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 	04-d-buildermac.py
-	Part of the Level Description Language (LDL) from the AGRIP project. 
+	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
@@ -16,7 +16,7 @@ class BuilderFilter(XMLFilterBase):
 	"""
 	SAX filter to FIXME
 	"""
-	
+
 	def __init__(self, upstream, downstream):
 		XMLFilterBase.__init__(self, upstream)
 		self._downstream = downstream
@@ -132,7 +132,7 @@ class BuilderFilter(XMLFilterBase):
 		for part3d in parts3d:
 			#ldl.uprint(str(part3d))
 			print "<solid origin='" + str(part3d.origin) + "' extent='" + str(part3d.extent) + "' texture='" + texture + "' type='step' />"
-	
+
 	def _macro_stairs_core(self, full_length, full_height, full_depth, flip, step_length, step_height, t):
 		'''Create stairs by iteration.'''
 		parts = []
