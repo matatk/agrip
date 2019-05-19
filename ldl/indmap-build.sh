@@ -1,6 +1,6 @@
 #!/bin/sh
 MAP=$1
-QID1PATH=~/.zquake/id1
+QID1PATH=../audioquake/dist/AudioQuake.app/Contents/Resources/id1
 QMAPPATH="$QID1PATH/maps"
 WAD=quake.wad
 
