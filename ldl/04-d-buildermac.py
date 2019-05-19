@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 	04-d-buildermac.py
 	Part of the Level Description Language (LDL) from the AGRIP project.

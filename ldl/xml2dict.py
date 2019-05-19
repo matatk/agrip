@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Thunder Chen<nkchenz@gmail.com> 2007.9.1
 #
 #

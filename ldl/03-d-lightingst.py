@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 	03-d-lightingst.py
 	Part of the Level Description Language (LDL) from the AGRIP project.
