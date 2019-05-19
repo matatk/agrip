@@ -6,17 +6,24 @@
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
 
-# FIXME hole_origin still fails due to the 0.5 ``rounding'' error. hack fix doesn't always work
-# FIXME sizes not checked for validity; cause obscure other errors - ``smal'' should not match the regexp
+# FIXME hole_origin still fails due to the 0.5 ``rounding'' error. hack fix
+# doesn't always work
+# FIXME sizes not checked for validity; cause obscure other errors - ``smal''
+# should not match the regexp
 # FIXME con_elev types not checked for validity
 # FIXME check for overlapping children
 # FIXME check for overlapping builders and solids
 # FIXME implement compass points (even for connectors) via convert_coords
 # FIXME check for two connectoins to rooms on different walls
-# FIXME check for two non-opposite compass dirs on supposedly opposite connections
+# FIXME check for two non-opposite compass dirs on supposedly opposite
+# connections
 
-import sys, ldl, pprint, re  # standard/mine
-import xml.parsers.expat, xml2dict
+import sys
+import ldl
+import pprint
+import re  # standard/mine
+import xml.parsers.expat
+import xml2dict
 from plane import Point
 
 '''Convert coords to numbers, from a range of possible formats.
@@ -45,41 +52,41 @@ OT_ITEM = 'item'
 OT_BUILDER = 'builder'
 
 dir_to_angle = {
-	ldl.DCP_SOUTHWEST:	225,
-	ldl.DCP_WEST:		180,
-	ldl.DCP_NORTHWEST:	135,
-	ldl.DCP_SOUTH:		270,
-	ldl.DCP_NORTH:		90,
-	ldl.DCP_SOUTHEAST:	315,
-	ldl.DCP_EAST:		0,
-	ldl.DCP_NORTHEAST:	45,
+	ldl.DCP_SOUTHWEST:  225,
+	ldl.DCP_WEST:       180,
+	ldl.DCP_NORTHWEST:  135,
+	ldl.DCP_SOUTH:      270,
+	ldl.DCP_NORTH:       90,
+	ldl.DCP_SOUTHEAST:  315,
+	ldl.DCP_EAST:         0,
+	ldl.DCP_NORTHEAST:   45,
 }
 
 facepos_to_fract = {
-	ldl.DCP_BOTTOMLEFT:		( 0.25, 0.25 ),
-	ldl.DCP_LEFT:			( 0.25, 0.50 ),
-	ldl.DCP_TOPLEFT:		( 0.25,	0.75 ),
+	ldl.DCP_BOTTOMLEFT:	    ( 0.25, 0.25 ),
+	ldl.DCP_LEFT:	        ( 0.25, 0.50 ),
+	ldl.DCP_TOPLEFT:	    ( 0.25,	0.75 ),
 
-	ldl.DCP_BOTTOM:			( 0.50, 0.25 ),
-	ldl.DCP_CENTRE:			( 0.50, 0.50 ),
-	ldl.DCP_TOP:			( 0.50,	0.75 ),
+	ldl.DCP_BOTTOM:	        ( 0.50, 0.25 ),
+	ldl.DCP_CENTRE:	        ( 0.50, 0.50 ),
+	ldl.DCP_TOP:	        ( 0.50,	0.75 ),
 
 	ldl.DCP_BOTTOMRIGHT:	( 0.75, 0.25 ),
-	ldl.DCP_RIGHT:			( 0.75,	0.50 ),
-	ldl.DCP_TOPRIGHT:		( 0.75, 0.75 )
+	ldl.DCP_RIGHT:	        ( 0.75,	0.50 ),
+	ldl.DCP_TOPRIGHT:	    ( 0.75, 0.75 )
 }
 
 compass_to_fract = {
 	ldl.DCP_SOUTHWEST:	( 0.25, 0.25 ),
-	ldl.DCP_WEST:		( 0.25, 0.50 ),
+	ldl.DCP_WEST:	    ( 0.25, 0.50 ),
 	ldl.DCP_NORTHWEST:	( 0.25,	0.75 ),
 
-	ldl.DCP_SOUTH:		( 0.50, 0.25 ),
-	ldl.DCP_CENTRE:		( 0.50, 0.50 ),
-	ldl.DCP_NORTH:		( 0.50,	0.75 ),
+	ldl.DCP_SOUTH:	    ( 0.50, 0.25 ),
+	ldl.DCP_CENTRE:	    ( 0.50, 0.50 ),
+	ldl.DCP_NORTH:	    ( 0.50,	0.75 ),
 
 	ldl.DCP_SOUTHEAST:	( 0.75, 0.25 ),
-	ldl.DCP_EAST:		( 0.75,	0.50 ),
+	ldl.DCP_EAST:	    ( 0.75,	0.50 ),
 	ldl.DCP_NORTHEAST:	( 0.75, 0.75 )
 }
 
@@ -92,7 +99,7 @@ sizes_con = {
 	'xlarge': 300,
 	'huge': 350,
 	'vhuge': 400,
-	'xhuge':500
+	'xhuge': 500
 }
 
 sizes_room_xy = {
@@ -129,6 +136,7 @@ r_compass = re.compile(r'^(([nsew][ew]?)|c)$')
 r_facepos = re.compile(r'^(([tblr][lr]?)|c)$')
 r_extentsym = re.compile(r'\+')
 
+
 def con_elev_err_msg(rid, tid, msg):
 	if tid:
 		targ = ' (to room \'' + tid + '\') '
@@ -138,6 +146,7 @@ def con_elev_err_msg(rid, tid, msg):
 	boiler_f = ' If you don\'t want to provide access from this direction, set the \'elevtype\' attribute of the connection to \'none\'.'
 	return boiler_h + msg + boiler_f
 
+
 def add_subsection(parent, secname):
 	'''Add a new subhash under the parent.'''
 	if secname in parent:
@@ -145,6 +154,7 @@ def add_subsection(parent, secname):
 	else:
 		parent[secname] = []
 	return True
+
 
 def add_subsection_element(parent, secname, hash):
 	if secname not in parent:
@@ -157,21 +167,22 @@ def add_subsection_element(parent, secname, hash):
 	parent[secname].append(hash)
 	return True
 
+
 def check_childroom_size(parent, cs, cc, id):
 	'''Checks if a child room is too big to fit into its parent.'''
 	ps = ldl.getPoint(get_property(parent, 'size'))
 	cr = cs.divide_coords_by(2)
 	# Get corners of child room
 	ar = []
-	ar.append(cc + Point(cr.x ,  cr.y ,  cr.z))
-	ar.append(cc + Point(cr.x ,  cr.y , -cr.z))
-	ar.append(cc + Point(cr.x , -cr.y ,  cr.z))
-	ar.append(cc + Point(cr.x , -cr.y , -cr.z))
-	ar.append(cc - Point(cr.x ,  cr.y ,  cr.z))
-	ar.append(cc - Point(cr.x ,  cr.y , -cr.z))
-	ar.append(cc - Point(cr.x , -cr.y ,  cr.z))
-	ar.append(cc - Point(cr.x , -cr.y , -cr.z))
-	# test points
+	ar.append(cc + Point(cr.x, cr.y, cr.z))
+	ar.append(cc + Point(cr.x, cr.y, cr.z))
+	ar.append(cc + Point(cr.x, cr.y, cr.z))
+	ar.append(cc + Point(cr.x, cr.y, cr.z))
+	ar.append(cc - Point(cr.x, cr.y, cr.z))
+	ar.append(cc - Point(cr.x, cr.y, cr.z))
+	ar.append(cc - Point(cr.x, cr.y, cr.z))
+	ar.append(cc - Point(cr.x, cr.y, cr.z))
+	# test point
 	ldl.uprint('ps: ' + str(ps))
 	ldl.uprint('cs: ' + str(cs))
 	ldl.uprint('cc: ' + str(cc))
@@ -180,36 +191,39 @@ def check_childroom_size(parent, cs, cc, id):
 		ldl.uprint(str(cn))
 		# FIXME can we do this just by comparing Point objects?
 		if cn.x >= ps.x \
-		or cn.x <= 0 \
-		or cn.y >= ps.y \
-		or cn.y <= 0 \
-		or cn.z >  ps.z: \
+			or cn.x <= 0 \
+			or cn.y >= ps.y \
+			or cn.y <= 0 \
+			or cn.z > ps.z:
 			ldl.error('Your inner room with id \'' + id + '\' does not fit within the parent at the sizes you\'ve specified.  To avoid this error, try either reducing the size of the contained room, or increasing the size of the parent room.')
 
+
 def get_childroom_origin(child_size, parent, pos, id):
-	'''Given the size of a child and the parent room object and position within parent of child,
-	return the origin coords (absolute) of the child.'''
+	'''Given the size of a child and the parent room object and position within
+	parent of child, return the origin coords (absolute) of the child.'''
 	# FIXME 'pos' must be a 2d coord value
 	cc_pos = ldl.getPoint2D(convert_coords(OT_ROOM, pos, parent))
 	child_centre = child_size.divide_coords_by(2)
 	parent_origin = ldl.getPoint(parent['origin'])
 	parent_size = ldl.getPoint(parent['size'])
 
-	inparent_child_centre = Point(0,0,0)
+	inparent_child_centre = Point(0, 0, 0)
 	inparent_child_centre.x = cc_pos.x
 	inparent_child_centre.y = cc_pos.y
-	inparent_child_centre.z = child_size.z/2
+	inparent_child_centre.z = child_size.z / 2
 
 	check_childroom_size(parent, child_size, inparent_child_centre, id)
 
 	child_origin = inparent_child_centre - child_size.divide_coords_by(2)
 
 	# Fix Z...
-	# FIXME can this be improved? (absentwalls? - but that would affect other things...)
+	# FIXME can this be improved? (absentwalls? - but that would affect othe
+	# things...)
 	child_origin.z = -ldl.lip
 
 	ldl.uprint('get_childroom_origin:\n\tchild centre: ' + str(child_centre) + ';\n\tparent origin: ' + str(parent_origin) + ';\n\tparent_size: ' + str(parent_size) + ';\n\tcc_pos: ' + str(cc_pos) + ';\n\tinparent_child_centre: ' + str(inparent_child_centre) + ';\n\tchild_origin: ' + str(child_origin))
 	return child_origin
+
 
 def rwo_num():
 	global rwo
@@ -220,10 +234,12 @@ def rwo_num():
 	#ldl.uprint(pp.pformat(rwo))
 	return ctr
 
+
 def rwo_update(id, origin):
 	global rwo
 	if id in rwo:
 		rwo[id] = origin
+
 
 def cwo_num_room(r):
 	ctr = 0
@@ -242,6 +258,7 @@ def cwo_num_room(r):
 		ctr = ctr + cwo_num_room(x)
 	return ctr
 
+
 def cwo_num(m):
 	'''pass in the map structure and get the number of connections w/o origins.'''
 	ctr = 0
@@ -250,14 +267,17 @@ def cwo_num(m):
 	#ldl.uprint('cwo_num: ' + str(ctr))
 	return ctr
 
+
 def cwo_update(id, origin):
 	global cwo
 	if id in cwo:
 		cwo[id] = origin
 
+
 def ri_clear():
 	global ril
 	ril = []
+
 
 def ri_add(id):
 	global ril
@@ -268,6 +288,7 @@ def ri_add(id):
 	# Room doesn't have an origin...
 	rwo[id] = None
 
+
 def set_room_size(r):
 	'''Convert into game units a room's size, then update the master hash with it.
 	Returns a Point object corresponding to the size.'''
@@ -275,10 +296,11 @@ def set_room_size(r):
 	set_property(r, 'size', r_size)
 	return r_size
 
+
 def get_room_size(r):
 	'''Given a room, return a Point corresponding to its size/extent.'''
 	r_size = get_property(r, 'size')
-	r_id = get_property(r, 'id')
+	#r_id = get_property(r, 'id')
 	if r_size:
 		if not r_size2d.match(r_size):
 			r_size = convert_coords(OT_ROOM, r_size)
@@ -286,6 +308,7 @@ def get_room_size(r):
 		#ldl.warning('no size specified for room \'' + r_id + '\'; using default (medium).')
 		r_size = convert_coords(OT_ROOM, 'med')
 	return ldl.getPoint(r_size)
+
 
 def hole_origin(hole_centre, hole_size, hole_wall, brush_origin, brush_size, floating=False):
 	'''Given
@@ -317,29 +340,31 @@ def hole_origin(hole_centre, hole_size, hole_wall, brush_origin, brush_size, flo
 
 	if not floating:
 		if hole_wall == ldl.DCP_NORTH or hole_wall == ldl.DCP_SOUTH:
-			hole_centre2d_rel = hole_centre2d - brush_origin2d + ldl.Point2D(ldl.lip,0)
+			hole_centre2d_rel = hole_centre2d - brush_origin2d + ldl.Point2D(ldl.lip, 0)
 		else:
 			hole_centre2d_rel = hole_centre2d - brush_origin2d
 		# FIXME why must we add ldl.lip here and to x only?
 	else:
 		hole_centre2d_rel = brush_size2d.divide_coords_by(2)
-		hole_centre2d_rel.y = hole_size.y/2
+		hole_centre2d_rel.y = hole_size.y / 2
 
 	hole_origin2d_rel = hole_centre2d_rel - (hole_size.divide_coords_by(2))
 
 	ldl.uprint('hole_origin:\n\thole_centre: ' + str(hole_centre) + ';\n\thole_size: ' + str(hole_size) + ';\n\thole_wall: ' + hole_wall + ';\n\tbrush_origin: ' + str(brush_origin) + ';\n\tbrush_size: ' + str(brush_size) + ';\n\tbrush_size2d: ' + str(brush_size2d) + '\n\tfloating: ' + str(floating) + ';\n\thole centre 2D rel: ' + str(hole_centre2d_rel) + ';\n\thole origin 2D r: ' + str(hole_origin2d_rel))
 	return hole_origin2d_rel
 
+
 def target_brush_origin_core(hole_centre2d, wall_size, hole_size, pos=None):
 	'''Work out wall origin in 2d, as an offset from the absolute hole centre.'''
 	# FIXME very similar to hole_centre_core !
 	if not pos:
-		return hole_centre2d - ldl.Point2D( wall_size.x/2, hole_size.y/2 )
+		return hole_centre2d - ldl.Point2D(wall_size.x / 2, hole_size.y / 2)
 	else:
 		# work out hole centre rel to wall...
 		hole_centre = fit_hole_in_wall(wall_size, hole_size, pos)
 		# absolute wall origin is absolute hole centre - rel hole centre...
 		return hole_centre2d - hole_centre
+
 
 def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
 	'''Given
@@ -348,8 +373,8 @@ def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
 			size of room,
 			wall of hole,
 	work out the origin of the face the hole is on.'''
-	wall_offset = Point(0,0,0)  # the origin of the wall wrt the origin of the room
-	room_offset = Point(0,0,0)  # FIXME
+	wall_offset = Point(0, 0, 0)  # the origin of the wall wrt the origin of the room
+	room_offset = Point(0, 0, 0)  # FIXME
 
 	if hole_wall == ldl.DCP_NORTH or hole_wall == ldl.DCP_SOUTH:
 		hole_centre2d = ldl.Point2D(hole_centre.x, hole_centre.z)
@@ -369,7 +394,8 @@ def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
 		wall_origin3d = Point(hole_centre.x, wall_origin2d.x, wall_origin2d.y)
 	elif hole_wall == ldl.DCP_UP or hole_wall == ldl.DCP_DOWN:
 		# default hole pos for hole is 'c'...
-		if not pos: pos = ldl.DCP_CENTRE
+		if not pos:
+			pos = ldl.DCP_CENTRE
 		# now continue with calculation...
 		hole_centre2d = ldl.Point2D(hole_centre.x, hole_centre.y)
 		wall_size2d = real_wall_size(ldl.Point2D(room_size.x, room_size.y))
@@ -387,12 +413,15 @@ def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
 	ldl.uprint('target_brush_origin:\n\thole_centre: ' + str(hole_centre) + '\n\twall size: ' + str(wall_size2d) + ';\n\tpos: ' +str(pos) + ';\n\tdir: ' + hole_wall + '\n\twall offset (from room origin): ' + str(wall_offset) + '\n\twall origin2d: ' + str(wall_origin2d) + '\n\twall origin3d: ' + str(wall_origin3d) + '\n\troom_offset: ' + str(room_offset) + '\n\ttarget brush origin: ' + str(target_brush_origin))
 	return target_brush_origin
 
+
 def real_wall_size(wall_size):
-	'''Account for the fact that the rooms will have borders when computing with face sizes.'''
+	'''Account for the fact that the rooms will have borders when computing
+	with face sizes.'''
 	# FIXME need to know direction (and if other walls will be absent) to get this really right.
-	rws = ldl.Point2D(wall_size.x - ldl.lip*2, wall_size.y - ldl.lip*2)
+	rws = ldl.Point2D(wall_size.x - ldl.lip * 2, wall_size.y - ldl.lip * 2)
 	ldl.uprint('real_wall_size: ws = ' + wall_size.__str__() + '; rws = ' + str(rws))
 	return rws
+
 
 def fit_hole_in_wall(wall_size, hole_size, pos):
 	prelim = ldl.getPoint2D(convert_coords(OT_CON, pos, wall_size, dir))
@@ -404,10 +433,10 @@ def fit_hole_in_wall(wall_size, hole_size, pos):
 
 	while not exitflag and attempts < 100:
 		# Do the +ve and -ve extents of the hole fit?
-		pos_x = prelim.x + hole_size.x/2
-		neg_x = prelim.x - hole_size.x/2
-		pos_y = prelim.y + hole_size.y/2
-		neg_y = prelim.y - hole_size.y/2
+		pos_x = prelim.x + hole_size.x / 2
+		neg_x = prelim.x - hole_size.x / 2
+		pos_y = prelim.y + hole_size.y / 2
+		neg_y = prelim.y - hole_size.y / 2
 		if not pos_x_ok and pos_x <= wall_size.x:
 			ldl.uprint('fit_hole_in_wall: hole +ve x extent fits.')
 			pos_x_ok = True
@@ -424,13 +453,13 @@ def fit_hole_in_wall(wall_size, hole_size, pos):
 		if pos_x_ok and neg_x_ok and pos_y_ok and neg_y_ok:
 			exitflag = True
 		elif not neg_x_ok:
-			prelim = prelim + ldl.Point2D(1,0)
+			prelim = prelim + ldl.Point2D(1, 0)
 		elif not pos_x_ok:
-			prelim = prelim - ldl.Point2D(1,0)
+			prelim = prelim - ldl.Point2D(1, 0)
 		elif not neg_y_ok:
-			prelim = prelim + ldl.Point2D(0,1)
+			prelim = prelim + ldl.Point2D(0, 1)
 		elif not pos_y_ok:
-			prelim = prelim - ldl.Point2D(0,1)
+			prelim = prelim - ldl.Point2D(0, 1)
 		else:
 			ldl.uprint('fit_hole_in_wall: couldn\'t fit hole (' + str(hole_size) + ') in face (' + str(wall_size) + ') - it is larger than the face.')
 			return False
@@ -442,12 +471,14 @@ def fit_hole_in_wall(wall_size, hole_size, pos):
 		ldl.uprint('fit_hole_in_wall: couldn\'t fit hole (' + str(hole_size) + ') in face (' + str(wall_size) + ') - ran out of adjustment attempts.')
 		return False
 
+
 def hole_centre_core(wall_size, h_extent, dir, pos=None):
 	# FIXME very simliar to target_brush_origin_core!
 	if not pos:
-		return ldl.Point2D(wall_size.x/2, h_extent.y/2)
+		return ldl.Point2D(wall_size.x / 2, h_extent.y / 2)
 	else:
 		return fit_hole_in_wall(wall_size, h_extent, pos)
+
 
 def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 	'''Work out centre of hole.
@@ -460,9 +491,10 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 	out
 		centre : of hole (absolute)
 	'''
-	if not r_origin: return None
+	if not r_origin:
+		return None
 
-	wall_origin = Point(0,0,0)  # eventually the hole origin will be constructed from room origin + wall offset + hole centre offset
+	wall_origin = Point(0, 0, 0)  # eventually the hole origin will be constructed from room origin + wall offset + hole centre offset
 
 	# Get size of wall (2D)...
 	if h_wall == ldl.DCP_NORTH or h_wall == ldl.DCP_SOUTH:
@@ -479,7 +511,8 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 		out = r_origin + wall_origin + Point(0, hc.x, hc.y)
 	elif h_wall == ldl.DCP_UP or h_wall == ldl.DCP_DOWN:
 		# Default pos should be centre...
-		if not pos: pos = ldl.DCP_CENTRE
+		if not pos:
+			pos = ldl.DCP_CENTRE
 		# Now calculate as normal...
 		wall_size = real_wall_size(ldl.Point2D(r_extent.x, r_extent.y))
 		if h_wall == ldl.DCP_UP:
@@ -510,20 +543,28 @@ def get_room_by_id(parentgroup, id):
 			error_room_id()
 	return None
 
+
 def opposite_dir(dir):
-	if dir == ldl.DCP_NORTH: return ldl.DCP_SOUTH
-	if dir == ldl.DCP_SOUTH: return ldl.DCP_NORTH
-	if dir == ldl.DCP_EAST: return ldl.DCP_WEST
-	if dir == ldl.DCP_WEST: return ldl.DCP_EAST
-	if dir == ldl.DCP_UP: return ldl.DCP_DOWN
-	if dir == ldl.DCP_DOWN: return ldl.DCP_UP
+	if dir == ldl.DCP_NORTH:
+		return ldl.DCP_SOUTH
+	if dir == ldl.DCP_SOUTH:
+		return ldl.DCP_NORTH
+	if dir == ldl.DCP_EAST:
+		return ldl.DCP_WEST
+	if dir == ldl.DCP_WEST:
+		return ldl.DCP_EAST
+	if dir == ldl.DCP_UP:
+		return ldl.DCP_DOWN
+	if dir == ldl.DCP_DOWN:
+		return ldl.DCP_UP
+
 
 def convert_coords_extentsym(objtype, word, index, parent=None):
 	'''Convert coords based on extent symbols.'''
 	if not parent:
 		ldl.error('convert_coords_extentsym: trying to place object of type \'' + objtype + '\' but not given a parent to place this object within.')
 
-	if type(parent) == type(Point(0,0,0)):
+	if type(parent) == type(Point(0, 0, 0)):
 		parent_size = [parent.x, parent.y, parent.z]
 	else:
 		parent_size = parent['size']
@@ -539,10 +580,11 @@ def convert_coords_extentsym(objtype, word, index, parent=None):
 	else:
 		ldl.error('convert_coords_extentsym: invalid object type \'' + objtype + '\' specified.')
 
+
 def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
-	'''Convert coords based on facepos directions.
-	If we're positioning a room or item within parent, we always take it to be top-down.
-	If we're dealing with connections, it's based on the wall they're on.'''
+	'''Convert coords based on facepos directions.  If we're positioning a room
+	or item within parent, we always take it to be top-down.  If we're dealing
+	with connections, it's based on the wall they're on.'''
 	if mode == CC_COMPASS:
 		answer_hash = compass_to_fract
 	elif mode == CC_FACEPOS:
@@ -573,7 +615,7 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 			if not flip:
 				x = answer_hash[word][0] * parent.x
 			else:
-				x = (1-answer_hash[word][0]) * parent.x
+				x = (1 - answer_hash[word][0]) * parent.x
 			y = answer_hash[word][1] * parent.y
 			return str(x) + ' ' + str(y)
 	elif objtype == OT_ITEM:
@@ -586,6 +628,7 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 	else:
 		ldl.error('convert_coords_compass_facepos: invalid object type \'' + objtype + '\' specified.')
 
+
 def convert_coords_word(objtype, word, index, parent=None):
 	if objtype == OT_ROOM:
 		if index < 2:
@@ -596,6 +639,7 @@ def convert_coords_word(objtype, word, index, parent=None):
 		return get_property(sizes_con, word, 'You\'ve requested an invalid size for connectors.  It might be a valid size for rooms but it isn\'t for connectors.  Valid sizes are:\n\t' + '\n\t'.join([str(s) for s in sizes_con]))
 	else:
 		ldl.error('convert_coords_words: invalid object type \'' + objtype + '\' specified.')
+
 
 def convert_coords_dispatch(objtype, part, index, parent, dir):
 	'''This function takes one part of the overall coordinate string.
@@ -616,10 +660,10 @@ def convert_coords_dispatch(objtype, part, index, parent, dir):
 		ldl.error('convert_coords_dispatch: unknown size string format \'' + part + '\'.')
 	return out
 
+
 def convert_coords_check_size_type(objtype, size):
-	'''Given the object type and size, return
-	the split size string,
-	whether we think we're looking at a 2D, or a 3D, conversion (based on objtype).'''
+	'''Given the object type and size, return the split size string, whether we
+	think we're looking at a 2D, or a 3D, conversion (based on objtype).'''
 	size_parts = []
 	if type(size) == type('hello'):
 		size_parts = size.split()
@@ -645,8 +689,10 @@ def convert_coords_check_size_type(objtype, size):
 		ldl.error('convert_coords: don\'t know how to deal with type of \'' + str(size) + '\'.')
 	return size_parts, mode3d
 
+
 def convert_coords_check_parent_type(parent):
-	'''Try to turn the parent object into some coords that represent the bbox of the parent.'''
+	'''Try to turn the parent object into some coords that represent the bbox
+	of the parent.'''
 	if isinstance(parent, dict):
 		parent = parent['size']
 		return convert_coords_check_parent_type(parent)
@@ -666,9 +712,9 @@ def convert_coords_check_parent_type(parent):
 		ldl.error('convert_coords_check_parent_type: unkown parent type \'' + str(parent) + '\'.')
 
 def convert_coords(objtype, size, parent=None, dir=None):
-	'''Convert a size to game units.
-	This function checks the length of the incoming coordinate string,
-	it then passes the parts of the string to be converted seperately.'''
+	'''Convert a size to game units.  This function checks the length of the
+	incoming coordinate string, it then passes the parts of the string to be
+	converted seperately.'''
 	#ldl.uprint('convert_coords: ' + str(objtype) + '; ' + str(size) + '; ' + pp.pformat(parent))
 	# FIXME items can't be 'nw 10% <x>' but they can be '25% 70% 10%'
 	out = []
@@ -682,7 +728,8 @@ def convert_coords(objtype, size, parent=None, dir=None):
 		dim_range = 2
 
 	# work out type of parent...
-	if parent: parent = convert_coords_check_parent_type(parent)
+	if parent:
+		parent = convert_coords_check_parent_type(parent)
 	#ldl.uprint('convert_coords: parent is ' + str(parent))
 
 	# make sure we've got the right number of coords
@@ -764,6 +811,7 @@ def convert_coords(objtype, size, parent=None, dir=None):
 	#ldl.uprint('convert_coords: returning \'' + str(flat_out) + '\'.')
 	return flat_out
 
+
 def get_children(base, req):
 	'''Return a list of the children (req) of base.'''
 	out = []
@@ -776,6 +824,7 @@ def get_children(base, req):
 		return out
 	else:
 		return out
+
 
 def get_property(obj, field, mandatory=None):
 	'''Get a property, or return None if there isn't one.
@@ -799,6 +848,7 @@ def get_property(obj, field, mandatory=None):
 	else:
 		return retval
 
+
 def set_property(obj, field, value, overwrite=True):
 	'''Set a property to a particular value.
 	If overwrite is False, we leave what's there there.
@@ -819,21 +869,26 @@ def set_property(obj, field, value, overwrite=True):
 			obj[field] = None
 	return value
 
+
 def coords_origin(centre, size):
 	'''Return the origin of a room given the centre and its size.'''
-	return centre - Point(size.x/2, size.y/2, size.z/2)
+	return centre - Point(size.x / 2, size.y / 2, size.z / 2)
+
 
 def coords_centre(origin, size):
 	'''Return the centre of a room given the origin and its size.'''
-	return origin + Point(size.x/2, size.y/2, size.z/2)
+	return origin + Point(size.x / 2, size.y / 2, size.z / 2)
+
 
 def coninfostr(ci):
 	return 'connection from \'' + ci['thisroom'] + '\' to \'' + str(ci['target']) + '\' via wall \'' + str(ci['wall']) + '\' of size \'' + str(ci['size']) + '\', offset \'' + str(ci['origin']) + '\' and type \'' + str(ci['type']) + '\'.'
+
 
 def process_rooms(parentgroup, parent):
 	'''FIXME'''
 	for room in parentgroup:
 		process_rooms_core(parentgroup, room, parent)
+
 
 def process_rooms_core(parentgroup, r, parent):
 	global f_firstroom
@@ -1011,11 +1066,11 @@ def process_rooms_core(parentgroup, r, parent):
 				# Work out target origin and hole origin (on this side)...
 				ldl.uprint('con_centre: ' + str(con_centre) + '; target_con_info: ' + pp.pformat(target_con_info))
 				targ_origin = target_brush_origin(
-						con_centre,
-						con_info['size'],
-						ldl.getPoint(con_target['size']),
-						target_con_info['wall'],
-						target_con_info['pos'])
+					con_centre,
+					con_info['size'],
+					ldl.getPoint(con_target['size']),
+					target_con_info['wall'],
+					target_con_info['pos'])
 				set_property(con_target, 'origin', targ_origin)
 				rwo_update(con_target['id'], targ_origin)
 				ldl.uprint('Origin of target room \'' + con_target['id'] + '\' is \'' + str(targ_origin) + '\'.')
@@ -1028,7 +1083,7 @@ def process_rooms_core(parentgroup, r, parent):
 			#ldl.warning('No target specified for ' + coninfostr(con_info))  # FIXME check it's inside another room
 			nontargetted_cons = True
 			con_centre = hole_centre(
-				Point(0,0,0),
+				Point(0, 0, 0),
 				ldl.getPoint(get_property(r, 'size')),
 				con_info['wall'],
 				ldl.getPoint2D(get_property(c, 'size')))
@@ -1145,6 +1200,7 @@ def process_rooms_core(parentgroup, r, parent):
 	# Process child rooms (can't connect to anything but themselves and this room)...
 	process_rooms(get_children(r, OT_ROOM), r)
 
+
 def serialise_room(r):
 	'''Output XML for a given room'''
 	padding_update(True)
@@ -1190,6 +1246,7 @@ def serialise_room(r):
 	padded_print('</hollow>')
 	padding_update(False)
 
+
 def serialise_builder(b):
 	padding_update(True)
 	padded_print('<builder origin=\'' + b['origin'] + '\' extent=\'' + b['extent'] + '\'>')
@@ -1204,6 +1261,7 @@ def serialise_builder(b):
 	padded_print('</builder>')
 	padding_update(False)
 
+
 def serialise_item(i):
 	padding_update(True)
 	padded_print('<entity>')
@@ -1213,8 +1271,8 @@ def serialise_item(i):
 	padded_print('<property name=\'origin\' value=\'' + i['pos'] + '\' />')
 	# The player starts must face the chosen way, or North...
 	if i['type'] == 'info_player_start' \
-	or i['type'] == 'info_player_deathmatch' \
-	or i['type'] == 'info_player_coop':
+		or i['type'] == 'info_player_deathmatch' \
+		or i['type'] == 'info_player_coop':
 		if 'angle' not in i:
 			padded_print('<property name=\'angle\' value=\'90\' />')
 		else:
@@ -1222,6 +1280,7 @@ def serialise_item(i):
 	padding_update(False)
 	padded_print('</entity>')
 	padding_update(False)
+
 
 def compdir_to_angle(dir):
 	'''Convert a compass direction to Quake angle.'''
@@ -1235,6 +1294,7 @@ def compdir_to_angle(dir):
 				ldl.error('compdir_to_angle: I don\'t know the angle for compass direction \'' + dir + '\'.')
 		else:
 			ldl.error('compdir_to_angle: specified direction \'' + str(dir) + '\' doesn\'t seem to be a valid compass direction (or a supported one for translation).')
+
 
 def serialise(m):
 	'''Output XML'''
@@ -1258,6 +1318,7 @@ def serialise(m):
 	padded_print('</map>')
 	padding_update(False)
 
+
 def padding_update(inc):
 	global serialise_padding_level
 	if inc:
@@ -1266,10 +1327,12 @@ def padding_update(inc):
 		serialise_padding_level = serialise_padding_level - 1
 	return
 
+
 def padded_print(str):
 	for i in range(serialise_padding_level):
-		print(serialise_padding, end=' ')
+		print(serialise_padding + ' ')
 	print(str)
+
 
 if __name__ == "__main__":
 	ldl.stage = '05'

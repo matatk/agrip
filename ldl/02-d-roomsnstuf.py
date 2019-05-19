@@ -26,7 +26,7 @@ def processMap(doc):
 	# Go through each successive element and process it accordingly.
 	# (Yes, this is very SAX-like but we don't use SAX because by using DOM we get to manipulate the tree as we go, which we do need to do.)
 	for node in map.childNodes[1:]:
-		processNode(doc, map, worldspawn, s, Point(0,0,0), node)
+		processNode(doc, map, worldspawn, s, Point(0, 0, 0), node)
 
 def processInfo(doc, map):
 	info = map.firstChild

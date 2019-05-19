@@ -22,7 +22,7 @@ stackdescs = {
 stage = None  # set by each stage, for use in error msgs
 STYLE_FILE = 'style.xml'  # the style file for our maps (contains textures, sounds and lighting presets)
 concretion_attempts = 3  # number of times the top level tries to parse the hash for info required for the lower levels.
-MAP_ORIGIN = (0,0,0)
+MAP_ORIGIN = (0, 0, 0)
 ELEV_DIST = 30
 
 

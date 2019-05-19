@@ -113,7 +113,7 @@ class Plane3D:
 		def chk_type(p_list):
 			ret_list = []
 			for p in p_list:
-				if type(p) == type(Point(0,0,0)):
+				if type(p) == type(Point(0, 0, 0)):
 					ret_list.append(True)
 				else:
 					ret_list.append(None)

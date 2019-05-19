@@ -164,7 +164,7 @@ class StyleFetcher:
 			for lighting in not_sorted_list:
 				maxs = self.lightingSets[stylename][lighting]['maxs']
 				if not maxs:
-					maxs = Point(0,0,0)
+					maxs = Point(0, 0, 0)
 					largest = lighting
 				else:
 					maxs = getPoint(maxs)
@@ -500,13 +500,13 @@ class Region3D:
 	'''A 3D region.
 	This is used by the wall-spliting functions to return the final chunks to be put into the map.'''
 	def __init__(self, origin, extent, rtype=None, props=None):
-		if type(origin) != type(Point(0,0,0)):
-			if type(origin) == type(Point2D(0,0)):
+		if type(origin) != type(Point(0, 0, 0)):
+			if type(origin) == type(Point2D(0, 0)):
 				origin = Point(origin.x, origin.y, 0)  # FIXME fix callers :-)
 			else:
 				raise TypeError('origin is not a 3D Point')
-		if type(extent) != type(Point(0,0,0)):
-			if type(extent) == type(Point2D(0,0)):
+		if type(extent) != type(Point(0, 0, 0)):
+			if type(extent) == type(Point2D(0, 0)):
 				extent = Point(extent.x, extent.y, 0)  # FIXME fix callers :-)
 			else:
 				raise TypeError('extent is not a 3D Point')
@@ -524,9 +524,9 @@ class Region2D:
 	'''A 2D region in a wall that is to be split.
 	This could correspond to a door, in which case when it's ``rebuilt'' into 3D it will be created as such.'''
 	def __init__(self, origin, extent, rtype=None, props=None):
-		if type(origin) != type(Point2D(0,0)) \
-		or type(extent) != type(Point2D(0,0)) \
-		or type(rtype) == type(Point2D(0,0)):
+		if type(origin) != type(Point2D(0, 0)) \
+		or type(extent) != type(Point2D(0, 0)) \
+		or type(rtype) == type(Point2D(0, 0)):
 			raise TypeError
 		self.origin = origin
 		self.extent = extent
