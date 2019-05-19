@@ -6,11 +6,13 @@
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
 
-import sys, ldl
+import sys
+import ldl
 from plane import Point
 from xml import sax
 from xml.sax.saxutils import XMLGenerator
 from xml.sax.saxutils import XMLFilterBase
+
 
 class LightingStyleFilter(XMLFilterBase):
 	"""
@@ -41,7 +43,7 @@ class LightingStyleFilter(XMLFilterBase):
 		increment = 1  # for smallest (making it greater until num_lights comes out integer)
 		tolerance = 0.05  # difference between the integer and float number of lights
 		while not found and smallest < total:
-			num_lights = total/smallest
+			num_lights = total / smallest
 			if abs(num_lights - int(num_lights)) <= tolerance:
 				found = True
 			else:
@@ -62,10 +64,10 @@ class LightingStyleFilter(XMLFilterBase):
 		sound = styleFetcher.getLightingSetSound(style, id, type)
 
 		# Lights must go in the corners.
-		#	i.e.	xoffs,				yoffs,				zoffs
-		#	    	xoffs,				bounds.y - yoffs,	zoffs
-		#	    	bounds.x - xoffs,	yoffs,				zoffs
-		#			bounds.x - xoffs,	bounds.y - yoffs,	zoffs
+		#    i.e.    xoffs,                yoffs,                zoffs
+		#            xoffs,                bounds.y - yoffs,    zoffs
+		#            bounds.x - xoffs,    yoffs,                zoffs
+		#            bounds.x - xoffs,    bounds.y - yoffs,    zoffs
 		# Work out how many to go inbetween the corners (along walls).
 		# That may be repeated vertically according to zstep.
 		# Do we have them in middle of room?
@@ -76,8 +78,10 @@ class LightingStyleFilter(XMLFilterBase):
 
 		# How many lights in xgap?
 		# We need a ``smallest gap'' metric.
-		# This can be used to work out how many lights we can fit in between these two.
-		# Now find a gap size >= smallest_gap that will give us an integer number of lights...
+		# This can be used to work out how many lights we can fit in between
+		# these two.
+		# Now find a gap size >= smallest_gap that will give us an integer
+		# number of lights...
 		xmin = self._get_gap(xmin, xgap)
 		ymin = self._get_gap(ymin, ygap)
 		zmin = self._get_gap(zmin, zgap)
@@ -93,8 +97,8 @@ class LightingStyleFilter(XMLFilterBase):
 					# if we are in perimeter mode...
 
 					# If the spot is near the walls then use it...
-					xclose = self._check_proximity(bounds.x, i, xoffs*1.5)
-					yclose = self._check_proximity(bounds.y, j, yoffs*1.5)
+					xclose = self._check_proximity(bounds.x, i, xoffs * 1.5)
+					yclose = self._check_proximity(bounds.y, j, yoffs * 1.5)
 					#zclose = self._check_proximity(bounds.z, k, zoffs*1.5)
 					# If any test passed, then it's near one of the walls...
 					close_to_perimeter = xclose or yclose #or zclose
@@ -110,7 +114,7 @@ class LightingStyleFilter(XMLFilterBase):
 						else:
 							drawlight = True
 					else:
-						error('invalid lighting subscheme type ' + type + ' specified.')
+						ldl.error('invalid lighting subscheme type ' + type + ' specified.')
 
 					#ldl.uprint('Light: ' + str(i) + ' ' + str(j) + ' ' + str(k) + '\tclose: ' + str(close_to_perimeter) + '\tType: ' + type + '\tdraw: ' + str(drawlight))
 
@@ -131,9 +135,9 @@ class LightingStyleFilter(XMLFilterBase):
 
 	def _get_bounds(self, hollow_attrs):
 		'''Work out the internal cube of the hollow.'''
-		origin = ldl.getPoint(hollow_attrs['origin'])
+		#origin = ldl.getPoint(hollow_attrs['origin'])
 		extent = ldl.getPoint(hollow_attrs['extent'])
-		return extent - Point(ldl.lip*2, ldl.lip*2, ldl.lip*2)
+		return extent - Point(ldl.lip * 2, ldl.lip * 2, ldl.lip * 2)
 
 	def _complete_text_node(self):
 		if self._accumulator:
@@ -143,7 +147,8 @@ class LightingStyleFilter(XMLFilterBase):
 
 	def startElement(self, name, attrs):
 		'''FIXME'''
-		# FIXME allow z offsets to be specified from the top of the room? (for hanging lights)
+		# FIXME allow z offsets to be specified from the top of the room? (for
+		# hanging lights)
 		#self.padding_level = self.padding_level + 1
 		#self.padded_print(name)
 		# Start element normally...
@@ -155,7 +160,8 @@ class LightingStyleFilter(XMLFilterBase):
 			style_name = attrs['style']
 			# Based on size of room, which lighting substyle (by its id) should we use?
 			style_id = styleFetcher.getLightingStyleId(style_name, bounds)
-			# Get type of scheme, get paramaters for both perimeter and grid, or just perimeter...
+			# Get type of scheme, get paramaters for both perimeter and grid,
+			# or just perimeter...
 			style_type = styleFetcher.getLightingStyleType(style_name, style_id)
 
 			# Perimeter => just the edges
@@ -215,6 +221,7 @@ class LightingStyleFilter(XMLFilterBase):
 			ldl.uprint('  ', sameLine=True)
 		ldl.uprint(msg)
 
+
 if __name__ == "__main__":
 	ldl.stage = '03'
 	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
@@ -232,6 +239,6 @@ if __name__ == "__main__":
 		filter_handler.parse(sys.stdin)
 	except sax.SAXParseException as detail:
 		ldl.error('The XML you supplied is not valid: ' + str(detail))
-	except:
+	except:  # noqa E722
 		raise
 		ldl.failParse()
