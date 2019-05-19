@@ -12,7 +12,7 @@ def __parse_node(node):
 	# save attrs and text, hope there will not be a child with same name
 	if node.text:
 		tmp['value'] = node.text
-	for (k,v) in node.attrib.items():
+	for (k,v) in list(node.attrib.items()):
 		tmp[k] = v
 
 	for ch in node.getchildren():
@@ -59,8 +59,8 @@ if __name__ == '__main__':
 	import pprint
 	pprint.pprint(r)
 
-	print r.result.count.value
-	print r.result.count.n
+	print(r.result.count.value)
+	print(r.result.count.n)
 
 	for data in r.result.data:
-		print data.id, data.name
+		print(data.id, data.name)

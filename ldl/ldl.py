@@ -155,10 +155,10 @@ class StyleFetcher:
 		# FIXME assumes 2 ids -- one with and one w/o size
 		sizes = []
 		largest = None
-		if self.lightingSets.has_key(stylename):
+		if stylename in self.lightingSets:
 			# FIXME do a proper sort!
 			not_sorted_list = []
-			for key in self.lightingSets[stylename].keys():
+			for key in list(self.lightingSets[stylename].keys()):
 				not_sorted_list.insert(0, key)
 
 			for lighting in not_sorted_list:
@@ -191,10 +191,10 @@ class StyleFetcher:
 		We search for properties specific to the type of our lighting sub-scheme (perimeter/grid).
 		If we can't find a specific value, we use the default one (which applies to all types).'''
 		#uprint('_getLightingSetSimpleProp():\n\tstyle: ' + style + '; id: ' + id + '; style_type: ' + style_type + '; prop_type: ' + prop_type + '; prop: ' + prop + '.')
-		if self.lightingSets.has_key(style):
-			if self.lightingSets[style].has_key(id):
-				if self.lightingSets[style][id].has_key(prop):
-					if self.lightingSets[style][id][prop].has_key(style_type):
+		if style in self.lightingSets:
+			if id in self.lightingSets[style]:
+				if prop in self.lightingSets[style][id]:
+					if style_type in self.lightingSets[style][id][prop]:
 						# Only return the specific (perimeter/grid) value if it's there;
 						# fall back to using the default.
 						if self.lightingSets[style][id][prop][style_type]:
@@ -233,16 +233,16 @@ class StyleFetcher:
 		'''Get a property from a deeply nested hash like offsets or min gaps in each dimension.
 		We search for properties specific to the type of our lighting sub-scheme (perimeter/grid).
 		If we can't find a specific value, we use the default one (which applies to all types).'''
-		if self.lightingSets.has_key(style):
-			if self.lightingSets[style].has_key(id):
-				if self.lightingSets[style][id].has_key(prop):
-					if self.lightingSets[style][id][prop].has_key(type) \
-					and self.lightingSets[style][id][prop][type].has_key(dim):
+		if style in self.lightingSets:
+			if id in self.lightingSets[style]:
+				if prop in self.lightingSets[style][id]:
+					if type in self.lightingSets[style][id][prop] \
+					and dim in self.lightingSets[style][id][prop][type]:
 						# Has a property for this type of lighting sub-scheme...
 						return int(self.lightingSets[style][id][prop][type][dim])
 					else:
 						# Use default, or just 0 if no value specified at all...
-						if self.lightingSets[style][id][prop].has_key(dim):
+						if dim in self.lightingSets[style][id][prop]:
 							return int(self.lightingSets[style][id][prop][dim])
 						else:
 							return 0
@@ -260,8 +260,8 @@ class StyleFetcher:
 		return self._getLightingSetComplexProp(style, id, type, 'offsets', dim)
 
 	def getLightingSetType(self, style):
-		if self.lightingSets.has_key(style):
-			if self.lightingSets[style].has_key('type'):
+		if style in self.lightingSets:
+			if 'type' in self.lightingSets[style]:
 				type = self.lightingSets[style]['type']
 				if type == LS_CENTRE or type == LS_PERIMETER:
 					return type
@@ -275,7 +275,7 @@ class StyleFetcher:
 	'''Texture Table and Texture Set Stuff'''
 
 	def getWorldtypeName(self, style):
-		if self.worldtypeTable.has_key(style):
+		if style in self.worldtypeTable:
 			return self.worldtypeTable[style]
 		else:
 			error('getWorldtype: Trying to find worldtype for a nonexistant style \'' + str(style) + '\'.  Please make sure that the style name is correct.')
@@ -283,13 +283,13 @@ class StyleFetcher:
 	'''Texture Table and Texture Set Stuff'''
 
 	def getTex(self, tex):
-		if self.textureTable.has_key(tex):
+		if tex in self.textureTable:
 			return self.textureTable[tex]
 		else:
 			return False
 
 	def getSetTex(self, style, surf):
-		if self.textureSets.has_key(style):
+		if style in self.textureSets:
 			return self.textureTable[self.textureSets[style][surf]]
 		else:
 			error('getSetTex: no such texture style set \'' + style + '\'.')
@@ -542,7 +542,7 @@ class Hole2D(Region2D): pass
 def getHoles(dict, wall):
 	'''Holes are stored in a dictionary where the keys are the names of the walls (DCP_ values).  There can be multiple holes per wall.  This funtion extracts and returns them as a list of Hole objects (which themselves contain Point2D objects).'''
 	holes_list = []
-	if dict.has_key(wall):
+	if wall in dict:
 		return dict[wall]
 	else:
 		return False

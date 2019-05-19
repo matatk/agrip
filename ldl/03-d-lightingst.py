@@ -179,7 +179,7 @@ class LightingStyleFilter(XMLFilterBase):
 		if name == 'hollow':
 			#ldl.uprint('...ENDING ROOM')
 			for light in self.lightStack.pop():
-				print light
+				print(light)
 		self._complete_text_node()
 		self._downstream.endElement(name)
 		#self.padding_level = self.padding_level - 1
@@ -230,7 +230,7 @@ if __name__ == "__main__":
 	#"parse" method
 	try:
 		filter_handler.parse(sys.stdin)
-	except sax.SAXParseException, detail:
+	except sax.SAXParseException as detail:
 		ldl.error('The XML you supplied is not valid: ' + str(detail))
 	except:
 		raise

@@ -37,7 +37,7 @@ def processInfo(doc, map):
 			mapname = property.getAttribute('value')
 		elif ptype == 'worldtype':
 			worldtype = property.getAttribute('value')
-			if ldl.worldtypes.has_key(worldtype):
+			if worldtype in ldl.worldtypes:
 				worldtype_num = ldl.worldtypes[worldtype]
 			else:
 				ldl.error('Invalid worldtype ' + worldtype + ' specified.')
@@ -96,7 +96,7 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 			for hole in hollowChild.childNodes:
 				wall = hole.getAttribute('wall')
 				# If we've not added a hole to this wall yet then set up an empty array...
-				if not holes.has_key(wall):
+				if wall not in holes:
 					holes[wall] = []
 				o_x, o_y = hole.getAttribute('origin').split()
 				e_x, e_y = hole.getAttribute('extent').split()
@@ -221,5 +221,5 @@ if __name__ == '__main__':
 	m.getElementsByTagName('map')[0].setAttribute('stackdesc', ldl.stackdescs['02'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	#xml.dom.ext.PrettyPrint(m)
-	print m.toxml()
+	print(m.toxml())
 	m.unlink()

@@ -140,14 +140,14 @@ def con_elev_err_msg(rid, tid, msg):
 
 def add_subsection(parent, secname):
 	'''Add a new subhash under the parent.'''
-	if parent.has_key(secname):
+	if secname in parent:
 		return False
 	else:
 		parent[secname] = []
 	return True
 
 def add_subsection_element(parent, secname, hash):
-	if not parent.has_key(secname):
+	if secname not in parent:
 		#ldl.warning('add_subsection_element: parent doesn\'t have subsection \'' + str(secname) + '\'; creating it...')
 		add_subsection(parent, secname)
 	# Now add the thing we were here to add...
@@ -214,7 +214,7 @@ def get_childroom_origin(child_size, parent, pos, id):
 def rwo_num():
 	global rwo
 	ctr = 0
-	for v in rwo.values():
+	for v in list(rwo.values()):
 		if not v:
 			ctr = ctr + 1
 	#ldl.uprint(pp.pformat(rwo))
@@ -222,13 +222,13 @@ def rwo_num():
 
 def rwo_update(id, origin):
 	global rwo
-	if rwo.has_key(id):
+	if id in rwo:
 		rwo[id] = origin
 
 def cwo_num_room(r):
 	ctr = 0
 	for c in get_children(r, OT_CON):
-		if not c.has_key('origin'):
+		if 'origin' not in c:
 			#ldl.uprint('cwo_num_room: con w/o origin field; target: ' + str(get_property(c, 'target')))
 			ctr = ctr + 1
 		else:
@@ -252,7 +252,7 @@ def cwo_num(m):
 
 def cwo_update(id, origin):
 	global cwo
-	if cwo.has_key(id):
+	if id in cwo:
 		cwo[id] = origin
 
 def ri_clear():
@@ -554,7 +554,7 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 		ldl.error('convert_coords_compass_facepos: trying to place object of type \'' + objtype + '\' but not given a parent to place this object within.')
 
 	if objtype == OT_ROOM:
-		if answer_hash.has_key(word):
+		if word in answer_hash:
 			x = answer_hash[word][0] * parent.x
 			y = answer_hash[word][1] * parent.y
 			return str(x) + ' ' + str(y)
@@ -569,7 +569,7 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 		else:
 			flip = False  # FIXME what about u and d?
 		# Work out coords...
-		if answer_hash.has_key(word):
+		if word in answer_hash:
 			if not flip:
 				x = answer_hash[word][0] * parent.x
 			else:
@@ -577,7 +577,7 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 			y = answer_hash[word][1] * parent.y
 			return str(x) + ' ' + str(y)
 	elif objtype == OT_ITEM:
-		if answer_hash.has_key(word):
+		if word in answer_hash:
 			x = answer_hash[word][0] * parent.x
 			y = answer_hash[word][1] * parent.y
 			return str(x) + ' ' + str(y)
@@ -767,7 +767,7 @@ def convert_coords(objtype, size, parent=None, dir=None):
 def get_children(base, req):
 	'''Return a list of the children (req) of base.'''
 	out = []
-	if base.has_key(req):
+	if req in base:
 		if isinstance(base[req], dict):
 			out = [base[req]]
 		else:
@@ -781,15 +781,15 @@ def get_property(obj, field, mandatory=None):
 	'''Get a property, or return None if there isn't one.
 	Returns a string.'''
 	retval = None
-	if obj.has_key(field):
+	if field in obj:
 		retval = obj[field]
 	else:
 		retval = None
 
 	if not retval and mandatory:
-		if obj.has_key('id') and obj['id']:
+		if 'id' in obj and obj['id']:
 			ldl.error('Field \'' + str(field) + '\' in element with id \'' + str(obj['id']) + '\' was not specified in your map, but is mandatory.')
-		elif obj.has_key('type') and obj['type']:
+		elif 'type' in obj and obj['type']:
 			ldl.error('Field \'' + str(field) + '\' in element of type \'' + str(obj['type']) + '\' was not specified in your map, but is mandatory.')
 		else:
 			if type(mandatory) == type(''):
@@ -804,7 +804,7 @@ def set_property(obj, field, value, overwrite=True):
 	If overwrite is False, we leave what's there there.
 	values are converted to strings automatically.
 	Returns the non-converted value.'''
-	if obj.has_key(field):
+	if field in obj:
 		if overwrite:
 			if value is not None:
 				obj[field] = str(value)
@@ -870,7 +870,7 @@ def process_rooms_core(parentgroup, r, parent):
 	nontargetted_cons = False
 	for c in get_children(r, OT_CON):
 		if parent:
-			if parent.has_key('origin'):
+			if 'origin' in parent:
 				ldl.uprint('; parent: ' + str(parent['origin']))
 			else:
 				ldl.uprint('; parent: <>')
@@ -939,7 +939,7 @@ def process_rooms_core(parentgroup, r, parent):
 				# Prepare targets connections storage area in target...
 				# If there's only one connection it'll've been read in as a hash.
 				# Ensure that it's an array so we can add connections easily.
-				if con_target.has_key(OT_CON):
+				if OT_CON in con_target:
 					if isinstance(con_target[OT_CON], dict):
 						tmp = con_target[OT_CON]
 						con_target[OT_CON] = []
@@ -1158,7 +1158,7 @@ def serialise_room(r):
 		if isinstance(connections, dict):
 			connections = [connections]
 		for c in connections:
-			if c.has_key('type'):
+			if 'type' in c:
 				type = ' type=\'' + c['type'] + '\''
 			else:
 				type = ''
@@ -1215,7 +1215,7 @@ def serialise_item(i):
 	if i['type'] == 'info_player_start' \
 	or i['type'] == 'info_player_deathmatch' \
 	or i['type'] == 'info_player_coop':
-		if not i.has_key('angle'):
+		if 'angle' not in i:
 			padded_print('<property name=\'angle\' value=\'90\' />')
 		else:
 			padded_print('<property name=\'angle\' value=\'' + str(compdir_to_angle(i['angle'])) + '\' />')
@@ -1229,7 +1229,7 @@ def compdir_to_angle(dir):
 		ldl.error('compdir_to_angle: no direction specified!')
 	else:
 		if r_compass.match(dir):
-			if dir_to_angle.has_key(dir):
+			if dir in dir_to_angle:
 				return dir_to_angle[dir]
 			else:
 				ldl.error('compdir_to_angle: I don\'t know the angle for compass direction \'' + dir + '\'.')
@@ -1268,8 +1268,8 @@ def padding_update(inc):
 
 def padded_print(str):
 	for i in range(serialise_padding_level):
-		print serialise_padding,
-	print str
+		print(serialise_padding, end=' ')
+	print(str)
 
 if __name__ == "__main__":
 	ldl.stage = '05'
@@ -1285,20 +1285,20 @@ if __name__ == "__main__":
 	# Try to parse the XML file...
 	try:
 		x = xml2dict.fromstring(input)
-	except xml.parsers.expat.ExpatError, detail:
+	except xml.parsers.expat.ExpatError as detail:
 		ldl.error('The XML you supplied is not valid: ' + str(detail))
 
 	# Sanity check...
-	if x.has_key('map'):
+	if 'map' in x:
 		m = x['map']
 	else:
 		ldl.error('It appears your map file doesn\'t start with a \'map\' element.')
 	# Parse properties in map info...
-	if m.has_key('name'):
+	if 'name' in m:
 		pass  # FIXME include as <property>
 	else:
 		ldl.error('It appears your map doesn\'t have a \'name\' attribute; please specify a name for your map.')
-	if m.has_key('style'):
+	if 'style' in m:
 		default_style = m['style']
 	else:
 		ldl.error('It appears your map doesn\'t have a \'style\' attribute; please specify a style (e.g. base or medieval).')

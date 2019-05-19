@@ -179,7 +179,7 @@ class Plane3D:
 			self.pp = abs(self.Q * self.Ra)
 
 		else:
-			raise TypeError, 'The arguments passed to Plane3D must be a POINT'
+			raise TypeError('The arguments passed to Plane3D must be a POINT')
 
 	def lie_check(self, p):
 		"""

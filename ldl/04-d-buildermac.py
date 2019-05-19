@@ -43,15 +43,15 @@ class BuilderFilter(XMLFilterBase):
 		Note that we don't specify the size of plat here as later we need to make it either at the top or the bottom of the larger brush.'''
 		origin = ldl.getPoint(bi['origin'])
 		size = ldl.getPoint(bi['extent'])
-		if bi.has_key('texture'):
+		if 'texture' in bi:
 			texture = 'texture=\'' + bi['texture'] + '\' '
 		else:
 			texture = ''
-		if si.has_key('position'):
+		if 'position' in si:
 			pos = si['position']  # DCP_UP or DCP_DOWN (top or bottomw
 		else:
 			ldl.error('plat given without a position (up or down)')
-		print "<solid origin='" + str(origin) + "' extent='" + str(size) + "' " + texture + "type='plat' position='" + pos + "' />"
+		print("<solid origin='" + str(origin) + "' extent='" + str(size) + "' " + texture + "type='plat' position='" + pos + "' />")
 
 	def macro_stairs(self, bi, si):
 		'''Make some stairs
@@ -64,7 +64,7 @@ class BuilderFilter(XMLFilterBase):
 		size = ldl.getPoint(bi['extent'])
 		dir = si['dir']
 		texture = ''
-		if bi.has_key('texture'): texture = bi['texture']
+		if 'texture' in bi: texture = bi['texture']
 		#slength = float(si['steplength'])
 		slength = 0
 		sheight = float(si['stepheight'])
@@ -131,7 +131,7 @@ class BuilderFilter(XMLFilterBase):
 
 		for part3d in parts3d:
 			#ldl.uprint(str(part3d))
-			print "<solid origin='" + str(part3d.origin) + "' extent='" + str(part3d.extent) + "' texture='" + texture + "' type='step' />"
+			print("<solid origin='" + str(part3d.origin) + "' extent='" + str(part3d.extent) + "' texture='" + texture + "' type='step' />")
 
 	def _macro_stairs_core(self, full_length, full_height, full_depth, flip, step_length, step_height, t):
 		'''Create stairs by iteration.'''
@@ -271,7 +271,7 @@ if __name__ == "__main__":
 	#"parse" method
 	try:
 		filter_handler.parse(sys.stdin)
-	except sax.SAXParseException, detail:
+	except sax.SAXParseException as detail:
 		ldl.error('The XML you supplied is not valid: ' + str(detail))
 	except:
 		raise
