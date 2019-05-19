@@ -8,16 +8,18 @@ zq-repo/zqcc/zqcc_debug
 # Gamecode
 zq-repo/qc/agrip/*.dat
 # Visual Studio
-zq-repo/zqcc/Release
-zq-repo/zqcc/Debug
-zq-repo/zqcc/*.v12.suo
+zq-repo/zqcc/Release*
+zq-repo/zqcc/Debug*
+zq-repo/zqcc/*.suo
 zq-repo/zqcc/*.sdf
 zq-repo/zqcc/*.user
+zq-repo/zqcc/.vs/
 zq-repo/zquake/source/Release*
 zq-repo/zquake/source/Debug*
-zq-repo/zquake/source/*.v12.suo
+zq-repo/zquake/source/*.suo
 zq-repo/zquake/source/*.sdf
 zq-repo/zquake/source/*.user
+zq-repo/zquake/source/.vs/
 # Manual intermediate files
 manuals-converted/
 # PyInstaller output
