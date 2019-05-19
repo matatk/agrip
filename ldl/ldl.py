@@ -500,10 +500,16 @@ class Region3D:
 	'''A 3D region.
 	This is used by the wall-spliting functions to return the final chunks to be put into the map.'''
 	def __init__(self, origin, extent, rtype=None, props=None):
-		if type(origin) != type(Point(0,0,0)) \
-		or type(extent) != type(Point(0,0,0)) \
-		or type(rtype) == type(Point(0,0,0)):
-			raise TypeError
+		if type(origin) != type(Point(0,0,0)):
+			if type(origin) == type(Point2D(0,0)):
+				origin = Point(origin.x, origin.y, 0)  # FIXME fix callers :-)
+			else:
+				raise TypeError('origin is not a 3D Point')
+		if type(extent) != type(Point(0,0,0)):
+			if type(extent) == type(Point2D(0,0)):
+				extent = Point(extent.x, extent.y, 0)  # FIXME fix callers :-)
+			else:
+				raise TypeError('extent is not a 3D Point')
 		self.origin = origin
 		self.extent = extent
 		self.end = self.origin + self.extent

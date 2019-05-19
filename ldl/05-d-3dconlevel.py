@@ -160,7 +160,7 @@ def add_subsection_element(parent, secname, hash):
 def check_childroom_size(parent, cs, cc, id):
 	'''Checks if a child room is too big to fit into its parent.'''
 	ps = ldl.getPoint(get_property(parent, 'size'))
-	cr = cs/2
+	cr = cs.divide_coords_by(2)
 	# Get corners of child room
 	ar = []
 	ar.append(cc + Point(cr.x ,  cr.y ,  cr.z))
@@ -191,7 +191,7 @@ def get_childroom_origin(child_size, parent, pos, id):
 	return the origin coords (absolute) of the child.'''
 	# FIXME 'pos' must be a 2d coord value
 	cc_pos = ldl.getPoint2D(convert_coords(OT_ROOM, pos, parent))
-	child_centre = child_size/2
+	child_centre = child_size.divide_coords_by(2)
 	parent_origin = ldl.getPoint(parent['origin'])
 	parent_size = ldl.getPoint(parent['size'])
 
@@ -202,7 +202,7 @@ def get_childroom_origin(child_size, parent, pos, id):
 
 	check_childroom_size(parent, child_size, inparent_child_centre, id)
 
-	child_origin = inparent_child_centre - child_size/2
+	child_origin = inparent_child_centre - child_size.divide_coords_by(2)
 
 	# Fix Z...
 	# FIXME can this be improved? (absentwalls? - but that would affect other things...)
@@ -322,7 +322,7 @@ def hole_origin(hole_centre, hole_size, hole_wall, brush_origin, brush_size, flo
 			hole_centre2d_rel = hole_centre2d - brush_origin2d
 		# FIXME why must we add ldl.lip here and to x only?
 	else:
-		hole_centre2d_rel = brush_size2d/2
+		hole_centre2d_rel = brush_size2d.divide_coords_by(2)
 		hole_centre2d_rel.y = hole_size.y/2
 
 	hole_origin2d_rel = hole_centre2d_rel - (hole_size.divide_coords_by(2))

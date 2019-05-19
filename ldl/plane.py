@@ -28,8 +28,8 @@ class Point:
 		return Point(self.x * other, self.y * other, self.z * other)
 
 	# point / number
-	def __div__(self, other):
-		return Point(self.x/other, self.y/other, self.z/other)
+	def divide_coords_by(self, factor):
+		return Point(self.x/factor, self.y/factor, self.z/factor)
 
 	def __init__(self, x, y, z):
 		self.x = x
