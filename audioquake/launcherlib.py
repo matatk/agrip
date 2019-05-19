@@ -11,7 +11,8 @@ def on_windows():
 
 
 if on_windows():
-	raise NotImplementedError
+	import pythoncom
+	import win32com.client
 else:
 	from AppKit import NSSpeechSynthesizer
 
@@ -24,19 +25,25 @@ class LaunchState(enum.Enum):
 
 class SpeechSynth():
 	def __init__(self):
-		nssp = NSSpeechSynthesizer
-		self.ve = nssp.alloc().init()
-		self.ve.setVoice_("com.apple.speech.synthesis.voice.Alex")
+		if on_windows():
+			pythoncom.CoInitialize()
+			self.speaker = win32com.client.Dispatch("SAPI.SpVoice")
+		else:
+			nssp = NSSpeechSynthesizer
+			self.ve = nssp.alloc().init()
+			self.ve.setVoice_("com.apple.speech.synthesis.voice.Alex")
 
 	def say(self, text):
 		if on_windows():
-			raise NotImplementedError
+			self.speaker.Speak(text, 1)
+			# FIXME TODO: get ENUM value so that's not magic number
 		else:
 			self.ve.startSpeakingString_(text)
 
 	def stop(self):
 		if on_windows():
-			raise NotImplementedError
+			self.speaker.Speak('', 2)
+			# FIXME TODO: get ENUM value so that's not magic number
 		else:
 			self.ve.stopSpeaking()
 

@@ -111,7 +111,7 @@ class LauncherWindow(wx.Frame):
 
 	def first_time_check(self, name):
 		if on_windows():
-			stamp_file_check(name)
+			stamp_file_check(self, name)
 		else:
 			pass
 
@@ -122,7 +122,7 @@ def Warn(parent, message, caption='Warning!'):
 	dlg.Destroy()
 
 
-def stamp_file_check(name):
+def stamp_file_check(gui_parent, name):
 	# TODO decouple from GUI
 	# TODO needs to work on Mac? not think so
 	stamp_file_name = 'not-first-run-' + name
@@ -135,7 +135,7 @@ def stamp_file_check(name):
 		raise TypeError
 
 	if not os.path.exists(stamp_file_name):
-		Alerts.alert('caution', prompt)
+		Warn(gui_parent, prompt)
 		open(stamp_file_name, 'a').close()
 
 
