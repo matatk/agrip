@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 """
     01-u-brushsizes.py
     Part of the Level Description Language (LDL) from the AGRIP project. 

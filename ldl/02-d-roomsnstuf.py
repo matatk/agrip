@@ -1,4 +1,4 @@
-#!/usr/bin/python2.5
+#!/usr/bin/env python3
 """
 	02-d-roomsnstuf.py
 	Part of the Level Description Language (LDL) from the AGRIP project. 

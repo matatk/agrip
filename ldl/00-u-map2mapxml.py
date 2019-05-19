@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 """
     00-u-map2mapxml.py
     Part of the Level Description Language (LDL) from the AGRIP project. 
