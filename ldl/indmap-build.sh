@@ -1,22 +1,10 @@
 #!/bin/sh
 MAP=$1
 WAD=quake.wad
-
-if [ -x ./qbsp ]; then
-	QBSP="`pwd`/qbsp"
-else
-	QBSP='qbsp'
-fi
-if [ -x ./light ]; then
-	LIGHT="`pwd`/light"
-else
-	LIGHT='light'
-fi
-if [ -x ./vis ]; then
-	VIS="`pwd`/vis"
-else
-	VIS='vis'
-fi
+BINS='q1tools_gpl.qutils/qbsp'
+QBSP="$BINS/qbsp"
+VIS="$BINS/vis"
+LIGHT="$BINS/light"
 
 if [ ! -r $MAP.map ]; then
     echo "ERROR: Can't find $MAP.map!"

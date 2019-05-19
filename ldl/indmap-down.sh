@@ -11,5 +11,5 @@ cat ${MAP}_level03.xml	| ./03-d-lightingst.py > ${MAP}_level02.xml && \
 cat ${MAP}_level02.xml	| ./02-d-roomsnstuf.py > ${MAP}_level01.xml && \
 cat ${MAP}_level01.xml	| ./01-d-brushsizes.py > ${MAP}_level00.xml && \
 cat ${MAP}_level00.xml	| ./00-d-map2mapxml.py > $MAP.map
-echo removing intermediate files... && \
+echo removing intermediate files...
 rm ${MAP}_level*xml
