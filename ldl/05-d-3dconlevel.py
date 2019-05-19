@@ -325,7 +325,7 @@ def hole_origin(hole_centre, hole_size, hole_wall, brush_origin, brush_size, flo
 		hole_centre2d_rel = brush_size2d/2
 		hole_centre2d_rel.y = hole_size.y/2
 
-	hole_origin2d_rel = hole_centre2d_rel - hole_size/2
+	hole_origin2d_rel = hole_centre2d_rel - (hole_size.divide_coords_by(2))
 
 	ldl.uprint('hole_origin:\n\thole_centre: ' + str(hole_centre) + ';\n\thole_size: ' + str(hole_size) + ';\n\thole_wall: ' + hole_wall + ';\n\tbrush_origin: ' + str(brush_origin) + ';\n\tbrush_size: ' + str(brush_size) + ';\n\tbrush_size2d: ' + str(brush_size2d) + '\n\tfloating: ' + str(floating) + ';\n\thole centre 2D rel: ' + str(hole_centre2d_rel) + ';\n\thole origin 2D r: ' + str(hole_origin2d_rel))
 	return hole_origin2d_rel

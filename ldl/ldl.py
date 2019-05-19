@@ -480,10 +480,14 @@ class Point2D:
 	def __sub__(self, other):
 		return Point2D(self.x - other.x, self.y - other.y)
 	def __div__(self, other):
+		# This maybe can be removed as attepting to divide Point2D by int gives
+		# a TypeError at the source
 		if type(other) == type(0):
 			return Point2D(self.x/other, self.y/other)
 		else:
 			raise TypeError
+	def divide_coords_by(self, factor):
+		return Point2D(self.x/factor, self.y/factor)
 
 def checkType(rtype):
 	result = False
