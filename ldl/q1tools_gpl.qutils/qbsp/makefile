@@ -1,4 +1,4 @@
-
+CFLAGS += -I../common
 EXES = qbsp light vis bspinfo entmap visx
 NTEXES = qbsp.exe light.exe vis.exe bspinfo.exe entmap.exe visx.exe
 
@@ -43,7 +43,7 @@ qbsp : $(QBSPFILES)
 
 light : threads$(EXT) bspfile$(EXT) cmdlib$(EXT) light$(EXT) ltface$(EXT) mathlib$(EXT) trace$(EXT) entities$(EXT)
 	$(CC) $(CFLAGS) -o light threads$(EXT) bspfile$(EXT) cmdlib$(EXT) light$(EXT) ltface$(EXT) mathlib$(EXT) trace$(EXT) entities$(EXT)
-	
+
 vis : vis$(EXT) flow$(EXT) cmdlib$(EXT) mathlib$(EXT) bspfile$(EXT) soundpvs$(EXT)
 	$(CC) $(CFLAGS) -o vis vis$(EXT) flow$(EXT) cmdlib$(EXT) mathlib$(EXT) bspfile$(EXT) soundpvs$(EXT)
 
@@ -57,9 +57,10 @@ entmap : entmap$(EXT) cmdlib$(EXT)
 	$(CC) $(CFLAGS) -o entmap entmap$(EXT) cmdlib$(EXT)
 
 
-cmdlib$(EXT) : ../cmdlib.c
-	$(CC) $(CFLAGS) -c -o cmdlib$(EXT) ../cmdlib.c
-mathlib$(EXT) : ../mathlib.c
-	$(CC) $(CFLAGS) -c -o mathlib$(EXT) ../mathlib.c
+cmdlib$(EXT) : ../common/cmdlib.c
+	$(CC) $(CFLAGS) -c -o cmdlib$(EXT) ../common/cmdlib.c
+mathlib$(EXT) : ../common/mathlib.c
+	$(CC) $(CFLAGS) -c -o mathlib$(EXT) ../common/mathlib.c
 
-
+bspfile$(EXT) : ../common/bspfile.c
+	$(CC) $(CFLAGS) -c -o bspfile$(EXT) ../common/bspfile.c
