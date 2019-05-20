@@ -11,21 +11,21 @@ if [ ! -r $MAP.map ]; then
     exit 42
 fi
 
-echo Running BSP...
+echo Running qbsp...
 $QBSP $MAP > /dev/null
 if [ $? != 0 ]; then
 	$QBSP $MAP
 	exit 42
 fi
 
-echo Running $LIGHT...
+echo Running light...
 $LIGHT -extra $MAP > /dev/null
 if [ $? != 0 ]; then
 	$LIGHT -extra $MAP
 	exit 42
 fi
 
-echo Running $VIS...
+echo Running vis...
 $VIS -level 4 $MAP > /dev/null
 if [ $? != 0 ]; then
 	$VIS -level 4 $MAP
