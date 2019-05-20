@@ -1,0 +1,82 @@
+<map name='Gothic Froth' style='medieval'>
+<room id='midway' size='vlarge'>
+<con wall='n' target='northall' type='door'/>
+<con wall='e' target='eastroom' type='door'/>
+<con wall='s' target='southroom' type='door'/>
+<con wall='w' target='westroom' type='door'/>
+<item pos='c' type='weapon_rocketlauncher'/>
+<item pos='n' type='item_armorInv'/>
+<item pos='s' type='item_shells'/>
+<item pos='e' type='item_health'/>
+<item pos='w' type='item_health'/>
+</room>
+<room id='northall' size='small large small'>
+<con wall='n' target='doghouse' type='door'/>
+<con wall='e' target='sgroom' type='door'/>
+<item pos='n' type='info_player_start' angle='s'/>
+<item pos='n' type='info_player_deathmatch' angle='s'/>
+<item pos='n' type='info_player_coop' angle='s'/>
+<item pos='c' type='item_rockets'/>
+<item pos='c' type='item_shells'/>
+</room>
+<room id='eastroom'>
+<item pos='e' type='info_player_deathmatch' angle='w'/>
+<item pos='e' type='info_player_coop' angle='w'/>
+<item pos='n' type='ambient_suck_wind'/>
+<item pos='s' type='ambient_suck_wind'/>
+<item pos='c' type='item_rockets'/>
+<item pos='c' type='item_spikes'/>
+</room>
+<room id='southroom' size='big'>
+<item pos='n' type='info_player_deathmatch'/>
+<item pos='n' type='info_player_coop'/>
+<item pos='c' type='weapon_supernailgun'/>
+<item pos='c' type='item_spikes'/>
+<item pos='c' type='item_spikes'/>
+<item pos='c' type='item_spikes'/>
+<item pos='c' type='item_spikes'/>
+</room>
+<room id='westroom' size='big'>
+<item pos='w' type='info_player_deathmatch' angle='e'/>
+<item pos='w' type='info_player_coop' angle='e'/>
+<item pos='c' type='item_shells'/>
+<item pos='c' type='item_rockets'/>
+</room>
+<room id='doghouse' size='large'>
+<con wall='n' target='goodies' type='door'/>
+<item pos='c' type='monster_dog' angle='ne'/>
+<item pos='c' type='monster_dog' angle='ne'/>
+<item pos='c' type='monster_dog' angle='ne'/>
+<item pos='sw' type='monster_dog' angle='ne'/>
+<item pos='nw' type='monster_dog' angle='se'/>
+<item pos='ne' type='monster_dog' angle='sw'/>
+<item pos='se' type='monster_dog' angle='nw'/>
+<item pos='n' type='monster_dog' angle='s'/>
+<item pos='e' type='monster_dog' angle='w'/>
+<item pos='w' type='monster_dog' angle='e'/>
+</room>
+<room id='goodies' size='large'>
+<item pos='c' type='item_artifact_super_damage'/>
+<item pos='c' type='item_rockets'/>
+<item pos='c' type='item_rockets'/>
+<item pos='c' type='item_rockets'/>
+<item pos='c' type='item_rockets'/>
+</room>
+<room id='sgroom' size='big'>
+<con wall='e' pos='c' target='secroom' type='door' elevtype='plat'/>
+<item pos='e' type='item_armorInv'/>
+<item pos='c' type='weapon_supershotgun'/>
+<item pos='c' type='item_shells'/>
+<item pos='c' type='item_shells'/>
+<item pos='ne' type='monster_army'/>
+<item pos='n' type='item_health'/>
+<item pos='nw' type='monster_army'/>
+<item pos='se' type='monster_army'/>
+<item pos='s' type='item_health'/>
+<item pos='sw' type='monster_army'/>
+</room>
+<room id='secroom'>
+<con wall='w' target='sgroom' pos='c' elevtype='plat'/>
+<item pos='c' type='item_artifact_invisibility'/>
+</room>
+</map>
