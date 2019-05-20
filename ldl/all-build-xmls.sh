@@ -17,7 +17,5 @@ for xmlfile in *.xml; do
 		./indmap-build.sh $basename
 		exit 42
 	fi
-
-	rm -f $basename.map
 	echo
 done
