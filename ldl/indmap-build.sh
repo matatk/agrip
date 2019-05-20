@@ -3,8 +3,9 @@ MAP=$1
 WAD=quake.wad
 BINS='q1tools_gpl.qutils/qbsp'
 QBSP="$BINS/qbsp"
-VIS="$BINS/vis"
 LIGHT="$BINS/light"
+VIS="$BINS/vis"
+BSPINFO="$BINS/bspinfo"
 
 if [ ! -r $MAP.map ]; then
     echo "ERROR: Can't find $MAP.map!"
@@ -31,6 +32,9 @@ if [ $? != 0 ]; then
 	$VIS -level 4 $MAP
 	exit 42
 fi
+
+echo Running bspinfo...
+$BSPINFO $MAP
 
 echo Cleaning up...
 rm -f $MAP.h* $MAP.prt $MAP.lit $MAP.pts
