@@ -13,20 +13,26 @@
 """
 
 #import sys, xml.dom.minidom, xml.dom.ext, re, ldl, split
-import sys, xml.dom.minidom, re, ldl, split
-from plane import Point, Plane3D
+import sys
+import xml.dom.minidom
+#import re
+import ldl
+import split
+from plane import Point #, Plane3D
 
 paddinglevel = -1
 padding = '  '
 
+
 def processMap(doc):
-	mapname = ''
+	#mapname = ''
 	map = doc.documentElement
 	worldspawn = processInfo(doc, map)
 	# Go through each successive element and process it accordingly.
 	# (Yes, this is very SAX-like but we don't use SAX because by using DOM we get to manipulate the tree as we go, which we do need to do.)
 	for node in map.childNodes[1:]:
 		processNode(doc, map, worldspawn, s, Point(0, 0, 0), node)
+
 
 def processInfo(doc, map):
 	info = map.firstChild
@@ -51,9 +57,10 @@ def processInfo(doc, map):
 	map.replaceChild(worldspawn, info)
 	return worldspawn
 
+
 def processNode(doc, parent, worldspawn, s, offset, node):
 	global paddinglevel
-	name = node.localName
+	#name = node.localName
 	paddinglevel = paddinglevel + 1
 #	for i in range(paddinglevel):
 #		ldl.uprint(padding, True)
@@ -68,13 +75,16 @@ def processNode(doc, parent, worldspawn, s, offset, node):
 		processSolid(doc, parent, worldspawn, s, offset, node)
 	elif node.localName == 'entity':
 		processEntity(doc, parent, offset, node)
-	elif node.localName == None:
+	elif node.localName is None:
 		pass  # comment node
 	else:
 		ldl.error('unknown element type ' + node.localName + '.\n')
 	paddinglevel = paddinglevel - 1
 
+
 style = None
+
+
 def processHollow(doc, parent, worldspawn, s, offset, hollow):
 	'''Note: sets global style var.'''
 	global style
@@ -83,7 +93,11 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 	style = hollow.getAttribute('style')
 	holes = {}
 	absentwalls = []
-	# FIXME the following is where we see if this hollow contains an absentwalls element and a holes element before proceeding.  It's implemented in a bit of a hacky way; we ought to be using SAX but then it would be a *lot* more work to create the output XML.  This way we can just change what's there a bit.
+	# FIXME the following is where we see if this hollow contains an
+	# absentwalls element and a holes element before proceeding.  It's
+	# implemented in a bit of a hacky way; we ought to be using SAX but then it
+	# would be a *lot* more work to create the output XML.  This way we can
+	# just change what's there a bit.
 	for hollowChild in hollow.childNodes:
 		if hollowChild.localName == 'absentwalls':
 			# Get absent walls info...
@@ -103,24 +117,27 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 				type = hole.getAttribute('type')
 				if type == ldl.RT_DOOR:
 					key = hole.getAttribute('key')
-					button = hole.getAttribute('button')
+					button = hole.getAttribute('button')  # FIXME test real map
 				else:
-					key = button = None
+					key = button = None  # FIXME test real map
 				# FIXME deal with other types
 				holes[wall].append(ldl.Hole2D(
 					ldl.Point2D(float(o_x), float(o_y)),
 					ldl.Point2D(float(e_x), float(e_y)),
 					type, {ldl.PROPS_K_KEY: key}))
-			# FIXME we shouldn't need to detect overlapping holes here because they'll be detected higher up (by overlapping connected hollows)
+			# FIXME we shouldn't need to detect overlapping holes here because
+			# they'll be detected higher up (by overlapping connected hollows)
 			ldl.insertPlaceholder(doc, hollow, hollowChild)
 
-	# Now we have the required structural info (absent walls and holes), we can turn this hollow into a series of textured brushes...
+	# Now we have the required structural info (absent walls and holes), we can
+	# turn this hollow into a series of textured brushes...
 	io, ie = ldl.makeHollow(doc, worldspawn, s, o, e, absentwalls, holes, style)
 	# Contained solids, hollows and entities...
 	for node in hollow.childNodes:
 		processNode(doc, hollow, worldspawn, s, io, node)
 	# We can't remove the child or we screw over tree traversal (urgh)...
 	ldl.insertPlaceholder(doc, parent, hollow)
+
 
 def processSolid(doc, parent, worldspawn, sf, offset, solid):
 	'''Note: uses style set in parent hollow.'''
@@ -153,7 +170,8 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				ldl.warning('only doors allowed as hole types; not plats or others.')
 			# FIXME deal with other types
 			holes.append(ldl.Hole2D(ldl.Point2D(float(ho_x), float(ho_y)), ldl.Point2D(float(he_x), float(he_y)), type, props))
-		# Built split (2D) parts into 3D brushes; mapping of coords to 3D depends on which direction/face the hole was constructed in.
+		# Built split (2D) parts into 3D brushes; mapping of coords to 3D
+		# depends on which direction/face the hole was constructed in.
 		if f == ldl.DCP_NORTH:
 			parts = split.splitWall(
 				ldl.Region2D(
