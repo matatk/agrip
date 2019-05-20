@@ -60,7 +60,7 @@ class MapParser:
 			while not exitflag:
 				res_prop = r_property.search(chunk[offset:])
 				if res_prop:
-					sys.stdout.write(self.padding+self.padding+'<property name=\'' + res_prop.group('name') + '\' value=\'' + res_prop.group('val') + '\' />\n')
+					sys.stdout.write(self.padding+self.padding+'<property name="' + res_prop.group('name') + '" value="' + res_prop.group('val') + '" />\n')
 					offset = offset + res_prop.end()
 				else:
 					exitflag = 1
@@ -116,10 +116,10 @@ class MapParser:
 			self.padding = self.padding + '  '
 
 	def parseMap(self):
-		sys.stdout.write('<?xml version=\'1.0\' ?>\n')
+		sys.stdout.write('<?xml version="1.0" ?>\n')
 		sys.stdout.write(ldl.boilerplate)
 		#sys.stdout.write('<!-- ' + ldl.stackdescs['00'] + ' -->\n<map>\n')
-		sys.stdout.write('<map stackdesc=\'' + ldl.stackdescs['00'] + '\' generator=\'' + __file__ + '\'>\n')
+		sys.stdout.write('<map stackdesc="' + ldl.stackdescs['00'] + '" generator="' + __file__ + '">\n')
 		self.parseMain(self.stream)
 		sys.stdout.write('</map>\n')
 		sys.stdout.close

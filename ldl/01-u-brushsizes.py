@@ -14,10 +14,14 @@
 """
 
 #import sys, xml.dom.minidom, re, ldl, xml.dom.ext
-import sys, xml.dom.minidom, re, ldl
+import sys
+import xml.dom.minidom
+import re
+import ldl
 from plane import Point, Plane3D
 
 r_planepoints = re.compile('(-?[0-9.]+) (-?[0-9.]+) (-?[0-9.]+)')
+
 
 # From the Python documentation...
 def getText(nodelist):
@@ -26,6 +30,7 @@ def getText(nodelist):
 		if node.nodeType == node.TEXT_NODE:
 			ret = ret + node.data
 	return ret
+
 
 def listBrushes(map):
 	brush_planes = []  # stores the (6) planes that make up one brush
@@ -51,7 +56,7 @@ def listBrushes(map):
 					float(point_match.group(2)),
 					float(point_match.group(3))))
 				# NB: We use floats above so that later calculations are still accurate.
-				ldl.uprint('        ' + str(plane_points[len(plane_points)-1]))
+				ldl.uprint('        ' + str(plane_points[len(plane_points) - 1]))
 			# Put points into a plane object...
 			brush_planes.append(
 				Plane3D(
@@ -96,7 +101,8 @@ def listBrushes(map):
 		psa = []
 		psb = []
 
-def intersect(P1,P2,P3):
+
+def intersect(P1, P2, P3):
 	#print 'P1', P1
 	#print 'P2', P2
 	#print 'P3', P3
@@ -106,17 +112,17 @@ def intersect(P1,P2,P3):
 	k1 = P1.k
 	k2 = P2.k
 	k3 = P3.k
-	ptop1 = ( N2.cross_product(N3) ) * k1
+	ptop1 = (N2.cross_product(N3)) * k1
 	#print 'top1', ptop1
-	ptop2 = ( N3.cross_product(N1) ) * k2
+	ptop2 = (N3.cross_product(N1)) * k2
 	#print 'top2', ptop2
-	ptop3 = ( N1.cross_product(N2) ) * k3
+	ptop3 = (N1.cross_product(N2)) * k3
 	#print 'top3', ptop3
 	ptop = ptop1 + ptop2 + ptop3
 	#print 'top', ptop
-	pbot = N1.dot_product( N2.cross_product(N3) )
+	pbot = N1.dot_product(N2.cross_product(N3))
 	#print 'bot', pbot
-	p = ptop/pbot
+	p = ptop.divide_coords_by(pbot)
 	#print 'p', p
 	#print
 	# for some reason sometimes these return -0.0 as one of the coors
@@ -127,6 +133,7 @@ def intersect(P1,P2,P3):
 	if p.z == 0:
 		p.z = 0
 	return p
+
 
 if __name__ == '__main__':
 	m = xml.dom.minidom.parse(sys.stdin)

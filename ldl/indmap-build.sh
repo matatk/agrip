@@ -33,7 +33,7 @@ if [ $? != 0 ]; then
 fi
 
 echo Cleaning up...
-rm -fv $MAP.h* $MAP.prt $MAP.lit $MAP.pts $MAP.map
+rm -f $MAP.h* $MAP.prt $MAP.lit $MAP.pts
 
 # NOTE: .bsp is already in $QMAPPATH dir (as are we).
 
