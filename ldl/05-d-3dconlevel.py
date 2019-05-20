@@ -63,31 +63,31 @@ dir_to_angle = {
 }
 
 facepos_to_fract = {
-	ldl.DCP_BOTTOMLEFT:	    ( 0.25, 0.25 ),
-	ldl.DCP_LEFT:	        ( 0.25, 0.50 ),
-	ldl.DCP_TOPLEFT:	    ( 0.25,	0.75 ),
+	ldl.DCP_BOTTOMLEFT:	    (0.25, 0.25),
+	ldl.DCP_LEFT:	        (0.25, 0.50),
+	ldl.DCP_TOPLEFT:	    (0.25, 0.75),
 
-	ldl.DCP_BOTTOM:	        ( 0.50, 0.25 ),
-	ldl.DCP_CENTRE:	        ( 0.50, 0.50 ),
-	ldl.DCP_TOP:	        ( 0.50,	0.75 ),
+	ldl.DCP_BOTTOM:	        (0.50, 0.25),
+	ldl.DCP_CENTRE:	        (0.50, 0.50),
+	ldl.DCP_TOP:	        (0.50, 0.75),
 
-	ldl.DCP_BOTTOMRIGHT:	( 0.75, 0.25 ),
-	ldl.DCP_RIGHT:	        ( 0.75,	0.50 ),
-	ldl.DCP_TOPRIGHT:	    ( 0.75, 0.75 )
+	ldl.DCP_BOTTOMRIGHT:	(0.75, 0.25),
+	ldl.DCP_RIGHT:	        (0.75, 0.50),
+	ldl.DCP_TOPRIGHT:	    (0.75, 0.75)
 }
 
 compass_to_fract = {
-	ldl.DCP_SOUTHWEST:	( 0.25, 0.25 ),
-	ldl.DCP_WEST:	    ( 0.25, 0.50 ),
-	ldl.DCP_NORTHWEST:	( 0.25,	0.75 ),
+	ldl.DCP_SOUTHWEST:	(0.25, 0.25),
+	ldl.DCP_WEST:	    (0.25, 0.50),
+	ldl.DCP_NORTHWEST:	(0.25, 0.75),
 
-	ldl.DCP_SOUTH:	    ( 0.50, 0.25 ),
-	ldl.DCP_CENTRE:	    ( 0.50, 0.50 ),
-	ldl.DCP_NORTH:	    ( 0.50,	0.75 ),
+	ldl.DCP_SOUTH:	    (0.50, 0.25),
+	ldl.DCP_CENTRE:	    (0.50, 0.50),
+	ldl.DCP_NORTH:	    (0.50, 0.75),
 
-	ldl.DCP_SOUTHEAST:	( 0.75, 0.25 ),
-	ldl.DCP_EAST:	    ( 0.75,	0.50 ),
-	ldl.DCP_NORTHEAST:	( 0.75, 0.75 )
+	ldl.DCP_SOUTHEAST:	(0.75, 0.25),
+	ldl.DCP_EAST:	    (0.75, 0.50),
+	ldl.DCP_NORTHEAST:	(0.75, 0.75)
 }
 
 sizes_con = {
@@ -158,7 +158,6 @@ def add_subsection(parent, secname):
 
 def add_subsection_element(parent, secname, hash):
 	if secname not in parent:
-		#ldl.warning('add_subsection_element: parent doesn\'t have subsection \'' + str(secname) + '\'; creating it...')
 		add_subsection(parent, secname)
 	# Now add the thing we were here to add...
 	if isinstance(secname, dict):
@@ -231,7 +230,6 @@ def rwo_num():
 	for v in list(rwo.values()):
 		if not v:
 			ctr = ctr + 1
-	#ldl.uprint(pp.pformat(rwo))
 	return ctr
 
 
@@ -245,14 +243,11 @@ def cwo_num_room(r):
 	ctr = 0
 	for c in get_children(r, OT_CON):
 		if 'origin' not in c:
-			#ldl.uprint('cwo_num_room: con w/o origin field; target: ' + str(get_property(c, 'target')))
 			ctr = ctr + 1
 		else:
 			if not get_property(c, 'origin'):
-				#ldl.uprint('cwo_num_room: con w/ null origin field; target: ' + str(get_property(c, 'target')))
 				ctr = ctr + 1
 			else:
-				#ldl.uprint('cwo_num_room: con w/ origin ' + str(get_property(c, 'origin')) + '; target: ' + str(get_property(c, 'target')))
 				pass
 	for x in get_children(r, OT_ROOM):
 		ctr = ctr + cwo_num_room(x)
@@ -264,7 +259,6 @@ def cwo_num(m):
 	ctr = 0
 	for r in get_children(m, OT_ROOM):
 		ctr = ctr + cwo_num_room(r)
-	#ldl.uprint('cwo_num: ' + str(ctr))
 	return ctr
 
 
@@ -300,17 +294,17 @@ def set_room_size(r):
 def get_room_size(r):
 	'''Given a room, return a Point corresponding to its size/extent.'''
 	r_size = get_property(r, 'size')
-	#r_id = get_property(r, 'id')
 	if r_size:
 		if not r_size2d.match(r_size):
 			r_size = convert_coords(OT_ROOM, r_size)
 	else:
-		#ldl.warning('no size specified for room \'' + r_id + '\'; using default (medium).')
 		r_size = convert_coords(OT_ROOM, 'med')
 	return ldl.getPoint(r_size)
 
 
-def hole_origin(hole_centre, hole_size, hole_wall, brush_origin, brush_size, floating=False):
+def hole_origin(
+	hole_centre, hole_size, hole_wall, brush_origin, brush_size,
+	floating=False):
 	'''Given
 			centre of hole (absolute),
 			size of hole,
@@ -366,14 +360,15 @@ def target_brush_origin_core(hole_centre2d, wall_size, hole_size, pos=None):
 		return hole_centre2d - hole_centre
 
 
-def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
+def target_brush_origin(
+	hole_centre, hole_size, room_size, hole_wall, pos=None):
 	'''Given
 			centre of hole (absolute),
 			size of hole,
 			size of room,
 			wall of hole,
 	work out the origin of the face the hole is on.'''
-	wall_offset = Point(0, 0, 0)  # the origin of the wall wrt the origin of the room
+	wall_offset = Point(0, 0, 0)  # origin of the wall wrt origin of the room
 	room_offset = Point(0, 0, 0)  # FIXME
 
 	if hole_wall == ldl.DCP_NORTH or hole_wall == ldl.DCP_SOUTH:
@@ -382,7 +377,8 @@ def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
 		if hole_wall == ldl.DCP_NORTH:
 			wall_offset = wall_offset + Point(0, room_size.y, 0)
 			room_offset.y = -room_size.y
-		wall_origin2d = target_brush_origin_core(hole_centre2d, wall_size2d, hole_size, pos)
+		wall_origin2d = target_brush_origin_core(
+			hole_centre2d, wall_size2d, hole_size, pos)
 		wall_origin3d = Point(wall_origin2d.x, hole_centre.y, wall_origin2d.y)
 	elif hole_wall == ldl.DCP_WEST or hole_wall == ldl.DCP_EAST:
 		hole_centre2d = ldl.Point2D(hole_centre.y, hole_centre.z)
@@ -390,7 +386,8 @@ def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
 		if hole_wall == ldl.DCP_EAST:
 			wall_offset = wall_offset + Point(room_size.x, 0, 0)
 			room_offset.x = -room_size.x
-		wall_origin2d = target_brush_origin_core(hole_centre2d, wall_size2d, hole_size, pos)
+		wall_origin2d = target_brush_origin_core(
+			hole_centre2d, wall_size2d, hole_size, pos)
 		wall_origin3d = Point(hole_centre.x, wall_origin2d.x, wall_origin2d.y)
 	elif hole_wall == ldl.DCP_UP or hole_wall == ldl.DCP_DOWN:
 		# default hole pos for hole is 'c'...
@@ -402,7 +399,8 @@ def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
 		if hole_wall == ldl.DCP_UP:
 			wall_offset = wall_offset + Point(0, 0, room_size.z)
 			room_offset.z = -room_size.z
-		wall_origin2d = target_brush_origin_core(hole_centre2d, wall_size2d, hole_size, pos)
+		wall_origin2d = target_brush_origin_core(
+			hole_centre2d, wall_size2d, hole_size, pos)
 		wall_origin3d = Point(wall_origin2d.x, wall_origin2d.y, hole_centre.z)
 	else:
 		ldl.error('target_brush_origin: invalid wall specified whilst trying to put a hole into a wall.')
@@ -417,15 +415,19 @@ def target_brush_origin(hole_centre, hole_size, room_size, hole_wall, pos=None):
 def real_wall_size(wall_size):
 	'''Account for the fact that the rooms will have borders when computing
 	with face sizes.'''
-	# FIXME need to know direction (and if other walls will be absent) to get this really right.
+	# FIXME need to know direction (and if other walls will be absent) to get
+	# this really right.
 	rws = ldl.Point2D(wall_size.x - ldl.lip * 2, wall_size.y - ldl.lip * 2)
-	ldl.uprint('real_wall_size: ws = ' + wall_size.__str__() + '; rws = ' + str(rws))
+	ldl.uprint(
+		'real_wall_size: ws = ' + wall_size.__str__() + '; rws = ' + str(rws))
 	return rws
 
 
 def fit_hole_in_wall(wall_size, hole_size, pos):
 	prelim = ldl.getPoint2D(convert_coords(OT_CON, pos, wall_size, dir))
-	ldl.uprint('fit_hole_in_wall: wall_size: ' + str(wall_size) + '; prelim: ' + str(prelim))
+	ldl.uprint(
+		'fit_hole_in_wall: wall_size: ' + str(wall_size)
+		+ '; prelim: ' + str(prelim))
 	# We need to move it up/down and left/right to make it fit...
 	attempts = 0
 	pos_x_ok = neg_x_ok = pos_y_ok = neg_y_ok = False
@@ -440,13 +442,15 @@ def fit_hole_in_wall(wall_size, hole_size, pos):
 		if not pos_x_ok and pos_x <= wall_size.x:
 			ldl.uprint('fit_hole_in_wall: hole +ve x extent fits.')
 			pos_x_ok = True
-		if not neg_x_ok and neg_x >= 1:  # FIXME setting to 0 makes targ wall totally solid!
+		if not neg_x_ok and neg_x >= 1:
+			# FIXME setting to 0 makes targ wall totally solid!
 			ldl.uprint('fit_hole_in_wall: hole -ve x extent fits.')
 			neg_x_ok = True
 		if not pos_y_ok and pos_y <= wall_size.y:
 			ldl.uprint('fit_hole_in_wall: hole +ve y extent fits.')
 			pos_y_ok = True
-		if not neg_y_ok and neg_y >= 1:  # FIXME setting to 0 makes targ wall totally solid!
+		if not neg_y_ok and neg_y >= 1:
+			# FIXME setting to 0 makes targ wall totally solid!
 			ldl.uprint('fit_hole_in_wall: hole -ve y extent fits.')
 			neg_y_ok = True
 		# Can we leave?
@@ -461,14 +465,19 @@ def fit_hole_in_wall(wall_size, hole_size, pos):
 		elif not pos_y_ok:
 			prelim = prelim - ldl.Point2D(0, 1)
 		else:
-			ldl.uprint('fit_hole_in_wall: couldn\'t fit hole (' + str(hole_size) + ') in face (' + str(wall_size) + ') - it is larger than the face.')
+			ldl.uprint(
+				'fit_hole_in_wall: couldn\'t fit hole ('
+				+ str(hole_size) + ') in face (' + str(wall_size)
+				+ ') - it is larger than the face.')
 			return False
 		attempts = attempts + 1
 
 	if exitflag:
 		return prelim
 	else:
-		ldl.uprint('fit_hole_in_wall: couldn\'t fit hole (' + str(hole_size) + ') in face (' + str(wall_size) + ') - ran out of adjustment attempts.')
+		ldl.uprint('fit_hole_in_wall: couldn\'t fit hole ('
+				+ str(hole_size) + ') in face (' + str(wall_size)
+				+ ') - ran out of adjustment attempts.')
 		return False
 
 
@@ -494,7 +503,9 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 	if not r_origin:
 		return None
 
-	wall_origin = Point(0, 0, 0)  # eventually the hole origin will be constructed from room origin + wall offset + hole centre offset
+	wall_origin = Point(0, 0, 0)
+	# eventually the hole origin will be constructed from room origin + wall
+	# offset + hole centre offset
 
 	# Get size of wall (2D)...
 	if h_wall == ldl.DCP_NORTH or h_wall == ldl.DCP_SOUTH:
@@ -526,11 +537,16 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 
 	# Check for holes that are too big...
 	if h_extent.x > wall_size.x or h_extent.y > wall_size.y:
-		ldl.uprint('hole_centre: h_extent ' + str(h_extent) + ' > wall_size ' + str(wall_size))
+		ldl.uprint(
+			'hole_centre: h_extent ' + str(h_extent) + ' > wall_size '
+			+ str(wall_size))
 		ldl.error('hole in wall \'' + con_info['wall'] + '\' of room \'' + r_id + '\' is bigger than the wall.  Try making the hole smaller, or the room larger.')
 	else:
-		ldl.uprint('hole_centre: h_extent ' + str(h_extent) + ' <= wall_size ' + str(wall_size))
+		ldl.uprint(
+			'hole_centre: h_extent ' + str(h_extent) + ' <= wall_size '
+			+ str(wall_size))
 		return out
+
 
 def get_room_by_id(parentgroup, id):
 	'''go through array of rooms, find one with matching id and return it.'''
@@ -564,7 +580,7 @@ def convert_coords_extentsym(objtype, word, index, parent=None):
 	if not parent:
 		ldl.error('convert_coords_extentsym: trying to place object of type \'' + objtype + '\' but not given a parent to place this object within.')
 
-	if type(parent) == type(Point(0, 0, 0)):
+	if isinstance(parent, Point):
 		parent_size = [parent.x, parent.y, parent.z]
 	else:
 		parent_size = parent['size']
@@ -578,7 +594,9 @@ def convert_coords_extentsym(objtype, word, index, parent=None):
 	elif objtype == OT_ITEM:
 		ldl.error('convert_coords_extentsym: items not implemented yet.')
 	else:
-		ldl.error('convert_coords_extentsym: invalid object type \'' + objtype + '\' specified.')
+		ldl.error(
+			'convert_coords_extentsym: invalid object type \''
+			+ objtype + '\' specified.')
 
 
 def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
@@ -590,10 +608,15 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 	elif mode == CC_FACEPOS:
 		answer_hash = facepos_to_fract
 	else:
-		ldl.error('convert_coords_compass_facepos: invalid mode \'' + str(mode) + '\' specified - expected \'' + str(CC_COMPASS) + '\' or \'' + str(CC_FACEPOS) + '\'.')
+		ldl.error(
+			'convert_coords_compass_facepos: invalid mode \'' + str(mode)
+			+ '\' specified - expected \'' + str(CC_COMPASS) + '\' or \''
+			+ str(CC_FACEPOS) + '\'.')
 
 	if not parent:
-		ldl.error('convert_coords_compass_facepos: trying to place object of type \'' + objtype + '\' but not given a parent to place this object within.')
+		ldl.error(
+			'convert_coords_compass_facepos: trying to place object of type \''
+			+ objtype + '\' but not given a parent to place this object within.')
 
 	if objtype == OT_ROOM:
 		if word in answer_hash:
@@ -601,7 +624,9 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 			y = answer_hash[word][1] * parent.y
 			return str(x) + ' ' + str(y)
 		else:
-			ldl.error('convert_coords_compass_facepos: invalid facepos size \'' + str(word) + '\'.')
+			ldl.error(
+				'convert_coords_compass_facepos: invalid facepos size \''
+				+ str(word) + '\'.')
 	elif objtype == OT_CON:
 		# Do we have the direction/wall?
 		if not dir:
@@ -624,9 +649,13 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 			y = answer_hash[word][1] * parent.y
 			return str(x) + ' ' + str(y)
 		else:
-			ldl.error('convert_coords_compass_facepos: invalid facepos size \'' + str(word) + '\'.')
+			ldl.error(
+				'convert_coords_compass_facepos: invalid facepos size \''
+				+ str(word) + '\'.')
 	else:
-		ldl.error('convert_coords_compass_facepos: invalid object type \'' + objtype + '\' specified.')
+		ldl.error(
+			'convert_coords_compass_facepos: invalid object type \''
+			+ objtype + '\' specified.')
 
 
 def convert_coords_word(objtype, word, index, parent=None):
@@ -638,26 +667,32 @@ def convert_coords_word(objtype, word, index, parent=None):
 	elif objtype == OT_CON or objtype == OT_CON_ELEV:
 		return get_property(sizes_con, word, 'You\'ve requested an invalid size for connectors.  It might be a valid size for rooms but it isn\'t for connectors.  Valid sizes are:\n\t' + '\n\t'.join([str(s) for s in sizes_con]))
 	else:
-		ldl.error('convert_coords_words: invalid object type \'' + objtype + '\' specified.')
+		ldl.error(
+			'convert_coords_words: invalid object type \''
+			+ objtype + '\' specified.')
 
 
 def convert_coords_dispatch(objtype, part, index, parent, dir):
 	'''This function takes one part of the overall coordinate string.
 	It works out its format and calls the appropriate conversion routein.'''
 	# Currently all of thse require strings, so convert now...
-	if type(part) != type('hello'):
+	if not isinstance(part, str):
 		part = str(part)
 	# Now process...
 	if r_sizeword.match(part):
 		out = convert_coords_word(objtype, part, index, parent)
 	elif r_compass.match(part):
-		out = convert_coords_compass_facepos(CC_COMPASS, objtype, part, index, parent, dir)
+		out = convert_coords_compass_facepos(
+			CC_COMPASS, objtype, part, index, parent, dir)
 	elif r_facepos.match(part):
-		out = convert_coords_compass_facepos(CC_FACEPOS, objtype, part, index, parent, dir)
+		out = convert_coords_compass_facepos(
+			CC_FACEPOS, objtype, part, index, parent, dir)
 	elif r_extentsym.match(part):
 		out = convert_coords_extentsym(objtype, part, index, parent)
 	else:
-		ldl.error('convert_coords_dispatch: unknown size string format \'' + part + '\'.')
+		ldl.error(
+			'convert_coords_dispatch: unknown size string format \''
+			+ part + '\'.')
 	return out
 
 
@@ -665,14 +700,15 @@ def convert_coords_check_size_type(objtype, size):
 	'''Given the object type and size, return the split size string, whether we
 	think we're looking at a 2D, or a 3D, conversion (based on objtype).'''
 	size_parts = []
-	if type(size) == type('hello'):
+	if isinstance(size, str):
 		size_parts = size.split()
 		if len(size_parts) == 3:
 			mode3d = True
 		elif len(size_parts) == 2:
 			mode3d = False
 		elif len(size_parts) == 1:
-			# We can't be sure if we're meant to be in mode3d or not.  Look at boject type.
+			# We can't be sure if we're meant to be in mode3d or not.  Look at
+			# boject type.
 			if objtype == OT_CON or objtype == OT_CON_ELEV:
 				mode3d = False
 			else:
@@ -686,7 +722,9 @@ def convert_coords_check_size_type(objtype, size):
 		size_parts = [size.x, size.y]
 		mode3d = False
 	else:
-		ldl.error('convert_coords: don\'t know how to deal with type of \'' + str(size) + '\'.')
+		ldl.error(
+			'convert_coords: don\'t know how to deal with type of \''
+			+ str(size) + '\'.')
 	return size_parts, mode3d
 
 
@@ -696,7 +734,7 @@ def convert_coords_check_parent_type(parent):
 	if isinstance(parent, dict):
 		parent = parent['size']
 		return convert_coords_check_parent_type(parent)
-	elif type(parent) == type('hello'):
+	elif isinstance(parent, str):
 		# It can be a string that is made of numbers, but it can't be 'med big med'.
 		# FIXME where is this checked?
 		parent_parts = parent.split()
@@ -709,13 +747,15 @@ def convert_coords_check_parent_type(parent):
 	elif isinstance(parent, Point) or isinstance(parent, ldl.Point2D):
 		return parent
 	else:
-		ldl.error('convert_coords_check_parent_type: unkown parent type \'' + str(parent) + '\'.')
+		ldl.error(
+			'convert_coords_check_parent_type: unkown parent type \''
+			+ str(parent) + '\'.')
+
 
 def convert_coords(objtype, size, parent=None, dir=None):
 	'''Convert a size to game units.  This function checks the length of the
 	incoming coordinate string, it then passes the parts of the string to be
 	converted seperately.'''
-	#ldl.uprint('convert_coords: ' + str(objtype) + '; ' + str(size) + '; ' + pp.pformat(parent))
 	# FIXME items can't be 'nw 10% <x>' but they can be '25% 70% 10%'
 	out = []
 	flat_out = None
@@ -730,10 +770,8 @@ def convert_coords(objtype, size, parent=None, dir=None):
 	# work out type of parent...
 	if parent:
 		parent = convert_coords_check_parent_type(parent)
-	#ldl.uprint('convert_coords: parent is ' + str(parent))
 
 	# make sure we've got the right number of coords
-	#ldl.uprint('convert_coords: ' + size)
 	if objtype == OT_ROOM:
 		if len(size_parts) == 1:
 			# We need to check if it's a size or a position...
@@ -744,7 +782,8 @@ def convert_coords(objtype, size, parent=None, dir=None):
 					out.append(convert_coords_dispatch(OT_ROOM, size, i, parent, dir))
 				flat_out = ' '.join([str(o) for o in out])
 			else:
-				# it's a position so don't repeat it thrice -- i.e. it could be ``nw'' for example.
+				# it's a position so don't repeat it thrice -- i.e. it could be
+				# ``nw'' for example.
 				flat_out = convert_coords_dispatch(OT_ROOM, size, 0, parent, dir)
 		elif not mode3d and len(size_parts) == 2:
 			for i in range(3):
@@ -785,7 +824,9 @@ def convert_coords(objtype, size, parent=None, dir=None):
 				ldl.error('convert_coords: currently the only supported coordinate types for connection elevatoin devices (stairs and plats) are size names and the expansion symbol (+).')
 		elif len(size_parts) == 2:
 			for i in range(2):
-				out.append(convert_coords_dispatch(OT_CON_ELEV, size_parts[i], i, parent, dir))
+				out.append(
+					convert_coords_dispatch(
+						OT_CON_ELEV, size_parts[i], i, parent, dir))
 			flat_out = ' '.join([str(o) for o in out])
 		else:
 			ldl.error('convert_coords: you must specify only 1 or both portions of the size/coordinates for connector elevation device (e.g. \'' + ldl.ST_STAIRS + '\' or \'' + ldl.ST_PLAT + '\' extents.')
@@ -807,8 +848,9 @@ def convert_coords(objtype, size, parent=None, dir=None):
 		else:
 			ldl.error('convert_coords: you must specify either 1, 2 or all 3 portions of the coordinates for items.')
 	else:
-		ldl.error('convert_coords: unkown object type \'' + objtype + '\' specified.')
-	#ldl.uprint('convert_coords: returning \'' + str(flat_out) + '\'.')
+		ldl.error(
+			'convert_coords: unkown object type \''
+			+ objtype + '\' specified.')
 	return flat_out
 
 
@@ -837,11 +879,17 @@ def get_property(obj, field, mandatory=None):
 
 	if not retval and mandatory:
 		if 'id' in obj and obj['id']:
-			ldl.error('Field \'' + str(field) + '\' in element with id \'' + str(obj['id']) + '\' was not specified in your map, but is mandatory.')
+			ldl.error(
+				'Field \'' + str(field)
+				+ '\' in element with id \'' + str(obj['id'])
+				+ '\' was not specified in your map, but is mandatory.')
 		elif 'type' in obj and obj['type']:
-			ldl.error('Field \'' + str(field) + '\' in element of type \'' + str(obj['type']) + '\' was not specified in your map, but is mandatory.')
+			ldl.error(
+				'Field \'' + str(field)
+				+ '\' in element of type \'' + str(obj['type'])
+				+ '\' was not specified in your map, but is mandatory.')
 		else:
-			if type(mandatory) == type(''):
+			if isinstance(mandatory, str):
 				ldl.error(mandatory)
 			else:
 				ldl.error('Field \'' + str(field) + '\' is required for an element in your map, but was not supplied.')
@@ -851,9 +899,9 @@ def get_property(obj, field, mandatory=None):
 
 def set_property(obj, field, value, overwrite=True):
 	'''Set a property to a particular value.
-	If overwrite is False, we leave what's there there.
-	values are converted to strings automatically.
-	Returns the non-converted value.'''
+
+	If overwrite is False, we leave what's there there.  values are converted
+	to strings automatically.  Returns the non-converted value.'''
 	if field in obj:
 		if overwrite:
 			if value is not None:
@@ -881,7 +929,10 @@ def coords_centre(origin, size):
 
 
 def coninfostr(ci):
-	return 'connection from \'' + ci['thisroom'] + '\' to \'' + str(ci['target']) + '\' via wall \'' + str(ci['wall']) + '\' of size \'' + str(ci['size']) + '\', offset \'' + str(ci['origin']) + '\' and type \'' + str(ci['type']) + '\'.'
+	return 'connection from \'' + ci['thisroom'] + '\' to \'' + str(ci['target'])
+	+ '\' via wall \'' + str(ci['wall']) + '\' of size \'' + str(ci['size'])
+	+ '\', offset \'' + str(ci['origin']) + '\' and type \'' + str(ci['type'])
+	+ '\'.'
 
 
 def process_rooms(parentgroup, parent):
@@ -903,7 +954,8 @@ def process_rooms_core(parentgroup, r, parent):
 		rwo_update(r_id, r_origin)
 	else:
 		if f_firstroom:
-			r_origin = set_property(r, 'origin', Point(ldl.MAP_ORIGIN[0], ldl.MAP_ORIGIN[1], ldl.MAP_ORIGIN[2]))
+			r_origin = set_property(r, 'origin', Point(
+				ldl.MAP_ORIGIN[0], ldl.MAP_ORIGIN[1], ldl.MAP_ORIGIN[2]))
 			f_firstroom = False
 			rwo_update(r_id, r_origin)
 		else:
@@ -913,7 +965,6 @@ def process_rooms_core(parentgroup, r, parent):
 	r_size = set_room_size(r)
 
 	# Update hash...
-	#if r_origin: set_property(r, 'origin', str(r_origin))
 	set_property(r, 'style', default_style, overwrite=False)
 
 	# Process connections...
@@ -945,8 +996,6 @@ def process_rooms_core(parentgroup, r, parent):
 			'elevtype': get_property(c, 'elevtype'),
 			'extent': get_property(c, 'extent')
 		}
-		#ldl.uprint(r_id + ': connection ' + pp.pformat(con_info))
-		#ldl.uprint('CONNECTION:' + pp.pformat(c))
 
 		# FIXME error-check type; is this done elsewhere?
 		con_type = con_info['type']
@@ -954,7 +1003,9 @@ def process_rooms_core(parentgroup, r, parent):
 			if con_type == 'door':
 				pass
 			else:
-				ldl.error('Invalid connection type \'' + str(con_type) + '\' specified in connection from \'' + r_id + '\'.')
+				ldl.error(
+					'Invalid connection type \'' + str(con_type)
+					+ '\' specified in connection from \'' + r_id + '\'.')
 		else:
 			pass
 
@@ -1005,7 +1056,8 @@ def process_rooms_core(parentgroup, r, parent):
 
 				# Get ready to add the corresponding connection to our target...
 				# Don't specify type as a door is only needed once.
-				# FIXME but if the connection is back to an earlier room the door will be lost on next pass.
+				# FIXME but if the connection is back to an earlier room the
+				# door will be lost on next pass.
 				target_con_info = {
 					'size': str(con_info['size']),
 					'target': r_id,  # target points back to this room
@@ -1017,54 +1069,73 @@ def process_rooms_core(parentgroup, r, parent):
 				ldl.uprint(coninfostr(con_info))
 				ldl.uprint(str(target_con_info))
 
-				# Do we need to remove the existing entry for this connection, in con_target?
+				# Do we need to remove the existing entry for this connection,
+				# in con_target?
 				already_there = False
 				if con_target[OT_CON]:
-					ldl.uprint(r_id + ' to ' + con_target['id'] + ': checking cons in target.')
+					ldl.uprint(
+						r_id + ' to ' + con_target['id'] + ': checking cons in target.')
 					# Check each connection...
 					for entry in con_target[OT_CON]:
 						if get_property(entry, 'origin'):
 							if entry['target'] == target_con_info['target']:
 								already_there = True
-								ldl.uprint(r_id + ' to ' + con_target['id'] + ': existing con has origin.')
+								ldl.uprint(
+									r_id + ' to ' + con_target['id'] + ': existing con has origin.')
 						else:
 							if entry['target'] == target_con_info['target']:
 								# If elevtype attributes are not equal, copy this one across...
 								if get_property(entry, 'elevtype'):
-									ldl.uprint(r_id + ' to ' + con_target['id'] + ': using existing con w/o origin\'s \'elevtype\' attribute.')
+									ldl.uprint(
+										r_id + ' to ' + con_target['id']
+										+ ': using existing con w/o origin\'s \'elevtype\' attribute.')
 									target_con_info['elevtype'] = entry['elevtype']
 								# If extent attributes are not equal, copy this one across...
 								if get_property(entry, 'extent'):
-									ldl.uprint(r_id + ' to ' + con_target['id'] + ': using existing con w/o origin\'s \'extent\' attribute.')
+									ldl.uprint(
+										r_id + ' to ' + con_target['id']
+										+ ': using existing con w/o origin\'s \'extent\' attribute.')
 									target_con_info['extent'] = entry['extent']
 								# If pos attributes are not equal, copy this one across...
 								if get_property(entry, 'pos'):
-									ldl.uprint(r_id + ' to ' + con_target['id'] + ': using existing con w/o origin\'s \'pos\' attribute.')
+									ldl.uprint(
+										r_id + ' to ' + con_target['id']
+										+ ': using existing con w/o origin\'s \'pos\' attribute.')
 									target_con_info['pos'] = entry['pos']
 								# If type attributes are not equal, copy this one across...
 								if get_property(entry, 'type'):
-									ldl.uprint(r_id + ' to ' + con_target['id'] + ': using existing con w/o origin\'s \'type\' attribute.')
+									ldl.uprint(
+										r_id + ' to ' + con_target['id']
+										+ ': using existing con w/o origin\'s \'type\' attribute.')
 									target_con_info['type'] = entry['type']
 								# Now remove exisiting connection...
 								con_target[OT_CON].remove(entry)
-								ldl.uprint(r_id + ' to ' + con_target['id'] + ': removing existing con w/o origin from target')
+								ldl.uprint(
+									r_id + ' to ' + con_target['id']
+									+ ': removing existing con w/o origin from target')
 					# Add the ``new'' connection to our target?
 					if not already_there:
 						con_target[OT_CON].append(target_con_info)
-						ldl.uprint(r_id + ' to ' + con_target['id'] + ': adding opposite con to target')
+						ldl.uprint(
+							r_id + ' to ' + con_target['id'] + ': adding opposite con to target')
 				else:
 					# Target has no connections; just add this one...
 					# FIXME should we be able to do this in the above loop instead?
-					ldl.uprint(r_id + ' to ' + con_target['id'] + ': target has no cons; adding.')
+					ldl.uprint(
+						r_id + ' to ' + con_target['id'] + ': target has no cons; adding.')
 					con_target[OT_CON].append(target_con_info)
 			else:
-				ldl.error('Couldn\'t find room \'' + r_id + '\' whilst processing the ' + coninfostr(con_info))
+				ldl.error(
+					'Couldn\'t find room \'' + r_id + '\' whilst processing the '
+					+ coninfostr(con_info))
 
 			# Do we need to work out the origin of the target?
 			targ_origin = get_property(con_target, 'origin')
 			if con_centre and not targ_origin:
 				# Work out target origin and hole origin (on this side)...
-				ldl.uprint('con_centre: ' + str(con_centre) + '; target_con_info: ' + pp.pformat(target_con_info))
+				ldl.uprint(
+					'con_centre: ' + str(con_centre) + '; target_con_info: '
+					+ pp.pformat(target_con_info))
 				targ_origin = target_brush_origin(
 					con_centre,
 					con_info['size'],
@@ -1073,14 +1144,15 @@ def process_rooms_core(parentgroup, r, parent):
 					target_con_info['pos'])
 				set_property(con_target, 'origin', targ_origin)
 				rwo_update(con_target['id'], targ_origin)
-				ldl.uprint('Origin of target room \'' + con_target['id'] + '\' is \'' + str(targ_origin) + '\'.')
+				ldl.uprint(
+					'Origin of target room \'' + con_target['id'] + '\' is \''
+					+ str(targ_origin) + '\'.')
 			else:
 				pass  # target already has origin computed
 				# FIXME should we check it's ``right''?
 		elif con_info['target'] and con_info['target'] == r_id:
 			ldl.error('A connection in room \'' + r_id + '\' points to itself.  Please ensure all connections in this room point to other rooms.')
 		else:
-			#ldl.warning('No target specified for ' + coninfostr(con_info))  # FIXME check it's inside another room
 			nontargetted_cons = True
 			con_centre = hole_centre(
 				Point(0, 0, 0),
@@ -1103,27 +1175,27 @@ def process_rooms_core(parentgroup, r, parent):
 			# Might we need stairs/plat to reach it?
 			dist = con_centre - r_origin
 			if dist.z > ldl.ELEV_DIST:
-				# Work out more accurate reading of dist, based on wall the conection is on...
+				# Work out more accurate reading of dist, based on wall the
+				# conection is on...
 				wall = con_info['wall']
 				if wall == ldl.DCP_UP or wall == ldl.DCP_DOWN:
-					ldl.warning('con_elev: vertical connection elevation devices not implemented yet.')
+					ldl.warning(
+						'con_elev: vertical connection elevation devices not implemented yet.')
 				else:  # N/S/E/W
-					dist.z = dist.z - con_info['size'].y/2
+					dist.z = dist.z - con_info['size'].y / 2
 
 				# Do we still need an elev?  Only go ahead if user hasn't told us not to.
 				if dist.z > ldl.ELEV_DIST and get_property(con_info, 'elevtype') != 'none':
 					# Sanity Check -- have we all the info we need?
 					elevtype = get_property(con_info, 'elevtype', con_elev_err_msg(r_id, con_target['id'], 'you have not specified an elevation device type (e.g. \'' + ldl.ST_STAIRS + '\' or \'' + ldl.ST_PLAT + '\'); please do so.'))
-					#extent = get_property(con_info, 'extent', con_elev_err_msg(r_id, con_target['id'], 'you have not specifed an \'extent\' attribute for this connection, so I cannot determine how big the elevation device must be.'))
 					extent = get_property(con_info, 'extent')
 
 					# Work out real area available (inside brush)...
 					area2d = real_wall_size(r_size)
-					area3d = Point(area2d.x, area2d.y, dist.z)#-con_info['size'].y/2-ldl.lip)
+					area3d = Point(area2d.x, area2d.y, dist.z)
 					ldl.uprint('con_elev: area availalbe: ' + str(area3d))
 					# Convert extent size...
 					if not extent:
-						#ldl.warning('con_elev: size of elevation device (stirs or lift) not specifed; attempting to use a sensible value...')
 						extent2d = ldl.Point2D(con_info['size'].x, con_info['size'].x)
 					else:
 						extent2d = ldl.getPoint2D(convert_coords(OT_CON_ELEV, extent, area3d))
@@ -1197,14 +1269,17 @@ def process_rooms_core(parentgroup, r, parent):
 		if r_compass.match(i_pos):
 			set_property(i, 'pos', convert_coords(OT_ITEM, i_pos, r))
 
-	# Process child rooms (can't connect to anything but themselves and this room)...
+	# Process child rooms (can't connect to anything but themselves and this
+	# room)...
 	process_rooms(get_children(r, OT_ROOM), r)
 
 
 def serialise_room(r):
 	'''Output XML for a given room'''
 	padding_update(True)
-	padded_print('<hollow id=\'' + r['id'] + '\' origin=\'' + r['origin'] + '\' extent=\'' + r['size'] + '\' style=\'' + r['style'] + '\'>')
+	padded_print(
+		'<hollow id=\'' + r['id'] + '\' origin=\'' + r['origin'] + '\' extent=\''
+		+ r['size'] + '\' style=\'' + r['style'] + '\'>')
 	# Connections
 	connections = get_property(r, OT_CON)
 	if connections:
@@ -1218,7 +1293,9 @@ def serialise_room(r):
 				type = ' type=\'' + c['type'] + '\''
 			else:
 				type = ''
-			padded_print('<hole wall=\'' + c['wall'] + '\' origin=\'' + c['origin'] + '\' extent=\'' + c['size'] + '\'' + type + ' />')
+			padded_print(
+				'<hole wall=\'' + c['wall'] + '\' origin=\'' + c['origin']
+				+ '\' extent=\'' + c['size'] + '\'' + type + ' />')
 		padding_update(False)
 		padded_print('</holes>')
 		padding_update(False)
@@ -1249,10 +1326,12 @@ def serialise_room(r):
 
 def serialise_builder(b):
 	padding_update(True)
-	padded_print('<builder origin=\'' + b['origin'] + '\' extent=\'' + b['extent'] + '\'>')
+	padded_print(
+		'<builder origin=\'' + b['origin'] + '\' extent=\'' + b['extent'] + '\'>')
 	padding_update(True)
 	if b['shape'] == ldl.ST_STAIRS:
-		padded_print('<shape type=\'stairs\' stepheight=\'15\' dir=\'' + b['dir'] + '\' />')
+		padded_print(
+			'<shape type=\'stairs\' stepheight=\'15\' dir=\'' + b['dir'] + '\' />')
 	elif b['shape'] == ldl.ST_PLAT:
 		padded_print('<shape type=\'plat\' position=\'d\' />')
 	else:
@@ -1276,7 +1355,9 @@ def serialise_item(i):
 		if 'angle' not in i:
 			padded_print('<property name=\'angle\' value=\'90\' />')
 		else:
-			padded_print('<property name=\'angle\' value=\'' + str(compdir_to_angle(i['angle'])) + '\' />')
+			padded_print(
+				'<property name=\'angle\' value=\''
+				+ str(compdir_to_angle(i['angle'])) + '\' />')
 	padding_update(False)
 	padded_print('</entity>')
 	padding_update(False)
@@ -1291,9 +1372,13 @@ def compdir_to_angle(dir):
 			if dir in dir_to_angle:
 				return dir_to_angle[dir]
 			else:
-				ldl.error('compdir_to_angle: I don\'t know the angle for compass direction \'' + dir + '\'.')
+				ldl.error(
+					'compdir_to_angle: I don\'t know the angle for compass direction \''
+					+ dir + '\'.')
 		else:
-			ldl.error('compdir_to_angle: specified direction \'' + str(dir) + '\' doesn\'t seem to be a valid compass direction (or a supported one for translation).')
+			ldl.error(
+				'compdir_to_angle: specified direction \'' + str(dir)
+				+ '\' doesn\'t seem to be a valid compass direction (or a supported one for translation).')
 
 
 def serialise(m):
@@ -1367,14 +1452,18 @@ if __name__ == "__main__":
 		ldl.error('It appears your map doesn\'t have a \'style\' attribute; please specify a style (e.g. base or medieval).')
 
 	# Parse rooms...
-	# NB: we give 3 attempts at this because if the user has not specifed rooms in connectivity order (probably impossible for compolex maps) we won't be able to work out all of their origins on the first, or maybe even second, go.
+	# NB: we give 3 attempts at this because if the user has not specifed rooms
+	# in connectivity order (probably impossible for compolex maps) we won't be
+	# able to work out all of their origins on the first, or maybe even second,
+	# go.
 	# FIXME do we need 3 passes in the worst case?  do we need more?
 	toplevelrooms = get_property(m, OT_ROOM)
 	# if there is only one room...
 	if isinstance(toplevelrooms, dict):
 		toplevelrooms = [toplevelrooms]
 	# Process the rooms for a given number of attempts...
-	# FIXME change this to make it see if we're making progress and pull the plug when we are not
+	# FIXME change this to make it see if we're making progress and pull the
+	# plug when we are not
 	exitflag = False
 	i = 0
 	if toplevelrooms:
@@ -1391,7 +1480,6 @@ if __name__ == "__main__":
 			ldl.error('There are still some rooms or connections between rooms that it was not possible to allocate positions in the 3D world for, even after ' + str(i) + ' attempts.  This is probably because these rooms are not connected to any other rooms.  Please ensure all rooms in your map are connected.')
 
 		# If we got here, we're OK...
-		#ldl.uprint(pp.pformat(x))
 		serialise(m)
 	else:
 		ldl.error('There doesn\'t seem to be at least \'room\' element inside the \'map\' element.')

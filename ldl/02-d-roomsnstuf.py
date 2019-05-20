@@ -12,24 +12,22 @@
 	* The same texture is applied to all planes of each brush.
 """
 
-#import sys, xml.dom.minidom, xml.dom.ext, re, ldl, split
 import sys
 import xml.dom.minidom
-#import re
 import ldl
 import split
-from plane import Point #, Plane3D
+from plane import Point
 
 paddinglevel = -1
 padding = '  '
 
 
 def processMap(doc):
-	#mapname = ''
 	map = doc.documentElement
 	worldspawn = processInfo(doc, map)
 	# Go through each successive element and process it accordingly.
-	# (Yes, this is very SAX-like but we don't use SAX because by using DOM we get to manipulate the tree as we go, which we do need to do.)
+	# (Yes, this is very SAX-like but we don't use SAX because by using DOM we
+	# get to manipulate the tree as we go, which we do need to do.)
 	for node in map.childNodes[1:]:
 		processNode(doc, map, worldspawn, s, Point(0, 0, 0), node)
 
@@ -51,7 +49,8 @@ def processInfo(doc, map):
 			ldl.error('Invalid map info property ' + ptype + ' specified.')
 	worldspawn = doc.createElement('entity')
 	worldspawn.appendChild(ldl.createProperty(doc, 'classname', 'worldspawn'))
-	worldspawn.appendChild(ldl.createProperty(doc, 'worldtype', str(worldtype_num)))
+	worldspawn.appendChild(
+		ldl.createProperty(doc, 'worldtype', str(worldtype_num)))
 	worldspawn.appendChild(ldl.createProperty(doc, 'message', mapname))
 	worldspawn.appendChild(ldl.createProperty(doc, 'wad', ldl.wadfile))
 	map.replaceChild(worldspawn, info)
@@ -60,15 +59,7 @@ def processInfo(doc, map):
 
 def processNode(doc, parent, worldspawn, s, offset, node):
 	global paddinglevel
-	#name = node.localName
 	paddinglevel = paddinglevel + 1
-#	for i in range(paddinglevel):
-#		ldl.uprint(padding, True)
-#
-#	if name:
-#		ldl.uprint(name)
-#	else:
-#		ldl.uprint('(no name -- comment)')
 	if node.localName == 'hollow':
 		processHollow(doc, parent, worldspawn, s, offset, node)
 	elif node.localName == 'solid':
@@ -151,7 +142,8 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			ldl.error('solid with no type also has no texture attribute set')
 	f = solid.getAttribute('holeface')
 	# Get holes info...
-	# FIXME this is repeated code from the hollow one -- any way we can refactor it?
+	# FIXME this is repeated code from the hollow one -- any way we can
+	# refactor it?
 	props = {}
 	holes = []
 	# Check if the solid has children (holes).
@@ -169,7 +161,10 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			else:
 				ldl.warning('only doors allowed as hole types; not plats or others.')
 			# FIXME deal with other types
-			holes.append(ldl.Hole2D(ldl.Point2D(float(ho_x), float(ho_y)), ldl.Point2D(float(he_x), float(he_y)), type, props))
+			holes.append(ldl.Hole2D(
+				ldl.Point2D(float(ho_x), float(ho_y)),
+				ldl.Point2D(float(he_x), float(he_y)),
+				type, props))
 		# Built split (2D) parts into 3D brushes; mapping of coords to 3D
 		# depends on which direction/face the hole was constructed in.
 		if f == ldl.DCP_NORTH:
@@ -181,7 +176,6 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				holes)
 			for part in parts:
 				part3d = ldl.addDim(part, ldl.DIM_Y, o.y, e.y)
-				#ldl.uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 				ldl.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
 		elif f == ldl.DCP_UP:
 			parts = split.splitWall(
@@ -191,8 +185,8 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				),
 				holes)
 			for part in parts:
-				part3d = ldl.addDim(part, ldl.DIM_Z, o.z+ldl.lip_small, e.z-ldl.lip_small*2)
-				#ldl.uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
+				part3d = ldl.addDim(
+					part, ldl.DIM_Z, o.z + ldl.lip_small, e.z - ldl.lip_small * 2)
 				ldl.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
 			else:
 				ldl.error('Unsupported holeface ' + f + ' requested for hole in solid.')
@@ -217,14 +211,16 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 	# We can't remove the child or we screw over tree traversal (urgh)...
 	ldl.insertPlaceholder(doc, parent, solid)
 
+
 def processEntity(doc, parent, offset, entity):
 	# Adjust coords...
-	for property in entity.childNodes:  # we assume all children are property nodes.
+	for property in entity.childNodes:  # assume all children are property nodes
 		if property.getAttribute('name') == 'origin':
 			o = ldl.getPoint(property.getAttribute('value')) + offset
 			property.setAttribute('value', str(o))
 	# Clone node (inc properties) and add to map...
 	doc.documentElement.appendChild(entity.cloneNode(True))
+
 
 if __name__ == '__main__':
 	ldl.stage = '02'
@@ -232,12 +228,12 @@ if __name__ == '__main__':
 	s = ldl.StyleFetcher()
 	try:
 		m = xml.dom.minidom.parse(sys.stdin)
-	except:
+	except:  # noqa E722
 		ldl.failParse()
 	ldl.remove_whitespace_nodes(m)
 	processMap(m)
-	m.getElementsByTagName('map')[0].setAttribute('stackdesc', ldl.stackdescs['02'])
+	m.getElementsByTagName('map')[0] \
+		.setAttribute('stackdesc', ldl.stackdescs['02'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
-	#xml.dom.ext.PrettyPrint(m)
 	print(m.toxml())
 	m.unlink()

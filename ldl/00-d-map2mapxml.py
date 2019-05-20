@@ -10,10 +10,13 @@
 """
 
 from xml.sax import ContentHandler, make_parser
-import sys, ldl
+import sys
+import ldl
+
 
 def norm_ws(text):
 	return ' '.join(text.split())
+
 
 class MapXML2Map(ContentHandler):
 	def __init__(self):
@@ -23,30 +26,31 @@ class MapXML2Map(ContentHandler):
 
 	def chPadding(self):
 		self.padding = ''
-		for i in range(0,self.paddinglevel):
+		for i in range(0, self.paddinglevel):
 			self.padding = self.padding + ' '
 
 	def startElement(self, name, attrs):
-		if	  name == 'map':
+		if name == 'map':
 			sys.stdout.write(ldl.boilerplate_map + '// ' + ldl.stackdescs['00'] + '\n')
-		elif	name == 'entity':
+		elif name == 'entity':
 			sys.stdout.write(self.padding + '// Entity \n' + self.padding + '{\n')
 			self.paddinglevel = self.paddinglevel + 1
 			self.chPadding()
-		elif	name == 'brush':
+		elif name == 'brush':
 			sys.stdout.write(self.padding + '// Brush \n' + self.padding + '{\n')
 			self.paddinglevel = self.paddinglevel + 1
 			self.chPadding()
-		elif	name == 'plane':
+		elif name == 'plane':
 			sys.stdout.write(self.padding),
-		elif	name == 'point':
+		elif name == 'point':
 			sys.stdout.write('( ')
 			self.inPoint = 1
-		elif	name == 'texture':
+		elif name == 'texture':
 			self.inTexture = 1
-		elif	name == 'property':
+		elif name == 'property':
 			self.paddinglevel = self.paddinglevel + 1
-			sys.stdout.write(self.padding + '"' + attrs['name'] + '" "' + attrs['value'] + '"\n')
+			sys.stdout.write(
+				self.padding + '"' + attrs['name'] + '" "' + attrs['value'] + '"\n')
 			self.paddinglevel = self.paddinglevel - 1
 
 	def characters(self, ch):
@@ -54,21 +58,21 @@ class MapXML2Map(ContentHandler):
 			sys.stdout.write(ch)
 
 	def endElement(self, name):
-		if	  name == 'entity' \
-			or  name == 'brush':
+		if name == 'entity' \
+			or name == 'brush':
 			self.paddinglevel = self.paddinglevel - 1
 			self.chPadding()
 			sys.stdout.write(self.padding + '}\n')
-		elif	name == 'point':
+		elif name == 'point':
 			self.inPoint = 0
 			sys.stdout.write(' ) ')
 		elif name == 'texture':
 			self.inTexture = 0
 			sys.stdout.write('\n')
-		elif	name == 'name':
+		elif name == 'name':
 			self.inName = 0
 			sys.stdout.write('" ')
-		elif	name == 'value':
+		elif name == 'value':
 			self.inValue = 0
 			sys.stdout.write('"\n')
 
@@ -81,5 +85,5 @@ if __name__ == '__main__':
 	parser.setContentHandler(conv)
 	try:
 		parser.parse(sys.stdin)
-	except:
+	except:  # noqa E722
 		ldl.failParse()
