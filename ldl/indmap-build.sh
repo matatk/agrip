@@ -12,6 +12,9 @@ if [ ! -r $MAP.map ]; then
     exit 42
 fi
 
+echo Removing previous bsp...
+rm -f $MAP.bsp
+
 echo Running qbsp...
 $QBSP $MAP > /dev/null
 if [ $? != 0 ]; then
