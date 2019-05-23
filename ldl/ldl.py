@@ -7,23 +7,36 @@
 	This file contains the common code across all stack stages.
 """
 
-import sys, xml.dom.minidom, re, split, pprint
+import sys
+import xml.dom.minidom
+import split
+import pprint
 from plane import Point
 from conf import *
+
 
 #
 # Construction Code
 #
 
-# FIXME this flips the up and down (and others?) walls when the room starts < 0 z-wise
+# FIXME this flips the up and down (and others?) walls when the room starts < 0
+# z-wise
 # FIXME make the walls extend vertically if top/bottom missing.
 # FIXME make specificaton of texture over style possible
 def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 	'''Makes a hollow object (room/corridor) with the given paramaters.
+
 	Works out the brushes, textures.
+
 	Returns the origin and extent of the inner area.
-	The north and south walls cover the entire width of the hollow.  The east and west ones fit inbetween the north and south ones.  However...
-	To avoid leaks, when some walls are absent, the others must be made longer to cover the possible holes.  For example, if there is no north wall, the east and west ones need to be ldl.lip units longer in case them not being so would cause a leak.'''
+
+	The north and south walls cover the entire width of the hollow.  The east
+	and west ones fit inbetween the north and south ones.  However...
+
+	To avoid leaks, when some walls are absent, the others must be made longer
+	to cover the possible holes.  For example, if there is no north wall, the
+	east and west ones need to be ldl.lip units longer in case them not being
+	so would cause a leak.'''
 	inner_origin = origin + lip
 	inner_abslut_extent = (origin + extent) - lip
 
