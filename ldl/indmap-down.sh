@@ -20,4 +20,4 @@ else
 	cat ${MAP}_level00.xml | ./00-d-map2mapxml.py > $MAP.map
 fi
 echo removing intermediate files...
-rm ${MAP}_level*xml
+#rm ${MAP}_level*xml

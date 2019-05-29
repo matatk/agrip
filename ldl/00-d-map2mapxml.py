@@ -9,7 +9,7 @@
 	Please ensure the input is a valid MapXML file.
 """
 
-from xml.sax import ContentHandler, make_parser
+import xml.sax
 import sys
 import ldl
 
@@ -18,11 +18,15 @@ def norm_ws(text):
 	return ' '.join(text.split())
 
 
-class MapXML2Map(ContentHandler):
+class MapXML2Map(xml.sax.ContentHandler):
 	def __init__(self):
 		self.paddinglevel = 0
 		self.chPadding()
 		self.inName = self.inValue = self.inPoint = self.inTexture = 0
+		self._result = ''
+
+	def _add(self, string):
+		self._result += string
 
 	def chPadding(self):
 		self.padding = ''
@@ -31,59 +35,64 @@ class MapXML2Map(ContentHandler):
 
 	def startElement(self, name, attrs):
 		if name == 'map':
-			sys.stdout.write(ldl.boilerplate_map + '// ' + ldl.stackdescs['00'] + '\n')
+			self._add(ldl.boilerplate_map + '// ' + ldl.stackdescs['00'] + '\n')
 		elif name == 'entity':
-			sys.stdout.write(self.padding + '// Entity \n' + self.padding + '{\n')
+			self._add(self.padding + '// Entity \n' + self.padding + '{\n')
 			self.paddinglevel = self.paddinglevel + 1
 			self.chPadding()
 		elif name == 'brush':
-			sys.stdout.write(self.padding + '// Brush \n' + self.padding + '{\n')
+			self._add(self.padding + '// Brush \n' + self.padding + '{\n')
 			self.paddinglevel = self.paddinglevel + 1
 			self.chPadding()
 		elif name == 'plane':
-			sys.stdout.write(self.padding),
+			self._add(self.padding),
 		elif name == 'point':
-			sys.stdout.write('( ')
+			self._add('( ')
 			self.inPoint = 1
 		elif name == 'texture':
 			self.inTexture = 1
 		elif name == 'property':
 			self.paddinglevel = self.paddinglevel + 1
-			sys.stdout.write(
+			self._add(
 				self.padding + '"' + attrs['name'] + '" "' + attrs['value'] + '"\n')
 			self.paddinglevel = self.paddinglevel - 1
 
 	def characters(self, ch):
 		if self.inPoint or self.inTexture or self.inName or self.inValue:
-			sys.stdout.write(ch)
+			self._add(ch)
 
 	def endElement(self, name):
 		if name == 'entity' \
 			or name == 'brush':
 			self.paddinglevel = self.paddinglevel - 1
 			self.chPadding()
-			sys.stdout.write(self.padding + '}\n')
+			self._add(self.padding + '}\n')
 		elif name == 'point':
 			self.inPoint = 0
-			sys.stdout.write(' ) ')
+			self._add(' ) ')
 		elif name == 'texture':
 			self.inTexture = 0
-			sys.stdout.write('\n')
+			self._add('\n')
 		elif name == 'name':
 			self.inName = 0
-			sys.stdout.write('" ')
+			self._add('" ')
 		elif name == 'value':
 			self.inValue = 0
-			sys.stdout.write('"\n')
+			self._add('"\n')
+
+
+def main(xml_in):
+	ldl.stage = '00'
+	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
+	conv = MapXML2Map()
+	try:
+		xml.sax.parseString(xml_in, conv)
+	except:  # noqa E722
+		raise
+		ldl.failParse()
+	return conv._result
 
 
 if __name__ == '__main__':
-	ldl.stage = '00'
-	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
-	parser = make_parser()
-	conv = MapXML2Map()
-	parser.setContentHandler(conv)
-	try:
-		parser.parse(sys.stdin)
-	except:  # noqa E722
-		ldl.failParse()
+	# TODO: turn off ldl.uprint here, or send to stderr?
+	print(main(sys.stdin.read()))
