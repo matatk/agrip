@@ -235,5 +235,5 @@ if __name__ == '__main__':
 	m.getElementsByTagName('map')[0] \
 		.setAttribute('stackdesc', ldl.stackdescs['02'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
-	print(m.toxml())
+	print(m.toprettyxml())
 	m.unlink()
