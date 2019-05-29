@@ -135,11 +135,15 @@ def intersect(P1, P2, P3):
 	return p
 
 
-if __name__ == '__main__':
-	m = xml.dom.minidom.parse(sys.stdin)
+# FIXME DRY
+def main(xml_in):
+	m = xml.dom.minidom.parseString(xml_in)
 	listBrushes(m)
-	m.getElementsByTagName('map')[0].setAttribute('stackdesc', ldl.stackdescs['01'])
+	m.getElementsByTagName('map')[0] \
+		.setAttribute('stackdesc', ldl.stackdescs['01'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
-	#xml.dom.ext.PrettyPrint(m)
-	print(m.toprettyxml())
-	m.unlink()
+	return m.toprettyxml()
+
+
+if __name__ == '__main__':
+	print(main(sys.stdin.read()))

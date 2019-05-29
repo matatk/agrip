@@ -84,11 +84,12 @@ def processBrushes(map):
 			brush.appendChild(plane)
 
 
-if __name__ == '__main__':
+# FIXME DRY
+def main(xml_in):
 	ldl.stage = '01'
 	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
 	try:
-		m = xml.dom.minidom.parse(sys.stdin)
+		m = xml.dom.minidom.parseString(xml_in)
 	except:  # noqa E722
 		ldl.failParse()
 	processBrushes(m)
@@ -96,5 +97,8 @@ if __name__ == '__main__':
 	m.getElementsByTagName('map')[0] \
 		.setAttribute('stackdesc', ldl.stackdescs['01'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
-	print(m.toprettyxml())
-	m.unlink()
+	return m.toprettyxml()
+
+
+if __name__ == '__main__':
+	print(main(sys.stdin.read()))

@@ -222,12 +222,14 @@ def processEntity(doc, parent, offset, entity):
 	doc.documentElement.appendChild(entity.cloneNode(True))
 
 
-if __name__ == '__main__':
+# FIXME DRY
+def main(xml_in):
 	ldl.stage = '02'
 	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
+	global s
 	s = ldl.StyleFetcher()
 	try:
-		m = xml.dom.minidom.parse(sys.stdin)
+		m = xml.dom.minidom.parseString(xml_in)
 	except:  # noqa E722
 		ldl.failParse()
 	ldl.remove_whitespace_nodes(m)
@@ -235,5 +237,8 @@ if __name__ == '__main__':
 	m.getElementsByTagName('map')[0] \
 		.setAttribute('stackdesc', ldl.stackdescs['02'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
-	print(m.toprettyxml())
-	m.unlink()
+	return m.toprettyxml()
+
+
+if __name__ == '__main__':
+	print(main(sys.stdin.read()))
