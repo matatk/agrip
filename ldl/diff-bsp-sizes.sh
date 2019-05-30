@@ -5,7 +5,9 @@ for bsp in *.bsp; do
 		origsize=$(stat -f %z $orig)
 		bspsize=$(stat -f %z $bsp)
 		if [ $origsize != $bspsize ]; then
-			echo $orig $bsp are different sizes!
+			echo "DIFF: $orig ($origsize), $bsp ($bspsize)"
+		else
+			echo "  ok: $orig, $bsp"
 		fi
 	fi
 done
