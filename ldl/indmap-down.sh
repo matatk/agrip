@@ -19,5 +19,5 @@ else
 	cat ${MAP}_level01.xml | ./01-d-brushsizes.py > ${MAP}_level00.xml && \
 	cat ${MAP}_level00.xml | ./00-d-map2mapxml.py > $MAP.map
 fi
-echo removing intermediate files...
+#echo removing intermediate files...
 #rm ${MAP}_level*xml
