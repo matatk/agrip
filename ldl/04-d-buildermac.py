@@ -9,9 +9,9 @@
 import sys
 import ldl
 from plane import Point
-from xml import sax
-from xml.sax.saxutils import XMLGenerator
-from xml.sax.saxutils import XMLFilterBase
+import xml.sax
+from xml.sax.saxutils import XMLGenerator, XMLFilterBase
+import io
 
 
 class BuilderFilter(XMLFilterBase):
@@ -19,10 +19,8 @@ class BuilderFilter(XMLFilterBase):
 	SAX filter to FIXME
 	"""
 
-	def __init__(self, upstream, downstream):
-		XMLFilterBase.__init__(self, upstream)
-		self._downstream = downstream
-		self._accumulator = []
+	def __init__(self, parent):
+		super().__init__(parent)
 		self.current_element = None  # what element are we inside?
 		self.passthrough = False  # allow current element through the filter?
 		# Placeholders for the attributes for the builder and shape elements...
@@ -55,8 +53,15 @@ class BuilderFilter(XMLFilterBase):
 			pos = si['position']  # DCP_UP or DCP_DOWN (top or bottomw
 		else:
 			ldl.error('plat given without a position (up or down)')
-		print("<solid origin='" + str(origin) + "' extent='" + str(size)
-								+ "' " + texture + "type='plat' position='" + pos + "' />")
+
+		super().startElement('solid', {
+			'origin': str(origin),
+			'extent': str(size),
+			'texture': texture,
+			'type': 'plat',
+			'position': pos
+		})
+		super().endElement('solid')
 
 	def macro_stairs(self, bi, si):
 		'''Make some stairs
@@ -140,9 +145,13 @@ class BuilderFilter(XMLFilterBase):
 			ldl.error('invalid direction specified for stairs (up and down are currently unsupported)')
 
 		for part3d in parts3d:
-			print("<solid origin='" + str(part3d.origin) + "' extent='"
-									+ str(part3d.extent) + "' texture='"
-									+ texture + "' type='step' />")
+			super().startElement('solid', {
+				'origin': str(part3d.origin),
+				'extent': str(part3d.extent),
+				'texture': texture,
+				'type': 'step'
+			})
+			super().endElement('solid')
 
 	def _macro_stairs_core(
 		self, full_length, full_height, full_depth, flip, step_length,
@@ -195,11 +204,6 @@ class BuilderFilter(XMLFilterBase):
 		else:
 			return individual
 
-	def _complete_text_node(self):
-		if self._accumulator:
-			self._downstream.characters(''.join(self._accumulator))
-			self._accumulator = []
-
 	def startElement(self, name, attrs):
 		'''FIXME'''
 		self.got_all_info = False
@@ -220,7 +224,7 @@ class BuilderFilter(XMLFilterBase):
 			ldl.error('unknown element type' + name)
 
 		if self.passthrough:
-			self._downstream.startElement(name, attrs)
+			super().startElement(name, attrs)
 		else:
 			if self.got_all_info:
 				self.dispatch_macro(self.builder_info, self.shape_info)
@@ -230,35 +234,10 @@ class BuilderFilter(XMLFilterBase):
 			else:
 				pass  # wait for more info
 
-	def startElementNS(self, name, qname, attrs):
-		self._complete_text_node()
-		self._downstream.startElementNS(name, qname, attrs)
-
 	def endElement(self, name):
-		self._complete_text_node()
 		# Builder element ends should be ignored as their beginnings are too.
 		if name != 'builder' and name != 'shape':
-			self._downstream.endElement(name)
-		else:
-			pass
-
-	def endElementNS(self, name, qname):
-		self._complete_text_node()
-		self._downstream.endElementNS(name, qname)
-
-	def processingInstruction(self, target, body):
-		self._complete_text_node()
-		self._downstream.processingInstruction(target, body)
-
-	def comment(self, body):
-		self._complete_text_node()
-		self._downstream.comment(body)
-
-	def characters(self, text):
-		self._accumulator.append(text)
-
-	def ignorableWhitespace(self, ws):  # TODO needed by API?
-		self._accumulator.append(ws)
+			super().endElement(name)
 
 	# Utility Functions...
 
@@ -268,22 +247,24 @@ class BuilderFilter(XMLFilterBase):
 		ldl.uprint(msg)
 
 
-if __name__ == "__main__":
+# FIXME DRY
+def main(xml_in):
 	ldl.stage = '04'
 	ldl.uprint('\n === ' + ldl.stackdescs['04'] + ' ===')
-	parser = sax.make_parser()
-	# XMLGenerator is a special SAX handler that merely writes
-	# SAX events back into an XML document
-	downstream_handler = XMLGenerator()
-	# upstream, the parser, downstream, the next handler in the chain
-	filter_handler = BuilderFilter(parser, downstream_handler)
-	# The SAX filter base is designed so that the filter takes
-	# on much of the interface of the parser itself, including the
-	# "parse" method
+	filtered_reader = BuilderFilter(xml.sax.make_parser())
+	xml_out = io.StringIO()
+	filtered_reader.setContentHandler(
+		XMLGenerator(xml_out, short_empty_elements=True))
 	try:
-		filter_handler.parse(sys.stdin)
-	except sax.SAXParseException as detail:
+		hacky = io.StringIO(xml_in)
+		filtered_reader.parse(hacky)
+	except xml.sax.SAXParseException as detail:
 		ldl.error('The XML you supplied is not valid: ' + str(detail))
 	except:  # noqa E722
 		raise
 		ldl.failParse()
+	return xml_out.getvalue()
+
+
+if __name__ == "__main__":
+	print(main(sys.stdin.read()))

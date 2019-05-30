@@ -181,6 +181,7 @@ class LightingStyleFilter(XMLFilterBase):
 		ldl.uprint(msg)
 
 
+# FIXME DRY
 def main(xml_in):
 	ldl.stage = '03'
 	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
