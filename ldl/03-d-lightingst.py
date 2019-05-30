@@ -9,9 +9,9 @@
 import sys
 import ldl
 from plane import Point
-from xml import sax
-from xml.sax.saxutils import XMLGenerator
-from xml.sax.saxutils import XMLFilterBase
+import xml.sax
+from xml.sax.saxutils import XMLGenerator, XMLFilterBase
+import io
 
 
 class LightingStyleFilter(XMLFilterBase):
@@ -19,10 +19,8 @@ class LightingStyleFilter(XMLFilterBase):
 	SAX filter to FIXME
 	"""
 
-	def __init__(self, upstream, downstream):
-		XMLFilterBase.__init__(self, upstream)
-		self._downstream = downstream
-		self._accumulator = []
+	def __init__(self, parent):
+		super().__init__(parent)
 		self.lightStack = []
 		# for storing the light array for each hollow, so it can be put at the
 		# end of the hollow definition as opposed to the start
@@ -66,10 +64,10 @@ class LightingStyleFilter(XMLFilterBase):
 		sound = styleFetcher.getLightingSetSound(style, id, type)
 
 		# Lights must go in the corners.
-		#    i.e.    xoffs,                yoffs,                zoffs
-		#            xoffs,                bounds.y - yoffs,    zoffs
-		#            bounds.x - xoffs,    yoffs,                zoffs
-		#            bounds.x - xoffs,    bounds.y - yoffs,    zoffs
+		#   i.e. xoffs,             yoffs,             zoffs
+		#        xoffs,             bounds.y - yoffs,  zoffs
+		#        bounds.x - xoffs,  yoffs,             zoffs
+		#        bounds.x - xoffs,  bounds.y - yoffs,  zoffs
 		# Work out how many to go inbetween the corners (along walls).
 		# That may be repeated vertically according to zstep.
 		# Do we have them in middle of room?
@@ -135,18 +133,12 @@ class LightingStyleFilter(XMLFilterBase):
 		extent = ldl.getPoint(hollow_attrs['extent'])
 		return extent - Point(ldl.lip * 2, ldl.lip * 2, ldl.lip * 2)
 
-	def _complete_text_node(self):
-		if self._accumulator:
-			self._downstream.characters(''.join(self._accumulator))
-			self._accumulator = []
-		return
-
 	def startElement(self, name, attrs):
 		'''FIXME'''
 		# FIXME allow z offsets to be specified from the top of the room? (for
 		# hanging lights)
 		# Start element normally...
-		self._downstream.startElement(name, attrs)
+		super().startElement(name, attrs)
 		# Allow most elements through; builders must be turned into solids.
 		if name == 'hollow':
 			bounds = self._get_bounds(attrs)
@@ -169,43 +161,13 @@ class LightingStyleFilter(XMLFilterBase):
 				lights = lights1 + lights2
 			# Done -- append results...
 			self.lightStack.append(lights)
-		return
-
-	def startElementNS(self, name, qname, attrs):
-		self._complete_text_node()
-		self._downstream.startElementNS(name, qname, attrs)
-		return
 
 	def endElement(self, name):
 		if name == 'hollow':
 			for light in self.lightStack.pop():
 				print(light)
-		self._complete_text_node()
-		self._downstream.endElement(name)
-		return
 
-	def endElementNS(self, name, qname):
-		self._complete_text_node()
-		self._downstream.endElementNS(name, qname)
-		return
-
-	def processingInstruction(self, target, body):
-		self._complete_text_node()
-		self._downstream.processingInstruction(target, body)
-		return
-
-	def comment(self, body):
-		self._complete_text_node()
-		self._downstream.comment(body)
-		return
-
-	def characters(self, text):
-		self._accumulator.append(text)
-		return
-
-	def ignorableWhitespace(self, ws):  # TODO is this required by the API?
-		self._accumulator.append(ws)
-		return
+		super().endElement(name)
 
 	# Utility Functions...
 
@@ -215,23 +177,22 @@ class LightingStyleFilter(XMLFilterBase):
 		ldl.uprint(msg)
 
 
-if __name__ == "__main__":
+def main(xml_in):
 	ldl.stage = '03'
 	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
+	global styleFetcher
 	styleFetcher = ldl.StyleFetcher()
-	parser = sax.make_parser()
-	# XMLGenerator is a special SAX handler that merely writes
-	# SAX events back into an XML document
-	downstream_handler = XMLGenerator()
-	# upstream, the parser, downstream, the next handler in the chain
-	filter_handler = LightingStyleFilter(parser, downstream_handler)
-	# The SAX filter base is designed so that the filter takes
-	# on much of the interface of the parser itself, including the
-	# "parse" method
+	filtered_reader = LightingStyleFilter(xml.sax.make_parser())
+	filtered_reader.setContentHandler(XMLGenerator())
 	try:
-		filter_handler.parse(sys.stdin)
-	except sax.SAXParseException as detail:
+		hacky = io.StringIO(xml_in)
+		filtered_reader.parse(hacky)
+	except xml.sax.SAXParseException as detail:
 		ldl.error('The XML you supplied is not valid: ' + str(detail))
 	except:  # noqa E722
 		raise
 		ldl.failParse()
+
+
+if __name__ == "__main__":
+	main(sys.stdin.read())
