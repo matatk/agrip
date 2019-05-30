@@ -7,7 +7,7 @@
 """
 
 import sys
-import ldl
+import utils
 from plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
@@ -95,18 +95,18 @@ class LightingStyleFilter(XMLFilterBase):
 					# If any test passed, then it's near one of the walls...
 					close_to_perimeter = xclose or yclose  # or zclose
 
-					if type == ldl.LS_PERIMETER:
+					if type == utils.LS_PERIMETER:
 						if close_to_perimeter:
 							drawlight = True
 						else:
 							drawlight = False
-					elif type == ldl.LS_CENTRE:
+					elif type == utils.LS_CENTRE:
 						if close_to_perimeter:
 							drawlight = False
 						else:
 							drawlight = True
 					else:
-						ldl.error('invalid lighting subscheme type ' + type + ' specified.')
+						utils.error('invalid lighting subscheme type ' + type + ' specified.')
 
 					# Now to render the light to XML...
 					if drawlight:
@@ -144,8 +144,8 @@ class LightingStyleFilter(XMLFilterBase):
 
 	def _get_bounds(self, hollow_attrs):
 		'''Work out the internal cube of the hollow.'''
-		extent = ldl.getPoint(hollow_attrs['extent'])
-		return extent - Point(ldl.lip * 2, ldl.lip * 2, ldl.lip * 2)
+		extent = utils.getPoint(hollow_attrs['extent'])
+		return extent - Point(utils.lip * 2, utils.lip * 2, utils.lip * 2)
 
 	def startElement(self, name, attrs):
 		'''FIXME'''
@@ -165,28 +165,28 @@ class LightingStyleFilter(XMLFilterBase):
 
 			# Perimeter => just the edges
 			# Grid => a superset: perimeter + grid in the centre
-			if style_type == ldl.LS_PERIMETER:
+			if style_type == utils.LS_PERIMETER:
 				self._make_lights_core(style_name, style_id, style_type, bounds)
 			else:
 				self._make_lights_core(
-					style_name, style_id, ldl.LS_PERIMETER, bounds)
+					style_name, style_id, utils.LS_PERIMETER, bounds)
 				self._make_lights_core(
-					style_name, style_id, ldl.LS_CENTRE, bounds)
+					style_name, style_id, utils.LS_CENTRE, bounds)
 
 	# Utility Functions...
 
 	def padded_print(self, msg):
 		for i in range(self.padding_level):
-			ldl.uprint('  ', sameLine=True)
-		ldl.uprint(msg)
+			utils.uprint('  ', sameLine=True)
+		utils.uprint(msg)
 
 
 # FIXME DRY
 def main(xml_in):
-	ldl.stage = '03'
-	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
+	utils.stage = '03'
+	utils.uprint('\n === ' + utils.stackdescs[utils.stage] + ' ===')
 	global styleFetcher
-	styleFetcher = ldl.StyleFetcher()
+	styleFetcher = utils.StyleFetcher()
 	filtered_reader = LightingStyleFilter(xml.sax.make_parser())
 	xml_out = io.StringIO()
 	filtered_reader.setContentHandler(
@@ -195,10 +195,10 @@ def main(xml_in):
 		hacky = io.StringIO(xml_in)
 		filtered_reader.parse(hacky)
 	except xml.sax.SAXParseException as detail:
-		ldl.error('The XML you supplied is not valid: ' + str(detail))
+		utils.error('The XML you supplied is not valid: ' + str(detail))
 	except:  # noqa E722
 		raise
-		ldl.failParse()
+		utils.failParse()
 	return xml_out.getvalue()
 
 

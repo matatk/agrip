@@ -1,5 +1,5 @@
 """
-	ldl.py
+	utils.py
 	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
@@ -35,7 +35,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 
 	To avoid leaks, when some walls are absent, the others must be made longer
 	to cover the possible holes.  For example, if there is no north wall, the
-	east and west ones need to be ldl.lip units longer in case them not being
+	east and west ones need to be utils.lip units longer in case them not being
 	so would cause a leak.'''
 	inner_origin = origin + lip
 	inner_abslut_extent = (origin + extent) - lip

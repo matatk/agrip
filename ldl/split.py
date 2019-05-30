@@ -1,7 +1,7 @@
 '''Algorithm for splitting walls based on holes
 
 (waaaay too large and stupid)'''
-import ldl
+import utils
 
 debug_printing = 0
 
@@ -9,8 +9,8 @@ debug_printing = 0
 def paddedPrint(msg):
 	if debug_printing:
 		for i in range(splitWallCoreLevel):
-			ldl.uprint(splitWallCorePadding, True)
-		ldl.uprint(msg)
+			utils.uprint(splitWallCorePadding, True)
+		utils.uprint(msg)
 
 
 def splitWall(brush, holes):
@@ -22,7 +22,7 @@ def splitWall(brush, holes):
 		return [brush]
 	parts = []  # stores 2D parts returned by the main function
 	finalparts = []  # stores expanded 3D parts
-	extent2d = ldl.Point2D(brush.extent.x, brush.extent.y)
+	extent2d = utils.Point2D(brush.extent.x, brush.extent.y)
 	# Sort holes by x start coord, then width...
 	sortedholes = qsortHoles(holes)
 	# Check for errors and add doors into the returned list of parts, as they
@@ -30,15 +30,15 @@ def splitWall(brush, holes):
 	for hole in sortedholes:
 		# FIXME check for other errors -- backtrack?
 		if hole.origin.y + hole.extent.y > extent2d.y:
-			ldl.error(
+			utils.error(
 				'Hole is taller than containing wall.\n\thole: '
 				+ str(hole) + '\n\textent2d: ' + str(extent2d))
-		if hole.type == ldl.RT_DOOR:
-			finalparts.append(ldl.Region2D(
-				ldl.Point2D(
+		if hole.type == utils.RT_DOOR:
+			finalparts.append(utils.Region2D(
+				utils.Point2D(
 					brush.origin.x + hole.origin.x,
 					brush.origin.y + hole.origin.y),
-				ldl.Point2D(
+				utils.Point2D(
 					hole.extent.x,
 					hole.extent.y),
 				hole.type,
@@ -47,14 +47,14 @@ def splitWall(brush, holes):
 	# Go to main function...
 	# FIXME this should not assume the origin is (0, 0) but it doesn't work if
 	# we don't make this true...
-	parts = splitWallCore(ldl.Chunk2D(ldl.Point2D(0, 0), extent2d), sortedholes)
+	parts = splitWallCore(utils.Chunk2D(utils.Point2D(0, 0), extent2d), sortedholes)
 	# Take list of brushes and add the z coord back on...
 	for p in parts:
-		finalparts.append(ldl.Region2D(
-			ldl.Point2D(
+		finalparts.append(utils.Region2D(
+			utils.Point2D(
 				brush.origin.x + p.origin.x,
 				brush.origin.y + p.origin.y),
-			ldl.Point2D(p.extent.x, p.extent.y),
+			utils.Point2D(p.extent.x, p.extent.y),
 			p.type, p.props
 		))
 	# Now we can return them...
@@ -88,9 +88,9 @@ def splitWallCore(chunk, holes):
 			# Process part of chunk with hole in it...
 			paddedPrint('sWC: 1. hole.end.x < chunk.end.x.  HOLE CHUNK')
 			addparts = splitWallCore(
-				ldl.Chunk2D(
+				utils.Chunk2D(
 					chunk.origin,
-					ldl.Point2D(hole.end.x - chunk.origin.x, chunk.extent.y)
+					utils.Point2D(hole.end.x - chunk.origin.x, chunk.extent.y)
 				),
 				[hole])
 			for ap in addparts:
@@ -98,9 +98,9 @@ def splitWallCore(chunk, holes):
 			# Process the bit left at the east side...
 			paddedPrint('sWC: 1. hole.end.x < chunk.end.x.  SOLID CHUNK')
 			addparts = splitWallCore(
-				ldl.Chunk2D(
-					ldl.Point2D(hole.end.x, chunk.origin.y),
-					ldl.Point2D(chunk.end.x - hole.end.x, chunk.extent.y)
+				utils.Chunk2D(
+					utils.Point2D(hole.end.x, chunk.origin.y),
+					utils.Point2D(chunk.end.x - hole.end.x, chunk.extent.y)
 				),
 				[])
 			for ap in addparts:
@@ -111,27 +111,27 @@ def splitWallCore(chunk, holes):
 			paddedPrint('sWC: 1. split flush.')
 			# Under hole
 			if (hole.origin.y - chunk.origin.y) > 0:
-				parts.append(ldl.Chunk2D(
+				parts.append(utils.Chunk2D(
 					chunk.origin,
-					ldl.Point2D(
+					utils.Point2D(
 						hole.end.x - chunk.origin.x,
 						hole.origin.y - chunk.origin.y)))
 			# Left of hole
 			if (hole.origin.x - chunk.origin.x) > 0:
-				parts.append(ldl.Chunk2D(
-					chunk.origin + ldl.Point2D(
+				parts.append(utils.Chunk2D(
+					chunk.origin + utils.Point2D(
 						0,
 						hole.origin.y - chunk.origin.y),
-					ldl.Point2D(
+					utils.Point2D(
 						hole.origin.x - chunk.origin.x,
 						hole.extent.y)))
 			# Above hole
 			if (chunk.end.y - hole.end.y) > 0:
-				parts.append(ldl.Chunk2D(
-					chunk.origin + ldl.Point2D(
+				parts.append(utils.Chunk2D(
+					chunk.origin + utils.Point2D(
 						0,
 						hole.end.y - chunk.origin.y),
-					ldl.Point2D(
+					utils.Point2D(
 						hole.end.x - chunk.origin.x,
 						chunk.end.y - hole.end.y)))
 			paddedPrint(
@@ -170,8 +170,8 @@ def splitWallCore(chunk, holes):
 			#   another chunk containing all the other holes
 			paddedPrint('sWC: n. holeA.end.x < holeB.origin.x.  singleton')
 			addparts = splitWallCore(
-				ldl.Chunk2D(
-					chunk.origin, ldl.Point2D(
+				utils.Chunk2D(
+					chunk.origin, utils.Point2D(
 						holeA.end.x - chunk.origin.x,
 						chunk.extent.y)),
 				[holeA])
@@ -179,11 +179,11 @@ def splitWallCore(chunk, holes):
 				parts.append(ap)
 			paddedPrint('sWC: n. holeA.end.x < holeB.origin.x.  the rest')
 			addparts = splitWallCore(
-				ldl.Chunk2D(
-					ldl.Point2D(
+				utils.Chunk2D(
+					utils.Point2D(
 						holeA.end.x,
 						chunk.origin.y),
-					ldl.Point2D(
+					utils.Point2D(
 						chunk.end.x - holeA.end.x,
 						chunk.extent.y)),
 				holes[1:])
@@ -208,20 +208,20 @@ def splitWallCore(chunk, holes):
 				# No more holes; just split this chunk y-wise...
 				paddedPrint('sWC: n. Y.  no more holes.  LOWER.')
 				addparts = splitWallCore(
-					ldl.Chunk2D(
+					utils.Chunk2D(
 						chunk.origin,
-						ldl.Point2D(chunk.extent.x, upper.origin.y)
+						utils.Point2D(chunk.extent.x, upper.origin.y)
 					),
 					[lower])
 				for ap in addparts:
 					parts.append(ap)
 				paddedPrint('sWC: n. Y.  no more holes.  UPPER.')
 				addparts = splitWallCore(
-					ldl.Chunk2D(
-						ldl.Point2D(
+					utils.Chunk2D(
+						utils.Point2D(
 							chunk.origin.x,
 							upper.origin.y),
-						ldl.Point2D(
+						utils.Point2D(
 							chunk.extent.x,
 							chunk.extent.y - upper.origin.y)),
 					[upper])
@@ -235,33 +235,33 @@ def splitWallCore(chunk, holes):
 					'sWC: n. Y.  more holes; xcutoff = ' + str(xcutoff))
 				paddedPrint('sWC: n. Y.  more holes.  LOWER.')
 				addparts = splitWallCore(
-					ldl.Chunk2D(
+					utils.Chunk2D(
 						chunk.origin,
-						ldl.Point2D(xcutoff, upper.origin.y)),
+						utils.Point2D(xcutoff, upper.origin.y)),
 					[lower])
 				for ap in addparts:
 					parts.append(ap)
 				paddedPrint('sWC: n. Y.  more holes.  UPPER.')
 				addparts = splitWallCore(
-					ldl.Chunk2D(
-						ldl.Point2D(chunk.origin.x, upper.origin.y),
-						ldl.Point2D(xcutoff, chunk.extent.y - upper.origin.y)
+					utils.Chunk2D(
+						utils.Point2D(chunk.origin.x, upper.origin.y),
+						utils.Point2D(xcutoff, chunk.extent.y - upper.origin.y)
 					),
 					[upper])
 				for ap in addparts:
 					parts.append(ap)
 				paddedPrint('sWC: n. Y.  more holes.  REST-OF-X.')
 				addparts = splitWallCore(
-					ldl.Chunk2D(
-						ldl.Point2D(chunk.origin.x + xcutoff, chunk.origin.y),
-						ldl.Point2D(chunk.extent.x - xcutoff, chunk.extent.y)
+					utils.Chunk2D(
+						utils.Point2D(chunk.origin.x + xcutoff, chunk.origin.y),
+						utils.Point2D(chunk.extent.x - xcutoff, chunk.extent.y)
 					),
 					holes[2:])
 				for ap in addparts:
 					parts.append(ap)
 		else:
 			# Our holes overlap both x- and y-wise; for now, we're screwed.
-			ldl.error('Oh dear: the segmentation algorithm can\'t cope with holes that overlap both x- and y-wise!')
+			utils.error('Oh dear: the segmentation algorithm can\'t cope with holes that overlap both x- and y-wise!')
 	splitWallCoreLevel = splitWallCoreLevel - 1
 	return parts
 

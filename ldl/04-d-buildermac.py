@@ -7,7 +7,7 @@
 """
 
 import sys
-import ldl
+import utils
 from plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
@@ -30,12 +30,12 @@ class BuilderFilter(XMLFilterBase):
 	def dispatch_macro(self, bi, si):
 		'''Call the appropriate Macro'''
 		type = si['type']
-		if type == ldl.ST_STAIRS:
+		if type == utils.ST_STAIRS:
 			self.macro_stairs(bi, si)
-		elif type == ldl.ST_PLAT:
+		elif type == utils.ST_PLAT:
 			self.macro_plat(bi, si)
 		else:
-			ldl.error('unkown macro type ' + type)
+			utils.error('unkown macro type ' + type)
 
 	def macro_plat(self, bi, si):
 		'''Make a plat
@@ -43,8 +43,8 @@ class BuilderFilter(XMLFilterBase):
 		Note that we don't specify the size of plat here as
 		later we need to make it either at the top or the bottom of the larger
 		brush.'''
-		origin = ldl.getPoint(bi['origin'])
-		size = ldl.getPoint(bi['extent'])
+		origin = utils.getPoint(bi['origin'])
+		size = utils.getPoint(bi['extent'])
 		if 'texture' in bi:
 			texture = 'texture=\'' + bi['texture'] + '\' '
 		else:
@@ -52,7 +52,7 @@ class BuilderFilter(XMLFilterBase):
 		if 'position' in si:
 			pos = si['position']  # DCP_UP or DCP_DOWN (top or bottomw
 		else:
-			ldl.error('plat given without a position (up or down)')
+			utils.error('plat given without a position (up or down)')
 
 		super().startElement('solid', {
 			'origin': str(origin),
@@ -71,8 +71,8 @@ class BuilderFilter(XMLFilterBase):
 		distance from start of lowest to end of heighest step height is the
 		height of the highest step'''
 		# FIXME cope with being able to make a hole through (under) the stairs
-		origin = ldl.getPoint(bi['origin'])
-		size = ldl.getPoint(bi['extent'])
+		origin = utils.getPoint(bi['origin'])
+		size = utils.getPoint(bi['extent'])
 		dir = si['dir']
 		texture = ''
 		if 'texture' in bi:
@@ -85,7 +85,7 @@ class BuilderFilter(XMLFilterBase):
 		# FIXME repeated code: n/e == s/w -- collapse into 2?
 
 		# Work out which dimension is which
-		if dir == ldl.DCP_NORTH:
+		if dir == utils.DCP_NORTH:
 			# use X and Y; Z rising with increasing Y
 			length = size.y
 			height = size.z
@@ -94,12 +94,12 @@ class BuilderFilter(XMLFilterBase):
 			parts = self._macro_stairs_core(
 				length, height, width, flip, slength, sheight, texture)
 			for part in parts:
-				part3d = ldl.Region3D(
+				part3d = utils.Region3D(
 					Point(0, part.origin.x, part.origin.y) + origin,
 					Point(width, part.extent.x, part.extent.y)
 				)
 				parts3d.append(part3d)
-		elif dir == ldl.DCP_SOUTH:
+		elif dir == utils.DCP_SOUTH:
 			# use X and Y; Z falling with increasing Y
 			length = size.y
 			height = size.z
@@ -108,12 +108,12 @@ class BuilderFilter(XMLFilterBase):
 			parts = self._macro_stairs_core(
 				length, height, width, flip, slength, sheight, texture)
 			for part in parts:
-				part3d = ldl.Region3D(
+				part3d = utils.Region3D(
 					Point(0, part.origin.x, part.origin.y) + origin,
 					Point(width, part.extent.x, part.extent.y)
 				)
 				parts3d.append(part3d)
-		elif dir == ldl.DCP_EAST:
+		elif dir == utils.DCP_EAST:
 			# use X and Y; Z rising with increasing X
 			length = size.x
 			height = size.z
@@ -122,12 +122,12 @@ class BuilderFilter(XMLFilterBase):
 			parts = self._macro_stairs_core(
 				length, height, width, flip, slength, sheight, texture)
 			for part in parts:
-				part3d = ldl.Region3D(
+				part3d = utils.Region3D(
 					Point(part.origin.x, 0, part.origin.y) + origin,
 					Point(part.extent.x, width, part.extent.y)
 				)
 				parts3d.append(part3d)
-		elif dir == ldl.DCP_WEST:
+		elif dir == utils.DCP_WEST:
 			# use X and y; Z falling with increasing X
 			length = size.x
 			height = size.z
@@ -136,13 +136,13 @@ class BuilderFilter(XMLFilterBase):
 			parts = self._macro_stairs_core(
 				length, height, width, flip, slength, sheight, texture)
 			for part in parts:
-				part3d = ldl.Region3D(
+				part3d = utils.Region3D(
 					Point(part.origin.x, 0, part.origin.y) + origin,
 					Point(part.extent.x, width, part.extent.y)
 				)
 				parts3d.append(part3d)
 		else:
-			ldl.error('invalid direction specified for stairs (up and down are currently unsupported)')
+			utils.error('invalid direction specified for stairs (up and down are currently unsupported)')
 
 		for part3d in parts3d:
 			super().startElement('solid', {
@@ -167,17 +167,17 @@ class BuilderFilter(XMLFilterBase):
 		if flip:
 			for i in range(length_iter):
 				parts.append(
-					ldl.Region3D(
-						ldl.Point2D(step_length * i, 0),
-						ldl.Point2D(step_length, step_height * (length_iter - i))
+					utils.Region3D(
+						utils.Point2D(step_length * i, 0),
+						utils.Point2D(step_length, step_height * (length_iter - i))
 					)
 				)
 		else:
 			for i in range(length_iter):
 				parts.append(
-					ldl.Region3D(
-						ldl.Point2D(step_length * i, 0),
-						ldl.Point2D(step_length, step_height * (i + 1))
+					utils.Region3D(
+						utils.Point2D(step_length * i, 0),
+						utils.Point2D(step_length, step_height * (i + 1))
 					)
 				)
 		return parts
@@ -200,7 +200,7 @@ class BuilderFilter(XMLFilterBase):
 			if individual > lower_bound:
 				return individual
 			else:
-				ldl.error('couldn\'t find a suitable step dimension')
+				utils.error('couldn\'t find a suitable step dimension')
 		else:
 			return individual
 
@@ -221,7 +221,7 @@ class BuilderFilter(XMLFilterBase):
 			# Now we (hopefully) have builder and shape info...
 			self.got_all_info = True
 		else:
-			ldl.error('unknown element type' + name)
+			utils.error('unknown element type' + name)
 
 		if self.passthrough:
 			super().startElement(name, attrs)
@@ -243,14 +243,14 @@ class BuilderFilter(XMLFilterBase):
 
 	def padded_print(self, msg):
 		for i in range(self.padding_level):
-			ldl.uprint('  ', sameLine=True)
-		ldl.uprint(msg)
+			utils.uprint('  ', sameLine=True)
+		utils.uprint(msg)
 
 
 # FIXME DRY
 def main(xml_in):
-	ldl.stage = '04'
-	ldl.uprint('\n === ' + ldl.stackdescs['04'] + ' ===')
+	utils.stage = '04'
+	utils.uprint('\n === ' + utils.stackdescs['04'] + ' ===')
 	filtered_reader = BuilderFilter(xml.sax.make_parser())
 	xml_out = io.StringIO()
 	filtered_reader.setContentHandler(
@@ -259,10 +259,10 @@ def main(xml_in):
 		hacky = io.StringIO(xml_in)
 		filtered_reader.parse(hacky)
 	except xml.sax.SAXParseException as detail:
-		ldl.error('The XML you supplied is not valid: ' + str(detail))
+		utils.error('The XML you supplied is not valid: ' + str(detail))
 	except:  # noqa E722
 		raise
-		ldl.failParse()
+		utils.failParse()
 	return xml_out.getvalue()
 
 

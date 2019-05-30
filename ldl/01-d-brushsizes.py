@@ -16,7 +16,7 @@
 import sys
 import xml.dom.minidom
 import re
-import ldl
+import utils
 from plane import Point
 
 r_planepoints = re.compile('(-?[0-9.]+) (-?[0-9.]+) (-?[0-9.]+)')
@@ -86,16 +86,16 @@ def processBrushes(map):
 
 # FIXME DRY
 def main(xml_in):
-	ldl.stage = '01'
-	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
+	utils.stage = '01'
+	utils.uprint('\n === ' + utils.stackdescs[utils.stage] + ' ===')
 	try:
 		m = xml.dom.minidom.parseString(xml_in)
 	except:  # noqa E722
-		ldl.failParse()
+		utils.failParse()
 	processBrushes(m)
-	ldl.remove_whitespace_nodes(m)
+	utils.remove_whitespace_nodes(m)
 	m.getElementsByTagName('map')[0] \
-		.setAttribute('stackdesc', ldl.stackdescs['01'])
+		.setAttribute('stackdesc', utils.stackdescs['01'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
 

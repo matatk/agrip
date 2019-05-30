@@ -14,7 +14,7 @@
 
 import sys
 import xml.dom.minidom
-import ldl
+import utils
 import split
 from plane import Point
 
@@ -41,18 +41,18 @@ def processInfo(doc, map):
 			mapname = property.getAttribute('value')
 		elif ptype == 'worldtype':
 			worldtype = property.getAttribute('value')
-			if worldtype in ldl.worldtypes:
-				worldtype_num = ldl.worldtypes[worldtype]
+			if worldtype in utils.worldtypes:
+				worldtype_num = utils.worldtypes[worldtype]
 			else:
-				ldl.error('Invalid worldtype ' + worldtype + ' specified.')
+				utils.error('Invalid worldtype ' + worldtype + ' specified.')
 		else:
-			ldl.error('Invalid map info property ' + ptype + ' specified.')
+			utils.error('Invalid map info property ' + ptype + ' specified.')
 	worldspawn = doc.createElement('entity')
-	worldspawn.appendChild(ldl.createProperty(doc, 'classname', 'worldspawn'))
+	worldspawn.appendChild(utils.createProperty(doc, 'classname', 'worldspawn'))
 	worldspawn.appendChild(
-		ldl.createProperty(doc, 'worldtype', str(worldtype_num)))
-	worldspawn.appendChild(ldl.createProperty(doc, 'message', mapname))
-	worldspawn.appendChild(ldl.createProperty(doc, 'wad', ldl.wadfile))
+		utils.createProperty(doc, 'worldtype', str(worldtype_num)))
+	worldspawn.appendChild(utils.createProperty(doc, 'message', mapname))
+	worldspawn.appendChild(utils.createProperty(doc, 'wad', utils.wadfile))
 	map.replaceChild(worldspawn, info)
 	return worldspawn
 
@@ -69,7 +69,7 @@ def processNode(doc, parent, worldspawn, s, offset, node):
 	elif node.localName is None:
 		pass  # comment node
 	else:
-		ldl.error('unknown element type ' + node.localName + '.\n')
+		utils.error('unknown element type ' + node.localName + '.\n')
 	paddinglevel = paddinglevel - 1
 
 
@@ -79,8 +79,8 @@ style = None
 def processHollow(doc, parent, worldspawn, s, offset, hollow):
 	'''Note: sets global style var.'''
 	global style
-	o = ldl.getPoint(hollow.getAttribute('origin')) + offset
-	e = ldl.getPoint(hollow.getAttribute('extent'))
+	o = utils.getPoint(hollow.getAttribute('origin')) + offset
+	e = utils.getPoint(hollow.getAttribute('extent'))
 	style = hollow.getAttribute('style')
 	holes = {}
 	absentwalls = []
@@ -95,7 +95,7 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 			for absentwall in hollowChild.childNodes:
 				wall = absentwall.getAttribute('value')
 				absentwalls.append(wall)
-			ldl.insertPlaceholder(doc, hollow, hollowChild)
+			utils.insertPlaceholder(doc, hollow, hollowChild)
 		elif hollowChild.localName == 'holes':
 			# Get holes info...
 			for hole in hollowChild.childNodes:
@@ -106,40 +106,40 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 				o_x, o_y = hole.getAttribute('origin').split()
 				e_x, e_y = hole.getAttribute('extent').split()
 				type = hole.getAttribute('type')
-				if type == ldl.RT_DOOR:
+				if type == utils.RT_DOOR:
 					key = hole.getAttribute('key')
 					button = hole.getAttribute('button')  # FIXME test real map
 				else:
 					key = button = None  # FIXME test real map
 				# FIXME deal with other types
-				holes[wall].append(ldl.Hole2D(
-					ldl.Point2D(float(o_x), float(o_y)),
-					ldl.Point2D(float(e_x), float(e_y)),
-					type, {ldl.PROPS_K_KEY: key}))
+				holes[wall].append(utils.Hole2D(
+					utils.Point2D(float(o_x), float(o_y)),
+					utils.Point2D(float(e_x), float(e_y)),
+					type, {utils.PROPS_K_KEY: key}))
 			# FIXME we shouldn't need to detect overlapping holes here because
 			# they'll be detected higher up (by overlapping connected hollows)
-			ldl.insertPlaceholder(doc, hollow, hollowChild)
+			utils.insertPlaceholder(doc, hollow, hollowChild)
 
 	# Now we have the required structural info (absent walls and holes), we can
 	# turn this hollow into a series of textured brushes...
-	io, ie = ldl.makeHollow(doc, worldspawn, s, o, e, absentwalls, holes, style)
+	io, ie = utils.makeHollow(doc, worldspawn, s, o, e, absentwalls, holes, style)
 	# Contained solids, hollows and entities...
 	for node in hollow.childNodes:
 		processNode(doc, hollow, worldspawn, s, io, node)
 	# We can't remove the child or we screw over tree traversal (urgh)...
-	ldl.insertPlaceholder(doc, parent, hollow)
+	utils.insertPlaceholder(doc, parent, hollow)
 
 
 def processSolid(doc, parent, worldspawn, sf, offset, solid):
 	'''Note: uses style set in parent hollow.'''
 	global style
-	o = ldl.getPoint(solid.getAttribute('origin')) + offset
-	e = ldl.getPoint(solid.getAttribute('extent'))
+	o = utils.getPoint(solid.getAttribute('origin')) + offset
+	e = utils.getPoint(solid.getAttribute('extent'))
 	t = solid.getAttribute('texture')
 	type = solid.getAttribute('type')
 	if not t:
 		if not type:
-			ldl.error('solid with no type also has no texture attribute set')
+			utils.error('solid with no type also has no texture attribute set')
 	f = solid.getAttribute('holeface')
 	# Get holes info...
 	# FIXME this is repeated code from the hollow one -- any way we can
@@ -156,67 +156,67 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			type = hole.getAttribute('type')
 			if not type:
 				pass
-			elif type == ldl.RT_DOOR:
-				props[ldl.PROPS_K_KEY] = hole.getAttribute('key')
+			elif type == utils.RT_DOOR:
+				props[utils.PROPS_K_KEY] = hole.getAttribute('key')
 			else:
-				ldl.warning('only doors allowed as hole types; not plats or others.')
+				utils.warning('only doors allowed as hole types; not plats or others.')
 			# FIXME deal with other types
-			holes.append(ldl.Hole2D(
-				ldl.Point2D(float(ho_x), float(ho_y)),
-				ldl.Point2D(float(he_x), float(he_y)),
+			holes.append(utils.Hole2D(
+				utils.Point2D(float(ho_x), float(ho_y)),
+				utils.Point2D(float(he_x), float(he_y)),
 				type, props))
 		# Built split (2D) parts into 3D brushes; mapping of coords to 3D
 		# depends on which direction/face the hole was constructed in.
-		if f == ldl.DCP_NORTH:
+		if f == utils.DCP_NORTH:
 			parts = split.splitWall(
-				ldl.Region2D(
-					ldl.Point2D(o.x, o.z),
-					ldl.Point2D(e.x, e.z)
+				utils.Region2D(
+					utils.Point2D(o.x, o.z),
+					utils.Point2D(e.x, e.z)
 				),
 				holes)
 			for part in parts:
-				part3d = ldl.addDim(part, ldl.DIM_Y, o.y, e.y)
-				ldl.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
-		elif f == ldl.DCP_UP:
+				part3d = utils.addDim(part, utils.DIM_Y, o.y, e.y)
+				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
+		elif f == utils.DCP_UP:
 			parts = split.splitWall(
-				ldl.Region2D(
-					ldl.Point2D(o.x, o.y),
-					ldl.Point2D(e.x, e.y)
+				utils.Region2D(
+					utils.Point2D(o.x, o.y),
+					utils.Point2D(e.x, e.y)
 				),
 				holes)
 			for part in parts:
-				part3d = ldl.addDim(
-					part, ldl.DIM_Z, o.z + ldl.lip_small, e.z - ldl.lip_small * 2)
-				ldl.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
+				part3d = utils.addDim(
+					part, utils.DIM_Z, o.z + utils.lip_small, e.z - utils.lip_small * 2)
+				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
 			else:
-				ldl.error('Unsupported holeface ' + f + ' requested for hole in solid.')
+				utils.error('Unsupported holeface ' + f + ' requested for hole in solid.')
 	else:
 		# Doesn't have child nodes...
-		if not type or type == ldl.RT_STEP:
+		if not type or type == utils.RT_STEP:
 			pass  # no properties to set
-		elif type == ldl.RT_DOOR:
-			props[ldl.PROPS_K_KEY] = solid.getAttribute('key')
-		elif type == ldl.RT_PLAT:
-			props[ldl.PROPS_K_POS] = solid.getAttribute('position')
+		elif type == utils.RT_DOOR:
+			props[utils.PROPS_K_KEY] = solid.getAttribute('key')
+		elif type == utils.RT_PLAT:
+			props[utils.PROPS_K_POS] = solid.getAttribute('position')
 		else:
-			ldl.warning('unknown type ' + type + ' specifed.')
+			utils.warning('unknown type ' + type + ' specifed.')
 
-		brush = ldl.Region3D(
+		brush = utils.Region3D(
 			Point(o.x, o.y, o.z),
 			Point(e.x, e.y, e.z),
 			type,
 			props
 		)
-		ldl.makeBrush(doc, worldspawn, sf, style, brush, type, t)
+		utils.makeBrush(doc, worldspawn, sf, style, brush, type, t)
 	# We can't remove the child or we screw over tree traversal (urgh)...
-	ldl.insertPlaceholder(doc, parent, solid)
+	utils.insertPlaceholder(doc, parent, solid)
 
 
 def processEntity(doc, parent, offset, entity):
 	# Adjust coords...
 	for property in entity.childNodes:  # assume all children are property nodes
 		if property.getAttribute('name') == 'origin':
-			o = ldl.getPoint(property.getAttribute('value')) + offset
+			o = utils.getPoint(property.getAttribute('value')) + offset
 			property.setAttribute('value', str(o))
 	# Clone node (inc properties) and add to map...
 	doc.documentElement.appendChild(entity.cloneNode(True))
@@ -224,18 +224,18 @@ def processEntity(doc, parent, offset, entity):
 
 # FIXME DRY
 def main(xml_in):
-	ldl.stage = '02'
-	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
+	utils.stage = '02'
+	utils.uprint('\n === ' + utils.stackdescs[utils.stage] + ' ===')
 	global s
-	s = ldl.StyleFetcher()
+	s = utils.StyleFetcher()
 	try:
 		m = xml.dom.minidom.parseString(xml_in)
 	except:  # noqa E722
-		ldl.failParse()
-	ldl.remove_whitespace_nodes(m)
+		utils.failParse()
+	utils.remove_whitespace_nodes(m)
 	processMap(m)
 	m.getElementsByTagName('map')[0] \
-		.setAttribute('stackdesc', ldl.stackdescs['02'])
+		.setAttribute('stackdesc', utils.stackdescs['02'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
 

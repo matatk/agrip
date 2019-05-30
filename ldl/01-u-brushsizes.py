@@ -13,11 +13,10 @@
 	* The same texture is applied to all planes of each brush.
 """
 
-#import sys, xml.dom.minidom, re, ldl, xml.dom.ext
 import sys
 import xml.dom.minidom
 import re
-import ldl
+import utils
 from plane import Point, Plane3D
 
 r_planepoints = re.compile('(-?[0-9.]+) (-?[0-9.]+) (-?[0-9.]+)')
@@ -41,13 +40,13 @@ def listBrushes(map):
 
 	# Process all brushes...
 	for brush in map.getElementsByTagName('brush'):
-		ldl.uprint('Brush...')
+		utils.uprint('Brush...')
 		# Get all planes...
 		for plane in brush.getElementsByTagName('plane'):
-			ldl.uprint('    Plane...')
+			utils.uprint('    Plane...')
 			# Get texture spec...
 			textureSpec = getText(plane.getElementsByTagName('texture')[0].childNodes)
-			ldl.uprint('        Texture: ' + textureSpec)
+			utils.uprint('        Texture: ' + textureSpec)
 			# Get all points...
 			for point in plane.getElementsByTagName('point'):
 				point_match = r_planepoints.match(getText(point.childNodes))
@@ -56,7 +55,7 @@ def listBrushes(map):
 					float(point_match.group(2)),
 					float(point_match.group(3))))
 				# NB: We use floats above so that later calculations are still accurate.
-				ldl.uprint('        ' + str(plane_points[len(plane_points) - 1]))
+				utils.uprint('        ' + str(plane_points[len(plane_points) - 1]))
 			# Put points into a plane object...
 			brush_planes.append(
 				Plane3D(
@@ -69,7 +68,7 @@ def listBrushes(map):
 
 		# Got all planes; work out brush origin and size...
 		for plane in brush_planes:
-			ldl.uprint('   ' + str(plane))
+			utils.uprint('   ' + str(plane))
 
 		# Get and solve parallel planes...
 		while len(brush_planes) > 0:
@@ -140,7 +139,7 @@ def main(xml_in):
 	m = xml.dom.minidom.parseString(xml_in)
 	listBrushes(m)
 	m.getElementsByTagName('map')[0] \
-		.setAttribute('stackdesc', ldl.stackdescs['01'])
+		.setAttribute('stackdesc', utils.stackdescs['01'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
 

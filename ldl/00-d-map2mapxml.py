@@ -11,7 +11,7 @@
 
 import xml.sax
 import sys
-import ldl
+import utils
 
 
 def norm_ws(text):
@@ -35,7 +35,7 @@ class MapXML2Map(xml.sax.ContentHandler):
 
 	def startElement(self, name, attrs):
 		if name == 'map':
-			self._add(ldl.boilerplate_map + '// ' + ldl.stackdescs['00'] + '\n')
+			self._add(utils.boilerplate_map + '// ' + utils.stackdescs['00'] + '\n')
 		elif name == 'entity':
 			self._add(self.padding + '// Entity \n' + self.padding + '{\n')
 			self.paddinglevel = self.paddinglevel + 1
@@ -82,17 +82,17 @@ class MapXML2Map(xml.sax.ContentHandler):
 
 
 def main(xml_in):
-	ldl.stage = '00'
-	ldl.uprint('\n === ' + ldl.stackdescs[ldl.stage] + ' ===')
+	utils.stage = '00'
+	utils.uprint('\n === ' + utils.stackdescs[utils.stage] + ' ===')
 	conv = MapXML2Map()
 	try:
 		xml.sax.parseString(xml_in, conv)
 	except:  # noqa E722
 		raise
-		ldl.failParse()
+		utils.failParse()
 	return conv._result
 
 
 if __name__ == '__main__':
-	# TODO: turn off ldl.uprint here, or send to stderr?
+	# TODO: turn off utils.uprint here, or send to stderr?
 	print(main(sys.stdin.read()))

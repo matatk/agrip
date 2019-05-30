@@ -9,7 +9,9 @@
 	Please ensure the input is a valid MAP file.
 """
 
-import re, sys, os, ldl
+import re
+import sys
+import utils
 
 r_chunk = re.compile(r'(\{' +
 						# optional leading stuff...
@@ -117,9 +119,9 @@ class MapParser:
 
 	def parseMap(self):
 		sys.stdout.write('<?xml version="1.0" ?>\n')
-		sys.stdout.write(ldl.boilerplate)
-		#sys.stdout.write('<!-- ' + ldl.stackdescs['00'] + ' -->\n<map>\n')
-		sys.stdout.write('<map stackdesc="' + ldl.stackdescs['00'] + '" generator="' + __file__ + '">\n')
+		sys.stdout.write(utils.boilerplate)
+		#sys.stdout.write('<!-- ' + utils.stackdescs['00'] + ' -->\n<map>\n')
+		sys.stdout.write('<map stackdesc="' + utils.stackdescs['00'] + '" generator="' + __file__ + '">\n')
 		self.parseMain(self.stream)
 		sys.stdout.write('</map>\n')
 		sys.stdout.close
