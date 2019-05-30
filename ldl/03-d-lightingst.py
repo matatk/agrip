@@ -19,11 +19,8 @@ class LightingStyleFilter(XMLFilterBase):
 	SAX filter to FIXME
 	"""
 
-	def __init__(self, parent):
+	def __init__(self, parent):  # TODO needed?
 		super().__init__(parent)
-		self.lightStack = []
-		# for storing the light array for each hollow, so it can be put at the
-		# end of the hollow definition as opposed to the start
 
 	def _check_proximity(self, limit, val, tolerance):
 		'''is a point close to limit, or zero?'''
@@ -113,17 +110,34 @@ class LightingStyleFilter(XMLFilterBase):
 
 					# Now to render the light to XML...
 					if drawlight:
-						prop_ent = '<property name=\'classname\' value=\'' + entity + '\'/>'
-						prop_org = '<property name=\'origin\' value=\'' \
-							+ str(i) + ' ' + str(j) + ' ' + str(k) + '\'/>'
-						prop_lev = '<property name=\'light\' value=\'' + str(light) + '\'/>'
+						super().startElement('entity', {})
+
+						super().startElement('property', {
+							'name': 'classname',
+							'value': entity
+						})
+						super().endElement('property')
+
+						super().startElement('property', {
+							'name': 'origin',
+							'value': str(i) + ' ' + str(j) + ' ' + str(k)
+						})
+						super().endElement('property')
+
+						super().startElement('property', {
+							'name': 'light',
+							'value': str(light)
+						})
+						super().endElement('property')
+
 						if sound:
-							prop_snd = '<property name=\'classname\' value=\'' + sound + '\'/>'
-						else:
-							prop_snd = ''
-						ent = '<entity>' \
-							+ prop_ent + prop_org + prop_lev + prop_snd + '</entity>'
-						lights.append(ent)
+							super().startElement('property', {
+								'name': 'classname',
+								'value': sound
+							})
+							super().endElement('property')
+
+						super().endElement('entity')
 					else:
 						pass
 		return lights
@@ -152,22 +166,12 @@ class LightingStyleFilter(XMLFilterBase):
 			# Perimeter => just the edges
 			# Grid => a superset: perimeter + grid in the centre
 			if style_type == ldl.LS_PERIMETER:
-				lights = self._make_lights_core(style_name, style_id, style_type, bounds)
+				self._make_lights_core(style_name, style_id, style_type, bounds)
 			else:
-				lights1 = self._make_lights_core(
+				self._make_lights_core(
 					style_name, style_id, ldl.LS_PERIMETER, bounds)
-				lights2 = self._make_lights_core(
+				self._make_lights_core(
 					style_name, style_id, ldl.LS_CENTRE, bounds)
-				lights = lights1 + lights2
-			# Done -- append results...
-			self.lightStack.append(lights)
-
-	def endElement(self, name):
-		if name == 'hollow':
-			for light in self.lightStack.pop():
-				print(light)
-
-		super().endElement(name)
 
 	# Utility Functions...
 
@@ -183,7 +187,9 @@ def main(xml_in):
 	global styleFetcher
 	styleFetcher = ldl.StyleFetcher()
 	filtered_reader = LightingStyleFilter(xml.sax.make_parser())
-	filtered_reader.setContentHandler(XMLGenerator())
+	xml_out = io.StringIO()
+	filtered_reader.setContentHandler(
+		XMLGenerator(xml_out, short_empty_elements=True))
 	try:
 		hacky = io.StringIO(xml_in)
 		filtered_reader.parse(hacky)
@@ -192,7 +198,8 @@ def main(xml_in):
 	except:  # noqa E722
 		raise
 		ldl.failParse()
+	return xml_out.getvalue()
 
 
 if __name__ == "__main__":
-	main(sys.stdin.read())
+	print(main(sys.stdin.read()))
