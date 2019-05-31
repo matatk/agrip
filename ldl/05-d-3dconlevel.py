@@ -53,42 +53,42 @@ OT_ITEM = 'item'
 OT_BUILDER = 'builder'
 
 dir_to_angle = {
-	dcp.SOUTHWEST:  225,
-	dcp.WEST:       180,
-	dcp.NORTHWEST:  135,
-	dcp.SOUTH:      270,
-	dcp.NORTH:       90,
-	dcp.SOUTHEAST:  315,
-	dcp.EAST:         0,
-	dcp.NORTHEAST:   45,
+	dcp.SOUTHWEST: 225,
+	dcp.WEST:      180,
+	dcp.NORTHWEST: 135,
+	dcp.SOUTH:     270,
+	dcp.NORTH:      90,
+	dcp.SOUTHEAST: 315,
+	dcp.EAST:        0,
+	dcp.NORTHEAST:  45,
 }
 
 facepos_to_fract = {
-	dcp.BOTTOMLEFT:	    (0.25, 0.25),
-	dcp.LEFT:	        (0.25, 0.50),
-	dcp.TOPLEFT:	    (0.25, 0.75),
+	dcp.BOTTOMLEFT:	 (0.25, 0.25),
+	dcp.LEFT:	     (0.25, 0.50),
+	dcp.TOPLEFT:	 (0.25, 0.75),
 
-	dcp.BOTTOM:	        (0.50, 0.25),
-	dcp.CENTRE:	        (0.50, 0.50),
-	dcp.TOP:	        (0.50, 0.75),
+	dcp.BOTTOM:	     (0.50, 0.25),
+	dcp.CENTRE:	     (0.50, 0.50),
+	dcp.TOP:	     (0.50, 0.75),
 
-	dcp.BOTTOMRIGHT:	(0.75, 0.25),
-	dcp.RIGHT:	        (0.75, 0.50),
-	dcp.TOPRIGHT:	    (0.75, 0.75)
+	dcp.BOTTOMRIGHT: (0.75, 0.25),
+	dcp.RIGHT:	     (0.75, 0.50),
+	dcp.TOPRIGHT:	 (0.75, 0.75)
 }
 
 compass_to_fract = {
-	dcp.SOUTHWEST:	(0.25, 0.25),
-	dcp.WEST:	    (0.25, 0.50),
-	dcp.NORTHWEST:	(0.25, 0.75),
+	dcp.SOUTHWEST: (0.25, 0.25),
+	dcp.WEST:	   (0.25, 0.50),
+	dcp.NORTHWEST: (0.25, 0.75),
 
-	dcp.SOUTH:	    (0.50, 0.25),
-	dcp.CENTRE:	    (0.50, 0.50),
-	dcp.NORTH:	    (0.50, 0.75),
+	dcp.SOUTH:	   (0.50, 0.25),
+	dcp.CENTRE:	   (0.50, 0.50),
+	dcp.NORTH:	   (0.50, 0.75),
 
-	dcp.SOUTHEAST:	(0.75, 0.25),
-	dcp.EAST:	    (0.75, 0.50),
-	dcp.NORTHEAST:	(0.75, 0.75)
+	dcp.SOUTHEAST: (0.75, 0.25),
+	dcp.EAST:	   (0.75, 0.50),
+	dcp.NORTHEAST: (0.75, 0.75)
 }
 
 sizes_con = {
@@ -140,11 +140,14 @@ r_extentsym = re.compile(r'\+')
 
 def con_elev_err_msg(rid, tid, msg):
 	if tid:
-		targ = ' (to room \'' + tid + '\') '
+		targ = " (to room '" + tid + "') "
 	else:
 		targ = ''
-	boiler_h = 'A connection in room \'' + rid + '\'' + targ + 'may require the construction of an elevation device to allow access. The current error is that '
-	boiler_f = ' If you don\'t want to provide access from this direction, set the \'elevtype\' attribute of the connection to \'none\'.'
+	boiler_h = 'A connection in room \'' + rid + '\'' + targ + \
+		'may require the construction of an elevation device to allow ' \
+		'access. The current error is that '
+	boiler_f = " If you don't want to provide access from this direction, " \
+		"set the 'elevtype' attribute of the connection to 'none'."
 	return boiler_h + msg + boiler_f
 
 
@@ -195,7 +198,11 @@ def check_childroom_size(parent, cs, cc, id):
 			or cn.y >= ps.y \
 			or cn.y <= 0 \
 			or cn.z > ps.z:
-			utils.error('Your inner room with id \'' + id + '\' does not fit within the parent at the sizes you\'ve specified.  To avoid this error, try either reducing the size of the contained room, or increasing the size of the parent room.')
+			utils.error(
+				"Your inner room with id '" + id + "' does not fit within "
+				"the parent at the sizes you've specified. To avoid this "
+				'error, try either reducing the size of the contained room, '
+				'or increasing the size of the parent room.')
 
 
 def get_childroom_origin(child_size, parent, pos, id):
@@ -221,7 +228,14 @@ def get_childroom_origin(child_size, parent, pos, id):
 	# things...)
 	child_origin.z = -prog.lip
 
-	utils.uprint('get_childroom_origin:\n\tchild centre: ' + str(child_centre) + ';\n\tparent origin: ' + str(parent_origin) + ';\n\tparent_size: ' + str(parent_size) + ';\n\tcc_pos: ' + str(cc_pos) + ';\n\tinparent_child_centre: ' + str(inparent_child_centre) + ';\n\tchild_origin: ' + str(child_origin))
+	utils.uprint(
+		'get_childroom_origin'
+		+ ':\n\tchild centre: ' + str(child_centre)
+		+ ';\n\tparent origin: ' + str(parent_origin)
+		+ ';\n\tparent_size: ' + str(parent_size)
+		+ ';\n\tcc_pos: ' + str(cc_pos)
+		+ ';\n\tinparent_child_centre: ' + str(inparent_child_centre)
+		+ ';\n\tchild_origin: ' + str(child_origin))
 	return child_origin
 
 
@@ -277,7 +291,10 @@ def ri_clear():
 def ri_add(id):
 	global ril
 	if id in ril:
-		utils.error('It seems that you have two or more elements with the ID \'' + id + '\'.  IDs are meant to be unique.  Please ensure that you do not use the same one twice (or more).')
+		utils.error(
+			"It seems that you have two or more elements with the ID '"
+			+ id + "'. IDs are meant to be unique. Please ensure that you "
+			"do not use the same one twice (or more).")
 	else:
 		ril.append(id)
 	# Room doesn't have an origin...
@@ -331,11 +348,14 @@ def hole_origin(
 		brush_origin2d = utils.Point2D(brush_origin.x, brush_origin.y)
 		brush_size2d = real_wall_size(utils.Point2D(brush_size.x, brush_size.y))
 	else:
-		utils.error('hole_origin: invalid wall specified whilst trying to put a hole into a wall.')
+		utils.error(
+			'hole_origin: invalid wall specified whilst trying to put a '
+			'hole into a wall.')
 
 	if not floating:
 		if hole_wall == dcp.NORTH or hole_wall == dcp.SOUTH:
-			hole_centre2d_rel = hole_centre2d - brush_origin2d + utils.Point2D(prog.lip, 0)
+			hole_centre2d_rel = \
+				hole_centre2d - brush_origin2d + utils.Point2D(prog.lip, 0)
 		else:
 			hole_centre2d_rel = hole_centre2d - brush_origin2d
 		# FIXME why must we add prog.lip here and to x only?
@@ -345,7 +365,17 @@ def hole_origin(
 
 	hole_origin2d_rel = hole_centre2d_rel - (hole_size.divide_coords_by(2))
 
-	utils.uprint('hole_origin:\n\thole_centre: ' + str(hole_centre) + ';\n\thole_size: ' + str(hole_size) + ';\n\thole_wall: ' + hole_wall + ';\n\tbrush_origin: ' + str(brush_origin) + ';\n\tbrush_size: ' + str(brush_size) + ';\n\tbrush_size2d: ' + str(brush_size2d) + '\n\tfloating: ' + str(floating) + ';\n\thole centre 2D rel: ' + str(hole_centre2d_rel) + ';\n\thole origin 2D r: ' + str(hole_origin2d_rel))
+	utils.uprint(
+		'hole_origin'
+		+ ':\n\thole_centre: ' + str(hole_centre)
+		+ ';\n\thole_size: ' + str(hole_size)
+		+ ';\n\thole_wall: ' + hole_wall
+		+ ';\n\tbrush_origin: ' + str(brush_origin)
+		+ ';\n\tbrush_size: ' + str(brush_size)
+		+ ';\n\tbrush_size2d: ' + str(brush_size2d)
+		+ '\n\tfloating: ' + str(floating)
+		+ ';\n\thole centre 2D rel: ' + str(hole_centre2d_rel)
+		+ ';\n\thole origin 2D r: ' + str(hole_origin2d_rel))
 	return hole_origin2d_rel
 
 
@@ -404,12 +434,24 @@ def target_brush_origin(
 			hole_centre2d, wall_size2d, hole_size, pos)
 		wall_origin3d = Point(wall_origin2d.x, wall_origin2d.y, hole_centre.z)
 	else:
-		utils.error('target_brush_origin: invalid wall specified whilst trying to put a hole into a wall.')
+		utils.error(
+			'target_brush_origin: invalid wall specified whilst trying to '
+			'put a hole into a wall.')
 
 	# Map back to 3D...
 	target_brush_origin = wall_origin3d + room_offset
 
-	utils.uprint('target_brush_origin:\n\thole_centre: ' + str(hole_centre) + '\n\twall size: ' + str(wall_size2d) + ';\n\tpos: ' +str(pos) + ';\n\tdir: ' + hole_wall + '\n\twall offset (from room origin): ' + str(wall_offset) + '\n\twall origin2d: ' + str(wall_origin2d) + '\n\twall origin3d: ' + str(wall_origin3d) + '\n\troom_offset: ' + str(room_offset) + '\n\ttarget brush origin: ' + str(target_brush_origin))
+	utils.uprint(
+		'target_brush_origin:'
+		+ '\n\thole_centre: ' + str(hole_centre)
+		+ '\n\twall size: ' + str(wall_size2d)
+		+ ';\n\tpos: ' + str(pos)
+		+ ';\n\tdir: ' + hole_wall
+		+ '\n\twall offset (from room origin): ' + str(wall_offset)
+		+ '\n\twall origin2d: ' + str(wall_origin2d)
+		+ '\n\twall origin3d: ' + str(wall_origin3d)
+		+ '\n\troom_offset: ' + str(room_offset)
+		+ '\n\ttarget brush origin: ' + str(target_brush_origin))
 	return target_brush_origin
 
 
@@ -476,9 +518,10 @@ def fit_hole_in_wall(wall_size, hole_size, pos):
 	if exitflag:
 		return prelim
 	else:
-		utils.uprint('fit_hole_in_wall: couldn\'t fit hole ('
-				+ str(hole_size) + ') in face (' + str(wall_size)
-				+ ') - ran out of adjustment attempts.')
+		utils.uprint(
+			"fit_hole_in_wall: couldn't fit hole ("
+			+ str(hole_size) + ') in face (' + str(wall_size)
+			+ ') - ran out of adjustment attempts.')
 		return False
 
 
@@ -532,16 +575,29 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 		hc = hole_centre_core(wall_size, h_extent, h_wall, pos)
 		out = r_origin + wall_origin + Point(hc.x, hc.y, 0)
 	else:
-		utils.error('hole_centre: invalid wall specified whilst trying to put a hole into a wall.')
+		utils.error(
+			'hole_centre: invalid wall specified whilst trying to put a '
+			'hole into a wall.')
 
-	utils.uprint('hole_centre:\n\tr_origin: ' + str(r_origin) + ';\n\tr_extent: ' + str(r_extent) + ';\n\th_wall: ' + str(h_wall) + ';\n\th_extent: ' + str(h_extent) + ';\n\tpos: ' + str(pos) + '\n\thc: ' + str(hc) + ';\n\tout: ' + str(out))
+	utils.uprint(
+		'hole_centre:'
+		+ '\n\tr_origin: ' + str(r_origin)
+		+ ';\n\tr_extent: ' + str(r_extent)
+		+ ';\n\th_wall: ' + str(h_wall)
+		+ ';\n\th_extent: ' + str(h_extent)
+		+ ';\n\tpos: ' + str(pos)
+		+ '\n\thc: ' + str(hc)
+		+ ';\n\tout: ' + str(out))
 
 	# Check for holes that are too big...
 	if h_extent.x > wall_size.x or h_extent.y > wall_size.y:
 		utils.uprint(
 			'hole_centre: h_extent ' + str(h_extent) + ' > wall_size '
 			+ str(wall_size))
-		utils.error('hole in wall \'' + con_info['wall'] + '\' of room \'' + r_id + '\' is bigger than the wall.  Try making the hole smaller, or the room larger.')
+		utils.error(
+			"hole in wall '" + con_info['wall'] + "' of room '" + r_id
+			+ "' is bigger than the wall. Try making the hole smaller, or "
+			'the room larger.')
 	else:
 		utils.uprint(
 			'hole_centre: h_extent ' + str(h_extent) + ' <= wall_size '
@@ -579,7 +635,10 @@ def opposite_dir(dir):
 def convert_coords_extentsym(objtype, word, index, parent=None):
 	'''Convert coords based on extent symbols.'''
 	if not parent:
-		utils.error('convert_coords_extentsym: trying to place object of type \'' + objtype + '\' but not given a parent to place this object within.')
+		utils.error(
+			"convert_coords_extentsym: trying to place object of type '"
+			+ objtype + "' but not given a parent to place this object "
+			'within.')
 
 	if isinstance(parent, Point):
 		parent_size = [parent.x, parent.y, parent.z]
@@ -601,8 +660,8 @@ def convert_coords_extentsym(objtype, word, index, parent=None):
 
 
 def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
-	'''Convert coords based on facepos directions.  If we're positioning a room
-	or item within parent, we always take it to be top-down.  If we're dealing
+	'''Convert coords based on facepos directions. If we're positioning a room
+	or item within parent, we always take it to be top-down. If we're dealing
 	with connections, it's based on the wall they're on.'''
 	if mode == CC_COMPASS:
 		answer_hash = compass_to_fract
@@ -631,7 +690,9 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 	elif objtype == OT_CON:
 		# Do we have the direction/wall?
 		if not dir:
-			utils.error('convert_coords_compass_facepos: whilst trying to position a connection on a wall, the wall was not specified.')
+			utils.error(
+				'convert_coords_compass_facepos: whilst trying to position '
+				'a connection on a wall, the wall was not specified.')
 		if dir == dcp.SOUTH or dir == dcp.EAST:
 			flip = True
 		else:
