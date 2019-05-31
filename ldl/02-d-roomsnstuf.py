@@ -176,7 +176,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				),
 				holes)
 			for part in parts:
-				part3d = utils.addDim(part, utils.DIM_Y, o.y, e.y)
+				part3d = utils.addDim(part, 'y', o.y, e.y)
 				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
 		elif f == dcp.UP:
 			parts = split.splitWall(
@@ -187,7 +187,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				holes)
 			for part in parts:
 				part3d = utils.addDim(
-					part, utils.DIM_Z, o.z + utils.lip_small, e.z - utils.lip_small * 2)
+					part, 'z', o.z + utils.lip_small, e.z - utils.lip_small * 2)
 				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
 			else:
 				utils.error('Unsupported holeface ' + f + ' requested for hole in solid.')

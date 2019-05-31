@@ -51,7 +51,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 		),
 		getHoles(holes, dcp.DOWN))
 	for part in parts:
-		part3d = addDim(part, DIM_Z, brush_start.z)
+		part3d = addDim(part, 'z', brush_start.z)
 		#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 		makeBrush(doc, worldspawn, sf, style, part3d, dcp.DOWN)
 	# up (ceiling)
@@ -65,7 +65,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 		),
 		getHoles(holes, dcp.UP))
 	for part in parts:
-		part3d = addDim(part, DIM_Z, brush_start.z)
+		part3d = addDim(part, 'z', brush_start.z)
 		#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 		makeBrush(doc, worldspawn, sf, style, part3d, dcp.UP)
 	# north wall; y represents depth
@@ -80,7 +80,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			),
 			getHoles(holes, dcp.NORTH))
 		for part in parts:
-			part3d = addDim(part, DIM_Y, brush_start.y)
+			part3d = addDim(part, 'y', brush_start.y)
 			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 			makeBrush(doc, worldspawn, sf, style, part3d, dcp.NORTH)
 	# south wall
@@ -96,7 +96,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			),
 			getHoles(holes, dcp.SOUTH))
 		for part in parts:
-			part3d = addDim(part, DIM_Y, brush_start.y)
+			part3d = addDim(part, 'y', brush_start.y)
 			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 			makeBrush(doc, worldspawn, sf, style, part3d, dcp.SOUTH)
 	# west wall
@@ -123,7 +123,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			),
 			getHoles(holes, dcp.WEST))
 		for part in parts:
-			part3d = addDim(part, DIM_X, brush_start.x)
+			part3d = addDim(part, 'x', brush_start.x)
 			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 			makeBrush(doc, worldspawn, sf, style, part3d, dcp.WEST)
 	# east wall
@@ -149,7 +149,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			),
 			getHoles(holes, dcp.EAST))
 		for part in parts:
-			part3d = addDim(part, DIM_X, brush_start.x)
+			part3d = addDim(part, 'x', brush_start.x)
 			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 			makeBrush(doc, worldspawn, sf, style, part3d, dcp.EAST)
 	# Return inner extents...
@@ -461,19 +461,19 @@ def addDim(region, dim, d, e=None):
 	if region.type == RT_DOOR:
 		o = lip_small_margin
 		e = lip_small
-	if dim == DIM_X:
+	if dim == 'x':
 		return Region3D(
 				Point(d+o, region.origin.x, region.origin.y),
 				Point(e, region.extent.x, region.extent.y),
 				region.type,
 				region.props)
-	elif dim == DIM_Y:
+	elif dim == 'y':
 		return Region3D(
 				Point(region.origin.x, d+o, region.origin.y),
 				Point(region.extent.x, e, region.extent.y),
 				region.type,
 				region.props)
-	elif dim == DIM_Z:
+	elif dim == 'z':
 		return Region3D(
 				Point(region.origin.x, region.origin.y, d+o),
 				Point(region.extent.x, region.extent.y, e),

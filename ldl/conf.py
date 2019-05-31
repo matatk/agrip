@@ -71,10 +71,6 @@ PROPS_K_POS = 'position'
 PT_INT = 'int'
 PT_TEXT = 'text'
 
-DIM_X = 'x'
-DIM_Y = 'y'
-DIM_Z = 'z'
-
 worldtypes = {
 	WT_MED: '0',
 	WT_RUNIC: '1',
