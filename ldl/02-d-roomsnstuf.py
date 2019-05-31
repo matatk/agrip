@@ -41,7 +41,7 @@ def processInfo(doc, map):
 			mapname = property.getAttribute('value')
 		elif ptype == 'worldtype':
 			worldtype = property.getAttribute('value')
-			if worldtype in utils.worldtypes:
+			if worldtype in utils.worldtypes:  # TODO conf.worldtypes?
 				worldtype_num = utils.worldtypes[worldtype]
 			else:
 				utils.error('Invalid worldtype ' + worldtype + ' specified.')
