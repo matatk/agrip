@@ -73,13 +73,10 @@ class pt:
 	TEXT = 'text'
 
 
-WT_BASE = 'base'
-WT_MED = 'medieval'
-WT_RUNIC = 'runic'
 worldtypes = {
-	WT_MED: '0',
-	WT_RUNIC: '1',
-	WT_BASE: '2'
+	'medieval': '0',
+	'runic': '1',
+	'base': '2'
 }
 
 key_ents = {
@@ -92,15 +89,17 @@ key_access = {
 }
 
 # FIXME needs expansion
+# FIXME should be different?
 soundtypes_door = {
-	WT_BASE: '2',
-	WT_MED: '2'
+	'base': '2',
+	'medieval': '2'
 }
 
 # FIXME needs expansion
+# FIXME should be different?
 soundtypes_plat = {
-	WT_BASE: '2',
-	WT_MED: '2'
+	'base': '2',
+	'medieval': '2'
 }
 
 
