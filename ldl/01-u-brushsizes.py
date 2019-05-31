@@ -18,6 +18,7 @@ import xml.dom.minidom
 import re
 import utils
 from plane import Point, Plane3D
+from conf import prog
 
 r_planepoints = re.compile('(-?[0-9.]+) (-?[0-9.]+) (-?[0-9.]+)')
 

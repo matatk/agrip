@@ -11,7 +11,7 @@
 
 import re
 import sys
-import utils
+from conf import prog
 
 r_chunk = re.compile(r'(\{' +
 						# optional leading stuff...
