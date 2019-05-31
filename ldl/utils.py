@@ -41,7 +41,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 	inner_abslut_extent = (origin + extent) - lip
 
 	# down (floor)
-	if not DCP_DOWN in absentwalls:
+	if not dcp.DOWN in absentwalls:
 		brush_start = origin
 		brush_extent = Point(extent.x, extent.y, lip)
 	parts = split.splitWall(
@@ -49,13 +49,13 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			Point2D(brush_start.x, brush_start.y),
 			Point2D(brush_extent.x, brush_extent.y)
 		),
-		getHoles(holes, DCP_DOWN))
+		getHoles(holes, dcp.DOWN))
 	for part in parts:
 		part3d = addDim(part, DIM_Z, brush_start.z)
 		#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
-		makeBrush(doc, worldspawn, sf, style, part3d, DCP_DOWN)
+		makeBrush(doc, worldspawn, sf, style, part3d, dcp.DOWN)
 	# up (ceiling)
-	if not DCP_UP in absentwalls:
+	if not dcp.UP in absentwalls:
 		brush_start = origin + Point(0, 0, extent.z - lip)
 		brush_extent = Point(extent.x, extent.y, lip)
 	parts = split.splitWall(
@@ -63,81 +63,81 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			Point2D(brush_start.x, brush_start.y),
 			Point2D(brush_extent.x, brush_extent.y)
 		),
-		getHoles(holes, DCP_UP))
+		getHoles(holes, dcp.UP))
 	for part in parts:
 		part3d = addDim(part, DIM_Z, brush_start.z)
 		#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
-		makeBrush(doc, worldspawn, sf, style, part3d, DCP_UP)
+		makeBrush(doc, worldspawn, sf, style, part3d, dcp.UP)
 	# north wall; y represents depth
-	if not DCP_NORTH in absentwalls:
+	if not dcp.NORTH in absentwalls:
 		brush_start = origin + Point(0, extent.y - lip, lip)
 		brush_extent = Point(extent.x, lip, extent.z - lip*2)
-		wall_holes = getHoles(holes, DCP_NORTH)
+		wall_holes = getHoles(holes, dcp.NORTH)
 		parts = split.splitWall(
 			Region2D(
 				Point2D(brush_start.x, brush_start.z),
 				Point2D(brush_extent.x, brush_extent.z)
 			),
-			getHoles(holes, DCP_NORTH))
+			getHoles(holes, dcp.NORTH))
 		for part in parts:
 			part3d = addDim(part, DIM_Y, brush_start.y)
 			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
-			makeBrush(doc, worldspawn, sf, style, part3d, DCP_NORTH)
+			makeBrush(doc, worldspawn, sf, style, part3d, dcp.NORTH)
 	# south wall
 	# FIXME holes need to be expressed the other way 'round (i.e. 0 is at RHS not LHS)?
-	if not DCP_SOUTH in absentwalls:
+	if not dcp.SOUTH in absentwalls:
 		brush_start = origin + Point(0, 0, lip)
 		brush_extent = Point(extent.x, lip, extent.z - lip*2)
-		wall_holes = getHoles(holes, DCP_SOUTH)
+		wall_holes = getHoles(holes, dcp.SOUTH)
 		parts = split.splitWall(
 			Region2D(
 				Point2D(brush_start.x, brush_start.z),
 				Point2D(brush_extent.x, brush_extent.z)
 			),
-			getHoles(holes, DCP_SOUTH))
+			getHoles(holes, dcp.SOUTH))
 		for part in parts:
 			part3d = addDim(part, DIM_Y, brush_start.y)
 			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
-			makeBrush(doc, worldspawn, sf, style, part3d, DCP_SOUTH)
+			makeBrush(doc, worldspawn, sf, style, part3d, dcp.SOUTH)
 	# west wall
-	if not DCP_WEST in absentwalls:
-		if DCP_NORTH not in absentwalls and DCP_SOUTH not in absentwalls:
+	if not dcp.WEST in absentwalls:
+		if dcp.NORTH not in absentwalls and dcp.SOUTH not in absentwalls:
 			brush_start = origin + Point(0, lip, lip)
 			brush_extent = Point(lip, extent.y - lip*2, extent.z - lip*2)
-		elif DCP_NORTH in absentwalls and DCP_SOUTH in absentwalls:
+		elif dcp.NORTH in absentwalls and dcp.SOUTH in absentwalls:
 			brush_start = origin + Point(0, lip, lip)
 			brush_extent = Point(lip, extent.y - lip*2, extent.z - lip*2)
-		elif DCP_NORTH in absentwalls:
+		elif dcp.NORTH in absentwalls:
 			brush_start = origin + Point(0, lip, lip)
 			brush_extent = Point(lip, extent.y - lip, extent.z - lip*2)
-		elif DCP_SOUTH in absentwalls:
+		elif dcp.SOUTH in absentwalls:
 			brush_start = origin + Point(0, 0, lip)
 			brush_extent = Point(lip, extent.y - lip, extent.z - lip*2)
 		else:
 			error('absentwalls')
-		wall_holes = getHoles(holes, DCP_WEST)
+		wall_holes = getHoles(holes, dcp.WEST)
 		parts = split.splitWall(
 			Region2D(
 				Point2D(brush_start.y, brush_start.z),
 				Point2D(brush_extent.y, brush_extent.z)
 			),
-			getHoles(holes, DCP_WEST))
+			getHoles(holes, dcp.WEST))
 		for part in parts:
 			part3d = addDim(part, DIM_X, brush_start.x)
 			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
-			makeBrush(doc, worldspawn, sf, style, part3d, DCP_WEST)
+			makeBrush(doc, worldspawn, sf, style, part3d, dcp.WEST)
 	# east wall
-	if not DCP_EAST in absentwalls:
-		if DCP_NORTH not in absentwalls and DCP_SOUTH not in absentwalls:
+	if not dcp.EAST in absentwalls:
+		if dcp.NORTH not in absentwalls and dcp.SOUTH not in absentwalls:
 			brush_start = origin + Point(extent.x - lip, lip, lip)
 			brush_extent = Point(lip, extent.y - lip*2, extent.z - lip*2)
-		elif DCP_NORTH in absentwalls and DCP_SOUTH in absentwalls:
+		elif dcp.NORTH in absentwalls and dcp.SOUTH in absentwalls:
 			brush_start = origin + Point(extent.x - lip, 0, lip)
 			brush_extent = Point(lip, extent.y, extent.z - lip*2)
-		elif DCP_NORTH in absentwalls:
+		elif dcp.NORTH in absentwalls:
 			brush_start = origin + Point(extent.x - lip, lip, lip)
 			brush_extent = Point(lip, extent.y - lip, extent.z - lip*2)
-		elif DCP_SOUTH in absentwalls:
+		elif dcp.SOUTH in absentwalls:
 			brush_start = origin + Point(extent.x - lip, 0, lip)
 			brush_extent = Point(lip, extent.y - lip, extent.z - lip*2)
 		else:
@@ -147,11 +147,11 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 				Point2D(brush_start.y, brush_start.z),
 				Point2D(brush_extent.y, brush_extent.z)
 			),
-			getHoles(holes, DCP_EAST))
+			getHoles(holes, dcp.EAST))
 		for part in parts:
 			part3d = addDim(part, DIM_X, brush_start.x)
 			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
-			makeBrush(doc, worldspawn, sf, style, part3d, DCP_EAST)
+			makeBrush(doc, worldspawn, sf, style, part3d, dcp.EAST)
 	# Return inner extents...
 	return inner_origin, inner_abslut_extent
 
@@ -556,7 +556,7 @@ class Chunk2D(Region2D): pass
 class Hole2D(Region2D): pass
 
 def getHoles(dict, wall):
-	'''Holes are stored in a dictionary where the keys are the names of the walls (DCP_ values).  There can be multiple holes per wall.  This funtion extracts and returns them as a list of Hole objects (which themselves contain Point2D objects).'''
+	'''Holes are stored in a dictionary where the keys are the names of the walls (dcp. values).  There can be multiple holes per wall.  This funtion extracts and returns them as a list of Hole objects (which themselves contain Point2D objects).'''
 	holes_list = []
 	if wall in dict:
 		return dict[wall]
@@ -615,14 +615,14 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 		plat_ent = doc.createElement('entity')
 		plat_ent.appendChild(createProperty(doc, 'classname', 'func_plat'))
 		plat_ent.appendChild(createProperty(doc, 'sounds', soundtypes_plat[sf.getWorldtypeName(style)]))
-		if part.props[PROPS_K_POS] == DCP_DOWN:
+		if part.props[PROPS_K_POS] == dcp.DOWN:
 			height = part.extent.z - lip
 			part.origin.z = part.origin.z + part.extent.z - lip
 			part.extent.z = lip
-		elif part.props[PROPS_K_POS] == DCP_UP:
+		elif part.props[PROPS_K_POS] == dcp.UP:
 			error('up plats not imlemented yet')
 		else:
-			error('Platform only allowed to have position ' + DCP_UP + ' or ' + DCP_DOWN + '.')
+			error('Platform only allowed to have position ' + dcp.UP + ' or ' + dcp.DOWN + '.')
 		plat_ent.appendChild(createProperty(doc, 'height', str(height)))
 		# Ignore specified texture for plats; use style one...
 		plat_ent.appendChild(createSolid(doc, part.origin, part.extent, sf.getSetTex(style, RT_PLAT)))

@@ -12,6 +12,7 @@ from plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
 import io
+from conf import dcp
 
 
 class BuilderFilter(XMLFilterBase):
@@ -50,7 +51,7 @@ class BuilderFilter(XMLFilterBase):
 		else:
 			texture = ''
 		if 'position' in si:
-			pos = si['position']  # DCP_UP or DCP_DOWN (top or bottomw
+			pos = si['position']  # dcp.UP or dcp.DOWN (top or bottomw
 		else:
 			utils.error('plat given without a position (up or down)')
 
@@ -85,7 +86,7 @@ class BuilderFilter(XMLFilterBase):
 		# FIXME repeated code: n/e == s/w -- collapse into 2?
 
 		# Work out which dimension is which
-		if dir == utils.DCP_NORTH:
+		if dir == dcp.NORTH:
 			# use X and Y; Z rising with increasing Y
 			length = size.y
 			height = size.z
@@ -99,7 +100,7 @@ class BuilderFilter(XMLFilterBase):
 					Point(width, part.extent.x, part.extent.y)
 				)
 				parts3d.append(part3d)
-		elif dir == utils.DCP_SOUTH:
+		elif dir == dcp.SOUTH:
 			# use X and Y; Z falling with increasing Y
 			length = size.y
 			height = size.z
@@ -113,7 +114,7 @@ class BuilderFilter(XMLFilterBase):
 					Point(width, part.extent.x, part.extent.y)
 				)
 				parts3d.append(part3d)
-		elif dir == utils.DCP_EAST:
+		elif dir == dcp.EAST:
 			# use X and Y; Z rising with increasing X
 			length = size.x
 			height = size.z
@@ -127,7 +128,7 @@ class BuilderFilter(XMLFilterBase):
 					Point(part.extent.x, width, part.extent.y)
 				)
 				parts3d.append(part3d)
-		elif dir == utils.DCP_WEST:
+		elif dir == dcp.WEST:
 			# use X and y; Z falling with increasing X
 			length = size.x
 			height = size.z

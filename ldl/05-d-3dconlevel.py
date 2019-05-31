@@ -25,6 +25,7 @@ import re  # standard/mine
 import xml.parsers.expat
 import xml2dict
 from plane import Point
+from conf import dcp
 
 '''Convert coords to numbers, from a range of possible formats.
 2D formats:
@@ -52,42 +53,42 @@ OT_ITEM = 'item'
 OT_BUILDER = 'builder'
 
 dir_to_angle = {
-	utils.DCP_SOUTHWEST:  225,
-	utils.DCP_WEST:       180,
-	utils.DCP_NORTHWEST:  135,
-	utils.DCP_SOUTH:      270,
-	utils.DCP_NORTH:       90,
-	utils.DCP_SOUTHEAST:  315,
-	utils.DCP_EAST:         0,
-	utils.DCP_NORTHEAST:   45,
+	dcp.SOUTHWEST:  225,
+	dcp.WEST:       180,
+	dcp.NORTHWEST:  135,
+	dcp.SOUTH:      270,
+	dcp.NORTH:       90,
+	dcp.SOUTHEAST:  315,
+	dcp.EAST:         0,
+	dcp.NORTHEAST:   45,
 }
 
 facepos_to_fract = {
-	utils.DCP_BOTTOMLEFT:	    (0.25, 0.25),
-	utils.DCP_LEFT:	        (0.25, 0.50),
-	utils.DCP_TOPLEFT:	    (0.25, 0.75),
+	dcp.BOTTOMLEFT:	    (0.25, 0.25),
+	dcp.LEFT:	        (0.25, 0.50),
+	dcp.TOPLEFT:	    (0.25, 0.75),
 
-	utils.DCP_BOTTOM:	        (0.50, 0.25),
-	utils.DCP_CENTRE:	        (0.50, 0.50),
-	utils.DCP_TOP:	        (0.50, 0.75),
+	dcp.BOTTOM:	        (0.50, 0.25),
+	dcp.CENTRE:	        (0.50, 0.50),
+	dcp.TOP:	        (0.50, 0.75),
 
-	utils.DCP_BOTTOMRIGHT:	(0.75, 0.25),
-	utils.DCP_RIGHT:	        (0.75, 0.50),
-	utils.DCP_TOPRIGHT:	    (0.75, 0.75)
+	dcp.BOTTOMRIGHT:	(0.75, 0.25),
+	dcp.RIGHT:	        (0.75, 0.50),
+	dcp.TOPRIGHT:	    (0.75, 0.75)
 }
 
 compass_to_fract = {
-	utils.DCP_SOUTHWEST:	(0.25, 0.25),
-	utils.DCP_WEST:	    (0.25, 0.50),
-	utils.DCP_NORTHWEST:	(0.25, 0.75),
+	dcp.SOUTHWEST:	(0.25, 0.25),
+	dcp.WEST:	    (0.25, 0.50),
+	dcp.NORTHWEST:	(0.25, 0.75),
 
-	utils.DCP_SOUTH:	    (0.50, 0.25),
-	utils.DCP_CENTRE:	    (0.50, 0.50),
-	utils.DCP_NORTH:	    (0.50, 0.75),
+	dcp.SOUTH:	    (0.50, 0.25),
+	dcp.CENTRE:	    (0.50, 0.50),
+	dcp.NORTH:	    (0.50, 0.75),
 
-	utils.DCP_SOUTHEAST:	(0.75, 0.25),
-	utils.DCP_EAST:	    (0.75, 0.50),
-	utils.DCP_NORTHEAST:	(0.75, 0.75)
+	dcp.SOUTHEAST:	(0.75, 0.25),
+	dcp.EAST:	    (0.75, 0.50),
+	dcp.NORTHEAST:	(0.75, 0.75)
 }
 
 sizes_con = {
@@ -317,15 +318,15 @@ def hole_origin(
 	if not brush_origin:
 		utils.error('hole_origin: called without the origin for the parent brush')
 
-	if hole_wall == utils.DCP_NORTH or hole_wall == utils.DCP_SOUTH:
+	if hole_wall == dcp.NORTH or hole_wall == dcp.SOUTH:
 		hole_centre2d = utils.Point2D(hole_centre.x, hole_centre.z)
 		brush_origin2d = utils.Point2D(brush_origin.x, brush_origin.z)
 		brush_size2d = real_wall_size(utils.Point2D(brush_size.x, brush_size.z))
-	elif hole_wall == utils.DCP_WEST or hole_wall == utils.DCP_EAST:
+	elif hole_wall == dcp.WEST or hole_wall == dcp.EAST:
 		hole_centre2d = utils.Point2D(hole_centre.y, hole_centre.z)
 		brush_origin2d = utils.Point2D(brush_origin.y, brush_origin.z)
 		brush_size2d = real_wall_size(utils.Point2D(brush_size.y, brush_size.z))
-	elif hole_wall == utils.DCP_UP or hole_wall == utils.DCP_DOWN:
+	elif hole_wall == dcp.UP or hole_wall == dcp.DOWN:
 		hole_centre2d = utils.Point2D(hole_centre.x, hole_centre.y)
 		brush_origin2d = utils.Point2D(brush_origin.x, brush_origin.y)
 		brush_size2d = real_wall_size(utils.Point2D(brush_size.x, brush_size.y))
@@ -333,7 +334,7 @@ def hole_origin(
 		utils.error('hole_origin: invalid wall specified whilst trying to put a hole into a wall.')
 
 	if not floating:
-		if hole_wall == utils.DCP_NORTH or hole_wall == utils.DCP_SOUTH:
+		if hole_wall == dcp.NORTH or hole_wall == dcp.SOUTH:
 			hole_centre2d_rel = hole_centre2d - brush_origin2d + utils.Point2D(utils.lip, 0)
 		else:
 			hole_centre2d_rel = hole_centre2d - brush_origin2d
@@ -371,32 +372,32 @@ def target_brush_origin(
 	wall_offset = Point(0, 0, 0)  # origin of the wall wrt origin of the room
 	room_offset = Point(0, 0, 0)  # FIXME
 
-	if hole_wall == utils.DCP_NORTH or hole_wall == utils.DCP_SOUTH:
+	if hole_wall == dcp.NORTH or hole_wall == dcp.SOUTH:
 		hole_centre2d = utils.Point2D(hole_centre.x, hole_centre.z)
 		wall_size2d = real_wall_size(utils.Point2D(room_size.x, room_size.z))
-		if hole_wall == utils.DCP_NORTH:
+		if hole_wall == dcp.NORTH:
 			wall_offset = wall_offset + Point(0, room_size.y, 0)
 			room_offset.y = -room_size.y
 		wall_origin2d = target_brush_origin_core(
 			hole_centre2d, wall_size2d, hole_size, pos)
 		wall_origin3d = Point(wall_origin2d.x, hole_centre.y, wall_origin2d.y)
-	elif hole_wall == utils.DCP_WEST or hole_wall == utils.DCP_EAST:
+	elif hole_wall == dcp.WEST or hole_wall == dcp.EAST:
 		hole_centre2d = utils.Point2D(hole_centre.y, hole_centre.z)
 		wall_size2d = real_wall_size(utils.Point2D(room_size.y, room_size.z))
-		if hole_wall == utils.DCP_EAST:
+		if hole_wall == dcp.EAST:
 			wall_offset = wall_offset + Point(room_size.x, 0, 0)
 			room_offset.x = -room_size.x
 		wall_origin2d = target_brush_origin_core(
 			hole_centre2d, wall_size2d, hole_size, pos)
 		wall_origin3d = Point(hole_centre.x, wall_origin2d.x, wall_origin2d.y)
-	elif hole_wall == utils.DCP_UP or hole_wall == utils.DCP_DOWN:
+	elif hole_wall == dcp.UP or hole_wall == dcp.DOWN:
 		# default hole pos for hole is 'c'...
 		if not pos:
-			pos = utils.DCP_CENTRE
+			pos = dcp.CENTRE
 		# now continue with calculation...
 		hole_centre2d = utils.Point2D(hole_centre.x, hole_centre.y)
 		wall_size2d = real_wall_size(utils.Point2D(room_size.x, room_size.y))
-		if hole_wall == utils.DCP_UP:
+		if hole_wall == dcp.UP:
 			wall_offset = wall_offset + Point(0, 0, room_size.z)
 			room_offset.z = -room_size.z
 		wall_origin2d = target_brush_origin_core(
@@ -508,25 +509,25 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 	# offset + hole centre offset
 
 	# Get size of wall (2D)...
-	if h_wall == utils.DCP_NORTH or h_wall == utils.DCP_SOUTH:
+	if h_wall == dcp.NORTH or h_wall == dcp.SOUTH:
 		wall_size = real_wall_size(utils.Point2D(r_extent.x, r_extent.z))
-		if h_wall == utils.DCP_NORTH:
+		if h_wall == dcp.NORTH:
 			wall_origin = wall_origin + Point(0, r_extent.y, 0)
 		hc = hole_centre_core(wall_size, h_extent, h_wall, pos)
 		out = r_origin + wall_origin + Point(hc.x, 0, hc.y)
-	elif h_wall == utils.DCP_WEST or h_wall == utils.DCP_EAST:
+	elif h_wall == dcp.WEST or h_wall == dcp.EAST:
 		wall_size = real_wall_size(utils.Point2D(r_extent.y, r_extent.z))
-		if h_wall == utils.DCP_EAST:
+		if h_wall == dcp.EAST:
 			wall_origin = wall_origin + Point(r_extent.x, 0, 0)
 		hc = hole_centre_core(wall_size, h_extent, h_wall, pos)
 		out = r_origin + wall_origin + Point(0, hc.x, hc.y)
-	elif h_wall == utils.DCP_UP or h_wall == utils.DCP_DOWN:
+	elif h_wall == dcp.UP or h_wall == dcp.DOWN:
 		# Default pos should be centre...
 		if not pos:
-			pos = utils.DCP_CENTRE
+			pos = dcp.CENTRE
 		# Now calculate as normal...
 		wall_size = real_wall_size(utils.Point2D(r_extent.x, r_extent.y))
-		if h_wall == utils.DCP_UP:
+		if h_wall == dcp.UP:
 			wall_origin = wall_origin + Point(0, 0, r_extent.z)
 		hc = hole_centre_core(wall_size, h_extent, h_wall, pos)
 		out = r_origin + wall_origin + Point(hc.x, hc.y, 0)
@@ -561,18 +562,18 @@ def get_room_by_id(parentgroup, id):
 
 
 def opposite_dir(dir):
-	if dir == utils.DCP_NORTH:
-		return utils.DCP_SOUTH
-	if dir == utils.DCP_SOUTH:
-		return utils.DCP_NORTH
-	if dir == utils.DCP_EAST:
-		return utils.DCP_WEST
-	if dir == utils.DCP_WEST:
-		return utils.DCP_EAST
-	if dir == utils.DCP_UP:
-		return utils.DCP_DOWN
-	if dir == utils.DCP_DOWN:
-		return utils.DCP_UP
+	if dir == dcp.NORTH:
+		return dcp.SOUTH
+	if dir == dcp.SOUTH:
+		return dcp.NORTH
+	if dir == dcp.EAST:
+		return dcp.WEST
+	if dir == dcp.WEST:
+		return dcp.EAST
+	if dir == dcp.UP:
+		return dcp.DOWN
+	if dir == dcp.DOWN:
+		return dcp.UP
 
 
 def convert_coords_extentsym(objtype, word, index, parent=None):
@@ -631,7 +632,7 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 		# Do we have the direction/wall?
 		if not dir:
 			utils.error('convert_coords_compass_facepos: whilst trying to position a connection on a wall, the wall was not specified.')
-		if dir == utils.DCP_SOUTH or dir == utils.DCP_EAST:
+		if dir == dcp.SOUTH or dir == dcp.EAST:
 			flip = True
 		else:
 			flip = False  # FIXME what about u and d?
@@ -972,7 +973,7 @@ def process_rooms_core(parentgroup, r, parent):
 	# or there are no connections with targets
 	# then we can't place the room as there's no point to anchor onto.
 	# In that case, we need to use it's position element,
-	# or position it in the centre (on face DCP_DOWN) of the parent.
+	# or position it in the centre (on face dcp.DOWN) of the parent.
 	nontargetted_cons = False
 	for c in get_children(r, OT_CON):
 		if parent:
@@ -1178,7 +1179,7 @@ def process_rooms_core(parentgroup, r, parent):
 				# Work out more accurate reading of dist, based on wall the
 				# conection is on...
 				wall = con_info['wall']
-				if wall == utils.DCP_UP or wall == utils.DCP_DOWN:
+				if wall == dcp.UP or wall == dcp.DOWN:
 					utils.warning(
 						'con_elev: vertical connection elevation devices not implemented yet.')
 				else:  # N/S/E/W
@@ -1207,22 +1208,22 @@ def process_rooms_core(parentgroup, r, parent):
 					origin2d = utils.getPoint2D(con_info['origin'])
 					origin3d = None
 					# FIXME again we seem to only need to account for utils.lip in the x dir!
-					if con_info['wall'] == utils.DCP_EAST:
+					if con_info['wall'] == dcp.EAST:
 						origin3d = str(Point(
 							r_size.x - extent2d.x,
 							origin2d.x,
 							0))
-					elif con_info['wall'] == utils.DCP_WEST:
+					elif con_info['wall'] == dcp.WEST:
 						origin3d = str(Point(
 							0,
 							origin2d.x,
 							0))
-					elif con_info['wall'] == utils.DCP_NORTH:
+					elif con_info['wall'] == dcp.NORTH:
 						origin3d = str(Point(
 							origin2d.x - utils.lip,
 							r_size.y - extent2d.y,
 							0))
-					elif con_info['wall'] == utils.DCP_SOUTH:
+					elif con_info['wall'] == dcp.SOUTH:
 						origin3d = str(Point(
 							origin2d.x - utils.lip,
 							0,

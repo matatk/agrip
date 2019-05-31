@@ -17,6 +17,7 @@ import xml.dom.minidom
 import utils
 import split
 from plane import Point
+from conf import dcp
 
 paddinglevel = -1
 padding = '  '
@@ -167,7 +168,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				type, props))
 		# Built split (2D) parts into 3D brushes; mapping of coords to 3D
 		# depends on which direction/face the hole was constructed in.
-		if f == utils.DCP_NORTH:
+		if f == dcp.NORTH:
 			parts = split.splitWall(
 				utils.Region2D(
 					utils.Point2D(o.x, o.z),
@@ -177,7 +178,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			for part in parts:
 				part3d = utils.addDim(part, utils.DIM_Y, o.y, e.y)
 				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
-		elif f == utils.DCP_UP:
+		elif f == dcp.UP:
 			parts = split.splitWall(
 				utils.Region2D(
 					utils.Point2D(o.x, o.y),
