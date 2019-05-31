@@ -12,7 +12,17 @@ import xml.dom.minidom
 import split
 import pprint
 from plane import Point
-from conf import *
+from conf import (
+	connector,
+	dcp,
+	key_access,
+	ls,
+	prog,
+	pt,
+	soundtypes_door,
+	soundtypes_plat,
+	valid_entities
+)
 
 
 #
@@ -35,15 +45,15 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 
 	To avoid leaks, when some walls are absent, the others must be made longer
 	to cover the possible holes.  For example, if there is no north wall, the
-	east and west ones need to be utils.lip units longer in case them not being
+	east and west ones need to be utils.prog.lip units longer in case them not being
 	so would cause a leak.'''
-	inner_origin = origin + lip
-	inner_abslut_extent = (origin + extent) - lip
+	inner_origin = origin + prog.lip
+	inner_abslut_extent = (origin + extent) - prog.lip
 
 	# down (floor)
 	if not dcp.DOWN in absentwalls:
 		brush_start = origin
-		brush_extent = Point(extent.x, extent.y, lip)
+		brush_extent = Point(extent.x, extent.y, prog.lip)
 	parts = split.splitWall(
 		Region2D(
 			Point2D(brush_start.x, brush_start.y),
@@ -56,8 +66,8 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 		makeBrush(doc, worldspawn, sf, style, part3d, dcp.DOWN)
 	# up (ceiling)
 	if not dcp.UP in absentwalls:
-		brush_start = origin + Point(0, 0, extent.z - lip)
-		brush_extent = Point(extent.x, extent.y, lip)
+		brush_start = origin + Point(0, 0, extent.z - prog.lip)
+		brush_extent = Point(extent.x, extent.y, prog.lip)
 	parts = split.splitWall(
 		Region2D(
 			Point2D(brush_start.x, brush_start.y),
@@ -70,8 +80,8 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 		makeBrush(doc, worldspawn, sf, style, part3d, dcp.UP)
 	# north wall; y represents depth
 	if not dcp.NORTH in absentwalls:
-		brush_start = origin + Point(0, extent.y - lip, lip)
-		brush_extent = Point(extent.x, lip, extent.z - lip*2)
+		brush_start = origin + Point(0, extent.y - prog.lip, prog.lip)
+		brush_extent = Point(extent.x, prog.lip, extent.z - prog.lip*2)
 		wall_holes = getHoles(holes, dcp.NORTH)
 		parts = split.splitWall(
 			Region2D(
@@ -86,8 +96,8 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 	# south wall
 	# FIXME holes need to be expressed the other way 'round (i.e. 0 is at RHS not LHS)?
 	if not dcp.SOUTH in absentwalls:
-		brush_start = origin + Point(0, 0, lip)
-		brush_extent = Point(extent.x, lip, extent.z - lip*2)
+		brush_start = origin + Point(0, 0, prog.lip)
+		brush_extent = Point(extent.x, prog.lip, extent.z - prog.lip*2)
 		wall_holes = getHoles(holes, dcp.SOUTH)
 		parts = split.splitWall(
 			Region2D(
@@ -102,17 +112,17 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 	# west wall
 	if not dcp.WEST in absentwalls:
 		if dcp.NORTH not in absentwalls and dcp.SOUTH not in absentwalls:
-			brush_start = origin + Point(0, lip, lip)
-			brush_extent = Point(lip, extent.y - lip*2, extent.z - lip*2)
+			brush_start = origin + Point(0, prog.lip, prog.lip)
+			brush_extent = Point(prog.lip, extent.y - prog.lip*2, extent.z - prog.lip*2)
 		elif dcp.NORTH in absentwalls and dcp.SOUTH in absentwalls:
-			brush_start = origin + Point(0, lip, lip)
-			brush_extent = Point(lip, extent.y - lip*2, extent.z - lip*2)
+			brush_start = origin + Point(0, prog.lip, prog.lip)
+			brush_extent = Point(prog.lip, extent.y - prog.lip*2, extent.z - prog.lip*2)
 		elif dcp.NORTH in absentwalls:
-			brush_start = origin + Point(0, lip, lip)
-			brush_extent = Point(lip, extent.y - lip, extent.z - lip*2)
+			brush_start = origin + Point(0, prog.lip, prog.lip)
+			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip*2)
 		elif dcp.SOUTH in absentwalls:
-			brush_start = origin + Point(0, 0, lip)
-			brush_extent = Point(lip, extent.y - lip, extent.z - lip*2)
+			brush_start = origin + Point(0, 0, prog.lip)
+			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip*2)
 		else:
 			error('absentwalls')
 		wall_holes = getHoles(holes, dcp.WEST)
@@ -129,17 +139,17 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 	# east wall
 	if not dcp.EAST in absentwalls:
 		if dcp.NORTH not in absentwalls and dcp.SOUTH not in absentwalls:
-			brush_start = origin + Point(extent.x - lip, lip, lip)
-			brush_extent = Point(lip, extent.y - lip*2, extent.z - lip*2)
+			brush_start = origin + Point(extent.x - prog.lip, prog.lip, prog.lip)
+			brush_extent = Point(prog.lip, extent.y - prog.lip*2, extent.z - prog.lip*2)
 		elif dcp.NORTH in absentwalls and dcp.SOUTH in absentwalls:
-			brush_start = origin + Point(extent.x - lip, 0, lip)
-			brush_extent = Point(lip, extent.y, extent.z - lip*2)
+			brush_start = origin + Point(extent.x - prog.lip, 0, prog.lip)
+			brush_extent = Point(prog.lip, extent.y, extent.z - prog.lip*2)
 		elif dcp.NORTH in absentwalls:
-			brush_start = origin + Point(extent.x - lip, lip, lip)
-			brush_extent = Point(lip, extent.y - lip, extent.z - lip*2)
+			brush_start = origin + Point(extent.x - prog.lip, prog.lip, prog.lip)
+			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip*2)
 		elif dcp.SOUTH in absentwalls:
-			brush_start = origin + Point(extent.x - lip, 0, lip)
-			brush_extent = Point(lip, extent.y - lip, extent.z - lip*2)
+			brush_start = origin + Point(extent.x - prog.lip, 0, prog.lip)
+			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip*2)
 		else:
 			error('absentwalls')
 		parts = split.splitWall(
@@ -218,9 +228,9 @@ class StyleFetcher:
 							else:
 								return None
 						# Got value; work out type to return...
-						if prop_type == PT_TEXT:
+						if prop_type == pt.TEXT:
 							return val
-						elif prop_type == PT_INT:
+						elif prop_type == pt.INT:
 							return int(val)
 						else:
 							error('StyleFetcher: unknown property prop_type ' + prop_type)
@@ -234,13 +244,13 @@ class StyleFetcher:
 			error('unknown lighting style ' + style)
 
 	def getLightingSetEntity(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, PT_TEXT, 'entities')
+		return self._getLightingSetSimpleProp(style, id, type, pt.TEXT, 'entities')
 
 	def getLightingSetLevel(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, PT_INT, 'levels')
+		return self._getLightingSetSimpleProp(style, id, type, pt.INT, 'levels')
 
 	def getLightingSetSound(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, PT_TEXT, 'sounds')
+		return self._getLightingSetSimpleProp(style, id, type, pt.TEXT, 'sounds')
 
 	def _getLightingSetComplexProp(self, style, id, type, prop, dim):
 		'''Get a property from a deeply nested hash like offsets or min gaps in each dimension.
@@ -276,7 +286,7 @@ class StyleFetcher:
 		if style in self.lightingSets:
 			if 'type' in self.lightingSets[style]:
 				type = self.lightingSets[style]['type']
-				if type == LS_CENTRE or type == LS_PERIMETER:
+				if type == ls.CENTRE or type == ls.PERIMETER:
 					return type
 				else:
 					error('invalid type \'' + type + '\'specified for lighting style \'' + style + '\'')
@@ -314,7 +324,7 @@ class StyleFetcher:
 		self.lightingSets = {};  # as above but with lighting
 		tempTexSet = {};  # we build up the texture set hash in here
 		tLS = {};  # as above but with lighting
-		s = xml.dom.minidom.parse(STYLE_FILE)
+		s = xml.dom.minidom.parse(prog.STYLE_FILE)
 		# Get worldtypes...
 		for worldtype in s.getElementsByTagName('worldtype'):
 			self.worldtypeTable[worldtype.getAttribute('style')] = worldtype.getAttribute('value')
@@ -383,47 +393,47 @@ class StyleFetcher:
 						if lc_name:
 							lc_type = lc.getAttribute('type')
 							if lc_name == 'offset':
-								if lc_type == LS_PERIMETER:
-									tLS[ls_name][l_id]['offsets'][LS_PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == LS_CENTRE:
-									tLS[ls_name][l_id]['offsets'][LS_CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == LS_DEF:
+								if lc_type == ls.PERIMETER:
+									tLS[ls_name][l_id]['offsets'][ls.PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
+								elif lc_type == ls.CENTRE:
+									tLS[ls_name][l_id]['offsets'][ls.CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
+								elif lc_type == ls.DEF:
 									tLS[ls_name][l_id]['offsets'][lc.getAttribute('dim')] = lc.getAttribute('value')
 								else:
 									error('unknown offset type ' + lc_type + ' specified for lighting scheme ' + l_id)
 							if lc_name == 'min':
-								if lc_type == LS_PERIMETER:
-									tLS[ls_name][l_id]['mins'][LS_PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == LS_CENTRE:
-									tLS[ls_name][l_id]['mins'][LS_CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == LS_DEF:
+								if lc_type == ls.PERIMETER:
+									tLS[ls_name][l_id]['mins'][ls.PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
+								elif lc_type == ls.CENTRE:
+									tLS[ls_name][l_id]['mins'][ls.CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
+								elif lc_type == ls.DEF:
 									tLS[ls_name][l_id]['mins'][lc.getAttribute('dim')] = lc.getAttribute('value')
 								else:
 									error('unknown min type ' + lc_type + ' specified for lighting scheme ' + l_id)
 							elif lc_name == 'level':
-								if lc_type == LS_PERIMETER:
-									tLS[ls_name][l_id]['levels'][LS_PERIMETER] = lc.getAttribute('value')
-								elif lc_type == LS_CENTRE:
-									tLS[ls_name][l_id]['levels'][LS_CENTRE] = lc.getAttribute('value')
-								elif lc_type == LS_DEF:
+								if lc_type == ls.PERIMETER:
+									tLS[ls_name][l_id]['levels'][ls.PERIMETER] = lc.getAttribute('value')
+								elif lc_type == ls.CENTRE:
+									tLS[ls_name][l_id]['levels'][ls.CENTRE] = lc.getAttribute('value')
+								elif lc_type == ls.DEF:
 									tLS[ls_name][l_id]['levels']['default'] = lc.getAttribute('value')
 								else:
 									error('unknown light level type ' + lc_type + ' specified for lighting scheme ' + l_id)
 							elif lc_name == 'entity':
-								if lc_type == LS_PERIMETER:
-									tLS[ls_name][l_id]['entities'][LS_PERIMETER] = lc.getAttribute('value')
-								elif lc_type == LS_CENTRE:
-									tLS[ls_name][l_id]['entities'][LS_CENTRE] = lc.getAttribute('value')
-								elif lc_type == LS_DEF:
+								if lc_type == ls.PERIMETER:
+									tLS[ls_name][l_id]['entities'][ls.PERIMETER] = lc.getAttribute('value')
+								elif lc_type == ls.CENTRE:
+									tLS[ls_name][l_id]['entities'][ls.CENTRE] = lc.getAttribute('value')
+								elif lc_type == ls.DEF:
 									tLS[ls_name][l_id]['entities']['default'] = lc.getAttribute('value')
 								else:
 									error('unknown light level type ' + lc_type + ' specified for lighting scheme ' + l_id)
 							elif lc_name == 'sound':
-								if lc_type == LS_PERIMETER:
-									tLS[ls_name][l_id]['sounds'][LS_PERIMETER] = lc.getAttribute('value')
-								elif lc_type == LS_CENTRE:
-									tLS[ls_name][l_id]['sounds'][LS_CENTRE] = lc.getAttribute('value')
-								elif lc_type == LS_DEF:
+								if lc_type == ls.PERIMETER:
+									tLS[ls_name][l_id]['sounds'][ls.PERIMETER] = lc.getAttribute('value')
+								elif lc_type == ls.CENTRE:
+									tLS[ls_name][l_id]['sounds'][ls.CENTRE] = lc.getAttribute('value')
+								elif lc_type == ls.DEF:
 									tLS[ls_name][l_id]['sounds']['default'] = lc.getAttribute('value')
 								else:
 									error('unknown sound type ' + lc_type + ' specified for lighting scheme ' + l_id)
@@ -457,10 +467,10 @@ def addDim(region, dim, d, e=None):
 	'''Convert a Region2D into a Region3D by adding an extra dminsion, that was taken away by the splitting algorithm.
 	e is only passed when making holes in solids as we need to know the depth then.'''
 	o = 0  # offset: used for insetting doors
-	if not e: e = lip
-	if region.type == RT_DOOR:
-		o = lip_small_margin
-		e = lip_small
+	if not e: e = prog.lip
+	if region.type == connector.DOOR:
+		o = prog.lip_small_margin
+		e = prog.lip_small
 	if dim == 'x':
 		return Region3D(
 				Point(d+o, region.origin.x, region.origin.y),
@@ -499,9 +509,9 @@ def checkType(rtype):
 	result = False
 	if not rtype:
 		result = True
-	elif	rtype == RT_DOOR \
-		 or rtype == RT_PLAT \
-		 or rtype == RT_STEP:
+	elif	rtype == connector.DOOR \
+		 or rtype == connector.PLAT \
+		 or rtype == connector.STEP:
 		result = True
 
 	if not result:
@@ -587,7 +597,7 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 		mode_style = False
 
 	# React to step brushes as normal ones by simply adding them as static brushes; react to other, more complex types differently...
-	if not part.type or part.type == RT_STEP:  # assume just regular solid brush...
+	if not part.type or part.type == connector.STEP:  # assume just regular solid brush...
 		if mode_style:
 			t = sf.getSetTex(style,dir)
 			if t:
@@ -596,7 +606,7 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 				error('something')
 		else:
 			worldspawn.appendChild(createSolid(doc, part.origin, part.extent, sf.getTex(texture)))
-	elif part.type == RT_DOOR:
+	elif part.type == connector.DOOR:
 		# need to append to map, not worldspawn
 		map = doc.getElementsByTagName('map')[0]
 		door_ent = doc.createElement('entity')
@@ -604,28 +614,28 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 		door_ent.appendChild(createProperty(doc, 'angle', '-1'))
 		door_ent.appendChild(createProperty(doc, 'speed', '400'))
 		door_ent.appendChild(createProperty(doc, 'sounds', soundtypes_door[sf.getWorldtypeName(style)]))
-		if part.props[PROPS_K_KEY]:
-			door_ent.appendChild(createProperty(doc, 'spawnflags', key_access[part.props[PROPS_K_KEY]]))
+		if part.props['key']:
+			door_ent.appendChild(createProperty(doc, 'spawnflags', key_access[part.props['key']]))
 		# Ignore specified texture for doors; use style one...
-		door_ent.appendChild(createSolid(doc, part.origin, part.extent, sf.getSetTex(style, RT_DOOR)))
+		door_ent.appendChild(createSolid(doc, part.origin, part.extent, sf.getSetTex(style, connector.DOOR)))
 		map.appendChild(door_ent)
-	elif part.type == RT_PLAT:
+	elif part.type == connector.PLAT:
 		# need to append to map, not worldspawn
 		map = doc.getElementsByTagName('map')[0]
 		plat_ent = doc.createElement('entity')
 		plat_ent.appendChild(createProperty(doc, 'classname', 'func_plat'))
 		plat_ent.appendChild(createProperty(doc, 'sounds', soundtypes_plat[sf.getWorldtypeName(style)]))
-		if part.props[PROPS_K_POS] == dcp.DOWN:
-			height = part.extent.z - lip
-			part.origin.z = part.origin.z + part.extent.z - lip
-			part.extent.z = lip
-		elif part.props[PROPS_K_POS] == dcp.UP:
+		if part.props['position'] == dcp.DOWN:
+			height = part.extent.z - prog.lip
+			part.origin.z = part.origin.z + part.extent.z - prog.lip
+			part.extent.z = prog.lip
+		elif part.props['position'] == dcp.UP:
 			error('up plats not imlemented yet')
 		else:
 			error('Platform only allowed to have position ' + dcp.UP + ' or ' + dcp.DOWN + '.')
 		plat_ent.appendChild(createProperty(doc, 'height', str(height)))
 		# Ignore specified texture for plats; use style one...
-		plat_ent.appendChild(createSolid(doc, part.origin, part.extent, sf.getSetTex(style, RT_PLAT)))
+		plat_ent.appendChild(createSolid(doc, part.origin, part.extent, sf.getSetTex(style, connector.PLAT)))
 		map.appendChild(plat_ent)
 	else:
 		error('Unknown brush type \'' + str(part.type) + '\' specified for brush ' + str(part) + '.')
@@ -681,8 +691,7 @@ def remove_whitespace_nodes(node, unlink=False):
 			node.unlink()
 
 def uprint(msg, sameLine=False):
-	global debug_printing
-	if debug_printing:
+	if prog.debug_printing:
 		sys.stderr.write(msg)
 		if not sameLine: sys.stderr.write('\n')
 

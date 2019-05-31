@@ -17,7 +17,7 @@ import xml.dom.minidom
 import utils
 import split
 from plane import Point
-from conf import dcp
+from conf import connector, dcp, prog, worldtypes
 
 paddinglevel = -1
 padding = '  '
@@ -42,8 +42,8 @@ def processInfo(doc, map):
 			mapname = property.getAttribute('value')
 		elif ptype == 'worldtype':
 			worldtype = property.getAttribute('value')
-			if worldtype in utils.worldtypes:  # TODO conf.worldtypes?
-				worldtype_num = utils.worldtypes[worldtype]
+			if worldtype in worldtypes:  # TODO conf.worldtypes?
+				worldtype_num = worldtypes[worldtype]
 			else:
 				utils.error('Invalid worldtype ' + worldtype + ' specified.')
 		else:
@@ -53,7 +53,7 @@ def processInfo(doc, map):
 	worldspawn.appendChild(
 		utils.createProperty(doc, 'worldtype', str(worldtype_num)))
 	worldspawn.appendChild(utils.createProperty(doc, 'message', mapname))
-	worldspawn.appendChild(utils.createProperty(doc, 'wad', utils.wadfile))
+	worldspawn.appendChild(utils.createProperty(doc, 'wad', prog.wadfile))
 	map.replaceChild(worldspawn, info)
 	return worldspawn
 
@@ -107,7 +107,7 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 				o_x, o_y = hole.getAttribute('origin').split()
 				e_x, e_y = hole.getAttribute('extent').split()
 				type = hole.getAttribute('type')
-				if type == utils.RT_DOOR:
+				if type == connector.DOOR:
 					key = hole.getAttribute('key')
 					button = hole.getAttribute('button')  # FIXME test real map
 				else:
@@ -116,7 +116,7 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 				holes[wall].append(utils.Hole2D(
 					utils.Point2D(float(o_x), float(o_y)),
 					utils.Point2D(float(e_x), float(e_y)),
-					type, {utils.PROPS_K_KEY: key}))
+					type, {'key': key}))
 			# FIXME we shouldn't need to detect overlapping holes here because
 			# they'll be detected higher up (by overlapping connected hollows)
 			utils.insertPlaceholder(doc, hollow, hollowChild)
@@ -157,8 +157,8 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			type = hole.getAttribute('type')
 			if not type:
 				pass
-			elif type == utils.RT_DOOR:
-				props[utils.PROPS_K_KEY] = hole.getAttribute('key')
+			elif type == connector.DOOR:
+				props['key'] = hole.getAttribute('key')
 			else:
 				utils.warning('only doors allowed as hole types; not plats or others.')
 			# FIXME deal with other types
@@ -187,18 +187,18 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				holes)
 			for part in parts:
 				part3d = utils.addDim(
-					part, 'z', o.z + utils.lip_small, e.z - utils.lip_small * 2)
+					part, 'z', o.z + prog.lip_small, e.z - prog.lip_small * 2)
 				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
 			else:
 				utils.error('Unsupported holeface ' + f + ' requested for hole in solid.')
 	else:
 		# Doesn't have child nodes...
-		if not type or type == utils.RT_STEP:
+		if not type or type == connector.STEP:
 			pass  # no properties to set
-		elif type == utils.RT_DOOR:
-			props[utils.PROPS_K_KEY] = solid.getAttribute('key')
-		elif type == utils.RT_PLAT:
-			props[utils.PROPS_K_POS] = solid.getAttribute('position')
+		elif type == connector.DOOR:
+			props['key'] = solid.getAttribute('key')
+		elif type == connector.PLAT:
+			props['position'] = solid.getAttribute('position')
 		else:
 			utils.warning('unknown type ' + type + ' specifed.')
 
@@ -226,7 +226,7 @@ def processEntity(doc, parent, offset, entity):
 # FIXME DRY
 def main(xml_in):
 	utils.stage = '02'
-	utils.uprint('\n === ' + utils.stackdescs[utils.stage] + ' ===')
+	utils.uprint('\n === ' + prog.stackdescs[utils.stage] + ' ===')
 	global s
 	s = utils.StyleFetcher()
 	try:
@@ -236,7 +236,7 @@ def main(xml_in):
 	utils.remove_whitespace_nodes(m)
 	processMap(m)
 	m.getElementsByTagName('map')[0] \
-		.setAttribute('stackdesc', utils.stackdescs['02'])
+		.setAttribute('stackdesc', prog.stackdescs['02'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
 

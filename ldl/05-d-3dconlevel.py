@@ -25,7 +25,7 @@ import re  # standard/mine
 import xml.parsers.expat
 import xml2dict
 from plane import Point
-from conf import dcp
+from conf import connector, dcp, prog
 
 '''Convert coords to numbers, from a range of possible formats.
 2D formats:
@@ -219,7 +219,7 @@ def get_childroom_origin(child_size, parent, pos, id):
 	# Fix Z...
 	# FIXME can this be improved? (absentwalls? - but that would affect othe
 	# things...)
-	child_origin.z = -utils.lip
+	child_origin.z = -prog.lip
 
 	utils.uprint('get_childroom_origin:\n\tchild centre: ' + str(child_centre) + ';\n\tparent origin: ' + str(parent_origin) + ';\n\tparent_size: ' + str(parent_size) + ';\n\tcc_pos: ' + str(cc_pos) + ';\n\tinparent_child_centre: ' + str(inparent_child_centre) + ';\n\tchild_origin: ' + str(child_origin))
 	return child_origin
@@ -335,10 +335,10 @@ def hole_origin(
 
 	if not floating:
 		if hole_wall == dcp.NORTH or hole_wall == dcp.SOUTH:
-			hole_centre2d_rel = hole_centre2d - brush_origin2d + utils.Point2D(utils.lip, 0)
+			hole_centre2d_rel = hole_centre2d - brush_origin2d + utils.Point2D(prog.lip, 0)
 		else:
 			hole_centre2d_rel = hole_centre2d - brush_origin2d
-		# FIXME why must we add utils.lip here and to x only?
+		# FIXME why must we add prog.lip here and to x only?
 	else:
 		hole_centre2d_rel = brush_size2d.divide_coords_by(2)
 		hole_centre2d_rel.y = hole_size.y / 2
@@ -418,7 +418,7 @@ def real_wall_size(wall_size):
 	with face sizes.'''
 	# FIXME need to know direction (and if other walls will be absent) to get
 	# this really right.
-	rws = utils.Point2D(wall_size.x - utils.lip * 2, wall_size.y - utils.lip * 2)
+	rws = utils.Point2D(wall_size.x - prog.lip * 2, wall_size.y - prog.lip * 2)
 	utils.uprint(
 		'real_wall_size: ws = ' + wall_size.__str__() + '; rws = ' + str(rws))
 	return rws
@@ -830,7 +830,7 @@ def convert_coords(objtype, size, parent=None, dir=None):
 						OT_CON_ELEV, size_parts[i], i, parent, dir))
 			flat_out = ' '.join([str(o) for o in out])
 		else:
-			utils.error('convert_coords: you must specify only 1 or both portions of the size/coordinates for connector elevation device (e.g. \'' + utils.ST_STAIRS + '\' or \'' + utils.ST_PLAT + '\' extents.')
+			utils.error('convert_coords: you must specify only 1 or both portions of the size/coordinates for connector elevation device (e.g. \'' + connector.STAIRS + '\' or \'' + connector.PLAT + '\' extents.')
 	elif objtype == OT_ITEM:
 		# FIXME enforce being always in mode3d?
 		if len(size_parts) == 1:
@@ -956,7 +956,7 @@ def process_rooms_core(parentgroup, r, parent):
 	else:
 		if f_firstroom:
 			r_origin = set_property(r, 'origin', Point(
-				utils.MAP_ORIGIN[0], utils.MAP_ORIGIN[1], utils.MAP_ORIGIN[2]))
+				prog.MAP_ORIGIN[0], prog.MAP_ORIGIN[1], prog.MAP_ORIGIN[2]))
 			f_firstroom = False
 			rwo_update(r_id, r_origin)
 		else:
@@ -1175,7 +1175,7 @@ def process_rooms_core(parentgroup, r, parent):
 
 			# Might we need stairs/plat to reach it?
 			dist = con_centre - r_origin
-			if dist.z > utils.ELEV_DIST:
+			if dist.z > prog.ELEV_DIST:
 				# Work out more accurate reading of dist, based on wall the
 				# conection is on...
 				wall = con_info['wall']
@@ -1186,9 +1186,9 @@ def process_rooms_core(parentgroup, r, parent):
 					dist.z = dist.z - con_info['size'].y / 2
 
 				# Do we still need an elev?  Only go ahead if user hasn't told us not to.
-				if dist.z > utils.ELEV_DIST and get_property(con_info, 'elevtype') != 'none':
+				if dist.z > prog.ELEV_DIST and get_property(con_info, 'elevtype') != 'none':
 					# Sanity Check -- have we all the info we need?
-					elevtype = get_property(con_info, 'elevtype', con_elev_err_msg(r_id, con_target['id'], 'you have not specified an elevation device type (e.g. \'' + utils.ST_STAIRS + '\' or \'' + utils.ST_PLAT + '\'); please do so.'))
+					elevtype = get_property(con_info, 'elevtype', con_elev_err_msg(r_id, con_target['id'], 'you have not specified an elevation device type (e.g. \'' + connector.STAIRS + '\' or \'' + connector.PLAT + '\'); please do so.'))
 					extent = get_property(con_info, 'extent')
 
 					# Work out real area available (inside brush)...
@@ -1207,7 +1207,7 @@ def process_rooms_core(parentgroup, r, parent):
 					# work out origin:
 					origin2d = utils.getPoint2D(con_info['origin'])
 					origin3d = None
-					# FIXME again we seem to only need to account for utils.lip in the x dir!
+					# FIXME again we seem to only need to account for prog.lip in the x dir!
 					if con_info['wall'] == dcp.EAST:
 						origin3d = str(Point(
 							r_size.x - extent2d.x,
@@ -1220,12 +1220,12 @@ def process_rooms_core(parentgroup, r, parent):
 							0))
 					elif con_info['wall'] == dcp.NORTH:
 						origin3d = str(Point(
-							origin2d.x - utils.lip,
+							origin2d.x - prog.lip,
 							r_size.y - extent2d.y,
 							0))
 					elif con_info['wall'] == dcp.SOUTH:
 						origin3d = str(Point(
-							origin2d.x - utils.lip,
+							origin2d.x - prog.lip,
 							0,
 							0))
 					# now populate builder hash...
@@ -1330,13 +1330,13 @@ def serialise_builder(b):
 	padded_print(
 		'<builder origin=\'' + b['origin'] + '\' extent=\'' + b['extent'] + '\'>')
 	padding_update(True)
-	if b['shape'] == utils.ST_STAIRS:
+	if b['shape'] == connector.STAIRS:
 		padded_print(
 			'<shape type=\'stairs\' stepheight=\'15\' dir=\'' + b['dir'] + '\' />')
-	elif b['shape'] == utils.ST_PLAT:
+	elif b['shape'] == connector.PLAT:
 		padded_print('<shape type=\'plat\' position=\'d\' />')
 	else:
-		utils.error('You specifed an elevator device type of \'' + b['shape'] + '\' for one of your connections.  This is not valid.  Please use either \'' + utils.ST_STAIRS + '\' or \'' + utils.ST_PLAT + '\'.')
+		utils.error('You specifed an elevator device type of \'' + b['shape'] + '\' for one of your connections.  This is not valid.  Please use either \'' + connector.STAIRS + '\' or \'' + connector.PLAT + '\'.')
 	padding_update(False)
 	padded_print('</builder>')
 	padding_update(False)
@@ -1468,7 +1468,7 @@ if __name__ == "__main__":
 	exitflag = False
 	i = 0
 	if toplevelrooms:
-		while not exitflag and i < utils.concretion_attempts:
+		while not exitflag and i < prog.concretion_attempts:
 			utils.uprint('\n\nPROCESSING ROOMS -- ATTEMPT ' + str(i) + '...')
 			process_rooms(toplevelrooms, None)
 			ri_clear()

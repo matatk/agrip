@@ -18,6 +18,7 @@ import xml.dom.minidom
 import re
 import utils
 from plane import Point
+from conf import prog
 
 r_planepoints = re.compile('(-?[0-9.]+) (-?[0-9.]+) (-?[0-9.]+)')
 
@@ -87,7 +88,7 @@ def processBrushes(map):
 # FIXME DRY
 def main(xml_in):
 	utils.stage = '01'
-	utils.uprint('\n === ' + utils.stackdescs[utils.stage] + ' ===')
+	utils.uprint('\n === ' + prog.stackdescs[utils.stage] + ' ===')
 	try:
 		m = xml.dom.minidom.parseString(xml_in)
 	except:  # noqa E722
@@ -95,7 +96,7 @@ def main(xml_in):
 	processBrushes(m)
 	utils.remove_whitespace_nodes(m)
 	m.getElementsByTagName('map')[0] \
-		.setAttribute('stackdesc', utils.stackdescs['01'])
+		.setAttribute('stackdesc', prog.stackdescs['01'])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
 

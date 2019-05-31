@@ -119,9 +119,9 @@ class MapParser:
 
 	def parseMap(self):
 		sys.stdout.write('<?xml version="1.0" ?>\n')
-		sys.stdout.write(utils.boilerplate)
-		#sys.stdout.write('<!-- ' + utils.stackdescs['00'] + ' -->\n<map>\n')
-		sys.stdout.write('<map stackdesc="' + utils.stackdescs['00'] + '" generator="' + __file__ + '">\n')
+		sys.stdout.write(prog.boilerplate)
+		#sys.stdout.write('<!-- ' + prog.stackdescs['00'] + ' -->\n<map>\n')
+		sys.stdout.write('<map stackdesc="' + prog.stackdescs['00'] + '" generator="' + __file__ + '">\n')
 		self.parseMain(self.stream)
 		sys.stdout.write('</map>\n')
 		sys.stdout.close

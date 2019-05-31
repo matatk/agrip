@@ -2,6 +2,7 @@
 
 (waaaay too large and stupid)'''
 import utils
+from conf import connector
 
 debug_printing = 0
 
@@ -33,7 +34,7 @@ def splitWall(brush, holes):
 			utils.error(
 				'Hole is taller than containing wall.\n\thole: '
 				+ str(hole) + '\n\textent2d: ' + str(extent2d))
-		if hole.type == utils.RT_DOOR:
+		if hole.type == connector.DOOR:
 			finalparts.append(utils.Region2D(
 				utils.Point2D(
 					brush.origin.x + hole.origin.x,

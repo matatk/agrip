@@ -12,6 +12,7 @@ from plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
 import io
+from conf import prog, ls
 
 
 class LightingStyleFilter(XMLFilterBase):
@@ -95,12 +96,12 @@ class LightingStyleFilter(XMLFilterBase):
 					# If any test passed, then it's near one of the walls...
 					close_to_perimeter = xclose or yclose  # or zclose
 
-					if type == utils.LS_PERIMETER:
+					if type == ls.PERIMETER:
 						if close_to_perimeter:
 							drawlight = True
 						else:
 							drawlight = False
-					elif type == utils.LS_CENTRE:
+					elif type == ls.CENTRE:
 						if close_to_perimeter:
 							drawlight = False
 						else:
@@ -145,7 +146,7 @@ class LightingStyleFilter(XMLFilterBase):
 	def _get_bounds(self, hollow_attrs):
 		'''Work out the internal cube of the hollow.'''
 		extent = utils.getPoint(hollow_attrs['extent'])
-		return extent - Point(utils.lip * 2, utils.lip * 2, utils.lip * 2)
+		return extent - Point(prog.lip * 2, prog.lip * 2, prog.lip * 2)
 
 	def startElement(self, name, attrs):
 		'''FIXME'''
@@ -165,13 +166,13 @@ class LightingStyleFilter(XMLFilterBase):
 
 			# Perimeter => just the edges
 			# Grid => a superset: perimeter + grid in the centre
-			if style_type == utils.LS_PERIMETER:
+			if style_type == ls.PERIMETER:
 				self._make_lights_core(style_name, style_id, style_type, bounds)
 			else:
 				self._make_lights_core(
-					style_name, style_id, utils.LS_PERIMETER, bounds)
+					style_name, style_id, ls.PERIMETER, bounds)
 				self._make_lights_core(
-					style_name, style_id, utils.LS_CENTRE, bounds)
+					style_name, style_id, ls.CENTRE, bounds)
 
 	# Utility Functions...
 
@@ -184,7 +185,7 @@ class LightingStyleFilter(XMLFilterBase):
 # FIXME DRY
 def main(xml_in):
 	utils.stage = '03'
-	utils.uprint('\n === ' + utils.stackdescs[utils.stage] + ' ===')
+	utils.uprint('\n === ' + prog.stackdescs[utils.stage] + ' ===')
 	global styleFetcher
 	styleFetcher = utils.StyleFetcher()
 	filtered_reader = LightingStyleFilter(xml.sax.make_parser())

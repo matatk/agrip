@@ -12,7 +12,7 @@ from plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
 import io
-from conf import dcp
+from conf import connector, dcp, prog
 
 
 class BuilderFilter(XMLFilterBase):
@@ -31,9 +31,9 @@ class BuilderFilter(XMLFilterBase):
 	def dispatch_macro(self, bi, si):
 		'''Call the appropriate Macro'''
 		type = si['type']
-		if type == utils.ST_STAIRS:
+		if type == connector.STAIRS:
 			self.macro_stairs(bi, si)
-		elif type == utils.ST_PLAT:
+		elif type == connector.PLAT:
 			self.macro_plat(bi, si)
 		else:
 			utils.error('unkown macro type ' + type)
@@ -251,7 +251,7 @@ class BuilderFilter(XMLFilterBase):
 # FIXME DRY
 def main(xml_in):
 	utils.stage = '04'
-	utils.uprint('\n === ' + utils.stackdescs['04'] + ' ===')
+	utils.uprint('\n === ' + prog.stackdescs['04'] + ' ===')
 	filtered_reader = BuilderFilter(xml.sax.make_parser())
 	xml_out = io.StringIO()
 	filtered_reader.setContentHandler(
