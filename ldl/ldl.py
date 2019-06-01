@@ -5,6 +5,7 @@ import argcomplete
 import os
 from ldl_convert import convert
 from ldl_build import build
+from ldl_play import play
 
 
 # Don't repeat the valid subcommands in the subcommand help section
@@ -40,7 +41,10 @@ def handle_build(args):
 		base = os.path.basename(root)
 		if base not in already_processed:
 			if ext == '.map':
-				build(filename, base, args.verbose, args.keep)
+				try:
+					build(filename, base, args.verbose, args.keep)
+				except:  # noqa: E722
+					pass
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
@@ -62,17 +66,26 @@ def handle_play(args):
 		base = os.path.basename(root)
 		if base not in already_processed:
 			if ext == '.bsp':
-				print('playing', filename)
+				try:
+					play(filename, base, args.verbose)
+				except:  # noqa: E722
+					pass
 				already_processed.add(base)
 			if ext == '.map':
-				print('building', filename, 'first')
+				try:
+					build(filename, base, args.verbose, True)
+					play(base + '.bsp', base, args.verbose)
+				except:  # noqa: E722
+					pass
 				already_processed.add(base)
-				# TODO then play it
 			elif ext == '.xml':
-				print('converting', filename, 'first')
+				try:
+					convert(filename, base, args.verbose, True)
+					build(base + '.map', base, args.verbose, True)
+					play(base + '.bsp', base, args.verbose)
+				except:  # noqa: E722
+					pass
 				already_processed.add(base)
-				# TODO then build it
-				# TODO then play it
 		else:
 			if args.verbose:
 				print('skipping', filename, '- already processed', base)
