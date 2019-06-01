@@ -4,6 +4,7 @@ import argparse
 import argcomplete
 import os
 from ldl_convert import convert
+from ldl_build import build
 
 
 # Don't repeat the valid subcommands in the subcommand help section
@@ -26,23 +27,28 @@ def handle_convert(args):
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
 		if ext == '.xml':
-			convert(filename, base, args.verbose, args.keep)
+			try:
+				convert(filename, base, args.verbose, args.keep)
+			except:  # noqa: E722
+				pass
 
 
 def handle_build(args):
 	already_processed = set()
-	print('Building')
 	for filename in args.files:
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
 		if base not in already_processed:
 			if ext == '.map':
-				print('building', filename)
+				build(filename, base, args.verbose, args.keep)
 				already_processed.add(base)
 			elif ext == '.xml':
-				print('converting', filename, 'first')
+				try:
+					convert(filename, base, args.verbose, args.keep)
+					build(base + '.map', base, args.verbose, args.keep)
+				except:  # noqa: E722
+					pass
 				already_processed.add(base)
-				# TODO then build it
 		else:
 			if args.verbose:
 				print('skipping', filename, '- already processed', base)

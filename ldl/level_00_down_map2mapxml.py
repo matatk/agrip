@@ -87,7 +87,7 @@ def main(xml_in):
 	conv = MapXML2Map()
 	try:
 		xml.sax.parseString(xml_in, conv)
-	except:  # noqa E722
+	except:  # noqa: E722
 		raise
 		utils.failParse()
 	return conv._result

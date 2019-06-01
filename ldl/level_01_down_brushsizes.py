@@ -90,7 +90,7 @@ def main(xml_in):
 	utils.set_stage(1)
 	try:
 		m = xml.dom.minidom.parseString(xml_in)
-	except:  # noqa E722
+	except:  # noqa: E722
 		utils.failParse()
 	processBrushes(m)
 	utils.remove_whitespace_nodes(m)

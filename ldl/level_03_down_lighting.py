@@ -200,7 +200,7 @@ def main(xml_in):
 		filtered_reader.parse(hacky)
 	except xml.sax.SAXParseException as detail:
 		utils.error('The XML you supplied is not valid: ' + str(detail))
-	except:  # noqa E722
+	except:  # noqa: E722
 		raise
 		utils.failParse()
 	return xml_out.getvalue()
