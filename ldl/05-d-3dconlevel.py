@@ -723,11 +723,31 @@ def convert_coords_compass_facepos(mode, objtype, word, index, parent, dir):
 def convert_coords_word(objtype, word, index, parent=None):
 	if objtype == OT_ROOM:
 		if index < 2:
-			return get_property(sizes_room_xy, word, 'You\'ve requested an invalid size for rooms (width and depth dimensions).  It might be a valid size for rooms (in the vertical dimension) or for other objects, but it isn\'t for connectors.  Valid sizes are:\n\t' + '\n\t'.join([str(s) for s in sizes_room_xy]))
+			return get_property(
+				sizes_room_xy,
+				word,
+				"You've requested an invalid size for rooms (width and "
+				'depth dimensions). It might be a valid size for rooms (in '
+				"the vertical dimension) or for other objects, but it isn't "
+				'for connectors. Valid sizes are:\n\t'
+				+ '\n\t'.join([str(s) for s in sizes_room_xy]))
 		else:
-			return get_property(sizes_room_z, word, 'You\'ve requested an invalid size for rooms (vertical dimension).  It might be a valid size for rooms (in the horizontal dimensions) or for other objects, but it isn\'t for connectors.  Valid sizes are:\n\t' + '\n\t'.join([str(s) for s in sizes_room_z]))
+			return get_property(
+				sizes_room_z,
+				word,
+				"You've requested an invalid size for rooms (vertical "
+				'dimension). It might be a valid size for rooms (in the '
+				"horizontal dimensions) or for other objects, but it isn't "
+				'for connectors. Valid sizes are:\n\t'
+				+ '\n\t'.join([str(s) for s in sizes_room_z]))
 	elif objtype == OT_CON or objtype == OT_CON_ELEV:
-		return get_property(sizes_con, word, 'You\'ve requested an invalid size for connectors.  It might be a valid size for rooms but it isn\'t for connectors.  Valid sizes are:\n\t' + '\n\t'.join([str(s) for s in sizes_con]))
+		return get_property(
+			sizes_con,
+			word,
+			"You've requested an invalid size for connectors. It might be a "
+			"valid size for rooms but it isn't for connectors. Valid sizes "
+			'are:\n\t'
+			+ '\n\t'.join([str(s) for s in sizes_con]))
 	else:
 		utils.error(
 			'convert_coords_words: invalid object type \''
@@ -776,7 +796,9 @@ def convert_coords_check_size_type(objtype, size):
 			else:
 				mode3d = True
 		else:
-			utils.error('conert_coords: it seems the input coordinate string you specified, \'' + str(size) + '\' is not valid.')
+			utils.error(
+				'conert_coords: it seems the input coordinate string you specified, '
+				"'" + str(size) + "' is not valid.")
 	elif isinstance(size, Point):
 		size_parts = [size.x, size.y, size.z]
 		mode3d = True
@@ -785,7 +807,7 @@ def convert_coords_check_size_type(objtype, size):
 		mode3d = False
 	else:
 		utils.error(
-			'convert_coords: don\'t know how to deal with type of \''
+			"convert_coords: don't know how to deal with type of '"
 			+ str(size) + '\'.')
 	return size_parts, mode3d
 
@@ -805,7 +827,9 @@ def convert_coords_check_parent_type(parent):
 		elif len(parent_parts) == 2:
 			return utils.getPoint2D(parent)
 		else:
-			utils.error('convert_coords_check_parent_type: a parent for this item/connection/room was specified as \'' + str(parent) + '\' which seems to be invalid.')
+			utils.error(
+				'convert_coords_check_parent_type: a parent for this item/connection/'
+				"room was specified as '" + str(parent) + "' which seems to be invalid.")
 	elif isinstance(parent, Point) or isinstance(parent, utils.Point2D):
 		return parent
 	else:
@@ -856,11 +880,14 @@ def convert_coords(objtype, size, parent=None, dir=None):
 				out.append(convert_coords_dispatch(OT_ROOM, size_parts[i], i, parent, dir))
 			flat_out = ' '.join([str(o) for o in out])
 		else:
-			utils.error('convert_coords: you must specify either only 1 or all 3 portions of the size/coordinates for rooms.')
+			utils.error(
+				'convert_coords: you must specify either only 1 or all 3 portions '
+				'of the size/coordinates for rooms.')
 	elif objtype == OT_CON:
 		# NB: always in 2d mode for these
 		if mode3d:
-			utils.error('convert_coords: connection specified but I got more then 2 coordinates.')
+			utils.error(
+				'convert_coords: connection specified but I got more then 2 coordinates.')
 		if len(size_parts) == 1:
 			conv = convert_coords_dispatch(OT_CON, size, 0, parent, dir)
 			flat_out = str(conv) + ' ' + str(conv)
@@ -869,11 +896,15 @@ def convert_coords(objtype, size, parent=None, dir=None):
 				out.append(convert_coords_dispatch(OT_CON, size_parts[i], i, parent, dir))
 			flat_out = ' '.join([str(o) for o in out])
 		else:
-			utils.error('convert_coords: you must specify either only 1 or both portions of the size/coordinates for connections.')
+			utils.error(
+				'convert_coords: you must specify either only 1 or both portions of the '
+				'size/coordinates for connections.')
 	elif objtype == OT_CON_ELEV:
 		# NB: always in 2d mode for these
 		if mode3d:
-			utils.error('convert_coords: connection elevator device specified but I got more then 2 coordinates.')
+			utils.error(
+				'convert_coords: connection elevator device specified but I got more then '
+				'2 coordinates.')
 		if len(size_parts) == 1:
 			if r_sizeword.match(size):
 				conv = convert_coords_dispatch(OT_CON, size, 0, parent, dir)
@@ -883,7 +914,10 @@ def convert_coords(objtype, size, parent=None, dir=None):
 					out.append(convert_coords_dispatch(OT_CON_ELEV, size, i, parent, dir))
 				flat_out = ' '.join([str(o) for o in out])
 			else:
-				utils.error('convert_coords: currently the only supported coordinate types for connection elevatoin devices (stairs and plats) are size names and the expansion symbol (+).')
+				utils.error(
+					'convert_coords: currently the only supported coordinate types for '
+					'connection elevatoin devices (stairs and plats) are size names and '
+					'the expansion symbol (+).')
 		elif len(size_parts) == 2:
 			for i in range(2):
 				out.append(
@@ -891,7 +925,10 @@ def convert_coords(objtype, size, parent=None, dir=None):
 						OT_CON_ELEV, size_parts[i], i, parent, dir))
 			flat_out = ' '.join([str(o) for o in out])
 		else:
-			utils.error('convert_coords: you must specify only 1 or both portions of the size/coordinates for connector elevation device (e.g. \'' + connector.STAIRS + '\' or \'' + connector.PLAT + '\' extents.')
+			utils.error(
+				'convert_coords: you must specify only 1 or both portions of the size/'
+				"coordinates for connector elevation device (e.g. '" + connector.STAIRS
+				+ "' or '" + connector.PLAT + "' extents.")
 	elif objtype == OT_ITEM:
 		# FIXME enforce being always in mode3d?
 		if len(size_parts) == 1:
@@ -908,11 +945,12 @@ def convert_coords(objtype, size, parent=None, dir=None):
 				out.append(convert_coords_dispatch(OT_ITEM, size_parts[i], i, parent, dir))
 			flat_out = ' '.join([str(o) for o in out])
 		else:
-			utils.error('convert_coords: you must specify either 1, 2 or all 3 portions of the coordinates for items.')
+			utils.error(
+				'convert_coords: you must specify either 1, 2 or all 3 portions of the '
+				'coordinates for items.')
 	else:
 		utils.error(
-			'convert_coords: unkown object type \''
-			+ objtype + '\' specified.')
+			"convert_coords: unkown object type '" + objtype + "' specified.")
 	return flat_out
 
 
@@ -954,7 +992,9 @@ def get_property(obj, field, mandatory=None):
 			if isinstance(mandatory, str):
 				utils.error(mandatory)
 			else:
-				utils.error('Field \'' + str(field) + '\' is required for an element in your map, but was not supplied.')
+				utils.error(
+					"Field '" + str(field) + "' is required for an element in your map, "
+					'but was not supplied.')
 	else:
 		return retval
 
@@ -1213,7 +1253,9 @@ def process_rooms_core(parentgroup, r, parent):
 				pass  # target already has origin computed
 				# FIXME should we check it's ``right''?
 		elif con_info['target'] and con_info['target'] == r_id:
-			utils.error('A connection in room \'' + r_id + '\' points to itself.  Please ensure all connections in this room point to other rooms.')
+			utils.error(
+				"A connection in room '" + r_id + "' points to itself. Please ensure all "
+				'connections in this room point to other rooms.')
 		else:
 			nontargetted_cons = True
 			con_centre = hole_centre(
@@ -1247,9 +1289,17 @@ def process_rooms_core(parentgroup, r, parent):
 					dist.z = dist.z - con_info['size'].y / 2
 
 				# Do we still need an elev?  Only go ahead if user hasn't told us not to.
-				if dist.z > prog.ELEV_DIST and get_property(con_info, 'elevtype') != 'none':
+				if dist.z > prog.ELEV_DIST \
+					and get_property(con_info, 'elevtype') != 'none':
 					# Sanity Check -- have we all the info we need?
-					elevtype = get_property(con_info, 'elevtype', con_elev_err_msg(r_id, con_target['id'], 'you have not specified an elevation device type (e.g. \'' + connector.STAIRS + '\' or \'' + connector.PLAT + '\'); please do so.'))
+					elevtype = get_property(
+						con_info,
+						'elevtype',
+						con_elev_err_msg(
+							r_id, con_target['id'],
+							"you have not specified an elevation device type (e.g. '"
+							+ connector.STAIRS + "' or '" + connector.PLAT
+							+ "'); please do so."))
 					extent = get_property(con_info, 'extent')
 
 					# Work out real area available (inside brush)...
@@ -1318,7 +1368,15 @@ def process_rooms_core(parentgroup, r, parent):
 				set_property(r, 'origin', r_origin)
 				rwo_update(r_id, r_origin)
 			else:
-				utils.error('Room ' + r_id + ' has no connections that touch other rooms.  It also does not have a \'pos\' attribute set so that it can be placed somewhere within its parent room (\'' + parent['id'] + '\').  Without thsi information it is not possible to place the room in the map.  Please add either a connection that leads directly onto another room or, if you wish to place \'' + r_id + '\' somewhere inside its parent room then provide it with a \'pos\' attribute -- pos=\'nw\' for example would place it in the north west of the parent room.')
+				utils.error(
+					'Room ' + r_id + ' has no connections that touch other rooms. It also '
+					"does not have a 'pos' attribute set so that it can be placed somewhere "
+					"within its parent room ('" + parent['id'] + "'). Without this "
+					'information it is not possible to place the room in the map. Please add '
+					'either a connection that leads directly onto another room or, if you '
+					"wish to place '" + r_id + "' somewhere inside its parent room then "
+					"provide it with a 'pos' attribute -- pos='nw' for example would place "
+					'it in the north west of the parent room.')
 		else:
 			pass  # we can -- have or will -- work out the origin eventually.
 	else:
@@ -1397,7 +1455,10 @@ def serialise_builder(b):
 	elif b['shape'] == connector.PLAT:
 		padded_print('<shape type=\'plat\' position=\'d\' />')
 	else:
-		utils.error('You specifed an elevator device type of \'' + b['shape'] + '\' for one of your connections.  This is not valid.  Please use either \'' + connector.STAIRS + '\' or \'' + connector.PLAT + '\'.')
+		utils.error(
+			"You specifed an elevator device type of '" + b['shape'] + "' for one of "
+			"your connections. This is not valid.  Please use either '"
+			+ connector.STAIRS + "' or '" + connector.PLAT + "'.")
 	padding_update(False)
 	padded_print('</builder>')
 	padding_update(False)
@@ -1439,8 +1500,9 @@ def compdir_to_angle(dir):
 					+ dir + '\'.')
 		else:
 			utils.error(
-				'compdir_to_angle: specified direction \'' + str(dir)
-				+ '\' doesn\'t seem to be a valid compass direction (or a supported one for translation).')
+				"compdir_to_angle: specified direction '" + str(dir)
+				+ "' doesn't seem to be a valid compass direction (or a supported one for "
+				'translation).')
 
 
 def serialise(m):
@@ -1448,7 +1510,11 @@ def serialise(m):
 	padding_update(True)
 	mapname = m['name']
 	worldtype = m['style']
-	padded_print('<?xml version=\'1.0\' encoding=\'utf-8\'?>\n<!-- This is an automatically-generated intermediate map file, created by the Level Description Language (LDL) system from The AGRIP Project - see http://www.agrip.org.uk/ for more information. -->\n<map>')
+	padded_print(
+		'<?xml version="1.0" encoding="utf-8"?>\n'
+		'<!-- This is an automatically-generated intermediate map file, created by '
+		'the Level Description Language (LDL) system from The AGRIP Project - see '
+		'http://www.agrip.org.uk/ for more information. -->\n<map>')
 	padding_update(True)
 	padded_print('<info>')
 	padding_update(True)
@@ -1502,16 +1568,21 @@ if __name__ == "__main__":
 	if 'map' in x:
 		m = x['map']
 	else:
-		utils.error('It appears your map file doesn\'t start with a \'map\' element.')
+		utils.error(
+			"It appears your map file doesn't start with a 'map' element.")
 	# Parse properties in map info...
 	if 'name' in m:
 		pass  # FIXME include as <property>
 	else:
-		utils.error('It appears your map doesn\'t have a \'name\' attribute; please specify a name for your map.')
+		utils.error(
+			"It appears your map doesn't have a 'name' attribute; please specify a "
+			'name for your map.')
 	if 'style' in m:
 		default_style = m['style']
 	else:
-		utils.error('It appears your map doesn\'t have a \'style\' attribute; please specify a style (e.g. base or medieval).')
+		utils.error(
+			"It appears your map doesn't have a 'style' attribute; please specify a "
+			'style (e.g. base or medieval).')
 
 	# Parse rooms...
 	# NB: we give 3 attempts at this because if the user has not specifed rooms
@@ -1539,9 +1610,15 @@ if __name__ == "__main__":
 				i = i + 1
 		# Did we get all the room origins?
 		if not exitflag:
-			utils.error('There are still some rooms or connections between rooms that it was not possible to allocate positions in the 3D world for, even after ' + str(i) + ' attempts.  This is probably because these rooms are not connected to any other rooms.  Please ensure all rooms in your map are connected.')
+			utils.error(
+				'There are still some rooms or connections between rooms that it was not '
+				'possible to allocate positions in the 3D world for, even after ' + str(i)
+				+ ' attempts.  This is probably because these rooms are not connected to '
+				'any other rooms.  Please ensure all rooms in your map are connected.')
 
 		# If we got here, we're OK...
 		serialise(m)
 	else:
-		utils.error('There doesn\'t seem to be at least \'room\' element inside the \'map\' element.')
+		utils.error(
+			"There doesn't seem to be at least 'room' element inside the 'map"
+			'element.')
