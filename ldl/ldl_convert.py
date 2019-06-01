@@ -5,11 +5,13 @@ from level_02_down_rooms import main as level2
 from level_03_down_lighting import main as level3
 from level_04_down_buildermacros import main as level4
 from level_05_down_connections import main as level5
+from utils import set_verbosity
 
 
 def convert(xml_file_name, basename, verbose):
 	try:
 		print('converting:', xml_file_name, verbose)
+		set_verbosity(verbose)
 		with open(xml_file_name, 'r') as xml_file:
 			ldlstring = xml_file.read()
 		level4string = level5(ldlstring)

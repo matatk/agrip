@@ -256,8 +256,7 @@ class BuilderFilter(XMLFilterBase):
 
 # FIXME DRY
 def main(xml_in):
-	utils.stage = '04'
-	utils.uprint('\n === ' + prog.stackdescs['04'] + ' ===')
+	utils.set_stage(4)
 	filtered_reader = BuilderFilter(xml.sax.make_parser())
 	xml_out = io.StringIO()
 	filtered_reader.setContentHandler(

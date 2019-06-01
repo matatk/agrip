@@ -188,8 +188,7 @@ class LightingStyleFilter(XMLFilterBase):
 
 # FIXME DRY
 def main(xml_in):
-	utils.stage = '03'
-	utils.uprint('\n === ' + prog.stackdescs[utils.stage] + ' ===')
+	utils.set_stage(3)
 	global styleFetcher
 	styleFetcher = utils.StyleFetcher()
 	filtered_reader = LightingStyleFilter(xml.sax.make_parser())

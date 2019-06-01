@@ -231,8 +231,7 @@ def processEntity(doc, parent, offset, entity):
 
 # FIXME DRY
 def main(xml_in):
-	utils.stage = '02'
-	utils.uprint('\n === ' + prog.stackdescs[utils.stage] + ' ===')
+	utils.set_stage(2)
 	global s
 	s = utils.StyleFetcher()
 	try:
@@ -242,7 +241,7 @@ def main(xml_in):
 	utils.remove_whitespace_nodes(m)
 	processMap(m)
 	m.getElementsByTagName('map')[0] \
-		.setAttribute('stackdesc', prog.stackdescs['02'])
+		.setAttribute('stackdesc', prog.stackdescs[2])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
 

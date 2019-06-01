@@ -25,6 +25,9 @@ from conf import (
 	valid_entities
 )
 
+stage = None
+verbose = False
+
 
 #
 # Construction Code
@@ -453,6 +456,7 @@ class StyleFetcher:
 		out = out + '\nLIGHTING SETS:\n' + pp.pformat(self.lightingSets)
 		return out
 
+
 #
 # Utility Code
 #
@@ -463,6 +467,7 @@ def check_entity_name(name):
 		return True
 	else:
 		error('The given entity name \'' + name + '\' is not a valid one.  The list of valid entities is as follows.\n\t' + '\n\t'.join([n for n in valid_entities]))
+
 
 def addDim(region, dim, d, e=None):
 	'''Convert a Region2D into a Region3D by adding an extra dminsion, that was taken away by the splitting algorithm.
@@ -506,6 +511,7 @@ class Point2D:
 	def divide_coords_by(self, factor):
 		return Point2D(self.x/factor, self.y/factor)
 
+
 def checkType(rtype):
 	result = False
 	if not rtype:
@@ -519,6 +525,7 @@ def checkType(rtype):
 		error('Unknown region type \'' + str(rtype) + '\'')
 	else:
 		return True
+
 
 class Region3D:
 	'''A 3D region.
@@ -544,6 +551,7 @@ class Region3D:
 	def __str__(self):
 		return 'at: ' + str(self.origin) + ' extent: ' + str(self.extent) + ' type: ' + str(self.type)
 
+
 class Region2D:
 	'''A 2D region in a wall that is to be split.
 	This could correspond to a door, in which case when it's ``rebuilt'' into 3D it will be created as such.'''
@@ -562,9 +570,12 @@ class Region2D:
 	def __str__(self):
 		return 'at: ' + str(self.origin) + ' extent: ' + str(self.extent) + ' type: ' + str(self.type)
 
+
 class Chunk2D(Region2D): pass
 
+
 class Hole2D(Region2D): pass
+
 
 def getHoles(dict, wall):
 	'''Holes are stored in a dictionary where the keys are the names of the walls (dcp. values).  There can be multiple holes per wall.  This funtion extracts and returns them as a list of Hole objects (which themselves contain Point2D objects).'''
@@ -574,19 +585,23 @@ def getHoles(dict, wall):
 	else:
 		return False
 
+
 def warning(data):
-	sys.stderr.write('Stage ' + stage + ' WARNING! ' + data + '\n')
+	sys.stderr.write('Stage ' + str(stage) + ' WARNING! ' + data + '\n')
+
 
 def error(data):
-	sys.stderr.write('Stage ' + stage + ' ERROR! ' + data + '\n')
+	sys.stderr.write('Stage ' + str(stage) + ' ERROR! ' + data + '\n')
 	sys.exit(42)
+
 
 def failParse(data=None):
 	if data:
-		sys.stderr.write('Stage: ' + stage + ' FAILURE! ' + data + '\n')
+		sys.stderr.write('Stage: ' + str(stage) + ' FAILURE! ' + data + '\n')
 	else:
 		sys.stderr.write('Processing stage ' + stage + ': there was an error in the input given to this stage of processing -- perhaps the previous stage didn\'t work?\n')
 	sys.exit(42)
+
 
 def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 	# FIXME split into two versions -- onef for dir / style and one for just plain text?
@@ -641,12 +656,14 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 	else:
 		error('Unknown brush type \'' + str(part.type) + '\' specified for brush ' + str(part) + '.')
 
+
 def createSolid(doc, o, e, t):
 	b = doc.createElement('brush')
 	b.setAttribute('origin',str(o))
 	b.setAttribute('extent',str(e))
 	b.setAttribute('texture',t + ' 0 0 0 1 1')  # FIXME this will be the offset induced when the level is moved such that the origin is no longer 0 0 0.
 	return b
+
 
 def getPoint(cstr):
 	list = cstr.split()
@@ -655,6 +672,7 @@ def getPoint(cstr):
 	else:
 		error('getPoint: received input without 3 parts to make 3D point from -- \'' + str(cstr) + '\'.')
 
+
 def getPoint2D(cstr):
 	list = cstr.split()
 	# FIXME some places are calling this and getting away with it
@@ -662,11 +680,13 @@ def getPoint2D(cstr):
 	#	warning('getPoint2D: received input without 2 parts to make 2D point from -- \'' + str(cstr) + '\'.')
 	return Point2D(float(list[0]), float(list[1]))
 
+
 def createProperty(doc, name, value):
 	property = doc.createElement('property')
 	property.setAttribute('name', name)
 	property.setAttribute('value', value)
 	return property
+
 
 def remove_whitespace_nodes(node, unlink=False):
 	"""Removes all of the whitespace-only text decendants of a DOM node.
@@ -691,10 +711,13 @@ def remove_whitespace_nodes(node, unlink=False):
 		if unlink:
 			node.unlink()
 
+
 def uprint(msg, sameLine=False):
-	if prog.debug_printing:
+	if verbose:
 		sys.stderr.write(msg)
-		if not sameLine: sys.stderr.write('\n')
+		if not sameLine:
+			sys.stderr.write('\n')
+
 
 def getText(nodelist):
 	ret = ''
@@ -703,6 +726,19 @@ def getText(nodelist):
 			ret = ret + node.data
 	return ret
 
+
 def insertPlaceholder(doc, parent, child):
 	ph = doc.createComment('placeholder')
 	parent.replaceChild(ph, child)
+
+
+def set_stage(new_stage):
+	global stage
+	stage = new_stage
+	uprint('\n === ' + prog.stackdescs[stage] + ' ===')
+
+
+def set_verbosity(new_verbosity):
+	global verbose
+	verbose = new_verbosity
+	# TODO: split.py has "debug_printing" turned off hardcodedly - double-v?

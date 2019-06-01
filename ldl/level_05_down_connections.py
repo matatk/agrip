@@ -1553,7 +1553,7 @@ def padded_print(str):
 
 
 def main(xml_in):
-	utils.stage = '05'
+	utils.set_stage(5)
 	global pp
 	pp = pprint.PrettyPrinter()
 	global serialise_padding_level

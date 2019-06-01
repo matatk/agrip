@@ -36,7 +36,7 @@ class MapXML2Map(xml.sax.ContentHandler):
 
 	def startElement(self, name, attrs):
 		if name == 'map':
-			self._add(prog.boilerplate_map + '// ' + prog.stackdescs['00'] + '\n')
+			self._add(prog.boilerplate_map + '// ' + prog.stackdescs[0] + '\n')
 		elif name == 'entity':
 			self._add(self.padding + '// Entity \n' + self.padding + '{\n')
 			self.paddinglevel = self.paddinglevel + 1
@@ -83,8 +83,7 @@ class MapXML2Map(xml.sax.ContentHandler):
 
 
 def main(xml_in):
-	utils.stage = '00'
-	utils.uprint('\n === ' + prog.stackdescs[utils.stage] + ' ===')
+	utils.set_stage(0)
 	conv = MapXML2Map()
 	try:
 		xml.sax.parseString(xml_in, conv)

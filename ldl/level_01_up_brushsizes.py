@@ -129,7 +129,7 @@ def main(xml_in):
 	m = xml.dom.minidom.parseString(xml_in)
 	listBrushes(m)
 	m.getElementsByTagName('map')[0] \
-		.setAttribute('stackdesc', prog.stackdescs['01'])
+		.setAttribute('stackdesc', prog.stackdescs[1])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
 

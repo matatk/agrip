@@ -6,7 +6,6 @@
 #
 
 class prog:
-	debug_printing = 0  # do we print out debug messages?
 	lip = 8  # thickness of wall brushes.
 	lip_small = lip / 2  # thickness of door brushes.
 	lip_small_margin = lip_small / 2  # thickness of margins around door brushes.
@@ -18,14 +17,13 @@ class prog:
 		'Language (LDL) script from\n// the AGRIP project ' \
 		'(http://www.agrip.org.uk/).\n'
 	stackdescs = {
-		'00': 'Stage 00: Raw .map files to simple XML',
-		'01': 'Stage 01: Brush origins and extents',
-		'02': 'Stage 02: Rooms\'n\'Stuff',
-		'03': 'Stage 03: Lighting styles.',
-		'04': 'Stage 04: Builder Macros',
-		'05': 'Stage 0y: 3D Connections Level'
+		0: 'Stage 00: Raw .map files to simple XML',
+		1: 'Stage 01: Brush origins and extents',
+		2: 'Stage 02: Rooms\'n\'Stuff',
+		3: 'Stage 03: Lighting styles.',
+		4: 'Stage 04: Builder Macros',
+		5: 'Stage 0y: 3D Connections Level'
 	}
-	stage = None  # set by each stage, for use in error msgs
 	STYLE_FILE = 'style.xml'
 	# the style file for our maps (contains textures, sounds and lighting presets)
 	concretion_attempts = 3

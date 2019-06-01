@@ -87,8 +87,7 @@ def processBrushes(map):
 
 # FIXME DRY
 def main(xml_in):
-	utils.stage = '01'
-	utils.uprint('\n === ' + prog.stackdescs[utils.stage] + ' ===')
+	utils.set_stage(1)
 	try:
 		m = xml.dom.minidom.parseString(xml_in)
 	except:  # noqa E722
@@ -96,7 +95,7 @@ def main(xml_in):
 	processBrushes(m)
 	utils.remove_whitespace_nodes(m)
 	m.getElementsByTagName('map')[0] \
-		.setAttribute('stackdesc', prog.stackdescs['01'])
+		.setAttribute('stackdesc', prog.stackdescs[1])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
 
