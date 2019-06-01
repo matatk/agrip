@@ -98,7 +98,3 @@ def main(xml_in):
 		.setAttribute('stackdesc', prog.stackdescs[1])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)
 	return m.toprettyxml()
-
-
-if __name__ == '__main__':
-	print(main(sys.stdin.read()))

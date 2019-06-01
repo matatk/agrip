@@ -143,7 +143,3 @@ def main(mapfile_in):
 	mp = MapParser(mapfile_in)
 	mp.parseMap()
 	return mp.output
-
-
-if __name__ == '__main__':
-	print(main(sys.stdin.read()))

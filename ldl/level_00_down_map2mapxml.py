@@ -91,8 +91,3 @@ def main(xml_in):
 		raise
 		utils.failParse()
 	return conv._result
-
-
-if __name__ == '__main__':
-	# TODO: turn off utils.uprint here, or send to stderr?
-	print(main(sys.stdin.read()))

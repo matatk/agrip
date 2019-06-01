@@ -204,7 +204,3 @@ def main(xml_in):
 		raise
 		utils.failParse()
 	return xml_out.getvalue()
-
-
-if __name__ == "__main__":
-	print(main(sys.stdin.read()))
