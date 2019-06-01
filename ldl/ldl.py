@@ -8,6 +8,7 @@ import traceback
 from ldl_convert import convert
 from ldl_build import build
 from ldl_play import play
+from ldl_roundtrip import roundtrip
 
 
 def print_exception():
@@ -114,10 +115,13 @@ def handle_play(args):
 
 
 def handle_roundtrip(args):
-	print('Round-tripping')
 	for filename in args.files:
-		if os.path.splitext(filename)[1] == '.map':
-			print('round-tripping', filename)
+		root, ext = os.path.splitext(filename)
+		base = os.path.basename(root)
+		# FIXME cope with XML too
+		# FIXME cope with XML and non-built MAPs when PLAY is requested
+		if ext == '.map':
+			roundtrip(filename, base, args.verbose, args.keep, args.play)
 
 
 parser = argparse.ArgumentParser(

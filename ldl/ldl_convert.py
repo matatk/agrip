@@ -15,7 +15,7 @@ def _keep(keep, level, basename, content):
 
 
 def convert(xml_file_name, basename, verbose, keep):
-	print('Converting:', xml_file_name)
+	print('Converting', xml_file_name)
 	set_verbosity(verbose)
 	with open(xml_file_name, 'r') as xml_file:
 		ldlstring = xml_file.read()
