@@ -39,7 +39,7 @@ class prog:
 # Constants
 #
 
-class dims:
+class dims:  # FIXME named plurally due to conflict with a variable name
 	X = 'x'
 	Y = 'y'
 	Z = 'z'
@@ -77,7 +77,6 @@ class connector:
 	# thing
 
 
-# property types
 class propertytype:
 	INT = 'int'
 	TEXT = 'text'
@@ -114,7 +113,6 @@ soundtypes_plat = {
 }
 
 
-# lighting styles
 class lightingstyle:
 	GRID = 'grid'
 	CENTRE = 'centre'
