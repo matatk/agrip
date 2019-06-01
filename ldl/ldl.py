@@ -22,12 +22,11 @@ keep_intermediate_xml_help_text = '\
 
 
 def handle_convert(args):
-	print('Converting')
 	for filename in args.files:
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
 		if ext == '.xml':
-			convert(filename, base, args.verbose)
+			convert(filename, base, args.verbose, args.keep)
 
 
 def handle_build(args):

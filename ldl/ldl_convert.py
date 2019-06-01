@@ -8,17 +8,28 @@ from level_05_down_connections import main as level5
 from utils import set_verbosity
 
 
-def convert(xml_file_name, basename, verbose):
+def _keep(keep, level, basename, content):
+	if keep:
+		with open(basename + '_level_' + str(level) + '.xml', 'w') as out:
+			out.write(content)
+
+
+def convert(xml_file_name, basename, verbose, keep):
 	try:
-		print('converting:', xml_file_name, verbose)
+		print('Converting:', xml_file_name)
 		set_verbosity(verbose)
 		with open(xml_file_name, 'r') as xml_file:
 			ldlstring = xml_file.read()
 		level4string = level5(ldlstring)
+		_keep(keep, 4, basename, level4string)
 		level3string = level4(level4string)
+		_keep(keep, 3, basename, level3string)
 		level2string = level3(level3string)
+		_keep(keep, 2, basename, level2string)
 		level1string = level2(level2string)
+		_keep(keep, 1, basename, level1string)
 		level0string = level1(level1string)
+		_keep(keep, 0, basename, level0string)
 		mapfile = level0(level0string)
 		with open(basename + '.map', 'w') as outfile:
 			outfile.write(mapfile)
