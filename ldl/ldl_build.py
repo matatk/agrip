@@ -11,6 +11,21 @@ bspinfo = os.path.join(bins, 'bspinfo')
 clean = ['.h1', '.h2', '.prt', '.pts']
 
 
+def have_needed_stuff():
+	missing = []
+	for exe in [qbsp, vis, light, bspinfo, 'quake.wad']:
+		if not os.path.isfile(exe):
+			missing.append(exe)
+
+	if len(missing) > 0:
+		print(
+			'ERROR: The following map tools and support files are missing:\n\t'
+			+ '\n\t'.join(missing))
+		return False
+	else:
+		return True
+
+
 def run(args, verbose, errorcheck=True):
 	exe = os.path.basename(args[0])
 	try:

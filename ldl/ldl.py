@@ -6,7 +6,7 @@ import os
 import sys
 import traceback
 from ldl_convert import convert
-from ldl_build import build
+from ldl_build import build, have_needed_stuff
 from ldl_play import play
 from ldl_roundtrip import roundtrip
 
@@ -49,6 +49,9 @@ def handle_convert(args):
 
 
 def handle_build(args):
+	if not have_needed_stuff():
+		sys.exit(42)
+
 	already_processed = set()
 	for filename in args.files:
 		if not os.path.isfile(filename):
@@ -78,6 +81,9 @@ def handle_build(args):
 
 
 def handle_play(args):
+	if not have_needed_stuff():
+		sys.exit(42)
+
 	already_processed = set()
 	for filename in args.files:
 		if not os.path.isfile(filename):
