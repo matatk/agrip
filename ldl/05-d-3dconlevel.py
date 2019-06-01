@@ -25,7 +25,11 @@ import re  # standard/mine
 import xml.parsers.expat
 import xml2dict
 from plane import Point
-from conf import connector, dcp, prog
+from conf import (
+	connector,
+	dcp,
+	prog
+)
 
 '''Convert coords to numbers, from a range of possible formats.
 2D formats:

@@ -12,7 +12,11 @@ from plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
 import io
-from conf import prog, ls
+from conf import (
+	dims,
+	ls,
+	prog
+)
 
 
 class LightingStyleFilter(XMLFilterBase):
@@ -51,12 +55,12 @@ class LightingStyleFilter(XMLFilterBase):
 	def _make_lights_core(self, style, id, type, bounds):
 		'''Make lights in this around the walls only.'''
 		lights = []
-		xoffs = styleFetcher.getLightingSetOffset(style, id, type, 'x')
-		yoffs = styleFetcher.getLightingSetOffset(style, id, type, 'y')
-		zoffs = styleFetcher.getLightingSetOffset(style, id, type, 'z')
-		xmin = styleFetcher.getLightingSetMindist(style, id, type, 'x')
-		ymin = styleFetcher.getLightingSetMindist(style, id, type, 'y')
-		zmin = styleFetcher.getLightingSetMindist(style, id, type, 'z')
+		xoffs = styleFetcher.getLightingSetOffset(style, id, type, dims.X)
+		yoffs = styleFetcher.getLightingSetOffset(style, id, type, dims.Y)
+		zoffs = styleFetcher.getLightingSetOffset(style, id, type, dims.Z)
+		xmin = styleFetcher.getLightingSetMindist(style, id, type, dims.X)
+		ymin = styleFetcher.getLightingSetMindist(style, id, type, dims.Y)
+		zmin = styleFetcher.getLightingSetMindist(style, id, type, dims.Z)
 		entity = styleFetcher.getLightingSetEntity(style, id, type)
 		light = styleFetcher.getLightingSetLevel(style, id, type)
 		sound = styleFetcher.getLightingSetSound(style, id, type)

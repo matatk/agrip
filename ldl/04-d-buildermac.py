@@ -12,7 +12,11 @@ from plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
 import io
-from conf import connector, dcp, prog
+from conf import (
+	connector,
+	dcp,
+	prog
+)
 
 
 class BuilderFilter(XMLFilterBase):
@@ -143,7 +147,9 @@ class BuilderFilter(XMLFilterBase):
 				)
 				parts3d.append(part3d)
 		else:
-			utils.error('invalid direction specified for stairs (up and down are currently unsupported)')
+			utils.error(
+				'invalid direction specified for stairs (up and down are currently '
+				'unsupported)')
 
 		for part3d in parts3d:
 			super().startElement('solid', {

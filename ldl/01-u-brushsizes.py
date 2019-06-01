@@ -97,15 +97,11 @@ def listBrushes(map):
 		brush.setAttribute('extent', str(extent))
 		brush.setAttribute('texture', textureSpec)
 		# Tidy up...
-		#brush_planes = []
 		psa = []
 		psb = []
 
 
 def intersect(P1, P2, P3):
-	#print 'P1', P1
-	#print 'P2', P2
-	#print 'P3', P3
 	N1 = P1.N
 	N2 = P2.N
 	N3 = P3.N
@@ -113,18 +109,11 @@ def intersect(P1, P2, P3):
 	k2 = P2.k
 	k3 = P3.k
 	ptop1 = (N2.cross_product(N3)) * k1
-	#print 'top1', ptop1
 	ptop2 = (N3.cross_product(N1)) * k2
-	#print 'top2', ptop2
 	ptop3 = (N1.cross_product(N2)) * k3
-	#print 'top3', ptop3
 	ptop = ptop1 + ptop2 + ptop3
-	#print 'top', ptop
 	pbot = N1.dot_product(N2.cross_product(N3))
-	#print 'bot', pbot
 	p = ptop.divide_coords_by(pbot)
-	#print 'p', p
-	#print
 	# for some reason sometimes these return -0.0 as one of the coors
 	if p.x == 0:
 		p.x = 0

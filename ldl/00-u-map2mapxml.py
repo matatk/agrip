@@ -37,6 +37,7 @@ r_plane = re.compile(r'\( (-?[0-9.]+ -?[0-9.]+ -?[0-9.]+) \) ' +
 					r'(.+?)(?: \/\/.+?)?\n')
 					# DON'T USE DOTALL or we will capture all planes
 
+
 class MapParser:
 	def __init__(self):
 		self.stream = sys.stdin.read()
@@ -52,7 +53,7 @@ class MapParser:
 			#
 			# ENTITY
 			#
-			sys.stdout.write(self.padding+'<entity>\n')
+			sys.stdout.write(self.padding + '<entity>\n')
 			r_property = re.compile(r'"(?P<name>.+?)" "(?P<val>.+?)"', re.DOTALL)
 			r_entend = re.compile(r'.*?\{', re.DOTALL)
 
@@ -62,7 +63,10 @@ class MapParser:
 			while not exitflag:
 				res_prop = r_property.search(chunk[offset:])
 				if res_prop:
-					sys.stdout.write(self.padding+self.padding+'<property name="' + res_prop.group('name') + '" value="' + res_prop.group('val') + '" />\n')
+					sys.stdout.write(
+						self.padding + self.padding + '<property name="'
+						+ res_prop.group('name') + '" value="' + res_prop.group('val')
+						+ '" />\n')
 					offset = offset + res_prop.end()
 				else:
 					exitflag = 1
@@ -72,12 +76,12 @@ class MapParser:
 				# The entity had embedded brushes...
 				self.parseMain(chunk[res_eb.end():len(chunk)])
 
-			sys.stdout.write(self.padding+'</entity>\n')
+			sys.stdout.write(self.padding + '</entity>\n')
 		else:
 			#
 			# BRUSH
 			#
-			sys.stdout.write(self.padding+'<brush>\n')
+			sys.stdout.write(self.padding + '<brush>\n')
 			# Get planes out...
 			offset = 0
 			exitflag = 0
@@ -87,14 +91,17 @@ class MapParser:
 					sys.stdout.write(self.padding + self.padding + '<plane>\n')
 					# For each group, put out a point section...
 					for group in range(1, 4):
-						sys.stdout.write( self.padding + self.padding + self.padding + '<point>' + res_pl.group(group) + '</point>\n')
-					sys.stdout.write(self.padding + self.padding + self.padding + '<texture>'+ res_pl.group(4) + '</texture>\n')
+						sys.stdout.write(
+							self.padding + self.padding + self.padding + '<point>'
+							+ res_pl.group(group) + '</point>\n')
+					sys.stdout.write(
+						self.padding + self.padding + self.padding + '<texture>'
+						+ res_pl.group(4) + '</texture>\n')
 					offset = offset + res_pl.end()
 					sys.stdout.write(self.padding + self.padding + '</plane>\n')
 				else:
 					exitflag = 1
-			sys.stdout.write(self.padding+'</brush>\n')
-
+			sys.stdout.write(self.padding + '</brush>\n')
 
 	def parseMain(self, instr):
 		# Looks for chunks next to each other within the given string
@@ -107,8 +114,7 @@ class MapParser:
 		while not exitflag:
 			result = r_chunk.search(instr[start:])
 			if result:
-				#sys.stdout.write('<!--Chunk from',start+result.start(),'to',start+result.end()
-				self.parseChunk(instr[start+result.start()+1:start+result.end()-1])
+				self.parseChunk(instr[start + result.start() + 1:start + result.end() - 1])
 				# (The -1s are there so we don't get the surrounding {}s.)
 				start = start + result.end()
 			else:
@@ -120,12 +126,14 @@ class MapParser:
 	def parseMap(self):
 		sys.stdout.write('<?xml version="1.0" ?>\n')
 		sys.stdout.write(prog.boilerplate)
-		#sys.stdout.write('<!-- ' + prog.stackdescs['00'] + ' -->\n<map>\n')
-		sys.stdout.write('<map stackdesc="' + prog.stackdescs['00'] + '" generator="' + __file__ + '">\n')
+		sys.stdout.write(
+			'<map stackdesc="' + prog.stackdescs['00'] + '" generator="' + __file__
+			+ '">\n')
 		self.parseMain(self.stream)
 		sys.stdout.write('</map>\n')
 		sys.stdout.close
 		# EOF
+
 
 if __name__ == '__main__':
 	mp = MapParser()
