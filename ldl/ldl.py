@@ -27,8 +27,7 @@ def handle_convert(args):
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
 		if ext == '.xml':
-			print(filename, base, ext)
-			convert(filename, base)
+			convert(filename, base, args.verbose)
 
 
 def handle_build(args):

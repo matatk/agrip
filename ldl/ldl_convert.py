@@ -7,14 +7,18 @@ from level_04_down_buildermacros import main as level4
 from level_05_down_connections import main as level5
 
 
-def convert(xmlfile, basename):
-	print('converting:', xmlfile)
-	xmlfilestring = open(xmlfile).read()
-	level4string = level5(xmlfilestring)
-	level3string = level4(level4string)
-	level2string = level3(level3string)
-	level1string = level2(level2string)
-	level0string = level1(level1string)
-	mapfile = level0(level0string)
-	with open(basename + '.map', 'w') as outfile:
-		outfile.write(mapfile)
+def convert(xml_file_name, basename, verbose):
+	try:
+		print('converting:', xml_file_name, verbose)
+		with open(xml_file_name, 'r') as xml_file:
+			ldlstring = xml_file.read()
+		level4string = level5(ldlstring)
+		level3string = level4(level4string)
+		level2string = level3(level3string)
+		level1string = level2(level2string)
+		level0string = level1(level1string)
+		mapfile = level0(level0string)
+		with open(basename + '.map', 'w') as outfile:
+			outfile.write(mapfile)
+	except:  # noqa E722
+		pass
