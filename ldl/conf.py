@@ -78,7 +78,7 @@ class connector:
 
 
 # property types
-class pt:
+class propertytype:
 	INT = 'int'
 	TEXT = 'text'
 

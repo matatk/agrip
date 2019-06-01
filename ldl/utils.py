@@ -19,7 +19,7 @@ from conf import (
 	key_access,
 	lightingstyle,
 	prog,
-	pt,
+	propertytype,
 	soundtypes_door,
 	soundtypes_plat,
 	valid_entities
@@ -229,9 +229,9 @@ class StyleFetcher:
 							else:
 								return None
 						# Got value; work out type to return...
-						if prop_type == pt.TEXT:
+						if prop_type == propertytype.TEXT:
 							return val
-						elif prop_type == pt.INT:
+						elif prop_type == propertytype.INT:
 							return int(val)
 						else:
 							error('StyleFetcher: unknown property prop_type ' + prop_type)
@@ -245,13 +245,13 @@ class StyleFetcher:
 			error('unknown lighting style ' + style)
 
 	def getLightingSetEntity(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, pt.TEXT, 'entities')
+		return self._getLightingSetSimpleProp(style, id, type, propertytype.TEXT, 'entities')
 
 	def getLightingSetLevel(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, pt.INT, 'levels')
+		return self._getLightingSetSimpleProp(style, id, type, propertytype.INT, 'levels')
 
 	def getLightingSetSound(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, pt.TEXT, 'sounds')
+		return self._getLightingSetSimpleProp(style, id, type, propertytype.TEXT, 'sounds')
 
 	def _getLightingSetComplexProp(self, style, id, type, prop, dim):
 		'''Get a property from a deeply nested hash like offsets or min gaps in each dimension.
