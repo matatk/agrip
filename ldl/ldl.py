@@ -35,7 +35,7 @@ keep_intermediate_xml_help_text = '\
 def handle_convert(args):
 	for filename in args.files:
 		if not os.path.isfile(filename):
-			print(filename, "doesn't exist - skipping")
+			print(filename, 'is not a readable file - skipping')
 			continue
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
@@ -55,7 +55,7 @@ def handle_build(args):
 	already_processed = set()
 	for filename in args.files:
 		if not os.path.isfile(filename):
-			print(filename, "doesn't exist - skipping")
+			print(filename, 'is not a readable file - skipping')
 			continue
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
@@ -87,7 +87,7 @@ def handle_play(args):
 	already_processed = set()
 	for filename in args.files:
 		if not os.path.isfile(filename):
-			print(filename, "doesn't exist - skipping")
+			print(filename, 'is not a readable file - skipping')
 			continue
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
