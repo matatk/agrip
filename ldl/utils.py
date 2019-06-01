@@ -17,7 +17,7 @@ from conf import (
 	dims,
 	dcp,
 	key_access,
-	ls,
+	lightingstyle,
 	prog,
 	pt,
 	soundtypes_door,
@@ -287,7 +287,7 @@ class StyleFetcher:
 		if style in self.lightingSets:
 			if 'type' in self.lightingSets[style]:
 				type = self.lightingSets[style]['type']
-				if type == ls.CENTRE or type == ls.PERIMETER:
+				if type == lightingstyle.CENTRE or type == lightingstyle.PERIMETER:
 					return type
 				else:
 					error('invalid type \'' + type + '\'specified for lighting style \'' + style + '\'')
@@ -394,47 +394,47 @@ class StyleFetcher:
 						if lc_name:
 							lc_type = lc.getAttribute('type')
 							if lc_name == 'offset':
-								if lc_type == ls.PERIMETER:
-									tLS[ls_name][l_id]['offsets'][ls.PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == ls.CENTRE:
-									tLS[ls_name][l_id]['offsets'][ls.CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == ls.DEF:
+								if lc_type == lightingstyle.PERIMETER:
+									tLS[ls_name][l_id]['offsets'][lightingstyle.PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.CENTRE:
+									tLS[ls_name][l_id]['offsets'][lightingstyle.CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.DEF:
 									tLS[ls_name][l_id]['offsets'][lc.getAttribute('dim')] = lc.getAttribute('value')
 								else:
 									error('unknown offset type ' + lc_type + ' specified for lighting scheme ' + l_id)
 							if lc_name == 'min':
-								if lc_type == ls.PERIMETER:
-									tLS[ls_name][l_id]['mins'][ls.PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == ls.CENTRE:
-									tLS[ls_name][l_id]['mins'][ls.CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == ls.DEF:
+								if lc_type == lightingstyle.PERIMETER:
+									tLS[ls_name][l_id]['mins'][lightingstyle.PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.CENTRE:
+									tLS[ls_name][l_id]['mins'][lightingstyle.CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.DEF:
 									tLS[ls_name][l_id]['mins'][lc.getAttribute('dim')] = lc.getAttribute('value')
 								else:
 									error('unknown min type ' + lc_type + ' specified for lighting scheme ' + l_id)
 							elif lc_name == 'level':
-								if lc_type == ls.PERIMETER:
-									tLS[ls_name][l_id]['levels'][ls.PERIMETER] = lc.getAttribute('value')
-								elif lc_type == ls.CENTRE:
-									tLS[ls_name][l_id]['levels'][ls.CENTRE] = lc.getAttribute('value')
-								elif lc_type == ls.DEF:
+								if lc_type == lightingstyle.PERIMETER:
+									tLS[ls_name][l_id]['levels'][lightingstyle.PERIMETER] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.CENTRE:
+									tLS[ls_name][l_id]['levels'][lightingstyle.CENTRE] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.DEF:
 									tLS[ls_name][l_id]['levels']['default'] = lc.getAttribute('value')
 								else:
 									error('unknown light level type ' + lc_type + ' specified for lighting scheme ' + l_id)
 							elif lc_name == 'entity':
-								if lc_type == ls.PERIMETER:
-									tLS[ls_name][l_id]['entities'][ls.PERIMETER] = lc.getAttribute('value')
-								elif lc_type == ls.CENTRE:
-									tLS[ls_name][l_id]['entities'][ls.CENTRE] = lc.getAttribute('value')
-								elif lc_type == ls.DEF:
+								if lc_type == lightingstyle.PERIMETER:
+									tLS[ls_name][l_id]['entities'][lightingstyle.PERIMETER] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.CENTRE:
+									tLS[ls_name][l_id]['entities'][lightingstyle.CENTRE] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.DEF:
 									tLS[ls_name][l_id]['entities']['default'] = lc.getAttribute('value')
 								else:
 									error('unknown light level type ' + lc_type + ' specified for lighting scheme ' + l_id)
 							elif lc_name == 'sound':
-								if lc_type == ls.PERIMETER:
-									tLS[ls_name][l_id]['sounds'][ls.PERIMETER] = lc.getAttribute('value')
-								elif lc_type == ls.CENTRE:
-									tLS[ls_name][l_id]['sounds'][ls.CENTRE] = lc.getAttribute('value')
-								elif lc_type == ls.DEF:
+								if lc_type == lightingstyle.PERIMETER:
+									tLS[ls_name][l_id]['sounds'][lightingstyle.PERIMETER] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.CENTRE:
+									tLS[ls_name][l_id]['sounds'][lightingstyle.CENTRE] = lc.getAttribute('value')
+								elif lc_type == lightingstyle.DEF:
 									tLS[ls_name][l_id]['sounds']['default'] = lc.getAttribute('value')
 								else:
 									error('unknown sound type ' + lc_type + ' specified for lighting scheme ' + l_id)

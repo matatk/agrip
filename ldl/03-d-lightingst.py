@@ -14,7 +14,7 @@ from xml.sax.saxutils import XMLGenerator, XMLFilterBase
 import io
 from conf import (
 	dims,
-	ls,
+	lightingstyle,
 	prog
 )
 
@@ -100,12 +100,12 @@ class LightingStyleFilter(XMLFilterBase):
 					# If any test passed, then it's near one of the walls...
 					close_to_perimeter = xclose or yclose  # or zclose
 
-					if type == ls.PERIMETER:
+					if type == lightingstyle.PERIMETER:
 						if close_to_perimeter:
 							drawlight = True
 						else:
 							drawlight = False
-					elif type == ls.CENTRE:
+					elif type == lightingstyle.CENTRE:
 						if close_to_perimeter:
 							drawlight = False
 						else:
@@ -170,13 +170,13 @@ class LightingStyleFilter(XMLFilterBase):
 
 			# Perimeter => just the edges
 			# Grid => a superset: perimeter + grid in the centre
-			if style_type == ls.PERIMETER:
+			if style_type == lightingstyle.PERIMETER:
 				self._make_lights_core(style_name, style_id, style_type, bounds)
 			else:
 				self._make_lights_core(
-					style_name, style_id, ls.PERIMETER, bounds)
+					style_name, style_id, lightingstyle.PERIMETER, bounds)
 				self._make_lights_core(
-					style_name, style_id, ls.CENTRE, bounds)
+					style_name, style_id, lightingstyle.CENTRE, bounds)
 
 	# Utility Functions...
 

@@ -115,7 +115,7 @@ soundtypes_plat = {
 
 
 # lighting styles
-class ls:
+class lightingstyle:
 	GRID = 'grid'
 	CENTRE = 'centre'
 	PERIMETER = 'perimeter'
