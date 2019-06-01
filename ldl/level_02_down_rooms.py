@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-	02-d-roomsnstuf.py
+	level_02_down_rooms.py
 	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.

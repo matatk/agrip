@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-	04-d-buildermac.py
+	level_04_down_buildermacros.py
 	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.

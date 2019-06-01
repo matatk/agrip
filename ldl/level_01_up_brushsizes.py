@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-	01-u-brushsizes.py
+	level_01_up_brushsizes.py
 	Part of the Level Description Language (LDL) from the AGRIP project.
 	Copyright 2005-2008 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
