@@ -3,9 +3,17 @@
 import argparse
 import argcomplete
 import os
+import sys
+import traceback
 from ldl_convert import convert
 from ldl_build import build
 from ldl_play import play
+
+
+def print_exception():
+	etype, evalue, etraceback = sys.exc_info()
+	print('ERROR:', evalue)
+	traceback.print_tb(etraceback)
 
 
 # Don't repeat the valid subcommands in the subcommand help section
@@ -25,33 +33,43 @@ keep_intermediate_xml_help_text = '\
 
 def handle_convert(args):
 	for filename in args.files:
+		if not os.path.isfile(filename):
+			print(filename, "doesn't exist - skipping")
+			continue
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
 		if ext == '.xml':
 			try:
 				convert(filename, base, args.verbose, args.keep)
-			except:  # noqa: E722
+			except SystemExit:
 				pass
+			except:  # noqa: E722
+				print_exception()
 
 
 def handle_build(args):
 	already_processed = set()
 	for filename in args.files:
+		if not os.path.isfile(filename):
+			print(filename, "doesn't exist - skipping")
+			continue
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
 		if base not in already_processed:
 			if ext == '.map':
 				try:
-					build(filename, base, args.verbose, args.keep)
+					build(filename, base, args.verbose)
 				except:  # noqa: E722
-					pass
+					print_exception()
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
-					convert(filename, base, args.verbose, args.keep)
-					build(base + '.map', base, args.verbose, args.keep)
-				except:  # noqa: E722
+					convert(filename, base, args.verbose, False)
+					build(base + '.map', base, args.verbose)
+				except SystemExit:
 					pass
+				except:  # noqa: E722
+					print_exception()
 				already_processed.add(base)
 		else:
 			if args.verbose:
@@ -60,8 +78,10 @@ def handle_build(args):
 
 def handle_play(args):
 	already_processed = set()
-	print('Playing')
 	for filename in args.files:
+		if not os.path.isfile(filename):
+			print(filename, "doesn't exist - skipping")
+			continue
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
 		if base not in already_processed:
@@ -69,22 +89,24 @@ def handle_play(args):
 				try:
 					play(filename, base, args.verbose)
 				except:  # noqa: E722
-					pass
+					print_exception()
 				already_processed.add(base)
 			if ext == '.map':
 				try:
-					build(filename, base, args.verbose, True)
+					build(filename, base, args.verbose)
 					play(base + '.bsp', base, args.verbose)
 				except:  # noqa: E722
-					pass
+					print_exception()
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
-					convert(filename, base, args.verbose, True)
-					build(base + '.map', base, args.verbose, True)
+					convert(filename, base, args.verbose, False)
+					build(base + '.map', base, args.verbose)
 					play(base + '.bsp', base, args.verbose)
-				except:  # noqa: E722
+				except SystemExit:
 					pass
+				except:  # noqa: E722
+					print_exception()
 				already_processed.add(base)
 		else:
 			if args.verbose:
@@ -128,10 +150,6 @@ parser_convert.set_defaults(func=handle_convert)
 parser_build = subparsers.add_parser(
 	'build', help='Build playable .bsp files', description='\
 		Run the Quake tools to compile .map files into playable .bsp files')
-
-parser_build.add_argument(
-	'-k', '--keep', action='store_true',
-	help="don't remove the .map file after building")
 
 parser_build.add_argument(
 	'files', nargs='+', metavar='xml-or-map-file',

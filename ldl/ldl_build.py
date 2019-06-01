@@ -8,7 +8,7 @@ vis = os.path.join(bins, 'vis')
 light = os.path.join(bins, 'light')
 bspinfo = os.path.join(bins, 'bspinfo')
 
-always_clean = ['.h1', '.h2', '.prt', '.pts']
+clean = ['.h1', '.h2', '.prt', '.pts']
 
 
 def run(args, verbose, errorcheck=True):
@@ -22,15 +22,16 @@ def run(args, verbose, errorcheck=True):
 		subprocess.run(args)
 
 
-def build(map_file_name, basename, verbose, keep):
+def build(map_file_name, basename, verbose):
 	print('Building', map_file_name)
 	run([qbsp, basename], verbose)
 	run([light, '-extra', basename], verbose)
 	run([vis, '-level', '4', basename], verbose)
+
 	if verbose is True:
 		run([bspinfo, basename], True, False)
 
-	for ext in always_clean:
+	for ext in clean:
 		try:
 			os.unlink(basename + ext)
 		except FileNotFoundError:
