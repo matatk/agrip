@@ -58,26 +58,26 @@ OT_BUILDER = 'builder'
 
 dir_to_angle = {
 	dcp.SOUTHWEST: 225,
-	dcp.WEST:      180,
+	dcp.WEST:	  180,
 	dcp.NORTHWEST: 135,
-	dcp.SOUTH:     270,
-	dcp.NORTH:      90,
+	dcp.SOUTH:	 270,
+	dcp.NORTH:	  90,
 	dcp.SOUTHEAST: 315,
-	dcp.EAST:        0,
+	dcp.EAST:		0,
 	dcp.NORTHEAST:  45,
 }
 
 facepos_to_fract = {
 	dcp.BOTTOMLEFT:	 (0.25, 0.25),
-	dcp.LEFT:	     (0.25, 0.50),
+	dcp.LEFT:		 (0.25, 0.50),
 	dcp.TOPLEFT:	 (0.25, 0.75),
 
-	dcp.BOTTOM:	     (0.50, 0.25),
-	dcp.CENTRE:	     (0.50, 0.50),
-	dcp.TOP:	     (0.50, 0.75),
+	dcp.BOTTOM:		 (0.50, 0.25),
+	dcp.CENTRE:		 (0.50, 0.50),
+	dcp.TOP:		 (0.50, 0.75),
 
 	dcp.BOTTOMRIGHT: (0.75, 0.25),
-	dcp.RIGHT:	     (0.75, 0.50),
+	dcp.RIGHT:		 (0.75, 0.50),
 	dcp.TOPRIGHT:	 (0.75, 0.75)
 }
 
@@ -867,7 +867,7 @@ def convert_coords(objtype, size, parent=None, dir=None):
 			# We need to check if it's a size or a position...
 			if r_sizeword.match(size):
 				# NB: even though only one dim spec'd, becuase we use different sizes
-				#     based on x/y/z dim, we still do it 3 times.
+				#	 based on x/y/z dim, we still do it 3 times.
 				for i in range(dim_range):
 					out.append(convert_coords_dispatch(OT_ROOM, size, i, parent, dir))
 				flat_out = ' '.join([str(o) for o in out])
@@ -1546,25 +1546,34 @@ def padding_update(inc):
 
 
 def padded_print(str):
+	global constructed_xml
 	for i in range(serialise_padding_level):
-		print(serialise_padding + ' ')
-	print(str)
+		constructed_xml += serialise_padding + ' '
+	constructed_xml += str
 
 
-if __name__ == "__main__":
+def main(xml_in):
 	utils.stage = '05'
+	global pp
 	pp = pprint.PrettyPrinter()
+	global serialise_padding_level
 	serialise_padding_level = -1
+	global serialise_padding
 	serialise_padding = '  '
+	global f_firstroom
 	f_firstroom = True
+	global ril
 	ril = []
+	global rwo
 	rwo = {}
+	global default_style
 	default_style = None
-	input = sys.stdin.read()
+	global constructed_xml
+	constructed_xml = ''
 
 	# Try to parse the XML file...
 	try:
-		x = xml2dict.fromstring(input)
+		x = xml2dict.fromstring(xml_in)
 	except xml.parsers.expat.ExpatError as detail:
 		utils.error('The XML you supplied is not valid: ' + str(detail))
 
@@ -1626,3 +1635,9 @@ if __name__ == "__main__":
 		utils.error(
 			"There doesn't seem to be at least 'room' element inside the 'map"
 			'element.')
+
+	return constructed_xml
+
+
+if __name__ == "__main__":
+	print(main(sys.stdin.read()))

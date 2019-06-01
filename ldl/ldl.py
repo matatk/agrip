@@ -3,6 +3,7 @@
 import argparse
 import argcomplete
 import os
+from ldl_convert import convert
 
 
 # Don't repeat the valid subcommands in the subcommand help section
@@ -20,14 +21,14 @@ keep_intermediate_xml_help_text = '\
     save intermediate XML files at each level of conversion'
 
 
-def convert(args):
+def handle_convert(args):
     print('Converting')
     for filename in args.files:
         if os.path.splitext(filename)[1] == '.xml':
             print(filename)
 
 
-def build(args):
+def handle_build(args):
     already_processed = set()
     print('Building')
     for filename in args.files:
@@ -46,7 +47,7 @@ def build(args):
                 print('skipping', filename, '- already processed', base)
 
 
-def play(args):
+def handle_play(args):
     already_processed = set()
     print('Playing')
     for filename in args.files:
@@ -70,7 +71,7 @@ def play(args):
                 print('skipping', filename, '- already processed', base)
 
 
-def roundtrip(args):
+def handle_roundtrip(args):
     print('Round-tripping')
     for filename in args.files:
         if os.path.splitext(filename)[1] == '.map':
@@ -100,7 +101,7 @@ parser_convert.add_argument(
 parser_convert.add_argument('files', nargs='+', metavar='xml-file',
                             help='XML file(s) to convert')
 
-parser_convert.set_defaults(func=convert)
+parser_convert.set_defaults(func=handle_convert)
 
 
 parser_build = subparsers.add_parser(
@@ -114,7 +115,7 @@ parser_build.add_argument(
 parser_build.add_argument('files', nargs='+', metavar='xml-or-map-file',
                           help='XML or converted .map file(s) to build')
 
-parser_build.set_defaults(func=build)
+parser_build.set_defaults(func=handle_build)
 
 
 parser_play = subparsers.add_parser(
@@ -125,7 +126,7 @@ parser_play.add_argument(
     'files', nargs='+', metavar='xml-or-map-or-bsp',
     help='XML, converted .map or bulit .bsp file(s) to play')
 
-parser_play.set_defaults(func=play)
+parser_play.set_defaults(func=handle_play)
 
 
 parser_roundtrip = subparsers.add_parser(
@@ -142,7 +143,7 @@ parser_roundtrip.add_argument(
 parser_roundtrip.add_argument(
     'files', nargs='+', metavar='map-file', help='.map file(s) to round-trip')
 
-parser_roundtrip.set_defaults(func=roundtrip)
+parser_roundtrip.set_defaults(func=handle_roundtrip)
 
 
 argcomplete.autocomplete(parser)
