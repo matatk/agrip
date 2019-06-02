@@ -48,7 +48,8 @@ def splitWall(brush, holes):
 	# Go to main function...
 	# FIXME this should not assume the origin is (0, 0) but it doesn't work if
 	# we don't make this true...
-	parts = splitWallCore(utils.Chunk2D(utils.Point2D(0, 0), extent2d), sortedholes)
+	parts = splitWallCore(
+		utils.Chunk2D(utils.Point2D(0, 0), extent2d), sortedholes)
 	# Take list of brushes and add the z coord back on...
 	for p in parts:
 		finalparts.append(utils.Region2D(
@@ -262,13 +263,15 @@ def splitWallCore(chunk, holes):
 					parts.append(ap)
 		else:
 			# Our holes overlap both x- and y-wise; for now, we're screwed.
-			utils.error('Oh dear: the segmentation algorithm can\'t cope with holes that overlap both x- and y-wise!')
+			utils.error(
+				"Oh dear: the segmentation algorithm can't cope with holes that overlap "
+				'both x- and y-wise!')
 	splitWallCoreLevel = splitWallCoreLevel - 1
 	return parts
 
 
 def qsortHoles(list):
-	"""adapted from http://en.literateprograms.org/Quicksort_(Python)#Using_list_comprehensions"""
+	"""adapted from http://en.literateprograms.org/Quicksort_(Python)#Using_list_comprehensions"""  # noqa: E501
 	if list == []:
 		return []
 	else:

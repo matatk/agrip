@@ -49,13 +49,13 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 
 	To avoid leaks, when some walls are absent, the others must be made longer
 	to cover the possible holes.  For example, if there is no north wall, the
-	east and west ones need to be utils.prog.lip units longer in case them not being
-	so would cause a leak.'''
+	east and west ones need to be utils.prog.lip units longer in case them not
+	being so would cause a leak.'''
 	inner_origin = origin + prog.lip
 	inner_abslut_extent = (origin + extent) - prog.lip
 
 	# down (floor)
-	if not dcp.DOWN in absentwalls:
+	if dcp.DOWN not in absentwalls:
 		brush_start = origin
 		brush_extent = Point(extent.x, extent.y, prog.lip)
 	parts = split.splitWall(
@@ -66,10 +66,9 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 		getHoles(holes, dcp.DOWN))
 	for part in parts:
 		part3d = addDim(part, dims.Z, brush_start.z)
-		#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 		makeBrush(doc, worldspawn, sf, style, part3d, dcp.DOWN)
 	# up (ceiling)
-	if not dcp.UP in absentwalls:
+	if dcp.UP not in absentwalls:
 		brush_start = origin + Point(0, 0, extent.z - prog.lip)
 		brush_extent = Point(extent.x, extent.y, prog.lip)
 	parts = split.splitWall(
@@ -80,13 +79,11 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 		getHoles(holes, dcp.UP))
 	for part in parts:
 		part3d = addDim(part, dims.Z, brush_start.z)
-		#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 		makeBrush(doc, worldspawn, sf, style, part3d, dcp.UP)
 	# north wall; y represents depth
-	if not dcp.NORTH in absentwalls:
+	if dcp.NORTH not in absentwalls:
 		brush_start = origin + Point(0, extent.y - prog.lip, prog.lip)
-		brush_extent = Point(extent.x, prog.lip, extent.z - prog.lip*2)
-		wall_holes = getHoles(holes, dcp.NORTH)
+		brush_extent = Point(extent.x, prog.lip, extent.z - prog.lip * 2)
 		parts = split.splitWall(
 			Region2D(
 				Point2D(brush_start.x, brush_start.z),
@@ -95,14 +92,13 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			getHoles(holes, dcp.NORTH))
 		for part in parts:
 			part3d = addDim(part, dims.Y, brush_start.y)
-			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 			makeBrush(doc, worldspawn, sf, style, part3d, dcp.NORTH)
 	# south wall
-	# FIXME holes need to be expressed the other way 'round (i.e. 0 is at RHS not LHS)?
-	if not dcp.SOUTH in absentwalls:
+	# FIXME holes need to be expressed the other way 'round (i.e. 0 is at RHS
+	# not LHS)?
+	if dcp.SOUTH not in absentwalls:
 		brush_start = origin + Point(0, 0, prog.lip)
-		brush_extent = Point(extent.x, prog.lip, extent.z - prog.lip*2)
-		wall_holes = getHoles(holes, dcp.SOUTH)
+		brush_extent = Point(extent.x, prog.lip, extent.z - prog.lip * 2)
 		parts = split.splitWall(
 			Region2D(
 				Point2D(brush_start.x, brush_start.z),
@@ -111,25 +107,25 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			getHoles(holes, dcp.SOUTH))
 		for part in parts:
 			part3d = addDim(part, dims.Y, brush_start.y)
-			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 			makeBrush(doc, worldspawn, sf, style, part3d, dcp.SOUTH)
 	# west wall
-	if not dcp.WEST in absentwalls:
+	if dcp.WEST not in absentwalls:
 		if dcp.NORTH not in absentwalls and dcp.SOUTH not in absentwalls:
 			brush_start = origin + Point(0, prog.lip, prog.lip)
-			brush_extent = Point(prog.lip, extent.y - prog.lip*2, extent.z - prog.lip*2)
+			brush_extent = \
+				Point(prog.lip, extent.y - prog.lip * 2, extent.z - prog.lip * 2)
 		elif dcp.NORTH in absentwalls and dcp.SOUTH in absentwalls:
 			brush_start = origin + Point(0, prog.lip, prog.lip)
-			brush_extent = Point(prog.lip, extent.y - prog.lip*2, extent.z - prog.lip*2)
+			brush_extent = \
+				Point(prog.lip, extent.y - prog.lip * 2, extent.z - prog.lip * 2)
 		elif dcp.NORTH in absentwalls:
 			brush_start = origin + Point(0, prog.lip, prog.lip)
-			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip*2)
+			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip * 2)
 		elif dcp.SOUTH in absentwalls:
 			brush_start = origin + Point(0, 0, prog.lip)
-			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip*2)
+			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip * 2)
 		else:
 			error('absentwalls')
-		wall_holes = getHoles(holes, dcp.WEST)
 		parts = split.splitWall(
 			Region2D(
 				Point2D(brush_start.y, brush_start.z),
@@ -138,22 +134,22 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			getHoles(holes, dcp.WEST))
 		for part in parts:
 			part3d = addDim(part, dims.X, brush_start.x)
-			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 			makeBrush(doc, worldspawn, sf, style, part3d, dcp.WEST)
 	# east wall
-	if not dcp.EAST in absentwalls:
+	if dcp.EAST not in absentwalls:
 		if dcp.NORTH not in absentwalls and dcp.SOUTH not in absentwalls:
 			brush_start = origin + Point(extent.x - prog.lip, prog.lip, prog.lip)
-			brush_extent = Point(prog.lip, extent.y - prog.lip*2, extent.z - prog.lip*2)
+			brush_extent = \
+				Point(prog.lip, extent.y - prog.lip * 2, extent.z - prog.lip * 2)
 		elif dcp.NORTH in absentwalls and dcp.SOUTH in absentwalls:
 			brush_start = origin + Point(extent.x - prog.lip, 0, prog.lip)
-			brush_extent = Point(prog.lip, extent.y, extent.z - prog.lip*2)
+			brush_extent = Point(prog.lip, extent.y, extent.z - prog.lip * 2)
 		elif dcp.NORTH in absentwalls:
 			brush_start = origin + Point(extent.x - prog.lip, prog.lip, prog.lip)
-			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip*2)
+			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip * 2)
 		elif dcp.SOUTH in absentwalls:
 			brush_start = origin + Point(extent.x - prog.lip, 0, prog.lip)
-			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip*2)
+			brush_extent = Point(prog.lip, extent.y - prog.lip, extent.z - prog.lip * 2)
 		else:
 			error('absentwalls')
 		parts = split.splitWall(
@@ -164,7 +160,6 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			getHoles(holes, dcp.EAST))
 		for part in parts:
 			part3d = addDim(part, dims.X, brush_start.x)
-			#uprint('Part:   ' + str(part) + '\nPart3D: ' + str(part3d))
 			makeBrush(doc, worldspawn, sf, style, part3d, dcp.EAST)
 	# Return inner extents...
 	return inner_origin, inner_abslut_extent
@@ -180,7 +175,6 @@ class StyleFetcher:
 
 	def getLightingStyleId(self, stylename, size):
 		# FIXME assumes 2 ids -- one with and one w/o size
-		sizes = []
 		largest = None
 		if stylename in self.lightingSets:
 			# FIXME do a proper sort!
@@ -196,15 +190,9 @@ class StyleFetcher:
 				else:
 					maxs = getPoint(maxs)
 
-				#uprint('getLightingStyle: size: ' + str(size) + '; maxs: ' + str(maxs) + '; ', True)
 				if size.x <= maxs.x or size.y <= maxs.y:
-					#uprint('return ' + lighting)
 					return lighting
-				else:
-					#uprint('try next...')
-					pass
 			# if nothing returned here, use the largest one
-			#uprint('return largest')
 			return largest
 		else:
 			error('StyleFetcher: unkown lighting set name \'' + stylename + '\'.')
@@ -215,9 +203,10 @@ class StyleFetcher:
 
 	def _getLightingSetSimpleProp(self, style, id, style_type, prop_type, prop):
 		'''Get a property such as entity, light level or sound.
-		We search for properties specific to the type of our lighting sub-scheme (perimeter/grid).
-		If we can't find a specific value, we use the default one (which applies to all types).'''
-		#uprint('_getLightingSetSimpleProp():\n\tstyle: ' + style + '; id: ' + id + '; style_type: ' + style_type + '; prop_type: ' + prop_type + '; prop: ' + prop + '.')
+
+		We search for properties specific to the type of our lighting
+		sub-scheme (perimeter/grid).  If we can't find a specific value, we use
+		the default one (which applies to all types).'''
 		if style in self.lightingSets:
 			if id in self.lightingSets[style]:
 				if prop in self.lightingSets[style][id]:
@@ -239,32 +228,40 @@ class StyleFetcher:
 						else:
 							error('StyleFetcher: unknown property prop_type ' + prop_type)
 					else:
-						error('unkown style type ' + style_type + ' or style ' + style + '/' + id + '/' + prop + ' does not contain information on this style type.')
+						error(
+							'unkown style type ' + style_type + ' or style ' + style + '/' + id
+							+ '/' + prop + ' does not contain information on this style type.')
 				else:
-					error('lighting style ' + style + ' subscheme ' + id + ' has no property ' + prop)
+					error(
+						'lighting style ' + style + ' subscheme ' + id + ' has no property '
+						+ prop)
 			else:
 				error('lighting style ' + style + ' doesn\'t have substyle with id ' + id)
 		else:
 			error('unknown lighting style ' + style)
 
 	def getLightingSetEntity(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, propertytype.TEXT, 'entities')
+		return self._getLightingSetSimpleProp(
+			style, id, type, propertytype.TEXT, 'entities')
 
 	def getLightingSetLevel(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, propertytype.INT, 'levels')
+		return self._getLightingSetSimpleProp(
+			style, id, type, propertytype.INT, 'levels')
 
 	def getLightingSetSound(self, style, id, type):
-		return self._getLightingSetSimpleProp(style, id, type, propertytype.TEXT, 'sounds')
+		return self._getLightingSetSimpleProp(
+			style, id, type, propertytype.TEXT, 'sounds')
 
 	def _getLightingSetComplexProp(self, style, id, type, prop, dim):
-		'''Get a property from a deeply nested hash like offsets or min gaps in each dimension.
-		We search for properties specific to the type of our lighting sub-scheme (perimeter/grid).
-		If we can't find a specific value, we use the default one (which applies to all types).'''
+		'''Get a property from a deeply nested hash like offsets or min gaps in
+		each dimension.  We search for properties specific to the type of our
+		lighting sub-scheme (perimeter/grid).  If we can't find a specific
+		value, we use the default one (which applies to all types).'''
 		if style in self.lightingSets:
 			if id in self.lightingSets[style]:
 				if prop in self.lightingSets[style][id]:
 					if type in self.lightingSets[style][id][prop] \
-					and dim in self.lightingSets[style][id][prop][type]:
+						and dim in self.lightingSets[style][id][prop][type]:
 						# Has a property for this type of lighting sub-scheme...
 						return int(self.lightingSets[style][id][prop][type][dim])
 					else:
@@ -293,9 +290,12 @@ class StyleFetcher:
 				if type == lightingstyle.CENTRE or type == lightingstyle.PERIMETER:
 					return type
 				else:
-					error('invalid type \'' + type + '\'specified for lighting style \'' + style + '\'')
+					error(
+						"invalid type '" + type + "'specified for lighting style '"
+						+ style + "'")
 			else:
-				error('no type (grid, perimeter, ...) specified for lighting style ' + style)
+				error(
+					'no type (grid, perimeter, ...) specified for lighting style ' + style)
 		else:
 			error('no such lighting style \'' + style + '\'')
 
@@ -305,9 +305,11 @@ class StyleFetcher:
 		if style in self.worldtypeTable:
 			return self.worldtypeTable[style]
 		else:
-			error('getWorldtype: Trying to find worldtype for a nonexistant style \'' + str(style) + '\'.  Please make sure that the style name is correct.')
+			error(
+				"getWorldtype: Trying to find worldtype for a nonexistant style '"
+				+ str(style) + "'.  Please make sure that the style name is correct.")
 
-	'''Texture Table and Texture Set Stuff'''
+	# Texture Table and Texture Set Stuff
 
 	def getTex(self, tex):
 		if tex in self.textureTable:
@@ -322,26 +324,28 @@ class StyleFetcher:
 			error('getSetTex: no such texture style set \'' + style + '\'.')
 
 	def __init__(self):
-		self.worldtypeTable = {};  # translates style names to their worldtype names
-		self.textureTable = {};  # translates easy texture names to actual texture names
-		self.textureSets = {};  # a set of textures to be applied to a hollow
-		self.lightingSets = {};  # as above but with lighting
-		tempTexSet = {};  # we build up the texture set hash in here
-		tLS = {};  # as above but with lighting
+		self.worldtypeTable = {}  # translates style names to their worldtype names
+		self.textureTable = {}  # translates easy texture names to actual ones
+		self.textureSets = {}  # a set of textures to be applied to a hollow
+		self.lightingSets = {}  # as above but with lighting
+		tempTexSet = {}  # we build up the texture set hash in here
+		tLS = {}  # as above but with lighting
 		s = xml.dom.minidom.parse(prog.STYLE_FILE)
 		# Get worldtypes...
 		for worldtype in s.getElementsByTagName('worldtype'):
-			self.worldtypeTable[worldtype.getAttribute('style')] = worldtype.getAttribute('value')
+			self.worldtypeTable[worldtype.getAttribute('style')] = \
+				worldtype.getAttribute('value')
 		# Get textures...
 		for texture in s.getElementsByTagName('texture'):
-			self.textureTable[texture.getAttribute('name')] = texture.getAttribute('value')
+			self.textureTable[texture.getAttribute('name')] = \
+				texture.getAttribute('value')
 		# Get texturesets...
 		for textureset in s.getElementsByTagName('textureset'):
 			for surface in textureset.getElementsByTagName('surface'):
 				# FIXME check that each surface id is valid.
 				tempTexSet[surface.getAttribute('id')] = surface.getAttribute('texture')
 			self.textureSets[textureset.getAttribute('name')] = tempTexSet
-			tempTexSet = {};
+			tempTexSet = {}
 		# Get lighting styles...
 		for lightingset in s.getElementsByTagName('lightingset'):
 			# Within each lighting set is a lighting element that contains the rest...
@@ -352,7 +356,8 @@ class StyleFetcher:
 				# Check it's a lighting element, not whitespace.
 				# NB: if we don't do this an error will be triggered.
 				if lighting.localName == 'lighting':
-					# Each lighting element is a lighting scheme for rooms upto a particular size...
+					# Each lighting element is a lighting scheme for rooms upto
+					# a particular size...
 					l_id = lighting.getAttribute('id')
 					tLS[ls_name][l_id] = {}
 					tLS[ls_name][l_id]['maxs'] = lighting.getAttribute('maxs')
@@ -360,38 +365,51 @@ class StyleFetcher:
 
 					# Offsets is a child hash that stores light offsets into the hollow...
 					tLS[ls_name][l_id]['offsets'] = {}
-					# offsets contains default values, but if we find values specific to the perimeter, or specific to the centre lights, we have to store those too...
+					# offsets contains default values, but if we find values
+					# specific to the perimeter, or specific to the centre
+					# lights, we have to store those too...
 					tLS[ls_name][l_id]['offsets']['perimeter'] = {}
 					tLS[ls_name][l_id]['offsets']['centre'] = {}
 
 					# mins is a child hash that stores the minimum distance between lights...
 					tLS[ls_name][l_id]['mins'] = {}
-					# mins contains default values, but if we find values specific to the perimeter, or specific to the centre lights, we have to store those too...
+					# mins contains default values, but if we find values
+					# specific to the perimeter, or specific to the centre
+					# lights, we have to store those too...
 					tLS[ls_name][l_id]['mins']['perimeter'] = {}
 					tLS[ls_name][l_id]['mins']['centre'] = {}
 
-					# entities is a child hash that stores the minimum distance between lights...
+					# entities is a child hash that stores the minimum distance
+					# between lights...
 					tLS[ls_name][l_id]['entities'] = {}
-					# entities contains default values, but if we find values specific to the perimeter, or specific to the centre lights, we have to store those too...
+					# entities contains default values, but if we find values
+					# specific to the perimeter, or specific to the centre
+					# lights, we have to store those too...
 					tLS[ls_name][l_id]['entities']['perimeter'] = {}
 					tLS[ls_name][l_id]['entities']['centre'] = {}
 					tLS[ls_name][l_id]['entities']['default'] = None
 
-					# sounds is a child hash that stores the minimum distance between lights...
+					# sounds is a child hash that stores the minimum distance
+					# between lights...
 					tLS[ls_name][l_id]['sounds'] = {}
-					# sounds contains default values, but if we find values specific to the perimeter, or specific to the centre lights, we have to store those too...
+					# sounds contains default values, but if we find values
+					# specific to the perimeter, or specific to the centre
+					# lights, we have to store those too...
 					tLS[ls_name][l_id]['sounds']['perimeter'] = {}
 					tLS[ls_name][l_id]['sounds']['centre'] = {}
 					tLS[ls_name][l_id]['sounds']['default'] = None
 
 					# levels is a child hash that stores light levels into the hollow...
 					tLS[ls_name][l_id]['levels'] = {}
-					# levels contains default values, but if we find values specific to the perimeter, or specific to the centre lights, we have to store those too...
+					# levels contains default values, but if we find values
+					# specific to the perimeter, or specific to the centre
+					# lights, we have to store those too...
 					tLS[ls_name][l_id]['levels']['perimeter'] = {}
 					tLS[ls_name][l_id]['levels']['centre'] = {}
 					tLS[ls_name][l_id]['levels']['default'] = None
 
-					# Now we can look inside this lighting scheme to see what the jicy bits are...
+					# Now we can look inside this lighting scheme to see what
+					# the jicy bits are...
 					for lc in lighting.childNodes:
 						lc_name = lc.localName
 						if lc_name:
@@ -466,59 +484,71 @@ def check_entity_name(name):
 	if name in valid_entities:
 		return True
 	else:
-		error('The given entity name \'' + name + '\' is not a valid one.  The list of valid entities is as follows.\n\t' + '\n\t'.join([n for n in valid_entities]))
+		error(
+			"The given entity name '" + name + "' is not a valid one. The list of "
+			'valid entities is as follows.\n\t'
+			+ '\n\t'.join([n for n in valid_entities]))
 
 
 def addDim(region, dim, d, e=None):
-	'''Convert a Region2D into a Region3D by adding an extra dminsion, that was taken away by the splitting algorithm.
-	e is only passed when making holes in solids as we need to know the depth then.'''
+	'''Convert a Region2D into a Region3D by adding an extra dminsion, that was
+	taken away by the splitting algorithm.
+
+	e is only passed when making holes in solids as we need to know the depth
+	then.'''
 	o = 0  # offset: used for insetting doors
-	if not e: e = prog.lip
+	if not e:
+		e = prog.lip
 	if region.type == connector.DOOR:
 		o = prog.lip_small_margin
 		e = prog.lip_small
 	if dim == dims.X:
 		return Region3D(
-				Point(d+o, region.origin.x, region.origin.y),
-				Point(e, region.extent.x, region.extent.y),
-				region.type,
-				region.props)
+			Point(d + o, region.origin.x, region.origin.y),
+			Point(e, region.extent.x, region.extent.y),
+			region.type,
+			region.props)
 	elif dim == dims.Y:
 		return Region3D(
-				Point(region.origin.x, d+o, region.origin.y),
-				Point(region.extent.x, e, region.extent.y),
-				region.type,
-				region.props)
+			Point(region.origin.x, d + o, region.origin.y),
+			Point(region.extent.x, e, region.extent.y),
+			region.type,
+			region.props)
 	elif dim == dims.Z:
 		return Region3D(
-				Point(region.origin.x, region.origin.y, d+o),
-				Point(region.extent.x, region.extent.y, e),
-				region.type,
-				region.props)
+			Point(region.origin.x, region.origin.y, d + o),
+			Point(region.extent.x, region.extent.y, e),
+			region.type,
+			region.props)
 	else:
 		error('Invalid dimension specified for addDim().')
+
 
 class Point2D:
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
+
 	def __str__(self):
 		return str(self.x) + ' ' + str(self.y)
+
 	def __add__(self, other):
 		return Point2D(self.x + other.x, self.y + other.y)
+
 	def __sub__(self, other):
 		return Point2D(self.x - other.x, self.y - other.y)
+
 	def divide_coords_by(self, factor):
-		return Point2D(self.x/factor, self.y/factor)
+		return Point2D(self.x / factor, self.y / factor)
 
 
 def checkType(rtype):
 	result = False
 	if not rtype:
 		result = True
-	elif	rtype == connector.DOOR \
-		 or rtype == connector.PLAT \
-		 or rtype == connector.STEP:
+	elif rtype == connector.DOOR \
+		or rtype == connector.PLAT \
+		or rtype == connector.STEP:
 		result = True
 
 	if not result:
@@ -529,15 +559,17 @@ def checkType(rtype):
 
 class Region3D:
 	'''A 3D region.
-	This is used by the wall-spliting functions to return the final chunks to be put into the map.'''
+
+	This is used by the wall-spliting functions to return the final chunks to
+	be put into the map.'''
 	def __init__(self, origin, extent, rtype=None, props=None):
-		if type(origin) != type(Point(0, 0, 0)):
-			if type(origin) == type(Point2D(0, 0)):
+		if not isinstance(origin, Point):
+			if isinstance(origin, Point2D):
 				origin = Point(origin.x, origin.y, 0)  # FIXME fix callers :-)
 			else:
 				raise TypeError('origin is not a 3D Point')
-		if type(extent) != type(Point(0, 0, 0)):
-			if type(extent) == type(Point2D(0, 0)):
+		if not isinstance(extent, Point):
+			if isinstance(extent, Point2D):
 				extent = Point(extent.x, extent.y, 0)  # FIXME fix callers :-)
 			else:
 				raise TypeError('extent is not a 3D Point')
@@ -554,11 +586,13 @@ class Region3D:
 
 class Region2D:
 	'''A 2D region in a wall that is to be split.
-	This could correspond to a door, in which case when it's ``rebuilt'' into 3D it will be created as such.'''
+
+	This could correspond to a door, in which case when it's ``rebuilt'' into
+	3D it will be created as such.'''
 	def __init__(self, origin, extent, rtype=None, props=None):
-		if type(origin) != type(Point2D(0, 0)) \
-		or type(extent) != type(Point2D(0, 0)) \
-		or type(rtype) == type(Point2D(0, 0)):
+		if not isinstance(origin, Point2D) \
+			or not isinstance(extent, Point2D) \
+			or isinstance(rtype, Point2D):
 			raise TypeError
 		self.origin = origin
 		self.extent = extent
@@ -571,15 +605,19 @@ class Region2D:
 		return 'at: ' + str(self.origin) + ' extent: ' + str(self.extent) + ' type: ' + str(self.type)
 
 
-class Chunk2D(Region2D): pass
+class Chunk2D(Region2D):
+	pass
 
 
-class Hole2D(Region2D): pass
+class Hole2D(Region2D):
+	pass
 
 
 def getHoles(dict, wall):
-	'''Holes are stored in a dictionary where the keys are the names of the walls (dcp. values).  There can be multiple holes per wall.  This funtion extracts and returns them as a list of Hole objects (which themselves contain Point2D objects).'''
-	holes_list = []
+	'''Holes are stored in a dictionary where the keys are the names of the
+	walls (dcp. values). There can be multiple holes per wall. This funtion
+	extracts and returns them as a list of Hole objects (which themselves
+	contain Point2D objects).'''
 	if wall in dict:
 		return dict[wall]
 	else:
@@ -599,29 +637,37 @@ def failParse(data=None):
 	if data:
 		sys.stderr.write('Stage: ' + str(stage) + ' FAILURE! ' + data + '\n')
 	else:
-		sys.stderr.write('Processing stage ' + stage + ': there was an error in the input given to this stage of processing -- perhaps the previous stage didn\'t work?\n')
+		sys.stderr.write(
+			'Processing stage ' + stage + ': there was an error in the input given to '
+			"this stage of processing -- perhaps the previous stage didn't work?\n")
 	sys.exit(42)
 
 
 def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
-	# FIXME split into two versions -- onef for dir / style and one for just plain text?
+	# FIXME split into two versions -- onef for dir / style and one for just
+	# plain text?
 	'''Make a brush
-	optional texture name used to force a particular texture (e.g. when making a solid)
-	note that we have to append brush last for QuArK to able to read the .map file.'''
+
+	optional texture name used to force a particular texture (e.g. when making
+	a solid) note that we have to append brush last for QuArK to able to read
+	the .map file.'''
 	mode_style = True
 	if sf.getTex(texture):
 		mode_style = False
 
-	# React to step brushes as normal ones by simply adding them as static brushes; react to other, more complex types differently...
-	if not part.type or part.type == connector.STEP:  # assume just regular solid brush...
+	# React to step brushes as normal ones by simply adding them as static
+	# brushes; react to other, more complex types differently...
+	if not part.type or part.type == connector.STEP:
+		# assume just regular solid brush...
 		if mode_style:
-			t = sf.getSetTex(style,dir)
+			t = sf.getSetTex(style, dir)
 			if t:
 				worldspawn.appendChild(createSolid(doc, part.origin, part.extent, t))
 			else:
 				error('something')
 		else:
-			worldspawn.appendChild(createSolid(doc, part.origin, part.extent, sf.getTex(texture)))
+			worldspawn.appendChild(
+				createSolid(doc, part.origin, part.extent, sf.getTex(texture)))
 	elif part.type == connector.DOOR:
 		# need to append to map, not worldspawn
 		map = doc.getElementsByTagName('map')[0]
@@ -629,18 +675,22 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 		door_ent.appendChild(createProperty(doc, 'classname', 'func_door'))
 		door_ent.appendChild(createProperty(doc, 'angle', '-1'))
 		door_ent.appendChild(createProperty(doc, 'speed', '400'))
-		door_ent.appendChild(createProperty(doc, 'sounds', soundtypes_door[sf.getWorldtypeName(style)]))
+		door_ent.appendChild(
+			createProperty(doc, 'sounds', soundtypes_door[sf.getWorldtypeName(style)]))
 		if part.props['key']:
-			door_ent.appendChild(createProperty(doc, 'spawnflags', key_access[part.props['key']]))
+			door_ent.appendChild(
+				createProperty(doc, 'spawnflags', key_access[part.props['key']]))
 		# Ignore specified texture for doors; use style one...
-		door_ent.appendChild(createSolid(doc, part.origin, part.extent, sf.getSetTex(style, connector.DOOR)))
+		door_ent.appendChild(createSolid(
+			doc, part.origin, part.extent, sf.getSetTex(style, connector.DOOR)))
 		map.appendChild(door_ent)
 	elif part.type == connector.PLAT:
 		# need to append to map, not worldspawn
 		map = doc.getElementsByTagName('map')[0]
 		plat_ent = doc.createElement('entity')
 		plat_ent.appendChild(createProperty(doc, 'classname', 'func_plat'))
-		plat_ent.appendChild(createProperty(doc, 'sounds', soundtypes_plat[sf.getWorldtypeName(style)]))
+		plat_ent.appendChild(
+			createProperty(doc, 'sounds', soundtypes_plat[sf.getWorldtypeName(style)]))
 		if part.props['position'] == dcp.DOWN:
 			height = part.extent.z - prog.lip
 			part.origin.z = part.origin.z + part.extent.z - prog.lip
@@ -648,20 +698,27 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 		elif part.props['position'] == dcp.UP:
 			error('up plats not imlemented yet')
 		else:
-			error('Platform only allowed to have position ' + dcp.UP + ' or ' + dcp.DOWN + '.')
+			error(
+				'Platform only allowed to have position ' + dcp.UP + ' or '
+				+ dcp.DOWN + '.')
 		plat_ent.appendChild(createProperty(doc, 'height', str(height)))
 		# Ignore specified texture for plats; use style one...
-		plat_ent.appendChild(createSolid(doc, part.origin, part.extent, sf.getSetTex(style, connector.PLAT)))
+		plat_ent.appendChild(createSolid(
+			doc, part.origin, part.extent, sf.getSetTex(style, connector.PLAT)))
 		map.appendChild(plat_ent)
 	else:
-		error('Unknown brush type \'' + str(part.type) + '\' specified for brush ' + str(part) + '.')
+		error(
+			"Unknown brush type '" + str(part.type) + "' specified for brush "
+			+ str(part) + '.')
 
 
 def createSolid(doc, o, e, t):
 	b = doc.createElement('brush')
-	b.setAttribute('origin',str(o))
-	b.setAttribute('extent',str(e))
-	b.setAttribute('texture',t + ' 0 0 0 1 1')  # FIXME this will be the offset induced when the level is moved such that the origin is no longer 0 0 0.
+	b.setAttribute('origin', str(o))
+	b.setAttribute('extent', str(e))
+	b.setAttribute('texture', t + ' 0 0 0 1 1')
+	# FIXME this will be the offset induced when the level is moved such that
+	# the origin is no longer 0 0 0.
 	return b
 
 
@@ -670,14 +727,14 @@ def getPoint(cstr):
 	if len(list) == 3:
 		return Point(float(list[0]), float(list[1]), float(list[2]))
 	else:
-		error('getPoint: received input without 3 parts to make 3D point from -- \'' + str(cstr) + '\'.')
+		error(
+			"getPoint: received input without 3 parts to make 3D point from -- '"
+			+ str(cstr) + "'.")
 
 
 def getPoint2D(cstr):
 	list = cstr.split()
 	# FIXME some places are calling this and getting away with it
-	#if len(list) != 2:
-	#	warning('getPoint2D: received input without 2 parts to make 2D point from -- \'' + str(cstr) + '\'.')
 	return Point2D(float(list[0]), float(list[1]))
 
 
