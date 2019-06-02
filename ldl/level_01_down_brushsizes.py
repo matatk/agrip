@@ -13,7 +13,6 @@
 	* The same texture is applied to all planes of each brush.
 """
 
-import sys
 import xml.dom.minidom
 import re
 import utils

@@ -10,7 +10,6 @@
 """
 
 import xml.sax
-import sys
 import utils
 from conf import prog
 

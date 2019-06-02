@@ -10,7 +10,6 @@
 """
 
 import re
-import sys
 from conf import prog
 
 r_chunk = re.compile(r'(\{' +

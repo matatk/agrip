@@ -6,7 +6,6 @@
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
 
-import sys
 import utils
 from plane import Point
 import xml.sax

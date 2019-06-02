@@ -18,7 +18,6 @@
 # FIXME check for two non-opposite compass dirs on supposedly opposite
 # connections
 
-import sys
 import utils
 import pprint
 import re  # standard/mine
