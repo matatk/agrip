@@ -44,11 +44,11 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 
 	Returns the origin and extent of the inner area.
 
-	The north and south walls cover the entire width of the hollow.  The east
-	and west ones fit inbetween the north and south ones.  However...
+	The north and south walls cover the entire width of the hollow. The east
+	and west ones fit inbetween the north and south ones. However...
 
 	To avoid leaks, when some walls are absent, the others must be made longer
-	to cover the possible holes.  For example, if there is no north wall, the
+	to cover the possible holes. For example, if there is no north wall, the
 	east and west ones need to be utils.prog.lip units longer in case them not
 	being so would cause a leak.'''
 	inner_origin = origin + prog.lip
@@ -204,7 +204,7 @@ class StyleFetcher:
 		'''Get a property such as entity, light level or sound.
 
 		We search for properties specific to the type of our lighting
-		sub-scheme (perimeter/grid).  If we can't find a specific value, we use
+		sub-scheme (perimeter/grid). If we can't find a specific value, we use
 		the default one (which applies to all types).'''
 		if style in self.lightingSets:
 			if id in self.lightingSets[style]:
@@ -253,8 +253,8 @@ class StyleFetcher:
 
 	def _getLightingSetComplexProp(self, style, id, type, prop, dim):
 		'''Get a property from a deeply nested hash like offsets or min gaps in
-		each dimension.  We search for properties specific to the type of our
-		lighting sub-scheme (perimeter/grid).  If we can't find a specific
+		each dimension. We search for properties specific to the type of our
+		lighting sub-scheme (perimeter/grid). If we can't find a specific
 		value, we use the default one (which applies to all types).'''
 		if style in self.lightingSets:
 			if id in self.lightingSets[style]:
@@ -306,7 +306,7 @@ class StyleFetcher:
 		else:
 			error(
 				"getWorldtype: Trying to find worldtype for a nonexistant style '"
-				+ str(style) + "'.  Please make sure that the style name is correct.")
+				+ str(style) + "'. Please make sure that the style name is correct.")
 
 	# Texture Table and Texture Set Stuff
 
