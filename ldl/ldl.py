@@ -120,6 +120,9 @@ def handle_roundtrip(args):
 	# TODO cope with XML too?
 	# TODO cope with XML and non-built MAPs when PLAY is requested?
 	for filename in args.files:
+		if not os.path.isfile(filename):
+			print(filename, 'is not a readable file - skipping')
+			continue
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
 		if ext == '.map':
