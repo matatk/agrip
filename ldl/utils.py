@@ -170,7 +170,6 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 #
 
 class StyleFetcher:
-
 	'''Lighting Style Set Stuff'''
 
 	def getLightingStyleId(self, stylename, size):
@@ -299,7 +298,7 @@ class StyleFetcher:
 		else:
 			error('no such lighting style \'' + style + '\'')
 
-	'''Texture Table and Texture Set Stuff'''
+	# Texture Table and Texture Set Stuff
 
 	def getWorldtypeName(self, style):
 		if style in self.worldtypeTable:
@@ -323,13 +322,153 @@ class StyleFetcher:
 		else:
 			error('getSetTex: no such texture style set \'' + style + '\'.')
 
+	# FIXME DRY
+	def populate_lighting_detail_offset(self, lighting_id, lighting_detail, lighting_detail_type, offsets):
+		if lighting_detail_type == lightingstyle.PERIMETER:
+			offsets[lightingstyle.PERIMETER][lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.CENTRE:
+			offsets[lightingstyle.CENTRE][lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.DEF:
+			offsets[lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+		else:
+			error('unknown offset type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+
+	# FIXME DRY
+	def populate_lighting_detail_min(self, lighting_id, lighting_detail, lighting_detail_type, mins):
+		if lighting_detail_type == lightingstyle.PERIMETER:
+			mins[lightingstyle.PERIMETER][lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.CENTRE:
+			mins[lightingstyle.CENTRE][lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.DEF:
+			mins[lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+		else:
+			error('unknown min type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+
+	# FIXME DRY
+	def populate_lighting_detail_level(self, lighting_id, lighting_detail, lighting_detail_type, levels):
+		if lighting_detail_type == lightingstyle.PERIMETER:
+			levels[lightingstyle.PERIMETER] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.CENTRE:
+			levels[lightingstyle.CENTRE] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.DEF:
+			levels['default'] = lighting_detail.getAttribute('value')
+		else:
+			error('unknown light level type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+
+	# FIXME DRY
+	def populate_lighting_detail_entity(self, lighting_id, lighting_detail, lighting_detail_type, entities):
+		if lighting_detail_type == lightingstyle.PERIMETER:
+			entities[lightingstyle.PERIMETER] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.CENTRE:
+			entities[lightingstyle.CENTRE] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.DEF:
+			entities['default'] = lighting_detail.getAttribute('value')
+		else:
+			error('unknown light level type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+
+	# FIXME DRY
+	def populate_lighting_detail_sound(self, lighting_id, lighting_detail, lighting_detail_type, sounds):
+		if lighting_detail_type == lightingstyle.PERIMETER:
+			sounds[lightingstyle.PERIMETER] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.CENTRE:
+			sounds[lightingstyle.CENTRE] = lighting_detail.getAttribute('value')
+		elif lighting_detail_type == lightingstyle.DEF:
+			sounds['default'] = lighting_detail.getAttribute('value')
+		else:
+			error('unknown sound type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+
+	# FIXME DRY
+	def populate_lighting_details_dict(self, lighting, lighting_id, dlighting):
+		for lighting_detail in lighting.childNodes:
+			lighting_detail_name = lighting_detail.localName
+			if lighting_detail_name:
+				lighting_detail_type = lighting_detail.getAttribute('type')
+				if lighting_detail_name == 'offset':
+					self.populate_lighting_detail_offset(lighting_id, lighting_detail, lighting_detail_type, dlighting['offsets'])
+				if lighting_detail_name == 'min':
+					self.populate_lighting_detail_min(lighting_id, lighting_detail, lighting_detail_type, dlighting['mins'])
+				elif lighting_detail_name == 'level':
+					self.populate_lighting_detail_level(lighting_id, lighting_detail, lighting_detail_type, dlighting['levels'])
+				elif lighting_detail_name == 'entity':
+					self.populate_lighting_detail_entity(lighting_id, lighting_detail, lighting_detail_type, dlighting['entities'])
+				elif lighting_detail_name == 'sound':
+					self.populate_lighting_detail_sound(lighting_id, lighting_detail, lighting_detail_type, dlighting['sounds'])
+			else:
+				pass  # probably whitespace
+
+	# FIXME use xml2dict sort of thing?
+	def lighting_set_as_dict(self, lightingset):
+		dlightingset = {}
+		for lighting in lightingset.childNodes:
+			# Check it's a lighting element, not whitespace.
+			# NB: if we don't do this an error will be triggered.
+			if lighting.localName == 'lighting':
+				# Each lighting element is a lighting scheme for rooms upto
+				# a particular size...
+				lighting_id = lighting.getAttribute('id')
+				dlightingset[lighting_id] = {}
+				dlightingset[lighting_id]['maxs'] = lighting.getAttribute('maxs')
+				dlightingset[lighting_id]['type'] = lighting.getAttribute('type')
+
+				# Offsets is a child hash that stores light offsets into the hollow...
+				dlightingset[lighting_id]['offsets'] = {}
+				# offsets contains default values, but if we find values
+				# specific to the perimeter, or specific to the centre
+				# lights, we have to store those too...
+				dlightingset[lighting_id]['offsets']['perimeter'] = {}
+				dlightingset[lighting_id]['offsets']['centre'] = {}
+
+				# mins is a child hash that stores the minimum distance between lights...
+				dlightingset[lighting_id]['mins'] = {}
+				# mins contains default values, but if we find values
+				# specific to the perimeter, or specific to the centre
+				# lights, we have to store those too...
+				dlightingset[lighting_id]['mins']['perimeter'] = {}
+				dlightingset[lighting_id]['mins']['centre'] = {}
+
+				# entities is a child hash that stores the minimum distance
+				# between lights...
+				dlightingset[lighting_id]['entities'] = {}
+				# entities contains default values, but if we find values
+				# specific to the perimeter, or specific to the centre
+				# lights, we have to store those too...
+				dlightingset[lighting_id]['entities']['perimeter'] = {}
+				dlightingset[lighting_id]['entities']['centre'] = {}
+				dlightingset[lighting_id]['entities']['default'] = None
+
+				# sounds is a child hash that stores the minimum distance
+				# between lights...
+				dlightingset[lighting_id]['sounds'] = {}
+				# sounds contains default values, but if we find values
+				# specific to the perimeter, or specific to the centre
+				# lights, we have to store those too...
+				dlightingset[lighting_id]['sounds']['perimeter'] = {}
+				dlightingset[lighting_id]['sounds']['centre'] = {}
+				dlightingset[lighting_id]['sounds']['default'] = None
+
+				# levels is a child hash that stores light levels into the hollow...
+				dlightingset[lighting_id]['levels'] = {}
+				# levels contains default values, but if we find values
+				# specific to the perimeter, or specific to the centre
+				# lights, we have to store those too...
+				dlightingset[lighting_id]['levels']['perimeter'] = {}
+				dlightingset[lighting_id]['levels']['centre'] = {}
+				dlightingset[lighting_id]['levels']['default'] = None
+
+				# Now we can look inside this lighting scheme to see what
+				# the jicy bits are...
+				self.populate_lighting_details_dict(lighting, lighting_id, dlightingset[lighting_id])
+		else:
+			pass  # probably whitespace
+		return dlightingset
+
 	def __init__(self):
 		self.worldtypeTable = {}  # translates style names to their worldtype names
 		self.textureTable = {}  # translates easy texture names to actual ones
 		self.textureSets = {}  # a set of textures to be applied to a hollow
 		self.lightingSets = {}  # as above but with lighting
-		tempTexSet = {}  # we build up the texture set hash in here
-		tLS = {}  # as above but with lighting
+		temp_texture_set = {}  # we build up the texture set hash in here
+		temp_lighting_set = {}  # as above but with lighting
 		s = xml.dom.minidom.parse(prog.STYLE_FILE)
 		# Get worldtypes...
 		for worldtype in s.getElementsByTagName('worldtype'):
@@ -343,129 +482,18 @@ class StyleFetcher:
 		for textureset in s.getElementsByTagName('textureset'):
 			for surface in textureset.getElementsByTagName('surface'):
 				# FIXME check that each surface id is valid.
-				tempTexSet[surface.getAttribute('id')] = surface.getAttribute('texture')
-			self.textureSets[textureset.getAttribute('name')] = tempTexSet
-			tempTexSet = {}
+				temp_texture_set[surface.getAttribute('id')] = surface.getAttribute('texture')
+			self.textureSets[textureset.getAttribute('name')] = temp_texture_set
+			temp_texture_set = {}
 		# Get lighting styles...
 		for lightingset in s.getElementsByTagName('lightingset'):
 			# Within each lighting set is a lighting element that contains the rest...
-			ls_name = lightingset.getAttribute('name')
-			tLS[ls_name] = {}
+			lightingset_name = lightingset.getAttribute('name')
 			# Now populate this lighting set's child schemes...
-			for lighting in lightingset.childNodes:
-				# Check it's a lighting element, not whitespace.
-				# NB: if we don't do this an error will be triggered.
-				if lighting.localName == 'lighting':
-					# Each lighting element is a lighting scheme for rooms upto
-					# a particular size...
-					l_id = lighting.getAttribute('id')
-					tLS[ls_name][l_id] = {}
-					tLS[ls_name][l_id]['maxs'] = lighting.getAttribute('maxs')
-					tLS[ls_name][l_id]['type'] = lighting.getAttribute('type')
-
-					# Offsets is a child hash that stores light offsets into the hollow...
-					tLS[ls_name][l_id]['offsets'] = {}
-					# offsets contains default values, but if we find values
-					# specific to the perimeter, or specific to the centre
-					# lights, we have to store those too...
-					tLS[ls_name][l_id]['offsets']['perimeter'] = {}
-					tLS[ls_name][l_id]['offsets']['centre'] = {}
-
-					# mins is a child hash that stores the minimum distance between lights...
-					tLS[ls_name][l_id]['mins'] = {}
-					# mins contains default values, but if we find values
-					# specific to the perimeter, or specific to the centre
-					# lights, we have to store those too...
-					tLS[ls_name][l_id]['mins']['perimeter'] = {}
-					tLS[ls_name][l_id]['mins']['centre'] = {}
-
-					# entities is a child hash that stores the minimum distance
-					# between lights...
-					tLS[ls_name][l_id]['entities'] = {}
-					# entities contains default values, but if we find values
-					# specific to the perimeter, or specific to the centre
-					# lights, we have to store those too...
-					tLS[ls_name][l_id]['entities']['perimeter'] = {}
-					tLS[ls_name][l_id]['entities']['centre'] = {}
-					tLS[ls_name][l_id]['entities']['default'] = None
-
-					# sounds is a child hash that stores the minimum distance
-					# between lights...
-					tLS[ls_name][l_id]['sounds'] = {}
-					# sounds contains default values, but if we find values
-					# specific to the perimeter, or specific to the centre
-					# lights, we have to store those too...
-					tLS[ls_name][l_id]['sounds']['perimeter'] = {}
-					tLS[ls_name][l_id]['sounds']['centre'] = {}
-					tLS[ls_name][l_id]['sounds']['default'] = None
-
-					# levels is a child hash that stores light levels into the hollow...
-					tLS[ls_name][l_id]['levels'] = {}
-					# levels contains default values, but if we find values
-					# specific to the perimeter, or specific to the centre
-					# lights, we have to store those too...
-					tLS[ls_name][l_id]['levels']['perimeter'] = {}
-					tLS[ls_name][l_id]['levels']['centre'] = {}
-					tLS[ls_name][l_id]['levels']['default'] = None
-
-					# Now we can look inside this lighting scheme to see what
-					# the jicy bits are...
-					for lc in lighting.childNodes:
-						lc_name = lc.localName
-						if lc_name:
-							lc_type = lc.getAttribute('type')
-							if lc_name == 'offset':
-								if lc_type == lightingstyle.PERIMETER:
-									tLS[ls_name][l_id]['offsets'][lightingstyle.PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.CENTRE:
-									tLS[ls_name][l_id]['offsets'][lightingstyle.CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.DEF:
-									tLS[ls_name][l_id]['offsets'][lc.getAttribute('dim')] = lc.getAttribute('value')
-								else:
-									error('unknown offset type ' + lc_type + ' specified for lighting scheme ' + l_id)
-							if lc_name == 'min':
-								if lc_type == lightingstyle.PERIMETER:
-									tLS[ls_name][l_id]['mins'][lightingstyle.PERIMETER][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.CENTRE:
-									tLS[ls_name][l_id]['mins'][lightingstyle.CENTRE][lc.getAttribute('dim')] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.DEF:
-									tLS[ls_name][l_id]['mins'][lc.getAttribute('dim')] = lc.getAttribute('value')
-								else:
-									error('unknown min type ' + lc_type + ' specified for lighting scheme ' + l_id)
-							elif lc_name == 'level':
-								if lc_type == lightingstyle.PERIMETER:
-									tLS[ls_name][l_id]['levels'][lightingstyle.PERIMETER] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.CENTRE:
-									tLS[ls_name][l_id]['levels'][lightingstyle.CENTRE] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.DEF:
-									tLS[ls_name][l_id]['levels']['default'] = lc.getAttribute('value')
-								else:
-									error('unknown light level type ' + lc_type + ' specified for lighting scheme ' + l_id)
-							elif lc_name == 'entity':
-								if lc_type == lightingstyle.PERIMETER:
-									tLS[ls_name][l_id]['entities'][lightingstyle.PERIMETER] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.CENTRE:
-									tLS[ls_name][l_id]['entities'][lightingstyle.CENTRE] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.DEF:
-									tLS[ls_name][l_id]['entities']['default'] = lc.getAttribute('value')
-								else:
-									error('unknown light level type ' + lc_type + ' specified for lighting scheme ' + l_id)
-							elif lc_name == 'sound':
-								if lc_type == lightingstyle.PERIMETER:
-									tLS[ls_name][l_id]['sounds'][lightingstyle.PERIMETER] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.CENTRE:
-									tLS[ls_name][l_id]['sounds'][lightingstyle.CENTRE] = lc.getAttribute('value')
-								elif lc_type == lightingstyle.DEF:
-									tLS[ls_name][l_id]['sounds']['default'] = lc.getAttribute('value')
-								else:
-									error('unknown sound type ' + lc_type + ' specified for lighting scheme ' + l_id)
-						else:
-							pass  # probably whitespace
-			else:
-				pass  # probably whitespace
+			temp_lighting_set[lightingset_name] = self.lighting_set_as_dict(lightingset)
 		# Reset the hashes back to defaults...
-		self.lightingSets = tLS
-		tLS = {}
+		self.lightingSets = temp_lighting_set
+		temp_lighting_set = {}
 
 	def __str__(self):
 		pp = pprint.PrettyPrinter()
