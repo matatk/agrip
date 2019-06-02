@@ -28,10 +28,6 @@ class SubcommandHelpFormatter(argparse.RawDescriptionHelpFormatter):
 		return parts
 
 
-keep_intermediate_xml_help_text = '\
-	save intermediate XML files at each level of conversion'
-
-
 def handle_convert(args):
 	for filename in args.files:
 		if not os.path.isfile(filename):
@@ -68,7 +64,7 @@ def handle_build(args):
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
-					convert(filename, base, args.verbose, False)
+					convert(filename, base, args.verbose, args.keep)
 					build(base + '.map', base, args.verbose)
 				except SystemExit:
 					pass
@@ -107,7 +103,7 @@ def handle_play(args):
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
-					convert(filename, base, args.verbose, False)
+					convert(filename, base, args.verbose, args.keep)
 					build(base + '.map', base, args.verbose)
 					play(base + '.bsp', base, args.verbose)
 				except SystemExit:
@@ -121,11 +117,11 @@ def handle_play(args):
 
 
 def handle_roundtrip(args):
+	# TODO cope with XML too?
+	# TODO cope with XML and non-built MAPs when PLAY is requested?
 	for filename in args.files:
 		root, ext = os.path.splitext(filename)
 		base = os.path.basename(root)
-		# FIXME cope with XML too
-		# FIXME cope with XML and non-built MAPs when PLAY is requested
 		if ext == '.map':
 			roundtrip(filename, base, args.verbose, args.keep, args.play)
 
@@ -138,17 +134,18 @@ parser.add_argument(
 	'-v', '--verbose', action='store_true',
 	help='display extra details whilst processing')
 
+parser.add_argument(
+	'-k', '--keep', action='store_true',
+	help='save intermediate XML files at each level of conversion')
+
 subparsers = parser.add_subparsers(
 	title='actions', required=True, dest='action',
-	description='issue <action> -h/--help for more help on each of these')
+	description='issue "roundtrip -h/--help" for more help on that one')
 
 
 parser_convert = subparsers.add_parser(
 	'convert', help='Convert from XML to .map',
 	description='Transform LDL XML files into Quake .map files')
-
-parser_convert.add_argument(
-	'-k', '--keep', action='store_true', help=keep_intermediate_xml_help_text)
 
 parser_convert.add_argument(
 	'files', nargs='+', metavar='xml-file',
@@ -182,9 +179,6 @@ parser_play.set_defaults(func=handle_play)
 parser_roundtrip = subparsers.add_parser(
 	'roundtrip', help='Round-trip .map files', description='\
 		Convert a .map into second-level LDL XML and back')
-
-parser_roundtrip.add_argument(
-	'-k', '--keep', action='store_true', help=keep_intermediate_xml_help_text)
 
 parser_roundtrip.add_argument(
 	'-p', '--play', action='store_true',
