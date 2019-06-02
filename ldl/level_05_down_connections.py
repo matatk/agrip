@@ -376,7 +376,7 @@ def hole_origin(
 		+ ';\n\tbrush_origin: ' + str(brush_origin)
 		+ ';\n\tbrush_size: ' + str(brush_size)
 		+ ';\n\tbrush_size2d: ' + str(brush_size2d)
-		+ '\n\tfloating: ' + str(floating)
+		+ ';\n\tfloating: ' + str(floating)
 		+ ';\n\thole centre 2D rel: ' + str(hole_centre2d_rel)
 		+ ';\n\thole origin 2D r: ' + str(hole_origin2d_rel))
 	return hole_origin2d_rel
@@ -445,16 +445,16 @@ def target_brush_origin(
 	target_brush_origin = wall_origin3d + room_offset
 
 	utils.uprint(
-		'target_brush_origin:'
-		+ '\n\thole_centre: ' + str(hole_centre)
-		+ '\n\twall size: ' + str(wall_size2d)
+		'target_brush_origin'
+		+ ':\n\thole_centre: ' + str(hole_centre)
+		+ ';\n\twall size: ' + str(wall_size2d)
 		+ ';\n\tpos: ' + str(pos)
 		+ ';\n\tdir: ' + hole_wall
-		+ '\n\twall offset (from room origin): ' + str(wall_offset)
-		+ '\n\twall origin2d: ' + str(wall_origin2d)
-		+ '\n\twall origin3d: ' + str(wall_origin3d)
-		+ '\n\troom_offset: ' + str(room_offset)
-		+ '\n\ttarget brush origin: ' + str(target_brush_origin))
+		+ ';\n\twall offset (from room origin): ' + str(wall_offset)
+		+ ';\n\twall origin2d: ' + str(wall_origin2d)
+		+ ';\n\twall origin3d: ' + str(wall_origin3d)
+		+ ';\n\troom_offset: ' + str(room_offset)
+		+ ';\n\ttarget brush origin: ' + str(target_brush_origin))
 	return target_brush_origin
 
 
@@ -583,13 +583,13 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 			'hole into a wall.')
 
 	utils.uprint(
-		'hole_centre:'
-		+ '\n\tr_origin: ' + str(r_origin)
+		'hole_centre'
+		+ ':\n\tr_origin: ' + str(r_origin)
 		+ ';\n\tr_extent: ' + str(r_extent)
 		+ ';\n\th_wall: ' + str(h_wall)
 		+ ';\n\th_extent: ' + str(h_extent)
 		+ ';\n\tpos: ' + str(pos)
-		+ '\n\thc: ' + str(hc)
+		+ ';\n\thc: ' + str(hc)
 		+ ';\n\tout: ' + str(out))
 
 	# Check for holes that are too big...
@@ -1548,7 +1548,7 @@ def padded_print(str):
 	global constructed_xml
 	for i in range(serialise_padding_level):
 		constructed_xml += serialise_padding + ' '
-	constructed_xml += str
+	constructed_xml += str + '\n'
 
 
 def main(xml_in):

@@ -11,6 +11,7 @@ from plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
 import io
+import xml.dom.minidom
 from conf import (
 	dims,
 	lightingstyle,
@@ -177,13 +178,6 @@ class LightingStyleFilter(XMLFilterBase):
 				self._make_lights_core(
 					style_name, style_id, lightingstyle.CENTRE, bounds)
 
-	# Utility Functions...
-
-	def padded_print(self, msg):
-		for i in range(self.padding_level):
-			utils.uprint('  ', sameLine=True)
-		utils.uprint(msg)
-
 
 # FIXME DRY
 def main(xml_in):
@@ -202,4 +196,5 @@ def main(xml_in):
 	except:  # noqa: E722
 		raise
 		utils.failParse()
-	return xml_out.getvalue()
+	xml_out.seek(0)
+	return xml.dom.minidom.parse(xml_out).toprettyxml()
