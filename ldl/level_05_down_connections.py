@@ -324,8 +324,7 @@ def get_room_size(r):
 
 
 def hole_origin(
-	hole_centre, hole_size, hole_wall, brush_origin, brush_size,
-	floating=False):
+	hole_centre, hole_size, hole_wall, brush_origin, brush_size, floating=False):
 	'''Given
 			centre of hole (absolute),
 			size of hole,
@@ -536,7 +535,7 @@ def hole_centre_core(wall_size, h_extent, dir, pos=None):
 		return fit_hole_in_wall(wall_size, h_extent, pos)
 
 
-def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
+def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None, room_id=None):
 	'''Work out centre of hole.
 	in
 		r_origin : origin of parent room
@@ -598,7 +597,7 @@ def hole_centre(r_origin, r_extent, h_wall, h_extent, pos=None):
 			'hole_centre: h_extent ' + str(h_extent) + ' > wall_size '
 			+ str(wall_size))
 		utils.error(
-			"hole in wall '" + con_info['wall'] + "' of room '" + r_id
+			"hole in wall '" + h_wall + "' of room '" + room_id
 			+ "' is bigger than the wall. Try making the hole smaller, or "
 			'the room larger.')
 	else:
@@ -616,7 +615,7 @@ def get_room_by_id(parentgroup, id):
 			if this_id == id:
 				return room
 		else:
-			error_room_id()
+			utils.error('room with id "' + id + '" not found')
 	return None
 
 
@@ -865,8 +864,8 @@ def convert_coords(objtype, size, parent=None, dir=None):
 		if len(size_parts) == 1:
 			# We need to check if it's a size or a position...
 			if r_sizeword.match(size):
-				# NB: even though only one dim spec'd, becuase we use different sizes
-				#	 based on x/y/z dim, we still do it 3 times.
+				# NB: even though only one dim spec'd, becuase we use different
+				#     sizes based on x/y/z dim, we still do it 3 times.
 				for i in range(dim_range):
 					out.append(convert_coords_dispatch(OT_ROOM, size, i, parent, dir))
 				flat_out = ' '.join([str(o) for o in out])
@@ -1132,7 +1131,8 @@ def process_rooms_core(parentgroup, r, parent):
 					utils.getPoint(get_property(r, 'size')),
 					con_info['wall'],
 					utils.getPoint2D(get_property(c, 'size')),
-					get_property(c, 'pos')
+					get_property(c, 'pos'),
+					r_id
 				)
 			else:
 				con_centre = None
