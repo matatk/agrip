@@ -323,29 +323,42 @@ class StyleFetcher:
 			error('getSetTex: no such texture style set \'' + style + '\'.')
 
 	# FIXME DRY
-	def populate_lighting_detail_offset(self, lighting_id, lighting_detail, lighting_detail_type, offsets):
+	def populate_lighting_detail_offset(
+		self, lighting_id, lighting_detail, lighting_detail_type, offsets):
 		if lighting_detail_type == lightingstyle.PERIMETER:
-			offsets[lightingstyle.PERIMETER][lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+			offsets[lightingstyle.PERIMETER][lighting_detail.getAttribute('dim')] \
+				= lighting_detail.getAttribute('value')
 		elif lighting_detail_type == lightingstyle.CENTRE:
-			offsets[lightingstyle.CENTRE][lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+			offsets[lightingstyle.CENTRE][lighting_detail.getAttribute('dim')] \
+				= lighting_detail.getAttribute('value')
 		elif lighting_detail_type == lightingstyle.DEF:
-			offsets[lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+			offsets[lighting_detail.getAttribute('dim')] \
+				= lighting_detail.getAttribute('value')
 		else:
-			error('unknown offset type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+			error(
+				'unknown offset type ' + lighting_detail_type
+				+ ' specified for lighting scheme ' + lighting_id)
 
 	# FIXME DRY
-	def populate_lighting_detail_min(self, lighting_id, lighting_detail, lighting_detail_type, mins):
+	def populate_lighting_detail_min(
+		self, lighting_id, lighting_detail, lighting_detail_type, mins):
 		if lighting_detail_type == lightingstyle.PERIMETER:
-			mins[lightingstyle.PERIMETER][lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+			mins[lightingstyle.PERIMETER][lighting_detail.getAttribute('dim')] \
+				= lighting_detail.getAttribute('value')
 		elif lighting_detail_type == lightingstyle.CENTRE:
-			mins[lightingstyle.CENTRE][lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+			mins[lightingstyle.CENTRE][lighting_detail.getAttribute('dim')] \
+				= lighting_detail.getAttribute('value')
 		elif lighting_detail_type == lightingstyle.DEF:
-			mins[lighting_detail.getAttribute('dim')] = lighting_detail.getAttribute('value')
+			mins[lighting_detail.getAttribute('dim')] \
+				= lighting_detail.getAttribute('value')
 		else:
-			error('unknown min type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+			error(
+				'unknown min type ' + lighting_detail_type
+				+ ' specified for lighting scheme ' + lighting_id)
 
 	# FIXME DRY
-	def populate_lighting_detail_level(self, lighting_id, lighting_detail, lighting_detail_type, levels):
+	def populate_lighting_detail_level(
+		self, lighting_id, lighting_detail, lighting_detail_type, levels):
 		if lighting_detail_type == lightingstyle.PERIMETER:
 			levels[lightingstyle.PERIMETER] = lighting_detail.getAttribute('value')
 		elif lighting_detail_type == lightingstyle.CENTRE:
@@ -353,10 +366,13 @@ class StyleFetcher:
 		elif lighting_detail_type == lightingstyle.DEF:
 			levels['default'] = lighting_detail.getAttribute('value')
 		else:
-			error('unknown light level type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+			error(
+				'unknown light level type ' + lighting_detail_type
+				+ ' specified for lighting scheme ' + lighting_id)
 
 	# FIXME DRY
-	def populate_lighting_detail_entity(self, lighting_id, lighting_detail, lighting_detail_type, entities):
+	def populate_lighting_detail_entity(
+		self, lighting_id, lighting_detail, lighting_detail_type, entities):
 		if lighting_detail_type == lightingstyle.PERIMETER:
 			entities[lightingstyle.PERIMETER] = lighting_detail.getAttribute('value')
 		elif lighting_detail_type == lightingstyle.CENTRE:
@@ -364,10 +380,13 @@ class StyleFetcher:
 		elif lighting_detail_type == lightingstyle.DEF:
 			entities['default'] = lighting_detail.getAttribute('value')
 		else:
-			error('unknown light level type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+			error(
+				'unknown light level type ' + lighting_detail_type
+				+ ' specified for lighting scheme ' + lighting_id)
 
 	# FIXME DRY
-	def populate_lighting_detail_sound(self, lighting_id, lighting_detail, lighting_detail_type, sounds):
+	def populate_lighting_detail_sound(
+		self, lighting_id, lighting_detail, lighting_detail_type, sounds):
 		if lighting_detail_type == lightingstyle.PERIMETER:
 			sounds[lightingstyle.PERIMETER] = lighting_detail.getAttribute('value')
 		elif lighting_detail_type == lightingstyle.CENTRE:
@@ -375,7 +394,9 @@ class StyleFetcher:
 		elif lighting_detail_type == lightingstyle.DEF:
 			sounds['default'] = lighting_detail.getAttribute('value')
 		else:
-			error('unknown sound type ' + lighting_detail_type + ' specified for lighting scheme ' + lighting_id)
+			error(
+				'unknown sound type ' + lighting_detail_type
+				+ ' specified for lighting scheme ' + lighting_id)
 
 	# FIXME DRY
 	def populate_lighting_details_dict(self, lighting, lighting_id, dlighting):
@@ -384,15 +405,21 @@ class StyleFetcher:
 			if lighting_detail_name:
 				lighting_detail_type = lighting_detail.getAttribute('type')
 				if lighting_detail_name == 'offset':
-					self.populate_lighting_detail_offset(lighting_id, lighting_detail, lighting_detail_type, dlighting['offsets'])
+					self.populate_lighting_detail_offset(
+						lighting_id, lighting_detail, lighting_detail_type, dlighting['offsets'])
 				if lighting_detail_name == 'min':
-					self.populate_lighting_detail_min(lighting_id, lighting_detail, lighting_detail_type, dlighting['mins'])
+					self.populate_lighting_detail_min(
+						lighting_id, lighting_detail, lighting_detail_type, dlighting['mins'])
 				elif lighting_detail_name == 'level':
-					self.populate_lighting_detail_level(lighting_id, lighting_detail, lighting_detail_type, dlighting['levels'])
+					self.populate_lighting_detail_level(
+						lighting_id, lighting_detail, lighting_detail_type, dlighting['levels'])
 				elif lighting_detail_name == 'entity':
-					self.populate_lighting_detail_entity(lighting_id, lighting_detail, lighting_detail_type, dlighting['entities'])
+					self.populate_lighting_detail_entity(
+						lighting_id, lighting_detail, lighting_detail_type,
+						dlighting['entities'])
 				elif lighting_detail_name == 'sound':
-					self.populate_lighting_detail_sound(lighting_id, lighting_detail, lighting_detail_type, dlighting['sounds'])
+					self.populate_lighting_detail_sound(
+						lighting_id, lighting_detail, lighting_detail_type, dlighting['sounds'])
 			else:
 				pass  # probably whitespace
 
@@ -457,7 +484,8 @@ class StyleFetcher:
 
 				# Now we can look inside this lighting scheme to see what
 				# the jicy bits are...
-				self.populate_lighting_details_dict(lighting, lighting_id, dlightingset[lighting_id])
+				self.populate_lighting_details_dict(
+					lighting, lighting_id, dlightingset[lighting_id])
 		else:
 			pass  # probably whitespace
 		return dlightingset
@@ -482,7 +510,8 @@ class StyleFetcher:
 		for textureset in s.getElementsByTagName('textureset'):
 			for surface in textureset.getElementsByTagName('surface'):
 				# FIXME check that each surface id is valid.
-				temp_texture_set[surface.getAttribute('id')] = surface.getAttribute('texture')
+				temp_texture_set[surface.getAttribute('id')] \
+					= surface.getAttribute('texture')
 			self.textureSets[textureset.getAttribute('name')] = temp_texture_set
 			temp_texture_set = {}
 		# Get lighting styles...
@@ -609,7 +638,8 @@ class Region3D:
 		self.props = props
 
 	def __str__(self):
-		return 'at: ' + str(self.origin) + ' extent: ' + str(self.extent) + ' type: ' + str(self.type)
+		return 'at: ' + str(self.origin) + ' extent: ' + str(self.extent) \
+			+ ' type: ' + str(self.type)
 
 
 class Region2D:
@@ -630,7 +660,8 @@ class Region2D:
 		self.props = props
 
 	def __str__(self):
-		return 'at: ' + str(self.origin) + ' extent: ' + str(self.extent) + ' type: ' + str(self.type)
+		return 'at: ' + str(self.origin) + ' extent: ' + str(self.extent) \
+			+ ' type: ' + str(self.type)
 
 
 class Chunk2D(Region2D):
