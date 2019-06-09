@@ -13,7 +13,7 @@ from ldl_roundtrip import roundtrip
 
 def print_exception():
 	etype, evalue, etraceback = sys.exc_info()
-	print('ERROR:', evalue)
+	print('ERROR:', etype.__name__, evalue)
 	traceback.print_tb(etraceback)
 
 
