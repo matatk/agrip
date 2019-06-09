@@ -22,7 +22,7 @@ import utils
 import pprint
 import re  # standard/mine
 import xml.parsers.expat
-import xml2dict
+import xmltodict
 from plane import Point
 from conf import (
 	connector,
@@ -1551,6 +1551,39 @@ def padded_print(str):
 	constructed_xml += str + '\n'
 
 
+def remove_attribute_sigils_from_list(array):
+	new_array = []
+
+	for thing in array:
+		if isinstance(thing, dict):
+			new_array.append(remove_attribute_sigils_from_dict(thing))
+		elif isinstance(thing, list):
+			new_array.append(remove_attribute_sigils_from_list(thing))
+		else:
+			new_array.append(thing)
+
+	return new_array
+
+
+def remove_attribute_sigils_from_dict(dictionary):
+	new_dictionary = {}
+
+	for key, value in dictionary.items():
+		if key[0] == '@':
+			new_key = key[1:]
+		else:
+			new_key = key
+
+		if isinstance(value, dict):
+			new_dictionary[new_key] = remove_attribute_sigils_from_dict(value)
+		elif isinstance(value, list):
+			new_dictionary[new_key] = remove_attribute_sigils_from_list(value)
+		else:
+			new_dictionary[new_key] = value
+
+	return new_dictionary
+
+
 def main(xml_in):
 	utils.set_stage(5)
 	global pp
@@ -1572,7 +1605,8 @@ def main(xml_in):
 
 	# Try to parse the XML file...
 	try:
-		x = xml2dict.fromstring(xml_in)
+		xml_dict = xmltodict.parse(xml_in)
+		x = remove_attribute_sigils_from_dict(xml_dict)
 	except xml.parsers.expat.ExpatError as detail:
 		utils.error('The XML you supplied is not valid: ' + str(detail))
 
