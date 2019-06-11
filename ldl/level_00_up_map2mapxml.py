@@ -2,7 +2,7 @@
 """
 	level_00_up_map2mapxml.py
 	Part of the Level Description Language (LDL) from the AGRIP project.
-	Copyright 2005-2008 Matthew Tylee Atkinson
+	Copyright 2005-2019 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 
 	This program reads a MAP file on stdin and prints a MapXML file to stdout.
@@ -12,29 +12,30 @@
 import re
 from conf import prog
 
-r_chunk = re.compile(r'(\{' +
-						# optional leading stuff...
-						r'[^{}]*?' +
-						# optional embedded chunks...
-						r'(' +
-							# start of embedded chunk...
-							r'\{' +
-							# followed by almost anything...
-							r'[^{}]*?'
-							# end of embedded chunk if started earlier...
-							r'\}' +
-							# optional trailing stuff (between ECs)...
-							r'[^{}]*?' +
-						r')*' +
-						# optional trailing stuff...
-						r'[^{}]*?' +
-					r'\})', re.DOTALL)
+r_chunk = re.compile(
+	'(\\{'
+		# optional leading stuff...
+		'[^{}]*?'
+		# optional embedded chunks...
+		'('
+			# start of embedded chunk...
+			'\\{'
+			# followed by almost anything...
+			'[^{}]*?'
+			# end of embedded chunk if started earlier...
+			'\\}'
+			# optional trailing stuff (between ECs)...
+			'[^{}]*?'
+		')*'
+		# optional trailing stuff...
+		'[^{}]*?'
+	'\\})', re.DOTALL)
 
-r_plane = re.compile(r'\( (-?[0-9.]+ -?[0-9.]+ -?[0-9.]+) \) ' +
-					r'\( (-?[0-9.]+ -?[0-9.]+ -?[0-9.]+) \) ' +
-					r'\( (-?[0-9.]+ -?[0-9.]+ -?[0-9.]+) \) ' +
-					r'(.+?)(?: \/\/.+?)?\n')
-					# DON'T USE DOTALL or we will capture all planes
+r_plane = re.compile(
+	'\\( (-?[0-9.]+ -?[0-9.]+ -?[0-9.]+) \\) '
+	'\\( (-?[0-9.]+ -?[0-9.]+ -?[0-9.]+) \\) '
+	'\\( (-?[0-9.]+ -?[0-9.]+ -?[0-9.]+) \\) '
+	'(.+?)(?: \\/\\/.+?)?\n')  # Don't use DOTALL - would capture all planes
 
 
 class MapParser:

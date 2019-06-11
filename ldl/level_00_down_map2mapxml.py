@@ -2,7 +2,7 @@
 """
 	level_00_down_map2mapxml.py
 	Part of the Level Description Language (LDL) from the AGRIP project.
-	Copyright 2005-2008 Matthew Tylee Atkinson
+	Copyright 2005-2019 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 
 	This program reads a MapXML file on stdin and prints a MAP file to stdout.
