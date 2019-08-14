@@ -1,0 +1,7 @@
+*.o
+qbsp
+light
+vis
+quake.wad
+*.bsp
+ldl-tutorial.html

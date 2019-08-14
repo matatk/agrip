@@ -16,20 +16,20 @@ class Point:
 		p1 = self
 		p2 = other
 		return Point(p1.y*p2.z - p1.z*p2.y, p1.z*p2.x - p1.x*p2.z, p1.x*p2.y - p1.y*p2.x)
-   
+
 	# FIXME unify with plane
 	def dot_product(self, other):
 		p1 = self
 		p2 = other
-		return (p1.x*p2.x + p1.y*p2.y + p1.z*p2.z)	
+		return (p1.x*p2.x + p1.y*p2.y + p1.z*p2.z)
 
 	# point * number
 	def __mul__(self, other):
 		return Point(self.x * other, self.y * other, self.z * other)
 
 	# point / number
-	def __div__(self, other):
-		return Point(self.x/other, self.y/other, self.z/other)
+	def divide_coords_by(self, factor):
+		return Point(self.x/factor, self.y/factor, self.z/factor)
 
 	def __init__(self, x, y, z):
 		self.x = x
@@ -47,7 +47,7 @@ class Point:
 			return Point(self.x - o, self.y - o, self.z - o)
 		else:
 			return Point(self.x - o.x, self.y - o.y, self.z - o.z)
-	
+
 	def __neg__(self):
 		return Point(-self.x, -self.y, -self.z)
 
@@ -59,7 +59,7 @@ class Point:
 
 	def __str__(self):
 		return str(self.x) + ' ' + str(self.y) + ' ' + str(self.z)
-		
+
 	def __cmp__(self, other):
 		# compare x
 		if self.x < other.x:
@@ -93,13 +93,13 @@ class Point:
 			error('points are not comparable')
 
 class Plane3D:
-	
+
 	def cross_product(self, p1, p2):
 		return Point(p1.y*p2.z - p1.z*p2.y, p1.z*p2.x - p1.x*p2.z, p1.x*p2.y - p1.y*p2.x)
-	
+
 	def dot_product(self, p1, p2):
-		return (p1.x*p2.x + p1.y*p2.y + p1.z*p2.z)	
-	
+		return (p1.x*p2.x + p1.y*p2.y + p1.z*p2.z)
+
 	def plane_def(self, p1, p2, p3):
 		N = self.cross_product(p2-p1, p3-p1)
 		A = N.x
@@ -107,18 +107,18 @@ class Plane3D:
 		C = N.z
 		D = self.dot_product(-N, p1)
 		return N, A, B, C, D
-		
+
 	def __init__(self, p1, p2, p3, theta1 = 0):
-		
+
 		def chk_type(p_list):
 			ret_list = []
 			for p in p_list:
-				if type(p) == type(Point(0,0,0)):
+				if type(p) == type(Point(0, 0, 0)):
 					ret_list.append(True)
 				else:
 					ret_list.append(None)
 			return ret_list
-		
+
 		if None not in chk_type([p1, p2, p3]):
 			"""
 			/// Define a plane from 3 non-collinear points
@@ -157,13 +157,13 @@ class Plane3D:
 			if d_len > 0.0:
 				self.d0 = Point(d.x/d_len, d.y/d_len, d.z/d_len)
 			else:
-				self.d0 = Point(0.0, 0.0, 0.0) 
+				self.d0 = Point(0.0, 0.0, 0.0)
 			self.F = Point(p1.x + (d.x/2), p1.y + (d.y/2), p1.z + (d.z/2))
 			self.G = Point(p1.x + (e.x/2), p1.y + (e.y/2), p1.z + (e.z/2))
 			# Make variables 'e' and 'd' available as attributes
 			self.e = e
 			self.d = d
-			
+
 			# Calculate distance between points p1 and p2
 			self.Ra = p2.dist(p1)
 
@@ -176,16 +176,16 @@ class Plane3D:
 				self.Q = theta1
 			else:
 				self.Q = acos(self.dot_product(self.d0, self.e0))   # radians
-			self.pp = abs(self.Q * self.Ra)			
+			self.pp = abs(self.Q * self.Ra)
 
 		else:
-			raise TypeError, 'The arguments passed to Plane3D must be a POINT'
-		
+			raise TypeError('The arguments passed to Plane3D must be a POINT')
+
 	def lie_check(self, p):
 		"""
 		/// Given any point 'a' on a plane: N dot (a-p) = 0
 		"""
 		return round(self.dot_product(self.N, (p - self.p1)))
-	
+
 	def __str__(self):
 		return 'Plane: ' + str(self.N) + ' . ' + str(self.p1) + ' = ' + str(self.k)

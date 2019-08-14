@@ -71,8 +71,12 @@ GPL, as above.
 Quake Engine Map Compilation Tools
 ----------------------------------
 
-These were not developed by us, but the QuakeForge project. They are
-also released under the GNU GPL.
+This repo contains a lightly modified copy of John Carmack's "q1tools"
+archive, which is also released under the GNU GPL. The modifications
+made were to: (1) add compilation steps to the \*nix makefile, so it
+builds all of the tools it's possible to build and (2) make the tools
+less sensitive to directory structure, so they look in the current
+directory for needed resources (i.e. the .map and .wad files).
 
 AudioQuake and Level Description Language Documentation
 -------------------------------------------------------
