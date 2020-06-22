@@ -10,7 +10,7 @@
 """
 
 import re
-from conf import prog
+from ldllib.conf import prog
 
 r_chunk = re.compile(
 	'(\\{'

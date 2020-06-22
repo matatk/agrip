@@ -33,6 +33,7 @@ class Config:
 	dir_make_zquake = os.path.join('zq-repo', 'zquake')
 	dir_qc = os.path.join('zq-repo', 'qc', 'agrip')
 	dir_dist = 'dist'
+	dir_ldllib = os.path.join('..', 'ldl', 'ldllib')
 
 	if is_mac():
 		bin_zqcc = os.path.join(dir_make_zqcc, 'zqcc')
@@ -265,6 +266,11 @@ def get_summat(dest_dir, check_file, plural_name, url):
 #
 
 def run_pyinstaller():
+	# Grab the LDL library from the next directory along
+	dir_local_ldllib = os.path.join(os.getcwd(), 'ldllib')
+	shutil.rmtree(dir_local_ldllib, ignore_errors=True)
+	shutil.copytree(Config.dir_ldllib, dir_local_ldllib)
+
 	for spec in ['AudioQuake.spec', 'rcon.spec']:
 		print('Running PyInstaller on ' + spec + '...')
 		try_to_run(

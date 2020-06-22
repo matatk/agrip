@@ -10,8 +10,8 @@
 """
 
 import xml.sax
-import utils
-from conf import prog
+import ldllib.utils as utils
+from ldllib.conf import prog
 
 
 def norm_ws(text):

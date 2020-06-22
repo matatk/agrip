@@ -5,10 +5,10 @@ import argcomplete
 import os
 import sys
 import traceback
-from ldl_convert import convert
-from ldl_build import build, have_needed_stuff
-from ldl_play import play
-from ldl_roundtrip import roundtrip
+from ldllib.convert import convert
+from ldllib.build import build, have_needed_stuff
+from ldllib.play import play
+from ldllib.roundtrip import roundtrip
 
 
 def print_exception():

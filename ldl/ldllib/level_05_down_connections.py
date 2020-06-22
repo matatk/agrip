@@ -18,13 +18,13 @@
 # FIXME check for two non-opposite compass dirs on supposedly opposite
 # connections
 
-import utils
+import ldllib.utils as utils
 import pprint
 import re  # standard/mine
 import xml.parsers.expat
 import xmltodict
-from plane import Point
-from conf import (
+from ldllib.plane import Point
+from ldllib.conf import (
 	connector,
 	dcp,
 	prog

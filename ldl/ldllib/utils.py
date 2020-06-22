@@ -9,10 +9,10 @@
 
 import sys
 import xml.dom.minidom
-import split
+import ldllib.split as split
 import pprint
-from plane import Point
-from conf import (
+from ldllib.plane import Point
+from ldllib.conf import (
 	connector,
 	dims,
 	dcp,

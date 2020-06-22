@@ -1,4 +1,5 @@
 '''LDL Global Configuration Variables and Constants'''
+import os  # TODO don't do this here?
 
 
 #
@@ -31,6 +32,14 @@ class prog:
 	# the lower levels.
 	MAP_ORIGIN = (0, 0, 0)
 	ELEV_DIST = 30
+
+	# FIXME tdiy up?
+	bins = 'bin'
+	qbsp = os.path.join(bins, 'qbsp')
+	vis = os.path.join(bins, 'vis')
+	light = os.path.join(bins, 'light')
+	bspinfo = os.path.join(bins, 'bspinfo')
+	quakewad = 'quake.wad'
 
 
 #

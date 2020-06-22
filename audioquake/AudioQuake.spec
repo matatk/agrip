@@ -15,7 +15,10 @@ data_files = [
 	('zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
 	('zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 	('app-support-files/start-rcon.command', '.'),
-	('app-support-files/start-server.command', '.')]
+	('app-support-files/start-server.command', '.'),
+	('../ldl/bin/*', 'bin/'),
+	('../ldl/style.xml', '.'),
+	('../../redist/quake.wad', '.')]
 
 if platform.system() != 'Windows':
 	binary_files = [
@@ -31,7 +34,7 @@ block_cipher = None
 a = Analysis(['AudioQuake.py'],  # noqa F821
 	binaries=binary_files,
 	datas=data_files,
-	hiddenimports=[],
+	hiddenimports=['pkg_resources.py2_warn'],
 	hookspath=[],
 	runtime_hooks=[],
 	excludes=[],

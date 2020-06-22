@@ -13,10 +13,10 @@
 """
 
 import xml.dom.minidom
-import utils
-import split
-from plane import Point
-from conf import (
+import ldllib.utils as utils
+import ldllib.split as split
+from ldllib.plane import Point
+from ldllib.conf import (
 	connector,
 	dcp,
 	dims,

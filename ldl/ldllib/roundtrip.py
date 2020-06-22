@@ -1,10 +1,10 @@
 '''LDL Roundtrip from .map file back to .map file converter'''
-from level_00_up_map2mapxml import main as level0up
-from level_01_up_brushsizes import main as level1up
-from level_00_down_map2mapxml import main as level0down
-from level_01_down_brushsizes import main as level1down
-from utils import set_verbosity
-from ldl_play import play
+from .level_00_up_map2mapxml import main as level0up
+from .level_01_up_brushsizes import main as level1up
+from .level_00_down_map2mapxml import main as level0down
+from .level_01_down_brushsizes import main as level1down
+from .utils import set_verbosity
+from ldllib.play import play
 
 
 def _keep(keep, level, basename, content):

@@ -3,6 +3,7 @@ import os
 import subprocess
 import shutil
 
+# FIXME hardcoded path
 aq_dir = os.path.join(
 	'..', 'audioquake', 'dist', 'AudioQuake.app', 'Contents', 'MacOS')
 

@@ -101,6 +101,7 @@ class GameController():
 	_engine = None
 	_opts_default = ("-window", "+set sensitivity 0")
 	_opts_tutorial = ("+coop 0", "+deathmatch 0", "+map agtut01")
+	_opts_custom_map = ("+coop 0", "+deathmatch 0")  # FIXME DRY
 
 	def __init__(self):
 		if on_windows():
@@ -135,6 +136,14 @@ class GameController():
 			(self._engine,)
 			+ self._opts_default
 			+ self._opts_tutorial)
+
+	def launch_map(self, name):
+		command_line = (self._engine,) \
+			+ self._opts_default \
+			+ self._opts_custom_map \
+			+ ("+map " + name,)
+		print(command_line)
+		return self._launch_core(command_line)
 
 	def quit(self):
 		if self._running():

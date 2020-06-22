@@ -6,13 +6,13 @@
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
 
-import utils
-from plane import Point
+import ldllib.utils as utils
+from ldllib.plane import Point
 import xml.sax
 from xml.sax.saxutils import XMLGenerator, XMLFilterBase
 import io
 import xml.dom.minidom
-from conf import (
+from ldllib.conf import (
 	connector,
 	dcp
 )

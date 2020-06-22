@@ -1,8 +1,8 @@
 '''Algorithm for splitting walls based on holes
 
 (waaaay too large and stupid)'''
-import utils
-from conf import connector
+import ldllib.utils as utils
+from ldllib.conf import connector
 
 debug_printing = 0
 

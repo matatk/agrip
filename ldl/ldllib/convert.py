@@ -1,11 +1,11 @@
 '''LDL XML-to-map Converter'''
-from level_00_down_map2mapxml import main as level0
-from level_01_down_brushsizes import main as level1
-from level_02_down_rooms import main as level2
-from level_03_down_lighting import main as level3
-from level_04_down_buildermacros import main as level4
-from level_05_down_connections import main as level5
-from utils import set_verbosity
+from .level_00_down_map2mapxml import main as level0
+from .level_01_down_brushsizes import main as level1
+from .level_02_down_rooms import main as level2
+from .level_03_down_lighting import main as level3
+from .level_04_down_buildermacros import main as level4
+from .level_05_down_connections import main as level5
+from .utils import set_verbosity
 
 
 def _keep(keep, level, basename, content):

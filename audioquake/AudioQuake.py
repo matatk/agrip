@@ -2,15 +2,21 @@
 import sys
 import os
 import subprocess
+import traceback
+import shutil
 
 import wx
 
 from launcherlib import LaunchState, GameController, on_windows
 
+from ldllib.conf import prog
+from ldllib.convert import convert
+from ldllib.build import build, have_needed_stuff
 
 launch_messages = {
 	LaunchState.NOT_FOUND: 'Engine not found',
-	LaunchState.ALREADY_RUNNING: 'The game is already running'}
+	LaunchState.ALREADY_RUNNING: 'The game is already running'
+}
 
 
 class LauncherWindow(wx.Frame):
@@ -34,7 +40,8 @@ class LauncherWindow(wx.Frame):
 
 		game_modes = {
 			"Play": game_controller.launch_default,
-			"Tutorial": game_controller.launch_tutorial}
+			"Tutorial": game_controller.launch_tutorial
+		}
 
 		for title, action in game_modes.items():
 			button = wx.Button(self, -1, title)
@@ -65,15 +72,12 @@ class LauncherWindow(wx.Frame):
 		sizer.Add(btn_open_rcon, 0, wx.EXPAND, 0)
 
 		things_to_open = {
-			'README': os.path.join(
-				'manuals', 'README.html'),
-			'User Manual': os.path.join(
-				'manuals', 'user-manual.html'),
-			'Sound Legend': os.path.join(
-				'manuals', 'sound-legend.html'),
-			'LICENCE': os.path.join(
-				'manuals', 'LICENCE.html'),
-			'Show all Files': '.'}
+			'README': os.path.join('manuals', 'README.html'),
+			'User Manual': os.path.join('manuals', 'user-manual.html'),
+			'Sound Legend': os.path.join('manuals', 'sound-legend.html'),
+			'LICENCE': os.path.join('manuals', 'LICENCE.html'),
+			'Show all Files': '.'
+		}
 
 		for title, thing_to_open in things_to_open.items():
 			button = wx.Button(self, -1, title)
@@ -85,6 +89,63 @@ class LauncherWindow(wx.Frame):
 
 			button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
 			sizer.Add(button, 0, wx.EXPAND, 0)
+
+		# LDL test
+
+		file_picker = wx.FilePickerCtrl(self, -1)
+		sizer.Add(file_picker, 0, wx.EXPAND, 0)
+
+		btn_ldl_test = wx.Button(self, -1, "LDL Test")
+
+		def ldl_test(event):
+			filename = file_picker.GetPath()
+
+			if len(filename) == 0:
+				Warn(self, 'No file chosen.')
+				return
+
+			if not os.path.isfile(filename):
+				Warn(self, "Can't find chosen file.")
+				return
+
+			# TODO check for XML file?
+
+			# We're already in the AQ dir
+			bindir = 'bin'
+			prog.qbsp = os.path.join(bindir, 'qbsp')
+			prog.vis = os.path.join(bindir, 'vis')
+			prog.light = os.path.join(bindir, 'light')
+			prog.bspinfo = os.path.join(bindir, 'bspinfo')
+			# prog.quakewad
+			# prog.STYLE_FILE
+
+			if have_needed_stuff():
+				try:
+					root, ext = os.path.splitext(filename)
+					base = os.path.basename(root)
+					convert(filename, base, False, False)
+					build(base + '.map', base, False)
+
+					shutil.move(base + '.bsp', 'id1/maps')  # FIXME tidy
+
+					def try_map():
+						return game_controller.launch_map(base)
+
+					self.launch_button_core(try_map)
+
+				except subprocess.CalledProcessError as error:
+					Warn(self, error.output.decode().splitlines()[-1])
+
+				except:  # noqa E722
+					etype, evalue, etraceback = sys.exc_info()
+					string = 'ERROR: ' + str(etype.__name__) + ' ' + str(evalue)
+					traceback.print_tb(etraceback)
+					Warn(self, string)
+			else:
+				Warn(self, "Can't find map-building tools")
+
+		btn_ldl_test.Bind(wx.EVT_BUTTON, ldl_test)
+		sizer.Add(btn_ldl_test, 0, wx.EXPAND, 0)
 
 		# Quitting
 
