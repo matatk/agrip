@@ -1,1 +1,7 @@
-cat ldl-tutorial.md | pandoc --standalone --toc --metadata pagetitle="LDL Concept Release Tutorial" > ldl-tutorial.html
+#!/bin/sh
+pandoc \
+	--standalone  \
+	--toc \
+	--metadata pagetitle="LDL Concept Release Tutorial" \
+	< ldl-tutorial.md \
+	> ldl-tutorial.html
