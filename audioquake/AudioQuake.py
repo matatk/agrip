@@ -18,11 +18,19 @@ launch_messages = {
 	LaunchState.ALREADY_RUNNING: 'The game is already running'
 }
 
+BORDER_SIZE = 5
 
-class LauncherWindow(wx.Frame):
-	def __init__(self, parent, title):
-		wx.Frame.__init__(self, parent, title=title)
-		game_controller = GameController()
+
+def add_widget(sizer, widget, border=True, expand=True):
+	expand_flag = wx.EXPAND if expand else 0
+	border_flag = wx.ALL if border else 0
+	border_size = BORDER_SIZE if border else 0
+	sizer.Add(widget, 0, expand_flag | border_flag, border_size)
+
+
+class AudioQuakeTab(wx.Panel):
+	def __init__(self, parent):
+		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		# Commands for opening/running stuff
@@ -48,28 +56,28 @@ class LauncherWindow(wx.Frame):
 
 			def make_launch_function(game_start_method):
 				def launch(event):
-					self.launch_button_core(game_start_method)
+					launch_button_core(self, game_start_method)
 				return launch
 
 			button.Bind(wx.EVT_BUTTON, make_launch_function(action))
-			sizer.Add(button, 0, wx.EXPAND, 0)
+			add_widget(sizer, button)
 
 		# Opening things
 
 		def open_server(event):
-			self.first_time_check('server')
+			first_time_check('server')
 			subprocess.call(self._server)
 
 		btn_open_server = wx.Button(self, -1, "Server")
 		btn_open_server.Bind(wx.EVT_BUTTON, open_server)
-		sizer.Add(btn_open_server, 0, wx.EXPAND, 0)
+		add_widget(sizer, btn_open_server)
 
 		def open_rcon(event):
 			subprocess.call(self._rcon)
 
 		btn_open_rcon = wx.Button(self, -1, "Remote Console")
 		btn_open_rcon.Bind(wx.EVT_BUTTON, open_rcon)
-		sizer.Add(btn_open_rcon, 0, wx.EXPAND, 0)
+		add_widget(sizer, btn_open_rcon)
 
 		things_to_open = {
 			'README': os.path.join('manuals', 'README.html'),
@@ -88,14 +96,21 @@ class LauncherWindow(wx.Frame):
 				return open_thing
 
 			button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
-			sizer.Add(button, 0, wx.EXPAND, 0)
+			add_widget(sizer, button)
 
-		# LDL test
+		sizer.SetSizeHints(self)
+		self.SetSizer(sizer)
+
+
+class LevelDescriptionLanguageTab(wx.Panel):
+	def __init__(self, parent):
+		wx.Panel.__init__(self, parent)
+		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		file_picker = wx.FilePickerCtrl(self, -1)
-		sizer.Add(file_picker, 0, wx.EXPAND, 0)
+		add_widget(sizer, file_picker)
 
-		btn_ldl_test = wx.Button(self, -1, "LDL Test")
+		btn_ldl_test = wx.Button(self, -1, "Convert XML, Build BSP and Play")
 
 		def ldl_test(event):
 			filename = file_picker.GetPath()
@@ -126,12 +141,13 @@ class LauncherWindow(wx.Frame):
 					convert(filename, base, False, False)
 					build(base + '.map', base, False)
 
+					# FIXME check for errors like it already exists
 					shutil.move(base + '.bsp', 'id1/maps')  # FIXME tidy
 
 					def try_map():
 						return game_controller.launch_map(base)
 
-					self.launch_button_core(try_map)
+					launch_button_core(self, try_map)
 
 				except subprocess.CalledProcessError as error:
 					Warn(self, error.output.decode().splitlines()[-1])
@@ -145,11 +161,36 @@ class LauncherWindow(wx.Frame):
 				Warn(self, "Can't find map-building tools")
 
 		btn_ldl_test.Bind(wx.EVT_BUTTON, ldl_test)
-		sizer.Add(btn_ldl_test, 0, wx.EXPAND, 0)
+		add_widget(sizer, btn_ldl_test)
 
-		# Quitting
+		sizer.SetSizeHints(self)
+		self.SetSizer(sizer)
 
-		btn_quit = wx.Button(self, -1, "Quit Launcher")
+
+class LauncherWindow(wx.Frame):
+	def __init__(self, parent, title):
+		wx.Frame.__init__(self, parent, title=title)
+
+		panel = wx.Panel(self)
+		root_vbox = wx.BoxSizer(wx.VERTICAL)
+		child_hbox = wx.BoxSizer(wx.HORIZONTAL)
+
+		# Tabs
+
+		notebook = wx.Notebook(panel)
+
+		tab_audioquake = AudioQuakeTab(notebook)
+		tab_level_description_language = LevelDescriptionLanguageTab(notebook)
+
+		notebook.AddPage(tab_audioquake, "AudioQuake")
+		notebook.AddPage(
+			tab_level_description_language, "Level Description Language")
+
+		root_vbox.Add(notebook, 1, wx.EXPAND)
+
+		# Buttons
+
+		btn_quit = wx.Button(panel, -1, "Quit Launcher")
 
 		def quit_it(event):
 			if game_controller.quit():
@@ -158,23 +199,14 @@ class LauncherWindow(wx.Frame):
 				Warn(self, "Can't quit whilst Quake is still running.")
 
 		btn_quit.Bind(wx.EVT_BUTTON, quit_it)
-		sizer.Add(btn_quit, 0, wx.EXPAND, 0)
 
-		sizer.SetSizeHints(self)
-		self.SetSizer(sizer)
-		self.Show()
+		add_widget(child_hbox, btn_quit, border=False)
 
-	def launch_button_core(self, method):
-		self.first_time_check('game')
-		launch_state = method()
-		if launch_state is not LaunchState.OK:
-			Warn(self, launch_messages[launch_state])
+		# Wiring
 
-	def first_time_check(self, name):
-		if on_windows():
-			stamp_file_check(self, name)
-		else:
-			pass
+		root_vbox.Add(child_hbox, 0, wx.ALIGN_RIGHT | wx.ALL, BORDER_SIZE)
+		panel.SetSizer(root_vbox)
+		# root_vbox.SetSizeHints(self)  # doesn't seem to be needed?
 
 
 def Warn(parent, message, caption='Warning!'):
@@ -187,11 +219,15 @@ def stamp_file_check(gui_parent, name):
 	# TODO decouple from GUI
 	# TODO needs to work on Mac? not think so
 	stamp_file_name = 'not-first-run-' + name
-	prompt = 'When you run the ' + name + ' for the first time, Windows may ask you to allow it through the firewall.'
+	prompt = 'When you run the ' + name + ' for the first time, Windows ' + \
+		'may ask you to allow it through the firewall.'
 	if name == 'game':
-		prompt += ' This will be done in a secure window that pops up above the Quake engine, which you will need to use ALT-TAB and an Assistive Technology to access.'
+		prompt += ' This will be done in a secure window that pops up ' + \
+			'above the Quake engine, which you will need to use ALT-TAB ' + \
+			'and an Assistive Technology to access.'
 	elif name == 'server':
-		prompt += ' Please also note that the server output window, and the remote console facility, are not self-voicing.'
+		prompt += ' Please also note that the server output window, and ' + \
+			'the remote console facility, are not self-voicing.'
 	else:
 		raise TypeError
 
@@ -199,6 +235,22 @@ def stamp_file_check(gui_parent, name):
 		Warn(gui_parent, prompt)
 		open(stamp_file_name, 'a').close()
 
+
+def launch_button_core(gui, method):
+	first_time_check('game')
+	launch_state = method()
+	if launch_state is not LaunchState.OK:
+		Warn(gui, launch_messages[launch_state])
+
+
+def first_time_check(name):
+	if on_windows():
+		stamp_file_check(name)
+	else:
+		pass
+
+
+game_controller = GameController()  # FIXME global
 
 if __name__ == '__main__':
 	def get_path():
@@ -209,5 +261,5 @@ if __name__ == '__main__':
 
 	app = wx.App(False)
 	os.chdir(get_path())
-	frame = LauncherWindow(None, "AudioQuake Launcher")
+	LauncherWindow(None, "AudioQuake Launcher").Show()
 	app.MainLoop()
