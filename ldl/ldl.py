@@ -4,7 +4,6 @@ import argparse
 import argcomplete
 import os
 import sys
-import traceback
 from ldllib.convert import convert
 from ldllib.build import build, have_needed_stuff
 from ldllib.play import play
@@ -13,8 +12,7 @@ from ldllib.roundtrip import roundtrip
 
 def print_exception():
 	etype, evalue, etraceback = sys.exc_info()
-	print('ERROR:', etype.__name__, evalue)
-	traceback.print_tb(etraceback)
+	print(evalue)
 
 
 # Don't repeat the valid subcommands in the subcommand help section
@@ -38,10 +36,10 @@ def handle_convert(args):
 		if ext == '.xml':
 			try:
 				convert(filename, base, args.verbose, args.keep)
-			except SystemExit:
-				pass
 			except:  # noqa: E722
 				print_exception()
+		else:
+			print('skipping', filename, '- not an XML file')
 
 
 def handle_build(args):
@@ -66,11 +64,11 @@ def handle_build(args):
 				try:
 					convert(filename, base, args.verbose, args.keep)
 					build(base + '.map', base, args.verbose)
-				except SystemExit:
-					pass
 				except:  # noqa: E722
 					print_exception()
 				already_processed.add(base)
+			else:
+				print('skipping', filename, '- not an expected file type')
 		else:
 			if args.verbose:
 				print('skipping', filename, '- already processed', base)
@@ -106,8 +104,6 @@ def handle_play(args):
 					convert(filename, base, args.verbose, args.keep)
 					build(base + '.map', base, args.verbose)
 					play(base + '.bsp', base, args.verbose)
-				except SystemExit:
-					pass
 				except:  # noqa: E722
 					print_exception()
 				already_processed.add(base)

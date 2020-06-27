@@ -154,9 +154,8 @@ class LevelDescriptionLanguageTab(wx.Panel):
 
 				except:  # noqa E722
 					etype, evalue, etraceback = sys.exc_info()
-					string = 'ERROR: ' + str(etype.__name__) + ' ' + str(evalue)
 					traceback.print_tb(etraceback)
-					Warn(self, string)
+					Warn(self, str(evalue))
 			else:
 				Warn(self, "Can't find map-building tools")
 

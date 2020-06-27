@@ -688,18 +688,19 @@ def warning(data):
 
 
 def error(data):
-	sys.stderr.write('Stage ' + str(stage) + ' ERROR! ' + data + '\n')
-	sys.exit(42)
+	message = 'Stage ' + str(stage) + ' ERROR! ' + data
+	raise Exception(message)  # TODO make an LDLException?
 
 
 def failParse(data=None):
+	message = None
 	if data:
-		sys.stderr.write('Stage: ' + str(stage) + ' FAILURE! ' + data + '\n')
+		message = 'Stage: ' + str(stage) + ' FAILURE! ' + data
 	else:
-		sys.stderr.write(
-			'Processing stage ' + stage + ': there was an error in the input given to '
-			"this stage of processing -- perhaps the previous stage didn't work?\n")
-	sys.exit(42)
+		message = 'Processing stage ' + stage + ': there was an error in ' + \
+			'the input given to this stage of processing -- perhaps ' + \
+			"the previous stage didn't work?"
+	raise Exception(message)  # TODO make an LDLException?
 
 
 def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
