@@ -20,12 +20,7 @@ launch_messages = {
 
 BORDER_SIZE = 5
 
-
-def add_widget(sizer, widget, border=True, expand=True):
-	expand_flag = wx.EXPAND if expand else 0
-	border_flag = wx.ALL if border else 0
-	border_size = BORDER_SIZE if border else 0
-	sizer.Add(widget, 0, expand_flag | border_flag, border_size)
+game_controller = GameController()  # FIXME global
 
 
 class AudioQuakeTab(wx.Panel):
@@ -110,7 +105,11 @@ class LevelDescriptionLanguageTab(wx.Panel):
 		file_picker = wx.FilePickerCtrl(self, -1)
 		add_widget(sizer, file_picker)
 
-		btn_ldl_test = wx.Button(self, -1, "Convert XML, Build BSP and Play")
+		play_checkbox = wx.CheckBox(self, -1, "Play when built")
+		play_checkbox.SetValue(True)
+		add_widget(sizer, play_checkbox)
+
+		btn_ldl_test = wx.Button(self, -1, "Convert XML and build BSP")
 
 		def ldl_test(event):
 			filename = file_picker.GetPath()
@@ -134,20 +133,28 @@ class LevelDescriptionLanguageTab(wx.Panel):
 			# prog.quakewad
 			# prog.STYLE_FILE
 
+			aq_maps_dir = os.path.join(os.getcwd(), 'id1', 'maps')  # TODO ?
+
+			xmldir, xmlfile = os.path.split(filename)
+			map_base = os.path.splitext(xmlfile)[0]
+			mapfile = map_base + '.map'
+			bspfile = map_base + '.bsp'
+			abs_installed_bspfile = os.path.join(aq_maps_dir, bspfile)
+
 			if have_needed_stuff():
 				try:
-					root, ext = os.path.splitext(filename)
-					base = os.path.basename(root)
-					convert(filename, base, False, False)
-					build(base + '.map', base, False)
+					convert(filename, map_base, False, False)
+					build(mapfile, map_base, False)
 
-					# FIXME check for errors like it already exists
-					shutil.move(base + '.bsp', 'id1/maps')  # FIXME tidy
+					shutil.move(bspfile, abs_installed_bspfile)
 
-					def try_map():
-						return game_controller.launch_map(base)
+					if play_checkbox.GetValue():
+						def try_map():
+							return game_controller.launch_map(map_base)
 
-					launch_button_core(self, try_map)
+						launch_button_core(self, try_map)
+					else:
+						Info(self, bspfile + ' built and installed')
 
 				except subprocess.CalledProcessError as error:
 					Warn(self, error.output.decode().splitlines()[-1])
@@ -208,7 +215,23 @@ class LauncherWindow(wx.Frame):
 		# root_vbox.SetSizeHints(self)  # doesn't seem to be needed?
 
 
-def Warn(parent, message, caption='Warning!'):
+def add_widget(sizer, widget, border=True, expand=True):
+	expand_flag = wx.EXPAND if expand else 0
+	border_flag = wx.ALL if border else 0
+	border_size = BORDER_SIZE if border else 0
+	sizer.Add(widget, 0, expand_flag | border_flag, border_size)
+
+
+def Info(parent, message):
+	MsgBox(parent, message, 'Info')
+
+
+# FIXME Error too?
+def Warn(parent, message):
+	MsgBox(parent, message, 'Warning')
+
+
+def MsgBox(parent, message, caption):
 	dlg = wx.MessageDialog(parent, message, caption, wx.OK | wx.ICON_WARNING)
 	dlg.ShowModal()
 	dlg.Destroy()
@@ -248,8 +271,6 @@ def first_time_check(name):
 	else:
 		pass
 
-
-game_controller = GameController()  # FIXME global
 
 if __name__ == '__main__':
 	def get_path():
