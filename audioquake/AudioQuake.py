@@ -50,12 +50,36 @@ class AudioQuakeTab(wx.Panel):
 		for title, thing_to_open in things_to_open.items():
 			add_opener_button(self, sizer, title, thing_to_open)
 
+		# Install registered data
+
+		def install_registered_data(event):
+			pak1path = os.path.join(os.getcwd(), 'id1', 'pak1.pak')
+			Info(
+				self, "If you have the registered Quake data file "
+				+ "('pak1.pak'), please select it, and it will be copied to "
+				+ "the AudioQuake directory.")
+			if os.path.exists(pak1path):
+				Info(self, 'pak1.pak is already installed')
+			else:
+				incoming = pick_file(self, "Select pak1.pak", "pak1.pak|*.pak")
+				if incoming:
+					if os.path.basename(incoming) == 'pak1.pak':
+						shutil.copy(incoming, pak1path)
+						Info(self, 'pak1.pak installed successfully')
+					else:
+						Warn(self, "You must select a file called 'pak1.pak'")
+
+		reg_data_button = wx.Button(self, -1, 'Install registered Quake data')
+		reg_data_button.Bind(wx.EVT_BUTTON, install_registered_data)
+		add_widget(sizer, reg_data_button)
+
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
 
 class LevelDescriptionLanguageTab(wx.Panel):
 	def __init__(self, parent):
+		WILDCARD = "XML files (*.xml)|*.xml"
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -66,19 +90,13 @@ class LevelDescriptionLanguageTab(wx.Panel):
 		file_picker_hbox = wx.BoxSizer(wx.HORIZONTAL)
 
 		file_picker = wx.FilePickerCtrl(
-			self, -1, message="Open map", wildcard="XML files (*.xml)|*.xml")
+			self, -1, message="Open map", wildcard=WILDCARD)
 		file_picker_hbox.Add(file_picker, 1)
 
 		def pick_tutorial_map(event):
-			picker = wx.FileDialog(
-				self, "Open tutorial map", wildcard="XML files (*.xml)|*.xml",
-				style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
-
-			if picker.ShowModal() == wx.ID_CANCEL:
-				return
-
-			filename = picker.GetPath()
-			file_picker.SetPath(filename)
+			chosen = pick_file(self, "Open tutorial map", WILDCARD)
+			if chosen:
+				file_picker.SetPath(chosen)
 
 		tutorial_maps_button = wx.Button(self, -1, 'Tutorial maps')
 		tutorial_maps_button.Bind(wx.EVT_BUTTON, pick_tutorial_map)
@@ -204,6 +222,17 @@ class LauncherWindow(wx.Frame):
 		root_vbox.Add(child_hbox, 0, wx.ALL | wx.ALIGN_RIGHT, -1)
 		panel.SetSizer(root_vbox)
 		root_vbox.SetSizeHints(self)  # doesn't seem to be needed?
+
+
+def pick_file(parent, message, wildcard):
+	picker = wx.FileDialog(
+		parent, message, wildcard=wildcard,
+		style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+
+	if picker.ShowModal() == wx.ID_CANCEL:
+		return
+
+	return picker.GetPath()
 
 
 def add_launch_button(parent, sizer, title, action):
