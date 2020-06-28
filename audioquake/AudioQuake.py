@@ -7,7 +7,7 @@ import shutil
 
 import wx
 
-from launcherlib import LaunchState, GameController, on_windows
+from launcherlib import LaunchState, GameController, on_windows, opener
 
 from ldllib.conf import prog
 from ldllib.convert import convert
@@ -28,58 +28,26 @@ class AudioQuakeTab(wx.Panel):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
-		# Commands for opening/running stuff
-
-		if on_windows():
-			self._open = ('cmd', '/c', 'start')
-			self._rcon = self._open + ('rcon.exe', '--ask')
-			self._server = self._open + ('zqds.exe',)
-		else:  # assume Mac for now (won't work on Linux)
-			self._open = ('open',)
-			self._rcon = self._open + ('./start-rcon.command',)
-			self._server = self._open + ('./start-server.command',)
-
 		# Launching the game
 
 		game_modes = {
 			"Play": game_controller.launch_default,
-			"Tutorial": game_controller.launch_tutorial
+			"Tutorial": game_controller.launch_tutorial,
+			"Server": game_controller.launch_server,
+			"Remote console": game_controller.launch_rcon
 		}
 
 		for title, action in game_modes.items():
-			button = wx.Button(self, -1, title)
-
-			def make_launch_function(game_start_method):
-				def launch(event):
-					launch_button_core(self, game_start_method)
-				return launch
-
-			button.Bind(wx.EVT_BUTTON, make_launch_function(action))
-			add_widget(sizer, button)
+			add_launch_button(self, sizer, title, action)
 
 		# Opening things
 
-		def open_server(event):
-			first_time_check('server')
-			subprocess.call(self._server)
-
-		btn_open_server = wx.Button(self, -1, "Server")
-		btn_open_server.Bind(wx.EVT_BUTTON, open_server)
-		add_widget(sizer, btn_open_server)
-
-		def open_rcon(event):
-			subprocess.call(self._rcon)
-
-		btn_open_rcon = wx.Button(self, -1, "Remote Console")
-		btn_open_rcon.Bind(wx.EVT_BUTTON, open_rcon)
-		add_widget(sizer, btn_open_rcon)
-
 		things_to_open = {
 			'README': os.path.join('manuals', 'README.html'),
-			'User Manual': os.path.join('manuals', 'user-manual.html'),
-			'Sound Legend': os.path.join('manuals', 'sound-legend.html'),
+			'User manual': os.path.join('manuals', 'user-manual.html'),
+			'Sound legend': os.path.join('manuals', 'sound-legend.html'),
 			'LICENCE': os.path.join('manuals', 'LICENCE.html'),
-			'Show all Files': '.'
+			'Show all files': '.'
 		}
 
 		for title, thing_to_open in things_to_open.items():
@@ -87,7 +55,7 @@ class AudioQuakeTab(wx.Panel):
 
 			def make_open_function(openee):
 				def open_thing(event):
-					subprocess.call(self._open + (openee,))
+					subprocess.call(opener() + (openee,))
 				return open_thing
 
 			button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
@@ -101,6 +69,8 @@ class LevelDescriptionLanguageTab(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		add_widget(sizer, wx.StaticText(self, -1, 'Choose an LDL XML file'))
 
 		file_picker = wx.FilePickerCtrl(self, -1)
 		add_widget(sizer, file_picker)
@@ -213,6 +183,18 @@ class LauncherWindow(wx.Frame):
 		root_vbox.Add(child_hbox, 0, wx.ALIGN_RIGHT | wx.ALL, BORDER_SIZE)
 		panel.SetSizer(root_vbox)
 		# root_vbox.SetSizeHints(self)  # doesn't seem to be needed?
+
+
+def add_launch_button(parent, sizer, title, action):
+	button = wx.Button(parent, -1, title)
+
+	def make_launch_function(game_start_method):
+		def launch(event):
+			launch_button_core(parent, game_start_method)
+		return launch
+
+	button.Bind(wx.EVT_BUTTON, make_launch_function(action))
+	add_widget(sizer, button)
 
 
 def add_widget(sizer, widget, border=True, expand=True):

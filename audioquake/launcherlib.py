@@ -17,6 +17,13 @@ else:
 	from AppKit import NSSpeechSynthesizer
 
 
+def opener():
+	if on_windows():
+		return ('cmd', '/c', 'start')
+	else:  # assume Mac for now (may also work on Linux)
+		return ('open',)
+
+
 class LaunchState(enum.Enum):
 	OK = enum.auto()
 	NOT_FOUND = enum.auto()
@@ -98,7 +105,6 @@ class EngineWrapper(threading.Thread):
 
 
 class GameController():
-	_engine = None
 	_opts_default = ("-window", "+set sensitivity 0")
 	_opts_tutorial = ("+coop 0", "+deathmatch 0", "+map agtut01")
 	_opts_custom_map = ("+coop 0", "+deathmatch 0")  # FIXME DRY
@@ -106,8 +112,12 @@ class GameController():
 	def __init__(self):
 		if on_windows():
 			self._engine = 'zquake-gl.exe'
+			self._server = opener() + ('zqds.exe',)
+			self._rcon = opener() + ('rcon.exe', '--ask')
 		else:  # assume Mac for now (may also work on Linux)
 			self._engine = './zquake-glsdl'
+			self._server = opener() + ('./start-server.command',)
+			self._rcon = opener() + ('./start-rcon.command',)
 
 		self._engine_wrapper = None
 
@@ -136,6 +146,12 @@ class GameController():
 			(self._engine,)
 			+ self._opts_default
 			+ self._opts_tutorial)
+
+	def launch_server(self):
+		subprocess.call(self._server)
+
+	def launch_rcon(self):
+		subprocess.call(self._rcon)
 
 	def launch_map(self, name):
 		command_line = (self._engine,) \
