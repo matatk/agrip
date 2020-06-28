@@ -43,23 +43,12 @@ class AudioQuakeTab(wx.Panel):
 		# Opening things
 
 		things_to_open = {
-			'README': os.path.join('manuals', 'README.html'),
 			'User manual': os.path.join('manuals', 'user-manual.html'),
 			'Sound legend': os.path.join('manuals', 'sound-legend.html'),
-			'LICENCE': os.path.join('manuals', 'LICENCE.html'),
-			'Show all files': '.'
 		}
 
 		for title, thing_to_open in things_to_open.items():
-			button = wx.Button(self, -1, title)
-
-			def make_open_function(openee):
-				def open_thing(event):
-					subprocess.call(opener() + (openee,))
-				return open_thing
-
-			button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
-			add_widget(sizer, button)
+			add_opener_button(self, sizer, title, thing_to_open)
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
@@ -70,10 +59,32 @@ class LevelDescriptionLanguageTab(wx.Panel):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
+		# File picker bits
+
 		add_widget(sizer, wx.StaticText(self, -1, 'Choose an LDL XML file'))
 
-		file_picker = wx.FilePickerCtrl(self, -1)
-		add_widget(sizer, file_picker)
+		file_picker_hbox = wx.BoxSizer(wx.HORIZONTAL)
+
+		file_picker = wx.FilePickerCtrl(
+			self, -1, message="Open map", wildcard="XML files (*.xml)|*.xml")
+		file_picker_hbox.Add(file_picker, 1)
+
+		def pick_tutorial_map(event):
+			picker = wx.FileDialog(
+				self, "Open tutorial map", wildcard="XML files (*.xml)|*.xml",
+				style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+
+			if picker.ShowModal() == wx.ID_CANCEL:
+				return
+
+			filename = picker.GetPath()
+			file_picker.SetPath(filename)
+
+		tutorial_maps_button = wx.Button(self, -1, 'Tutorial maps')
+		tutorial_maps_button.Bind(wx.EVT_BUTTON, pick_tutorial_map)
+		file_picker_hbox.Add(tutorial_maps_button, 0, wx.LEFT, BORDER_SIZE)
+
+		add_widget(sizer, file_picker_hbox)
 
 		play_checkbox = wx.CheckBox(self, -1, "Play when built")
 		play_checkbox.SetValue(True)
@@ -139,6 +150,8 @@ class LevelDescriptionLanguageTab(wx.Panel):
 		btn_ldl_test.Bind(wx.EVT_BUTTON, ldl_test)
 		add_widget(sizer, btn_ldl_test)
 
+		add_opener_button(self, sizer, 'LDL tutorial', 'ldl-tutorial.html')
+
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
@@ -166,7 +179,16 @@ class LauncherWindow(wx.Frame):
 
 		# Buttons
 
-		btn_quit = wx.Button(panel, -1, "Quit Launcher")
+		things_to_open = {
+			'README': os.path.join('manuals', 'README.html'),
+			'LICENCE': os.path.join('manuals', 'LICENCE.html'),
+			'Show all files': '.'
+		}
+
+		for title, thing_to_open in things_to_open.items():
+			add_opener_button(panel, child_hbox, title, thing_to_open)
+
+		btn_quit = wx.Button(panel, -1, "Quit launcher")
 
 		def quit_it(event):
 			if game_controller.quit():
@@ -175,14 +197,13 @@ class LauncherWindow(wx.Frame):
 				Warn(self, "Can't quit whilst Quake is still running.")
 
 		btn_quit.Bind(wx.EVT_BUTTON, quit_it)
-
-		add_widget(child_hbox, btn_quit, border=False)
+		add_widget(child_hbox, btn_quit)
 
 		# Wiring
 
-		root_vbox.Add(child_hbox, 0, wx.ALIGN_RIGHT | wx.ALL, BORDER_SIZE)
+		root_vbox.Add(child_hbox, 0, wx.ALL | wx.ALIGN_RIGHT, -1)
 		panel.SetSizer(root_vbox)
-		# root_vbox.SetSizeHints(self)  # doesn't seem to be needed?
+		root_vbox.SetSizeHints(self)  # doesn't seem to be needed?
 
 
 def add_launch_button(parent, sizer, title, action):
@@ -197,6 +218,18 @@ def add_launch_button(parent, sizer, title, action):
 	add_widget(sizer, button)
 
 
+def add_opener_button(parent, sizer, title, thing_to_open):
+	button = wx.Button(parent, -1, title)
+
+	def make_open_function(openee):
+		def open_thing(event):
+			subprocess.call(opener() + (openee,))
+		return open_thing
+
+	button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
+	add_widget(sizer, button)
+
+
 def add_widget(sizer, widget, border=True, expand=True):
 	expand_flag = wx.EXPAND if expand else 0
 	border_flag = wx.ALL if border else 0
@@ -208,7 +241,6 @@ def Info(parent, message):
 	MsgBox(parent, message, 'Info')
 
 
-# FIXME Error too?
 def Warn(parent, message):
 	MsgBox(parent, message, 'Warning')
 
