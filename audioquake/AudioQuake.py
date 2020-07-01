@@ -1,8 +1,7 @@
 """AudioQuake Game Launcher"""
 import sys
-import os
+from os import path
 import subprocess
-import traceback
 import shutil
 
 import wx
@@ -19,8 +18,9 @@ launch_messages = {
 }
 
 BORDER_SIZE = 5
+BASE_PATH = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
 
-game_controller = GameController()  # FIXME global
+game_controller = GameController(BASE_PATH)
 
 
 class AudioQuakeTab(wx.Panel):
@@ -33,18 +33,24 @@ class AudioQuakeTab(wx.Panel):
 		game_modes = {
 			"Play": game_controller.launch_default,
 			"Tutorial": game_controller.launch_tutorial,
-			"Server": game_controller.launch_server,
-			"Remote console": game_controller.launch_rcon
 		}
 
 		for title, action in game_modes.items():
 			add_launch_button(self, sizer, title, action)
 
 		# Opening things
+		if on_windows():
+			server = 'zqds.exe'
+			rcon = 'rcon.exe', '--ask'  # FIXME this won't work
+		else:
+			server = './start-server.command'
+			rcon = './start-rcon.command'
 
 		things_to_open = {
-			'User manual': os.path.join('manuals', 'user-manual.html'),
-			'Sound legend': os.path.join('manuals', 'sound-legend.html'),
+			"Server": server,
+			"Remote console": rcon,
+			'User manual': path.join('manuals', 'user-manual.html'),
+			'Sound legend': path.join('manuals', 'sound-legend.html'),
 		}
 
 		for title, thing_to_open in things_to_open.items():
@@ -52,29 +58,32 @@ class AudioQuakeTab(wx.Panel):
 
 		# Install registered data
 
-		def install_registered_data(event):
-			pak1path = os.path.join(os.getcwd(), 'id1', 'pak1.pak')
-			Info(
-				self, "If you have the registered Quake data file "
-				+ "('pak1.pak'), please select it, and it will be copied to "
-				+ "the AudioQuake directory.")
-			if os.path.exists(pak1path):
-				Info(self, 'pak1.pak is already installed')
-			else:
-				incoming = pick_file(self, "Select pak1.pak", "pak1.pak|*.pak")
-				if incoming:
-					if os.path.basename(incoming) == 'pak1.pak':
-						shutil.copy(incoming, pak1path)
-						Info(self, 'pak1.pak installed successfully')
-					else:
-						Warn(self, "You must select a file called 'pak1.pak'")
-
 		reg_data_button = wx.Button(self, -1, 'Install registered Quake data')
-		reg_data_button.Bind(wx.EVT_BUTTON, install_registered_data)
+		reg_data_button.Bind(wx.EVT_BUTTON, self.install_registered_data)
 		add_widget(sizer, reg_data_button)
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
+
+	def install_registered_data(self, event):
+		pak1path = path.join(BASE_PATH, 'id1', 'pak1.pak')
+		Info(
+			self, "If you have the registered Quake data file "
+			+ "('pak1.pak'), please select it, and it will be copied to "
+			+ "the AudioQuake directory.")
+		if path.exists(pak1path):
+			Info(self, 'pak1.pak is already installed')
+		else:
+			incoming = pick_file(self, "Select pak1.pak", "pak1.pak|*.pak")
+			if incoming:
+				if path.basename(incoming) == 'pak1.pak':
+					try:
+						shutil.copy(incoming, pak1path)
+						Info(self, 'pak1.pak installed successfully')
+					except:  # noqa E722
+						WarnException(self)
+				else:
+					Warn(self, "You must select a file called 'pak1.pak'")
 
 
 class LevelDescriptionLanguageTab(wx.Panel):
@@ -117,28 +126,26 @@ class LevelDescriptionLanguageTab(wx.Panel):
 				Warn(self, 'No file chosen.')
 				return
 
-			if not os.path.isfile(filename):
+			if not path.isfile(filename):
 				Warn(self, "Can't find chosen file.")
 				return
 
-			# TODO check for XML file?
-
 			# We're already in the AQ dir
 			bindir = 'bin'
-			prog.qbsp = os.path.join(bindir, 'qbsp')
-			prog.vis = os.path.join(bindir, 'vis')
-			prog.light = os.path.join(bindir, 'light')
-			prog.bspinfo = os.path.join(bindir, 'bspinfo')
+			prog.qbsp = path.join(bindir, 'qbsp')
+			prog.vis = path.join(bindir, 'vis')
+			prog.light = path.join(bindir, 'light')
+			prog.bspinfo = path.join(bindir, 'bspinfo')
 			# prog.quakewad
 			# prog.STYLE_FILE
 
-			aq_maps_dir = os.path.join(os.getcwd(), 'id1', 'maps')  # TODO ?
+			aq_maps_dir = path.join(BASE_PATH, 'id1', 'maps')
 
-			xmldir, xmlfile = os.path.split(filename)
-			map_base = os.path.splitext(xmlfile)[0]
+			xmldir, xmlfile = path.split(filename)
+			map_base = path.splitext(xmlfile)[0]
 			mapfile = map_base + '.map'
 			bspfile = map_base + '.bsp'
-			abs_installed_bspfile = os.path.join(aq_maps_dir, bspfile)
+			abs_installed_bspfile = path.join(aq_maps_dir, bspfile)
 
 			if have_needed_stuff():
 				try:
@@ -159,9 +166,7 @@ class LevelDescriptionLanguageTab(wx.Panel):
 					Warn(self, error.output.decode().splitlines()[-1])
 
 				except:  # noqa E722
-					etype, evalue, etraceback = sys.exc_info()
-					traceback.print_tb(etraceback)
-					Warn(self, str(evalue))
+					WarnException(self)
 			else:
 				Warn(self, "Can't find map-building tools")
 
@@ -198,8 +203,8 @@ class LauncherWindow(wx.Frame):
 		# Buttons
 
 		things_to_open = {
-			'README': os.path.join('manuals', 'README.html'),
-			'LICENCE': os.path.join('manuals', 'LICENCE.html'),
+			'README': path.join('manuals', 'README.html'),
+			'LICENCE': path.join('manuals', 'LICENCE.html'),
 			'Show all files': '.'
 		}
 
@@ -243,6 +248,8 @@ def add_launch_button(parent, sizer, title, action):
 			launch_button_core(parent, game_start_method)
 		return launch
 
+	# FIXME server and rcon don't return LaunchStatusy thingies
+
 	button.Bind(wx.EVT_BUTTON, make_launch_function(action))
 	add_widget(sizer, button)
 
@@ -252,7 +259,10 @@ def add_opener_button(parent, sizer, title, thing_to_open):
 
 	def make_open_function(openee):
 		def open_thing(event):
-			subprocess.call(opener() + (openee,))
+			try:
+				subprocess.check_call(opener() + (openee,))
+			except:  # noqa E722
+				WarnException(parent)
 		return open_thing
 
 	button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
@@ -274,13 +284,17 @@ def Warn(parent, message):
 	MsgBox(parent, message, 'Warning')
 
 
+def WarnException(parent):
+	Warn(parent, str(sys.exc_info()[1]))
+
+
 def MsgBox(parent, message, caption):
 	dlg = wx.MessageDialog(parent, message, caption, wx.OK | wx.ICON_WARNING)
 	dlg.ShowModal()
 	dlg.Destroy()
 
 
-def stamp_file_check(gui_parent, name):
+def stamp_file_check(parent, name):
 	# TODO decouple from GUI
 	# TODO needs to work on Mac? not think so
 	stamp_file_name = 'not-first-run-' + name
@@ -296,16 +310,19 @@ def stamp_file_check(gui_parent, name):
 	else:
 		raise TypeError
 
-	if not os.path.exists(stamp_file_name):
-		Warn(gui_parent, prompt)
+	if not path.exists(stamp_file_name):
+		Warn(parent, prompt)
 		open(stamp_file_name, 'a').close()
 
 
-def launch_button_core(gui, method):
+def launch_button_core(parent, method):
 	first_time_check('game')
-	launch_state = method()
-	if launch_state is not LaunchState.OK:
-		Warn(gui, launch_messages[launch_state])
+	try:
+		launch_state = method()
+		if launch_state is not LaunchState.OK:
+			Warn(parent, launch_messages[launch_state])
+	except:  # noqa E722
+		WarnException(parent)  # FIXME needed? What sort of errors could happen?
 
 
 def first_time_check(name):
@@ -316,13 +333,6 @@ def first_time_check(name):
 
 
 if __name__ == '__main__':
-	def get_path():
-		if getattr(sys, 'frozen', False):
-			return os.path.dirname(sys.executable)
-		else:
-			return os.path.abspath(os.path.dirname(sys.argv[0]))
-
-	app = wx.App(False)
-	os.chdir(get_path())
+	app = wx.App()  # TODO redirect stdout and stderr?
 	LauncherWindow(None, "AudioQuake Launcher").Show()
 	app.MainLoop()

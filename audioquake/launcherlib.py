@@ -70,7 +70,6 @@ class EngineWrapper(threading.Thread):
 				self._command_line = ' '.join(self._command_line)
 
 			# Buffering may be necessary for Windows; seems not to affect Mac
-			print('Running:', self._command_line)
 			proc = subprocess.Popen(
 				self._command_line, bufsize=1, stdout=subprocess.PIPE)
 
@@ -83,25 +82,17 @@ class EngineWrapper(threading.Thread):
 					# Some messages are high priority, others are critical.
 					# These must be spoken instead of anything else queued up.
 					if length == 1 or line[0] == '!':
-						print('STOPPING')
 						speaker.stop()
 
-					print('SAYING', line)
 					speaker.say(line)
 				else:
 					# Blank line occurs after all the initialisation spewage
-					print('BLANK')
 					speaker.stop()
-
-				# print('TICK')
-				# speaker.iterate()
 
 				if retcode is not None:
 					break
 		except:  # noqa E722
 			raise
-
-		print('Game thread done.')
 
 
 class GameController():
@@ -109,16 +100,9 @@ class GameController():
 	_opts_tutorial = ("+coop 0", "+deathmatch 0", "+map agtut01")
 	_opts_custom_map = ("+coop 0", "+deathmatch 0")  # FIXME DRY
 
-	def __init__(self):
-		if on_windows():
-			self._engine = 'zquake-gl.exe'
-			self._server = opener() + ('zqds.exe',)
-			self._rcon = opener() + ('rcon.exe', '--ask')
-		else:  # assume Mac for now (may also work on Linux)
-			self._engine = './zquake-glsdl'
-			self._server = opener() + ('./start-server.command',)
-			self._rcon = opener() + ('./start-rcon.command',)
-
+	def __init__(self, base_path):
+		exe = 'zquake-gl.exe' if on_windows() else './zquake-glsdl'
+		self._engine = os.path.join(base_path, exe)
 		self._engine_wrapper = None
 
 	def _running(self):
@@ -147,19 +131,12 @@ class GameController():
 			+ self._opts_default
 			+ self._opts_tutorial)
 
-	def launch_server(self):
-		subprocess.call(self._server)
-
-	def launch_rcon(self):
-		subprocess.call(self._rcon)
-
 	def launch_map(self, name):
-		command_line = (self._engine,) \
-			+ self._opts_default \
-			+ self._opts_custom_map \
-			+ ("+map " + name,)
-		print(command_line)
-		return self._launch_core(command_line)
+		return self._launch_core(
+			(self._engine,)
+			+ self._opts_default
+			+ self._opts_custom_map
+			+ ("+map " + name,))
 
 	def quit(self):
 		if self._running():
