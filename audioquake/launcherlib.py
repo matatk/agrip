@@ -100,9 +100,8 @@ class GameController():
 	_opts_tutorial = ("+coop 0", "+deathmatch 0", "+map agtut01")
 	_opts_custom_map = ("+coop 0", "+deathmatch 0")  # FIXME DRY
 
-	def __init__(self, base_path):
-		exe = 'zquake-gl.exe' if on_windows() else './zquake-glsdl'
-		self._engine = os.path.join(base_path, exe)
+	def __init__(self):
+		self._engine = 'zquake-gl.exe' if on_windows() else './zquake-glsdl'
 		self._engine_wrapper = None
 
 	def _running(self):
@@ -118,7 +117,7 @@ class GameController():
 			if os.path.exists(self._engine):
 				self._engine_wrapper = EngineWrapper(command_line)
 				self._engine_wrapper.start()
-				return LaunchState.OK
+				return LaunchState.OK  # FIXME may not be if base path wrong!
 			else:
 				return LaunchState.NOT_FOUND
 

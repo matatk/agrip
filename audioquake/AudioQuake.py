@@ -1,12 +1,13 @@
 """AudioQuake Game Launcher"""
 import sys
-from os import path
+from os import path, chdir
 import subprocess
 import shutil
 
 import wx
 
 from launcherlib import LaunchState, GameController, on_windows, opener
+from qmodlib import QMODFile
 
 from ldllib.conf import prog
 from ldllib.convert import convert
@@ -18,9 +19,8 @@ launch_messages = {
 }
 
 BORDER_SIZE = 5
-BASE_PATH = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
 
-game_controller = GameController(BASE_PATH)
+game_controller = GameController()
 
 
 class AudioQuakeTab(wx.Panel):
@@ -30,43 +30,85 @@ class AudioQuakeTab(wx.Panel):
 
 		# Launching the game
 
+		play = wx.StaticBoxSizer(wx.VERTICAL, self, "Play")
+
 		game_modes = {
 			"Play": game_controller.launch_default,
 			"Tutorial": game_controller.launch_tutorial,
 		}
 
 		for title, action in game_modes.items():
-			add_launch_button(self, sizer, title, action)
+			add_launch_button(self, play, title, action)
 
-		# Opening things
 		if on_windows():
-			server = 'zqds.exe'
-			rcon = 'rcon.exe', '--ask'  # FIXME this won't work
+			server = ('zqds.exe',)
+			rcon = ('rcon.exe', '--ask')
 		else:
-			server = './start-server.command'
-			rcon = './start-rcon.command'
+			server = ('./start-server.command',)
+			rcon = ('./start-rcon.command',)
 
 		things_to_open = {
 			"Server": server,
 			"Remote console": rcon,
-			'User manual': path.join('manuals', 'user-manual.html'),
-			'Sound legend': path.join('manuals', 'sound-legend.html'),
 		}
 
 		for title, thing_to_open in things_to_open.items():
-			add_opener_button(self, sizer, title, thing_to_open)
+			add_opener_button(self, play, title, thing_to_open)
 
-		# Install registered data
+		add_widget(sizer, play)
+
+		# Help
+
+		docs = wx.StaticBoxSizer(wx.VERTICAL, self, "Help")
+
+		things_to_open = {
+			'User manual': (path.join('manuals', 'user-manual.html'),),
+			'Sound legend': (path.join('manuals', 'sound-legend.html'),),
+			'Development manual': (path.join('manuals', 'development-manual.html'),),
+		}
+
+		for title, thing_to_open in things_to_open.items():
+			add_opener_button(self, docs, title, thing_to_open)
+
+		add_widget(sizer, docs)
+
+		# Install
+
+		install = wx.StaticBoxSizer(wx.VERTICAL, self, "Install")
+
+		qmod_button = wx.Button(self, -1, 'Install QMOD')
+		qmod_button.Bind(wx.EVT_BUTTON, self.install_qmod)
+		add_widget(install, qmod_button)
 
 		reg_data_button = wx.Button(self, -1, 'Install registered Quake data')
 		reg_data_button.Bind(wx.EVT_BUTTON, self.install_registered_data)
-		add_widget(sizer, reg_data_button)
+		add_widget(install, reg_data_button)
+
+		add_widget(sizer, install)
+
+		# Wiring
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
+	def install_qmod(self, event):
+		incoming = pick_file(
+			self, "Select a QMOD file", "QMOD files (*.qmod)|*.qmod")
+		if incoming:
+			try:
+				qmod = QMODFile(incoming)
+				title = qmod.name + ' ' + qmod.version
+				desc = qmod.shortdesc + '\n\n' + qmod.longdesc
+				body = desc + '\n\nWould you like to install this mod?'
+				answer = YesNoWithTitle(self, title, body)
+				if answer == wx.ID_YES:
+					qmod.install()
+					Info(self, qmod.name + ' installed!')
+			except:  # noqa E722
+				WarnException(self)
+
 	def install_registered_data(self, event):
-		pak1path = path.join(BASE_PATH, 'id1', 'pak1.pak')
+		pak1path = path.join('id1', 'pak1.pak')
 		Info(
 			self, "If you have the registered Quake data file "
 			+ "('pak1.pak'), please select it, and it will be copied to "
@@ -139,7 +181,7 @@ class LevelDescriptionLanguageTab(wx.Panel):
 			# prog.quakewad
 			# prog.STYLE_FILE
 
-			aq_maps_dir = path.join(BASE_PATH, 'id1', 'maps')
+			aq_maps_dir = path.join('id1', 'maps')
 
 			xmldir, xmlfile = path.split(filename)
 			map_base = path.splitext(xmlfile)[0]
@@ -173,7 +215,7 @@ class LevelDescriptionLanguageTab(wx.Panel):
 		btn_ldl_test.Bind(wx.EVT_BUTTON, ldl_test)
 		add_widget(sizer, btn_ldl_test)
 
-		add_opener_button(self, sizer, 'LDL tutorial', 'ldl-tutorial.html')
+		add_opener_button(self, sizer, 'LDL tutorial', ('ldl-tutorial.html',))
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
@@ -203,9 +245,9 @@ class LauncherWindow(wx.Frame):
 		# Buttons
 
 		things_to_open = {
-			'README': path.join('manuals', 'README.html'),
-			'LICENCE': path.join('manuals', 'LICENCE.html'),
-			'Show all files': '.'
+			'README': (path.join('manuals', 'README.html'),),
+			'LICENCE': (path.join('manuals', 'LICENCE.html'),),
+			'Show all files': ('.',)
 		}
 
 		for title, thing_to_open in things_to_open.items():
@@ -260,7 +302,7 @@ def add_opener_button(parent, sizer, title, thing_to_open):
 	def make_open_function(openee):
 		def open_thing(event):
 			try:
-				subprocess.check_call(opener() + (openee,))
+				subprocess.check_call(opener() + openee)
 			except:  # noqa E722
 				WarnException(parent)
 		return open_thing
@@ -277,21 +319,23 @@ def add_widget(sizer, widget, border=True, expand=True):
 
 
 def Info(parent, message):
-	MsgBox(parent, message, 'Info')
+	MsgBox(parent, message, 'Info', wx.ICON_INFORMATION)
 
 
 def Warn(parent, message):
-	MsgBox(parent, message, 'Warning')
+	MsgBox(parent, message, 'Warning', wx.ICON_WARNING)
 
 
 def WarnException(parent):
 	Warn(parent, str(sys.exc_info()[1]))
 
 
-def MsgBox(parent, message, caption):
-	dlg = wx.MessageDialog(parent, message, caption, wx.OK | wx.ICON_WARNING)
-	dlg.ShowModal()
-	dlg.Destroy()
+def YesNoWithTitle(parent, title, body):
+	return MsgBox(parent, body, title, wx.ICON_QUESTION, wx.YES_NO)
+
+
+def MsgBox(parent, message, caption, icon, style=wx.OK):
+	return wx.MessageDialog(parent, message, caption, style | icon).ShowModal()
 
 
 def stamp_file_check(parent, name):
@@ -333,6 +377,7 @@ def first_time_check(name):
 
 
 if __name__ == '__main__':
-	app = wx.App()  # TODO redirect stdout and stderr?
+	app = wx.App()
+	chdir(getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__))))
 	LauncherWindow(None, "AudioQuake Launcher").Show()
 	app.MainLoop()

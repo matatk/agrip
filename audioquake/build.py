@@ -221,7 +221,7 @@ def convert_markdown_files(base_name, markdown_files, output_dir):
 def convert_manuals():
 	for manual in ['user-manual', 'development-manual']:
 		print('Converting', manual + '...')
-		sources = glob.glob(os.path.join(Config.dir_manuals, manual) + '*')
+		sources = sorted(glob.glob(os.path.join(Config.dir_manuals, manual) + '*'))
 		convert_markdown_files(manual, sources, Config.dir_manuals_converted)
 
 	single_docs_to_convert = {
