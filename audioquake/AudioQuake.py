@@ -48,13 +48,10 @@ class AudioQuakeTab(wx.Panel):
 			server = ('./start-server.command',)
 			rcon = ('./start-rcon.command',)
 
-		things_to_open = {
+		add_opener_buttons(self, play, {
 			"Server": server,
 			"Remote console": rcon,
-		}
-
-		for title, thing_to_open in things_to_open.items():
-			add_opener_button(self, play, title, thing_to_open)
+		})
 
 		add_widget(sizer, play)
 
@@ -62,13 +59,10 @@ class AudioQuakeTab(wx.Panel):
 
 		docs = wx.StaticBoxSizer(wx.VERTICAL, self, "Help")
 
-		things_to_open = {
+		add_opener_buttons(self, docs, {
 			'User manual': (path.join('manuals', 'user-manual.html'),),
 			'Sound legend': (path.join('manuals', 'sound-legend.html'),),
-		}
-
-		for title, thing_to_open in things_to_open.items():
-			add_opener_button(self, docs, title, thing_to_open)
+		})
 
 		add_widget(sizer, docs)
 
@@ -76,13 +70,10 @@ class AudioQuakeTab(wx.Panel):
 
 		settings = wx.StaticBoxSizer(wx.VERTICAL, self, "Settings")
 
-		things_to_open = {
+		add_opener_buttons(self, settings, {
 			'Edit autoexec.cfg': (path.join('id1', 'autoexec.cfg'),),
 			'Edit config.cfg': (path.join('id1', 'config.cfg'),),
-		}
-
-		for title, thing_to_open in things_to_open.items():
-			add_opener_button(self, settings, title, thing_to_open)
+		})
 
 		add_widget(sizer, settings)
 
@@ -300,14 +291,11 @@ class LauncherWindow(wx.Frame):
 
 		# Buttons
 
-		things_to_open = {
+		add_opener_buttons(panel, child_hbox, {
 			'README': (path.join('manuals', 'README.html'),),
 			'LICENCE': (path.join('manuals', 'LICENCE.html'),),
 			'Show all files': ('.',)
-		}
-
-		for title, thing_to_open in things_to_open.items():
-			add_opener_button(panel, child_hbox, title, thing_to_open)
+		})
 
 		btn_quit = wx.Button(panel, -1, "Quit launcher")
 
@@ -350,6 +338,11 @@ def add_launch_button(parent, sizer, title, action):
 
 	button.Bind(wx.EVT_BUTTON, make_launch_function(action))
 	add_widget(sizer, button)
+
+
+def add_opener_buttons(parent, sizer, things_to_open):
+	for title, thing in things_to_open.items():
+		add_opener_button(parent, sizer, title, thing)
 
 
 def add_opener_button(parent, sizer, title, thing_to_open):
