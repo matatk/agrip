@@ -4,6 +4,7 @@ import platform
 import threading
 import subprocess
 import os
+import sys
 
 
 def on_windows():
@@ -25,7 +26,7 @@ def opener():
 
 
 class LaunchState(enum.Enum):
-	OK = enum.auto()
+	LAUNCHED = enum.auto()
 	NOT_FOUND = enum.auto()
 	ALREADY_RUNNING = enum.auto()
 
@@ -71,7 +72,10 @@ class EngineWrapper(threading.Thread):
 
 			# Buffering may be necessary for Windows; seems not to affect Mac
 			proc = subprocess.Popen(
-				self._command_line, bufsize=1, stdout=subprocess.PIPE)
+				self._command_line,
+				bufsize=1,
+				stdout=subprocess.PIPE,
+				stderr=subprocess.PIPE)
 
 			while True:
 				retcode = proc.poll()
@@ -90,9 +94,12 @@ class EngineWrapper(threading.Thread):
 					speaker.stop()
 
 				if retcode is not None:
+					if retcode != 0:
+						error = proc.stderr.read().decode('ascii')
+						speaker.say(error)
 					break
 		except:  # noqa E722
-			raise
+			self.conduit.put(sys.exc_info())
 
 
 class GameController():
@@ -117,7 +124,7 @@ class GameController():
 			if os.path.exists(self._engine):
 				self._engine_wrapper = EngineWrapper(command_line)
 				self._engine_wrapper.start()
-				return LaunchState.OK  # FIXME may not be if base path wrong!
+				return LaunchState.LAUNCHED
 			else:
 				return LaunchState.NOT_FOUND
 

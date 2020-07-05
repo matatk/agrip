@@ -3,6 +3,7 @@ import sys
 from os import path, chdir
 import subprocess
 import shutil
+from glob import glob
 
 import wx
 
@@ -15,7 +16,7 @@ from ldllib.build import build, have_needed_stuff
 
 launch_messages = {
 	LaunchState.NOT_FOUND: 'Engine not found',
-	LaunchState.ALREADY_RUNNING: 'The game is already running'
+	LaunchState.ALREADY_RUNNING: 'The game is already running',
 }
 
 BORDER_SIZE = 5
@@ -64,7 +65,6 @@ class AudioQuakeTab(wx.Panel):
 		things_to_open = {
 			'User manual': (path.join('manuals', 'user-manual.html'),),
 			'Sound legend': (path.join('manuals', 'sound-legend.html'),),
-			'Development manual': (path.join('manuals', 'development-manual.html'),),
 		}
 
 		for title, thing_to_open in things_to_open.items():
@@ -72,40 +72,36 @@ class AudioQuakeTab(wx.Panel):
 
 		add_widget(sizer, docs)
 
-		# Install
+		# Settings
 
-		install = wx.StaticBoxSizer(wx.VERTICAL, self, "Install")
+		settings = wx.StaticBoxSizer(wx.VERTICAL, self, "Settings")
 
-		qmod_button = wx.Button(self, -1, 'Install QMOD')
-		qmod_button.Bind(wx.EVT_BUTTON, self.install_qmod)
-		add_widget(install, qmod_button)
+		things_to_open = {
+			'Edit autoexec.cfg': (path.join('id1', 'autoexec.cfg'),),
+			'Edit config.cfg': (path.join('id1', 'config.cfg'),),
+		}
+
+		for title, thing_to_open in things_to_open.items():
+			add_opener_button(self, settings, title, thing_to_open)
+
+		add_widget(sizer, settings)
+
+		# Install registered data
 
 		reg_data_button = wx.Button(self, -1, 'Install registered Quake data')
 		reg_data_button.Bind(wx.EVT_BUTTON, self.install_registered_data)
-		add_widget(install, reg_data_button)
-
-		add_widget(sizer, install)
+		add_widget(sizer, reg_data_button)
 
 		# Wiring
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
-	def install_qmod(self, event):
-		incoming = pick_file(
-			self, "Select a QMOD file", "QMOD files (*.qmod)|*.qmod")
-		if incoming:
-			try:
-				qmod = QMODFile(incoming)
-				title = qmod.name + ' ' + qmod.version
-				desc = qmod.shortdesc + '\n\n' + qmod.longdesc
-				body = desc + '\n\nWould you like to install this mod?'
-				answer = YesNoWithTitle(self, title, body)
-				if answer == wx.ID_YES:
-					qmod.install()
-					Info(self, qmod.name + ' installed!')
-			except:  # noqa E722
-				WarnException(self)
+	def edit_config(self, event):
+		Info(self, 'edit config')
+
+	def edit_autoexec(self, event):
+		Info(self, 'edit autoexec')
 
 	def install_registered_data(self, event):
 		pak1path = path.join('id1', 'pak1.pak')
@@ -126,6 +122,62 @@ class AudioQuakeTab(wx.Panel):
 						WarnException(self)
 				else:
 					Warn(self, "You must select a file called 'pak1.pak'")
+
+
+class ModTab(wx.Panel):
+	def __init__(self, parent):
+		wx.Panel.__init__(self, parent)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		install_qmod_button = wx.Button(self, -1, 'Install QMOD')
+		install_qmod_button.Bind(wx.EVT_BUTTON, self.install_qmod)
+		add_widget(sizer, install_qmod_button)
+
+		select_qmod_button = wx.Button(self, -1, 'List mods')
+		select_qmod_button.Bind(wx.EVT_BUTTON, self.list_qmods)
+		add_widget(sizer, select_qmod_button)
+
+		add_opener_button(
+			self, sizer, 'Development manual',
+			(path.join('manuals', 'development-manual.html'),))
+
+		sizer.SetSizeHints(self)
+		self.SetSizer(sizer)
+
+	def install_qmod(self, event):
+		incoming = pick_file(
+			self, "Select a QMOD file", "QMOD files (*.qmod)|*.qmod")
+		if incoming:
+			try:
+				qmod = QMODFile(incoming)
+				title = qmod.name + ' ' + qmod.version
+				desc = qmod.shortdesc + '\n\n' + qmod.longdesc
+
+				if path.exists(qmod.gamedir):
+					body = desc \
+						+ "\n\nThere's already a mod installed in '" \
+						+ qmod.gamedir + "'. Do you still want to " \
+						+ 'install this mod?'
+				else:
+					body = desc + '\n\nWould you like to install this mod?'
+
+				answer = YesNoWithTitle(self, title, body)
+				if answer == wx.ID_YES:
+					qmod.install()
+					Info(self, qmod.name + ' installed!')
+			except:  # noqa E722
+				WarnException(self)
+
+	def list_qmods(self, event):
+		qmod_dirs = list(map(lambda ini: path.dirname(ini), glob('**/qmod.ini')))
+		if len(qmod_dirs) > 0:
+			chooser = wx.SingleChoiceDialog(
+				self, 'Installed mods', 'Play mod', qmod_dirs)
+			if chooser.ShowModal() == wx.ID_OK:
+				choice = chooser.GetStringSelection()
+				Info(self, choice)
+		else:
+			Info(self, 'No mods are installed')
 
 
 class LevelDescriptionLanguageTab(wx.Panel):
@@ -215,7 +267,9 @@ class LevelDescriptionLanguageTab(wx.Panel):
 		btn_ldl_test.Bind(wx.EVT_BUTTON, ldl_test)
 		add_widget(sizer, btn_ldl_test)
 
-		add_opener_button(self, sizer, 'LDL tutorial', ('ldl-tutorial.html',))
+		add_opener_button(
+			self, sizer, 'Level Description Language tutorial',
+			('ldl-tutorial.html',))
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
@@ -234,11 +288,13 @@ class LauncherWindow(wx.Frame):
 		notebook = wx.Notebook(panel)
 
 		tab_audioquake = AudioQuakeTab(notebook)
+		tab_settings_and_mods = ModTab(notebook)
 		tab_level_description_language = LevelDescriptionLanguageTab(notebook)
 
-		notebook.AddPage(tab_audioquake, "AudioQuake")
+		notebook.AddPage(tab_audioquake, "Play")
+		notebook.AddPage(tab_settings_and_mods, "Mod")
 		notebook.AddPage(
-			tab_level_description_language, "Level Description Language")
+			tab_level_description_language, "Map")
 
 		root_vbox.Add(notebook, 1, wx.EXPAND)
 
@@ -363,7 +419,7 @@ def launch_button_core(parent, method):
 	first_time_check('game')
 	try:
 		launch_state = method()
-		if launch_state is not LaunchState.OK:
+		if launch_state is not LaunchState.LAUNCHED:
 			Warn(parent, launch_messages[launch_state])
 	except:  # noqa E722
 		WarnException(parent)  # FIXME needed? What sort of errors could happen?
