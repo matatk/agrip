@@ -24,7 +24,7 @@ BORDER_SIZE = 5
 game_controller = GameController()
 
 
-class AudioQuakeTab(wx.Panel):
+class PlayTab(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
@@ -49,7 +49,7 @@ class AudioQuakeTab(wx.Panel):
 			rcon = ('./start-rcon.command',)
 
 		add_opener_buttons(self, play, {
-			"Server": server,
+			"Dedicated server": server,
 			"Remote console": rcon,
 		})
 
@@ -66,16 +66,23 @@ class AudioQuakeTab(wx.Panel):
 
 		add_widget(sizer, docs)
 
+		# Wiring
+
+		sizer.SetSizeHints(self)
+		self.SetSizer(sizer)
+
+
+class CustomiseTab(wx.Panel):
+	def __init__(self, parent):
+		wx.Panel.__init__(self, parent)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
 		# Settings
 
-		settings = wx.StaticBoxSizer(wx.VERTICAL, self, "Settings")
-
-		add_opener_buttons(self, settings, {
+		add_opener_buttons(self, sizer, {
 			'Edit autoexec.cfg': (path.join('id1', 'autoexec.cfg'),),
 			'Edit config.cfg': (path.join('id1', 'config.cfg'),),
 		})
-
-		add_widget(sizer, settings)
 
 		# Install registered data
 
@@ -120,17 +127,19 @@ class ModTab(wx.Panel):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
-		install_qmod_button = wx.Button(self, -1, 'Install QMOD')
+		select_qmod_button = wx.Button(self, -1, 'Play a mod')
+		select_qmod_button.Bind(wx.EVT_BUTTON, self.play_mod)
+		add_widget(sizer, select_qmod_button)
+
+		install_qmod_button = wx.Button(self, -1, 'Install a mod')
 		install_qmod_button.Bind(wx.EVT_BUTTON, self.install_qmod)
 		add_widget(sizer, install_qmod_button)
 
-		select_qmod_button = wx.Button(self, -1, 'List mods')
-		select_qmod_button.Bind(wx.EVT_BUTTON, self.list_qmods)
-		add_widget(sizer, select_qmod_button)
-
-		add_opener_button(
-			self, sizer, 'Development manual',
-			(path.join('manuals', 'development-manual.html'),))
+		add_opener_buttons(self, sizer, {
+			'Development manual':
+				(path.join('manuals', 'development-manual.html'),),
+			'Developer debugging: show all files': ('.',)
+		})
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
@@ -159,19 +168,19 @@ class ModTab(wx.Panel):
 			except:  # noqa E722
 				WarnException(self)
 
-	def list_qmods(self, event):
-		qmod_dirs = list(map(lambda ini: path.dirname(ini), glob('**/qmod.ini')))
-		if len(qmod_dirs) > 0:
+	def play_mod(self, event):
+		mod_dirs = list(map(lambda ini: path.dirname(ini), glob('**/qmod.ini')))
+		if len(mod_dirs) > 0:
 			chooser = wx.SingleChoiceDialog(
-				self, 'Installed mods', 'Play mod', qmod_dirs)
+				self, 'Installed mods', 'Play mod', mod_dirs)
 			if chooser.ShowModal() == wx.ID_OK:
 				choice = chooser.GetStringSelection()
-				Info(self, choice)
+				launch_core(self, lambda: game_controller.launch_mod(choice))
 		else:
 			Info(self, 'No mods are installed')
 
 
-class LevelDescriptionLanguageTab(wx.Panel):
+class MapTab(wx.Panel):
 	def __init__(self, parent):
 		WILDCARD = "XML files (*.xml)|*.xml"
 		wx.Panel.__init__(self, parent)
@@ -179,30 +188,27 @@ class LevelDescriptionLanguageTab(wx.Panel):
 
 		# File picker bits
 
-		add_widget(sizer, wx.StaticText(self, -1, 'Choose an LDL XML file'))
-
-		file_picker_hbox = wx.BoxSizer(wx.HORIZONTAL)
+		add_widget(sizer, wx.StaticText(
+			self, -1, 'Open a Level Description Language (LDL) map'))
 
 		file_picker = wx.FilePickerCtrl(
 			self, -1, message="Open map", wildcard=WILDCARD)
-		file_picker_hbox.Add(file_picker, 1)
+		add_widget(sizer, file_picker)
 
 		def pick_tutorial_map(event):
 			chosen = pick_file(self, "Open tutorial map", WILDCARD)
 			if chosen:
 				file_picker.SetPath(chosen)
 
-		tutorial_maps_button = wx.Button(self, -1, 'Tutorial maps')
+		tutorial_maps_button = wx.Button(self, -1, 'Choose a LDL tutorial map')
 		tutorial_maps_button.Bind(wx.EVT_BUTTON, pick_tutorial_map)
-		file_picker_hbox.Add(tutorial_maps_button, 0, wx.LEFT, BORDER_SIZE)
+		add_widget(sizer, tutorial_maps_button)
 
-		add_widget(sizer, file_picker_hbox)
-
-		play_checkbox = wx.CheckBox(self, -1, "Play when built")
+		play_checkbox = wx.CheckBox(self, -1, "Play the map when built")
 		play_checkbox.SetValue(True)
 		add_widget(sizer, play_checkbox)
 
-		btn_ldl_test = wx.Button(self, -1, "Convert XML and build BSP")
+		btn_ldl_test = wx.Button(self, -1, "Build the map")
 
 		def ldl_test(event):
 			filename = file_picker.GetPath()
@@ -215,55 +221,56 @@ class LevelDescriptionLanguageTab(wx.Panel):
 				Warn(self, "Can't find chosen file.")
 				return
 
-			# We're already in the AQ dir
-			bindir = 'bin'
-			prog.qbsp = path.join(bindir, 'qbsp')
-			prog.vis = path.join(bindir, 'vis')
-			prog.light = path.join(bindir, 'light')
-			prog.bspinfo = path.join(bindir, 'bspinfo')
-			# prog.quakewad
-			# prog.STYLE_FILE
-
-			aq_maps_dir = path.join('id1', 'maps')
-
-			xmldir, xmlfile = path.split(filename)
-			map_base = path.splitext(xmlfile)[0]
-			mapfile = map_base + '.map'
-			bspfile = map_base + '.bsp'
-			abs_installed_bspfile = path.join(aq_maps_dir, bspfile)
-
-			if have_needed_stuff():
-				try:
-					convert(filename, map_base, False, False)
-					build(mapfile, map_base, False)
-
-					shutil.move(bspfile, abs_installed_bspfile)
-
-					if play_checkbox.GetValue():
-						def try_map():
-							return game_controller.launch_map(map_base)
-
-						launch_button_core(self, try_map)
-					else:
-						Info(self, bspfile + ' built and installed')
-
-				except subprocess.CalledProcessError as error:
-					Warn(self, error.output.decode().splitlines()[-1])
-
-				except:  # noqa E722
-					WarnException(self)
-			else:
-				Warn(self, "Can't find map-building tools")
+			self.build_and_play_ldl_map(filename, play_checkbox.GetValue())
 
 		btn_ldl_test.Bind(wx.EVT_BUTTON, ldl_test)
 		add_widget(sizer, btn_ldl_test)
 
 		add_opener_button(
-			self, sizer, 'Level Description Language tutorial',
+			self, sizer, 'Open the LDL tutorial document',
 			('ldl-tutorial.html',))
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
+
+	def build_and_play_ldl_map(self, filename, play_when_built=True):
+		# We're already in the AQ dir
+		bindir = 'bin'
+		prog.qbsp = path.join(bindir, 'qbsp')
+		prog.vis = path.join(bindir, 'vis')
+		prog.light = path.join(bindir, 'light')
+		prog.bspinfo = path.join(bindir, 'bspinfo')
+		# prog.quakewad
+		# prog.STYLE_FILE
+
+		aq_maps_dir = path.join('id1', 'maps')
+
+		xmldir, xmlfile = path.split(filename)
+		map_base = path.splitext(xmlfile)[0]
+		mapfile = map_base + '.map'
+		bspfile = map_base + '.bsp'
+		abs_installed_bspfile = path.join(aq_maps_dir, bspfile)
+
+		if have_needed_stuff():
+			try:
+				convert(filename, map_base, False, False)
+				build(mapfile, map_base, False)
+
+				shutil.move(bspfile, abs_installed_bspfile)
+
+				if play_when_built:
+					launch_core(
+						self, lambda: game_controller.launch_map(map_base))
+				else:
+					Info(self, bspfile + ' built and installed')
+
+			except subprocess.CalledProcessError as error:
+				Warn(self, error.output.decode().splitlines()[-1])
+
+			except:  # noqa E722
+				WarnException(self)
+		else:
+			Warn(self, "Can't find map-building tools")
 
 
 class LauncherWindow(wx.Frame):
@@ -278,14 +285,15 @@ class LauncherWindow(wx.Frame):
 
 		notebook = wx.Notebook(panel)
 
-		tab_audioquake = AudioQuakeTab(notebook)
-		tab_settings_and_mods = ModTab(notebook)
-		tab_level_description_language = LevelDescriptionLanguageTab(notebook)
+		tab_play = PlayTab(notebook)
+		tab_customise = CustomiseTab(notebook)
+		tab_mod = ModTab(notebook)
+		tab_map = MapTab(notebook)
 
-		notebook.AddPage(tab_audioquake, "Play")
-		notebook.AddPage(tab_settings_and_mods, "Mod")
-		notebook.AddPage(
-			tab_level_description_language, "Map")
+		notebook.AddPage(tab_play, "Play")
+		notebook.AddPage(tab_customise, "Customise")
+		notebook.AddPage(tab_mod, "Mod")
+		notebook.AddPage(tab_map, "Map")
 
 		root_vbox.Add(notebook, 1, wx.EXPAND)
 
@@ -294,7 +302,6 @@ class LauncherWindow(wx.Frame):
 		add_opener_buttons(panel, child_hbox, {
 			'README': (path.join('manuals', 'README.html'),),
 			'LICENCE': (path.join('manuals', 'LICENCE.html'),),
-			'Show all files': ('.',)
 		})
 
 		btn_quit = wx.Button(panel, -1, "Quit launcher")
@@ -331,7 +338,7 @@ def add_launch_button(parent, sizer, title, action):
 
 	def make_launch_function(game_start_method):
 		def launch(event):
-			launch_button_core(parent, game_start_method)
+			launch_core(parent, game_start_method)
 		return launch
 
 	# FIXME server and rcon don't return LaunchStatusy thingies
@@ -408,7 +415,7 @@ def stamp_file_check(parent, name):
 		open(stamp_file_name, 'a').close()
 
 
-def launch_button_core(parent, method):
+def launch_core(parent, method):
 	first_time_check('game')
 	try:
 		launch_state = method()

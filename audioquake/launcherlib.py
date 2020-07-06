@@ -142,7 +142,13 @@ class GameController():
 			(self._engine,)
 			+ self._opts_default
 			+ self._opts_custom_map
-			+ ("+map " + name,))
+			+ ('+map', name))
+
+	def launch_mod(self, name):
+		return self._launch_core(
+			(self._engine,)
+			+ self._opts_default
+			+ ('-game', name))
 
 	def quit(self):
 		if self._running():
