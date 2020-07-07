@@ -89,8 +89,9 @@ def MsgBox(parent, message, caption, icon, style=wx.OK):
 
 
 def stamp_file_check(parent, name):
-	# TODO decouple from GUI
-	# TODO needs to work on Mac? not think so
+	# TODO only 'game' seems to be used, not 'server'
+	# TODO need to apply to mod loading for the first time
+	# TODO better sense for filename would be nice
 	stamp_file_name = 'not-first-run-' + name
 	prompt = 'When you run the ' + name + ' for the first time, Windows ' + \
 		'may ask you to allow it through the firewall.'
@@ -109,18 +110,18 @@ def stamp_file_check(parent, name):
 		open(stamp_file_name, 'a').close()
 
 
+def first_time_check(parent, name):
+	if on_windows():
+		stamp_file_check(parent, name)
+	else:
+		pass
+
+
 def launch_core(parent, method):
-	first_time_check('game')
+	first_time_check(parent, 'game')
 	try:
 		launch_state = method()
 		if launch_state is not LaunchState.LAUNCHED:
 			Warn(parent, launch_messages[launch_state])
 	except:  # noqa E722
 		WarnException(parent)  # FIXME needed? What sort of errors could happen?
-
-
-def first_time_check(name):
-	if on_windows():
-		stamp_file_check(name)
-	else:
-		pass
