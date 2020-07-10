@@ -7,7 +7,7 @@ import wx
 
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, pick_file, \
-	Info, Warn, WarnException
+	Info, Warn, Error, ErrorException
 from ldllib.conf import prog
 from ldllib.convert import convert
 from ldllib.build import build, have_needed_stuff
@@ -25,7 +25,6 @@ class MapTab(wx.Panel):
 
 		add_widget(sizer, wx.StaticText(
 			self, -1, 'Open a Level Description Language (LDL) map'))
-
 		file_picker = wx.FilePickerCtrl(
 			self, -1, message="Open map", wildcard=WILDCARD)
 		add_widget(sizer, file_picker)
@@ -53,7 +52,7 @@ class MapTab(wx.Panel):
 				return
 
 			if not path.isfile(filename):
-				Warn(self, "Can't find chosen file.")
+				Error(self, "Can't find chosen file.")
 				return
 
 			self.build_and_play_ldl_map(filename, play_checkbox.GetValue())
@@ -100,9 +99,9 @@ class MapTab(wx.Panel):
 					Info(self, bspfile + ' built and installed')
 
 			except subprocess.CalledProcessError as error:
-				Warn(self, error.output.decode().splitlines()[-1])
+				Error(self, error.output.decode().splitlines()[-1])
 
 			except:  # noqa E722
-				WarnException(self)
+				ErrorException(self)
 		else:
 			Warn(self, "Can't find map-building tools")

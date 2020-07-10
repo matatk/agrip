@@ -6,7 +6,7 @@ import sys
 import wx
 
 from launcherlib.game_controller import LaunchState
-from launcherlib.utils import on_windows, opener
+from launcherlib.utils import on_windows, opener, have_registered_data
 
 BORDER_SIZE = 5
 
@@ -17,9 +17,19 @@ launch_messages = {
 
 
 def pick_file(parent, message, wildcard):
-	picker = wx.FileDialog(
-		parent, message, wildcard=wildcard,
-		style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+	return _pick_core(
+		lambda: wx.FileDialog(
+			parent, message, wildcard=wildcard,
+			style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST))
+
+
+def pick_directory(parent, message):
+	return _pick_core(
+		lambda: wx.DirDialog(parent, message, style=wx.DD_DIR_MUST_EXIST))
+
+
+def _pick_core(picker_func):
+	picker = picker_func()
 
 	if picker.ShowModal() == wx.ID_CANCEL:
 		return
@@ -54,7 +64,7 @@ def add_opener_button(parent, sizer, title, thing_to_open):
 			try:
 				subprocess.check_call(opener() + openee)
 			except:  # noqa E722
-				WarnException(parent)
+				ErrorException(parent)
 		return open_thing
 
 	button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
@@ -76,8 +86,12 @@ def Warn(parent, message):
 	MsgBox(parent, message, 'Warning', wx.ICON_WARNING)
 
 
-def WarnException(parent):
-	Warn(parent, str(sys.exc_info()[1]))
+def Error(parent, message):
+	MsgBox(parent, message, 'Error', wx.ICON_ERROR)
+
+
+def ErrorException(parent):
+	Error(parent, str(sys.exc_info()[1]))
 
 
 def YesNoWithTitle(parent, title, body):
@@ -119,9 +133,12 @@ def first_time_check(parent, name):
 
 def launch_core(parent, method):
 	first_time_check(parent, 'game')
-	try:
-		launch_state = method()
-		if launch_state is not LaunchState.LAUNCHED:
-			Warn(parent, launch_messages[launch_state])
-	except:  # noqa E722
-		WarnException(parent)  # FIXME needed? What sort of errors could happen?
+	if not have_registered_data():
+		Error(parent, "No registered data installed.")
+	else:
+		try:
+			launch_state = method()
+			if launch_state is not LaunchState.LAUNCHED:
+				Warn(parent, launch_messages[launch_state])
+		except:  # noqa E722
+			ErrorException(parent)  # FIXME needed?

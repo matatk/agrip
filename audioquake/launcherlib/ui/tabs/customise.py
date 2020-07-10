@@ -4,9 +4,11 @@ import shutil
 
 import wx
 
+from launcherlib.utils import have_registered_data
+
 from launcherlib.ui.helpers import \
-	add_opener_buttons, add_widget, pick_file, \
-	Info, Warn, WarnException
+	add_opener_buttons, add_widget, pick_directory, \
+	Info, Error, ErrorException
 
 
 class CustomiseTab(wx.Panel):
@@ -32,28 +34,24 @@ class CustomiseTab(wx.Panel):
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
-	def edit_config(self, event):
-		Info(self, 'edit config')
-
-	def edit_autoexec(self, event):
-		Info(self, 'edit autoexec')
-
 	def install_registered_data(self, event):
-		pak1path = path.join('id1', 'pak1.pak')
-		Info(
-			self, "If you have the registered Quake data file "
-			+ "('pak1.pak'), please select it, and it will be copied to "
-			+ "the AudioQuake directory.")
-		if path.exists(pak1path):
-			Info(self, 'pak1.pak is already installed')
+		if have_registered_data():
+			Info(self, 'The registered data files are already installed.')
 		else:
-			incoming = pick_file(self, "Select pak1.pak", "pak1.pak|*.pak")
+			incoming = pick_directory(
+				self, "Select folder containing pak0.pak and pak1.pak")
 			if incoming:
-				if path.basename(incoming) == 'pak1.pak':
+				incoming_pak0 = path.join(incoming, 'pak0.pak')
+				incoming_pak1 = path.join(incoming, 'pak1.pak')
+				if path.isfile(incoming_pak0) and path.isfile(incoming_pak1):
 					try:
-						shutil.copy(incoming, pak1path)
-						Info(self, 'pak1.pak installed successfully')
+						shutil.copy(incoming_pak0, 'id1')
+						shutil.copy(incoming_pak1, 'id1')
+						Info(self, 'Registered data installed.')
 					except:  # noqa E722
-						WarnException(self)
+						ErrorException(self)
 				else:
-					Warn(self, "You must select a file called 'pak1.pak'")
+					Error(
+						self,
+						"One or both of the registered data files could "
+						+ "not be found in the chosen directory.")

@@ -6,7 +6,7 @@ import wx
 
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_buttons, pick_file, launch_core, \
-	Info, YesNoWithTitle, WarnException
+	Info, YesNoWithTitle, ErrorException
 
 from qmodlib import QMODFile
 
@@ -55,9 +55,9 @@ class ModTab(wx.Panel):
 				answer = YesNoWithTitle(self, title, body)
 				if answer == wx.ID_YES:
 					qmod.install()
-					Info(self, qmod.name + ' installed!')
+					Info(self, qmod.name + ' installed.')
 			except:  # noqa E722
-				WarnException(self)
+				ErrorException(self)
 
 	def play_mod(self, event):
 		# FIXME check watch on cfg and auto...
@@ -69,4 +69,4 @@ class ModTab(wx.Panel):
 				choice = chooser.GetStringSelection()
 				launch_core(self, lambda: self.game_controller.launch_mod(choice))
 		else:
-			Info(self, 'No mods are installed')
+			Info(self, 'No mods are installed.')
