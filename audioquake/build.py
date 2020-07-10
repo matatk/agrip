@@ -56,15 +56,6 @@ class Config:
 	dir_dist_rcon = os.path.join(dir_dist, 'rcon')
 	dir_readme_licence = '..'
 
-	first_part = 'https://dl.dropboxusercontent.com/sh/quqwcm244sqoh5a/'
-
-	url_maps = first_part + '8no8PzlJCW/devfiles/maps.zip'
-	url_demos = first_part + 'HTM6QTjNTh/devfiles/demos.zip'
-	url_skins = first_part + 'QlAYOO3MLl/devfiles/skins.zip'
-	url_shareware = first_part + 'jhcvn0KyLd/data/quake-shareware-1.06.zip'
-	url_mindgrid = \
-		first_part + 'tS5qRFx_Am/data/mindgrid-audio_quake_2003.09.22.zip'
-
 
 #
 # Utilities
@@ -317,37 +308,6 @@ if __name__ == '__main__':
 
 	# Markdown to HTML...
 	convert_manuals()  # TODO replace with a check if it needs doing
-
-	# Get stuff...
-	get_summat(
-		'maps',
-		'agdm01.bsp',
-		'maps',
-		Config.url_maps)
-
-	get_summat(
-		'demos',
-		'final2.dem',
-		'demos',
-		Config.url_demos)
-
-	get_summat(
-		'skins',
-		'base.pcx',
-		'skins',
-		Config.url_skins)
-
-	get_summat(
-		'quake-shareware-1.06',
-		'q95.bat',
-		'shareware data',
-		Config.url_shareware)
-
-	get_summat(
-		'mindgrid-audio_quake_2003.09.22',
-		'pak2.pak',
-		'mindgrid sounds',
-		Config.url_mindgrid)
 
 	# Build the executables
 	run_pyinstaller()

@@ -5,7 +5,6 @@ import subprocess
 import os
 
 things_to_remove = {
-	'downloaded-assets': 'downloaded assets',
 	'manuals-converted': 'converted (HTML) manuals',
 	'build': 'PyInstaller build directory',
 	'dist': 'PyInstaller dist directory',

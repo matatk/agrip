@@ -1,5 +1,3 @@
-# Downloaded assets
-downloaded-assets/
 # *nix compilation
 zq-repo/zquake/release-*
 zq-repo/zqcc/*.o

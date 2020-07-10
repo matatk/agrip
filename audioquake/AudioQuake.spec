@@ -3,13 +3,6 @@ import platform
 
 data_files = [
 	('mod-static-files/', 'id1'),
-	('downloaded-assets/quake-shareware-1.06', '.'),
-	('downloaded-assets/demos', '.'),
-	('downloaded-assets/maps', 'id1/maps'),
-	('downloaded-assets/mindgrid-audio_quake_2003.09.22/*.txt',
-		'mindgrid-docs'),
-	('downloaded-assets/mindgrid-audio_quake_2003.09.22/pak2.pak', 'id1'),
-	('downloaded-assets/skins/', 'id1/skins'),
 	('manuals-converted/', 'manuals'),
 	('manuals/agrip.css', 'manuals'),
 	('zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
