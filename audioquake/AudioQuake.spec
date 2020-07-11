@@ -60,7 +60,15 @@ coll = COLLECT(exe,  # noqa F821
 	upx=True,
 	name='AudioQuake')
 
+if platform.system() != 'Windows':
+	info_plist = {
+		'NSRequiresAquaSystemAppearance': 'No'
+	}
+else:
+	info_plist = None
+
 app = BUNDLE(coll,  # noqa F821
 	name='AudioQuake.app',
 	icon=platform_icon,
+	info_plist=info_plist,
 	bundle_identifier=None)
