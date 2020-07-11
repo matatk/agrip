@@ -1,0 +1,51 @@
+--- makefile.orig	2020-07-11 16:56:34.000000000 +0100
++++ makefile	2020-07-11 17:05:19.000000000 +0100
+@@ -1,6 +1,6 @@
+-
+-EXES = qbsp light vis bspinfo entmap visx
+-NTEXES = qbsp.exe light.exe vis.exe bspinfo.exe entmap.exe visx.exe
++CFLAGS = -I ../common
++EXES = qbsp light vis bspinfo
++NTEXES = qbsp.exe light.exe vis.exe bspinfo.exe
+ 
+ #==============================================================================
+ 
+@@ -41,25 +41,26 @@
+ qbsp : $(QBSPFILES)
+ 	$(CC) $(CFLAGS) -o qbsp $(QBSPFILES)
+ 
+-light : threads$(EXT) bspfile$(EXT) cmdlib$(EXT) light$(EXT) ltface$(EXT) mathlib$(EXT) trace$(EXT) entities$(EXT)
+-	$(CC) $(CFLAGS) -o light threads$(EXT) bspfile$(EXT) cmdlib$(EXT) light$(EXT) ltface$(EXT) mathlib$(EXT) trace$(EXT) entities$(EXT)
+-	
+-vis : vis$(EXT) flow$(EXT) cmdlib$(EXT) mathlib$(EXT) bspfile$(EXT) soundpvs$(EXT)
+-	$(CC) $(CFLAGS) -o vis vis$(EXT) flow$(EXT) cmdlib$(EXT) mathlib$(EXT) bspfile$(EXT) soundpvs$(EXT)
++light : ../light/threads$(EXT) bspfile$(EXT) cmdlib$(EXT) ../light/light$(EXT) ../light/ltface$(EXT) mathlib$(EXT) ../light/trace$(EXT) ../light/entities$(EXT)
++	$(CC) $(CFLAGS) -o light ../light/threads$(EXT) bspfile$(EXT) cmdlib$(EXT) ../light/light$(EXT) ../light/ltface$(EXT) mathlib$(EXT) ../light/trace$(EXT) ../light/entities$(EXT)
++
++vis : ../vis/vis$(EXT) ../vis/flow$(EXT) cmdlib$(EXT) mathlib$(EXT) bspfile$(EXT) ../vis/soundpvs$(EXT)
++	$(CC) $(CFLAGS) -o vis ../vis/vis$(EXT) ../vis/flow$(EXT) cmdlib$(EXT) mathlib$(EXT) bspfile$(EXT) ../vis/soundpvs$(EXT)
+ 
+ visx : visx$(EXT) flowx$(EXT) cmdlib$(EXT) mathlib$(EXT) bspfile$(EXT) soundpvs$(EXT)
+ 	$(CC) $(CFLAGS) -o visx visx$(EXT) flowx$(EXT) cmdlib$(EXT) mathlib$(EXT) bspfile$(EXT) soundpvs$(EXT)
+ 
+-bspinfo : bspinfo$(EXT) bspfile$(EXT) cmdlib$(EXT)
+-	$(CC) $(CFLAGS) -o bspinfo bspinfo$(EXT) bspfile$(EXT) cmdlib$(EXT)
++bspinfo : ../bspinfo/bspinfo$(EXT) bspfile$(EXT) cmdlib$(EXT)
++	$(CC) $(CFLAGS) -o bspinfo ../bspinfo/bspinfo$(EXT) bspfile$(EXT) cmdlib$(EXT)
+ 
+ entmap : entmap$(EXT) cmdlib$(EXT)
+ 	$(CC) $(CFLAGS) -o entmap entmap$(EXT) cmdlib$(EXT)
+ 
+ 
+-cmdlib$(EXT) : ../cmdlib.c
+-	$(CC) $(CFLAGS) -c -o cmdlib$(EXT) ../cmdlib.c
+-mathlib$(EXT) : ../mathlib.c
+-	$(CC) $(CFLAGS) -c -o mathlib$(EXT) ../mathlib.c
+-
++cmdlib$(EXT) : ../common/cmdlib.c
++	$(CC) $(CFLAGS) -c -o cmdlib$(EXT) ../common/cmdlib.c
++mathlib$(EXT) : ../common/mathlib.c
++	$(CC) $(CFLAGS) -c -o mathlib$(EXT) ../common/mathlib.c
++bspfile$(EXT) : ../common/bspfile.c
++	$(CC) $(CFLAGS) -c -o bspfile$(EXT) ../common/bspfile.c
+ 
