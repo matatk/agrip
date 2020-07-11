@@ -57,7 +57,7 @@ float k_teamid = 0;
 float k_userid = 0;
 float k_vbreak;         // break vote counter
 float k_velect;         // election vote counter
-float k_whonottime;     // NOT_SURE: 
+float k_whonottime;     // NOT_SURE:
 float lock = 0;         // stores whether players can join when a game is already in progress
 float match_in_progress = 0;    // if a match has begun
 float match_over;       // boolean - whether or not the match stats have been printed at end of game
@@ -86,7 +86,7 @@ string newcomer;        // stores name of last player who joined
 .float k_flag;          // flagvalue to customise settings such as sounds/autoscreenshot
 .float k_kicking;       // if player is in kick mode
 .float k_msgcount;      // NOT_SURE: last time mod printed a message to client?
-.float k_picked;        // NOT_SURE: 
+.float k_picked;        // NOT_SURE:
 .float k_pickup;        // NOT_SURE: if player wants pickup game or not?
 .float k_ptime;         // stores player nexttime value when server is paused
 .float k_stuff;         // if player has received stuffed aliases

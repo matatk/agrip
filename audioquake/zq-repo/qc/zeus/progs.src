@@ -28,7 +28,7 @@ hud.qc              // heads up display 1.0
 
 ../qw/player.qc
 ../qwsp/monsters.qc
-../qw/doors.qc      
+../qw/doors.qc     
 ../qw/buttons.qc
 ../qw/triggers.qc   // modified for ZEUSbot v2.0 might need to bring some if statements in
 ../qw/plats.qc      // modified for ZEUSbot v2.0 ditto

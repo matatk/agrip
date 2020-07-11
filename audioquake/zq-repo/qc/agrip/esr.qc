@@ -51,7 +51,7 @@ void()                  snap_esr_hazard;
 
 /**
     Set up the ESR object.
-	
+
     - Like other constructors, this function is run as the player.
     - When this is called, the _current_ mode of operation is in the
       agv_t_esr cvar.
@@ -62,15 +62,15 @@ void() snap_esr_constructor =
     local entity s_monster, s_enemy, s_friend;
 
     new_agesr = spawn();
-                                                                                           
+                                                                                          
     // Set up new esr object...
     new_agesr.movetype = MOVETYPE_NONE;
     new_agesr.solid = SOLID_NOT;
-                                                                                           
+                                                                                          
     /*  Give it the preferences the user specified...
         To save memory, we're using existing (and empty for this entity)
         fields... */
-    
+   
     // Volume throttle for the sound this object will make...
     new_agesr.items = stof(infokey(self, "agv_esr_volume_throttle"));
     if( new_agesr.items > 1 || new_agesr.items < 0 )
@@ -87,7 +87,7 @@ void() snap_esr_constructor =
     new_agesr.frags = -1;
     // The property is initially set to -1.  When the hazard ESR is started, it
     // looks for hazards.  If it finds one, it sets this to 1.
-    
+   
     // Connect the nav object and player...
     new_agesr.owner = self;
     self.agrip_esr = new_agesr;
@@ -120,7 +120,7 @@ void() snap_esr_constructor =
     s_friend.nextthink = 0;
     s_friend.owner = self;
     self.agrip_esr.goalentity = s_friend;
- 
+
     // Set it going...
     new_agesr.think = snap_esr_main;
     new_agesr.nextthink = time + 0.1;
@@ -149,7 +149,7 @@ void() snap_esr_main =
         remove(self.aiment);
         remove(self.enemy);
         remove(self.goalentity);
-         
+        
         // Destruct the ESR...
         safe_soundtoclient(self.owner, self.owner, CHAN_AUTO, "toggles/off.wav", 1, ATTN_NORM);
         remove(self);
@@ -167,7 +167,7 @@ void() snap_esr_main =
     the player.  Then call the sounder function to produce the sound (the
     sound produced is dependant on if the enemy is within the FOV of the
     ESR, which is customisable by the user).
-    
+   
     - This is based on code from example 13.6 of the ``QuakeC Manual 1.0''
       by Ferrara Francesco (frank@aerre.it) and Olivier Montanuy.  I am not
       sure who the original RADAR code was written by, unfortunately; it may
@@ -183,7 +183,7 @@ void() snap_esr_classic =
     local float mindist, dist, level;
     local float tmptime;
     local string mt, pht; // for comparing teams
-    
+   
     // Monster level variables...
     local float mdist, m_same_dist, m_lower_dist, m_higher_dist, pm_lev;
     local entity m_same, m_lower, m_higher;
@@ -191,7 +191,7 @@ void() snap_esr_classic =
     // Enemy level variables...
     local float edist, e_same_dist, e_lower_dist, e_higher_dist, pe_lev;
     local entity e_same, e_lower, e_higher;
-    
+   
     // Friend level variables...
     local float fdist, f_same_dist, f_lower_dist, f_higher_dist, pf_lev;
     local entity f_same, f_lower, f_higher;
@@ -200,7 +200,7 @@ void() snap_esr_classic =
     m_lower_dist = m_higher_dist = m_same_dist = 2000;
     e_lower_dist = e_higher_dist = e_same_dist = 2000;
     f_lower_dist = f_higher_dist = f_same_dist = 2000;
- 
+
     // Set up entity variables...
     nearest_m = world;
     m_lower = m_higher = m_same = world;
@@ -208,10 +208,10 @@ void() snap_esr_classic =
     e_lower = e_higher = e_same = world;
     nearest_f = world;
     f_lower = f_higher = f_same = world;
-  
+ 
 
     // DETECTING POTENTIAL THREATS
-    
+   
     // Find nearby entities...
     potential_hit = findradius(self.owner.origin, 1000);
 
@@ -334,7 +334,7 @@ void() snap_esr_classic =
     // Here the nearest creature is chosen.  Creatures on the same level always
     // take priority over those above or below.  After this, whichever is the
     // closest (above or below the player) is chosen.
-    
+   
     // Monster Level Priority...
     //dprint("ESR--monster-scan-------\n");
     if( m_same != world )
@@ -451,13 +451,13 @@ void() snap_esr_classic =
 
 
     // SOUNDING THE CREATURES OUT
-    
+   
     // Now make sound based on where potential_hit is in relation to player...
 
     // Do line-of-sight/beep-on-centre test...
     makevectors(self.owner.angles);
     tracebox(self.owner.origin, VEC_HULL_MIN, VEC_HULL_MAX, self.owner.origin+(v_forward*SNAP_ESR_NAME_RANGE), false, self.owner);
-    
+   
     // Monsters...
     if( nearest_m != world )
     {
@@ -497,7 +497,7 @@ void() snap_esr_classic =
                 }
                 self.aiment.state = false;
             }
-    
+   
             // Prepare to make the sound...
             setorigin(self.aiment, nearest_m.origin);
             tmptime = (mdist + SNAP_ESR_BEEPTIME_OFFSET) / SNAP_ESR_BEEPTIME_DIVISOR;
@@ -565,7 +565,7 @@ void() snap_esr_classic =
                 }
                 self.goalentity.state = false;
             }
-    
+   
             // Prepare to make the sound...
             setorigin(self.goalentity, nearest_f.origin);
             tmptime = (fdist + SNAP_ESR_BEEPTIME_OFFSET) / SNAP_ESR_BEEPTIME_DIVISOR;
@@ -590,7 +590,7 @@ void() snap_esr_classic =
     }
 
     // Enemies...
-    if( nearest_e != world ) 
+    if( nearest_e != world )
     {
         if( infokey(self.owner, "agv_t_esr_enemy_warnings") == "1" )
         {
@@ -604,7 +604,7 @@ void() snap_esr_classic =
                 // only print message if we've got a lock
                 if( self.enemy.state == false )
                 {
-                    if( infokey(self.owner, "agv_t_esr_names") == "1" ) 
+                    if( infokey(self.owner, "agv_t_esr_names") == "1" )
                     {
                         // If in teamplay, print their team too...
                         if( teamplay )
@@ -641,7 +641,7 @@ void() snap_esr_classic =
                 }
                 self.enemy.state = false;
             }
-            
+           
             // Prepare to make the sound...
             setorigin(self.enemy, nearest_e.origin);
             tmptime = (edist + SNAP_ESR_BEEPTIME_OFFSET) / SNAP_ESR_BEEPTIME_DIVISOR;
@@ -663,14 +663,14 @@ void() snap_esr_classic =
         }
         self.enemy.state = false;
     }
-   
+  
     // Finished ESR scan...
     self.nextthink = time + SNAP_ESR_GAP_TIME + 0.1;
 };
 
 /**
     Work out what level an ESR target is on compared to the player.
-    
+   
     @param entity_z the entity's origin's Z component
     @return the entity is on relative to the player.
 */
@@ -693,7 +693,7 @@ float(float entity_z) snap_esr_classic_level =
     enemies in classic mode.  The purpose is to allow the player to make
     running jumps to ensure that they get across drops detected by the nav
     object.
-    
+   
     - This is based on the classic ESR function above.
 
     - It will only sound out hazards in front of the player
@@ -701,10 +701,10 @@ float(float entity_z) snap_esr_classic_level =
 */
 void() snap_esr_hazard =
 {
-    local float dist_to_hazard; 
+    local float dist_to_hazard;
     local entity local_hazard, find_start_ent;
     local float exitflag, foundflag;
-    
+   
     // Find nearby hazard entities...
     exitflag = false;
     foundflag = false;
@@ -725,10 +725,10 @@ void() snap_esr_hazard =
             // Exhausted search...
             exitflag = true;
         }
-    
+   
         find_start_ent = local_hazard;
     }
-    
+   
     // Now work out if we got a lock...
     if( foundflag )
     {
@@ -752,7 +752,7 @@ void() snap_esr_hazard =
         if( self.frags == -1 )
         {
             // Never had one...
-            snap_misc_m2o("ESR: Disabled (no hazard in front).\n");   
+            snap_misc_m2o("ESR: Disabled (no hazard in front).\n");  
             stuffcmd(self.owner, "setinfo agv_t_esr 0\n");
             self.nextthink = time + 0.1;
         }

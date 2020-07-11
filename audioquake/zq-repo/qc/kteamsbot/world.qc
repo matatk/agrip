@@ -33,7 +33,7 @@ void main ()
 {
 /*
 	dprint ("main function\n");
-	
+
 // these are just commands the the prog compiler to copy these files
 
 	precache_file ("progs.dat");
@@ -80,35 +80,35 @@ void main ()
 	precache_file ("gfx/dim_tcp.lmp");
 	precache_file ("gfx/dim_mult.lmp");
 	precache_file ("gfx/mainmenu.lmp");
-	
+
 	precache_file ("gfx/box_tl.lmp");
 	precache_file ("gfx/box_tm.lmp");
 	precache_file ("gfx/box_tr.lmp");
-	
+
 	precache_file ("gfx/box_ml.lmp");
 	precache_file ("gfx/box_mm.lmp");
 	precache_file ("gfx/box_mm2.lmp");
 	precache_file ("gfx/box_mr.lmp");
-	
+
 	precache_file ("gfx/box_bl.lmp");
 	precache_file ("gfx/box_bm.lmp");
 	precache_file ("gfx/box_br.lmp");
-	
+
 	precache_file ("gfx/sp_menu.lmp");
 	precache_file ("gfx/ttl_sgl.lmp");
 	precache_file ("gfx/ttl_main.lmp");
 	precache_file ("gfx/ttl_cstm.lmp");
-	
+
 	precache_file ("gfx/mp_menu.lmp");
-	
+
 	precache_file ("gfx/netmen1.lmp");
 	precache_file ("gfx/netmen2.lmp");
 	precache_file ("gfx/netmen3.lmp");
 	precache_file ("gfx/netmen4.lmp");
 	precache_file ("gfx/netmen5.lmp");
-	
+
 	precache_file ("gfx/sell.lmp");
-	
+
 	precache_file ("gfx/help0.lmp");
 	precache_file ("gfx/help1.lmp");
 	precache_file ("gfx/help2.lmp");
@@ -296,7 +296,7 @@ void worldspawn ()
 
 	precache_sound ("boss1/sight1.wav");
 
-// ax sounds	
+// ax sounds
 	precache_sound ("weapons/ax1.wav"); 			// ax swoosh
 	precache_sound ("player/axhit1.wav");			// ax hit meat
 	precache_sound ("player/axhit2.wav");			// ax hit world
@@ -339,18 +339,18 @@ void worldspawn ()
 
     if(stof(infokey(world, "vwep")))
     {
-        // precache our vwep models 
-        precache_vwep_model (0, "progs/vwplayer.mdl");  // vwep-enabled player model to use 
-        precache_vwep_model (1, "progs/w_axe.mdl"); 
-        precache_vwep_model (2, "progs/w_shot.mdl"); 
-        precache_vwep_model (3, "progs/w_shot2.mdl"); 
-        precache_vwep_model (4, "progs/w_nail.mdl"); 
-        precache_vwep_model (5, "progs/w_nail2.mdl"); 
-        precache_vwep_model (6, "progs/w_rock.mdl"); 
-        precache_vwep_model (7, "progs/w_rock2.mdl"); 
+        // precache our vwep models
+        precache_vwep_model (0, "progs/vwplayer.mdl");  // vwep-enabled player model to use
+        precache_vwep_model (1, "progs/w_axe.mdl");
+        precache_vwep_model (2, "progs/w_shot.mdl");
+        precache_vwep_model (3, "progs/w_shot2.mdl");
+        precache_vwep_model (4, "progs/w_nail.mdl");
+        precache_vwep_model (5, "progs/w_nail2.mdl");
+        precache_vwep_model (6, "progs/w_rock.mdl");
+        precache_vwep_model (7, "progs/w_rock2.mdl");
         precache_vwep_model (8, "progs/w_light.mdl");
     }
-    
+   
     precache_model ("progs/bolt.mdl");				// for lightning gun
 	precache_model ("progs/bolt2.mdl"); 			// for lightning gun
 	precache_model ("progs/bolt3.mdl"); 			// for boss shock
@@ -366,7 +366,7 @@ void worldspawn ()
 	precache_model ("progs/zom_gib.mdl");
 
 	precache_model ("progs/v_light.mdl");
-	
+
 
 //
 // Setup light animation tables. 'a' is total darkness, 'z' is maxbright.
@@ -407,7 +407,7 @@ void worldspawn ()
 
 	// 11 SLOW PULSE NOT FADE TO BLACK
 	lightstyle(11, "abcdefghijklmnopqrrqponmlkjihgfedcba");
-	
+
 	// styles 32-62 are assigned by the light program for switchable lights
 
 	// 63 testing
@@ -450,10 +450,10 @@ void StartFrame ()
 {
 	BotFrame(); // FrikBot
 
-// KTEAMS -->        
+// KTEAMS -->       
 	timelimit = cvar("timelimit") * 60;     // should be * 60 or should it? (weirdo kteams)
     k_maxspeed = cvar("sv_maxspeed");
-// <-- KTEAMS        
+// <-- KTEAMS       
 	fraglimit = cvar("fraglimit");
 	teamplay = cvar("teamplay");
 

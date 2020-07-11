@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -145,17 +145,17 @@ void CL_CalcCrouch (void)
 			}
 			crouchspeed = 160;
 		}
-		
+	
 		oldz += cls.frametime * crouchspeed;
 		if (oldz > cl.simorg[2])
 			oldz = cl.simorg[2];
-		
+	
 		if (cl.simorg[2] - oldz > 15 + extracrouch)
 			oldz = cl.simorg[2] - 15 - extracrouch;
 		extracrouch -= cls.frametime*200;
 		if (extracrouch < 0)
 			extracrouch = 0;
-		
+	
 		cl.crouch = oldz - cl.simorg[2];
 	} else {
 		// in air or moving down

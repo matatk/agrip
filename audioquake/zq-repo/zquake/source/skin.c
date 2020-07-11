@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -64,7 +64,7 @@ void Skin_Find (player_info_t *sc)
 	else if (!cl.spectator)
 		skinforcing_team = cl.players[cl.playernum].team;
 
-    
+   
 	// ZQuake: check teamskin/enemyskin
 	if ( !cl.teamfortress && !(cl.fpd & FPD_NO_FORCE_SKIN) )
 	{
@@ -190,7 +190,7 @@ void Skin_NextDownload (void)
 #endif
 	cls.downloadtype = dl_skin;
 
-	for ( 
+	for (
 		; cls.downloadnumber != MAX_CLIENTS
 		; cls.downloadnumber++)
 	{

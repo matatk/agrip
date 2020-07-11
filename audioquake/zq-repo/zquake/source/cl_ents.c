@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -81,10 +81,10 @@ void CL_ParseDelta (entity_state_t *from, entity_state_t *to, int bits)
 			bitcounts[i]++;
 
 	to->flags = bits;
-	
+
 	if (bits & U_MODEL)
 		to->modelindex = MSG_ReadByte ();
-		
+	
 	if (bits & U_FRAME)
 		to->frame = MSG_ReadByte ();
 
@@ -99,19 +99,19 @@ void CL_ParseDelta (entity_state_t *from, entity_state_t *to, int bits)
 
 	if (bits & U_ORIGIN1)
 		to->s_origin[0] = MSG_ReadShort ();
-		
+	
 	if (bits & U_ANGLE1)
 		to->s_angles[0] = MSG_ReadByte ();
 
 	if (bits & U_ORIGIN2)
 		to->s_origin[1] = MSG_ReadShort ();
-		
+	
 	if (bits & U_ANGLE2)
 		to->s_angles[1] = MSG_ReadByte ();
 
 	if (bits & U_ORIGIN3)
 		to->s_origin[2] = MSG_ReadShort ();
-		
+	
 	if (bits & U_ANGLE3)
 		to->s_angles[2] = MSG_ReadByte ();
 
@@ -390,7 +390,7 @@ void CL_ParsePacketEntities (qbool delta)
 }
 
 
-extern int	cl_playerindex; 
+extern int	cl_playerindex;
 extern int	cl_h_playerindex, cl_gib1index, cl_gib2index, cl_gib3index;
 extern int	cl_rocketindex, cl_grenadeindex;
 
@@ -501,7 +501,7 @@ void CL_LinkPacketEntities (void)
 
 		// set skin
 		ent.skinnum = state->skinnum;
-		
+	
 		// set frame
 		ent.frame = state->frame;
 
@@ -525,7 +525,7 @@ void CL_LinkPacketEntities (void)
 
 		// calculate origin
 		for (i=0 ; i<3 ; i++)
-			ent.origin[i] = cent->previous.s_origin[i] * 0.125 + 
+			ent.origin[i] = cent->previous.s_origin[i] * 0.125 +
 				f * (cur_origin[i] - cent->previous.s_origin[i] * 0.125);
 
 		// add automatic particle trails
@@ -736,7 +736,7 @@ static void MVD_ParsePlayerState (void)
 	} else {
 		if (cl.parsecount - info->prevcount >= UPDATE_BACKUP-1)
 			oldstate = &dummy;
-		else 
+		else
 			oldstate = &cl.frames[info->prevcount&UPDATE_MASK].playerstate[num];
 	}
 
@@ -766,16 +766,16 @@ static void MVD_ParsePlayerState (void)
 
 	if (flags & DF_MODEL)
 		state->modelindex = MSG_ReadByte ();
-		
+	
 	if (flags & DF_SKINNUM)
 		state->skinnum = MSG_ReadByte ();
-		
+	
 	if (flags & DF_EFFECTS)
 		state->effects = MSG_ReadByte ();
-	
+
 	if (flags & DF_WEAPONFRAME)
 		state->weaponframe = MSG_ReadByte ();
-		
+	
 	VectorCopy (state->command.angles, state->viewangles);
 }
 
@@ -947,14 +947,14 @@ void CL_AddFlagModels (entity_t *ent, int team)
 	f = 14;
 	if (ent->frame >= 29 && ent->frame <= 40) {
 		if (ent->frame >= 29 && ent->frame <= 34) { //axpain
-			if      (ent->frame == 29) f = f + 2; 
+			if      (ent->frame == 29) f = f + 2;
 			else if (ent->frame == 30) f = f + 8;
 			else if (ent->frame == 31) f = f + 12;
 			else if (ent->frame == 32) f = f + 11;
 			else if (ent->frame == 33) f = f + 10;
 			else if (ent->frame == 34) f = f + 4;
 		} else if (ent->frame >= 35 && ent->frame <= 40) { // pain
-			if      (ent->frame == 35) f = f + 2; 
+			if      (ent->frame == 35) f = f + 2;
 			else if (ent->frame == 36) f = f + 10;
 			else if (ent->frame == 37) f = f + 10;
 			else if (ent->frame == 38) f = f + 8;
@@ -963,7 +963,7 @@ void CL_AddFlagModels (entity_t *ent, int team)
 		}
 	} else if (ent->frame >= 103 && ent->frame <= 118) {
 		if      (ent->frame >= 103 && ent->frame <= 104) f = f + 6;  //nailattack
-		else if (ent->frame >= 105 && ent->frame <= 106) f = f + 6;  //light 
+		else if (ent->frame >= 105 && ent->frame <= 106) f = f + 6;  //light
 		else if (ent->frame >= 107 && ent->frame <= 112) f = f + 7;  //rocketattack
 		else if (ent->frame >= 112 && ent->frame <= 118) f = f + 7;  //shotattack
 	}
@@ -1053,7 +1053,7 @@ void CL_LinkPlayers (void)
 
 	memset (&ent, 0, sizeof(entity_t));
 
-	for (j=0, info=cl.players, state=frame->playerstate ; j < MAX_CLIENTS 
+	for (j=0, info=cl.players, state=frame->playerstate ; j < MAX_CLIENTS
 		; j++, info++, state++)
 	{
 		if (state->messagenum != cl.parsecount)
@@ -1099,7 +1099,7 @@ void CL_LinkPlayers (void)
 		if (cl_deadbodyfilter.value && state->modelindex == cl_playerindex
 			&& ( (i=state->frame)==49 || i==60 || i==69 || i==84 || i==93 || i==102) )
 			continue;
-		
+	
 		if (!Cam_DrawPlayer(j))
 			continue;
 
@@ -1229,7 +1229,7 @@ void MVD_InitInterpolation (void)
     oldframe = &cl.frames[(cl.oldparsecount)&UPDATE_MASK];
 
     // clients
-    for (i=0, pplayer = predicted_players, state=frame->playerstate, oldstate=oldframe->playerstate; 
+    for (i=0, pplayer = predicted_players, state=frame->playerstate, oldstate=oldframe->playerstate;
             i < MAX_CLIENTS;
             i++, pplayer++, state++, oldstate++) {
 
@@ -1366,7 +1366,7 @@ void CL_SetUpPlayerPrediction (qbool dopred)
 
 	frame = &cl.frames[cl.parsecount&UPDATE_MASK];
 
-	for (j=0, pplayer = predicted_players, state=frame->playerstate; 
+	for (j=0, pplayer = predicted_players, state=frame->playerstate;
 		j < MAX_CLIENTS;
 		j++, pplayer++, state++) {
 

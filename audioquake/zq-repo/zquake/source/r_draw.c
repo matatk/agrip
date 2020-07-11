@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -111,7 +111,7 @@ mpic_t *R_CachePic (char *path)
 // load the pic from disk
 //
 	FS_LoadCacheFile (path, &cpic->cache);
-	
+
 	dat = (qpic_t *)(cpic->cache.data);
 	if (!dat)
 		Sys_Error ("R_CachePic: failed to load %s", path);
@@ -182,11 +182,11 @@ void R_DrawChar (int x, int y, int num)
 	byte			*dest;
 	byte			*source;
 	unsigned short	*pusdest;
-	int				drawline;	
+	int				drawline;
 	int				row, col;
 
 	num &= 255;
-	
+
 	if (y <= -8)
 		return;			// totally off screen
 
@@ -212,7 +212,7 @@ void R_DrawChar (int x, int y, int num)
 	if (r_pixbytes == 1)
 	{
 		dest = vid.buffer + y*vid.rowbytes + x;
-	
+
 		while (drawline--)
 		{
 			if (source[0])
@@ -304,7 +304,7 @@ void R_DrawCrosshair (int num, int crossx, int crossy)
 
 	color = (int)crosshaircolor.value;
 
-	x = scr_vrect.x + scr_vrect.width/2 + crossx; 
+	x = scr_vrect.x + scr_vrect.width/2 + crossx;
 	y = scr_vrect.y + scr_vrect.height/2 + crossy;
 
 	if (num == 2) {
@@ -342,7 +342,7 @@ void R_DrawDebugChar (char num)
 {
 	byte			*dest;
 	byte			*source;
-	int				drawline;	
+	int				drawline;
 	extern byte		*draw_chars;
 	int				row, col;
 
@@ -430,7 +430,7 @@ static void R_DrawTransPic (int x, int y, mpic_t *pic)
 				for (u=0 ; u<pic->width ; u++)
 					if ( (tbyte=source[u]) != TRANSPARENT_COLOR)
 						dest[u] = tbyte;
-	
+
 				dest += vid.rowbytes;
 				source += pic->width;
 			}
@@ -524,7 +524,7 @@ static void R_DrawTransSubPic (int x, int y, mpic_t *pic, int srcx, int srcy, in
 				for (u=0 ; u<width ; u++)
 					if ( (tbyte=source[u]) != TRANSPARENT_COLOR)
 						dest[u] = tbyte;
-	
+
 				dest += vid.rowbytes;
 				source += pic->width;
 			}
@@ -652,7 +652,7 @@ void R_DrawTransPicTranslate (int x, int y, mpic_t *pic, byte *translation)
 	{
 		Sys_Error ("Draw_TransPic: bad coordinates");
 	}
-		
+	
 	source = ((cachepic_t *)pic)->data;
 
 	if (r_pixbytes == 1)

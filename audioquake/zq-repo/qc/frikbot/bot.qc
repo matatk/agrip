@@ -39,7 +39,7 @@ for all variables in the bot...
 
 // ----- entity fields ---
 .float	wallhug, keys, oldkeys, ishuman;
-.float	b_frags, b_clientno, b_shirt, b_pants; 
+.float	b_frags, b_clientno, b_shirt, b_pants;
 .float	ai_time, b_sound, missile_speed;
 .float	portal_time, b_skill;
 .float	b_aiflags, b_num, b_chattime;
@@ -75,14 +75,14 @@ float AI_TELELINK_3	= 4; // link type
 float AI_TELELINK_4	= 8; // link type
 float AI_DOORFLAG		= 16; // read ahead
 float AI_PRECISION	= 32; // read ahead + point
-float AI_SURFACE		= 64; // point 
+float AI_SURFACE		= 64; // point
 float AI_BLIND		= 128; // read ahead + point
 float AI_JUMP		= 256; // point + ignore
 float AI_DIRECTIONAL	= 512; // read ahead + ignore
-float AI_PLAT_BOTTOM	= 1024; // read ahead 
-float AI_RIDE_TRAIN	= 2048; // read ahead 
+float AI_PLAT_BOTTOM	= 1024; // read ahead
+float AI_RIDE_TRAIN	= 2048; // read ahead
 float AI_SUPER_JUMP	= 4096; // point + ignore + route test
-float AI_SNIPER		= 8192; // point type 
+float AI_SNIPER		= 8192; // point type
 float AI_AMBUSH		= 16384; // point type
 float AI_DOOR_NO_OPEN	= 32768; // read ahead
 float AI_DIFFICULT	= 65536; // route test
@@ -177,14 +177,14 @@ void	bot_start_topic (float tpic);
 
 // ----------Commands---------
 void(entity e, float chan, string samp, float vol, float atten) real_sound = #8;
-vector(entity e, float sped)		real_aim = #44;	
+vector(entity e, float sped)		real_aim = #44;
 
 //----------------------------------------------------------------------------
 
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-Function redeclarations. These allow function 
+Function redeclarations. These allow function
 designed to work for clients (sprint, so forth)
 to mainly not complain when working with a bot
 
@@ -311,7 +311,7 @@ float ClientBitFlag (float clientno)
 BotConnect and related functions.
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-*/				
+*/			
 entity GetClientEntity (float num)
 {
 	entity	upsy;
@@ -414,7 +414,7 @@ void BotPostThink ()
 void BotFrame ()
 {
 	string	h;
-	
+
 	h = infokey(world, "bot_options");
 	b_options = stof(h);
 }

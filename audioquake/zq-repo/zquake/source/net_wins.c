@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -94,7 +94,7 @@ qbool NET_IsLocalAddress (netadr_t a)
 	if ((*(unsigned *)a.ip == *(unsigned *)net_local_adr.ip
 		|| *(unsigned *)a.ip == htonl(INADDR_LOOPBACK)) )
 		return true;
-	
+
 	return false;
 }
 
@@ -115,7 +115,7 @@ char *NET_AdrToString (netadr_t a)
 char *NET_BaseAdrToString (netadr_t a)
 {
 	static	char	s[64];
-	
+
 	if (a.type == NA_NULL)
 		return "null";
 	if (a.type == NA_LOOPBACK)
@@ -149,10 +149,10 @@ qbool NET_StringToAdr (char *s, netadr_t *a)
 		a->type = NA_LOOPBACK;
 		return true;
 	}
-	
+
 	memset (&sadr, 0, sizeof(sadr));
 	sadr.sin_family = AF_INET;
-	
+
 	sadr.sin_port = 0;
 
 	strcpy (copy, s);
@@ -161,9 +161,9 @@ qbool NET_StringToAdr (char *s, netadr_t *a)
 		if (*colon == ':')
 		{
 			*colon = 0;
-			sadr.sin_port = htons((short)atoi(colon+1));	
+			sadr.sin_port = htons((short)atoi(colon+1));
 		}
-	
+
 	if ( isdigit((int)(unsigned char)copy[0]) )
 	{
 		*(int *)&sadr.sin_addr = inet_addr(copy);
@@ -174,7 +174,7 @@ qbool NET_StringToAdr (char *s, netadr_t *a)
 			return 0;
 		*(int *)&sadr.sin_addr = *(int *)h->h_addr_list[0];
 	}
-	
+
 	SockadrToNetadr (&sadr, a);
 
 	return true;
@@ -469,10 +469,10 @@ NET_Init
 */
 void NET_Init (void)
 {
-	WORD	wVersionRequested; 
+	WORD	wVersionRequested;
 	int		r;
 
-	wVersionRequested = MAKEWORD(1, 1); 
+	wVersionRequested = MAKEWORD(1, 1);
 	r = WSAStartup (wVersionRequested, &winsockdata);
 
 	if (r)

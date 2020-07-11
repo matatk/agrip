@@ -254,7 +254,7 @@ typedef struct
 	qbool		demoplayback;
 	qbool		nqdemoplayback;
 #ifdef MVDPLAY
-	qbool   	mvdplayback; // playing mvd 
+	qbool   	mvdplayback; // playing mvd
 	int			mvd_lastto;
 	int			mvd_lasttype;
 	qbool   	mvd_findtarget;

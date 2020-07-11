@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -28,7 +28,7 @@ int			total_channels;
 
 qbool		snd_initialized = false;
 
-dma_t		dma; 
+dma_t		dma;
 
 int   		paintedtime; 	// sample PAIRS
 
@@ -40,7 +40,7 @@ cvar_t s_swapstereo = {"s_swapstereo", "0", CVAR_ARCHIVE};
 void S_Restart (void)
 {
 }
- 
+
 void S_Init (void)
 {
 }
@@ -87,7 +87,7 @@ void S_ClearPrecache (void)
 }
 
 void S_Update (vec3_t origin, vec3_t v_forward, vec3_t v_right, vec3_t v_up)
-{	
+{
 }
 
 void S_StopAllSounds (qbool clear)

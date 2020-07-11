@@ -22,7 +22,7 @@
 
 /**\file
 // NOTES
-// 
+//
 // All functions here, unless specifed by ``_public'' at the end of their names,
 // are intended to work with the safe_soundtoclient() builtin and provide private
 // sound messaging to their owner in-game.
@@ -41,7 +41,7 @@ void()  snap_se_loopedsound_public;
 
 /**
     Facilitates us making delayed sounds.
-    
+   
     Is spawned at the right position and given the apprpriate
     nextthink time.
     Removes itself when done.
@@ -55,7 +55,7 @@ void() snap_se_singlesound =
 /**
     Facilitates us making delayed sounds.
     But doesn't kill itself.
-    
+   
     + An entity should be spawned at the right position and given the
       apprpriate nextthink time.
     + This is the object's .think function.
@@ -69,7 +69,7 @@ void() snap_se_stickysound =
 
 /**
     Facilitates us making delayed corner sounds.
-    
+   
     * The following properties are used:
         + self.dest1    - vector to far mid point.
         + self.dest2    - vector to corner point.

@@ -22,7 +22,7 @@ float() KickABotClientCheck =
     local float pclients;
 
     pclients = stof(infokey(world, "bots_padclients"));
-    
+   
     if( infokey(world, "bots_clientcontrol") == "1" )
     {
         if( CountPlayers() > pclients )
@@ -32,7 +32,7 @@ float() KickABotClientCheck =
     }
     else
         sprint(self, PRINT_HIGH, "Clients not allowed to add/kick bots on this server!\n");
-    
+   
     return 0;
 }
 
@@ -84,9 +84,9 @@ float KickABotTeam(float bteam, float clientcalled)
     //       2 for you're not allowed to kick
     //       1 for didn't kick (not found)
     //       0 for did kick
-   
+  
     // FIXME do loop in here, check for no bots left
-    
+   
     local string isbot;
     local string found_ent_team;
     local string bot_team, s_bot_team;
@@ -143,7 +143,7 @@ float KickABotTeam(float bteam, float clientcalled)
 
 		Version:		1.0
 					1.10.99
-				
+			
 
 
 
@@ -156,18 +156,18 @@ float KickABotTeam(float bteam, float clientcalled)
 
 
 	1. Open up the PROGS.SRC file, and insert the words "tutor.qc"
-		without quotes after the words "misc.qc" 
+		without quotes after the words "misc.qc"
 
 
 	2. Open up the file CLIENT.QC and scroll down to ClientObituary().
-		You'll see an early line looking like this:		
+		You'll see an early line looking like this:	
 
 		if (targ.classname == "player")
 
 	Change it to this:
 
 		if (targ.classname == "player" || targ.classname == "bot")
-	
+
 	About 20 lines down, you see this line:
 
 		if (attacker.classname == "player")
@@ -363,7 +363,7 @@ void() check_for_ledge =
 {
 local vector spot;
 
-// movetogoal() will never move over a legde, so we have to 
+// movetogoal() will never move over a legde, so we have to
 // check for a break in front of him and force him to jump
 
 	if (random() < 0.80)
@@ -377,7 +377,7 @@ local vector spot;
     makevectors(self.angles);
     self.velocity = self.velocity + (v_forward * 250);
     self.velocity_z = self.velocity_z + 250;
-    
+   
 /*	makevectors (self.angles);
 	spot = self.origin + (v_forward * 60);
 	spot = spot - '0 0 35';
@@ -450,7 +450,7 @@ float() bot_look_for_players =
 	r = range (client);
 	if (r == RANGE_FAR)
 		return false;
-		
+	
 	if (!visible (client))
 		return false;
 
@@ -464,9 +464,9 @@ float() bot_look_for_players =
 		if (!infront (client))
 			return false;
 	}
-	
+
 	self.enemy = client;
-	
+
     // AGRIP: no
     self.goalentity = client;
 	//FoundTarget ();
@@ -493,7 +493,7 @@ local entity found, foe;
 
 	while(foe)
 		{
-		if (visible(foe) && foe != self && foe.health > 0) 
+		if (visible(foe) && foe != self && foe.health > 0)
 			found = foe;
 		if (teamplay && found.team == self.team)
 			found = world;
@@ -531,20 +531,20 @@ void() bot_face =
         viewangles = vectoangles(self.enemy.origin - self.origin);
         self.v_angle_x = viewangles_x;
         self.v_angle_y = viewangles_y;
-        
+       
         if (self.v_angle_x > 180)
             self.v_angle_x = self.v_angle_x - 360; // corrects an ID mistake
-        
+       
         self.v_angle_x = self.v_angle_x * -1;  // corrects an ID mistake
-        
+       
         if (self.v_angle_x > 80)
             self.v_angle_x = 80;
-        
+       
         if (self.v_angle_x < -80)
             self.v_angle_x = -80;
     }
 }
-    
+   
 // ----------------------
 void() bot_stand =
 // ----------------------
@@ -562,7 +562,7 @@ void() bot_stand =
 		self.th_walk();
 		return;
 	}
-	
+
 // do a cute little turn
 	if (random() < 0.1)
 		self.angles_y = self.angles_y - 45;
@@ -602,7 +602,7 @@ void() coffee_move =
 void() bot_walk =
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
-	
+
 
 // this is his main AI routine, where he will look for items and enemies
 
@@ -640,7 +640,7 @@ void() bot_run_slide =
 // --------------------------------
 {
 	local float	ofs;
-	
+
 // this is a cool strafing routine
 
 	if (self.lefty)
@@ -650,9 +650,9 @@ void() bot_run_slide =
 
 	if (walkmove (self.angles_y + ofs, 20))
 		return;
-		
-	self.lefty = 1 - self.lefty;
 	
+	self.lefty = 1 - self.lefty;
+
 	walkmove (self.angles_y - ofs, 20);
 };
 
@@ -663,7 +663,7 @@ void() bot_run_slide =
 void() bot_strafe =
 // ----------------------
 {
-// this routine is called every frame during combat, 
+// this routine is called every frame during combat,
 // so he strafes and dodges even while shooting
 
 	bot_check_ammo();
@@ -722,7 +722,7 @@ void() bot_run =
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
 
-// his fighting thoughts. after a short while, he'll give up 
+// his fighting thoughts. after a short while, he'll give up
 // on his enemy, but if he can see him, he'll always attack
 
 	if (!(self.flags & FL_ONGROUND))
@@ -772,7 +772,7 @@ void() bot_run =
 	This section is the simplest, basically dull stuff. It checks for
 	his best weapon and sets the relevant ammo. It gives him a free
 	weapon. And it does the actual firing of the weapons. The key
-	difference between a player weapon routine and a bot weapon 
+	difference between a player weapon routine and a bot weapon
 	routine is the aiming. In player routines, you'll see a line
 	like this:
 
@@ -784,7 +784,7 @@ void() bot_run =
 		if (self.classname == "player")
 			dir = aim (self, 100000);
 			else dir = normalize(self.enemy.origin - self.origin);
-			
+		
 	This allows the bot to aim directly at his enemy.
 
 
@@ -862,7 +862,7 @@ float() bot_bestweapon =
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
 	local	float	it;
-	
+
 	it = self.items;
 
 	if (self.ammo_rockets >= 1 && (it & IT_ROCKET_LAUNCHER) )
@@ -889,7 +889,7 @@ void() bot_set_currentammo =
 // --------------------------------
 {
 	self.items = self.items - ( self.items & (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS) );
-	
+
       if (self.weapon == IT_SHOTGUN)
 	{
 		self.currentammo = self.ammo_shells;
@@ -944,7 +944,7 @@ local float chance;
 	self.weapon = bot_bestweapon();
 
 	bot_set_currentammo();
-	
+
     // AGRIP no:
 	//bot_run1();
 };
@@ -969,7 +969,7 @@ local vector dir;
 
 	self.currentammo = self.ammo_shells = self.ammo_shells - 2;
 	bot_face();
-	sound (self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);	
+	sound (self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);
 	//self.effects = self.effects | EF_MUZZLEFLASH;
 	dir = bot_aim_at_enemy();
 	FireBullets (18, dir, '0.14 0.1 0');
@@ -982,7 +982,7 @@ void() bot_fire_shotgun =
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {
 local vector dir;
-	
+
 	if (self.weapon == IT_SUPER_SHOTGUN)
 		{
 		bot_fire_supershotgun();
@@ -991,7 +991,7 @@ local vector dir;
 
 	bot_face();
 
-	sound (self, CHAN_WEAPON, "weapons/guncock.wav", 1, ATTN_NORM);	
+	sound (self, CHAN_WEAPON, "weapons/guncock.wav", 1, ATTN_NORM);
 	//self.effects = self.effects | EF_MUZZLEFLASH;
 
 	dir = bot_aim_at_enemy();
@@ -1046,7 +1046,7 @@ void() bot_fire_grenade =
 // ----------------------------
 {
 	local	entity missile;
-	
+
 	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 	//self.effects = self.effects | EF_MUZZLEFLASH;
 	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);
@@ -1055,8 +1055,8 @@ void() bot_fire_grenade =
 	missile.owner = self;
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
-		
-// set missile speed	
+	
+// set missile speed
 	makevectors (self.v_angle);
 
 	missile.velocity = bot_aim_at_enemy();
@@ -1066,15 +1066,15 @@ void() bot_fire_grenade =
 	missile.avelocity = '300 300 300';
 
 	missile.angles = vectoangles(missile.velocity);
-	
+
 	missile.touch = GrenadeTouch;
-	
+
 // set missile duration
 	missile.nextthink = time + 2.5;
 	missile.think = GrenadeExplode;
 
 	setmodel (missile, "progs/grenade.mdl");
-	setsize (missile, '0 0 0', '0 0 0');		
+	setsize (missile, '0 0 0', '0 0 0');	
 	setorigin (missile, self.origin);
 
 };
@@ -1082,7 +1082,7 @@ void() bot_fire_grenade =
 
 
 // =============================
-void() bot_fire_rocket = 
+void() bot_fire_rocket =
 // -----------------------------
 {
 local entity missile;
@@ -1124,7 +1124,7 @@ void() bot_lightning =
 // ------------------------------
 {
 	local	vector	org, dir;
-	
+
 	//self.effects = self.effects | EF_MUZZLEFLASH;
 
 	bot_face();
@@ -1185,7 +1185,7 @@ void() bot_lightning =
 
 $cd /raid/quake/id1/models/player_4
 $origin 0 -6 24
-$base base		
+$base base	
 $skin skin
 
 $frame axrun1 axrun2 axrun3 axrun4 axrun5 axrun6
@@ -1259,7 +1259,7 @@ void() bot_stand3		=[	$stand3,	bot_stand4	] {bot_stand();};
 void() bot_stand4		=[	$stand4,	bot_stand5	] {bot_stand();};
 void() bot_stand5		=[	$stand5,	bot_stand1	] {bot_stand();};
 
-	
+
 void()  bot_walk1		=[	$rockrun1,	bot_walk2	] {bot_walk();};
 void()  bot_walk2		=[	$rockrun2,	bot_walk3	] {bot_walk();};
 void()  bot_walk3		=[	$rockrun3,	bot_walk4	] {bot_walk();};
@@ -1406,12 +1406,12 @@ void(entity attacker, float damage)	bot_pain =
 
 	if (random() < 0.25)
 		return;
-	
+
 	PainSound();
 
 	if (random() > 0.75)
 		return;
-	
+
 	self.pain_finished = time + 1;
 	bot_pain1();
 
@@ -1444,7 +1444,7 @@ void() gib_bot =
 		sound (self, CHAN_VOICE, "player/teledth1.wav", 1, ATTN_NONE);
 		return;
 	}
-		
+	
 	if (random() < 0.5)
 		sound (self, CHAN_VOICE, "player/gib.wav", 1, ATTN_NONE);
 	else
@@ -1475,7 +1475,7 @@ local float i;
 		gib_bot();
 		return;
 		}
-	
+
 	DeathSound();
 
 	i = floor(random() * 5);
@@ -1490,7 +1490,7 @@ local float i;
 		bot_died1();
 	else
 		bot_diee1();
-	
+
 };
 
 
@@ -1648,7 +1648,7 @@ local entity spot;
 	spot = SelectSpawnPoint();
 	self.origin = spot.origin + '0 0 1';
 	self.angles = spot.angles;
-	self.fixangle = true;	
+	self.fixangle = true;
 	spawn_tfog (self.origin);
 	spawn_tdeath (self.origin, self);
 	self.solid = SOLID_SLIDEBOX;
@@ -1698,7 +1698,7 @@ local entity bot, spot, plr;
 	spot = SelectSpawnPoint();
 	bot.origin = spot.origin + '0 0 1';
 	bot.angles = spot.angles;
-	bot.fixangle = true;	
+	bot.fixangle = true;
 	spawn_tfog (bot.origin);
 	spawn_tdeath (bot.origin, bot);
 	bot.solid = SOLID_SLIDEBOX;
@@ -1757,7 +1757,7 @@ void(float bottom, float top, string bteam, float clientcalled) create_bot =
     local string skill, tmp;
 
     s_bteam = strzone(bteam);
-    
+   
     /*dprint("CREATE_BOT! bot: ");
     dprint(ftos(bottom));dprint("  top: ");
     dprint(ftos(top));dprint("  s_bteam: ");
@@ -1803,7 +1803,7 @@ void(float bottom, float top, string bteam, float clientcalled) create_bot =
     setinfo (bot, "bottomcolor", tmp);
     tmp = ftos(top);
     setinfo (bot, "topcolor", tmp);
-    
+   
     // Ugly hack...
     //setinfo (bot, "fortytwo", "42");
 

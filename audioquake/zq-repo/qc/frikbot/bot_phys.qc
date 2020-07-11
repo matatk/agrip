@@ -44,15 +44,15 @@ void CL_KeyMove ()
 
 	if (self.b_skill != 2) // use mouse emulation
 	{
-		anglespeed = 1.5 * frametime; 
+		anglespeed = 1.5 * frametime;
 		// 1.5 is the default cl_anglespeedkey & bot always has +speed
-		self.v_angle_y = self.v_angle_y + anglespeed * CL_KeyState(KEY_LOOKLEFT) * 140; 
+		self.v_angle_y = self.v_angle_y + anglespeed * CL_KeyState(KEY_LOOKLEFT) * 140;
 		// 140 is default cl_yawspeed
-		self.v_angle_y = self.v_angle_y - anglespeed * CL_KeyState(KEY_LOOKRIGHT) * 140; 
+		self.v_angle_y = self.v_angle_y - anglespeed * CL_KeyState(KEY_LOOKRIGHT) * 140;
 		// 140 is default cl_yawspeed
-		self.v_angle_x = self.v_angle_x - anglespeed * CL_KeyState(KEY_LOOKUP) * 150; 
+		self.v_angle_x = self.v_angle_x - anglespeed * CL_KeyState(KEY_LOOKUP) * 150;
 		// 150 is default cl_pitchspeed
-		self.v_angle_x = self.v_angle_x + anglespeed * CL_KeyState(KEY_LOOKDOWN) * 150; 
+		self.v_angle_x = self.v_angle_x + anglespeed * CL_KeyState(KEY_LOOKDOWN) * 150;
 		// 150 is default cl_pitchspeed
 	}
 	else
@@ -65,11 +65,11 @@ void CL_KeyMove ()
 			if (vlen(self.mouse_emu) > 180)
 				self.mouse_emu = normalize(self.mouse_emu) * 180;
 		}
-		else 
+		else
 			self.mouse_emu = view * (1 / frametime);
 		self.v_angle = self.v_angle + self.mouse_emu * frametime;
 
-		
+	
 	}
 	if (self.v_angle_x > 80)
 		self.v_angle_x = 80;
@@ -109,7 +109,7 @@ float() SV_RunThink  =
 	if (thinktime < time)
 		thinktime = time;
 	self.nextthink = 0;
-	time = thinktime; 
+	time = thinktime;
 	other = world;
 	makevectors(self.v_angle); // hack
 	self.think();
@@ -122,33 +122,33 @@ float() SV_RunThink  =
 float(vector dir) botCheckForStep =
 {
 	vector	currentorigin, v;
-	float	currentflags, yaw, stepdistance, movedistance; 
+	float	currentflags, yaw, stepdistance, movedistance;
 
 	currentorigin = self.origin;
-	currentflags = self.flags; 
-	self.flags = FL_ONGROUND | FL_PARTIALGROUND; 
+	currentflags = self.flags;
+	self.flags = FL_ONGROUND | FL_PARTIALGROUND;
 	dir = normalize(dir);
 	dir_z = 0;
-	yaw = vectoyaw(dir); 
+	yaw = vectoyaw(dir);
 	if(walkmove(yaw, 3))
-	{	
+	{
 		if(droptofloor())
-		{	
+		{
 			stepdistance = self.origin_z - currentorigin_z;
 			v = self.origin - currentorigin;
 			v_z = 0;
-			movedistance = vlen(v); 
+			movedistance = vlen(v);
 			if((stepdistance > 0 && stepdistance <= 16) && movedistance != 0)
 			{
 				self.flags = currentflags | FL_PARTIALGROUND;
 				return 1;
 			}
 		}
-	}	
+	}
 	self.flags = currentflags;
 	setorigin(self, currentorigin);
 	return 0;
-} 
+}
 // this is merely here to fix a problem with e3m5
 void BruteForceStep (vector dir)
 {
@@ -183,7 +183,7 @@ void PostPhysics ()
 	self.velocity = self.velocity - self.phys_obj.dest1 + self.phys_obj.velocity;
 	if (self.phys_obj.dest2 == self.origin)
 	{
-		setorigin(self, self.phys_obj.origin); 
+		setorigin(self, self.phys_obj.origin);
 		// might've been moved during other person's physics
 		// (teleporters / plats)
 
@@ -211,7 +211,7 @@ void PostPhysics ()
 						else
 						{
 							if (dst > 1)
-								frik_obstructed(obstr, false); 
+								frik_obstructed(obstr, false);
 
 							org = self.origin;
 							self.flags = cflags;
@@ -226,7 +226,7 @@ void PostPhysics ()
 									// if no steps were found, bot is really obstucted
 									BruteForceStep(self.phys_obj.dest1);
 								}
-							}	
+							}
 						}
 					}
 				}

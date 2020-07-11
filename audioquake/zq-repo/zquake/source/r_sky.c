@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -80,7 +80,7 @@ void R_InitSky (texture_t *mt)
 			}
 		}
 	}
-	
+
 	r_skysource = newsky;
 }
 
@@ -106,7 +106,7 @@ void R_MakeSky (void)
 
 	xlast = xshift;
 	ylast = yshift;
-	
+
 	pnewsky = (unsigned *)&newsky[0];
 
 	for (y=0 ; y<SKYSIZE ; y++)

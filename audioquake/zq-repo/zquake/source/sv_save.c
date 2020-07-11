@@ -95,8 +95,8 @@ void SV_SaveGame_f (void)
 			Com_Printf ("Can't save multiplayer games.\n");
 			return;
 		}
-	}	
-	
+	}
+
 	if (svs.clients[0].state != cs_spawned) {
 		Com_Printf ("Can't save, client #0 not spawned.\n");
 		return;
@@ -104,7 +104,7 @@ void SV_SaveGame_f (void)
 
 	sprintf (name, "%s/save/%s", com_gamedir, Cmd_Argv(1));
 	COM_DefaultExtension (name, ".sav");
-	
+
 	Com_Printf ("Saving game to %s...\n", name);
 	COM_CreatePath (name);
 	f = fopen (name, "w");
@@ -113,7 +113,7 @@ void SV_SaveGame_f (void)
 		Com_Printf ("ERROR: couldn't open.\n");
 		return;
 	}
-	
+
 	fprintf (f, "%i\n", SAVEGAME_VERSION);
 	SV_SavegameComment (comment);
 	fprintf (f, "%s\n", comment);
@@ -170,7 +170,7 @@ void SV_LoadGame_f (void)
 
 	sprintf (name, "%s/save/%s", com_gamedir, Cmd_Argv(1));
 	COM_DefaultExtension (name, ".sav");
-	
+
 // we can't call SCR_BeginLoadingPlaque, because too much stack space has
 // been used.  The menu calls it before stuffing loadgame command
 //	SCR_BeginLoadingPlaque ();
@@ -258,7 +258,7 @@ void SV_LoadGame_f (void)
 			break;		// end of file
 		if (strcmp(com_token,"{"))
 			Host_Error ("First token isn't a brace");
-			
+		
 		if (entnum == -1)
 		{	// parse the global vars
 			ED_ParseGlobals (start);
@@ -269,7 +269,7 @@ void SV_LoadGame_f (void)
 			memset (&ent->v, 0, progs->entityfields * 4);
 			ent->inuse = true;
 			ED_ParseEdict (start, ent);
-	
+
 			// link it into the bsp tree
 			if (ent->inuse)
 				SV_LinkEdict (ent, false);
@@ -277,7 +277,7 @@ void SV_LoadGame_f (void)
 
 		entnum++;
 	}
-	
+
 	sv.num_edicts = entnum;
 	sv.time = time;
 

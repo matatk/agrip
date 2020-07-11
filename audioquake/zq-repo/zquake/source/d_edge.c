@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -74,7 +74,7 @@ void D_DrawSolidSurface (surf_t *surf, int color)
 	espan_t	*span;
 	byte	*pdest;
 	int		u, u2, pix;
-	
+
 	pix = (color<<24) | (color<<16) | (color<<8) | color;
 	for (span=surf->spans ; span ; span=span->pnext)
 	{
@@ -174,18 +174,18 @@ void D_DrawSurfaces (void)
 	{
 		if (!s->spans)
 			continue;
-		
+	
 		r_drawnpolycount++;
-		
+	
 		d_zistepu = s->d_zistepu;
 		d_zistepv = s->d_zistepv;
 		d_ziorigin = s->d_ziorigin;
-		
+	
 		if (s->flags & SURF_DRAWSKY)
 		{
 			extern cvar_t r_fastsky;
 			extern cvar_t r_skycolor;
-			
+		
 			if (r_fastsky.value)
 				D_DrawSolidSurface (s, (int)r_skycolor.value & 0xFF);
 			else {
@@ -193,7 +193,7 @@ void D_DrawSurfaces (void)
 					R_MakeSky ();
 				D_DrawSkyScans8 (s->spans);
 			}
-			
+		
 			D_DrawZSpans (s->spans);
 		}
 		else if (s->flags & SURF_DRAWSKYBOX)
@@ -208,7 +208,7 @@ void D_DrawSurfaces (void)
 			D_CalcGradients (pface);
 
 			(*d_drawspans) (s->spans);
-			
+		
 			// set up a gradient for the background surface that places it
 			// effectively at infinity distance from the viewpoint
 			d_zistepu = 0;
@@ -224,7 +224,7 @@ void D_DrawSurfaces (void)
 			d_zistepu = 0;
 			d_zistepv = 0;
 			d_ziorigin = -0.9;
-			
+		
 			D_DrawSolidSurface (s, (int)r_clearcolor.value & 0xFF);
 			D_DrawZSpans (s->spans);
 		}
@@ -246,7 +246,7 @@ void D_DrawSurfaces (void)
 				((byte *)pface->texinfo->texture +
 				pface->texinfo->texture->offsets[0]);
 			cachewidth = 64;
-			
+		
 			if (s->insubmodel)
 			{
 				// FIXME: we don't want to do all this for every polygon!
@@ -256,16 +256,16 @@ void D_DrawSurfaces (void)
 				VectorSubtract (r_origin, currententity->origin,
 					local_modelorg);
 				TransformVector (local_modelorg, transformed_modelorg);
-				
+			
 				R_RotateBmodel ();	// FIXME: don't mess with the frustum,
 				// make entity passed in
 			}
-			
+		
 			D_CalcGradients (pface);
-			
+		
 			Turbulent8 (s->spans);
 			D_DrawZSpans (s->spans);
-			
+		
 			if (s->insubmodel)
 			{
 				//
@@ -293,27 +293,27 @@ void D_DrawSurfaces (void)
 				// R_RotateBmodel ()
 				VectorSubtract (r_origin, currententity->origin, local_modelorg);
 				TransformVector (local_modelorg, transformed_modelorg);
-				
+			
 				R_RotateBmodel ();	// FIXME: don't mess with the frustum,
 				// make entity passed in
 			}
-			
+		
 			pface = s->data;
 			miplevel = D_MipLevelForScale (s->nearzi * scale_for_mip
 				* pface->texinfo->mipadjust);
-			
+		
 			// FIXME: make this passed in to D_CacheSurface
 			pcurrentcache = D_CacheSurface (pface, miplevel);
-			
+		
 			cacheblock = (pixel_t *)pcurrentcache->data;
 			cachewidth = pcurrentcache->width;
-			
+		
 			D_CalcGradients (pface);
-			
+		
 			(*d_drawspans) (s->spans);
-			
+		
 			D_DrawZSpans (s->spans);
-			
+		
 			if (s->insubmodel)
 			{
 				//

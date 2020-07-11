@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -169,7 +169,7 @@ void SV_FlushBackbuf (client_t *cl)
 			// it'll fit
 			SZ_Write (&cl->netchan.message, cl->backbuf_data[0],
 				cl->backbuf_size[0]);
-			
+		
 			// move along, move along
 			for (i = 1; i < cl->num_backbuf; i++) {
 				memcpy(cl->backbuf_data[i - 1], cl->backbuf_data[i],

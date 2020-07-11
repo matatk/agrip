@@ -71,9 +71,9 @@ void() CheckAll =
 	if(maxrate!=0  || minrate!=0)
 	{
 		p = find(world, classname, "player");
-		while(p != world) 
+		while(p != world)
 		{
-			if(p.netname != "") 
+			if(p.netname != "")
 			{
 				// This is used to check a players rate.  If above allowed setting then it sets it to max allowed.
 				player_rate = stof(infokey(p, "rate"));
@@ -83,7 +83,7 @@ void() CheckAll =
 					tmp=ftos(maxrate);
 					sprint(p, 2, "Rate set to ");
 					sprint(p, 3, tmp, "\n");
-			
+		
 					stuffcmd(p, "rate ");
 					stuffcmd(p, tmp);
 					stuffcmd(p, "\n");
@@ -95,7 +95,7 @@ void() CheckAll =
 					tmp=ftos(minrate);
 					sprint(p, 2, "Rate set to ");
 					sprint(p, 3, tmp, "\n");
-			
+		
 					stuffcmd(p, "rate ");
 					stuffcmd(p, tmp);
 					stuffcmd(p, "\n");
@@ -113,7 +113,7 @@ void() CheckConnectRate=
 
 	// This is used to check a players rate.  If above allowed setting then it kicks em off.
 	player_rate = stof(infokey(self, "rate"));
-	
+
 	maxrate = stof(infokey(world, "k_maxrate"));
 	minrate = stof(infokey(world, "k_minrate"));
 
@@ -125,7 +125,7 @@ void() CheckConnectRate=
 			tmp=ftos(maxrate);
 			sprint(self, 2, "Rate set to ");
 			sprint(self, 3, tmp, "\n");
-	
+
 			stuffcmd(self, "rate ");
 			stuffcmd(self, tmp);
 			stuffcmd(self, "\n");
@@ -137,7 +137,7 @@ void() CheckConnectRate=
 			tmp=ftos(minrate);
 			sprint(self, 2, "Rate set to ");
 			sprint(self, 3, tmp, "\n");
-			
+		
 			stuffcmd(self, "rate ");
 			stuffcmd(self, tmp);
 			stuffcmd(self, "\n");
@@ -248,7 +248,7 @@ void DecodeLevelParms ()
 	self.weapon = parm8;
     self.armortype = parm9 * 0.01;
 	self.k_admin = parm11;
-	if(parm12) 
+	if(parm12)
         self.k_accepted = parm12;
 	self.k_stuff = parm13;
 //<-- KTEAMS
@@ -283,7 +283,7 @@ entity FindIntermission ()
 
 // then look for the start position
 	spot = find (world, classname, "info_player_start");
-	if (!spot)	
+	if (!spot)
 		objerror ("FindIntermission: no spot");
 
 	return spot;
@@ -330,7 +330,7 @@ void IntermissionThink ()
 
 	if (!self.button0 && !self.button1 && !self.button2)
 		return;
-	
+
 	ExitIntermission ();
 }
 
@@ -362,7 +362,7 @@ void execute_changelevel ()
 	WriteAngle (MSG_ALL, intermission_spot.mangle_x);
 	WriteAngle (MSG_ALL, intermission_spot.mangle_y);
 	WriteAngle (MSG_ALL, intermission_spot.mangle_z);
-	
+
 	other = find (world, classname, "player");
 	while (other != world)
 	{
@@ -383,7 +383,7 @@ void execute_changelevel ()
 		// take screenshot if requested
         if(stof(infokey(other, "k_flags")) & 2)
 			stuffcmd(other, "wait; wait; wait; wait; wait; wait; screenshot\n");
-        
+       
         setorigin (other, intermission_spot.origin);
         other.velocity = '0 0 0';
 		other = find (other, classname, "player");
@@ -428,7 +428,7 @@ void trigger_changelevel ()
 {
 	if (!self.map)
 		objerror ("changelevel trigger doesn't have map");
-	
+
 	InitTrigger ();
 	self.touch = changelevel_touch;
 }
@@ -489,7 +489,7 @@ void() ClientKill =
         return;
 
 // KTEAMS -->
-	if(k_pause || k_standby) 
+	if(k_pause || k_standby)
         return;
 	if((time < self.suicide_time + 10) && stof(infokey(world, "k_kfp"))) {
 		sprint(self, 2, "Only one suicide in 10 seconds\n");
@@ -541,14 +541,14 @@ entity SelectSpawnPoint ()
 // ok, find all spots that don't have players nearby
 
 	spots = world;
-	spot = find (world, classname, "info_player_deathmatch");       
+	spot = find (world, classname, "info_player_deathmatch");      
 	while (spot)
 	{
 		totalspots = totalspots + 1;
 
         thing = findradius(spot.origin, 84);
         pcount = 0;
-		while(thing) 
+		while(thing)
         {
 // KTEAMS
 			if(thing.classname == "player") {
@@ -581,7 +581,7 @@ totalspots = totalspots - 1;
 		// ack, they are all full, just pick one at random
 //		bprint (PRINT_HIGH, "Ackk! All spots are full. Selecting random spawn spot\n");
 		totalspots = rint((random() * totalspots));
-		spot = find (world, classname, "info_player_deathmatch");       
+		spot = find (world, classname, "info_player_deathmatch");      
 		while (totalspots > 0) {
 			totalspots = totalspots - 1;
 			spot = find (spot, classname, "info_player_deathmatch");
@@ -614,7 +614,7 @@ totalspots = totalspots - 1;
     // Generate a random number between 1 and numspots
 
 	numspots = numspots - 1;
-	
+
 	numspots = rint((random() * numspots ) );
 
 	spot = spots;
@@ -623,7 +623,7 @@ totalspots = totalspots - 1;
 		numspots = numspots - 1;
 	}
 // KTEAMS
-	if(k_nspots > 2 && match_in_progress == 2) 
+	if(k_nspots > 2 && match_in_progress == 2)
         self.k_lastspawn = spot;
 // KTEAMS
  	return spot;
@@ -669,7 +669,7 @@ void PutClientInServer ()
 
 	if(stof(infokey(world, "k_sready")) && !match_in_progress && !self.ready)
 		self.effects = 64;
-	else 
+	else
         self.effects = 0;
 
 // KTEAMS
@@ -702,7 +702,7 @@ void PutClientInServer ()
 	modelindex_player = self.modelindex;
 
 	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
-	
+
 	self.view_ofs = '0 0 22';
 
 // Mod - Xian (May.20.97)
@@ -882,7 +882,7 @@ void NextLevel ()
 			mapname = "e4m1";
 			serverflags = serverflags - 7;
 		}
- 
+
 		o = spawn();
 		o.map = mapname;
 	}
@@ -916,7 +916,7 @@ Exit deathmatch games upon conditions
 void CheckRules ()
 {
 // TEAM -->
-	if(fraglimit && self.frags >= fraglimit) 
+	if(fraglimit && self.frags >= fraglimit)
         EndMatch(0);
 // <-- TEAM
 }
@@ -936,7 +936,7 @@ void PlayerDeathThink ()
 		forward = forward - 20;
 		if (forward <= 0)
 			self.velocity = '0 0 0';
-		else    
+		else   
 			self.velocity = forward * normalize(self.velocity);
 	}
 
@@ -975,7 +975,7 @@ void PlayerJump ()
 {
 	if (self.flags & FL_WATERJUMP)
 		return;
-	
+
 	if (self.waterlevel >= 2)
 	{
 // play swiming sound
@@ -997,7 +997,7 @@ void PlayerJump ()
 	if ( !(self.flags & FL_JUMPRELEASED) )
 		return;         // don't pogo stick
 
-	self.flags = self.flags - (self.flags & FL_JUMPRELEASED);       
+	self.flags = self.flags - (self.flags & FL_JUMPRELEASED);      
 	self.button2 = 0;
 
 // player jumping sound
@@ -1049,11 +1049,11 @@ void WaterMove ()
 			self.pain_finished = time + 1;
 		}
 	}
-	
+
 	if (!self.waterlevel)
 	{
 		if (self.flags & FL_INWATER)
-		{       
+		{      
 			// play leave water sound
 			sound (self, CHAN_BODY, "misc/outwater.wav", 1, ATTN_NORM);
 			self.flags = self.flags - FL_INWATER;
@@ -1081,9 +1081,9 @@ void WaterMove ()
 			T_Damage (self, world, world, 4*self.waterlevel);
 		}
 	}
-	
+
 	if ( !(self.flags & FL_INWATER) )
-	{       
+	{      
 
 // player enter water sound
 
@@ -1150,7 +1150,7 @@ void PlayerPreThink ()
 
 	if( frametime < self.fLowestFrameTime )
 		self.fLowestFrameTime = frametime;
-	
+
 	if( self.fDisplayIllegalFPS < time && framechecks)
 	{
 
@@ -1176,33 +1176,33 @@ void PlayerPreThink ()
 // delay on checking/displaying illegal FPS.
 // s: changed to 15 for more accurate calculation (lag screws it up)
 		self.fDisplayIllegalFPS = time + 15;
-		
+	
 		local float fps;
-		
+	
 		fps = floor( 72 * 13 / ( self.fAverageFrameTime / self.fFrameCount * 1000 ) );
-		
+	
 		if( fps > current_maxfps )
 		{
 			bprint( PRINT_HIGH, "\nWARNING: ", self.netname, " is using the timedemo bug and has abnormally high frame rates, " );
 
 			local float peak;
 			local string str;
-							
+						
 			peak = floor( 72 * 13 / ( self.fLowestFrameTime * 1000 ) );
 			str = ftos( peak );
-			
-			bprint( PRINT_HIGH, "highest FPS = ", str, " (frametime was ");
 		
+			bprint( PRINT_HIGH, "highest FPS = ", str, " (frametime was ");
+	
 			str = ftos( self.fLowestFrameTime * 1000 );
-			
+		
 			bprint( PRINT_HIGH, str, "), " );
-				
+			
 			str = ftos( fps );
-			
+		
 			bprint( PRINT_HIGH, "average FPS = ", str, "!\n");
-			
+		
 			self.fIllegalFPSWarnings = self.fIllegalFPSWarnings + 1;
-			
+		
                         if( self.fIllegalFPSWarnings > 3 )
 			{
 				// kick the player from server!
@@ -1212,7 +1212,7 @@ void PlayerPreThink ()
                                 stuffcmd(self, "disconnect\n");
                         }
 		}
-		
+	
 		// zero these so the average/highest FPS is calculated for each delay period.
 		self.fAverageFrameTime = 0;
 		self.fFrameCount = 0;
@@ -1244,7 +1244,7 @@ void PlayerPreThink ()
 		return;
 	}
 
-	if (self.deadflag == DEAD_DYING) 
+	if (self.deadflag == DEAD_DYING)
     {
 // Sometimes (rarely) the death animation functions in player.qc aren't
 // invoked on death for some reason (couldn't figure out why). This leads to a
@@ -1263,7 +1263,7 @@ void PlayerPreThink ()
 	else
 		self.flags = self.flags | FL_JUMPRELEASED;
 
-// teleporters can force a non-moving pause time        
+// teleporters can force a non-moving pause time       
 	if (time < self.pausetime)
 		self.velocity = '0 0 0';
 
@@ -1273,7 +1273,7 @@ void PlayerPreThink ()
 		W_SetCurrentAmmo ();
 	}
 }
-	
+
 /*
 ================
 CheckPowerups
@@ -1306,7 +1306,7 @@ void CheckPowerups ()
 				sound (self, CHAN_AUTO, "items/inv2.wav", 1, ATTN_NORM);
 				self.invisible_time = time + 1;
 			}
-			
+		
 			if (self.invisible_time < time)
 			{
 				self.invisible_time = time + 1;
@@ -1320,7 +1320,7 @@ void CheckPowerups ()
 			self.invisible_finished = 0;
 			self.invisible_time = 0;
 		}
-		
+	
 	// use the eyes
 		self.frame = 0;
 		self.modelindex = modelindex_eyes;
@@ -1341,14 +1341,14 @@ void CheckPowerups ()
 				sound (self, CHAN_AUTO, "items/protect2.wav", 1, ATTN_NORM);
 				self.invincible_time = time + 1;
 			}
-			
+		
 			if (self.invincible_time < time)
 			{
 				self.invincible_time = time + 1;
 				stuffcmd (self, "bf\n");
 			}
 		}
-		
+	
 		if (self.invincible_finished < time)
 		{       // just stopped
 			self.items = self.items - IT_INVULNERABILITY;
@@ -1361,7 +1361,7 @@ void CheckPowerups ()
 			self.effects = self.effects | EF_DIMLIGHT;
 			self.effects = self.effects | EF_RED;
         }
-		else 
+		else
         {
 			self.effects = self.effects - (self.effects & EF_DIMLIGHT);
 			self.effects = self.effects - (self.effects & EF_RED);
@@ -1385,8 +1385,8 @@ void CheckPowerups ()
 				stuffcmd (self, "bf\n");
 				sound (self, CHAN_AUTO, "items/damage2.wav", 1, ATTN_NORM);
 				self.super_time = time + 1;
-			}         
-			
+			}        
+		
 			if (self.super_time < time)
 			{
 				self.super_time = time + 1;
@@ -1417,9 +1417,9 @@ void CheckPowerups ()
 			self.effects = self.effects - (self.effects & EF_DIMLIGHT);
 			self.effects = self.effects - (self.effects & EF_BLUE);
 		}
-	}       
+	}      
 
-// suit 
+// suit
 	if (self.radsuit_finished)
 	{
 		self.air_finished = time + 12;          // don't drown
@@ -1434,7 +1434,7 @@ void CheckPowerups ()
 				sound (self, CHAN_AUTO, "items/suit2.wav", 1, ATTN_NORM);
 				self.rad_time = time + 1;
 			}
-			
+		
 			if (self.rad_time < time)
 			{
 				self.rad_time = time + 1;
@@ -1448,7 +1448,7 @@ void CheckPowerups ()
 			self.rad_time = 0;
 			self.radsuit_finished = 0;
 		}
-	}       
+	}      
 
 }
 
@@ -1498,7 +1498,7 @@ void PlayerPostThink ()
 		self.k_msgcount = time + 1;
 	}
 
-	if(match_in_progress == 2 && self.k_accepted == 2 && self.k_teamnum && k_checkx) 
+	if(match_in_progress == 2 && self.k_accepted == 2 && self.k_teamnum && k_checkx)
 	{
 		s1 = ftos(self.k_teamnum);
 		s2 = infokey(world, s1);
@@ -1509,7 +1509,7 @@ void PlayerPostThink ()
 			self.k_accepted = 0;
 			f1 = 1;
 			f2 = 0;
-			while(f1 < k_userid && !f2) 
+			while(f1 < k_userid && !f2)
 			{
 				s1 = ftos(f1);
 				s1 = infokey(world, s1);
@@ -1588,7 +1588,7 @@ void PlayerPostThink ()
 		else if (self.jump_flag < -650)
 		{
 			self.deathtype = "falling";
-			T_Damage (self, world, world, 5); 
+			T_Damage (self, world, world, 5);
 			sound (self, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
 
 			if (self.groundentity.takedamage == DAMAGE_AIM)
@@ -1702,7 +1702,7 @@ void ClientDisconnect ()
 
     if(self.k_accepted == 2) {
 		set_suicide_frame();
-		if(match_in_progress == 2 && self.ready) 
+		if(match_in_progress == 2 && self.ready)
 		{
 			s1 = ftos(self.frags);
 
@@ -2193,7 +2193,7 @@ void ClientObituary (entity targ, entity attacker)
 	                                        {
 							deathstring = " rides ";
 							deathstring2 = "'s rocket\n";
-	
+
 							if (targ.health < -40)
 	                                                {
 								deathstring = " was gibbed by ";

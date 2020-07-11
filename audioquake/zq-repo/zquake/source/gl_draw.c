@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -134,11 +134,11 @@ static qbool Scrap_AllocBlock (int scrapnum, int w, int h, int *x, int *y)
 	int		best, best2;
 
 	best = BLOCK_HEIGHT;
-	
+
 	for (i=0 ; i<BLOCK_WIDTH-w ; i++)
 	{
 		best2 = 0;
-		
+	
 		for (j=0 ; j<w ; j++)
 		{
 			if (scrap_allocated[scrapnum][i+j] >= best)
@@ -152,10 +152,10 @@ static qbool Scrap_AllocBlock (int scrapnum, int w, int h, int *x, int *y)
 			*y = best = best2;
 		}
 	}
-	
+
 	if (best + h > BLOCK_HEIGHT)
 		return false;
-	
+
 	for (i=0 ; i<w ; i++)
 		scrap_allocated[scrapnum][*x + i] = best + h;
 
@@ -214,7 +214,7 @@ static mpic_t *R_CachePic_impl (char *path, qbool wad, qbool crash)
 	}
 	else {
 		// load the pic from disk
-		p = (qpic_t *)FS_LoadTempFile (path);	
+		p = (qpic_t *)FS_LoadTempFile (path);
 		if (!p) {
 			if (crash)
 				Sys_Error ("R_CachePic: failed to load %s", path);
@@ -348,7 +348,7 @@ static void OnChange_gl_smoothfont (cvar_t *var, char *string, qbool *cancel)
 		return;
 
 	GL_Bind(char_texture);
-        
+       
 	if (newval)
 	{
 		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -681,7 +681,7 @@ void R_DrawSubPic (int x, int y, mpic_t *pic, int srcx, int srcy, int width, int
 
 	if (scrap_dirty)
 		Scrap_Upload ();
-	
+
 	oldglwidth = cpic->sh - cpic->sl;
 	oldglheight = cpic->th - cpic->tl;
 
@@ -690,7 +690,7 @@ void R_DrawSubPic (int x, int y, mpic_t *pic, int srcx, int srcy, int width, int
 
 	newtl = cpic->tl + (srcy*oldglheight)/pic->height;
 	newth = newtl + (height*oldglheight)/pic->height;
-	
+
 	GL_Bind (cpic->texnum);
 	glBegin (GL_QUADS);
 	glTexCoord2f (newsl, newtl);

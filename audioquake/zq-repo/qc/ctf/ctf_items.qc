@@ -31,7 +31,7 @@ void flag_touch ()
 		return;
 	if (other.health <= 0)
 		return;
-	
+
 	//TODO: modify checks only allowed to capture on team flag if its at the
 	//base (not in the field)
 	if ((other.items & IT_KEY1) | (other.items & IT_KEY2))
@@ -56,7 +56,7 @@ void flag_touch ()
 		self.solid = SOLID_NOT;
 		other.items = other.items | self.items;
 		self.model = "";
-		
+	
 		bprint (PRINT_LOW, other.netname, " took ", self.netname, "!\n");
 		sprint (other, PRINT_LOW, "You got the enemy flag!\nTake it back to your capture point!`\n");
 
@@ -64,7 +64,7 @@ void flag_touch ()
 		SUB_UseTargets();                               // fire all targets / killtargets
 // <-- PICKUP_FLAG
 	}
-	
+
 }
 
 void flag_drop ()
@@ -73,11 +73,11 @@ void flag_drop ()
 
 	item = spawn();
 	item.origin = self.origin;
-	
+
 	item.velocity_z = 300;
 	item.velocity_x = -100 + (random() * 200);
 	item.velocity_y = -100 + (random() * 200);
-	
+
 	item.flags = FL_ITEM;
 	item.solid = SOLID_TRIGGER;
 	item.movetype = MOVETYPE_TOSS;
@@ -105,10 +105,10 @@ void item_flag_team1 ()
 {
 	precache_model ("progs/flag.mdl");
 	setmodel (self, "progs/flag.mdl");
-	
+
 	setsize(self, '-16 -16 -24', '16 16 64');
 	StartItem ();
-	
+
 	self.effects = self.effects | EF_RED;
 	self.items = IT_KEY2;
 	self.netname = "red's flag";
@@ -127,7 +127,7 @@ void item_flag_team2 ()
 
 	setsize(self, '-16 -16 -24', '16 16 64');
 	StartItem();
-	
+
 	self.effects = self.effects | EF_BLUE;
 	self.items = IT_KEY1;
 	self.netname = "blue's flag";

@@ -69,7 +69,7 @@ float frik_KeysForDir (vector sdir)
 	{
 		// Everything is tested against 60 degrees,
 		// this allows the bot to overlap the keys
-		// 30 degrees on each diagonal  45 degrees 
+		// 30 degrees on each diagonal  45 degrees
 		// might look more realistic
 
  		keydir = vectoangles(sdir);
@@ -141,7 +141,7 @@ void frik_obstructed (vector whichway, float danger)
 		disway_y = whichway_x * -1;
 		self.wallhug = vlen(org - (self.origin + disway)) > dist;
 		self.b_aiflags = self.b_aiflags | AI_OBSTRUCTED;
-		
+	
 	}
 	else
 	{
@@ -211,7 +211,7 @@ void frik_obstacles ()
 	ang = normalize(ang);
 	traceline(start - (ang * 10), start + (ang * 10), true, self);
 	if ((trace_fraction != 1) || trace_startsolid)
-		return; // gap is only 20 wide, walkable	
+		return; // gap is only 20 wide, walkable
 	ang = self.velocity;
 	ang_z = 0;
 	dist = ((540 / world.gravity) * vlen(ang))/* + 32*/;
@@ -238,7 +238,7 @@ void frik_obstacles ()
 	{
 		ang = normalize(ang);
 		//look for a ledge
-		traceline(self.origin, self.origin + (ang * (test + 20)), true, self); 
+		traceline(self.origin, self.origin + (ang * (test + 20)), true, self);
 		if (trace_fraction != 1)
 		{
 			if (conts < -3) // bad stuff down dare
@@ -295,7 +295,7 @@ void frik_obstacles ()
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-After frik_obstructed, the bot uses the 
+After frik_obstructed, the bot uses the
 following funtion to move "around" the obstacle
 
 I have no idea how well it will work
@@ -317,7 +317,7 @@ void frik_dodge_obstruction ()
 	}
 
 	// perform a walkmove check to see if the obs_dir is still obstructed
-	// walkmove is less forgiving than frik_obstacles, so I dunno 
+	// walkmove is less forgiving than frik_obstacles, so I dunno
 	// how well this will work
 
 	oflags = self.flags;
@@ -344,7 +344,7 @@ void frik_dodge_obstruction ()
 		}
 		self.keys = self.keys & 960 + frik_KeysForDir(way);
 	}
-	
+
 	// fix the bot
 
 	setorigin (self, org);
@@ -414,7 +414,7 @@ float frik_walkmove (vector weird)
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 The "hook" method of navigation. This nav
-system is copyrighted 1999 by Ryan "Frika C" 
+system is copyrighted 1999 by Ryan "Frika C"
 Smith, keep that in mind when you steal it.
 
 I brought this back because normal roaming

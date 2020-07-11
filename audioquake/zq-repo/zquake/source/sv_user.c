@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -206,12 +206,12 @@ static void Cmd_Soundlist_f (void)
 	n = atoi(Cmd_Argv(2));
 	if ((unsigned)n >= (MAX_SOUNDS - 1)) {
 		SV_ClearReliable (sv_client);
-		SV_ClientPrintf (sv_client, PRINT_HIGH, 
+		SV_ClientPrintf (sv_client, PRINT_HIGH,
 			"Cmd_Soundlist_f: Invalid soundlist index\n");
 		SV_DropClient (sv_client);
 		return;
 	}
-	
+
 	// if we're not back-bufffered, try to fit the soundlist into current message
 	if (!sv_client->num_backbuf &&
 		sv_client->netchan.message.maxsize - sv_client->netchan.message.cursize > 100)
@@ -282,7 +282,7 @@ static void Cmd_Modellist_f (void)
 		SV_ClientPrintf (sv_client, PRINT_HIGH, "modellist not valid -- already spawned\n");
 		return;
 	}
-	
+
 	// handle the case of a level changing while a client was connecting
 	if ( atoi(Cmd_Argv(1)) != svs.spawncount )
 	{
@@ -295,7 +295,7 @@ static void Cmd_Modellist_f (void)
 	n = atoi(Cmd_Argv(2));
 	if ((unsigned)n >= (MAX_MODELS - 1)) {
 		SV_ClearReliable (sv_client);
-		SV_ClientPrintf (sv_client, PRINT_HIGH, 
+		SV_ClientPrintf (sv_client, PRINT_HIGH,
 			"Cmd_Modellist_f: Invalid modellist index\n");
 		SV_DropClient (sv_client);
 		return;
@@ -366,7 +366,7 @@ static void Cmd_PreSpawn_f (void)
 		SV_ClientPrintf (sv_client, PRINT_HIGH, "prespawn not valid -- already spawned\n");
 		return;
 	}
-	
+
 	// handle the case of a level changing while a client was connecting
 	if ( atoi(Cmd_Argv(1)) != svs.spawncount )
 	{
@@ -375,7 +375,7 @@ static void Cmd_PreSpawn_f (void)
 		Cmd_New_f ();
 		return;
 	}
-	
+
 	buf = atoi(Cmd_Argv(2));
 	if (buf >= sv.num_signon_buffers)
 		buf = 0;
@@ -387,11 +387,11 @@ static void Cmd_PreSpawn_f (void)
 //		Com_DPrintf ("Client check = %d\n", check);
 
 		if (sv_mapcheck.value && check != sv.map_checksum && check != sv.map_checksum2) {
-			SV_ClientPrintf (sv_client, PRINT_HIGH, 
+			SV_ClientPrintf (sv_client, PRINT_HIGH,
 				"Map model file does not match (%s), %i != %i/%i.\n"
 				"You may need a new version of the map, or the proper install files.\n",
 				sv.modelname, check, sv.map_checksum, sv.map_checksum2);
-			SV_DropClient (sv_client); 
+			SV_DropClient (sv_client);
 			return;
 		}
 	}
@@ -447,7 +447,7 @@ static void Cmd_Spawn_f (void)
 	// normally this could overflow, but no need to check due to backbuf
 	for (i = 0, client = svs.clients ; i<MAX_CLIENTS ; i++, client++)
 		SV_FullClientUpdateToClient (client, sv_client);
-	
+
 	// send all current light styles
 	for (i=0 ; i<MAX_LIGHTSTYLES ; i++)
 	{
@@ -571,18 +571,18 @@ static void Cmd_Begin_f (void)
 	sv_client->state = cs_spawned;
 
 //	sv_player->inuse = true;
-	
+
 	if (!sv.loadgame)
 	{
 		if (sv_client->spectator)
 		{
 			SV_SpawnSpectator ();
-			
+		
 			if (SpectatorConnect) {
 				// copy spawn parms out of the client_t
 				for (i=0 ; i< NUM_SPAWN_PARMS ; i++)
 					(&pr_global_struct->parm1)[i] = sv_client->spawn_parms[i];
-				
+			
 				// call the spawn function
 				pr_global_struct->time = sv.time;
 				pr_global_struct->self = EDICT_TO_PROG(sv_player);
@@ -594,16 +594,16 @@ static void Cmd_Begin_f (void)
 			// copy spawn parms out of the client_t
 			for (i=0 ; i< NUM_SPAWN_PARMS ; i++)
 				(&pr_global_struct->parm1)[i] = sv_client->spawn_parms[i];
-			
+		
 			// call the spawn function
 			pr_global_struct->time = sv.time;
 			pr_global_struct->self = EDICT_TO_PROG(sv_player);
 			PR_ExecuteProgram (pr_global_struct->ClientConnect);
-			
+		
 			// actually spawn the player
 			pr_global_struct->time = sv.time;
 			pr_global_struct->self = EDICT_TO_PROG(sv_player);
-			PR_ExecuteProgram (pr_global_struct->PutClientInServer);	
+			PR_ExecuteProgram (pr_global_struct->PutClientInServer);
 		}
 	}
 
@@ -694,7 +694,7 @@ static void OutofBandPrintf (netadr_t where, char *fmt, ...)
 {
 	va_list		argptr;
 	char	send[1024];
-	
+
 	send[0] = 0xff;
 	send[1] = 0xff;
 	send[2] = 0xff;
@@ -779,7 +779,7 @@ Com_DPrintf ("UPLOAD: %d received\n", size);
 				p++;
 			else
 				p = sv_client->uploadfn;
-			OutofBandPrintf(sv_client->snap_from, "%s upload completed.\nTo download, enter:\ndownload %s\n", 
+			OutofBandPrintf(sv_client->snap_from, "%s upload completed.\nTo download, enter:\ndownload %s\n",
 				sv_client->uploadfn, p);
 		}
 	}
@@ -910,7 +910,7 @@ static void SV_Say (qbool team)
 	if (fp_messages) {
 		if (!sv_paused.value && svs.realtime < sv_client->lockedtill) {
 			SV_ClientPrintf(sv_client, PRINT_CHAT,
-				"You can't talk for %d more seconds\n", 
+				"You can't talk for %d more seconds\n",
 					(int) (sv_client->lockedtill - svs.realtime));
 			return;
 		}
@@ -1039,7 +1039,7 @@ static void SV_Kill_f (void)
 		SV_ClientPrintf (sv_client, PRINT_HIGH, "Can't suicide -- already dead!\n");
 		return;
 	}
-	
+
 	pr_global_struct->time = sv.time;
 	pr_global_struct->self = EDICT_TO_PROG(sv_player);
 	PR_ExecuteProgram (pr_global_struct->ClientKill);
@@ -1120,7 +1120,7 @@ static void Cmd_Drop_f (void)
 	SV_EndRedirect ();
 	if (!sv_client->spectator)
 		SV_BroadcastPrintf (PRINT_HIGH, "%s dropped\n", sv_client->name);
-	SV_DropClient (sv_client);	
+	SV_DropClient (sv_client);
 }
 
 /*
@@ -1134,7 +1134,7 @@ static void Cmd_PTrack_f (void)
 {
 	int		i;
 	edict_t *ent, *tent;
-	
+
 	if (!sv_client->spectator)
 		return;
 
@@ -1147,7 +1147,7 @@ static void Cmd_PTrack_f (void)
 		ent->v.goalentity = EDICT_TO_PROG(tent);
 		return;
 	}
-	
+
 	i = atoi(Cmd_Argv(1));
 	if (i < 0 || i >= MAX_CLIENTS || svs.clients[i].state != cs_spawned ||
 		svs.clients[i].spectator) {
@@ -1393,11 +1393,11 @@ static void Cmd_Join_f (void)
 	pr_global_struct->time = sv.time;
 	pr_global_struct->self = EDICT_TO_PROG(sv_player);
 	PR_ExecuteProgram (pr_global_struct->ClientConnect);
-	
+
 	// actually spawn the player
 	pr_global_struct->time = sv.time;
 	pr_global_struct->self = EDICT_TO_PROG(sv_player);
-	PR_ExecuteProgram (pr_global_struct->PutClientInServer);	
+	PR_ExecuteProgram (pr_global_struct->PutClientInServer);
 
 	// send notification to all clients
 	sv_client->sendinfo = true;
@@ -1462,7 +1462,7 @@ static void Cmd_Observe_f (void)
 		sv_client->spawn_parms[i] = (&pr_global_struct->parm1)[i];
 
 	SV_SpawnSpectator ();
-	
+
 	// call the spawn function
 	if (SpectatorConnect) {
 		pr_global_struct->time = sv.time;
@@ -1517,16 +1517,16 @@ static void Cmd_Give_f (void)
 {
 	char	*t;
 	int		v;
-	
+
 	if (!sv_allow_cheats)
 	{
 		SV_ClientPrintf (sv_client, PRINT_HIGH, "Cheats are not allowed on this server\n");
 		return;
 	}
-	
+
 	t = Cmd_Argv(1);
 	v = atoi (Cmd_Argv(2));
-	
+
 	switch (t[0])
 	{
 	case '2':
@@ -1539,22 +1539,22 @@ static void Cmd_Give_f (void)
 	case '9':
 		sv_player->v.items = (int)sv_player->v.items | IT_SHOTGUN<< (t[0] - '2');
 		break;
-	
+
 	case 's':
 		sv_player->v.ammo_shells = v;
-		break;		
+		break;	
 	case 'n':
 		sv_player->v.ammo_nails = v;
-		break;		
+		break;	
 	case 'r':
 		sv_player->v.ammo_rockets = v;
-		break;		
+		break;	
 	case 'h':
 		sv_player->v.health = v;
-		break;		
+		break;	
 	case 'c':
 		sv_player->v.ammo_cells = v;
-		break;		
+		break;	
 	}
 }
 
@@ -1653,8 +1653,8 @@ ucmd_t ucmds[] =
 	{"ptrack", Cmd_PTrack_f},	// used with autocam
 
 	{"snap", Cmd_Snap_f},
-	
-// issued by hand at client consoles	
+
+// issued by hand at client consoles
 	{"pause", Cmd_Pause_f},
 
 	{"say", Cmd_Say_f},
@@ -1678,7 +1678,7 @@ static void SV_ExecuteUserCommand (char *s)
 	pr_cmdfunction_t *cmdfunc;
 	char	*cmd;
 	int		i, j;
-	
+
 	Cmd_TokenizeString (s);
 	sv_player = sv_client->edict;
 	cmd = Cmd_Argv(0);
@@ -1759,8 +1759,8 @@ static void AddLinksToPmove ( areanode_t *node )
 
 		if (check->v.owner == pl)
 			continue;		// player's own missile
-		if (check->v.solid == SOLID_BSP 
-			|| check->v.solid == SOLID_BBOX 
+		if (check->v.solid == SOLID_BSP
+			|| check->v.solid == SOLID_BBOX
 			|| check->v.solid == SOLID_SLIDEBOX)
 		{
 			if (check == sv_player)
@@ -1794,7 +1794,7 @@ static void AddLinksToPmove ( areanode_t *node )
 			}
 		}
 	}
-	
+
 // recurse down both sides
 	if (node->axis == -1)
 		return;
@@ -1838,8 +1838,8 @@ static void AddAllEntsToPmove (void)
 			continue;
 		if (check->v.owner == pl)
 			continue;
-		if (check->v.solid == SOLID_BSP 
-			|| check->v.solid == SOLID_BBOX 
+		if (check->v.solid == SOLID_BSP
+			|| check->v.solid == SOLID_BBOX
 			|| check->v.solid == SOLID_SLIDEBOX)
 		{
 			if (check == sv_player)
@@ -1977,7 +1977,7 @@ void SV_RunCmd (usercmd_t *ucmd)
 		VectorCopy (ucmd->angles, sv_player->v.v_angle);
 
 	// model angles
-	// show 1/3 the pitch angle and all the roll angle	
+	// show 1/3 the pitch angle and all the roll angle
 	if (sv_player->v.health > 0) {
 		if (!sv_player->v.fixangle) {
 			sv_player->v.angles[PITCH] = -sv_player->v.v_angle[PITCH]/3;
@@ -2142,7 +2142,7 @@ static void SV_ExecuteClientMove (client_t *cl, usercmd_t oldest, usercmd_t oldc
 		return;
 
 	SV_PreRunCmd();
-	
+
 	net_drop = cl->netchan.dropped;
 	if (net_drop < 20)
 	{
@@ -2157,7 +2157,7 @@ static void SV_ExecuteClientMove (client_t *cl, usercmd_t oldest, usercmd_t oldc
 	if (net_drop > 0)
 		SV_RunCmd (&oldcmd);
 	SV_RunCmd (&newcmd);
-	
+
 	SV_PostRunCmd();
 }
 
@@ -2202,11 +2202,11 @@ void SV_ExecuteClientMessage (client_t *cl)
 	cl->delay = bound(0, cl->delay, 1);
 
 	// make sure the reply sequence number matches the incoming
-	// sequence number 
+	// sequence number
 	if (cl->netchan.incoming_sequence >= cl->netchan.outgoing_sequence)
 		cl->netchan.outgoing_sequence = cl->netchan.incoming_sequence;
 	else
-		cl->send_message = false;	// don't reply, sequences have slipped		
+		cl->send_message = false;	// don't reply, sequences have slipped	
 
 	// save time for ping calculations
 	cl->frames[cl->netchan.outgoing_sequence & UPDATE_MASK].senttime = svs.realtime;
@@ -2216,7 +2216,7 @@ void SV_ExecuteClientMessage (client_t *cl)
 	sv_player = sv_client->edict;
 
 	seq_hash = cl->netchan.incoming_sequence;
-	
+
 	// mark time so clients will know how much to predict
 	// other players
  	cl->cmdtime = svs.realtime;
@@ -2228,19 +2228,19 @@ void SV_ExecuteClientMessage (client_t *cl)
 			SV_ClientPrintf (sv_client, PRINT_HIGH, "SV_ReadClientMessage: badread\n");
 			SV_DropClient (cl);
 			return;
-		}	
+		}
 
 		c = MSG_ReadByte ();
 		if (c == -1)
 			break;
-				
+			
 		switch (c)
 		{
 		default:
 			SV_ClientPrintf (sv_client, PRINT_HIGH, "SV_ReadClientMessage: unknown command char\n");
 			SV_DropClient (cl);
 			return;
-						
+					
 		case clc_nop:
 			break;
 
@@ -2275,7 +2275,7 @@ void SV_ExecuteClientMessage (client_t *cl)
 
 			if (calculatedChecksum != checksum)
 			{
-				Com_DPrintf ("Failed command checksum for %s(%d) (%d != %d)\n", 
+				Com_DPrintf ("Failed command checksum for %s(%d) (%d != %d)\n",
 					cl->name, cl->netchan.incoming_sequence, checksum, calculatedChecksum);
 				return;
 			}
@@ -2287,7 +2287,7 @@ void SV_ExecuteClientMessage (client_t *cl)
 			break;
 
 
-		case clc_stringcmd:	
+		case clc_stringcmd:
 			s = MSG_ReadString ();
 			s[1023] = 0;
 			SV_ExecuteUserCommand (s);

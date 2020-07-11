@@ -72,7 +72,7 @@ settings).
 	if the file itself has no extension, use its explicit name ("loadloc dm6.")
 * set - set a value to/create a cvar
 * teamcolor - overrides the color of teammates (doesn't work in GL)
-* enemycolor - overrides the color of enemies (doesn't work in GL) 
+* enemycolor - overrides the color of enemies (doesn't work in GL)
 * enemyskin - overrides the skins of enemies
 * teamskin - overrides the skins of teammates
 * easyrecord - records demos without worrying about the filename
@@ -351,12 +351,12 @@ During playback of demos, pause now actually works, as does demotimescale:
 	if the demo with that name already exist, the demo will be postfixed with
 	two numbers (at the end) such as 00, and counting upwards from that,
 	so if there is already a unnamed_dm6.qwd, unnamed_dm6_00.qwd will be created,
-	then unnamed_dm6_01.qwd, and so forth.	
+	then unnamed_dm6_01.qwd, and so forth.
 
 	also, when demoname is specified, it will work like record, except it
 	will retain the aforementioned reinumeration of demos (it won't overwrite
 	existing demos, instead it will append numbers to the filename).
-	
+
 	example:
 		easyrecord tempdemo
 		easyrecord $name_$team

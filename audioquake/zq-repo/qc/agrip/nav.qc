@@ -51,7 +51,7 @@ float(vector v_cmid, vector v_coff) snap_nav_corners_check;
 /**
     This is the ``constructor'' of the nav object.  It sets up the device
     with all the user-defined settings and sets it off scanning.
-    
+   
     Constructors, unlike other object functions, are run from the
     perspective of the player.
 */
@@ -59,23 +59,23 @@ void() snap_nav_constructor =
 {
     local entity new_agnav, child_drop;
 
-    // Let there be light!        
+    // Let there be light!       
     new_agnav = spawn();
-        
+       
     // Set up new nav object...
     new_agnav.movetype = MOVETYPE_NONE;
     new_agnav.solid = SOLID_NOT;
-        
+       
     /*  Give it the preferences the user specified...
         To save memory, we're using existing (and empty for this entity) fields... */
-    
+   
     // Interval (seconds) between uses of the nav object:
     new_agnav.health = 0.5;
-    
+   
     // Detection range:
     new_agnav.frags = stof(infokey(self, "agv_nav_detrange"));
     // AG_FIXME: error check on nav detrange?
-    
+   
     // Volume throttle for the wall sounds...
     new_agnav.ammo_rockets = stof(infokey(self, "agv_nav_wall_volume_throttle"));
     if( new_agnav.ammo_rockets > 1 || new_agnav.ammo_rockets < 0 )
@@ -128,10 +128,10 @@ void() snap_nav_constructor =
 void() snap_nav_main =
 {
     local float z_changed;
-    
+   
     // Find walls, slopes and doors...
     snap_nav_struct_main();
-    
+   
     // Tell the player if they're moving up/down...
     z_changed = snap_nav_z_main();
 
@@ -158,7 +158,7 @@ void() snap_nav_main =
 */
 void() snap_nav_struct_main =
 {
-    // Declare the vectors to store the various points we are going to test for obstacles 
+    // Declare the vectors to store the various points we are going to test for obstacles
     local vector    v_start,
                     v_nav_fwd, v_nav_fwd_up,
                     v_nav_lft, v_nav_lft_up,
@@ -167,7 +167,7 @@ void() snap_nav_struct_main =
 
     // Store the type of object that was detected in a given direction...
     local float     objtype;
-        
+       
     // Get the correct starting point for the vectors...
     // (owner origin not appropriate as it is too high and thus confuses the detection)
     v_start = self.owner.origin - '0 0 20';
@@ -189,7 +189,7 @@ void() snap_nav_struct_main =
     v_nav_bck_up = v_nav_bck + ( 50 * v_up );
 
     // Now detect and sound stuff...
-   
+  
     // Forward and Back...
     objtype = snap_nav_struct_detect(SNAP_NAV_DIR_FWD, v_start, v_nav_fwd, v_nav_fwd_up);
     snap_nav_struct_soundout(SNAP_NAV_DIR_FWD, objtype);
@@ -198,7 +198,7 @@ void() snap_nav_struct_main =
     snap_nav_struct_soundout(SNAP_NAV_DIR_BCK, objtype);
     //dprint("  b = ");dprint(ftos(objtype));
 
-    // Left and Right...    
+    // Left and Right...   
     objtype = snap_nav_struct_detect(SNAP_NAV_DIR_LFT, v_start, v_nav_lft, v_nav_lft_up);
     snap_nav_struct_soundout(SNAP_NAV_DIR_LFT, objtype);
     //dprint("  l = ");dprint(ftos(objtype));
@@ -210,7 +210,7 @@ void() snap_nav_struct_main =
 /**
     Do a trace between two vectors and detect the type of obj/surface
     present.  It then returns a value indicating what it found.
-        
+       
     @param dir          direction we're scanning in relative to player
     @param v_start      origin of trace
     @param v_out        first vector projected from origin (just horizontal)
@@ -221,7 +221,7 @@ float(float dir, vector v_start, vector v_out, vector v_out_up) snap_nav_struct_
     local float Xout, Xoutup, Yout, Youtup;
     local float tracedown_half_out, tracedown_quarter_out, tracedown_nearplr_out;
     local vector v_test; // used to test if we're on a slope so we don't get stuff wrong.
-    
+   
     // calc v_out_up's endpos...
     // Do this trace from higher up than the next one, so that we can detect
     // SLOPE and ramps when they are very close to the player...
@@ -266,11 +266,11 @@ float(float dir, vector v_start, vector v_out, vector v_out_up) snap_nav_struct_
     dprint("  so: ");dprint(vtos(self.owner.origin));
     dprint("  po: ");dprint(vtos(v_test));
     dprint("\n");*/
-    
+   
     // Set sound volume (this will be used for slopes and walls, but
     // overriden if the object is a downward slope)...
     self.volume = 1 - trace_fraction;
-    
+   
     // Two situations for an up slope:
     // the two x's are not the same OR the two y's are not the same...
     if(     (Xout != Xoutup && Yout == Youtup )
@@ -323,7 +323,7 @@ float(float dir, vector v_start, vector v_out, vector v_out_up) snap_nav_struct_
         // If there is a downward slope,
         // tracedown_quarter_out will be < tracedown_half_out...
         // (We need some tolerance in there, though.)
-        
+       
         // Tolerance...
         // (the tolerance is 5 units)
         if( fabs(tracedown_half_out - tracedown_quarter_out) < 0.05 )
@@ -340,13 +340,13 @@ float(float dir, vector v_start, vector v_out, vector v_out_up) snap_nav_struct_
             dprint(ftos(tracedown_half_out));dprint(" ");
             dprint("\n");
         }*/
-        
+       
         // Work out if there is a slope...
         if(     (       (tracedown_nearplr_out < tracedown_quarter_out)
                     &&  (tracedown_quarter_out < tracedown_half_out) )
             ||  (       (tracedown_nearplr_out == tracedown_quarter_out)
                     &&  (tracedown_quarter_out < tracedown_half_out) )
-            ||  (       (tracedown_nearplr_out < tracedown_quarter_out) 
+            ||  (       (tracedown_nearplr_out < tracedown_quarter_out)
                     &&  (tracedown_quarter_out == tracedown_half_out) ) )
         {
             self.volume = 1 - ( vlen(trace_endpos - v_start) / self.frags );
@@ -357,7 +357,7 @@ float(float dir, vector v_start, vector v_out, vector v_out_up) snap_nav_struct_
 
 /**
     Sound out a detected object/surface.
-    
+   
     @param objtype      tells it the type of object that was detected
     @param direction    tells it which direction we're scanning in
 
@@ -377,13 +377,13 @@ void(float direction, float objtype) snap_nav_struct_soundout =
     {
         dprint("Object in front is a: ");dprint(ftos(objtype));dprint("\n");
     }*/
-    
+   
     // Work out what sound to make...
     if( objtype == SNAP_NAV_STRUCT_WALL )
     {
         // It's a WALL...
         // Do we sound it out?
-        
+       
         // Have we just hit it?
         if( self.owner.agrip_aux.ammo_shells & direction )
         {
@@ -400,11 +400,11 @@ void(float direction, float objtype) snap_nav_struct_soundout =
             {
                 // Apply throttle for wall-touch sounds...
                 actual_sound_level = 1 * self.ammo_shells;
-                    
+                   
                 // If the wall is NOT in front us, make it a bit quieter...
                 if( direction != SNAP_NAV_DIR_FWD )
                     actual_sound_level = actual_sound_level * 0.5;
-            
+           
                 // Make the wall-touch sound...
                 // AG_FIXME: wall-touch sound
                 safe_soundtoclient(self.owner, self, CHAN_AUTO, "misc/menu3.wav", actual_sound_level, ATTN_NORM);
@@ -416,13 +416,13 @@ void(float direction, float objtype) snap_nav_struct_soundout =
             // Sound volume should fall off as if the wall detection range was half
             // of what the other nav objects' detection range is...
             actual_sound_level = self.volume * self.ammo_rockets;
-      
+     
             // Sound out the wall?
             if(     infokey(self.owner, "agv_t_nav_wall_warnings") == "1"
                 &&  direction != SNAP_NAV_DIR_BCK
                 &&  (
                           infokey(self.owner, "agv_t_nav_side_wall_warnings") == "1"
-                      ||  (     
+                      ||  (    
                                 direction != SNAP_NAV_DIR_LFT
                             &&  direction != SNAP_NAV_DIR_RGT
                           )
@@ -444,7 +444,7 @@ void(float direction, float objtype) snap_nav_struct_soundout =
             // Get sound volume...
             actual_sound_level = self.volume;
             // (The throttle is only for walls.)
-            
+           
             // Sound out ramps, SLOPE and doors...
             if( objtype == SNAP_NAV_STRUCT_SLOPE )
             {
@@ -472,7 +472,7 @@ void(float direction, float objtype) snap_nav_struct_soundout =
     This also stores the information returned by the detection function
     regarding what's in the drop pit and if the player can jump over the
     hazard in front of them.
-    
+   
     The following properties of the D5k are used to store information:
     * self.weapon       - stores the type of pit filling in front of the player.
     * self.takedamage   - stores the jump flag.
@@ -488,7 +488,7 @@ void() snap_nav_haz_main =
 
     // Now detect and sound stuff...
     // (For forward, left, right and back directions.)
-    
+   
     // Forward
     // Should the ESR be making the sound?
     if( infokey(self.owner, "agv_t_esr") == "2" )
@@ -500,7 +500,7 @@ void() snap_nav_haz_main =
     //     in front of the player.  If there was a hazard, it's origin will now
     //     be set and it will have it's state set to 1.
     //     The following calls do not interfere with this.
-    
+   
     // Do the other dirs if we've been told to...
     if( infokey(self.owner, "agv_t_nav_side_haz_warnings") == "1" )
     {
@@ -517,7 +517,7 @@ void() snap_nav_haz_main =
         front of them (hence that is the only function we collect a haztype for).
     */
     self.weapon = haztype;
-    
+   
     /** JUMP DESCRIPTIONS
         We need to be able to say if the player could make the jump in front of
         them, in a similar way to drop types above.
@@ -527,14 +527,14 @@ void() snap_nav_haz_main =
     else
         self.takedamage = 0;
 };
-     
+    
 /**
     Detect ledges/drops near the player.  Make a sound based on how large
     the drop is and also work out what is contained within it (i.e. water,
     slime or lava).  The calling function can do whatever it wants with
     this information.  Read on for a detailed description of how this is all
     done.
-    
+   
     @param fwd          - are we doing this in the forward direction?
                           (because only in fwd direction do we care about
                           the hazard marker's position)
@@ -551,7 +551,7 @@ void() snap_nav_haz_main =
                             - it returns 10 if the drop wasn't big enough.
                             - it returns 0 if there was a drop but we aren't
                               close enough to examine the contents of it.
-    
+   
     GENERAL NOTES
 
     - self.skin contains the volume throttle for hazard sounds.
@@ -570,10 +570,10 @@ float(float fwd, vector v_start, vector v_dir, float reverse, float snd) snap_na
         We need to search out in front of us for a ledge.
         The hazard detection range is half of the nav detection range.
     */
-    
+   
     // Get owner's pointy vectors...
     makevectors(self.owner.angles);
-   
+  
     // Start off looking 10 units further away from the player in whatever
     // direction we are scanning for ledges in...
     v_end = v_start;
@@ -592,7 +592,7 @@ float(float fwd, vector v_start, vector v_dir, float reverse, float snd) snap_na
             v_end = v_end - 10 * v_dir;
     }
 
-    
+   
     /** CHECKING THE POTENTIAL DROP IS VISIBLE
 
         Check that we've not found a gap that is through the side of a corridor
@@ -609,7 +609,7 @@ float(float fwd, vector v_start, vector v_dir, float reverse, float snd) snap_na
       )
     {
         /// CHECKING IT IS A VALID DROP
-       
+      
         // Make sure it's not just a small gap (at a plat, for example)...
         traceline(v_end, v_end + 10 * v_dir, true, self.owner);
         /*dprint("test -- tf: ");dprint(ftos(trace_fraction));
@@ -618,14 +618,14 @@ float(float fwd, vector v_start, vector v_dir, float reverse, float snd) snap_na
             ||  trace_fraction != 1 )
         {
             /** If it is a valid drop...
-        
+       
                 There are drops that you would/wouldn't notice and drops that would
                 hurt you -- we need to distinguish between them.
-    
+   
                 - A drop of > 16 units has to be jumped over -- SMALL
                 - A drop of > 39 units can't be jumped over -- BIG
                 - A drop of > 275 units hurts you -- HUGE
-                
+               
                 What we need to do:
 
                 -# Trace down from the spot in front of us for, say, 400 units.
@@ -638,25 +638,25 @@ float(float fwd, vector v_start, vector v_dir, float reverse, float snd) snap_na
                 -# If the player pressed the ``drop description'' key, tell them
                   what lies in the pit.
             */
-    
+   
             // Prepare for Descent...
             traceline(v_end, (v_end - '0 0 800') , true, self.owner);
-    
+   
             // How big is the drop?
             drop_length = vlen(trace_endpos - v_end);
-   
-            
+  
+           
             /// SOUNDING OUT THE DROP
             /// or LETTING THE ESR DO IT
-            
+           
             if( snd )
             {
                 // Get into the right place...
                 setorigin(self, v_end);
-                
+               
                 /// Work out how loud to make the sound that warns the player of the drop.
                 /// The volume is based on how close the player is to the ledge.
-                
+               
                 // Calculate ledge_dist as a percentage of the detection range...
                 soundout_volume = ledge_dist / (self.frags / 2);
                 // Invert and throttle down soundout_volume...
@@ -664,7 +664,7 @@ float(float fwd, vector v_start, vector v_dir, float reverse, float snd) snap_na
                 //dprint("soundout volume: ");dprint(ftos(soundout_volume));dprint("\n");
 
                 // FIXME: Make it do a different version of each drop height sound if the player is on the edge!
-                
+               
                 // Classify as SMALL, BIG or HUGE...
                 if( drop_length > 275 )
                 {
@@ -681,7 +681,7 @@ float(float fwd, vector v_start, vector v_dir, float reverse, float snd) snap_na
             }
 
             /** RETURNING DROP INFORMATION
-            
+           
                 What lies beneath? :-)
                 Return the contents of the pit, if the player is close enough to it.
                 NB:  The calling funtion should sort out whether or not it makes this
@@ -740,7 +740,7 @@ float(float fwd, vector v_start, vector v_dir, float reverse, float snd) snap_na
 /**
     Keep track of where the player is, Z-wise, and inform them when they
     are going up/down.
-    
+   
     The property that stores our owner's previous Z location is self.frame.
 */
 float() snap_nav_z_main =
@@ -749,10 +749,10 @@ float() snap_nav_z_main =
 
     // Assume we have moved since the last time this was run...
     z_changed = true;
-    
+   
     /** How this works is that we see what height we were at last time the D5k
         ran and compare it to where we are now...
-    
+   
         Note: We have a tolerance of +/- 5 game units to avoid it being too
               verbose about Z changes.
     */
@@ -822,7 +822,7 @@ void() snap_nav_corners_main =
     corner_dist = 0;
     found_left_corner = false;
     found_right_corner = false;
-    
+   
     // Iteratively work out if there is a gap for a corner in front of Quake guy...
     while(      corner_dist < ( self.frags - 10 )
            &&   (    pointcontents(v_corner_fwd) == CONTENT_EMPTY
@@ -844,7 +844,7 @@ void() snap_nav_corners_main =
             found_right_corner = snap_nav_corners_check(v_corner_fwd, v_corner_right);
             v_iR = v_corner_fwd;
         }
-    
+   
         // Done, go to the next point...
         v_corner_fwd = v_corner_fwd + 10 * v_forward;
         corner_dist = vlen(v_corner_fwd - v_start);
@@ -880,7 +880,7 @@ void() snap_nav_corners_main =
         else if( corner_vol < 0 )
             corner_vol = 0;
         //dprint("left: ");dprint(ftos(corner_vol));dprint("\n");
-       
+      
         // Kick off the sounder...
         local entity sounderL;
         sounderL = spawn();
@@ -928,7 +928,7 @@ void() snap_nav_corners_main =
         else if( corner_vol < 0 )
             corner_vol = 0;
         //dprint("right: ");dprint(ftos(corner_vol));dprint("\n");
-       
+      
         // Kick off the sounder...
         local entity sounderR;
         sounderR = spawn();
@@ -962,7 +962,7 @@ void() snap_nav_corners_main =
             self.dest2 = v_forward;
         }
     }
-    
+   
     /// JUST PASSED A CORNER INDICATION
     /// May also need to be provided, so this function does that too.
 
@@ -1039,7 +1039,7 @@ void() snap_nav_corners_main =
       mid point.
     - The player could fit into the space detected at the corner point.
     - There is not a big drop under the player at the corner point.
-        
+       
     @param v_cmid   the corner point to be examined
     @param v_coff   the v_corner_fwd already found.
     @return         (true/false)
@@ -1072,7 +1072,7 @@ float(vector v_cmid, vector v_coff) snap_nav_corners_check =
         if(     trace_fraction != 1
             &&  (    pointcontents(v_cornerpoint + self.owner.mins) == CONTENT_EMPTY
                   || pointcontents(v_cornerpoint + self.owner.mins) == CONTENT_WATER )
-            &&  (    pointcontents(v_cornerpoint + self.owner.maxs) == CONTENT_EMPTY 
+            &&  (    pointcontents(v_cornerpoint + self.owner.maxs) == CONTENT_EMPTY
                   || pointcontents(v_cornerpoint + self.owner.maxs) == CONTENT_WATER )
           )
             //&&  trace_ent.classname != "door" )

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -148,16 +148,16 @@ void R_InitTextures (void)
 {
 	int		x,y, m;
 	byte	*dest;
-	
+
 // create a simple checkerboard texture for the default
 	r_notexture_mip = Hunk_AllocName (sizeof(texture_t) + 16*16+8*8+4*4+2*2, "notexture");
-	
+
 	r_notexture_mip->width = r_notexture_mip->height = 16;
 	r_notexture_mip->offsets[0] = sizeof(texture_t);
 	r_notexture_mip->offsets[1] = r_notexture_mip->offsets[0] + 16*16;
 	r_notexture_mip->offsets[2] = r_notexture_mip->offsets[1] + 8*8;
 	r_notexture_mip->offsets[3] = r_notexture_mip->offsets[2] + 4*4;
-	
+
 	for (m=0 ; m<4 ; m++)
 	{
 		dest = (byte *)r_notexture_mip + r_notexture_mip->offsets[m];
@@ -169,7 +169,7 @@ void R_InitTextures (void)
 				else
 					*dest++ = 15;
 			}
-	}	
+	}
 }
 
 /*
@@ -180,11 +180,11 @@ R_Init
 void R_Init (unsigned char *palette)
 {
 	extern void R_Draw_Init (void);
-	
+
 	memcpy (r_palette, palette, 768);
 
 	R_InitTurb ();
-	
+
 	Cmd_AddCommand ("timerefresh", R_TimeRefresh_f);
 	Cmd_AddCommand ("screenshot", R_ScreenShot_f);
 	Cmd_AddCommand ("loadsky", R_LoadSky_f);
@@ -250,7 +250,7 @@ R_NewMap
 void R_NewMap (struct model_s *worldmodel)
 {
 	int		i;
-	
+
 	r_worldmodel = worldmodel;
 
 	memset (&r_worldentity, 0, sizeof(r_worldentity));
@@ -337,12 +337,12 @@ void R_MarkLeaves (void)
 
 	if (r_oldviewleaf == r_viewleaf)
 		return;
-	
+
 	r_visframecount++;
 	r_oldviewleaf = r_viewleaf;
 
 	vis = Mod_LeafPVS (r_viewleaf, r_worldmodel);
-		
+	
 	for (i = 0; i < r_worldmodel->numleafs; i++)
 	{
 		if (vis[i>>3] & (1<<(i&7)))
@@ -438,7 +438,7 @@ int R_BmodelCheckBBox (model_t *clmodel, float *minmaxs)
 			rejectpt[0] = minmaxs[pindex[0]];
 			rejectpt[1] = minmaxs[pindex[1]];
 			rejectpt[2] = minmaxs[pindex[2]];
-			
+		
 			d = DotProduct (rejectpt, view_clipplanes[i].normal);
 			d -= view_clipplanes[i].dist;
 
@@ -478,7 +478,7 @@ mnode_t *R_FindTopNode (vec3_t mins, vec3_t maxs)
 	{
 		if (node->visframe != r_visframecount)
 			return NULL;		// not visible at all
-		
+	
 		if (node->contents < 0)
 		{
 			if (node->contents != CONTENTS_SOLID)
@@ -486,13 +486,13 @@ mnode_t *R_FindTopNode (vec3_t mins, vec3_t maxs)
 							//  visible and not BSP clipped
 			return NULL;	// in solid, so not visible
 		}
-		
+	
 		splitplane = node->plane;
 		sides = BOX_ON_PLANE_SIDE (mins, maxs, splitplane);
-		
+	
 		if (sides == 3)
 			return node;	// this is the splitter
-		
+	
 		// not split yet; recurse down the contacted side
 		if (sides & 1)
 			node = node->children[0];
@@ -581,7 +581,7 @@ void R_DrawBEntitiesOnList (void)
 
 		currententity->topnode = NULL;
 
-	// put back world rotation and frustum clipping		
+	// put back world rotation and frustum clipping	
 	// FIXME: R_RotateBmodel should just work off base_vxx
 		VectorCopy (base_vpn, vpn);
 		VectorCopy (base_vup, vup);
@@ -654,7 +654,7 @@ void R_EdgeDrawing (void)
 	{
 		S_ExtraUpdate ();	// don't let sound get messed up if going slow
 	}
-	
+
 	R_ScanEdges ();
 }
 
@@ -683,19 +683,19 @@ void R_RenderView (void)
 
 	if (!r_worldentity.model || !r_worldmodel)
 		Sys_Error ("R_RenderView: NULL worldmodel");
-		
+	
 	if (!r_dspeeds.value)
 	{
 		S_ExtraUpdate ();	// don't let sound get messed up if going slow
 	}
-	
+
 	R_EdgeDrawing ();
 
 	if (!r_dspeeds.value)
 	{
 		S_ExtraUpdate ();	// don't let sound get messed up if going slow
 	}
-	
+
 	if (r_dspeeds.value)
 	{
 		se_time2 = Sys_DoubleTime ();
@@ -740,7 +740,7 @@ void R_RenderView (void)
 
 	if (r_aliasstats.value)
 		R_PrintAliasStats ();
-		
+	
 	if (r_speeds.value)
 		R_PrintTimes ();
 
@@ -766,7 +766,7 @@ R_InitTurb
 void R_InitTurb (void)
 {
 	int		i;
-	
+
 	for (i = 0; i < CYCLE * 2; i++)
 		sintable[i] = AMP + sin(i*3.14159*2/CYCLE)*AMP;
 

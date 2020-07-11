@@ -37,10 +37,10 @@ returns the range catagorization of an entity reletive to self
 float range (entity targ)
 {
 	vector	spot1, spot2;
-	float	r;	
+	float	r;
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
-	
+
 	r = vlen (spot1 - spot2);
 	if (r < 120)
 		return RANGE_MELEE;
@@ -61,11 +61,11 @@ returns 1 if the entity is visible to self, even if not infront ()
 float visible (entity targ)
 {
 	vector	spot1, spot2;
-	
+
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
 	traceline (spot1, spot2, true, self);	// see through other monsters
-	
+
 	if (trace_inopen && trace_inwater)
 		return false;			// sight line crossed contents
 
@@ -86,11 +86,11 @@ float infront (entity targ)
 {
 	vector	vec;
 	float	dot;
-	
+
 	makevectors (self.angles);
 	vec = normalize (targ.origin - self.origin);
 	dot = vec * v_forward;
-	
+
 	if ( dot > 0.3)
 	{
 		return true;

@@ -23,11 +23,11 @@
 
 
 	1. Open up the PROGS.SRC file, and insert the words "tutor.qc"
-		without quotes after the words "misc.qc" 
+		without quotes after the words "misc.qc"
 
 
 	2. Open up the file CLIENT.QC and scroll down to ClientObituary().
-		You'll see an early line looking like this:		
+		You'll see an early line looking like this:	
 
 		if (targ.classname == "player")
 
@@ -619,7 +619,7 @@ void() bot_run =
 	This section is the simplest, basically dull stuff. It checks for
 	his best weapon and sets the relevant ammo. It gives him a free
 	weapon. And it does the actual firing of the weapons. The key
-	difference between a player weapon routine and a bot weapon 
+	difference between a player weapon routine and a bot weapon
 	routine is the aiming. In player routines, you'll see a line
 	like this:
 
@@ -860,7 +860,7 @@ vector() bot_aim_at_enemy =
 
 $cd /raid/quake/id1/models/player_4
 $origin 0 -6 24
-$base base		
+$base base	
 $skin skin
 
 $frame axrun1 axrun2 axrun3 axrun4 axrun5 axrun6
@@ -934,7 +934,7 @@ void() bot_stand3		=[	$stand3,	bot_stand4	] {bot_stand();};
 void() bot_stand4		=[	$stand4,	bot_stand5	] {bot_stand();};
 void() bot_stand5		=[	$stand5,	bot_stand1	] {bot_stand();};
 
-	
+
 void()  bot_walk1		=[	$rockrun1,	bot_walk2	] {bot_walk();};
 void()  bot_walk2		=[	$rockrun2,	bot_walk3	] {bot_walk();};
 void()  bot_walk3		=[	$rockrun3,	bot_walk4	] {bot_walk();};
@@ -1302,7 +1302,7 @@ void(float team) create_bot =
        spot = SelectSpawnPoint();
        bot.origin = spot.origin + '0 0 1';
        bot.angles = spot.angles;
-       bot.fixangle = true;	
+       bot.fixangle = true;
        spawn_tfog (bot.origin);
        spawn_tdeath (bot.origin, bot);
        bot.solid = SOLID_SLIDEBOX;

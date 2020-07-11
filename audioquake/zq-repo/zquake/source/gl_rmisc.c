@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -80,7 +80,7 @@ void R_TranslatePlayerSkin (int playernum)
 				translate[TOP_RANGE+i] = top+i;
 			else
 				translate[TOP_RANGE+i] = top+15-i;
-					
+				
 			if (bottom < 128)
 				translate[BOTTOM_RANGE+i] = bottom+i;
 			else
@@ -172,8 +172,8 @@ void R_TranslatePlayerSkin (int playernum)
 				}
 			}
 
-			glTexImage2D (GL_TEXTURE_2D, 0, gl_solid_format, 
-				scaled_width, scaled_height, 0, GL_RGBA, 
+			glTexImage2D (GL_TEXTURE_2D, 0, gl_solid_format,
+				scaled_width, scaled_height, 0, GL_RGBA,
 				GL_UNSIGNED_BYTE, pixels);
 
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -221,8 +221,8 @@ void R_TranslatePlayerSkin (int playernum)
 				}
 			}
 
-			glTexImage2D (GL_TEXTURE_2D, 0, gl_alpha_format, 
-				scaled_width, scaled_height, 0, GL_RGBA, 
+			glTexImage2D (GL_TEXTURE_2D, 0, gl_alpha_format,
+				scaled_width, scaled_height, 0, GL_RGBA,
 				GL_UNSIGNED_BYTE, pixels);
 
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -253,7 +253,7 @@ void R_NewMap (struct model_s *worldmodel)
 // FIXME: is this one short?
 	for (i = 0; i < r_worldmodel->numleafs; i++)
 		r_worldmodel->leafs[i].efrags = NULL;
-		 	
+		 
 	r_viewleaf = NULL;
 
 	GL_BuildLightmaps ();
@@ -333,13 +333,13 @@ void R_LoadSky_f ()
 }
 
 
-/* 
-============================================================================== 
- 
-						SCREEN SHOTS 
- 
-============================================================================== 
-*/ 
+/*
+==============================================================================
+
+						SCREEN SHOTS
+
+==============================================================================
+*/
 
 typedef struct _TargaHeader {
 	unsigned char   id_length, colormap_type, image_type;
@@ -350,15 +350,15 @@ typedef struct _TargaHeader {
 } TargaHeader;
 
 
-/* 
-================== 
+/*
+==================
 R_ScreenShot_f
-================== 
-*/  
+==================
+*/ 
 void R_ScreenShot_f (void)
 {
 	byte	*buffer;
-	char	pcxname[MAX_OSPATH]; 
+	char	pcxname[MAX_OSPATH];
 	char	checkname[MAX_OSPATH];
 	int		i, c, temp;
 	FILE	*f;
@@ -369,27 +369,27 @@ void R_ScreenShot_f (void)
 	}
 	else
 	{
-		// 
-		// find a file name to save it to 
-		// 
+		//
+		// find a file name to save it to
+		//
 		strcpy(pcxname,"quake00.tga");
-		
-		for (i = 0; i <= 99; i++) 
-		{ 
-			pcxname[5] = i/10 + '0'; 
-			pcxname[6] = i%10 + '0'; 
+	
+		for (i = 0; i <= 99; i++)
+		{
+			pcxname[5] = i/10 + '0';
+			pcxname[6] = i%10 + '0';
 			sprintf (checkname, "%s/%s", cls.gamedir, pcxname);
 			f = fopen (checkname, "rb");
 			if (!f)
 				break;  // file doesn't exist
 			fclose (f);
-		} 
-		if (i==100) 
+		}
+		if (i==100)
 		{
-			Com_Printf ("R_ScreenShot_f: Couldn't create a TGA file\n"); 
+			Com_Printf ("R_ScreenShot_f: Couldn't create a TGA file\n");
 			return;
 		}
-	}		
+	}	
 
 	buffer = Q_malloc (vid.realwidth * vid.realheight * 3 + 18);
 	memset (buffer, 0, 18);
@@ -400,7 +400,7 @@ void R_ScreenShot_f (void)
 	buffer[15] = vid.realheight>>8;
 	buffer[16] = 24;        // pixel size
 
-	glReadPixels (0, 0, vid.realwidth, vid.realheight, GL_RGB, GL_UNSIGNED_BYTE, buffer+18 ); 
+	glReadPixels (0, 0, vid.realwidth, vid.realheight, GL_RGB, GL_UNSIGNED_BYTE, buffer+18 );
 
 	// swap rgb to bgr
 	c = 18 + vid.realwidth * vid.realheight * 3;
@@ -414,8 +414,8 @@ void R_ScreenShot_f (void)
 
 	Q_free (buffer);
 	Com_Printf ("Wrote %s\n", pcxname);
-} 
- 
+}
+
 
 
 /*
@@ -495,18 +495,18 @@ void R_DrawStringToSnap (const char *s, byte *buf, int x, int y, int width)
 }
 
 
-/* 
-================== 
+/*
+==================
 R_RSShot
 
 Memory pointed to by pcxdata is allocated using Hunk_TempAlloc
 Never store this pointer for later use!
 
 On failure (not enough memory), *pcxdata will be set to NULL
-================== 
-*/  
+==================
+*/ 
 void R_RSShot (byte **pcxdata, int *pcxsize)
-{ 
+{
 	int     x, y;
 	unsigned char	*src, *dest;
 	unsigned char	*newbuf;
@@ -519,9 +519,9 @@ void R_RSShot (byte **pcxdata, int *pcxsize)
 	time_t now;
 	extern cvar_t name;
 
-// 
-// save the pcx file 
-// 
+//
+// save the pcx file
+//
 	newbuf = Q_malloc (vid.realheight * vid.realwidth * 3);
 
 	glReadPixels (0, 0, vid.realwidth, vid.realheight, GL_RGB, GL_UNSIGNED_BYTE, newbuf);
@@ -592,6 +592,6 @@ void R_RSShot (byte **pcxdata, int *pcxsize)
 	Q_free (newbuf);
 
 	// return with pcxdata and pcxsize
-} 
+}
 
 //=============================================================================

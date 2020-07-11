@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -51,43 +51,43 @@ char *pr_opnames[] =
 "DONE",
 
 "MUL_F",
-"MUL_V", 
+"MUL_V",
 "MUL_FV",
 "MUL_VF",
 
 "DIV",
 
 "ADD_F",
-"ADD_V", 
+"ADD_V",
 
 "SUB_F",
 "SUB_V",
 
 "EQ_F",
 "EQ_V",
-"EQ_S", 
+"EQ_S",
 "EQ_E",
 "EQ_FNC",
 
 "NE_F",
-"NE_V", 
+"NE_V",
 "NE_S",
-"NE_E", 
+"NE_E",
 "NE_FNC",
- 
+
 "LE",
 "GE",
 "LT",
-"GT", 
+"GT",
 
 "INDIRECT",
 "INDIRECT",
-"INDIRECT", 
-"INDIRECT", 
 "INDIRECT",
-"INDIRECT", 
+"INDIRECT",
+"INDIRECT",
+"INDIRECT",
 
-"ADDRESS", 
+"ADDRESS",
 
 "STORE_F",
 "STORE_V",
@@ -107,9 +107,9 @@ char *pr_opnames[] =
 
 "NOT_F",
 "NOT_V",
-"NOT_S", 
-"NOT_ENT", 
-"NOT_FNC", 
+"NOT_S",
+"NOT_ENT",
+"NOT_FNC",
 
 "IF",
 "IFNOT",
@@ -126,10 +126,10 @@ char *pr_opnames[] =
 
 "STATE",
 
-"GOTO", 
+"GOTO",
 
 "AND",
-"OR", 
+"OR",
 
 "BITAND",
 "BITOR"
@@ -149,7 +149,7 @@ PR_PrintStatement
 void PR_PrintStatement (dstatement_t *s)
 {
 	int		i;
-	
+
 	if ( (unsigned)s->op < sizeof(pr_opnames)/sizeof(pr_opnames[0]))
 	{
 		Com_Printf ("%s ",  pr_opnames[s->op]);
@@ -201,13 +201,13 @@ void PR_StackTrace (void)
 	for (i=pr_depth ; i>=0 ; i--)
 	{
 		f = pr_stack[i].f;
-		
+	
 		if (!f)
 		{
 			Com_Printf ("<NO FUNCTION>\n");
 		}
 		else
-			Com_Printf ("%12s : %s\n", PR_GetString(f->s_file), PR_GetString(f->s_name));		
+			Com_Printf ("%12s : %s\n", PR_GetString(f->s_file), PR_GetString(f->s_name));	
 	}
 }
 
@@ -228,7 +228,7 @@ void PR_Profile_f (void)
 	if (sv.state != ss_active)
 		return;
 
-	num = 0;	
+	num = 0;
 	do
 	{
 		max = 0;
@@ -277,7 +277,7 @@ void PR_RunError (char *error, ...)
 	PR_PrintStatement (pr_statements + pr_xstatement);
 	PR_StackTrace ();
 	Com_Printf ("%s\n", string);
-	
+
 	pr_depth = 0;		// dump the stack so Host_Error can shutdown functions
 
 	Host_Error ("Program error");
@@ -303,7 +303,7 @@ int PR_EnterFunction (dfunction_t *f)
 	int		i, j, c, o;
 
 	pr_stack[pr_depth].s = pr_xstatement;
-	pr_stack[pr_depth].f = pr_xfunction;	
+	pr_stack[pr_depth].f = pr_xfunction;
 	pr_depth++;
 	if (pr_depth >= MAX_STACK_DEPTH)
 		PR_RunError ("stack overflow");
@@ -458,7 +458,7 @@ while (1)
 	case OP_BITAND:
 		c->_float = (int)a->_float & (int)b->_float;
 		break;
-	
+
 	case OP_BITOR:
 		c->_float = (int)a->_float | (int)b->_float;
 		break;
@@ -651,7 +651,7 @@ while (1)
 		pr_globals[OFS_RETURN] = pr_globals[st->a];
 		pr_globals[OFS_RETURN+1] = pr_globals[st->a+1];
 		pr_globals[OFS_RETURN+2] = pr_globals[st->a+2];
-	
+
 		s = PR_LeaveFunction ();
 		if (pr_depth == exitdepth)
 			return;		// all done

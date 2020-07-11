@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -54,18 +54,18 @@ static void W_CleanupName (char *in, char *out)
 {
 	int		i;
 	int		c;
-	
+
 	for (i=0 ; i<16 ; i++ )
 	{
 		c = (int)(unsigned char)in[i];
 		if (!c)
 			break;
-			
+		
 		if ( isupper(c) )
 			c += ('a' - 'A');
 		out[i] = c;
 	}
-	
+
 	for ( ; i< 16 ; i++ )
 		out[i] = 0;
 }
@@ -109,20 +109,20 @@ void W_LoadWadFile (char *filename)
 	wad_filesize = fs_filesize;
 
 	header = (wadinfo_t *)wad_base;
-	
+
 	if (header->identification[0] != 'W'
 	|| header->identification[1] != 'A'
 	|| header->identification[2] != 'D'
 	|| header->identification[3] != '2')
 		Sys_Error ("Wad file %s doesn't have WAD2 id",filename);
-		
+	
 	wad_numlumps = LittleLong(header->numlumps);
 	infotableofs = LittleLong(header->infotableofs);
 	wad_lumps = (lumpinfo_t *)(wad_base + infotableofs);
 
 	if (infotableofs + wad_numlumps * sizeof(lump_t) > wad_filesize)
 		Sys_Error ("Wad lump table exceeds file size");
-	
+
 	for (i=0, lump_p = wad_lumps ; i<wad_numlumps ; i++,lump_p++)
 	{
 		lump_p->filepos = LittleLong(lump_p->filepos);
@@ -150,15 +150,15 @@ lumpinfo_t *W_GetLumpinfo (char *name, qbool crash)
 	int		i;
 	lumpinfo_t	*lump_p;
 	char	clean[16];
-	
+
 	W_CleanupName (name, clean);
-	
+
 	for (lump_p=wad_lumps, i=0 ; i<wad_numlumps ; i++,lump_p++)
 	{
 		if (!strcmp(clean, lump_p->name))
 			return lump_p;
 	}
-	
+
 	Sys_Error ("W_GetLumpinfo: %s not found", name);
 	return NULL;
 }
@@ -169,7 +169,7 @@ static void W_HackOcranaLedsIntoConchars (byte *data);
 void *W_GetLumpName (char *name, qbool crash)
 {
 	lumpinfo_t	*lump;
-	
+
 	lump = W_GetLumpinfo (name, crash);
 
 	if ( lump->type == TYP_QPIC &&
@@ -201,7 +201,7 @@ automatic byte swapping
 void SwapPic (qpic_t *pic)
 {
 	pic->width = LittleLong(pic->width);
-	pic->height = LittleLong(pic->height);	
+	pic->height = LittleLong(pic->height);
 }
 
 

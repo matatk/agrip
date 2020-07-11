@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     This code and the website are Free Software -- please contact me if you
     would like to use the extended master server and the scripts that run that
     site in your own tournaments.
-    
+   
     The protocol is designed to provide a stumbling block for spammers and
     spoofers.  It is not meant to be a 100% secure system using public key
     cryptography.  Having said this, the in-built features of the Quake engine
@@ -130,13 +130,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             clients'' queue.
             The client supplies the hash to the server through the userinfo
             variable ``mauth_hash''.
-            
+           
             IF A CLIENT CONNECTS TO A NON-MAUTH SERVER, THIS USERINFO VARIABLE
             MAY BE MADE PUBLIC, AS THE SERVER DOES NOT KNOW TO REMOVE IT.
             -- However, because it is a once-only value this is not necessarily
             a major disaster.  Yes, MD4 is broken, but as mentioned above, this
             is here mainly as a deterrant.
-            
+           
         9.  When the client disconnects, their token is removed from the queue.
 
 
@@ -154,7 +154,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
           admins to control when and how players can change their names.
           Maybe it would allow them to migrate the stats to the new name if
           they wanted.
-          
+         
         * Clients connecting on the local loopback are NEVER checked for
           authentication.
 

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -78,7 +78,7 @@ CL_ClearParticles
 void CL_ClearParticles (void)
 {
 	int		i;
-	
+
 	free_particles = &cl_particles[0];
 	active_particles = NULL;
 
@@ -127,7 +127,7 @@ void CL_ReadPointFile_f (void)
 		Com_Printf ("couldn't open %s\n", name);
 		return;
 	}
-	
+
 	Com_Printf ("Reading %s...\n", name);
 	c = 0;
 	for ( ;; )
@@ -136,7 +136,7 @@ void CL_ReadPointFile_f (void)
 		if (r != 3)
 			break;
 		c++;
-		
+	
 		if (!(p = new_particle()))
 		{
 			Com_Printf ("Not enough free particles\n");
@@ -154,7 +154,7 @@ void CL_ReadPointFile_f (void)
 	fclose (f);
 	Com_Printf ("%i points read\n", c);
 }
-	
+
 /*
 ===============
 CL_ParticleExplosion
@@ -164,7 +164,7 @@ void CL_ParticleExplosion (vec3_t org)
 {
 	int			i, j;
 	cparticle_t	*p;
-	
+
 	for (i=0 ; i<1024 ; i++)
 	{
 		if (!(p = new_particle()))
@@ -197,7 +197,7 @@ void CL_ParticleExplosion2 (vec3_t org, int colorStart, int colorLength)
 	int			i, j;
 	int			colorMod = 0;
 	cparticle_t	*p;
-	
+
 	for (i=0 ; i<1024 ; i++)
 	{
 		if (!(p = new_particle()))
@@ -227,7 +227,7 @@ void CL_BlobExplosion (vec3_t org)
 {
 	int			i, j;
 	cparticle_t	*p;
-	
+
 	for (i=0 ; i<1024 ; i++)
 	{
 		if (!(p = new_particle()))
@@ -319,7 +319,7 @@ void CL_LavaSplash (vec3_t org)
 			{
 				if (!(p = new_particle()))
 					return;
-		
+	
 				p->die = cl.time + 2 + (rand()&31) * 0.02;
 				p->color = 224 + (rand()&7);
 				p->alpha = 1.0f;
@@ -328,7 +328,7 @@ void CL_LavaSplash (vec3_t org)
 				dir[0] = j*8 + (rand()&7);
 				dir[1] = i*8 + (rand()&7);
 				dir[2] = 256;
-				
+			
 				p->org[0] = org[0] + dir[0];
 				p->org[1] = org[1] + dir[1];
 				p->org[2] = org[2] + (rand()&63);
@@ -357,7 +357,7 @@ void CL_TeleportSplash (vec3_t org)
 			{
 				if (!(p = new_particle()))
 					return;
-		
+	
 				p->die = cl.time + 0.2 + (rand()&7) * 0.02;
 				p->color = 7 + (rand()&7);
 				p->alpha = 1.0f;
@@ -366,11 +366,11 @@ void CL_TeleportSplash (vec3_t org)
 				dir[0] = j*8;
 				dir[1] = i*8;
 				dir[2] = k*8;
-				
+			
 				p->org[0] = org[0] + i + (rand()&3);
 				p->org[1] = org[1] + j + (rand()&3);
 				p->org[2] = org[2] + k + (rand()&3);
-				
+			
 				VectorNormalize (dir);
 				vel = 50 + (rand()&63);
 				VectorScale (dir, vel, p->vel);
@@ -577,7 +577,7 @@ void CL_TracerTrail (vec3_t start, vec3_t end, int color)
 
 		if (!(p = new_particle()))
 			return;
-		
+	
 		p->die = cl.time + 0.5;
 		p->type = pt_static;
 		p->color = color + ((tracercount&4)<<1);
@@ -649,7 +649,7 @@ void CL_RailTrail (vec3_t start, vec3_t end, int color)
 		free_particles = p->next;
 		p->next = active_particles;
 		active_particles = p;
-		
+	
 		p->type = pt_rail;
 
 		//p->time = cl.time;
@@ -786,7 +786,7 @@ void CL_LinkParticles (void)
 	grav = frametime * 800 * 0.05;
 	dvel = 4 * frametime;
 
-	for ( ;; ) 
+	for ( ;; )
 	{
 		kill = active_particles;
 		if (kill && kill->die < cl.time)

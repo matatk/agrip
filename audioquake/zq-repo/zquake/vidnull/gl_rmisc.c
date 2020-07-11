@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -43,7 +43,7 @@ void R_LoadSky_f ()
 
 void R_ScreenShot_f (void)
 {
-} 
+}
 
 void R_RSShot (byte **pcxdata, int *pcxsize)
 {

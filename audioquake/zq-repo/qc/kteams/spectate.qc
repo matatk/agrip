@@ -153,7 +153,7 @@ void SpectatorConnect ()
 	self.k_666 = 40;		//zoom value default for trackcam
 	self.suicide_time = 1;	//user for statusbar on/off checking
 	self.k_domapstuff = 0;
-	
+
 	// Wait until you do stuffing
 
 // added stuffing for numbers
@@ -216,7 +216,7 @@ void SpectatorAdminGain ()
 	stuffcmd(self, "alias official \"impulse 91\"\n");
 
 	self.ready = 1;
-	
+
 }
 #endif
 
@@ -257,12 +257,12 @@ void SpectatorImpulseCommand ()
             self.k_track = 0;
     }
 
-	if(self.k_admin == 1 && self.impulse >= 1 && self.impulse <=9) 
+	if(self.k_admin == 1 && self.impulse >= 1 && self.impulse <=9)
 	{
 		if(self.k_domapstuff == 0)
 		{
 			entity stuffem;
-			
+		
 			stuffem = spawn();
 			stuffem.classname = "StuffCustomMaps";
 			stuffem.owner = self;
@@ -272,7 +272,7 @@ void SpectatorImpulseCommand ()
 
 			self.k_domapstuff = 1;
 		}
-		
+	
 		AdminImpBot();
 
 		if(self.k_admin == 2 && !self.ready) SpectatorAdminGain();
@@ -318,7 +318,7 @@ void SpectatorImpulseCommand ()
 			WriteString(1, "\n");
 		}
 	} else if(self.impulse == 25 && !self.k_track) {
-#else    
+#else   
 	if (self.impulse == IMPULSE_AXE) {
 #endif
 		// teleport the spectator to the next spawn point

@@ -49,7 +49,7 @@ void bot_dodge_stuff ()
 		foedist = vlen(v);
 		foesz = bot_size_player(self.enemy);
 	}
-	else 
+	else
 	{
 		foedist = 3000;
 		foesz = 9999999;
@@ -130,7 +130,7 @@ void bot_dodge_stuff ()
 				}
 				foe = foe.chain;
 			}
-		}		
+		}	
 	}
 	else
 	{
@@ -304,7 +304,7 @@ void bot_shoot ()
 Bot_fight_style
 
 This is the core of the bot's thinking when
-attacking an enemy. 
+attacking an enemy.
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
@@ -372,7 +372,7 @@ void bot_fight_style ()
 					self.b_chattime = 1;
 				}
 			}
-			
+		
 			return;
 		}
 		else if (mysz < 140)

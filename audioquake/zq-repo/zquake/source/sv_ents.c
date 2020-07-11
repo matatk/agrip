@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -56,7 +56,7 @@ qbool SV_AddNailUpdate (edict_t *ent)
 
 void SV_EmitNailUpdate (sizebuf_t *msg)
 {
-	byte	bits[6];	// [48 bits] xyzpy 12 12 12 4 8 
+	byte	bits[6];	// [48 bits] xyzpy 12 12 12 4 8
 	int		n, i;
 	edict_t	*ent;
 	int		x, y, z, pitch, yaw;
@@ -188,7 +188,7 @@ void SV_WritePlayersToClient (client_t *client, byte *pvs, sizebuf_t *msg)
 
 		// ZOID visibility tracking
 		if (cl != client &&
-			!(client->spec_track && client->spec_track - 1 == j)) 
+			!(client->spec_track && client->spec_track - 1 == j))
 		{
 			if (cl->spectator)
 				continue;
@@ -200,9 +200,9 @@ void SV_WritePlayersToClient (client_t *client, byte *pvs, sizebuf_t *msg)
 			if (i == ent->num_leafs)
 				continue;		// not visible
 		}
-		
+	
 		pflags = PF_MSEC | PF_COMMAND;
-		
+	
 		if (ent->v.modelindex != sv_playermodel)
 			pflags |= PF_MODEL;
 		for (i=0 ; i<3 ; i++)
@@ -265,7 +265,7 @@ void SV_WritePlayersToClient (client_t *client, byte *pvs, sizebuf_t *msg)
 			pflags |= PF_ONGROUND;
 
 		if (client->spec_track && client->spec_track - 1 == j &&
-			ent->v.weaponframe) 
+			ent->v.weaponframe)
 			pflags |= PF_WEAPONFRAME;
 
 		MSG_WriteByte (msg, svc_playerinfo);
@@ -274,7 +274,7 @@ void SV_WritePlayersToClient (client_t *client, byte *pvs, sizebuf_t *msg)
 
 		for (i=0 ; i<3 ; i++)
 			MSG_WriteCoord (msg, ent->v.origin[i]);
-		
+	
 		MSG_WriteByte (msg, ent->v.frame);
 
 		if (pflags & PF_MSEC)
@@ -284,7 +284,7 @@ void SV_WritePlayersToClient (client_t *client, byte *pvs, sizebuf_t *msg)
 				msec = 255;
 			MSG_WriteByte (msg, msec);
 		}
-		
+	
 		if (pflags & PF_COMMAND)
 		{
 			cmd = cl->lastcmd;
@@ -379,7 +379,7 @@ void SV_WriteEntitiesToClient (client_t *client, sizebuf_t *msg)
 
 	// send over the players in the PVS
 	SV_WritePlayersToClient (client, pvs, msg);
-	
+
 	// put other visible entities into either a packet_entities or a nails message
 	pack = &frame->entities;
 	pack->num_entities = 0;
@@ -396,7 +396,7 @@ void SV_WriteEntitiesToClient (client_t *client, sizebuf_t *msg)
 		for (i=0 ; i < ent->num_leafs ; i++)
 			if (pvs[ent->leafnums[i] >> 3] & (1 << (ent->leafnums[i]&7) ))
 				break;
-			
+		
 		if (i == ent->num_leafs)
 			continue;		// not visible
 

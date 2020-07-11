@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -60,7 +60,7 @@ void LoadTGA (char *filename, byte **out, int *width, int *height)
 	targa_header.id_length = *(byte *)tgabuf++;
 	targa_header.colormap_type = *(byte *)tgabuf++;
 	targa_header.image_type = *(byte *)tgabuf++;
-	
+
 	targa_header.colormap_index = LittleShort (*(short *)tgabuf); tgabuf += 2;
 	targa_header.colormap_length = LittleShort (*(short *)tgabuf); tgabuf += 2;
 	targa_header.colormap_size = *(byte *)tgabuf++;
@@ -96,7 +96,7 @@ void LoadTGA (char *filename, byte **out, int *width, int *height)
 
 	if (targa_header.id_length != 0)
 		tgabuf += targa_header.id_length;
-	
+
 	if (targa_header.image_type==2) {  // Uncompressed, RGB images
 		for (row = rows - 1; row >= 0; row--) {
 			pixbuf = *out + ((targa_header.attributes & 0x20) ? rows-1-row : row) * columns * 4;
@@ -104,7 +104,7 @@ void LoadTGA (char *filename, byte **out, int *width, int *height)
 				unsigned char red,green,blue,alphabyte;
 				switch (targa_header.pixel_size) {
 					case 24:
-							
+						
 							blue = *(byte *)tgabuf++;
 							green = *(byte *)tgabuf++;
 							red = *(byte *)tgabuf++;
@@ -149,7 +149,7 @@ void LoadTGA (char *filename, byte **out, int *width, int *height)
 								alphabyte = *(byte *)tgabuf++;
 								break;
 					}
-	
+
 					for(j=0;j<packetSize;j++) {
 						*pixbuf++=red;
 						*pixbuf++=green;
@@ -288,7 +288,7 @@ void LoadPCX (char *filename, byte **pic, int *width, int *height)
 	{
 		for (x=0 ; x<=pcx->xmax ; )
 		{
-			if (pix - (byte *)pcx > fs_filesize) 
+			if (pix - (byte *)pcx > fs_filesize)
 			{
 				Q_free (*pic);
 				*pic = NULL;
@@ -301,7 +301,7 @@ void LoadPCX (char *filename, byte **pic, int *width, int *height)
 			if((dataByte & 0xC0) == 0xC0)
 			{
 				runLength = dataByte & 0x3F;
-				if (pix - (byte *)pcx > fs_filesize) 
+				if (pix - (byte *)pcx > fs_filesize)
 				{
 					Q_free (*pic);
 					*pic = NULL;
@@ -351,7 +351,7 @@ void WritePCX (byte *data, int width, int height, int rowbytes, byte *palette,	/
 		*pcxdata = NULL;
 		*pcxsize = 0;
 		return;
-	} 
+	}
 
 	pcx->manufacturer = 0x0a;	// PCX id
 	pcx->version = 5;			// 256 color

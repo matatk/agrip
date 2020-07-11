@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -45,7 +45,7 @@ char *svc_strings[] =
 	"svc_stufftext",		// [string] stuffed into client's console buffer
 							// the string should be \n terminated
 	"svc_setangle",			// [vec3] set the view angle to this absolute value
-	
+
 	"svc_serverdata",		// [long] version ...
 	"svc_lightstyle",		// [byte] [string]
 	"NQ svc_updatename",	// [byte] [string]
@@ -55,11 +55,11 @@ char *svc_strings[] =
 	"NQ svc_updatecolors",	// [byte] [byte]
 	"NQ svc_particle",		// [vec3] <variable>
 	"svc_damage",			// [byte] impact [byte] blood [vec3] from
-	
+
 	"svc_spawnstatic",
 	"OBSOLETE svc_spawnbinary",
 	"svc_spawnbaseline",
-	
+
 	"svc_temp_entity",		// <variable>
 	"svc_setpause",
 	"NQ svc_signonnum",
@@ -360,7 +360,7 @@ void Model_NextDownload (void)
 	}
 #endif
 	cls.downloadtype = dl_model;
-	for ( 
+	for (
 		; cl.model_name[cls.downloadnumber][0]
 		; cls.downloadnumber++)
 	{
@@ -422,7 +422,7 @@ void Sound_NextDownload (void)
 	}
 #endif
 	cls.downloadtype = dl_sound;
-	for ( 
+	for (
 		; cl.sound_name[cls.downloadnumber][0]
 		; cls.downloadnumber++)
 	{
@@ -645,7 +645,7 @@ void CL_StartUpload (byte *data, int size)
 	upload_pos = 0;
 
 	CL_NextUpload();
-} 
+}
 
 qbool CL_IsUploading(void)
 {
@@ -903,7 +903,7 @@ CL_ParseBaseline
 void CL_ParseBaseline (entity_state_t *es)
 {
 	int			i;
-	
+
 	es->modelindex = MSG_ReadByte ();
 	es->frame = MSG_ReadByte ();
 	es->colormap = MSG_ReadByte();
@@ -950,7 +950,7 @@ void CL_ParseStatic (void)
 
 	MSG_UnpackOrigin (es.s_origin, ent->origin);
 	MSG_UnpackAngles (es.s_angles, ent->angles);
-	
+
 	R_AddEfrags (ent);
 }
 
@@ -964,7 +964,7 @@ void CL_ParseStaticSound (void)
 	extern cvar_t	cl_staticsounds;
 	static_sound_t	ss;
 	int			i;
-	
+
 	for (i=0 ; i<3 ; i++)
 		ss.org[i] = MSG_ReadCoord ();
 	ss.sound_num = MSG_ReadByte ();
@@ -1001,32 +1001,32 @@ void CL_ParseStartSoundPacket(void)
     int 	channel, ent;
     int 	sound_num;
     int 	volume;
-    float 	attenuation;  
+    float 	attenuation; 
  	int		i;
-	           
-    channel = MSG_ReadShort(); 
+	          
+    channel = MSG_ReadShort();
 
     if (channel & SND_VOLUME)
 		volume = MSG_ReadByte ();
 	else
 		volume = DEFAULT_SOUND_PACKET_VOLUME;
-	
+
     if (channel & SND_ATTENUATION)
 		attenuation = MSG_ReadByte () / 64.0;
 	else
 		attenuation = DEFAULT_SOUND_PACKET_ATTENUATION;
-	
+
 	sound_num = MSG_ReadByte ();
 
 	for (i=0 ; i<3 ; i++)
 		pos[i] = MSG_ReadCoord ();
- 
+
 	ent = (channel>>3)&1023;
 	channel &= 7;
 
 	if (ent > MAX_CL_EDICTS)
 		Host_Error ("CL_ParseStartSoundPacket: ent = %i", ent);
-	
+
 // FIXME oldman
 #ifdef MVDPLAY
     if (cls.mvdplayback) {
@@ -1038,7 +1038,7 @@ void CL_ParseStartSoundPacket(void)
     S_StartSound (ent, channel, cl.sound_precache[sound_num], pos, volume/255.0, attenuation);
 	if (ent == cl.playernum+1)
 		TP_CheckPickupSound (cl.sound_name[sound_num], pos);
-}       
+}      
 
 
 /*
@@ -1160,12 +1160,12 @@ void CL_NewTranslation (int slot)
 			else
 				for (j=0 ; j<16 ; j++)
 					dest[TOP_RANGE+j] = source[top+15-j];
-					
+				
 			if (bottom < 128)
 				memcpy (dest + BOTTOM_RANGE, source + bottom, 16);
 			else
 				for (j=0 ; j<16 ; j++)
-					dest[BOTTOM_RANGE+j] = source[bottom+15-j];		
+					dest[BOTTOM_RANGE+j] = source[bottom+15-j];	
 		}
 	}
 #endif
@@ -1329,7 +1329,7 @@ void CL_ProcessServerInfo (void)
 	movevars.pground = (Q_atof(Info_ValueForKey(cl.serverinfo, "pm_pground")) != 0)
 		&& (cl.z_ext & Z_EXT_PF_ONGROUND) /* pground doesn't make sense without this */;
 	p = Info_ValueForKey(cl.serverinfo, "pm_ktjump");
-	movevars.ktjump = *p ? Q_atof(p) : (cl.teamfortress ? 0 : 0.5); 
+	movevars.ktjump = *p ? Q_atof(p) : (cl.teamfortress ? 0 : 0.5);
 
 	// deathmatch and teamplay
 	cl.deathmatch = atoi(Info_ValueForKey(cl.serverinfo, "deathmatch"));
@@ -1543,7 +1543,7 @@ void CL_ParsePrint (void)
 		if (cl_nofake.value == 1 || (cl_nofake.value == 2 && flags != 2)) {
 			for (p = s; *p; p++)
 				if (*p == 13 || (*p == 10 && p[1]))
-					*p = ' '; 
+					*p = ' ';
 		}
 	}
 
@@ -1619,9 +1619,9 @@ void CL_SetStat (int stat, int value)
 			return;
 	}
 #endif
-    
+   
 	Sbar_Changed ();
-	
+
 	if (stat == STAT_ITEMS)
 	{	// set flash times
 		if (cl.stats[STAT_ITEMS] || cls.state == ca_active) {
@@ -1788,7 +1788,7 @@ void CL_ParseQizmoVoice (void)
 	int i;
 	int	seq, bits;
 	int	num, unknown;
-	
+
 	// read the two-byte header
 	seq = MSG_ReadByte ();
 	bits = MSG_ReadByte ();
@@ -1859,7 +1859,7 @@ void CL_ParseServerMessage (void)
 			SHOWNET("svc_qizmovoice")
 		else if (cmd < num_svc_strings)
 			SHOWNET(svc_strings[cmd]);
-	
+
 	// other commands
 		switch (cmd)
 		{
@@ -1869,10 +1869,10 @@ bad_message:
 #endif
 			Host_Error ("CL_ParseServerMessage: Illegible server message");
 			break;
-			
+		
 		case svc_nop:
 			break;
-			
+		
 		case svc_disconnect:
 			if (cls.state == ca_connected)
 				Host_Error ("Server disconnected\n"
@@ -1893,7 +1893,7 @@ bad_message:
 		case svc_print:
 			CL_ParsePrint ();
 			break;
-			
+		
 		case svc_centerprint:
 			{	char *s = MSG_ReadString();
 				SCR_CenterPrint (s);
@@ -1902,20 +1902,20 @@ bad_message:
 #endif
 			}
 			break;
-			
+		
 		case svc_stufftext:
 			CL_ParseStufftext ();
 			break;
-			
+		
 		case svc_damage:
 			V_ParseDamage ();
 			break;
-			
+		
 		case svc_serverdata:
 			Cbuf_ExecuteEx (&cbuf_svc);		// make sure any stuffed commands are done
 			CL_ParseServerData ();
 			break;
-			
+		
 		case svc_setangle:
 #ifdef MVDPLAY
 			if (cls.mvdplayback)
@@ -1937,7 +1937,7 @@ bad_message:
             }
 //			cl.viewangles[PITCH] = cl.viewangles[ROLL] = 0;
 			break;
-			
+		
 		case svc_lightstyle:
 			i = MSG_ReadByte ();
 			if (i >= MAX_LIGHTSTYLES)
@@ -1945,11 +1945,11 @@ bad_message:
 			strlcpy (cl_lightstyle[i].map,  MSG_ReadString(), sizeof(cl_lightstyle[i].map));
 			cl_lightstyle[i].length = strlen(cl_lightstyle[i].map);
 			break;
-			
+		
 		case svc_sound:
 			CL_ParseStartSoundPacket();
 			break;
-			
+		
 		case svc_stopsound:
 			i = MSG_ReadShort();
 			S_StopSound(i>>3, i&7);
@@ -1965,7 +1965,7 @@ bad_message:
 			if (i >= MAX_CLIENTS)
 				Host_Error ("CL_ParseServerMessage: svc_updatefrags > MAX_CLIENTS");
 			cl.players[i].frags = MSG_ReadShort ();
-			break;			
+			break;		
 
 		case svc_updateping:
 			i = MSG_ReadByte ();
@@ -1973,14 +1973,14 @@ bad_message:
 				Host_Error ("CL_ParseServerMessage: svc_updateping > MAX_CLIENTS");
 			cl.players[i].ping = MSG_ReadShort ();
 			break;
-			
+		
 		case svc_updatepl:
 			i = MSG_ReadByte ();
 			if (i >= MAX_CLIENTS)
 				Host_Error ("CL_ParseServerMessage: svc_updatepl > MAX_CLIENTS");
 			cl.players[i].pl = MSG_ReadByte ();
 			break;
-			
+		
 		case svc_updateentertime:
 		// time is sent over as seconds ago
 			i = MSG_ReadByte ();
@@ -1988,7 +1988,7 @@ bad_message:
 				Host_Error ("CL_ParseServerMessage: svc_updateentertime > MAX_CLIENTS");
 			cl.players[i].entertime = cls.realtime - MSG_ReadFloat ();
 			break;
-			
+		
 		case svc_spawnbaseline:
 			i = MSG_ReadShort ();
 			if (i >= MAX_CL_EDICTS)
@@ -1997,7 +1997,7 @@ bad_message:
 			break;
 		case svc_spawnstatic:
 			CL_ParseStatic ();
-			break;			
+			break;		
 		case svc_temp_entity:
 			CL_ParseTEnt ();
 			break;
@@ -2020,7 +2020,7 @@ bad_message:
 			j = MSG_ReadLong ();
 			CL_SetStat (i, j);
 			break;
-			
+		
 		case svc_spawnstaticsound:
 			CL_ParseStaticSound ();
 			break;
@@ -2046,9 +2046,9 @@ bad_message:
 			cl.intermission = 2;
 			cl.completed_time = cls.realtime;
 			cl.solo_completed_time = cl.servertime;
-			SCR_CenterPrint (MSG_ReadString ());			
+			SCR_CenterPrint (MSG_ReadString ());		
 			break;
-			
+		
 		case svc_sellscreen:
 			Cmd_ExecuteString ("help");
 			break;

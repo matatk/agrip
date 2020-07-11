@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -77,7 +77,7 @@ cvar_t		vid_ref = {"vid_ref", "soft", CVAR_ROM};
 cvar_t		vid_mode = {"vid_mode","5"};
 cvar_t		vid_redrawfull = {"vid_redrawfull","0"};
 cvar_t		vid_waitforrefresh = {"vid_waitforrefresh","0",CVAR_ARCHIVE};
- 
+
 char	*framebuffer_ptr;
 
 int     mouse_buttons;
@@ -212,7 +212,7 @@ void D_EndDirectRect (int x, int y, int width, int height)
 					vidpage=offset / 0x10000;
 					vga_setpage(vidpage);
 				}
-				memcpy (vid.direct + off, 
+				memcpy (vid.direct + off,
 						&backingbuf[(i +j)*24],
 						width);
 			}
@@ -257,7 +257,7 @@ void VID_Gamma_f (void)
 void VID_ModeList_f (void)
 {
 	int i;
-	
+
 	for (i=0;i<num_modes;i++)
 		if (modes[i].width) {
 			Com_Printf ("%d: %d x %d - ", i, modes[i].width,modes[i].height);
@@ -276,7 +276,7 @@ VID_NumModes
 int VID_NumModes ()
 {
 	int i,i1=0;
-	
+
 	for (i=0;i<num_modes;i++)
 		i1+=(modes[i].width?1:0);
 	return (i1);
@@ -313,7 +313,7 @@ void VID_InitModes (void)
 
 	for (i=0 ; i<num_modes ; i++)
 	{
-		if (modes[i].bytesperpixel != 1 && modes[i].colors != 256) 
+		if (modes[i].bytesperpixel != 1 && modes[i].colors != 256)
 			modes[i].width = 0;
 	}
 
@@ -389,7 +389,7 @@ void vtswitch(int newconsole)
 
 void keyhandler(int scancode, int state)
 {
-	
+
 	int sc;
 
 	sc = scancode & 0x7f;
@@ -451,14 +451,14 @@ int VID_SetMode (int modenum, unsigned char *palette)
 	if ((modenum >= num_modes) || (modenum < 0) || !modes[modenum].width)
 	{
 		Cvar_SetValue (&vid_mode, (float)current_mode);
-		
+	
 		Com_Printf ("No such video mode: %d\n",modenum);
-		
+	
 		return 0;
 	}
 
 	Cvar_SetValue (&vid_mode, (float)modenum);
-	
+
 	current_mode=modenum;
 
 	vid.width = modes[current_mode].width;
@@ -477,7 +477,7 @@ int VID_SetMode (int modenum, unsigned char *palette)
 	vid.aspect = ((float)vid.height / (float)vid.width) * (320.0 / 240.0);
 	vid.colormap = (pixel_t *) host_colormap;
 	vid.numpages = 1;
-	
+
 	// alloc zbuffer and surface cache
 	if (d_pzbuffer) {
 		D_FlushCaches();
@@ -541,7 +541,7 @@ void VID_Init(unsigned char *palette)
 		Cvar_Register (&vid_mode);
 		Cvar_Register (&vid_redrawfull);
 		Cvar_Register (&vid_waitforrefresh);
-		
+	
 		Cmd_AddCommand("vid_modelist", VID_ModeList_f);
 		Cmd_AddCommand("vid_debug", VID_Debug_f);
 
@@ -572,7 +572,7 @@ void VID_Init(unsigned char *palette)
 		VID_SetPalette(palette);
 
 		// we do want to run in the background when switched away
-		vga_runinbackground(1);	
+		vga_runinbackground(1);
 	}
 
 	if (COM_CheckParm("-nokbd")) UseKeyboard = 0;
@@ -597,41 +597,41 @@ void VID_Init(unsigned char *palette)
 		scantokey[ 13] = '=';
 		scantokey[ 14] = K_BACKSPACE;
 		scantokey[ 15] = K_TAB;
-		scantokey[ 16] = 'q';       
-		scantokey[ 17] = 'w';       
-		scantokey[ 18] = 'e';       
-		scantokey[ 19] = 'r';       
-		scantokey[ 20] = 't';       
-		scantokey[ 21] = 'y';       
-		scantokey[ 22] = 'u';       
-		scantokey[ 23] = 'i';       
-		scantokey[ 24] = 'o';       
-		scantokey[ 25] = 'p';       
+		scantokey[ 16] = 'q';      
+		scantokey[ 17] = 'w';      
+		scantokey[ 18] = 'e';      
+		scantokey[ 19] = 'r';      
+		scantokey[ 20] = 't';      
+		scantokey[ 21] = 'y';      
+		scantokey[ 22] = 'u';      
+		scantokey[ 23] = 'i';      
+		scantokey[ 24] = 'o';      
+		scantokey[ 25] = 'p';      
 		scantokey[ 26] = '[';
 		scantokey[ 27] = ']';
 		scantokey[ 28] = K_ENTER;
 		scantokey[ 29] = K_CTRL; //left
 		scantokey[ 30] = 'a';
-		scantokey[ 31] = 's';       
-		scantokey[ 32] = 'd';       
-		scantokey[ 33] = 'f';       
-		scantokey[ 34] = 'g';       
-		scantokey[ 35] = 'h';       
-		scantokey[ 36] = 'j';       
-		scantokey[ 37] = 'k';       
-		scantokey[ 38] = 'l';       
+		scantokey[ 31] = 's';      
+		scantokey[ 32] = 'd';      
+		scantokey[ 33] = 'f';      
+		scantokey[ 34] = 'g';      
+		scantokey[ 35] = 'h';      
+		scantokey[ 36] = 'j';      
+		scantokey[ 37] = 'k';      
+		scantokey[ 38] = 'l';      
 		scantokey[ 39] = ';';
 		scantokey[ 40] = '\'';
 		scantokey[ 41] = '`';
 		scantokey[ 42] = K_SHIFT; //left
 		scantokey[ 43] = '\\';
-		scantokey[ 44] = 'z';       
-		scantokey[ 45] = 'x';  
+		scantokey[ 44] = 'z';      
+		scantokey[ 45] = 'x'; 
 		scantokey[ 46] = 'c';
-		scantokey[ 47] = 'v';       
+		scantokey[ 47] = 'v';      
 		scantokey[ 48] = 'b';
-		scantokey[ 49] = 'n';       
-		scantokey[ 50] = 'm';       
+		scantokey[ 49] = 'n';      
+		scantokey[ 50] = 'm';      
 		scantokey[ 51] = ',';
 		scantokey[ 52] = '.';
 		scantokey[ 53] = '/';
@@ -734,30 +734,30 @@ void VID_Update(vrect_t *rects)
 			while (ycount--)
 			{
 				register int i = offset % 0x10000;
-	
+
 				if ((offset / 0x10000) != vidpage) {
 					vidpage=offset / 0x10000;
 					vga_setpage(vidpage);
 				}
 				if (rects->width + i > 0x10000) {
-					memcpy(framebuffer_ptr + i, 
-							vid.buffer + offset, 
+					memcpy(framebuffer_ptr + i,
+							vid.buffer + offset,
 							0x10000 - i);
 					vga_setpage(++vidpage);
 					memcpy(framebuffer_ptr,
-							vid.buffer + offset + 0x10000 - i, 
+							vid.buffer + offset + 0x10000 - i,
 							rects->width - 0x10000 + i);
 				} else
-					memcpy(framebuffer_ptr + i, 
-							vid.buffer + offset, 
+					memcpy(framebuffer_ptr + i,
+							vid.buffer + offset,
 							rects->width);
 				offset += vid.rowbytes;
 			}
-	
+
 			rects = rects->pnext;
 		}
 	}
-	
+
 	if (vid_mode.value != current_mode)
 		VID_SetMode ((int)vid_mode.value, vid_current_palette);
 }
@@ -906,10 +906,10 @@ void IN_MouseMove (usercmd_t *cmd)
 		cmd->sidemove += m_side.value * mouse_x;
 	else
 		cl.viewangles[YAW] -= m_yaw.value * mouse_x;
-	
+
 	if (mlook_active)
 		V_StopPitchDrift ();
-		
+	
 	if (mlook_active && !(in_strafe.state & 1))
 	{
 		cl.viewangles[PITCH] += m_pitch.value * mouse_y;

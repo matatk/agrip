@@ -160,7 +160,7 @@ void rotate_door_use ()
 	self.endtime = time + self.speed;
 
 	self.think = rotate_door_think;
-	self.nextthink = time + 0.1;	
+	self.nextthink = time + 0.1;
 
 
 dprint ("speed: "); dprint (ftos(self.speed), "\n");
@@ -276,7 +276,7 @@ void link_rotate_entity ()
 
    	self.think = rotate_entity_think;
    	self.ltime = time;
-	self.nextthink = time + 0.01;	
+	self.nextthink = time + 0.01;
 }
 
 //
@@ -294,7 +294,7 @@ void func_rotate_entity ()
 	// .speed is not supported
 
 	self.think = link_rotate_entity;
-	self.nextthink = time + 0.1;	
+	self.nextthink = time + 0.1;
 }
 
 //============================================================================

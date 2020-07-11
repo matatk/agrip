@@ -64,19 +64,19 @@ void() snap_aux_constructor;
 
 /**
     Set up the aux object.
-	
+
     Like other constructors, this function is run as the player.
 */
 void() snap_aux_constructor =
 {
     local entity new_agaux;
-                                                                                           
+                                                                                          
     new_agaux = spawn();
-                                                                                           
+                                                                                          
     // Set up new aux object...
     new_agaux.movetype = MOVETYPE_NONE;
     new_agaux.solid = SOLID_NOT;
-                                                                                           
+                                                                                          
     // Connect the aux object and player...
     new_agaux.owner = self;
     self.agrip_aux = new_agaux;

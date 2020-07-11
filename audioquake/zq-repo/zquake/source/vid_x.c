@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -598,7 +598,7 @@ void VID_Init (unsigned char *palette)
             XF86VidModeSetViewPort(x_disp, scrnum, 0, 0);
             vidmode_active = true;
 			vid.aspect = ((float) vidmodes[best_fit]->vdisplay
-								/ (float) vidmodes[best_fit]->hdisplay) * (320.0 / 240.0);	
+								/ (float) vidmodes[best_fit]->hdisplay) * (320.0 / 240.0);
         }
         else
         {
@@ -1063,7 +1063,7 @@ void GetEvent (void)
 					(float) ((int) x_event.xmotion.x - (int) (vid.width / 2));
 				mouse_y =
 					(float) ((int) x_event.xmotion.y - (int) (vid.height / 2));
-//printf("m: x=%d,y=%d, mx=%3.2f,my=%3.2f\n", 
+//printf("m: x=%d,y=%d, mx=%3.2f,my=%3.2f\n",
 //  x_event.xmotion.x, x_event.xmotion.y, mouse_x, mouse_y);
 
 				/* move the mouse to the window center again */

@@ -9,23 +9,23 @@ keymap_version	3
 
 //
 //--------------------------------------------------------------------------
-// Description:	
-// Az ekezetes betuk helyere a nekik megfelelo nem ekezetes 
+// Description:
+// Az ekezetes betuk helyere a nekik megfelelo nem ekezetes
 // valtozatot tettem, kiveve az o: (ö) betunel. Ott maradt a nulla,
 // ami ugyis hasonlit az o: beture:-)
 // Erre azert volt szükseg mert a magyar nulla gombbal a konzolt lehet
-// lenyitni ill. felcsukni. Ez neha zavaro lehet, ha az ember 
+// lenyitni ill. felcsukni. Ez neha zavaro lehet, ha az ember
 // megszokasbol azzal a billentyuvel akar nullat irni.
 // Ilyenkor a kovetkezo a megoldas:
-// Lapozzunk lentebb ebben a file-ban es csereljuk ki a 
+// Lapozzunk lentebb ebben a file-ban es csereljuk ki a
 //   keycode      041  ~             0        // normally the first level is "0"
-// sort erre:		
+// sort erre:	
 //   keycode      041  0             0
 // es a konfigunkba irjuk bele:
 // bind 0 toggleconsole
 // Elofordulhat ilyenkor hogy bizonyos (ritka) esetben nem tudjuk lenyitni a konzolt.
 // Ilyenkor ESC-el elohozhatjuk a fomenut ahol az options menu masodik menupontja:
-// go to console. 
+// go to console.
 // Ha valakinek van jobb otlete szoljon!
 //--------------------------------------------------------------------------
 //

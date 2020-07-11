@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -72,7 +72,7 @@ cvar_t		vid_ref = {"vid_ref", "gl", CVAR_ROM};
 cvar_t		vid_mode = {"vid_mode","5"};
 cvar_t		vid_redrawfull = {"vid_redrawfull","0"};
 cvar_t		vid_waitforrefresh = {"vid_waitforrefresh","0",CVAR_ARCHIVE};
- 
+
 char	*framebuffer_ptr;
 
 cvar_t  mouse_button_commands[3] =
@@ -179,7 +179,7 @@ void vtswitch(int newconsole)
 
 void keyhandler(int scancode, int state)
 {
-	
+
 	int sc;
 
 	sc = scancode & 0x7f;
@@ -249,7 +249,7 @@ void	VID_SetPalette (unsigned char *palette)
 		g = pal[1];
 		b = pal[2];
 		pal += 3;
-		
+	
 //		v = (255<<24) + (r<<16) + (g<<8) + (b<<0);
 //		v = (255<<0) + (r<<8) + (g<<16) + (b<<24);
 		v = (255<<24) + (r<<0) + (g<<8) + (b<<16);
@@ -373,41 +373,41 @@ void Init_KBD(void)
 		scantokey[ 13] = '=';
 		scantokey[ 14] = K_BACKSPACE;
 		scantokey[ 15] = K_TAB;
-		scantokey[ 16] = 'q';       
-		scantokey[ 17] = 'w';       
-		scantokey[ 18] = 'e';       
-		scantokey[ 19] = 'r';       
-		scantokey[ 20] = 't';       
-		scantokey[ 21] = 'y';       
-		scantokey[ 22] = 'u';       
-		scantokey[ 23] = 'i';       
-		scantokey[ 24] = 'o';       
-		scantokey[ 25] = 'p';       
+		scantokey[ 16] = 'q';      
+		scantokey[ 17] = 'w';      
+		scantokey[ 18] = 'e';      
+		scantokey[ 19] = 'r';      
+		scantokey[ 20] = 't';      
+		scantokey[ 21] = 'y';      
+		scantokey[ 22] = 'u';      
+		scantokey[ 23] = 'i';      
+		scantokey[ 24] = 'o';      
+		scantokey[ 25] = 'p';      
 		scantokey[ 26] = '[';
 		scantokey[ 27] = ']';
 		scantokey[ 28] = K_ENTER;
 		scantokey[ 29] = K_CTRL; //left
 		scantokey[ 30] = 'a';
-		scantokey[ 31] = 's';       
-		scantokey[ 32] = 'd';       
-		scantokey[ 33] = 'f';       
-		scantokey[ 34] = 'g';       
-		scantokey[ 35] = 'h';       
-		scantokey[ 36] = 'j';       
-		scantokey[ 37] = 'k';       
-		scantokey[ 38] = 'l';       
+		scantokey[ 31] = 's';      
+		scantokey[ 32] = 'd';      
+		scantokey[ 33] = 'f';      
+		scantokey[ 34] = 'g';      
+		scantokey[ 35] = 'h';      
+		scantokey[ 36] = 'j';      
+		scantokey[ 37] = 'k';      
+		scantokey[ 38] = 'l';      
 		scantokey[ 39] = ';';
 		scantokey[ 40] = '\'';
 		scantokey[ 41] = '`';
 		scantokey[ 42] = K_SHIFT; //left
 		scantokey[ 43] = '\\';
-		scantokey[ 44] = 'z';       
-		scantokey[ 45] = 'x';  
+		scantokey[ 44] = 'z';      
+		scantokey[ 45] = 'x'; 
 		scantokey[ 46] = 'c';
-		scantokey[ 47] = 'v';       
+		scantokey[ 47] = 'v';      
 		scantokey[ 48] = 'b';
-		scantokey[ 49] = 'n';       
-		scantokey[ 50] = 'm';       
+		scantokey[ 49] = 'n';      
+		scantokey[ 50] = 'm';      
 		scantokey[ 51] = ',';
 		scantokey[ 52] = '.';
 		scantokey[ 53] = '/';
@@ -474,7 +474,7 @@ void Init_KBD(void)
 
 #define NUM_RESOLUTIONS 3
 
-static resolutions[NUM_RESOLUTIONS][3]={ 
+static resolutions[NUM_RESOLUTIONS][3]={
   { 512, 384, GR_RESOLUTION_512x384 },
   { 640, 400, GR_RESOLUTION_640x400 },
   { 640, 480, GR_RESOLUTION_640x480 }
@@ -490,7 +490,7 @@ int findres(int *width, int *height)
 			*height = resolutions[i][1];
 			return resolutions[i][2];
 		}
-        
+       
 	*width = 640;
 	*height = 480;
 	return GR_RESOLUTION_640x480;
@@ -502,7 +502,7 @@ qbool VID_Is8bit(void)
 }
 
 #ifdef GL_EXT_SHARED
-void VID_Init8bitPalette() 
+void VID_Init8bitPalette()
 {
 	// Check for 8bit Extensions and initialize them.
 	int i;
@@ -529,7 +529,7 @@ void VID_Init8bitPalette()
 #else
 extern void gl3DfxSetPaletteEXT(GLuint *pal);
 
-void VID_Init8bitPalette(void) 
+void VID_Init8bitPalette(void)
 {
 	// Check for 8bit Extensions and initialize them.
 	int i;
@@ -567,7 +567,7 @@ void VID_Init(unsigned char *palette)
 	Cvar_Register (&vid_mode);
 	Cvar_Register (&vid_redrawfull);
 	Cvar_Register (&vid_waitforrefresh);
-	
+
 	vid.colormap = host_colormap;
 
 // interpret command-line params
@@ -603,7 +603,7 @@ void VID_Init(unsigned char *palette)
 	if (vid.height < 200)
 		vid.height = 200;
 
-	fc = fxMesaCreateContext(0, findres(&width, &height), GR_REFRESH_75Hz, 
+	fc = fxMesaCreateContext(0, findres(&width, &height), GR_REFRESH_75Hz,
 		attribs);
 	if (!fc)
 		Sys_Error("Unable to create 3DFX context");
@@ -780,10 +780,10 @@ void IN_MouseMove (usercmd_t *cmd)
 		cmd->sidemove += m_side.value * mouse_x;
 	else
 		cl.viewangles[YAW] -= m_yaw.value * mouse_x;
-	
+
 	if (mlook_active)
 		V_StopPitchDrift ();
-		
+	
 	if (mlook_active && !(in_strafe.state & 1))
 	{
 		cl.viewangles[PITCH] += m_pitch.value * mouse_y;

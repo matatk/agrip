@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -110,7 +110,7 @@ void R_RenderFullbrights (void)
 
 	glDisable (GL_BLEND);
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	
+
 	glDepthMask (GL_TRUE);
 	if (gl_fb_depthhack.value)
 		glDepthRange (gldepthmin, gldepthmax);
@@ -169,17 +169,17 @@ void R_BuildDlightList (msurface_t *surf)
 			continue;
 
 		iminlight = irad - iminlight;
-		
+	
 		for (i=0 ; i<3 ; i++) {
 			impact[i] = r_refdef2.dlights[lnum].origin[i] -
 				surf->plane->normal[i]*dist;
 		}
-		
+	
 		local[0] = DotProduct (impact, tex->vecs[0]) +
 			tex->vecs[0][3] - surf->texturemins[0];
 		local[1] = DotProduct (impact, tex->vecs[1]) +
 			tex->vecs[1][3] - surf->texturemins[1];
-		
+	
 		// check if this dlight will touch the surface
 		if (local[1] > 0) {
 			tdmin = local[1] - (tmax<<4);
@@ -446,7 +446,7 @@ void R_UpdateSurfaceLightMap (msurface_t *fa)
 
 	if (numdlights == 0 && !fa->cached_dlight && !lightstyle_modified)
 		return;
-	
+
 	lightmap_modified[fa->lightmaptexturenum] = true;
 	theRect = &lightmap_rectchange[fa->lightmaptexturenum];
 	if (fa->light_t < theRect->t) {
@@ -481,7 +481,7 @@ void R_UploadLightMap (int lightmapnum)
 
 	lightmap_modified[lightmapnum] = false;
 	theRect = &lightmap_rectchange[lightmapnum];
-	glTexSubImage2D (GL_TEXTURE_2D, 0, 0, theRect->t, 
+	glTexSubImage2D (GL_TEXTURE_2D, 0, 0, theRect->t,
 		BLOCK_WIDTH, theRect->h, gl_lightmap_format, GL_UNSIGNED_BYTE,
 		lightmaps+(lightmapnum*BLOCK_HEIGHT + theRect->t)*BLOCK_WIDTH*lightmap_bytes);
 	theRect->l = BLOCK_WIDTH;
@@ -507,13 +507,13 @@ texture_t *R_TextureAnimation (texture_t *base)
 		if (base->alternate_anims)
 			base = base->alternate_anims;
 	}
-	
+
 	if (!base->anim_total)
 		return base;
 
 	relative = (int)(r_refdef2.time*10) % base->anim_total;
 
-	count = 0;	
+	count = 0;
 	while (base->anim_min > relative || base->anim_max <= relative)
 	{
 		base = base->anim_next;
@@ -747,7 +747,7 @@ void R_RenderBrushPoly (msurface_t *fa)
 		}
 		return;
 	}
-		
+	
 	t = R_TextureAnimation (fa->texinfo->texture);
 	GL_Bind (t->gl_texturenum);
 
@@ -788,7 +788,7 @@ void R_RenderDynamicLightmaps (msurface_t *fa)
 
 	if (fa->flags & ( SURF_DRAWSKY | SURF_DRAWTURB) )
 		return;
-		
+	
 	fa->polys->chain = lightmap_polys[fa->lightmaptexturenum];
 	lightmap_polys[fa->lightmaptexturenum] = fa->polys;
 
@@ -829,7 +829,7 @@ void R_DrawWaterSurfaces (void)
 			GL_Bind (s->texinfo->texture->gl_texturenum);
 			EmitWaterPolys (s);
 		}
-		
+	
 		waterchain = NULL;
 	} else {
 
@@ -845,12 +845,12 @@ void R_DrawWaterSurfaces (void)
 				continue;
 
 			// set modulate mode explicitly
-			
+		
 			GL_Bind (t->gl_texturenum);
 
 			for ( ; s ; s=s->texturechain)
 				EmitWaterPolys (s);
-			
+		
 			t->texturechain = NULL;
 		}
 
@@ -886,7 +886,7 @@ void DrawTextureChains (void)
 
 		GL_DisableMultitexture();	// FIXME, not needed any more?
 		return;
-	} 
+	}
 
 	for (i = 0; i < r_worldmodel->numtextures; i++)
 	{
@@ -1049,7 +1049,7 @@ void R_RecursiveWorldNode (mnode_t *node, int clipflags)
 		{
 			if (!(clipflags & (1<<c)))
 				continue;	// don't need to clip against it
-			
+		
 			clipped = BoxOnPlaneSide (node->minmaxs, node->minmaxs+3, clipplane);
 			if (clipped == 2)
 				return;
@@ -1193,7 +1193,7 @@ void R_MarkLeaves (void)
 	if (!r_novis.value && r_oldviewleaf == r_viewleaf
 		&& r_oldviewleaf2 == r_viewleaf2)	// watervis hack
 		return;
-	
+
 	r_visframecount++;
 	r_oldviewleaf = r_viewleaf;
 
@@ -1221,7 +1221,7 @@ void R_MarkLeaves (void)
 			vis = solid;
 		}
 	}
-		
+	
 	for (i = 0; i < r_worldmodel->numleafs; i++)
 	{
 		if (vis[i>>3] & (1<<(i&7)))
@@ -1466,7 +1466,7 @@ void GL_BuildLightmaps (void)
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D (GL_TEXTURE_2D, 0, lightmap_bytes
-		, BLOCK_WIDTH, BLOCK_HEIGHT, 0, 
+		, BLOCK_WIDTH, BLOCK_HEIGHT, 0,
 		gl_lightmap_format, GL_UNSIGNED_BYTE, lightmaps+i*BLOCK_WIDTH*BLOCK_HEIGHT*lightmap_bytes);
 	}
 

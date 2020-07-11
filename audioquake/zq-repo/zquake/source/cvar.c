@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -55,7 +55,7 @@ cvar_t *Cvar_FindVar (char *name)
 	int		key;
 
 	key = Com_HashKey (name);
-	
+
 	for (var=cvar_hash[key] ; var ; var=var->hash_next)
 		if (!Q_stricmp (name, var->name))
 			return var;
@@ -100,12 +100,12 @@ char *Cvar_CompleteVariable (char *partial)
 {
 	cvar_t		*cvar;
 	int			len;
-	
+
 	len = strlen(partial);
-	
+
 	if (!len)
 		return NULL;
-		
+	
 	// check exact match
 	for (cvar=cvar_vars ; cvar ; cvar=cvar->next)
 		if (!Q_stricmp (partial,cvar->name))
@@ -124,12 +124,12 @@ int Cvar_CompleteCountPossible (char *partial)
 	cvar_t	*cvar;
 	int		len;
 	int		c = 0;
-	
+
 	len = strlen(partial);
-	
+
 	if (!len)
 		return 0;
-		
+	
 	// check partial match
 	for (cvar=cvar_vars ; cvar ; cvar=cvar->next)
 		if (!Q_strnicmp (partial, cvar->name, len))
@@ -219,7 +219,7 @@ void Cvar_SetValue (cvar_t *var, float value)
 {
 	char	val[128];
 	int	i;
-	
+
 	Q_snprintfz (val, sizeof(val), "%f", value);
 
 	for (i=strlen(val)-1 ; i>0 && val[i]=='0' ; i--)
@@ -278,7 +278,7 @@ void Cvar_Register (cvar_t *var)
 		// allocate the string on heap because future sets will Q_free it
 		var->string = Q_strdup (var->string);
 	}
-	
+
 	var->value = Q_atof (var->string);
 
 	// link the variable in

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -79,7 +79,7 @@ void() StuffCustomMaps =
 	f2 = 999 + self.cnt - 237;
 	s1 = ftos(f2);
 	s2 = infokey(world, s1);
-	
+
 	while(s2 != "" && (f1 <= f3)) {
 		stuffcmd(self.owner, "\nalias ");
 		f2 = f2 + 1;
@@ -96,9 +96,9 @@ void() StuffCustomMaps =
 	{
 		// decrease f1 by 1 so we know the last map impulse being used.
 		f1 = f1 - 1;
-		
+	
 		s1 = infokey(world, "999");
-		
+	
 		if(s1 == "")
 		{
 			// store the last map impulse being used in localinfo 999.
@@ -121,10 +121,10 @@ void() StuffCustomMaps =
 
 	// next time around we'll be starting from the f1 variable which is the next available impulse.
 	self.cnt = f1;
-	
+
 	// 0.5 sec delay before next stuffing.
 	self.nextthink = time + 0.5;
-	
+
 	return;
 };
 
@@ -133,7 +133,7 @@ string(float f2) GetMapName =
 	local float f1;
 	local string s1, s2;
 
-	
+
 	 if (f2 == 200)
 		return "e1m1";
 	 else if (f2 == 201)

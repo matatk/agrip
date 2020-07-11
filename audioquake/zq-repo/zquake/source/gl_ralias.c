@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -105,7 +105,7 @@ void GL_DrawAliasFrame (aliashdr_t *paliashdr, int posenum, qbool mtex)
 			// normals and vertexes come from the frame list
 			for (i = 0; i < 3; i++) {
 				l_v[i] = (shadedots[verts->lightnormalindex] * shadelight_v[i] + ambientlight_v[i]) / 256.0;
-			
+		
 				if (l_v[i] > 1)
 					l_v[i] = 1;
 			}
@@ -174,7 +174,7 @@ void GL_DrawAliasShadow (aliashdr_t *paliashdr, int posenum)
 		} while (--count);
 
 		glEnd ();
-	}	
+	}
 }
 
 
@@ -289,7 +289,7 @@ void R_DrawAliasModel (entity_t *ent)
 	}
 	else
 	{
-		// normal lighting 
+		// normal lighting
 		full_light = false;
 		original_light = ambientlight = shadelight = R_LightPoint (ent->origin, lightcolor);
 
@@ -302,21 +302,21 @@ void R_DrawAliasModel (entity_t *ent)
 				r_refdef2.dlights[lnum].origin,
 				dist);
 			add = r_refdef2.dlights[lnum].radius - VectorLength(dist);
-			
+		
 			if (add > 0)
 				ambientlight += add;
 		}
-		
+	
 		// clamp lighting so it doesn't overbright as much
 		if (ambientlight > 128)
 			ambientlight = 128;
 		if (ambientlight + shadelight > 192)
 			shadelight = 192 - ambientlight;
-		
+	
 		// always give the gun some light
 		if ((ent->renderfx & RF_WEAPONMODEL) && ambientlight < 24)
 			ambientlight = shadelight = 24;
-		
+	
 		// never allow players to go totally black
 		if (clmodel->modhint == MOD_PLAYER || ent->renderfx & RF_PLAYERMODEL) {
 			if (ambientlight < 8)
@@ -446,7 +446,7 @@ void R_DrawAliasModel (entity_t *ent)
 	if (r_shadows.value && !full_light && !(ent->renderfx & RF_WEAPONMODEL))
 	{
 		float an = -ent->angles[1] / 180 * M_PI;
-		
+	
 		if (!shadescale)
 			shadescale = 1/sqrt(2);
 

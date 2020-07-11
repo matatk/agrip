@@ -98,7 +98,7 @@ links an already existing node to the last node visited
 void (entity last_node, entity old_node) ZEUS_LinkNode =
 {
  local   float   pc1, pc2;
-	
+
  if (last_node == old_node)
  {
    Debug_Msg ("node linked to itself!\n");
@@ -109,7 +109,7 @@ void (entity last_node, entity old_node) ZEUS_LinkNode =
 
  pc1 = pointcontents (last_node.origin);
  pc2 = pointcontents (old_node.origin);
- if (pc1 != pc2) 
+ if (pc1 != pc2)
    return;
 
  // if already linked then just exit
@@ -216,7 +216,7 @@ entity (vector org, entity last_node, float dir) ZEUS_MakeNode =
   {
     pc1 = pointcontents (last_node.origin);
     pc2 = pointcontents (node.origin);
-    if (pc1 == pc2) 
+    if (pc1 == pc2)
 	{
       if (last_node.ZEUS_link1 == world)
         last_node.ZEUS_link1 = node;
@@ -958,7 +958,7 @@ float (entity cur_node, entity dest_node) ZEUS_ShortestPath =
 	{
 		head = ZEUS_map_first;
 		j = 0;
-		
+	
 		// reset all flags in all nodes
 		while ((head != world) && (j <= node_count))
 		{

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the included (GNU.txt) GNU General Public License for more details.
 
@@ -202,7 +202,7 @@ readnext:
 		demotime = LittleFloat(demotime);
     }
 
-// decide if it is time to grab the next message		
+// decide if it is time to grab the next message	
 	if (cls.timedemo) {
 		if (cls.td_lastframe < 0)
 			cls.td_lastframe = demotime;
@@ -213,7 +213,7 @@ readnext:
 			if (cls.mvdplayback) {
 				fseek(cls.demofile, ftell(cls.demofile) - sizeof(msec),
 					SEEK_SET);
-			} else 
+			} else
 #endif
 				fseek(cls.demofile, ftell(cls.demofile) - sizeof(demotime),
 					SEEK_SET);
@@ -267,12 +267,12 @@ readnext:
 
 	if (cls.state < ca_demostart)
 		Host_Error ("CL_GetDemoMessage: cls.state < ca_demostart");
-	
+
 	// get the msg type
 	r = fread (&c, sizeof(c), 1, cls.demofile);
 	if (r != 1)
 		Host_Error ("Unexpected end of demo");
-	
+
 #ifdef MVDPLAY
     switch (cls.mvdplayback ? c&7 : c) {
 #else
@@ -320,7 +320,7 @@ readit:
 			switch(cls.mvd_lasttype) {
 			case dem_multiple:
 				if (!cam_locked || !(cls.mvd_lastto & (1 << cam_curtarget)))
-					goto readnext;	
+					goto readnext;
 				break;
 			case dem_single:
 				if (!cam_locked || cls.mvd_lastto != cam_curtarget)
@@ -558,7 +558,7 @@ static void CL_Record (void)
 
 	// flush packet
 	CL_WriteRecordDemoMessage (&buf, seq++);
-	SZ_Clear (&buf); 
+	SZ_Clear (&buf);
 
 // soundlist
 	MSG_WriteByte (&buf, svc_soundlist);
@@ -572,7 +572,7 @@ static void CL_Record (void)
 			MSG_WriteByte (&buf, 0);
 			MSG_WriteByte (&buf, n);
 			CL_WriteRecordDemoMessage (&buf, seq++);
-			SZ_Clear (&buf); 
+			SZ_Clear (&buf);
 			MSG_WriteByte (&buf, svc_soundlist);
 			MSG_WriteByte (&buf, n + 1);
 		}
@@ -583,7 +583,7 @@ static void CL_Record (void)
 		MSG_WriteByte (&buf, 0);
 		MSG_WriteByte (&buf, 0);
 		CL_WriteRecordDemoMessage (&buf, seq++);
-		SZ_Clear (&buf); 
+		SZ_Clear (&buf);
 	}
 
 #ifdef VWEP_TEST
@@ -619,7 +619,7 @@ static void CL_Record (void)
 			MSG_WriteByte (&buf, 0);
 			MSG_WriteByte (&buf, n);
 			CL_WriteRecordDemoMessage (&buf, seq++);
-			SZ_Clear (&buf); 
+			SZ_Clear (&buf);
 			MSG_WriteByte (&buf, svc_modellist);
 			MSG_WriteByte (&buf, n + 1);
 		}
@@ -630,7 +630,7 @@ static void CL_Record (void)
 		MSG_WriteByte (&buf, 0);
 		MSG_WriteByte (&buf, 0);
 		CL_WriteRecordDemoMessage (&buf, seq++);
-		SZ_Clear (&buf); 
+		SZ_Clear (&buf);
 	}
 
 // spawnstatic
@@ -659,7 +659,7 @@ static void CL_Record (void)
 
 		if (buf.cursize > MAX_MSGLEN/2) {
 			CL_WriteRecordDemoMessage (&buf, seq++);
-			SZ_Clear (&buf); 
+			SZ_Clear (&buf);
 		}
 	}
 
@@ -676,7 +676,7 @@ static void CL_Record (void)
 
 		if (buf.cursize > MAX_MSGLEN/2) {
 			CL_WriteRecordDemoMessage (&buf, seq++);
-			SZ_Clear (&buf); 
+			SZ_Clear (&buf);
 		}
 	}
 
@@ -687,7 +687,7 @@ static void CL_Record (void)
 		es = &cl_entities[i].baseline;
 
 		if (memcmp(es, &blankes, sizeof(blankes))) {
-			MSG_WriteByte (&buf,svc_spawnbaseline);		
+			MSG_WriteByte (&buf,svc_spawnbaseline);	
 			MSG_WriteShort (&buf, i);
 
 			MSG_WriteByte (&buf, es->modelindex);
@@ -702,7 +702,7 @@ static void CL_Record (void)
 
 			if (buf.cursize > MAX_MSGLEN/2) {
 				CL_WriteRecordDemoMessage (&buf, seq++);
-				SZ_Clear (&buf); 
+				SZ_Clear (&buf);
 			}
 		}
 	}
@@ -712,7 +712,7 @@ static void CL_Record (void)
 
 	if (buf.cursize) {
 		CL_WriteRecordDemoMessage (&buf, seq++);
-		SZ_Clear (&buf); 
+		SZ_Clear (&buf);
 	}
 
 // send current status of all other players
@@ -723,15 +723,15 @@ static void CL_Record (void)
 		MSG_WriteByte (&buf, svc_updatefrags);
 		MSG_WriteByte (&buf, i);
 		MSG_WriteShort (&buf, player->frags);
-		
+	
 		MSG_WriteByte (&buf, svc_updateping);
 		MSG_WriteByte (&buf, i);
 		MSG_WriteShort (&buf, player->ping);
-		
+	
 		MSG_WriteByte (&buf, svc_updatepl);
 		MSG_WriteByte (&buf, i);
 		MSG_WriteByte (&buf, player->pl);
-		
+	
 		MSG_WriteByte (&buf, svc_updateentertime);
 		MSG_WriteByte (&buf, i);
 		MSG_WriteFloat (&buf, cls.realtime - player->entertime);
@@ -743,10 +743,10 @@ static void CL_Record (void)
 
 		if (buf.cursize > MAX_MSGLEN/2) {
 			CL_WriteRecordDemoMessage (&buf, seq++);
-			SZ_Clear (&buf); 
+			SZ_Clear (&buf);
 		}
 	}
-	
+
 // send all current light styles
 	for (i=0 ; i<MAX_LIGHTSTYLES ; i++)
 	{
@@ -771,7 +771,7 @@ static void CL_Record (void)
 		}
 		if (buf.cursize > MAX_MSGLEN/2) {
 			CL_WriteRecordDemoMessage (&buf, seq++);
-			SZ_Clear (&buf); 
+			SZ_Clear (&buf);
 		}
 	}
 
@@ -813,7 +813,7 @@ void CL_Record_f (void)
 
 	if (cls.demorecording)
 		CL_Stop_f();
-  
+ 
 	Q_snprintfz (name, sizeof(name), "%s/%s", cls.gamedir, Cmd_Argv(1));
 
 //
@@ -899,7 +899,7 @@ void CL_EasyRecord_f (void)
 			else if (i > 2) {
 				// FFA
 				Q_snprintfz (name, sizeof(name), "%s_ffa_%s",
-					TP_PlayerName(), 
+					TP_PlayerName(),
 					TP_MapName());
 			}
 			else {
@@ -974,7 +974,7 @@ void CheckQizmoCompletion (void)
 		StopQWZPlayback ();
 		return;
 	}
-	
+
 	if (ExitCode == STILL_ACTIVE)
 		return;
 
@@ -984,9 +984,9 @@ void CheckQizmoCompletion (void)
 		StopQWZPlayback ();
 		return;
 	}
-	
+
 	qwz_unpacking = false;
-	
+
 	cls.demofile = fopen (tempqwd_name, "rb");
 	if (!cls.demofile) {
 		Com_Printf ("Couldn't open %s\n", tempqwd_name);
@@ -1027,7 +1027,7 @@ void PlayQWZDemo (void)
 		Com_Printf ("Cannot unpack -- Qizmo still running!\n");
 		return;
 	}
-	
+
 	name = Cmd_Argv(1);
 
 	if (!strncmp(name, "../", 3) || !strncmp(name, "..\\", 3))
@@ -1050,7 +1050,7 @@ void PlayQWZDemo (void)
 		return;
 	}
 	fclose (cls.demofile);
-	
+
 	strlcpy (tempqwd_name, qwz_name, sizeof(tempqwd_name)-4);
 #if 0
 	// the right way
@@ -1074,18 +1074,18 @@ void PlayQWZDemo (void)
 		cls.demotime = 0;
 		return;
 	}
-	
+
 	Com_Printf ("Unpacking %s...\n", COM_SkipPath(name));
-	
+
 	// start Qizmo to unpack the demo
 	memset (&si, 0, sizeof(si));
 	si.cb = sizeof(si);
 	si.wShowWindow = SW_HIDE;
 	si.dwFlags = STARTF_USESHOWWINDOW;
-	
+
 	strlcpy (cmdline, va("%s/%s/qizmo.exe -q -u -D \"%s\"", com_basedir,
 		qizmo_dir.string, qwz_name), sizeof(cmdline));
-	
+
 	if (!CreateProcess (NULL, cmdline, NULL, NULL,
 		FALSE, 0/* | HIGH_PRIORITY_CLASS*/,
 		NULL, va("%s/%s", com_basedir, qizmo_dir.string), &si, &pi))
@@ -1094,7 +1094,7 @@ void PlayQWZDemo (void)
 			com_basedir, qizmo_dir.string);
 		return;
 	}
-	
+
 	hQizmoProcess = pi.hProcess;
 	qwz_unpacking = true;
 	qwz_playback = true;
@@ -1132,7 +1132,7 @@ void CL_PlayDemo_f (void)
 // disconnect from server
 //
 	Host_EndGame ();
-	
+
 //
 // open the demo file
 //
@@ -1206,9 +1206,9 @@ void CL_FinishTimeDemo (void)
 {
 	int		frames;
 	float	time;
-	
+
 	cls.timedemo = false;
-	
+
 // the first frame didn't count
 	frames = (cls.framecount - cls.td_startframe) - 1;
 	time = Sys_DoubleTime() - cls.td_starttime;
@@ -1233,13 +1233,13 @@ void CL_TimeDemo_f (void)
 	}
 
 	CL_PlayDemo_f ();
-	
+
 	if (cls.state != ca_demostart)
 		return;
 
 // cls.td_starttime will be grabbed at the second frame of the demo, so
 // all the loading time doesn't get counted
-	
+
 	cls.timedemo = true;
 	cls.td_starttime = 0;
 	cls.td_startframe = cls.framecount;
@@ -1298,7 +1298,7 @@ void CL_StartDemos_f (void)
 		if (num == MAX_DEMOS)
 			break;
 	}
-	
+
 	if (!num) {
 		cls.playdemos = 0;
 		return;

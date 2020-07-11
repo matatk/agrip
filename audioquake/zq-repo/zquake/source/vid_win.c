@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -236,7 +236,7 @@ void ClearAllStates (void)
 	extern void IN_ClearStates (void);
 	extern qbool keydown[256];
 	int		i;
-	
+
 // send an up event for each key, to make sure the server clears them all
 	for (i=0 ; i<256 ; i++)
 	{
@@ -313,7 +313,7 @@ qbool VID_AllocBuffers (int width, int height)
 
 	vid_surfcache = (byte *)d_pzbuffer +
 			width * height * sizeof (*d_pzbuffer);
-	
+
 	return true;
 }
 
@@ -1062,7 +1062,7 @@ int VID_NumModes (void)
 	return nummodes;
 }
 
-	
+
 /*
 =================
 VID_GetModePtr
@@ -1804,8 +1804,8 @@ void VID_LockBuffer (void)
 	else
 		r_screenwidth = vid.rowbytes;
 }
-		
-		
+	
+	
 void VID_UnlockBuffer (void)
 {
 	if (dibdc)
@@ -2745,7 +2745,7 @@ void VID_HandlePause (qbool pause)
 #endif
 }
 
-			
+		
 /*
 ===================================================================
 
@@ -2840,7 +2840,7 @@ LONG WINAPI MainWndProc (
 
 		case WM_SIZE:
 			Minimized = false;
-			
+		
 			if (!(wParam & SIZE_RESTORED))
 			{
 				if (wParam & SIZE_MINIMIZED)
@@ -2936,7 +2936,7 @@ LONG WINAPI MainWndProc (
 		// JACK: This is the mouse wheel with the Intellimouse
 		// Its delta is either positive or neg, and we generate the proper
 		// Event.
-		case WM_MOUSEWHEEL: 
+		case WM_MOUSEWHEEL:
 			if (in_mwheeltype != MWHEEL_DINPUT)
 			{
 				in_mwheeltype = MWHEEL_WINDOWMSG;
@@ -3069,7 +3069,7 @@ void VID_MenuDraw (void)
 
 	vid_wmodes = 3;
 	lnummodes = VID_NumModes ();
-	
+
 	for (i=3 ; i<lnummodes ; i++)
 	{
 		ptr = VID_GetModeDescriptionMemCheck (i);
@@ -3092,7 +3092,7 @@ void VID_MenuDraw (void)
 				}
 			}
 
-			if (dup || (vid_wmodes < MAX_MODEDESCS))       
+			if (dup || (vid_wmodes < MAX_MODEDESCS))      
 			{
 				if (!dup || !modedescs[dupmode].ismode13 || COM_CheckParm("-noforcevga"))
 				{

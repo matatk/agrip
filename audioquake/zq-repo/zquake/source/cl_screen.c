@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -66,7 +66,7 @@ SlowPrint ()
 Screen_Update ();
 Com_Printf ();
 
-net 
+net
 turn off messages option
 
 the refresh is always rendered, unless the console is full screen
@@ -76,12 +76,12 @@ console is:
 	notify lines
 	half
 	full
-	
+
 
 */
 
 
-// only the refresh window will be updated unless these variables are flagged 
+// only the refresh window will be updated unless these variables are flagged
 int			scr_copytop;
 int			scr_copyeverything;
 
@@ -194,7 +194,7 @@ void SCR_DrawCenterString (void)
 	else
 		y = 48;
 
-	do	
+	do
 	{
 	// scan the width of the line
 		for (l=0 ; l<40 ; l++)
@@ -203,11 +203,11 @@ void SCR_DrawCenterString (void)
 		x = (vid.width - l*8)/2;
 		for (j=0 ; j<l ; j++, x+=8)
 		{
-			R_DrawChar (x, y, start[j]);	
+			R_DrawChar (x, y, start[j]);
 			if (!remaining--)
 				return;
 		}
-			
+		
 		y += 8;
 
 		while (*start && *start != '\n')
@@ -226,7 +226,7 @@ void SCR_CheckDrawCenterString (void)
 		scr_erase_lines = scr_center_lines;
 
 	scr_centertime_off -= cls.frametime;
-	
+
 	if (scr_centertime_off <= 0 && !cl.intermission)
 		return;
 	if (key_dest != key_game)
@@ -273,13 +273,13 @@ Probably in software also, but software doesn't care about fov_y
 
 	if (fov_x < 1 || fov_x > 179)
 		Sys_Error ("Bad fov: %f", fov_x);
-	
+
 	x = width / tan(fov_x/360*M_PI);
-	
+
 	a = atan (height/x);
-	
+
 	a = a*360/M_PI;
-	
+
 	return a;
 }
 
@@ -308,7 +308,7 @@ void SCR_CalcRefdef (void)
 	if (scr_fov.value > (r_refdef2.allowCheats ? 170 : 140))
 		Cvar_SetValue (&scr_fov, r_refdef2.allowCheats ? 170 : 140);
 
-// intermission is always full screen	
+// intermission is always full screen
 	if (cl.intermission) {
 		size = 100.0;
 		sb_lines = 0;
@@ -474,7 +474,7 @@ SCR_DrawTurtle
 void SCR_DrawTurtle (void)
 {
 	static int	count;
-	
+
 	if (!scr_showturtle.value)
 		return;
 
@@ -648,7 +648,7 @@ void SCR_DrawPause (void)
 #endif
 
 	pic = R_CachePic ("gfx/pause.lmp");
-	R_DrawPic ( (vid.width - pic->width)/2, 
+	R_DrawPic ( (vid.width - pic->width)/2,
 		(vid.height - 48 - pic->height)/2, pic);
 #endif
 }
@@ -666,9 +666,9 @@ void SCR_DrawLoading (void)
 
 	if (!scr_drawloading)
 		return;
-		
+	
 	pic = R_CachePic ("gfx/loading.lmp");
-	R_DrawPic ( (vid.width - pic->width)/2, 
+	R_DrawPic ( (vid.width - pic->width)/2,
 		(vid.height - 48 - pic->height)/2, pic);
 #endif
 }
@@ -852,13 +852,13 @@ void SCR_TileClear (int	y, int height)
 		// left
 		R_DrawTile (0, y, scr_vrect.x, height, scr_backtile);
 		// right
-		R_DrawTile (scr_vrect.x + scr_vrect.width, y, 
-			vid.width - (scr_vrect.x + scr_vrect.width), 
+		R_DrawTile (scr_vrect.x + scr_vrect.width, y,
+			vid.width - (scr_vrect.x + scr_vrect.width),
 			height, scr_backtile);
 	}
 	if (y < scr_vrect.y) {
 		// top
-		R_DrawTile (scr_vrect.x, y, scr_vrect.width, 
+		R_DrawTile (scr_vrect.x, y, scr_vrect.width,
 			min(scr_vrect.y, y + height) - y, scr_backtile);
 	}
 	if (y + height > scr_vrect.y + scr_vrect.height) {
@@ -922,7 +922,7 @@ void SCR_UpdateScreen (void)
 	// do 3D refresh drawing, and then update the screen
 	//
 	SCR_SetUpToDrawConsole ();
-	
+
 	V_RenderView ();
 
 	GL_Set2D ();
@@ -962,7 +962,7 @@ void SCR_UpdateScreen (void)
 			SCR_CheckDrawCenterString ();
 			Con_ClearNotify ();
 		}
-		
+	
 		if (cls.state == ca_active)
 		{
 			SCR_DrawRam ();
@@ -979,8 +979,8 @@ void SCR_UpdateScreen (void)
 				Sbar_Draw ();
 			}
 		}
-	
-		SCR_DrawConsole ();	
+
+		SCR_DrawConsole ();
 		M_Draw ();
 	}
 
@@ -1068,7 +1068,7 @@ void SCR_UpdateScreen (void)
 
 	SCR_SetUpToDrawConsole ();
 	SCR_EraseCenterString ();
-	
+
 	V_RenderView ();
 
 	if (scr_drawloading)
@@ -1107,7 +1107,7 @@ void SCR_UpdateScreen (void)
 			}
 		}
 
-		SCR_DrawConsole ();	
+		SCR_DrawConsole ();
 		M_Draw ();
 	}
 
@@ -1126,7 +1126,7 @@ void SCR_UpdateScreen (void)
 		vrect.width = vid.width;
 		vrect.height = vid.height;
 		vrect.pnext = 0;
-	
+
 		VID_Update (&vrect);
 	}
 	else if (scr_copytop)
@@ -1137,9 +1137,9 @@ void SCR_UpdateScreen (void)
 		vrect.width = vid.width;
 		vrect.height = vid.height - sb_lines;
 		vrect.pnext = 0;
-	
+
 		VID_Update (&vrect);
-	}	
+	}
 	else
 	{
 		vrect_t		vrect;
@@ -1148,9 +1148,9 @@ void SCR_UpdateScreen (void)
 		vrect.width = scr_vrect.width;
 		vrect.height = scr_vrect.height;
 		vrect.pnext = 0;
-	
+
 		VID_Update (&vrect);
-	}	
+	}
 }
 
 #endif // !GLQUAKE

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -131,7 +131,7 @@ qbool SV_SetPlayer (void)
 ======================
 SV_Map_f
 
-handle a 
+handle a
 map <mapname>
 command from the console or progs.
 ======================
@@ -211,7 +211,7 @@ void SV_Kick_f (void)
 	}
 
 	uid = atoi(Cmd_Argv(1));
-	
+
 	for (i = 0, cl = svs.clients; i < MAX_CLIENTS; i++, cl++)
 	{
 		if (!cl->state)
@@ -236,7 +236,7 @@ void SV_Kick_f (void)
 			SV_BroadcastPrintf (PRINT_HIGH, "%s was kicked%s\n", cl->name, reason);
 			cl->state = saved_state;
 			SV_ClientPrintf (cl, PRINT_HIGH, "You were kicked from the game%s\n", reason);
-			SV_DropClient (cl); 
+			SV_DropClient (cl);
 			return;
 		}
 	}
@@ -276,7 +276,7 @@ void SV_Status_f (void)
 	Com_Printf ("cpu utilization  : %3i%%\n",(int)cpu);
 	Com_Printf ("avg response time: %i ms\n",(int)avg);
 	Com_Printf ("packets/frame    : %5.2f (%d)\n", pak, num_prstr);
-	
+
 // min fps lat drp
 	if (sv_redirected != RD_NONE) {
 		// most remote clients are 40 columns
@@ -294,7 +294,7 @@ void SV_Status_f (void)
 			Com_Printf ("%6i %5i", cl->userid, (int)cl->edict->v.frags);
 			if (cl->spectator)
 				Com_Printf (" (s)\n");
-			else			
+			else		
 				Com_Printf ("\n");
 
 			s = NET_BaseAdrToString ( cl->netchan.remote_address);
@@ -328,7 +328,7 @@ void SV_Status_f (void)
 			l = 16 - strlen(s);
 			for (j=0 ; j<l ; j++)
 				Com_Printf (" ");
-			
+		
 			Com_Printf ("%s", cl->name);
 			l = 16 - strlen(cl->name);
 			for (j=0 ; j<l ; j++)
@@ -350,10 +350,10 @@ void SV_Status_f (void)
 				, cl->netchan.qport);
 			if (cl->spectator)
 				Com_Printf (" (s)\n");
-			else			
+			else		
 				Com_Printf ("\n");
 
-				
+			
 		}
 	}
 	Com_Printf ("\n");
@@ -589,11 +589,11 @@ Sets the gamedir and path to a different directory.
 void SV_Floodprot_f (void)
 {
 	int arg1, arg2, arg3;
-	
+
 	if (Cmd_Argc() == 1)
 	{
 		if (fp_messages) {
-			Com_Printf ("Current floodprot settings: \nAfter %d msgs per %d seconds, silence for %d seconds\n", 
+			Com_Printf ("Current floodprot settings: \nAfter %d msgs per %d seconds, silence for %d seconds\n",
 				fp_messages, fp_persecond, fp_secondsdead);
 			return;
 		} else
@@ -615,7 +615,7 @@ void SV_Floodprot_f (void)
 		Com_Printf ("All values must be positive numbers\n");
 		return;
 	}
-	
+
 	if (arg1 > 10) {
 		Com_Printf ("Can only track up to 10 messages.\n");
 		return;
@@ -692,7 +692,7 @@ SV_Snap
 void SV_Snap (int uid)
 {
 	client_t	*cl;
-	char		pcxname[80]; 
+	char		pcxname[80];
 	char		checkname[MAX_OSPATH];
 	int			i;
 	FILE		*f;
@@ -711,20 +711,20 @@ void SV_Snap (int uid)
 
 	COM_CreatePath (va("%s/snap/", com_gamedir));
 	sprintf (pcxname, "%d-00.pcx", uid);
-		
-	for (i=0 ; i<=99 ; i++) 
-	{ 
-		pcxname[strlen(pcxname) - 6] = i/10 + '0'; 
-		pcxname[strlen(pcxname) - 5] = i%10 + '0'; 
+	
+	for (i=0 ; i<=99 ; i++)
+	{
+		pcxname[strlen(pcxname) - 6] = i/10 + '0';
+		pcxname[strlen(pcxname) - 5] = i%10 + '0';
 		Q_snprintfz (checkname, sizeof(checkname), "%s/snap/%s", com_gamedir, pcxname);
 		f = fopen (checkname, "rb");
 		if (!f)
 			break;  // file doesn't exist
 		fclose (f);
-	} 
-	if (i==100) 
+	}
+	if (i==100)
 	{
-		Com_Printf ("Snap: Couldn't create a file, clean some out.\n"); 
+		Com_Printf ("Snap: Couldn't create a file, clean some out.\n");
 		return;
 	}
 	strcpy(cl->uploadfn, checkname);

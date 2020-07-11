@@ -4,7 +4,7 @@
 // Licenced under the GNU General Public Licence v2.
 // See `COPYING' for details.
 
-#include "quakedef.h" 
+#include "quakedef.h"
 
 qbool SNDDMA_ALSA;
 int snd_inited;

@@ -83,7 +83,7 @@ static qbool CL_GetNQDemoMessage (void)
 	int r, i;
 	float f;
 
-	// decide if it is time to grab the next message		
+	// decide if it is time to grab the next message	
 	if (cls.state == ca_active				// always grab until fully connected
 		&& !(cl.paused & PAUSED_SERVER))	// or if the game was paused by server
 	{
@@ -143,7 +143,7 @@ static void NQD_ParseClientdata (int bits)
 
 	if (bits & SU_IDEALPITCH)
 		MSG_ReadChar ();		// ignore
-	
+
 	VectorCopy (nq_mvelocity[0], nq_mvelocity[1]);
 	for (i=0 ; i<3 ; i++)
 	{
@@ -170,7 +170,7 @@ static void NQD_ParseClientdata (int bits)
 				cl.item_gettime[j] = cl.time;
 		cl.stats[STAT_ITEMS] = i;
 	}
-		
+	
 	cl.onground = (bits & SU_ONGROUND) != 0;
 //	cl.inwater = (bits & SU_INWATER) != 0;
 
@@ -198,7 +198,7 @@ static void NQD_ParseClientdata (int bits)
 		cl.stats[STAT_WEAPON] = i;
 		Sbar_Changed ();
 	}
-	
+
 	i = MSG_ReadShort ();
 	if (cl.stats[STAT_HEALTH] != i)
 	{
@@ -262,7 +262,7 @@ static void NQD_ParseUpdatecolors (void)
 	Sbar_Changed ();
 }
 
-			
+		
 /*
 ==================
 NQD_ParsePrint
@@ -462,21 +462,21 @@ static void NQD_ParseStartSoundPacket(void)
     int 	sound_num;
     int 	volume;
     int 	field_mask;
-    float 	attenuation;  
+    float 	attenuation; 
  	int		i;
-	           
-    field_mask = MSG_ReadByte(); 
+	          
+    field_mask = MSG_ReadByte();
 
     if (field_mask & NQ_SND_VOLUME)
 		volume = MSG_ReadByte ();
 	else
 		volume = DEFAULT_SOUND_PACKET_VOLUME;
-	
+
     if (field_mask & NQ_SND_ATTENUATION)
 		attenuation = MSG_ReadByte () / 64.0;
 	else
 		attenuation = DEFAULT_SOUND_PACKET_ATTENUATION;
-	
+
 	channel = MSG_ReadShort ();
 	sound_num = MSG_ReadByte ();
 
@@ -485,12 +485,12 @@ static void NQD_ParseStartSoundPacket(void)
 
 	if (ent > NQ_MAX_EDICTS)
 		Host_Error ("NQD_ParseStartSoundPacket: ent = %i", ent);
-	
+
 	for (i=0 ; i<3 ; i++)
 		pos[i] = MSG_ReadCoord ();
- 
+
     S_StartSound (ent, channel, cl.sound_precache[sound_num], pos, volume/255.0, attenuation);
-}       
+}      
 
 
 /*
@@ -527,7 +527,7 @@ static void NQD_ParseUpdate (int bits)
 		bits |= (i<<8);
 	}
 
-	if (bits & NQ_U_LONGENTITY)	
+	if (bits & NQ_U_LONGENTITY)
 		num = MSG_ReadShort ();
 	else
 		num = MSG_ReadByte ();
@@ -550,7 +550,7 @@ static void NQD_ParseUpdate (int bits)
 
 	ent->prevframe = ent->lastframe;
 	ent->lastframe = cl_entframecount;
-	
+
 	if (bits & NQ_U_MODEL)
 	{
 		modnum = MSG_ReadByte ();
@@ -559,7 +559,7 @@ static void NQD_ParseUpdate (int bits)
 	}
 	else
 		modnum = ent->baseline.modelindex;
-		
+	
 //	model = cl.model_precache[modnum];
 	if (modnum != state->modelindex)
 	{
@@ -581,7 +581,7 @@ static void NQD_ParseUpdate (int bits)
 			R_TranslatePlayerSkin (num - 1);
 #endif
 	}
-	
+
 	if (bits & NQ_U_FRAME)
 		state->frame = MSG_ReadByte ();
 	else
@@ -664,12 +664,12 @@ static float NQD_LerpPoint (void)
 	float	f, frac;
 
 	f = nq_mtime[0] - nq_mtime[1];
-	
+
 	if (!f || /* cl_nolerp.value || */ cls.timedemo) {
 		cl.time = nq_mtime[0];
 		return 1;
 	}
-		
+	
 	if (f > 0.1)
 	{	// dropped packet, or start of demo
 		nq_mtime[1] = nq_mtime[0] - 0.1;
@@ -688,13 +688,13 @@ static float NQD_LerpPoint (void)
 			cl.time = nq_mtime[0];
 		frac = 1;
 	}
-		
+	
 	return frac;
 }
 
 
 
-extern int	cl_playerindex; 
+extern int	cl_playerindex;
 extern int	cl_h_playerindex, cl_gib1index, cl_gib2index, cl_gib3index;
 extern int	cl_rocketindex, cl_grenadeindex;
 
@@ -821,7 +821,7 @@ void NQD_LinkEntities (void)
 					nq_player_teleported = true;
 				break;
 			}
-			ent.origin[i] = cent->previous.s_origin[i] * 0.125 + 
+			ent.origin[i] = cent->previous.s_origin[i] * 0.125 +
 				f * (cur_origin[i] - cent->previous.s_origin[i] * 0.125);
 		}
 
@@ -840,7 +840,7 @@ void NQD_LinkEntities (void)
 			continue;
 
 		// set colormap
-		if (state->colormap && (state->colormap < MAX_CLIENTS) 
+		if (state->colormap && (state->colormap < MAX_CLIENTS)
 			&& state->modelindex == cl_playerindex)
 		{
 			ent.colormap = cl.players[state->colormap-1].translations;
@@ -854,7 +854,7 @@ void NQD_LinkEntities (void)
 
 		// set skin
 		ent.skinnum = state->skinnum;
-		
+	
 		// set frame
 		ent.frame = state->frame;
 
@@ -938,14 +938,14 @@ static void NQD_ParseServerMessage (void)
 		Com_Printf ("%i ", net_message.cursize);
 	else if (cl_shownet.value == 2)
 		Com_Printf ("------------------\n");
-	
-	cl.onground = false;	// unless the server says otherwise	
+
+	cl.onground = false;	// unless the server says otherwise
 
 //
 // parse the message
 //
 	MSG_BeginReading ();
-	
+
 	while (1)
 	{
 		if (msg_badread)
@@ -977,7 +977,7 @@ static void NQD_ParseServerMessage (void)
 
 		if (cmd < num_svc_strings)
 			SHOWNET(svc_strings[cmd]);
-	
+
 	// other commands
 		switch (cmd)
 		{
@@ -1016,7 +1016,7 @@ static void NQD_ParseServerMessage (void)
 		case svc_print:
 			NQD_ParsePrint ();
 			break;
-			
+		
 		case svc_centerprint:
 			SCR_CenterPrint (MSG_ReadString ());
 			break;
@@ -1083,7 +1083,7 @@ static void NQD_ParseServerMessage (void)
 		case nq_svc_updatecolors:
 			NQD_ParseUpdatecolors ();
 			break;
-			
+		
 		case nq_svc_particle:
 			CL_ParseParticleEffect ();
 			break;

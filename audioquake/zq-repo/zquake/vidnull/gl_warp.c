@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -491,7 +491,7 @@ static vec3_t	skyclip[6] = {
 	{0,-1,1},
 	{0,1,1},
 	{1,0,1},
-	{-1,0,1} 
+	{-1,0,1}
 };
 
 #define skybox_range	2400.0
@@ -926,7 +926,7 @@ void R_DrawSky (void)
 	if (r_fastsky.value) {
 		glDisable (GL_TEXTURE_2D);
 		glColor3ubv ((byte *)&d_8to24table[(byte)r_skycolor.value]);
-		
+	
 		for (fa = skychain; fa; fa = fa->texturechain)
 			EmitFlatPoly (fa);
 		skychain = NULL;
@@ -1012,7 +1012,7 @@ void R_DrawSky (void)
 	if (r_fastsky.value) {
 		glDisable (GL_TEXTURE_2D);
 		glColor3ubv ((byte *)&d_8to24table[(byte)r_skycolor.value]);
-		
+	
 		for (fa = skychain; fa; fa = fa->texturechain)
 			EmitFlatPoly (fa);
 		skychain = NULL;

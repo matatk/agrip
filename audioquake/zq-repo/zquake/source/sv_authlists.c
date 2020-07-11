@@ -10,7 +10,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -31,10 +31,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ===============
 SV_AuthListAdd
 
-Adds a player name and hash for that player to the beginning of the selected 
+Adds a player name and hash for that player to the beginning of the selected
 queue.  The hash was generated during auth with the master and is a random
 string and their password MD4'd.  It will only last as long as the server is
-up and avoids sending their password cleartext so provides some level of 
+up and avoids sending their password cleartext so provides some level of
 security in the form of deterrance for snoopers.
 
 The player name and hash are read from the incoming network packet.
@@ -70,7 +70,7 @@ qbool SV_AuthListAdd(authqh_t *header)
         Q_free(new);
         return false;
     }
-   
+  
     // Allocate and store name...
     newname = Q_malloc(strlen(msgline)+1);
     new->name = strncpy(newname, msgline, strlen(msgline)+1);
@@ -170,16 +170,16 @@ qbool SV_AuthListMove(authqh_t *src, authqh_t *dest, authclient_t *authclient)
     if( dest->curlen == dest->maxlen )
     {
         Com_Printf("SV_AuthListMove: destination queue full.\n");
-        return false; 
+        return false;
     }
-    
+   
     // Check that the name has not already been added to our queue...
     if( SV_AuthListFind(dest, authclient->name) != NULL )
     {
         Com_Printf("SV_AuthListMove: destination queue already contains client.\n");
         return false;
     }
-    
+   
     // Unlink from src...
     if( authclient->prev )
     {
@@ -239,7 +239,7 @@ qbool SV_AuthListValidate(authqh_t *header, authclient_t **qitem)
     char *msgline = NULL;   // temporary pointer so we can find what
                             //    MSG_ReadStringLine() returned.
                             //    FIXME not needed I think
-    
+   
     // Read name from incoming packet...
     msgline = MSG_ReadStringLine();
     if( !msgline )

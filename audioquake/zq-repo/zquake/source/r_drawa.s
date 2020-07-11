@@ -107,7 +107,7 @@ Lcliploop:
 	faddp	%st(0),%st(2)		// d1mul2 | d1add0 | d0mul2 | d0add0
 	fxch	%st(3)				// d0add0 | d1add0 | d0mul2 | d1mul2
 
-	faddp	%st(0),%st(2)		// d1add0 | dot0 | d1mul2 
+	faddp	%st(0),%st(2)		// d1add0 | dot0 | d1mul2
 	faddp	%st(0),%st(2)		// dot0 | dot1
 
 	fsubs	cp_dist(%ebx)		// d0 | dot1
@@ -722,15 +722,15 @@ LTransformAndProject:
 	fsubs	C(modelorg)+0
 	flds	mv_position+4(%esi)
 	fsubs	C(modelorg)+4
-	flds	mv_position+8(%esi)	
+	flds	mv_position+8(%esi)
 	fsubs	C(modelorg)+8
 	fxch	%st(2)				// local[0] | local[1] | local[2]
 
 //		TransformVector (local, transformed);
-//	
+//
 //		if (transformed[2] < NEAR_CLIP)
 //			transformed[2] = NEAR_CLIP;
-//	
+//
 //		lzi0 = 1.0 / transformed[2];
 	fld		%st(0)				// local[0] | local[0] | local[1] | local[2]
 	fmuls	C(vpn)+0			// zm0 | local[0] | local[1] | local[2]

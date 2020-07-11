@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -58,7 +58,7 @@ COM_SkipPath
 char *COM_SkipPath (char *pathname)
 {
 	char	*last;
-	
+
 	last = pathname;
 	while (*pathname)
 	{
@@ -127,7 +127,7 @@ void COM_FileBase (char *in, char *out)
 			break;
 		}
 	}
-	
+
 	length = end - start;
 	if (length <= 0)
 		strcpy (out, "?empty filename?");
@@ -313,13 +313,13 @@ where the given parameter appears, or 0 if not present
 int COM_CheckParm (char *parm)
 {
 	int		i;
-	
+
 	for (i=1 ; i<com_argc ; i++)
 	{
 		if (!strcmp(parm, com_argv[i]))
 			return i;
 	}
-		
+	
 	return 0;
 }
 
@@ -406,7 +406,7 @@ char *va (char *format, ...)
 	va_list argptr;
 	static char string[2][2048];
 	static int idx = 0;
-	
+
 	idx = 1 - idx;
 
 	va_start (argptr, format);
@@ -451,7 +451,7 @@ The "base directory" is the path to the directory holding the quake.exe and all 
 only used during filesystem initialization.
 
 The "game directory" is the first tree on the search path and directory that all generated files (savegames, screenshots, demos, config files) will be saved to.  This can be overridden with the "-game" command line parameter.  The game directory can never be changed while quake is executing.  This is a precacution against having a malicious server instruct clients to write files over areas they shouldn't.
-	
+
 */
 
 int	fs_filesize;
@@ -535,7 +535,7 @@ int COM_FileOpenRead (char *path, FILE **hndl)
 		return -1;
 	}
 	*hndl = f;
-	
+
 	return COM_filelength(f);
 }
 
@@ -548,7 +548,7 @@ COM_Path_f
 void COM_Path_f (void)
 {
 	searchpath_t	*s;
-	
+
 	Com_Printf ("Current search path:\n");
 	for (s=com_searchpaths ; s ; s=s->next)
 	{
@@ -572,9 +572,9 @@ void COM_WriteFile (char *filename, void *data, int len)
 {
 	FILE	*f;
 	char	name[MAX_OSPATH];
-	
+
 	Q_snprintfz (name, sizeof(name), "%s/%s", com_basedir, filename);
-	
+
 	f = fopen (name, "wb");
 	if (!f) {
 		COM_CreatePath (name);
@@ -582,7 +582,7 @@ void COM_WriteFile (char *filename, void *data, int len)
 		if (!f)
 			Sys_Error ("Error opening %s", filename);
 	}
-	
+
 	Sys_Printf ("COM_WriteFile: %s\n", name);
 	fwrite (data, 1, len, f);
 	fclose (f);
@@ -599,7 +599,7 @@ Only used for CopyFile and download
 void COM_CreatePath (char *path)
 {
 	char	*ofs;
-	
+
 	for (ofs = path+1 ; *ofs ; ofs++)
 	{
 		if (*ofs == '/')
@@ -625,13 +625,13 @@ void COM_CopyFile (char *netpath, char *cachepath)
 	FILE	*in, *out;
 	int		remaining, count;
 	char	buf[4096];
-	
-	remaining = COM_FileOpenRead (netpath, &in);		
+
+	remaining = COM_FileOpenRead (netpath, &in);	
 	COM_CreatePath (cachepath);	// create directories up to the cache file
 	out = fopen(cachepath, "wb");
 	if (!out)
 		Sys_Error ("Error opening %s", cachepath);
-	
+
 	while (remaining)
 	{
 		if (remaining < sizeof(buf))
@@ -667,7 +667,7 @@ int FS_FOpenFile (char *filename, FILE **file)
 
 	file_from_pak = false;
 	file_from_gamedir = true;
-		
+	
 //
 // search through the path, one element at a time
 //
@@ -689,7 +689,7 @@ int FS_FOpenFile (char *filename, FILE **file)
 				// open a new file on the pakfile
 					*file = fopen (pak->filename, "rb");
 					if (!*file)
-						Sys_Error ("Couldn't reopen %s", pak->filename);	
+						Sys_Error ("Couldn't reopen %s", pak->filename);
 					fseek (*file, pak->files[i].filepos, SEEK_SET);
 					fs_filesize = pak->files[i].filelen;
 					file_from_pak = true;
@@ -697,24 +697,24 @@ int FS_FOpenFile (char *filename, FILE **file)
 				}
 		}
 		else
-		{		
+		{	
 			Q_snprintfz (netpath, sizeof(netpath), "%s/%s", search->filename, filename);
 
 			*file = fopen (netpath, "rb");
 			if (!*file)
 				continue;
-			
+		
 			if (developer.value)
 				Sys_Printf ("FindFile: %s\n",netpath);
 
 			return COM_filelength (*file);
 		}
-		
-	}
 	
+	}
+
 	if (developer.value)
 		Sys_Printf ("FindFile: can't find %s\n", filename);
-	
+
 	*file = NULL;
 	fs_filesize = -1;
 	return -1;
@@ -744,10 +744,10 @@ byte *FS_LoadFile (char *path, int usehunk)
 	len = fs_filesize = FS_FOpenFile (path, &h);
 	if (!h)
 		return NULL;
-	
+
 // extract the filename base name for hunk tag
 	COM_FileBase (path, base);
-	
+
 	if (usehunk == 1)
 		buf = Hunk_AllocName (len+1, base);
 	else if (usehunk == 2)
@@ -768,7 +768,7 @@ byte *FS_LoadFile (char *path, int usehunk)
 
 	if (!buf)
 		Sys_Error ("FS_LoadFile: not enough space for %s", path);
-		
+	
 	((byte *)buf)[len] = 0;
 #ifndef SERVERONLY
 	R_BeginDisc ();
@@ -802,11 +802,11 @@ void FS_LoadCacheFile (char *path, struct cache_user_s *cu)
 byte *FS_LoadStackFile (char *path, void *buffer, int bufsize)
 {
 	byte	*buf;
-	
+
 	loadbuf = (byte *)buffer;
 	loadsize = bufsize;
 	buf = FS_LoadFile (path, 4);
-	
+
 	return buf;
 }
 
@@ -868,7 +868,7 @@ pack_t *FS_LoadPackFile (char *packfile)
 	pack->handle = packhandle;
 	pack->numfiles = numpackfiles;
 	pack->files = newfiles;
-	
+
 	Com_Printf ("Added packfile %s (%i files)\n", packfile, numpackfiles);
 	return pack;
 }
@@ -879,7 +879,7 @@ pack_t *FS_LoadPackFile (char *packfile)
 FS_AddGameDirectory
 
 Sets com_gamedir, adds the directory to the head of the path,
-then loads and adds pak1.pak pak2.pak ... 
+then loads and adds pak1.pak pak2.pak ...
 ================
 */
 void FS_AddGameDirectory (char *dir)
@@ -918,7 +918,7 @@ void FS_AddGameDirectory (char *dir)
 		search = Hunk_Alloc (sizeof(searchpath_t));
 		search->pack = pak;
 		search->next = com_searchpaths;
-		com_searchpaths = search;		
+		com_searchpaths = search;	
 	}
 #else
 	for (i=0 ; i<10 ; i++)
@@ -930,7 +930,7 @@ void FS_AddGameDirectory (char *dir)
 		search = Hunk_Alloc (sizeof(searchpath_t));
 		search->pack = pak;
 		search->next = com_searchpaths;
-		com_searchpaths = search;		
+		com_searchpaths = search;	
 	}
 #endif
 }
@@ -1007,7 +1007,7 @@ void FS_SetGamedir (char *dir)
 		search = Q_malloc (sizeof(searchpath_t));
 		search->pack = pak;
 		search->next = com_searchpaths;
-		com_searchpaths = search;		
+		com_searchpaths = search;	
 	}
 
 breakOut:
@@ -1080,7 +1080,7 @@ char *Info_ValueForKey (char *s, char *key)
 								// work without stomping on each other
 	static	int	valueindex;
 	char	*o;
-	
+
 	valueindex = (valueindex + 1) % 4;
 	if (*s == '\\')
 		s++;
@@ -1430,7 +1430,7 @@ void Com_Printf (char *fmt, ...)
 {
 	va_list		argptr;
 	char		msg[MAXPRINTMSG];
-	
+
 	va_start (argptr, fmt);
 #ifdef _WIN32
 	_vsnprintf (msg, sizeof(msg) - 1, fmt, argptr);
@@ -1477,7 +1477,7 @@ void Com_DPrintf (char *fmt, ...)
 {
 	va_list		argptr;
 	char		msg[MAXPRINTMSG];
-		
+	
 	if (!developer.value)
 		return;			// don't confuse non-developers with techie stuff...
 
@@ -1489,6 +1489,6 @@ void Com_DPrintf (char *fmt, ...)
 	vsnprintf (msg, sizeof(msg), fmt, argptr);
 #endif // _WIN32
 	va_end (argptr);
-	
+
 	Com_Printf ("%s", msg);
 }

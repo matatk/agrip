@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -105,7 +105,7 @@ void Cbuf_AddTextEx (cbuf_t *cbuf, char *text)
 	int		len;
 	int		new_start;
 	int		new_bufsize;
-	
+
 	len = strlen (text);
 
 	if (cbuf->text_end + len <= cbuf->maxsize)
@@ -240,7 +240,7 @@ void Cbuf_ExecuteEx (cbuf_t *cbuf)
 
 // execute the command line
 		Cmd_ExecuteString (line);
-		
+	
 		if (cbuf->wait)
 		{	// skip out while text still remains in buffer, leaving it
 			// for next frame
@@ -299,7 +299,7 @@ void Cmd_StuffCmds_f (void)
 	int		i, j;
 	int		s;
 	char	*text, *build, c;
-		
+	
 // build the combined string to parse from
 	s = 0;
 	for (i = 1; i < com_argc; i++)
@@ -307,7 +307,7 @@ void Cmd_StuffCmds_f (void)
 
 	if (!s)
 		return;
-		
+	
 	text = Q_malloc (s+1);
 	text[0] = 0;
 	for (i = 1; i < com_argc; i++)
@@ -316,11 +316,11 @@ void Cmd_StuffCmds_f (void)
 		if (i != com_argc-1)
 			strcat (text, " ");
 	}
-	
+
 // pull out the commands
 	build = Q_malloc (s+1);
 	build[0] = 0;
-	
+
 	for (i = 0; i < s-1; i++)
 	{
 		if (text[i] == '+')
@@ -332,17 +332,17 @@ void Cmd_StuffCmds_f (void)
 
 			c = text[j];
 			text[j] = 0;
-			
+		
 			strcat (build, text+i);
 			strcat (build, "\n");
 			text[j] = c;
 			i = j-1;
 		}
 	}
-	
+
 	if (build[0])
 		Cbuf_AddText (build);
-	
+
 	Q_free (text);
 	Q_free (build);
 }
@@ -412,7 +412,7 @@ Just prints the rest of the line to the console
 void Cmd_Echo_f (void)
 {
 	int		i;
-	
+
 	for (i=1 ; i<Cmd_Argc() ; i++)
 		Com_Printf ("%s ",Cmd_Argv(i));
 	Com_Printf ("\n");
@@ -662,7 +662,7 @@ void Cmd_RemoveStuffedAliases (void)
 
 	for (a=cmd_alias ; a ; a=next) {
 		next = a->next;
-		
+	
 		if (a->flags & ALIAS_STUFFED)
 			Cmd_DeleteAlias (a->name);
 	}
@@ -793,7 +793,7 @@ char *Cmd_Argv (int arg)
 {
 	if ( arg >= cmd_argc )
 		return cmd_null_string;
-	return cmd_argv[arg];	
+	return cmd_argv[arg];
 }
 
 /*
@@ -847,12 +847,12 @@ void Cmd_TokenizeString (char *text)
 {
 	int			idx;
 	static char	argv_buf[1024];
-	
+
 	idx = 0;
-		
+	
 	cmd_argc = 0;
 	cmd_args = NULL;
-	
+
 	while (1)
 	{
 		// skip whitespace
@@ -860,7 +860,7 @@ void Cmd_TokenizeString (char *text)
 		{
 			text++;
 		}
-		
+	
 		if (*text == '\n')
 		{	// a newline separates commands in the buffer
 			text++;
@@ -869,10 +869,10 @@ void Cmd_TokenizeString (char *text)
 
 		if (!*text)
 			return;
-	
+
 		if (cmd_argc == 1)
 			 cmd_args = text;
-			
+		
 		text = COM_Parse (text);
 		if (!text)
 			return;
@@ -885,7 +885,7 @@ void Cmd_TokenizeString (char *text)
 			cmd_argc++;
 		}
 	}
-	
+
 }
 
 
@@ -898,7 +898,7 @@ void Cmd_AddCommand (char *cmd_name, xcommand_t function)
 {
 	cmd_function_t	*cmd;
 	int	key;
-	
+
 	if (host_initialized)	// because hunk allocation would get stomped
 		assert(!"Cmd_AddCommand after host_initialized");
 
@@ -984,9 +984,9 @@ char *Cmd_CompleteCommand (char *partial)
 	cmd_function_t	*cmd;
 	int				len;
 	cmd_alias_t		*alias;
-	
+
 	len = strlen(partial);
-	
+
 	if (!len)
 		return NULL;
 
@@ -1013,7 +1013,7 @@ int Cmd_CompleteCountPossible (char *partial)
 {
 	cmd_function_t	*cmd;
 	int		len, c = 0;
-	
+
 	len = strlen(partial);
 	if (!len)
 		return 0;
@@ -1029,7 +1029,7 @@ int Cmd_AliasCompleteCountPossible (char *partial)
 {
 	cmd_alias_t		*alias;
 	int		len, c = 0;
-	
+
 	len = strlen(partial);
 	if (!len)
 		return 0;
@@ -1059,7 +1059,7 @@ void Cmd_CmdList_f (void)
 	char *pattern;
 
 	pattern = Cmd_Argc() > 1 ? Cmd_Argv(1) : NULL;
-	
+
 	count = 0;
 	for (cmd = cmd_functions; cmd; cmd = cmd->next) {
 		if (pattern && !Q_glob_match(pattern, cmd->name))
@@ -1223,7 +1223,7 @@ FIXME: this function is getting really messy...
 ============
 */
 void Cmd_ExecuteString (char *text)
-{	
+{
 	cmd_function_t	*cmd;
 	cmd_alias_t		*a;
 	int				key;
@@ -1338,7 +1338,7 @@ checkaliases:
 
 
 static qbool is_numeric (char *c)
-{	
+{
 	return ( isdigit((int)(unsigned char)*c) ||
 		((*c == '-' || *c == '+') && (c[1] == '.' || isdigit((int)(unsigned char)c[1]))) ||
 		(*c == '.' && isdigit((int)(unsigned char)c[1])) );
@@ -1389,7 +1389,7 @@ void Cmd_If_f (void)
 		Com_Printf ("unknown operator: %s\n", op);
 		Com_Printf ("valid operators are ==, =, !=, <>, >, <, >=, <=, isin, !isin\n");
 		return;
-	}		
+	}	
 
 	buf[0] = '\0';
 	if (result)
@@ -1413,7 +1413,7 @@ void Cmd_If_f (void)
 
 		if (i == c)
 			return;
-		
+	
 		for (i++ ; i < c ; i++) {
 			if (buf[0])
 				strcat (buf, " ");
@@ -1439,18 +1439,18 @@ where the given parameter apears, or 0 if not present
 int Cmd_CheckParm (char *parm)
 {
 	int i;
-	
+
 	if (!parm)
 		assert(!"Cmd_CheckParm: NULL");
 
 	for (i = 1; i < Cmd_Argc (); i++)
 		if (! Q_stricmp (parm, Cmd_Argv (i)))
 			return i;
-			
+		
 	return 0;
 }
 
-		
+	
 /*
 ============
 Cmd_Init

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -116,8 +116,8 @@ explosion_t *CL_AllocExplosion (void)
 	{	// take a free explosion if possible
 		ex = cl_free_explosions;
 		cl_free_explosions = ex->next;
-	} 
-	else 
+	}
+	else
 	{	// grab the oldest one otherwise
 		ex = cl_explosions_headnode.prev;
 		ex->prev->next = ex->next;
@@ -161,13 +161,13 @@ void CL_ParseBeam (int type)
 	beam_t	*b;
 	struct model_s *m;
 	int		i;
-	
+
 	ent = MSG_ReadShort ();
-	
+
 	start[0] = MSG_ReadCoord ();
 	start[1] = MSG_ReadCoord ();
 	start[2] = MSG_ReadCoord ();
-	
+
 	end[0] = MSG_ReadCoord ();
 	end[1] = MSG_ReadCoord ();
 	end[2] = MSG_ReadCoord ();
@@ -230,7 +230,7 @@ void CL_ParseBeam (int type)
 		}
 	}
 
-	Com_DPrintf ("beam list overflow!\n");	
+	Com_DPrintf ("beam list overflow!\n");
 }
 
 /*
@@ -327,7 +327,7 @@ void CL_ParseTEnt (void)
 			{
 				CL_ParticleExplosion (pos);
 			}
-		
+	
 		// light
 			if (cl_explosion.value != 2 && cl_explosion.value != 3)
 			{
@@ -376,7 +376,7 @@ void CL_ParseTEnt (void)
 		CL_ParseBeam (3);
 		break;
 
-	case TE_LAVASPLASH:	
+	case TE_LAVASPLASH:
 		pos[0] = MSG_ReadCoord ();
 		pos[1] = MSG_ReadCoord ();
 		pos[2] = MSG_ReadCoord ();

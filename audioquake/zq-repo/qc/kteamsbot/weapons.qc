@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -1415,7 +1415,7 @@ void() ImpulseCommands =
 	else if (self.impulse == 12)
 		CycleWeaponReverseCommand ();
     else if (self.impulse == 100)
-        Cmd_AddBot("heh", "3"); 
+        Cmd_AddBot("heh", "3");
     else if (self.impulse == 101)
         Cmd_AddBot("heh2", "1");
     else if (self.impulse == 102)

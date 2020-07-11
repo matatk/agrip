@@ -7,13 +7,13 @@ Sets bot's name and colors
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
-string BotName (entity ent, float r) 
+string BotName (entity ent, float r)
 {
 	self.b_num = r;
 	if (r == 1)
-	{	
+	{
 		ent.b_pants = 11;
-		ent.b_shirt = 0; 
+		ent.b_shirt = 0;
 		return "Vincent";
 	}
 	else if (r == 2)
@@ -23,7 +23,7 @@ string BotName (entity ent, float r)
 		return "Bishop";
 	}
 	else if (r == 3)
-	{	
+	{
 		ent.b_pants = 13;
 		ent.b_shirt = 2;
 		return "Nomad";
@@ -33,7 +33,7 @@ string BotName (entity ent, float r)
 		ent.b_pants = 7;
 		ent.b_shirt = 6;
 		return "Hudson";
-	} 
+	}
 	else if (r == 5)
 	{
 		ent.b_pants = 12;
@@ -51,9 +51,9 @@ string BotName (entity ent, float r)
 		ent.b_pants = 2;
 		ent.b_shirt = 5;
 		return "Gort";
-	} 
+	}
 	else if (r == 8)
-	{	
+	{
 		ent.b_pants = 10;
 		ent.b_shirt = 3;
 		return "Kryten";
@@ -75,7 +75,7 @@ string BotName (entity ent, float r)
 		ent.b_pants = 3;
 		ent.b_shirt = 11;
 		return "Marvin";
-	} 
+	}
 	else if (r == 12)
 	{
 		ent.b_pants = 13;
@@ -153,7 +153,7 @@ b_originator == self
  11 - lag
 b_originator == targ
 
- 
+
 */
 void bot_start_topic (float tpic)
 {
@@ -172,7 +172,7 @@ void bot_chat ()
 	if (b_options & OPT_NOCHAT)
 		return;
 	r = ceil (random() * 6);
-	
+
 	if (self.b_chattime > time)
 	{
 		if (self.b_skill < 2)
@@ -359,7 +359,7 @@ void bot_chat ()
 				else
 				{
 					BotSay(": lo\n");
-					bot_start_topic(0);	
+					bot_start_topic(0);
 				}
 			}
 		}
@@ -485,7 +485,7 @@ void bot_chat ()
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-Kick A Bot. 
+Kick A Bot.
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
@@ -497,7 +497,7 @@ void KickABot ()
 	while (ty != world)
 	{
 		if (!ty.ishuman) {
-			
+		
 			stuffcmd (ty, "disconnect\n");
 			ty = world;
 		}
@@ -511,7 +511,7 @@ void KickABot ()
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-Simplified origin checking. 
+Simplified origin checking.
 
 God, I wish I had inline
 
@@ -539,10 +539,10 @@ float fisible (entity targ)
 {
 	vector	spot1, org;
 	float	thruwater, pc1, pc2;
-	
+
 	org = realorigin(targ);
 	spot1 = self.origin + self.view_ofs;
-	
+
 	if (targ.solid == SOLID_BSP)
 	{
 		traceline (spot1, org, true, self);
@@ -560,10 +560,10 @@ float fisible (entity targ)
 			thruwater = false;
 		else if (pc1 == CONTENT_LAVA)
 			return false;
-		else	
+		else
 			thruwater = true;
 	}
-	
+
 	if (pc1 < -1) // targ's origin is in water or other liquid
 	{
 		if (pc2 != pc1)
@@ -620,7 +620,7 @@ float fisible (entity targ)
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-Wisible 
+Wisible
 
 goes through movable brushes/entities, used
 for waypoints
@@ -636,7 +636,7 @@ float wisible (entity targ1, entity targ2)
 
 	spot1 = targ1.origin;
 	spot2 = realorigin(targ2);
-	
+
 	ignore = self;
 	do
 	{
@@ -646,7 +646,7 @@ float wisible (entity targ1, entity targ2)
 	} while ((trace_ent != world) && (trace_fraction != 1));
 	if (trace_endpos == spot2)
 		return true;
-	else 
+	else
 		return false;
 }
 
@@ -716,7 +716,7 @@ float fov (entity targ)
 	g = angcomp(self.v_angle_y, yawn_y);
 	if (fabs(g) > 60)
 		return false;
- 
+
 	return true;
 }
 

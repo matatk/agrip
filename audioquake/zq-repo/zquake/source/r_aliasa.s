@@ -77,7 +77,7 @@ Lloop:
 	movb	1(%esi),%dl
 	movb	%dl,Lcoords+4
 	fildl	Lcoords+4			// v[1] | v[0]
-	movb	2(%esi),%dl	
+	movb	2(%esi),%dl
 	movb	%dl,Lcoords+8
 	fildl	Lcoords+8			// v[2] | v[1] | v[0]
 

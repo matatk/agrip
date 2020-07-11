@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -39,7 +39,7 @@ void() ChangeOvertime =
 
         if(!f1)
         {
-		if(!f2) 
+		if(!f2)
 		{
 			localcmd("localinfo k_exttime 1\n");
 			f2 = 1;
@@ -131,11 +131,11 @@ void() ListWhoNot =
 	}
 	if(!match_in_progress)
         {
-		if(self.classname == "player" && !self.ready) 
+		if(self.classname == "player" && !self.ready)
 		{
 			sprint(self, 2, "Ready yourself first\n");
 			return;
-		}	
+		}
 
 		if( (time < k_whonottime + 10) )
 		{
@@ -240,7 +240,7 @@ void(string name) SendMessage =
 		bprint(3, s2, "\n");
 	} else
 		stuffcmd(self, "echo No name to display\n");
-};			
+};		
 
 void() ShowMaps =
 {
@@ -566,7 +566,7 @@ void() ModStatusVote =
 			sprint(self, 2, s1, " φοτε(σ) ζος ναπ ");
 			s1 = GetMapName(k_vbreak);
 			sprint(self, 2, s1, "\n");
-		} 
+		}
 		if(k_velect) {
 			s1 = ftos(k_velect);
 			sprint(self, 2, s1, " φοτε(σ) ζος εμεγτιοξ\n");
@@ -1267,9 +1267,9 @@ void() PrintScores =
 		sprint(self, 2, "no game - no scores.\n");
 		return;
 	}
-	
+
 	// Check to see if scores changed from last time you hit scores command.
-	// DO this by checking if k_nochange is 0. 
+	// DO this by checking if k_nochange is 0.
 	// which is set in ClientObituary in client.qc
 	if( (k_showscores) && k_nochange == 0)
         {
@@ -1615,7 +1615,7 @@ void() TeamCommands =
 	else if(self.impulse == 65) TeamSay("ktsound5.wav");
 	else if(self.impulse == 66) TeamSay("ktsound6.wav");
 	else if(self.impulse == 68) ShowQizmo();
-	
+
 	else if(self.impulse == 69) ShowMessages();
 	else if(self.impulse == 70) SendKillerMsg();
 	else if(self.impulse == 71) SendVictimMsg();

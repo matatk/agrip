@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -51,7 +51,7 @@ void D_DrawParticle (particle_t *pparticle)
 
 	transformed[0] = DotProduct(local, r_pright);
 	transformed[1] = DotProduct(local, r_pup);
-	transformed[2] = DotProduct(local, r_ppn);		
+	transformed[2] = DotProduct(local, r_ppn);	
 
 	if (transformed[2] < PARTICLE_Z_CLIP)
 		return;
@@ -62,7 +62,7 @@ void D_DrawParticle (particle_t *pparticle)
 	u = (int)(xcenter + zi * transformed[0] + 0.5);
 	v = (int)(ycenter - zi * transformed[1] + 0.5);
 
-	if ((v > d_vrectbottom_particle) || 
+	if ((v > d_vrectbottom_particle) ||
 		(u > d_vrectright_particle) ||
 		(v < d_vrecty) ||
 		(u < d_vrectx))
@@ -204,7 +204,7 @@ void R_DrawParticles (void)
 	VectorScale (vright, xscaleshrink, r_pright);
 	VectorScale (vup, yscaleshrink, r_pup);
 	VectorCopy (vpn, r_ppn);
-	
+
 	for (i = 0, p = r_refdef2.particles; i < r_refdef2.numParticles; i++, p++)
 	{
 		D_DrawParticle (p);

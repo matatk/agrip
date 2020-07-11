@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -290,7 +290,7 @@ void CL_Connect_f (void)
 		Com_Printf ("usage: connect <server>\n");
 		return;
 	}
-	
+
 	server = Cmd_Argv (1);
 
 	Host_EndGame ();
@@ -329,7 +329,7 @@ void CL_Connect_f (void)
 		Com_Printf ("Usage: connect <master> <server> (if you do not specify a master, then the agrip.org.uk one will be used)\n");
         return;
     }
-	
+
 	Host_EndGame ();
 
     // Master address...
@@ -374,7 +374,7 @@ CL_Spawn
 =====================
 */
 void CL_Spawn (void)
-{		
+{	
 	// first update is the final signon stage
 	cls.state = ca_active;
 
@@ -421,7 +421,7 @@ void CL_ClearState (void)
 
 	SZ_Clear (&cls.netchan.message);
 
-// clear other arrays	
+// clear other arrays
 	memset (cl_efrags, 0, sizeof(cl_efrags));
 	memset (cl_lightstyle, 0, sizeof(cl_lightstyle));
 	memset (cl_entities, 0, sizeof(cl_entities));
@@ -460,7 +460,7 @@ void CL_Disconnect (void)
 
 	// stop sounds (especially looping!)
 	S_StopAllSounds (true);
-	
+
 	Cmd_RemoveStuffedAliases ();
 
 	if (cls.demorecording && cls.state != ca_disconnected)
@@ -581,7 +581,7 @@ void CL_ConnectionlessPacket (void)
         // FIXME malformed packets shouldn't crash server
 
         MSG_ReadStringLine();
-        
+       
         // Check player name...
         tmpstr = MSG_ReadStringLine();
         if( !tmpstr || strcmp(Cvar_VariableString("name"),tmpstr) )
@@ -589,7 +589,7 @@ void CL_ConnectionlessPacket (void)
             // FIXME return NACK
             return;
         }
-        
+       
         // Show random string...
         tmpstr = MSG_ReadString();
         if( !tmpstr )
@@ -604,7 +604,7 @@ void CL_ConnectionlessPacket (void)
         hash[0] = '\0';
         strncat(hash,password->string,strlen(password->string));
         strncat(hash,tmpstr,strlen(tmpstr));
-        
+       
         // Send hash to master...
         sprintf(data, "%c\n%s\n%s\n", C2M_AUTH_HASH, Cvar_VariableString("name"), hash);
 		NET_SendPacket (NS_CLIENT, sizeof(data), data, net_from);
@@ -716,7 +716,7 @@ void CL_ConnectionlessPacket (void)
 		}
 		Netchan_Setup (NS_CLIENT, &cls.netchan, net_from, cls.qport);
 		MSG_WriteChar (&cls.netchan.message, clc_stringcmd);
-		MSG_WriteString (&cls.netchan.message, "new");	
+		MSG_WriteString (&cls.netchan.message, "new");
 		cls.state = ca_connected;
 #ifndef AGRIP
 		if (!com_serveractive || developer.value)
@@ -738,7 +738,7 @@ void CL_ConnectionlessPacket (void)
 		data[3] = 0xff;
 		data[4] = A2A_ACK;
 		data[5] = 0;
-		
+	
 		NET_SendPacket (NS_CLIENT, sizeof(data), data, net_from);
 		return;
 	}
@@ -825,7 +825,7 @@ void CL_ReadPackets (void)
 		//
 		// packet from server
 		//
-		if (!cls.demoplayback && 
+		if (!cls.demoplayback &&
 			!NET_CompareAdr (net_from, cls.netchan.remote_address))
 		{
 			Com_DPrintf ("%s: sequenced packet without connection\n"
@@ -846,7 +846,7 @@ void CL_ReadPackets (void)
 		Host_EndGame ();
 		return;
 	}
-	
+
 }
 
 

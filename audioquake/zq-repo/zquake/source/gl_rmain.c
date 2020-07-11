@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -290,14 +290,14 @@ void R_DrawParticles (void)
 	float			dist, scale;
 	particle_t		*p;
 	float			r_partscale;
-	
+
 	r_partscale = 0.004 * tan (r_refdef2.fov_x * (M_PI/180) * 0.5f);
 
 	VectorScale (vup, 1.5, up);
 	VectorScale (vright, 1.5, right);
 
 	GL_Bind (particletexture);
-	
+
 	glEnable (GL_BLEND);
 	if (!gl_solidparticles.value)
 		glDepthMask (GL_FALSE);
@@ -320,13 +320,13 @@ void R_DrawParticles (void)
 		glVertex3fv (p->org);
 
 		glTexCoord2f (0.9, 0);
-		glVertex3f (p->org[0] + up[0]*scale, 
-			p->org[1] + up[1]*scale, 
+		glVertex3f (p->org[0] + up[0]*scale,
+			p->org[1] + up[1]*scale,
 			p->org[2] + up[2]*scale);
 
 		glTexCoord2f (0, 0.9);
 		glVertex3f (p->org[0] + right[0]*scale,
-			p->org[1] + right[1]*scale, 
+			p->org[1] + right[1]*scale,
 			p->org[2] + right[2]*scale);
 	}
 
@@ -391,7 +391,7 @@ void R_BrightenScreen (void)
 		f = 3;
 
 	f = pow (f, vid_gamma);
-	
+
 	glDisable (GL_TEXTURE_2D);
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_DST_COLOR, GL_ONE);
@@ -519,13 +519,13 @@ void MYgluPerspective( GLdouble fovy, GLdouble aspect,
 			GLdouble zNear, GLdouble zFar )
 {
 	GLdouble xmin, xmax, ymin, ymax;
-	
+
 	ymax = zNear * tan( fovy * M_PI / 360.0 );
 	ymin = -ymax;
-	
+
 	xmin = ymin * aspect;
 	xmax = ymax * aspect;
-	
+
 	glFrustum( xmin, xmax, ymin, ymax, zNear, zFar );
 }
 
@@ -559,7 +559,7 @@ void R_SetupGL (void)
 	if (y2 < 0)
 		y2--;
 	if (y < vid.realheight)
-		y++; 
+		y++;
 #endif
 
 	w = x2 - x;
@@ -801,6 +801,6 @@ void R_RenderView (void)
 	{
 //		glFinish ();
 		time2 = Sys_DoubleTime ();
-		Com_Printf ("%3i ms  %4i wpoly %4i epoly\n", (int)((time2-time1)*1000), c_brush_polys, c_alias_polys); 
+		Com_Printf ("%3i ms  %4i wpoly %4i epoly\n", (int)((time2-time1)*1000), c_brush_polys, c_alias_polys);
 	}
 }

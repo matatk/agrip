@@ -236,7 +236,7 @@ char *Macro_Weapon (void)
 	}
 }
 
-char *Macro_Weapons (void) {	
+char *Macro_Weapons (void) {
 	macro_buf[0] = 0;
 
 	if (cl.stats[STAT_ITEMS] & IT_LIGHTNING)
@@ -255,7 +255,7 @@ char *Macro_Weapons (void) {
 		MacroBuf_strcat_with_separator ("sg");
 	if (cl.stats[STAT_ITEMS] & IT_AXE)
 		MacroBuf_strcat_with_separator ("axe");
-//	if (!macro_buf[0])	
+//	if (!macro_buf[0])
 //		strlcpy(macro_buf, tp_name_none.string, sizeof(macro_buf));
 
 	return macro_buf;
@@ -329,7 +329,7 @@ char *Macro_BestAmmo (void)
 {
 	switch (_Macro_BestWeapon())
 	{
-	case IT_SHOTGUN: case IT_SUPER_SHOTGUN: 
+	case IT_SHOTGUN: case IT_SUPER_SHOTGUN:
 		sprintf(macro_buf, "%i", cl.stats[STAT_SHELLS]);
 		return macro_buf;
 
@@ -722,7 +722,7 @@ char *TP_ParseMacroString (char *s)
 					sprintf (mbuf, "%s:%i", macro_string, cl.stats[STAT_ARMOR]);
 				macro_string = mbuf;
 				break;
-				
+			
 			case 'h':
 				if (cl.stats[STAT_HEALTH] >= 50)
 					sprintf (macro_buf, "%i", cl.stats[STAT_HEALTH]);
@@ -730,7 +730,7 @@ char *TP_ParseMacroString (char *s)
 					sprintf (macro_buf, "\x10%i\x11", cl.stats[STAT_HEALTH]);
 				macro_string = macro_buf;
 				break;
-				
+			
 			case 'p':
 			case 'P':
 				macro_string = Macro_Powerups();
@@ -740,9 +740,9 @@ char *TP_ParseMacroString (char *s)
 					mbuf[0] = 0;
 				macro_string = mbuf;
 				break;
-				
+			
 				// todo: %[w], %[b]
-				
+			
 			default:
 				buf[i++] = *s++;
 				continue;
@@ -754,7 +754,7 @@ char *TP_ParseMacroString (char *s)
 			s += 4;	// skip %[<char>]
 			continue;
 		}
-		
+	
 		// check %a, etc
 		if (*s == '%')
 		{
@@ -778,7 +778,7 @@ char *TP_ParseMacroString (char *s)
 				case 'y': macro_string = Macro_PointLocation(); break;
 				case 't': macro_string = Macro_PointNameAtLocation(); break;
 				case 'S': macro_string = Macro_TF_Skin(); break;
-				default: 
+				default:
 					buf[i++] = *s++;
 					continue;
 			}
@@ -875,7 +875,7 @@ char *TP_ParseFunChars (char *s, qbool chat)
 			s += 2;
 			continue;
 		}
-skip:			
+skip:		
 		*out++ = *s++;
 	}
 	*out = 0;
@@ -1016,7 +1016,7 @@ char *TP_LocationName (vec3_t location)
 	vec3_t	vec;
 	static qbool	recursive;
 	static char	buf[1024];
-	
+
 	if (!loc_numentries || (cls.state != ca_active))
 		return tp_name_someplace.string;
 
@@ -1116,7 +1116,7 @@ void TP_MsgTrigger_f (void)
 			Com_Printf ("trigger string too long\n");
 			return;
 		}
-		
+	
 		trig = TP_FindTrigger (name);
 
 		if (!trig) {
@@ -1309,7 +1309,7 @@ void TP_TeamColor_f (void)
 		if (cl_teamtopcolor < 0)
 			Com_Printf ("\"teamcolor\" is \"off\"\n");
 		else
-			Com_Printf ("\"teamcolor\" is \"%i %i\"\n", 
+			Com_Printf ("\"teamcolor\" is \"%i %i\"\n",
 				cl_teamtopcolor,
 				cl_teambottomcolor);
 		return;
@@ -1329,14 +1329,14 @@ void TP_TeamColor_f (void)
 		top = atoi(Cmd_Argv(1));
 		bottom = atoi(Cmd_Argv(2));
 	}
-	
+
 	top &= 15;
 	if (top > 13)
 		top = 13;
 	bottom &= 15;
 	if (bottom > 13)
 		bottom = 13;
-	
+
 //	if (top != cl_teamtopcolor || bottom != cl_teambottomcolor)
 	{
 		cl_teamtopcolor = top;
@@ -1356,7 +1356,7 @@ void TP_EnemyColor_f (void)
 		if (cl_enemytopcolor < 0)
 			Com_Printf ("\"enemycolor\" is \"off\"\n");
 		else
-			Com_Printf ("\"enemycolor\" is \"%i %i\"\n", 
+			Com_Printf ("\"enemycolor\" is \"%i %i\"\n",
 				cl_enemytopcolor,
 				cl_enemybottomcolor);
 		return;
@@ -1376,7 +1376,7 @@ void TP_EnemyColor_f (void)
 		top = atoi(Cmd_Argv(1));
 		bottom = atoi(Cmd_Argv(2));
 	}
-	
+
 	top &= 15;
 	if (top > 13)
 		top = 13;
@@ -1555,7 +1555,7 @@ static void FlagCommand (int *flags, int defaultflags)
 	char	str[255] = "";
 	qbool	removeflag = false;
 	int		flag;
-	
+
 	c = Cmd_Argc ();
 	if (c == 1)
 	{
@@ -1807,7 +1807,7 @@ static int FindNearestItem (int flags, item_t **pitem)
 	VectorCopy (cl.frames[cl.validsequence&UPDATE_MASK]
 		.playerstate[cl.playernum].origin, org);
 
-	// look in previous frame 
+	// look in previous frame
 	frame = &cl.frames[cl.oldvalidsequence&UPDATE_MASK];
 	pak = &frame->packet_entities;
 	bestdist = 100.0f;
@@ -2058,7 +2058,7 @@ void TP_FindPoint (void)
 			rank = miss * (dist*8.0*0.0002f + 0.3f);
 		else
 			rank = miss;
-		
+	
 		if (rank < best || best < 0) {
 			// check if we can actually see the object
 			vec3_t	end;
@@ -2326,7 +2326,7 @@ qbool TP_FilterMessage (char *s)
 			// strip the filter from message
 			if (i && s[i-1] == ' ')
 			{	// there's a space just before the filter, remove it
-				// so that soundtriggers like ^blah #att work 
+				// so that soundtriggers like ^blah #att work
 				s[i-1] = '\n';
 				s[i] = 0;
 			} else {

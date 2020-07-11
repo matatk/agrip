@@ -53,7 +53,7 @@ float CanDamage (entity targ, entity inflictor)
 			return true;
 		return false;
 	}
-	
+
 	traceline(inflictor.origin, targ.origin, true, self);
 	if (trace_fraction == 1)
 		return true;
@@ -85,7 +85,7 @@ void Killed (entity targ, entity attacker)
 
 	oself = self;
 	self = targ;
-	
+
 #ifdef KTFFA
 	if (self.classname == "player")
 		self.dead_time = time;
@@ -118,14 +118,14 @@ void Killed (entity targ, entity attacker)
 	}
 
 	ClientObituary(self, attacker);
-	
+
 	self.takedamage = DAMAGE_NO;
 	self.touch = SUB_Null;
 	self.effects = 0;
 
 	monster_death_use();
 	self.th_die ();
-	
+
 	self = oself;
 }
 
@@ -173,7 +173,7 @@ void T_Damage (entity targ, entity inflictor, entity attacker, float damage)
 		targ.armortype = 0;     // lost all armor
 		targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
 	}
-	
+
 	targ.armorvalue = targ.armorvalue - save;
 	take = ceil(damage-save);
 
@@ -187,7 +187,7 @@ void T_Damage (entity targ, entity inflictor, entity attacker, float damage)
 		targ.dmg_inflictor = inflictor;
 	}
 
-	damage_inflictor = inflictor;        
+	damage_inflictor = inflictor;       
 
 
 // figure momentum add
@@ -235,7 +235,7 @@ void T_Damage (entity targ, entity inflictor, entity attacker, float damage)
 			}
 		}
 	}
-		
+	
 // do the damage
 	targ.health = targ.health - take;
 
@@ -275,7 +275,7 @@ void T_RadiusDamage (entity inflictor, entity attacker, float damage, entity ign
 	vector	org;
 
 	head = findradius(inflictor.origin, damage+40);
-	
+
 	while (head)
 	{
 		if (head != ignore)
@@ -287,7 +287,7 @@ void T_RadiusDamage (entity inflictor, entity attacker, float damage, entity ign
 				if (points < 0)
 					points = 0;
 				points = damage - points;
-				
+			
 				if (head == attacker)
 					points = points * 0.5;
 				if (points > 0)
@@ -313,9 +313,9 @@ void T_BeamDamage (entity attacker, float damage)
 {
 	float	points;
 	entity	head;
-	
+
 	head = findradius(attacker.origin, damage+40);
-	
+
 	while (head)
 	{
 		if (head.takedamage)

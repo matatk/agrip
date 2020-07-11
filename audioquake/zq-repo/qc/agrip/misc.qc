@@ -27,7 +27,7 @@ float SNAP_MISC_NORMYAW_OFFSET = 0;
 
 // for nav...
 float SNAP_NAV_STRUCT_WALL = 40;
-float SNAP_NAV_STRUCT_SLOPE = 41; 
+float SNAP_NAV_STRUCT_SLOPE = 41;
 float SNAP_NAV_STRUCT_SLOPE_DOWN = 41.5;
 float SNAP_NAV_STRUCT_DOOR = 42;
 
@@ -81,7 +81,7 @@ float   (float teamnum)                             snap_misc_topforteamnum;
     player that owns it can ``see'' an object.
     PLEASE NOTE that this INCLUDES a check for if the object is
     within the player's FOV (90 degrees).
-    
+   
     @param targ_origin  the entity we're trying to assess for visibility.
     @return             true or false
     \ingroup obj_util
@@ -94,31 +94,31 @@ float (vector targ_origin) snap_misc_ownervisible =
     {
         local float obj_orig_yaw, player_normal_yaw;
         local float min_fov_yaw, max_fov_yaw;
-    
+   
         // Get yaw of targ's origin relative to player...
         obj_orig_yaw = vectoyaw(targ_origin - self.owner.origin);
         obj_orig_yaw = snap_misc_normalyaw(obj_orig_yaw);
-    
+   
         // Get yaw of player...
         player_normal_yaw = snap_misc_normalyaw(self.owner.angles_y);
-    
+   
         // Work out the bounds that will be used to test if the object is within
         // the player's FOV...
-        
+       
         // For min...
         min_fov_yaw = player_normal_yaw - 45;
         /*if( min_fov_yaw > 360 )
             min_fov_yaw = min_fov_yaw - 360;
         else if(min_fov_yaw < 0 )
             min_fov_yaw = min_fov_yaw + 360;*/
-    
+   
         // For max...
         max_fov_yaw = player_normal_yaw + 45;
         /*if( max_fov_yaw > 360 )
             max_fov_yaw = max_fov_yaw - 360;
         else if(max_fov_yaw < 0 )
             max_fov_yaw = max_fov_yaw + 360;*/
-        
+       
         // Is it within our FOV?
         if( min_fov_yaw <= obj_orig_yaw && max_fov_yaw >= obj_orig_yaw )
         {
@@ -146,9 +146,9 @@ float (vector targ_origin) snap_misc_ownervisible =
 
 /**
     Print a message to the owner of self with high importance.
-    
+   
     @param msg_string  the message
-    
+   
     Is used by all keypress events because they should happen in real time.
     \ingroup obj_util
 */
@@ -192,7 +192,7 @@ void () snap_misc_weaponswitch =
 /**
     Called by PlayerPostThink() every tick.  Detect if the player has
     collided with, or is stuck on, anything in all six drections.
-  
+ 
     - When we detect that the player is stuck, we set the ``just hit this''
       agrip-aux bitfield property to include the direction we've just hit in.
     - We also set the ``sustained touch'' bitfiled to include the direction.
@@ -240,7 +240,7 @@ void () snap_misc_blockedtest =
         // Up
         tracebox(self.origin, VEC_HULL_MIN, VEC_HULL_MAX, (self.origin + ( v_up * 10 ) ), true, self);
         snap_misc_blockedtest_propchg(SNAP_NAV_DIR_UP);
-    
+   
         // Down
         tracebox(self.origin, VEC_HULL_MIN, VEC_HULL_MAX, (self.origin - ( v_up * 10 ) ), true, self);
         snap_misc_blockedtest_propchg(SNAP_NAV_DIR_DN);
@@ -250,7 +250,7 @@ void () snap_misc_blockedtest =
 /*
     This function is called by the one that tests if we are blocked in any
     direction and sets the properties of the agrip_aux object accordingly.
-    
+   
     @param direction    the direction we're currently processing
     \ingroup plr_util
 */
@@ -298,9 +298,9 @@ void (float direction) snap_misc_blockedtest_propchg =
 
 /**
     Print a message to the player with high importance.
-    
+   
     @param msg_string      the message
-    
+   
     Is used by all keypress events because they should happen in real time.
     \ingroup plr_util
 */
@@ -317,10 +317,10 @@ void (string msg_string) snap_misc_m2m =
 /// \defgroup gen_util Generic Utility Functions
 /**
     This normalises the yaw sent in.
-    
+   
     @param init_yaw     the Quake yaw.
     @return             the normalised yaw.
-    
+   
     The global variable ``SNAP_MISC_NORMYAW_OFFSET'' set in the function
     ``PutClientInServer'' in client.qc is used as an offset.
     This is because the player could spawn at any angle in a map -- we need
@@ -350,7 +350,7 @@ float (float init_yaw) snap_misc_normalyaw =
 
     // Flip-Reverse it, lol...
     normal_yaw = 360 - normal_yaw;
-  
+ 
     // Some debug info...
     /*dprint("NORMALYAW():\n");
     dprint("init yaw: ");dprint(ftos(init_yaw));dprint("\n");
@@ -363,7 +363,7 @@ float (float init_yaw) snap_misc_normalyaw =
 
 /**
     _Where's_ the point?
-    
+   
     @param point    Where the point is
     @param sprite   The model to use
     @param ttl      How long to show it for
@@ -383,7 +383,7 @@ void (vector point, string sprite, float ttl) snap_misc_showpoint =
 /**
     We've found a drop -- can the player jump it?
     Routine adapted for bots too.
-        
+       
     @param jump_origin  .
     @param move_dir     .
     @return             either SNAP_NAV_JMP_RUN or SNAP_NAV_JMP_NRM
@@ -394,7 +394,7 @@ float(vector jump_origin, vector move_dir) snap_misc_jumptest =
     local float retval;
     local vector jumptestpoint;
     // Not strictly needed but keeps things readable!
-    
+   
     // To find out if the player can make a jump.  We need to:
     //  * Look in front of the drop horizontally.
     //  * See if there is a floor to land on within a reasonable distance.
@@ -403,9 +403,9 @@ float(vector jump_origin, vector move_dir) snap_misc_jumptest =
 
     // Where's the point we need to test?
     // For a running jump...
-    jumptestpoint = jump_origin + move_dir * 240; 
+    jumptestpoint = jump_origin + move_dir * 240;
     //snap_misc_showpoint(jumptestpoint, "progs/s_light.spr", 3);
-    
+   
     // Could we make a running jump?
     traceline(jumptestpoint, jumptestpoint - '0 0 100', true, self);
     //snap_misc_showpoint(trace_endpos, "progs/s_light.spr", 3);
@@ -417,9 +417,9 @@ float(vector jump_origin, vector move_dir) snap_misc_jumptest =
 
     // Where's the point we need to test?
     // For a normal jump...
-    jumptestpoint = jump_origin + move_dir * 110; 
+    jumptestpoint = jump_origin + move_dir * 110;
     //snap_misc_showpoint(jumptestpoint, "progs/s_bubble.spr", 3);
-    
+   
     // Could we make a normal jump?
     traceline(jumptestpoint, jumptestpoint - '0 0 100', true, self);
     //snap_misc_showpoint(trace_endpos, "progs/s_bubble.spr", 3);
@@ -440,7 +440,7 @@ float(vector jump_origin, vector move_dir) snap_misc_jumptest =
 
     self.items   is the number of teams to spawn
     self.frags   is the number of players per team
-    
+   
     - THIS IS RUN AS AN ENTITY'S .think FUNCTION.
     - As we cannot do this in for (while) loops because there are no arrays,
       we have to explicitly say ``spawn a bot with team 2''.  There is a
@@ -462,7 +462,7 @@ void() snap_misc_botspawner =
 {
     local string tteam;
     local float tbot, ttop;
- 
+
     if( self.state == 0 )
     {
         if( self.items > 0 )  // at least 1 team
@@ -635,10 +635,10 @@ float(string team) CountPlayersTeam =
     Returns a float that is the number of a random team.
     If notmyteam is true, it picks from the remaining teams.
     (That MUST be called by a player.)
-        
+       
     @param notmyteam    set if player only
     @return             (random team number)
-    
+   
     This is used when kicking bots and adding bots (by clients).
     \ingroup team_util
 */
@@ -660,7 +660,7 @@ float (float notmyteam) snap_misc_pickrndteam =
         dprint(ftos(myteam));
         dprint("\n");*/
     }
-    
+   
     okteam = 0;
     while( !okteam )
     {
@@ -695,7 +695,7 @@ float (float notmyteam) snap_misc_pickrndteam =
 
 /**
     Returns a string that is the name of the given team number.
-    
+   
     @param teamnum
     @return string teamname
     \ingroup team_util
@@ -720,10 +720,10 @@ string (float teamnum) snap_misc_nameforteamnum =
 /**
     Returns a float that is the number of the given team name.
     Returns 0 if there was no match.
-    
+   
     @param string teamname
     @return float (teamnum or 0)
-    
+   
     Can be used for error-checking client has set the right name.
     \ingroup team_util
 */
@@ -749,13 +749,13 @@ float (string teamname) snap_misc_numforteamname =
 
     // be tidy now
     strunzone(s_teamname);
-    
+   
     return retval;
 }
 
 /**
     Returns the bottom colour for given team.
-    
+   
     @param float teamnum
     @return float (bottom)
     \ingroup team_util
@@ -779,7 +779,7 @@ float (float teamnum) snap_misc_bottomforteamnum =
 
 /**
     Returns the top colour for given team.
-    
+   
     @param float teamnum
     @return float (top)
     \ingroup team_util

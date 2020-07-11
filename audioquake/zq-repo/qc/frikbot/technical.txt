@@ -3,7 +3,7 @@
 This is a technical examination of the Frikbot. It is not a definitive
 guide to how to use the bot, see the FBX manual for that. I hope to
 clear up any confusion as to how the bot works. I'm probably not going
-to be successful, but I'll try. 
+to be successful, but I'll try.
 
 This document is not laid out very well at current, and I keep referring
 to future sections that may or may not exist. Over time, I hope to
@@ -388,7 +388,7 @@ or to switch it off for bots again. I leave this up to an excercise for
 the reader.
 
 else if(!begin_route())
-{ 
+{
 bot_look_for_crap(FALSE);
 }
 

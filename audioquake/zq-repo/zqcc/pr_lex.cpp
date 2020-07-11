@@ -1109,7 +1109,7 @@ int			 PR_AddDefine (const char *name, const type_t *type, const eval_t *value, 
 
 		printf ("Additional %s#define: %s\n", reserved ? "reserved " : "", name);
 	}
-	else 
+	else
 	if (pr_defines[i].reserved && pr_defines[i].defined)
 	{
 		// a reserved constant shall be modified

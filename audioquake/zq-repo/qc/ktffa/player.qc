@@ -37,7 +37,7 @@ PLAYER
 
 $cd /raid/quake/id1/models/player_4
 $origin 0 -6 24
-$base base              
+$base base             
 $skin skin
 
 //
@@ -136,7 +136,7 @@ void()  player_stand1 =[        $axstnd1,       player_stand1   ]
 			self.walkframe = 0;
 		self.frame = $stand1 + self.walkframe;
 	}
-	self.walkframe = self.walkframe + 1;    
+	self.walkframe = self.walkframe + 1;   
 }
 
 void()  player_run =[   $rockrun1,      player_run      ]
@@ -202,7 +202,7 @@ void()  player_axed4 =  [$axattd4, player_run   ] {self.weaponframe=8;}
 
 //============================================================================
 
-void() player_nail1   =[$nailatt1, player_nail2  ] 
+void() player_nail1   =[$nailatt1, player_nail2  ]
 {
 	muzzleflash();
 
@@ -231,7 +231,7 @@ void() player_nail2   =[$nailatt2, player_nail1  ]
 
 //============================================================================
 
-void() player_light1   =[$light1, player_light2  ] 
+void() player_light1   =[$light1, player_light2  ]
 {
 	muzzleflash();
 
@@ -329,7 +329,7 @@ void PainSound ()
 		sound (self, CHAN_VOICE, "player/axhit1.wav", 1, ATTN_NORM);
 		return;
 	}
-	
+
 
 	rs = rint((random() * 5) + 1);
 
@@ -416,7 +416,7 @@ void DeathBubblesSpawn ()
 void DeathBubbles (float num_bubbles)
 {
 	entity	bubble_spawner;
-	
+
 	bubble_spawner = spawn();
 	setorigin (bubble_spawner, self.origin);
 	bubble_spawner.movetype = MOVETYPE_NONE;
@@ -440,7 +440,7 @@ void DeathSound ()
 		sound (self, CHAN_VOICE, "player/h2odeath.wav", 1, ATTN_NONE);
 		return;
 	}
-	
+
 	rs = rint ((random() * 4) + 1);
 	if (rs == 1)
 		self.noise = "player/death1.wav";
@@ -476,7 +476,7 @@ vector VelocityForDamage (float dm)
 		v_z = 100 + 240 * random();
 		v_x = v_x + (200 * crandom());
 		v_y = v_y + (200 * crandom());
-		//dprint ("Velocity gib\n");                
+		//dprint ("Velocity gib\n");               
 	}
 	else
 	{
@@ -563,7 +563,7 @@ void GibPlayer ()
 		sound (self, CHAN_VOICE, "player/teledth1.wav", 1, ATTN_NONE);
 		return;
 	}
-		
+	
 	if (random() < 0.5)
 		sound (self, CHAN_VOICE, "player/gib.wav", 1, ATTN_NONE);
 	else
@@ -606,7 +606,7 @@ void PlayerDie ()
 	self.modelindex = modelindex_player;    // don't use eyes
 
 	DropBackpack();
-	
+
 	self.weaponmodel="";
 	self.view_ofs = '0 0 -8';
 	self.deadflag = DEAD_DYING;
@@ -623,7 +623,7 @@ void PlayerDie ()
 	}
 
 	DeathSound();
-	
+
 	self.angles_x = 0;
 	self.angles_z = 0;
 #ifdef KTFFA
@@ -636,17 +636,17 @@ void StartDie ()
 {
         float i;
 #endif
-        
+       
 	if (self.weapon == IT_AXE)
 	{
 		player_die_ax1 ();
 		return;
 	}
-	
+
 	// Note that this generates random values in 1..6 range, so player_diee1 is
 	// executed twice as often as other death sequences. Dunno if this should be fixed -- Tonik
 	i = 1 + floor(random()*6);
-	
+
 	if (i == 1)
 		player_diea1();
 	else if (i == 2)

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -124,10 +124,10 @@ void SV_ClientPrintf (client_t *cl, int level, char *fmt, ...)
 {
 	va_list		argptr;
 	char		string[1024];
-	
+
 	if (level < cl->messagelevel)
 		return;
-	
+
 	va_start (argptr, fmt);
 #ifdef _WIN32
 	_vsnprintf (string, sizeof(string) - 1, fmt, argptr);
@@ -189,7 +189,7 @@ void SV_BroadcastCommand (char *fmt, ...)
 {
 	va_list		argptr;
 	char		string[1024];
-	
+
 	if (!sv.state)
 		return;
 	va_start (argptr, fmt);
@@ -295,7 +295,7 @@ inrange:
 }
 
 
-/*  
+/* 
 ==================
 SV_StartParticle
 
@@ -305,7 +305,7 @@ Use svc_particle if the client supports the extension,
 otherwise fall back to QW's temp entities
 ==================
 */
-// quick hack: until I get rid of multicast, only send svc_particles if 
+// quick hack: until I get rid of multicast, only send svc_particles if
 // EVERYONE supports them. Usually the case in single player :)
 static qbool AllClientsWantSVCParticle (void)
 {
@@ -367,10 +367,10 @@ void SV_StartParticle (vec3_t org, vec3_t dir, int color, int count,
 	}
 
 	SV_Multicast (org, MULTICAST_PVS);
-}           
+}          
 
 
-/*  
+/* 
 ==================
 SV_StartSound
 
@@ -385,10 +385,10 @@ Larger attenuations will drop off.  (max 4 attenuation)
 
 If to_client is not NULL, the message will be sent to one client only
 ==================
-*/  
+*/ 
 void SV_StartSound (edict_t *entity, int channel, char *sample, int volume,
     float attenuation, client_t *to_client)
-{       
+{      
 	int         sound_num;
 	int			field_mask;
 	int			i;
@@ -413,13 +413,13 @@ void SV_StartSound (edict_t *entity, int channel, char *sample, int volume,
 		&& sv.sound_name[sound_num]; sound_num++)
 		if (!strcmp(sample, sv.sound_name[sound_num]))
 			break;
-    
+   
 	if (sound_num == MAX_SOUNDS || !sv.sound_name[sound_num])
 	{
 		Com_Printf ("SV_StartSound: %s not precached\n", sample);
 		return;
 	}
-    
+   
 	ent = SV_TranslateEntnum(NUM_FOR_EDICT(entity));
 
 	if ((channel & 8) || !sv_phs.value)	// no PHS flag
@@ -487,7 +487,7 @@ void SV_StartSound (edict_t *entity, int channel, char *sample, int volume,
 		else
 			SV_Multicast (origin, reliable ? MULTICAST_ALL_R : MULTICAST_ALL);
 	}
-}           
+}          
 
 
 /*
@@ -553,7 +553,7 @@ void SV_WriteClientdataToMessage (client_t *client, sizebuf_t *msg)
 		MSG_WriteByte (msg, ent->v.dmg_take);
 		for (i=0 ; i<3 ; i++)
 			MSG_WriteCoord (msg, other->v.origin[i] + 0.5*(other->v.mins[i] + other->v.maxs[i]));
-	
+
 		ent->v.dmg_take = 0;
 		ent->v.dmg_save = 0;
 	}
@@ -593,10 +593,10 @@ void SV_UpdateClientStats (client_t *client)
 	edict_t	*ent;
 	int		stats[MAX_CL_STATS];
 	int		i;
-	
+
 	ent = client->edict;
 	memset (stats, 0, sizeof(stats));
-	
+
 	// if we are a spectator and we are tracking a player, we get his stats
 	// so our status bar reflects his
 	if (client->spectator && client->spec_track > 0)
@@ -848,7 +848,7 @@ void SV_SendMessagesToAll (void)
 	for (i=0, c = svs.clients ; i<MAX_CLIENTS ; i++, c++)
 		if (c->state >= cs_connected)		// FIXME: should this only send to active?
 			c->send_message = true;
-	
+
 	SV_SendClientMessages ();
 }
 

@@ -38,7 +38,7 @@ void()                              snap_extnav_compass;
 
 /**
     Show the player where big open spaces are
-    
+   
     * This function is executed as the player.groundentity object.
     * The function must pause at each detected open space.  It does this
       by returning with a nextthink in the future.  The entry point on
@@ -51,7 +51,7 @@ void() snap_extnav_osd =
     local float do_sound, cycle_time, skipover_time;
     local vector v_start;
     v_start = self.owner.origin - '0 0 20';
-    
+   
     // Time for each sounder event...
     cycle_time = 0.5;
     skipover_time = 0;
@@ -152,7 +152,7 @@ void() snap_extnav_osd =
 
 /**
     Check for free space in a given direction...
-    
+   
     @param v_start  the start position
     @param v_off    the left/right/fwd offset
     @return either  true or false
@@ -160,9 +160,9 @@ void() snap_extnav_osd =
 float(vector v_start, vector v_off) snap_extnav_osd_check =
 {
     local float retval;
-    
+   
     retval = true;
-    
+   
     traceline(v_start, v_off, true, self);
     if( trace_fraction != 1 )
         retval = false;
@@ -193,7 +193,7 @@ void() snap_extnav_osd_sound =
 /**
     This works out which way the player is pointing and tells them!
     It uses the snap_misc_normalyaw() function.
-    
+   
     The global variable ``SNAP_MISC_NORMYAW_OFFSET'' set in the function
     ``PutClientInServer'' in client.qc is used as an offset.
     This is because the player could spawn at any angle in a map -- we need
@@ -203,17 +203,17 @@ void() snap_extnav_osd_sound =
 void () snap_extnav_compass =
 {
     local float normal_yaw;
-    
+   
     // Get Normalised yaw...
     normal_yaw = snap_misc_normalyaw(self.angles_y);
- 
-    // Work out what direction we're pointing in... 
+
+    // Work out what direction we're pointing in...
     if( normal_yaw >= 337.5 )
         snap_misc_m2m("North North West.\n");
     else if( normal_yaw >= 330 )
         snap_misc_m2m("330 degrees.\n");
     else if( normal_yaw >= 315 )
-        snap_misc_m2m("North West.\n"); 
+        snap_misc_m2m("North West.\n");
     else if( normal_yaw >= 300 )
         snap_misc_m2m("300 degrees.\n");
     else if( normal_yaw >= 292.5 )

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -40,7 +40,7 @@ qbool SV_CheckBottom (edict_t *ent)
 	trace_t	trace;
 	int		x, y;
 	float	mid, bottom;
-	
+
 	VectorAdd (ent->v.origin, ent->v.mins, mins);
 	VectorAdd (ent->v.origin, ent->v.maxs, maxs);
 
@@ -64,7 +64,7 @@ realcheck:
 // check it for real...
 //
 	start[2] = mins[2];
-	
+
 // the midpoint must be within 16 of the bottom
 	start[0] = stop[0] = (mins[0] + maxs[0])*0.5;
 	start[1] = stop[1] = (mins[1] + maxs[1])*0.5;
@@ -74,16 +74,16 @@ realcheck:
 	if (trace.fraction == 1.0)
 		return false;
 	mid = bottom = trace.endpos[2];
-	
-// the corners must be within 16 of the midpoint	
+
+// the corners must be within 16 of the midpoint
 	for	(x=0 ; x<=1 ; x++)
 		for	(y=0 ; y<=1 ; y++)
 		{
 			start[0] = stop[0] = x ? maxs[0] : mins[0];
 			start[1] = stop[1] = y ? maxs[1] : mins[1];
-			
+		
 			trace = SV_Trace (start, vec3_origin, vec3_origin, stop, true, ent);
-			
+		
 			if (trace.fraction != 1.0 && trace.endpos[2] > bottom)
 				bottom = trace.endpos[2];
 			if (trace.fraction == 1.0 || mid - trace.endpos[2] > STEPSIZE)
@@ -112,7 +112,7 @@ qbool SV_movestep (edict_t *ent, vec3_t move, qbool relink)
 	int			i;
 	edict_t		*enemy;
 
-// try the move	
+// try the move
 	VectorCopy (ent->v.origin, oldorg);
 	VectorAdd (ent->v.origin, move, neworg);
 
@@ -133,22 +133,22 @@ qbool SV_movestep (edict_t *ent, vec3_t move, qbool relink)
 					neworg[2] += 8;
 			}
 			trace = SV_Trace (ent->v.origin, ent->v.mins, ent->v.maxs, neworg, false, ent);
-	
+
 			if (trace.fraction == 1)
 			{
 				if ( ((int)ent->v.flags & FL_SWIM) && SV_PointContents(trace.endpos) == CONTENTS_EMPTY )
 					return false;	// swim monster left water
-	
+
 				VectorCopy (trace.endpos, ent->v.origin);
 				if (relink)
 					SV_LinkEdict (ent, true);
 				return true;
 			}
-			
+		
 			if (enemy == sv.edicts)
 				break;
 		}
-		
+	
 		return false;
 	}
 
@@ -178,16 +178,16 @@ qbool SV_movestep (edict_t *ent, vec3_t move, qbool relink)
 			if (relink)
 				SV_LinkEdict (ent, true);
 			ent->v.flags = (int)ent->v.flags & ~FL_ONGROUND;
-//	Com_Printf ("fall down\n"); 
+//	Com_Printf ("fall down\n");
 			return true;
 		}
-	
+
 		return false;		// walked off an edge
 	}
 
 // check point traces down for dangling corners
 	VectorCopy (trace.endpos, ent->v.origin);
-	
+
 	if (!SV_CheckBottom (ent))
 	{
 		if ( (int)ent->v.flags & FL_PARTIALGROUND )
@@ -203,7 +203,7 @@ qbool SV_movestep (edict_t *ent, vec3_t move, qbool relink)
 
 	if ( (int)ent->v.flags & FL_PARTIALGROUND )
 	{
-//		Com_Printf ("back on ground\n"); 
+//		Com_Printf ("back on ground\n");
 		ent->v.flags = (int)ent->v.flags & ~FL_PARTIALGROUND;
 	}
 	ent->v.groundentity = EDICT_TO_PROG(trace.e.ent);
@@ -231,10 +231,10 @@ qbool SV_StepDirection (edict_t *ent, float yaw, float dist)
 {
 	vec3_t		move, oldorigin;
 	float		delta;
-	
+
 	ent->v.ideal_yaw = yaw;
 	PF_changeyaw();
-	
+
 	yaw = yaw*M_PI*2 / 360;
 	move[0] = cos(yaw)*dist;
 	move[1] = sin(yaw)*dist;
@@ -252,7 +252,7 @@ qbool SV_StepDirection (edict_t *ent, float yaw, float dist)
 		return true;
 	}
 	SV_LinkEdict (ent, true);
-		
+	
 	return false;
 }
 
@@ -265,7 +265,7 @@ SV_FixCheckBottom
 void SV_FixCheckBottom (edict_t *ent)
 {
 //	Com_Printf ("SV_FixCheckBottom\n");
-	
+
 	ent->v.flags = (int)ent->v.flags | FL_PARTIALGROUND;
 }
 
@@ -309,7 +309,7 @@ void SV_NewChaseDir (edict_t *actor, edict_t *enemy, float dist)
 			tdir = d[2] == 90 ? 45 : 315;
 		else
 			tdir = d[2] == 90 ? 135 : 215;
-			
+		
 		if (tdir != turnaround && SV_StepDirection(actor, tdir, dist))
 			return;
 	}
@@ -322,7 +322,7 @@ void SV_NewChaseDir (edict_t *actor, edict_t *enemy, float dist)
 		d[2]=tdir;
 	}
 
-	if (d[1]!=DI_NODIR && d[1]!=turnaround 
+	if (d[1]!=DI_NODIR && d[1]!=turnaround
 	&& SV_StepDirection(actor, d[1], dist))
 			return;
 
@@ -370,7 +370,7 @@ SV_CloseEnough
 qbool SV_CloseEnough (edict_t *ent, edict_t *goal, float dist)
 {
 	int		i;
-	
+
 	for (i=0 ; i<3 ; i++)
 	{
 		if (goal->v.absmin[i] > ent->v.absmax[i] + dist)
@@ -391,7 +391,7 @@ void SV_MoveToGoal (void)
 {
 	edict_t		*ent, *goal;
 	float		dist;
-	
+
 	ent = PROG_TO_EDICT(pr_global_struct->self);
 	goal = PROG_TO_EDICT(ent->v.goalentity);
 	dist = G_FLOAT(OFS_PARM0);

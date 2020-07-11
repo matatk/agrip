@@ -73,10 +73,10 @@ void multi_trigger ()
 	self.takedamage = DAMAGE_NO;
 
 	activator = self.enemy;
-	
+
 	SUB_UseTargets();
 
-	if (self.wait > 0)	
+	if (self.wait > 0)
 	{
 		self.think = multi_wait;
 		self.nextthink = time + self.wait;
@@ -352,14 +352,14 @@ void tdeath_touch ()
 			self.owner = other;
 			T_Damage (other2, self, self, 50000);
 		}
-			
+		
 		if (other.invincible_finished > time)
 		{
 			self.classname = "teledeath2";
 			T_Damage (self.owner, self, self, 50000);
 			return;
 		}
-		
+	
 		if (self.owner.classname != "player")
 		{	// monsters explode themselves
 			T_Damage (self.owner, self, self, 50000);
@@ -394,7 +394,7 @@ void spawn_tdeath (vector org, entity death_owner)
 #endif
 	death.think = SUB_Remove;
 	death.owner = death_owner;
-	
+
 	force_retouch = 2;		// make sure even still objects get hit
 }
 
@@ -428,7 +428,7 @@ void teleport_touch ()
 		// objerror ("couldn't find target");
 		return;
 	}
-		
+	
 	SUB_UseTargets ();
 
 // calc v_forward
@@ -500,7 +500,7 @@ void trigger_teleport ()
 
 	InitTrigger ();
 	self.touch = teleport_touch;
-	// find the destination 
+	// find the destination
 	if (!self.target)
 		objerror ("no target");
 	self.use = teleport_use;
@@ -526,7 +526,7 @@ void trigger_skill_touch ()
 {
 	if (other.classname != "player")
 		return;
-		
+	
 	cvar_set ("skill", self.message);
 }
 
@@ -670,10 +670,10 @@ void trigger_monsterjump_touch ()
 // set XY even if not on ground, so the jump will clear lips
 	other.velocity_x = self.movedir_x * self.speed;
 	other.velocity_y = self.movedir_y * self.speed;
-	
+
 	if ( !(other.flags & FL_ONGROUND) )
 		return;
-	
+
 	other.flags = other.flags - FL_ONGROUND;
 
 	other.velocity_z = self.height;

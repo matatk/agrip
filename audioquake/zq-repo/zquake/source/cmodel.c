@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -39,7 +39,7 @@ typedef struct cnode_s
 
 // node specific
 	mplane_t	*plane;
-	struct cnode_s	*children[2];	
+	struct cnode_s	*children[2];
 } cnode_t;
 
 
@@ -122,19 +122,19 @@ static void CM_InitBoxHull (void)
 	for (i=0 ; i<6 ; i++)
 	{
 		box_clipnodes[i].planenum = i;
-		
+	
 		side = i&1;
-		
+	
 		box_clipnodes[i].children[side] = CONTENTS_EMPTY;
 		if (i != 5)
 			box_clipnodes[i].children[side^1] = i + 1;
 		else
 			box_clipnodes[i].children[side^1] = CONTENTS_SOLID;
-		
+	
 		box_planes[i].type = i>>1;
 		box_planes[i].normal[i>>1] = 1;
 	}
-	
+
 }
 
 
@@ -167,10 +167,10 @@ int CM_HullPointContents (hull_t *hull, int num, vec3_t p)
 	{
 		if (num < hull->firstclipnode || num > hull->lastclipnode)
 			Sys_Error ("CM_HullPointContents: bad node number");
-	
+
 		node = hull->clipnodes + num;
 		plane = hull->planes + node->planenum;
-		
+	
 		if (plane->type < 3)
 			d = p[plane->type] - plane->dist;
 		else
@@ -180,7 +180,7 @@ int CM_HullPointContents (hull_t *hull, int num, vec3_t p)
 		else
 			num = node->children[0];
 	}
-	
+
 	return num;
 }
 
@@ -246,7 +246,7 @@ static qbool RecursiveHullTrace (int num, float p1f, float p2f, vec3_t p1, vec3_
 		t1 = DotProduct (plane->normal, p1) - plane->dist;
 		t2 = DotProduct (plane->normal, p2) - plane->dist;
 	}
-	
+
 #if 1
 	if (t1 >= 0 && t2 >= 0)
 		return RecursiveHullTrace (node->children[0], p1f, p2f, p1, p2);
@@ -268,7 +268,7 @@ static qbool RecursiveHullTrace (int num, float p1f, float p2f, vec3_t p1, vec3_
 		frac = 0;
 	if (frac > 1)
 		frac = 1;
-		
+	
 	midf = p1f + (p2f - p1f)*frac;
 	for (i=0 ; i<3 ; i++)
 		mid[i] = p1[i] + frac*(p2[i] - p1[i]);
@@ -287,15 +287,15 @@ static qbool RecursiveHullTrace (int num, float p1f, float p2f, vec3_t p1, vec3_
 		return false;
 	}
 #endif
-	
+
 	if (CM_HullPointContents (&trace_hull, node->children[side^1], mid)
 	!= CONTENTS_SOLID)
 // go past the node
 		return RecursiveHullTrace (node->children[side^1], midf, p2f, mid, p2);
-	
+
 	if (trace_trace.allsolid)
 		return false;		// never got out of the solid area
-		
+	
 //==================
 // the other side of the node is solid, this is the impact point
 //==================
@@ -383,7 +383,7 @@ cleaf_t *CM_PointInLeaf (const vec3_t p)
 	cnode_t		*node;
 	float		d;
 	mplane_t	*plane;
-	
+
 	if (!numnodes)
 		Host_Error ("CM_PointInLeaf: numnodes == 0");
 
@@ -399,7 +399,7 @@ cleaf_t *CM_PointInLeaf (const vec3_t p)
 		else
 			node = node->children[1];
 	}
-	
+
 	return NULL;	// never reached
 }
 
@@ -458,7 +458,7 @@ static void AddToFatPVS_r (cnode_t *node)
 			}
 			return;
 		}
-	
+
 		plane = node->plane;
 		d = DotProduct (fatpvs_org, plane->normal) - plane->dist;
 		if (d > 8)
@@ -522,11 +522,11 @@ static void FindTouchedLeafs_r (const cnode_t *node)
 			leafs_list[leafs_count++] = leaf - map_leafs;
 			return;
 		}
-		
+	
 	// NODE_MIXED
 		splitplane = node->plane;
 		sides = BOX_ON_PLANE_SIDE (leafs_mins, leafs_maxs, splitplane);
-		
+	
 	// recurse down the contacted sides
 		if (sides == 1)
 			node = node->children[0];
@@ -577,7 +577,7 @@ static void CM_LoadEntities (lump_t *l)
 		map_entitystring = NULL;
 		return;
 	}
-	map_entitystring = Hunk_AllocName ( l->filelen, loadname);	
+	map_entitystring = Hunk_AllocName ( l->filelen, loadname);
 	memcpy (map_entitystring, cmod_base + l->fileofs, l->filelen);
 }
 
@@ -677,7 +677,7 @@ static void CM_LoadNodes (lump_t *l)
 	if (l->filelen % sizeof(*in))
 		Host_Error ("CM_LoadMap: funny lump size");
 	count = l->filelen / sizeof(*in);
-	out = Hunk_AllocName ( count*sizeof(*out), loadname);	
+	out = Hunk_AllocName ( count*sizeof(*out), loadname);
 
 	map_nodes = out;
 	numnodes = count;
@@ -696,7 +696,7 @@ static void CM_LoadNodes (lump_t *l)
 				out->children[j] = (cnode_t *)(map_leafs + (-1 - p));
 		}
 	}
-	
+
 	CM_SetParent (map_nodes, NULL);		// sets nodes and leafs
 }
 
@@ -713,7 +713,7 @@ static void CM_LoadLeafs (lump_t *l)
 	if (l->filelen % sizeof(*in))
 		Host_Error ("CM_LoadMap: funny lump size");
 	count = l->filelen / sizeof(*in);
-	out = Hunk_AllocName ( count*sizeof(*out), loadname);	
+	out = Hunk_AllocName ( count*sizeof(*out), loadname);
 
 	map_leafs = out;
 	numleafs = count;
@@ -723,7 +723,7 @@ static void CM_LoadLeafs (lump_t *l)
 		out->contents = p;
 		for (j = 0; j < 4; j++)
 			out->ambient_sound_level[j] = in->ambient_level[j];
-	}	
+	}
 
 }
 
@@ -741,7 +741,7 @@ static void CM_LoadClipnodes (lump_t *l)
 	if (l->filelen % sizeof(*in))
 		Host_Error ("CM_LoadMap: funny lump size");
 	count = l->filelen / sizeof(*in);
-	out = Hunk_AllocName ( count*sizeof(*out), loadname);	
+	out = Hunk_AllocName ( count*sizeof(*out), loadname);
 
 	map_clipnodes = out;
 	numclipnodes = count;
@@ -769,7 +769,7 @@ static void CM_MakeHull0 (void)
 
 	in = map_nodes;
 	count = numnodes;
-	out = Hunk_AllocName ( count*sizeof(*out), loadname);	
+	out = Hunk_AllocName ( count*sizeof(*out), loadname);
 
 	// fix up hull 0 in all cmodels
 	for (i = 0; i < numcmodels; i++) {
@@ -804,13 +804,13 @@ static void CM_LoadPlanes (lump_t *l)
 	dplane_t 	*in;
 	int			count;
 	int			bits;
-	
+
 	in = (void *)(cmod_base + l->fileofs);
 	if (l->filelen % sizeof(*in))
 		Host_Error ("CM_LoadMap: funny lump size");
 	count = l->filelen / sizeof(*in);
-	out = Hunk_AllocName (count * sizeof(*out), loadname);	
-	
+	out = Hunk_AllocName (count * sizeof(*out), loadname);
+
 	map_planes = out;
 	numplanes = count;
 
@@ -841,7 +841,7 @@ static byte *DecompressVis (byte *in)
 	byte	*out;
 	int		row;
 
-	row = (visleafs + 7) >> 3;	
+	row = (visleafs + 7) >> 3;
 	out = decompressed;
 
 	if (!in)
@@ -851,7 +851,7 @@ static byte *DecompressVis (byte *in)
 			*out++ = 0xff;
 			row--;
 		}
-		return decompressed;		
+		return decompressed;	
 	}
 
 	do
@@ -861,7 +861,7 @@ static byte *DecompressVis (byte *in)
 			*out++ = *in++;
 			continue;
 		}
-	
+
 		c = in[1];
 		in += 2;
 		while (c)
@@ -870,7 +870,7 @@ static byte *DecompressVis (byte *in)
 			c--;
 		}
 	} while (out - decompressed < row);
-	
+
 	return decompressed;
 }
 
@@ -911,7 +911,7 @@ static void CM_BuildPVS (lump_t *lump_vis, lump_t *lump_leafs)
 			memcpy (scan, map_novis, map_vis_rowbytes);
 		else
 			memcpy (scan, DecompressVis (visdata + p), map_vis_rowbytes);
-	}	
+	}
 }
 
 
@@ -1025,12 +1025,12 @@ cmodel_t *CM_LoadMap (char *name, qbool clientload, unsigned *checksum, unsigned
 	for (i = 0; i < HEADER_LUMPS; i++) {
 		if (i == LUMP_ENTITIES)
 			continue;
-		map_checksum ^= LittleLong(Com_BlockChecksum(cmod_base + header->lumps[i].fileofs, 
+		map_checksum ^= LittleLong(Com_BlockChecksum(cmod_base + header->lumps[i].fileofs,
 			header->lumps[i].filelen));
 
 		if (i == LUMP_VISIBILITY || i == LUMP_LEAFS || i == LUMP_NODES)
 			continue;
-		map_checksum2 ^= LittleLong(Com_BlockChecksum(cmod_base + header->lumps[i].fileofs, 
+		map_checksum2 ^= LittleLong(Com_BlockChecksum(cmod_base + header->lumps[i].fileofs,
 			header->lumps[i].filelen));
 	}
 	if (checksum)

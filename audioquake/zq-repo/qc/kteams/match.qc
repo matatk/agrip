@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -194,9 +194,9 @@ void(float skip_log) EndMatch =
 	if(skip_log) dprint("%stopped\n");
 	else {
 		p = find(world, classname, "player");
-		while(p != world) 
+		while(p != world)
 		{
-			if(p.netname != "" && p.k_accepted == 2) 
+			if(p.netname != "" && p.k_accepted == 2)
 			{
 				dprint("%", p.netname);
 				tmp = infokey(p, "team");
@@ -446,7 +446,7 @@ void() TimerThink =
 	// moved out the score checking every second to every minute only.  And if someone
 	// types scores it recalculates it for them.
 
-	if(k_sudden_death) return;      
+	if(k_sudden_death) return;     
 
 	if(k_pause) {
 		self.nextthink = time + 1;
@@ -487,7 +487,7 @@ void() TimerThink =
 		}
 	}
 
-	if(!self.cnt2) 
+	if(!self.cnt2)
 	{
 		self.cnt2 = 60;
 		self.cnt = self.cnt - 1;
@@ -503,9 +503,9 @@ void() TimerThink =
 			k_scores2 = 0;
 
 			p = find(world, classname, "player");
-			while(p != world) 
+			while(p != world)
 			{
-				if(p.netname != "" && p.k_accepted == 2) 
+				if(p.netname != "" && p.k_accepted == 2)
 				{
 					f1 = f1 + 1;
 					tmp = infokey(world, "k_team1");
@@ -517,7 +517,7 @@ void() TimerThink =
 			}
 
 			p = find(world, classname, "ghost");
-			while(p != world) 
+			while(p != world)
 			{
 				tmp = ftos(p.k_teamnum);
 				tmp2 = infokey(world, tmp);
@@ -531,7 +531,7 @@ void() TimerThink =
 		if(!self.cnt)
 		{
 			k_overtime = stof(infokey(world, "k_overtime"));
-			
+		
 			// If 0 no overtime, 1 time, 2 sudden death
 			// And if its neither then well we exit
 			if(k_overtime)
@@ -539,7 +539,7 @@ void() TimerThink =
 				f3 = CountTeams();
 				f4 = CountPlayers();
 				k_exttime = stof(infokey(world, "k_exttime"));
-				
+			
                 // Overtime.
 				// Ok we have now decided that the game is ending so decide overtime wise here what to do.
 				// Check to see if duel first
@@ -547,12 +547,12 @@ void() TimerThink =
 				if(f4 < 3)
 				{
 					p = find(world, classname, "player");
-					while(p != world) 
+					while(p != world)
 					{
-						if(p.netname != "" && player1found==0) 
+						if(p.netname != "" && player1found==0)
 						{
                                           player1scores = p.frags;
-							player1found = 1;					
+							player1found = 1;				
 						}
 						else
 						{
@@ -561,7 +561,7 @@ void() TimerThink =
 
 						p = find(p, classname, "player");
 					}
-					
+				
 					// In player1scores and player2scores we have scores(lol?)
 					if(player1scores == player2scores)
 					{
@@ -575,7 +575,7 @@ void() TimerThink =
 							if(k_exttime != 1) bprint(2, "'s");
 							bprint(2, " overtime follows\n");
 							self.nextthink = time + 1;
-							return;	
+							return;
 						} else {
 							bprint(2, "Sudden death ןצועפיםו גוחימף\n");
 						// added timer removal at sudden death beginning
@@ -605,7 +605,7 @@ void() TimerThink =
 						if(k_exttime != 1) bprint(2, "'s");
 						bprint(2, " overtime follows\n");
 						self.nextthink = time + 1;
-						return;	
+						return;
 					} else {
 						bprint(2, "Sudden death ןצועפיםו גוחימף\n");
 					// added timer removal at sudden death beginning
@@ -692,7 +692,7 @@ void() StartMatch =
 	k_checkx = 0;
 	k_userid = 1;
 	k_teamid = 666;
-	k_nochange = 0;	
+	k_nochange = 0;
 	localcmd("localinfo 1 \"\"\n");
 	localcmd("localinfo 666 \"\"\n");
 	f1 = stof(infokey(world, "k_pow"));
@@ -898,7 +898,7 @@ void() TimerStartThink =
 			// standby flag needs clearing (sturm)
 			k_standby = 0;
 			p = find(world, classname, "player");
-			while(p != world) 
+			while(p != world)
 			{
 				if(p.netname != "")
 				{
@@ -1018,7 +1018,7 @@ void() TimerStartThink =
 		p = find (world, classname, "player");
 		while(p != world)
 		{
-			if(p.netname != "") 
+			if(p.netname != "")
 			stuffcmd (p, "play buttons/switch04.wav\n");
 			p = find (p, classname, "player");
 		}

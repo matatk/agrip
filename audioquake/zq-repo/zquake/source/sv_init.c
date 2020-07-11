@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -40,7 +40,7 @@ SV_ModelIndex
 int SV_ModelIndex (char *name)
 {
 	int		i;
-	
+
 	if (!name || !name[0])
 		return 0;
 
@@ -131,7 +131,7 @@ void SV_CreateBaseline (void)
 		//
 		// add to the message
 		//
-		MSG_WriteByte (&sv.signon,svc_spawnbaseline);		
+		MSG_WriteByte (&sv.signon,svc_spawnbaseline);	
 		MSG_WriteShort (&sv.signon,entnum);
 
 		MSG_WriteByte (&sv.signon, svent->baseline.modelindex);
@@ -151,7 +151,7 @@ void SV_CreateBaseline (void)
 ================
 SV_SaveSpawnparms
 
-Grabs the current state of the progs serverinfo flags 
+Grabs the current state of the progs serverinfo flags
 and each client for saving across the
 transition to another level
 ================
@@ -266,7 +266,7 @@ void SV_SpawnServer (char *mapname, qbool devmap)
 	SZ_Init (&sv.reliable_datagram, sv.reliable_datagram_buf, sizeof(sv.reliable_datagram_buf));
 
 	SZ_Init (&sv.multicast, sv.multicast_buf, sizeof(sv.multicast_buf));
-	
+
 	SZ_Init (&sv.signon, sv.signon_buffers[0], sizeof(sv.signon_buffers[0]));
 	sv.num_signon_buffers = 1;
 
@@ -276,7 +276,7 @@ void SV_SpawnServer (char *mapname, qbool devmap)
 
 	// allocate edicts
 	sv.edicts = Hunk_AllocName (MAX_EDICTS*pr_edict_size, "edicts");
-	
+
 	// leave slots at start for clients only
 	sv.num_edicts = MAX_CLIENTS + 1;
 	for (i = 0; i < MAX_CLIENTS; i++) {
@@ -287,7 +287,7 @@ void SV_SpawnServer (char *mapname, qbool devmap)
 	}
 
 	sv.time = 1.0;
-	
+
 	strlcpy (sv.mapname, mapname, sizeof(sv.mapname));
 	Cvar_ForceSet (&host_mapname, sv.mapname);
 	Q_snprintfz (sv.modelname, sizeof(sv.modelname), "maps/%s.bsp", sv.mapname);
@@ -313,7 +313,7 @@ void SV_SpawnServer (char *mapname, qbool devmap)
 
 	//
 	// spawn the rest of the entities on the map
-	//	
+	//
 
 	// precache and static commands can be issued during
 	// map initialization
@@ -330,7 +330,7 @@ void SV_SpawnServer (char *mapname, qbool devmap)
 	pr_global_struct->mapname = PR_SetString(sv.mapname);
 	// serverflags are for cross level information (sigils)
 	pr_global_struct->serverflags = svs.serverflags;
-	
+
 	// run the frame start qc function to let progs check cvars
 	SV_ProgStartFrame ();
 
@@ -356,7 +356,7 @@ void SV_SpawnServer (char *mapname, qbool devmap)
 	// all spawning is completed, any further precache statements
 	// or prog writes to the signon message are errors
 	sv.state = ss_active;
-	
+
 	// run two frames to allow everything to settle
 	SV_Physics ();
 	sv.time += 0.1;

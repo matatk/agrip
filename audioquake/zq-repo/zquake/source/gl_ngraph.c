@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -48,7 +48,7 @@ static void R_LineGraph (int x, int h)
 
 	if (h>s)
 		h = s;
-	
+
 	for (i=0 ; i<h ; i++)
 		if (i & 1)
 			ngraph_texels[NET_GRAPHHEIGHT - i - 1][x] = 0xff;
@@ -98,11 +98,11 @@ void R_NetGraph (void)
 
 	x = 8;
 	y += 16;
-	
+
     GL_Bind(netgraphtexture);
 
-	glTexImage2D (GL_TEXTURE_2D, 0, gl_alpha_format, 
-		NET_TIMINGS, NET_GRAPHHEIGHT, 0, GL_RGBA, 
+	glTexImage2D (GL_TEXTURE_2D, 0, gl_alpha_format,
+		NET_TIMINGS, NET_GRAPHHEIGHT, 0, GL_RGBA,
 		GL_UNSIGNED_BYTE, ngraph_pixels);
 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

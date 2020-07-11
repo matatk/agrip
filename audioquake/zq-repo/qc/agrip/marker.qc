@@ -32,7 +32,7 @@ void()              snap_marker_touch;
 
 /**
     Set up the marker object.
-	
+
     Like other constructors, this function is run as the player.
         Properties:
             * .classname is set to "agrip_marker".
@@ -56,7 +56,7 @@ void() snap_marker_constructor =
         snap_misc_m2m("The Arena Masters are angered at your marker-spammage!\n");
         return;
     }
-                                                                                           
+                                                                                          
     // Set up new marker object's physical properties...
     new_agmarker = spawn();
     new_agmarker.movetype = MOVETYPE_NONE;
@@ -72,7 +72,7 @@ void() snap_marker_constructor =
     new_agmarker.frags = stof(infokey(self, "agv_marker_volume_throttle"));
     if( new_agmarker.frags > 1 || new_agmarker.frags < 0 )
         new_agmarker.frags = 0.3;
-   
+  
     // Connect the object and player...
     new_agmarker.owner = self;
 
@@ -99,9 +99,9 @@ void() snap_marker_constructor =
 
 /**
     Destroy the last created marker.
-    
+   
     @return indicates if it deleted a marker.
-    
+   
     This is run from the perspective of the player, too.
 */
 void(float quiet) snap_marker_destructor =
@@ -127,7 +127,7 @@ void(float quiet) snap_marker_destructor =
     {
         // Markers exist...
         find_start_ent = world;
-   
+  
         // Look for this player's last marker and remove it.
         // This could be called by the dietidy() hook, in which case don't spam
         // the player with messages saying each one has been remved.
@@ -144,7 +144,7 @@ void(float quiet) snap_marker_destructor =
             dprint("  found_ent.owner.netname = ");
             dprint(found_ent.owner.netname);
             dprint("\n");*/
-            
+           
             if(    found_ent.owner == self
                 && found_ent.items == self.agrip_aux.health )
             {

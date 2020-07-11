@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -91,7 +91,7 @@ hull_t *SV_HullForEntity (edict_t *ent, vec3_t mins, vec3_t maxs, vec3_t offset)
 		VectorSubtract (ent->v.mins, maxs, hullmins);
 		VectorSubtract (ent->v.maxs, mins, hullmaxs);
 		hull = CM_HullForBox (hullmins, hullmaxs);
-		
+	
 		VectorCopy (ent->v.origin, offset);
 	}
 
@@ -157,28 +157,28 @@ areanode_t *SV_CreateAreaNode (int depth, vec3_t mins, vec3_t maxs)
 
 	ClearLink (&anode->trigger_edicts);
 	ClearLink (&anode->solid_edicts);
-	
+
 	if (depth == AREA_DEPTH)
 	{
 		anode->axis = -1;
 		anode->children[0] = anode->children[1] = NULL;
 		return anode;
 	}
-	
+
 	VectorSubtract (maxs, mins, size);
 	if (size[0] > size[1])
 		anode->axis = 0;
 	else
 		anode->axis = 1;
-	
+
 	anode->dist = 0.5 * (maxs[anode->axis] + mins[anode->axis]);
-	VectorCopy (mins, mins1);	
-	VectorCopy (mins, mins2);	
-	VectorCopy (maxs, maxs1);	
-	VectorCopy (maxs, maxs2);	
-	
+	VectorCopy (mins, mins1);
+	VectorCopy (mins, mins2);
+	VectorCopy (maxs, maxs1);
+	VectorCopy (maxs, maxs2);
+
 	maxs1[anode->axis] = mins2[anode->axis] = anode->dist;
-	
+
 	anode->children[0] = SV_CreateAreaNode (depth+1, mins2, maxs2);
 	anode->children[1] = SV_CreateAreaNode (depth+1, mins1, maxs1);
 
@@ -343,10 +343,10 @@ SV_LinkEdict
 void SV_LinkEdict (edict_t *ent, qbool touch_triggers)
 {
 	areanode_t	*node;
-	
+
 	if (ent->area.prev)
 		SV_UnlinkEdict (ent);	// unlink from old position
-		
+	
 	if (ent == sv.edicts)
 		return;		// don't add the world
 
@@ -354,7 +354,7 @@ void SV_LinkEdict (edict_t *ent, qbool touch_triggers)
 		return;
 
 // set the abs box
-	VectorAdd (ent->v.origin, ent->v.mins, ent->v.absmin);	
+	VectorAdd (ent->v.origin, ent->v.mins, ent->v.absmin);
 	VectorAdd (ent->v.origin, ent->v.maxs, ent->v.absmax);
 
 //
@@ -378,7 +378,7 @@ void SV_LinkEdict (edict_t *ent, qbool touch_triggers)
 		ent->v.absmax[1] += 1;
 		ent->v.absmax[2] += 1;
 	}
-	
+
 // link to PVS leafs
 	if (ent->v.modelindex)
 		SV_LinkToLeafs (ent);
@@ -401,14 +401,14 @@ void SV_LinkEdict (edict_t *ent, qbool touch_triggers)
 		else
 			break;		// crosses the node
 	}
-	
-// link it in	
+
+// link it in
 
 	if (ent->v.solid == SOLID_TRIGGER)
 		InsertLinkBefore (&ent->area, &node->trigger_edicts);
 	else
 		InsertLinkBefore (&ent->area, &node->solid_edicts);
-	
+
 // if touch_triggers, touch all entities at this node and decend for more
 	if (touch_triggers)
 		SV_TouchLinks ( ent, sv_areanodes );
@@ -454,10 +454,10 @@ edict_t	*SV_TestEntityPosition (edict_t *ent)
 		trace = SV_Trace (ent->v.origin, ent->v.mins, ent->v.maxs, ent->v.origin, MOVE_NOMONSTERS, ent);
 	else
 		trace = SV_Trace (ent->v.origin, ent->v.mins, ent->v.maxs, ent->v.origin, MOVE_NORMAL, ent);
-	
+
 	if (trace.startsolid)
 		return sv.edicts;
-		
+	
 	return NULL;
 }
 
@@ -573,7 +573,7 @@ boxmins[0] = boxmins[1] = boxmins[2] = -9999;
 boxmaxs[0] = boxmaxs[1] = boxmaxs[2] = 9999;
 #else
 	int		i;
-	
+
 	for (i=0 ; i<3 ; i++)
 	{
 		if (end[i] > start[i])
@@ -625,7 +625,7 @@ trace_t SV_Trace (vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end, int type, 
 		VectorCopy (mins, clip.mins2);
 		VectorCopy (maxs, clip.maxs2);
 	}
-	
+
 // create the bounding box of the entire move
 	SV_MoveBounds ( start, clip.mins2, clip.maxs2, end, clip.boxmins, clip.boxmaxs );
 

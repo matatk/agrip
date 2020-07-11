@@ -142,7 +142,7 @@ qbool SNDDMA_Init_ALSA (void)
     {
         case -1:
             err = alsa_snd_pcm_hw_params_set_format (pcm, hw, SND_PCM_FORMAT_S16); // was _LE
-            if(0 <= err) 
+            if(0 <= err)
             {
                 bps = 16;
             }
@@ -188,7 +188,7 @@ qbool SNDDMA_Init_ALSA (void)
                 {
                     stereo = 0;
                 }
-                else 
+                else
                 {
                     Sys_Printf("ALSA: no usable channels. %s\n", alsa_snd_strerror(err));
                     goto error;
@@ -198,7 +198,7 @@ qbool SNDDMA_Init_ALSA (void)
         case 0:
         case 1:
             err = alsa_snd_pcm_hw_params_set_channels (pcm, hw, stereo ? 2 : 1);
-            if(0 > err) 
+            if(0 > err)
             {
                 Sys_Printf("ALSA: no usable channels. %s\n", alsa_snd_strerror(err));
                 goto error;
@@ -218,7 +218,7 @@ qbool SNDDMA_Init_ALSA (void)
             if(0 <= err)
             {
                 frag_size = 32 * bps;
-            } 
+            }
             else
             {
                 rate = 22050;
@@ -235,8 +235,8 @@ qbool SNDDMA_Init_ALSA (void)
                     if(0 <= err)
                     {
                         frag_size = 8 * bps;
-                    } 
-                    else 
+                    }
+                    else
                     {
                         Sys_Printf("ALSA: no usable rates. %s\n", alsa_snd_strerror(err));
                         goto error;
@@ -380,7 +380,7 @@ void SNDDMA_Submit_ALSA (void)
 
     state = alsa_snd_pcm_state (pcm);
 
-    switch (state) 
+    switch (state)
     {
         case SND_PCM_STATE_PREPARED:
             alsa_snd_pcm_mmap_commit (pcm, offset, nframes);

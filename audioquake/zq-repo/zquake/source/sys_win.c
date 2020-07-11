@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -214,7 +214,7 @@ double Sys_DoubleTime (void)
 		starttime = now;
 		return 0.0;
 	}
-	
+
 	if (now < starttime) // wrapped?
 		return (now / 1000.0) + (LONG_MAX - starttime / 1000.0);
 
@@ -319,7 +319,7 @@ char *Sys_ConsoleInput (void)
 							}
 						} else if (ch >= ' ' && len < sizeof(text)-1)
 						{
-							WriteFile(houtput, &ch, 1, &dummy, NULL);	
+							WriteFile(houtput, &ch, 1, &dummy, NULL);
 							text[len++] = ch;
 						}
 
@@ -437,7 +437,7 @@ void Sys_Init_ (void)
 		if (!qwclsemaphore)
 			Sys_Error ("QuakeWorld is already running on this system");
 		CloseHandle (qwclsemaphore);
-		
+	
 		qwclsemaphore = CreateSemaphore(
 			NULL,         /* Security attributes */
 			0,            /* Initial count       */
@@ -500,7 +500,7 @@ void ParseCommandLine (char *lpCmdLine)
 				*lpCmdLine = 0;
 				lpCmdLine++;
 			}
-			
+		
 		}
 	}
 }
@@ -666,9 +666,9 @@ int main (int argc, char **argv)
 		newtime = Sys_DoubleTime ();
 		time = newtime - oldtime;
 		oldtime = newtime;
-		
-		Host_Frame (time);				
-	}	
+	
+		Host_Frame (time);			
+	}
 
 	return true;
 }

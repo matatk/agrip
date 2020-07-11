@@ -25,7 +25,7 @@
 //
 // These are called from the main QuakeC code.  They're separated out like this
 // so as to keep the footprint on the main code as small as possible.
-// 
+//
 // The functions are named using the following convention:
 //
 //      agh_<qc-file-name>_<function-name>
@@ -69,7 +69,7 @@ void() agh_world_checkstringext =
 
 /**
     Provide all of the precaches for an accessible game.
-    
+   
     A hook can be enabled in agrip_defs.qc to allow mods to
     do some precaching for themselves.
 */
@@ -218,9 +218,9 @@ void() agh_world_padclients =
     // Also we have to wait before spawning the members on each team so that
     // we don't overflow the server.  For this reason, we set up an entity to
     // do the actual spawning.
-    
+   
     // FIXME disable team command / make it switch your colours too?
-    
+   
     entity spawner;
     spawner = spawn();
     spawner.items = numteams;
@@ -247,11 +247,11 @@ void() agh_client_startdevs =
 
     // Set message lock to un-prioritise the following message...
     self.agrip_aux.state = true;
-   
+  
     // Instead of blurting out lots for each dev...
     snap_misc_m2m("Starting devices...\n");
     safe_soundtoclient(self, self, CHAN_AUTO, "toggles/on.wav", 1, ATTN_NORM);
-    
+   
     // Unset message lock...
     self.agrip_aux.state = false;
 
@@ -430,7 +430,7 @@ void() agh_client_padclients_disconnect =
         local float numteams;
         local float numpad, numplrs;
         local string tmp;
-   
+  
         // Check number of teams vs our team...
         numteams = stof(infokey(world, "ag_numteams"));
         tmp = infokey(self, "team");
@@ -459,7 +459,7 @@ void() agh_client_padclients_disconnect =
                 local float bot, top;
                 bot = stof(infokey(self, "bottom"));
                 top = stof(infokey(self, "top"));
-                create_bot(bot, top, infokey(self, "team"), 0); 
+                create_bot(bot, top, infokey(self, "team"), 0);
             }
             else
             {
@@ -525,7 +525,7 @@ void() agh_player_footsteps =
                 {
                     // Generate the footstep sound a bit randomly...
                     local float r;
-                    r = random(); 
+                    r = random();
                     if( r < 0.5 )
                     {
                         safe_soundtoclient(self, self, CHAN_AUTO, "footsteps/footstep_l.wav", 0.5, ATTN_NORM);
@@ -639,13 +639,13 @@ void() agh_weapons_impulsecommands =
             KickABotDM(true);  // client called
         }
     }
-    
+   
     if( self.impulse == 50 )
     {
         // Add a friend
         create_bot(stof(infokey(self, "bottomcolor")), stof(infokey(self, "topcolor")), infokey(self, "team"), true);
     }
-                   
+                  
     if( self.impulse == 51 )
     {
         // Add an enemy (to a random team not including my own)...
@@ -659,7 +659,7 @@ void() agh_weapons_impulsecommands =
         mytop = snap_misc_topforteamnum(random_enemy_team);
         create_bot(mybot, mytop, enemy_teamname, true);
     }
-    
+   
     if( self.impulse == 52 )
     {
         if( ! self.agrip_aux.ammo_cells )
@@ -674,9 +674,9 @@ void() agh_weapons_impulsecommands =
         }
      }
 
-     
+    
     // HELPER OBJECTS
-	
+
     // Impulse  100 toggles nav
     //          101         nav/wall warnings
     //          102         nav/side wall warnings
@@ -691,7 +691,7 @@ void() agh_weapons_impulsecommands =
     //	        122         esr/enemy warnings
     //	        123         esr/friend warnings
     //	        130         footsteps
-	
+
     // Navigation Helper -- ``nav''
     if( self.impulse == 100 )
     {
@@ -849,7 +849,7 @@ void() agh_weapons_impulsecommands =
             safe_soundtoclient(self, self, CHAN_VOICE, "toggles/on.wav", 1, ATTN_NORM);
         }
     }
-    
+   
     // Detector 5000 -- ``D5k''
     if( self.impulse == 110 )
     {
@@ -869,13 +869,13 @@ void() agh_weapons_impulsecommands =
             snap_misc_m2m("D5k: Disabled.\n");
             safe_soundtoclient(self, self, CHAN_VOICE, "toggles/off.wav", 1, ATTN_NORM);
         }
-    }	
+    }
 
     // EtherScan RADAR -- ``ESR''
-     
+    
     // This has 3 modes: off, on (classic) and on (hazard)
     // It detects nothing / enemies / drops.
-   
+  
     if( self.impulse == 120 )
     {
         // Re-enabling the ESR...
@@ -921,7 +921,7 @@ void() agh_weapons_impulsecommands =
             safe_soundtoclient(self, self, CHAN_VOICE, "toggles/on.wav", 1, ATTN_NORM);
         }
     }
-	
+
     // ESR Enemy Warnings...
     if( self.impulse == 122 )
     {
@@ -955,7 +955,7 @@ void() agh_weapons_impulsecommands =
             safe_soundtoclient(self, self, CHAN_VOICE, "toggles/on.wav", 1, ATTN_NORM);
         }
     }
-    
+   
     // Footsteps...
     if( self.impulse == 130 )
     {
@@ -975,14 +975,14 @@ void() agh_weapons_impulsecommands =
 
 
     // IMMEDIATE USE ITEMS...
-    
+   
     // Impulse  140 activates   compass
     //          141             open space sweep
     //          150             drop describer
     //          160             jump describer
     //          170             adds a marker
     //          171             deletes last marker
-     
+    
     // Compass...
     if( self.impulse == 140 )
         snap_extnav_compass();
@@ -999,7 +999,7 @@ void() agh_weapons_impulsecommands =
         sweep.nextthink = time;
         // it will remove itself when completed.
     }
-            
+           
     // Drop description...
     if( self.impulse == 150 )
     if( infokey(self, "agv_t_nav") == "1" )
@@ -1017,7 +1017,7 @@ void() agh_weapons_impulsecommands =
         else
             safe_soundtoclient(self, self, CHAN_AUTO, "deny.wav", 1, ATTN_NORM);
     }
-   
+  
     // Jump description...
     if( self.impulse == 160 )
     {
@@ -1049,12 +1049,12 @@ void() agh_weapons_impulsecommands =
         snap_marker_destructor(0);
     }
 
-    
+   
    // STATUS INDICATORS...
-    
+   
    // Impulse   90	gives	Health and Armour levels
    //	        91		Ammo Overview
-    
+   
     if( self.impulse == 90 )
     {
         local string varval;

@@ -39,22 +39,22 @@ void() snap_d5k_main;
 void() snap_d5k_constructor =
 {
     local entity new_agd5k;
-                                                                                           
+                                                                                          
     new_agd5k = spawn();
-                                                                                           
+                                                                                          
     // Set up new nav object...
     new_agd5k.movetype = MOVETYPE_NONE;
     new_agd5k.solid = SOLID_NOT;
-                                                                                           
+                                                                                          
     /*  Give it the preferences the user specified...
         To save memory, we're using existing (and empty for this entity) fields... */
-    
+   
     // Interval (seconds) between uses of the nav object...
     new_agd5k.health = stof(infokey(self, "agv_d5k_interval"));
-    
+   
     // Detection range...
     new_agd5k.frags = stof(infokey(self, "agv_d5k_objdist"));
-    
+   
     // Volume throttle for the sound this object will make...
     new_agd5k.items = stof(infokey(self, "agv_d5k_volume_throttle"));
     if( new_agd5k.items > 1 || new_agd5k.items < 0 )
@@ -63,7 +63,7 @@ void() snap_d5k_constructor =
     // Connect the nav object and player...
     new_agd5k.owner = self;
     self.agrip_d5k = new_agd5k;
-                                                                                           
+                                                                                          
     // Give it life!
     new_agd5k.think = snap_d5k_main;
     new_agd5k.nextthink = time + 0.1;
@@ -89,7 +89,7 @@ void() snap_d5k_starter =
 /**
     Detect nearby objects and make sounds to identify them based on object
     type and distance from player.
-    
+   
     The function snap_d5k_starter() is called when the entity chain is empty,
     to repopulate it.  This is done by changing the ``.think'' enity of the D5k
     to snap_d5k_starter().
@@ -110,10 +110,10 @@ void() snap_d5k_main =
     {
         if( self.goalentity.classname != "func_button" )
         {
-            // Work out what volume of sound we are going 
+            // Work out what volume of sound we are going
             sound_vol = vlen(self.goalentity.origin - self.owner.origin) / self.frags;
             sound_vol = ( 1 - sound_vol ) * self.items;
-            
+           
             //snap_misc_showpoint(self.goalentity.origin, "progs/s_light.spr", 3);
         }
         else
@@ -126,21 +126,21 @@ void() snap_d5k_main =
             switch_origin = self.goalentity.mins - '0 0 1';
             if( pointcontents(switch_origin) != CONTENT_EMPTY )
                     switch_origin = self.goalentity.maxs + '0 0 1';
-            
-            // Work out what volume of sound we are going 
+           
+            // Work out what volume of sound we are going
             sound_vol = vlen(switch_origin - self.owner.origin) / self.frags;
             sound_vol = ( 1 - sound_vol ) * self.items;
 
             //snap_misc_showpoint(switch_origin, "progs/s_light.spr", 3);
         }
-        
+       
         // If we have moved away from the item since the scan and it is
         // now out of detection range, sound_vol would be -ve.
         // Also, we shouldn't sound things that would be too quiet to hear.
         if( sound_vol > 0.2 )
         {
             // Make sound based on classname...
-    
+   
     	    // ARMOR...
     	    if( (  self.goalentity.classname == "item_armor1"
     	        || self.goalentity.classname == "item_armor2"
@@ -151,7 +151,7 @@ void() snap_d5k_main =
                 safe_soundtoclient(self.owner, self.goalentity, CHAN_ITEM, "items/armor1.wav", sound_vol, ATTN_NORM);
             }
     	    // HEALTH...
-            else if( self.goalentity.classname == "item_health" 
+            else if( self.goalentity.classname == "item_health"
     	          && snap_misc_ownervisible(self.goalentity.origin) )
             {
                 matched = true;
@@ -168,7 +168,7 @@ void() snap_d5k_main =
     	        safe_soundtoclient(self.owner, self.goalentity, CHAN_ITEM, "weapons/lock4.wav", sound_vol, ATTN_NORM);
             }
             // DROPPED BACKPACK...
-            else if( self.goalentity.classname == "" 
+            else if( self.goalentity.classname == ""
                   && snap_misc_ownervisible(self.goalentity.origin) )
             {
                 matched = true;
@@ -176,7 +176,7 @@ void() snap_d5k_main =
             }
             // SWITCH...
             // Note: Assume state = STATE_TOP if it isn't STATE_BOTTOM.
-            else if( self.goalentity.classname == "func_button" 
+            else if( self.goalentity.classname == "func_button"
                   && snap_misc_ownervisible(switch_origin) )
             {
                 matched = true;
@@ -191,25 +191,25 @@ void() snap_d5k_main =
                 }
             }
             // POWERUP (EnvSuit, Pentogram, RoS, Quad)...
-    	    else if( self.goalentity.classname == "item_artifact_envirosuit" 
+    	    else if( self.goalentity.classname == "item_artifact_envirosuit"
     		      && snap_misc_ownervisible(self.goalentity.origin) )
             {
                 matched = true;
     	        safe_soundtoclient(self.owner, self.goalentity, CHAN_ITEM, "items/suit.wav", sound_vol, ATTN_NORM);
             }
-            else if( self.goalentity.classname == "item_artifact_invulnerability" 
+            else if( self.goalentity.classname == "item_artifact_invulnerability"
     		      && snap_misc_ownervisible(self.goalentity.origin) )
             {
                 matched = true;
     	        safe_soundtoclient(self.owner, self.goalentity, CHAN_ITEM, "items/protect.wav", sound_vol, ATTN_NORM);
             }
-            else if( self.goalentity.classname == "item_artifact_invisibility" 
+            else if( self.goalentity.classname == "item_artifact_invisibility"
     		      && snap_misc_ownervisible(self.goalentity.origin) )
             {
                 matched = true;
     	    	safe_soundtoclient(self.owner, self.goalentity, CHAN_ITEM, "items/inv1.wav", sound_vol, ATTN_NORM);
             }
-            else if( self.goalentity.classname == "item_artifact_super_damage" 
+            else if( self.goalentity.classname == "item_artifact_super_damage"
     		      && snap_misc_ownervisible(self.goalentity.origin) )
             {
                 matched = true;

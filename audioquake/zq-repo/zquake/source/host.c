@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -78,7 +78,7 @@ void Host_Error (char *error, ...)
 	va_list		argptr;
 	char		string[1024];
 	static qbool inerror = false;
-	
+
 	if (inerror)
 		Sys_Error ("Host_Error: recursively entered");
 	inerror = true;
@@ -99,7 +99,7 @@ void Host_Error (char *error, ...)
 	Com_Printf ("\n===========================\n");
 	Com_Printf ("Host_Error: %s\n",string);
 	Com_Printf ("===========================\n\n");
-	
+
 	SV_Shutdown (va("server crashed: %s\n", string));
 	CL_Disconnect ();
 	CL_HandleHostError ();		// stop demo loop
@@ -294,7 +294,7 @@ to run quit through here before the final handoff to the sys code.
 void Host_Shutdown (void)
 {
 	static qbool isdown = false;
-	
+
 	if (isdown)
 	{
 		printf ("recursive shutdown\n");

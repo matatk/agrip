@@ -65,13 +65,13 @@ qbool SNDDMA_Init_OSS(void)
 	}
 
     if (ioctl(audio_fd, SNDCTL_DSP_GETOSPACE, &info)==-1)
-    {   
+    {  
         perror("GETOSPACE");
 		Com_Printf ("Um, can't do GETOSPACE?\n");
 		close(audio_fd);
 		return 0;
     }
-    
+   
 // set sample bits & speed
 
     s = getenv("QUAKE_SOUND_SAMPLEBITS");

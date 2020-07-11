@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -67,7 +67,7 @@ void KeyDown (kbutton_t *b)
 {
 	int		k;
 	char	*c;
-	
+
 	c = Cmd_Argv(1);
 	if (c[0])
 		k = atoi(c);
@@ -76,7 +76,7 @@ void KeyDown (kbutton_t *b)
 
 	if (k == b->down[0] || k == b->down[1])
 		return;		// repeating key
-	
+
 	if (!b->down[0])
 		b->down[0] = k;
 	else if (!b->down[1])
@@ -86,7 +86,7 @@ void KeyDown (kbutton_t *b)
 		Com_Printf ("Three keys down for a button!\n");
 		return;
 	}
-	
+
 	if (b->state & 1)
 		return;		// still down
 	b->state |= 1 + 2;	// down + impulse down
@@ -96,7 +96,7 @@ void KeyUp (kbutton_t *b)
 {
 	int		k;
 	char	*c;
-	
+
 	c = Cmd_Argv(1);
 	if (c[0])
 		k = atoi(c);
@@ -165,7 +165,7 @@ void IN_JumpDown (void) {KeyDown(&in_jump);}
 void IN_JumpUp (void) {KeyUp(&in_jump);}
 
 //
-// builtin forward rocket jump script 
+// builtin forward rocket jump script
 //
 
 void IN_FRJDown (void)
@@ -243,10 +243,10 @@ void IN_Impulse (void)
 			case 8:
 				if (items & IT_LIGHTNING && cl.stats[STAT_CELLS] >= 1)
 					best = 8;
-			
+		
 		}
 	}
-	
+
 	if (best)
 		in_impulse = best;
 }
@@ -266,12 +266,12 @@ float CL_KeyState (kbutton_t *key)
 {
 	float	val;
 	qbool	impulsedown, impulseup, down;
-	
+
 	impulsedown = key->state & 2;
 	impulseup = key->state & 4;
 	down = key->state & 1;
 	val = 0;
-	
+
 	if (impulsedown && !impulseup)
 	{
 		if (down)
@@ -358,7 +358,7 @@ void CL_AdjustAngles (void)
 	float	speed;
 	float	up, down;
 	float	yawspeed;
-	
+
 	if (in_speed.state & 1)
 		speed = cls.frametime * cl_anglespeedkey.value;
 	else
@@ -398,16 +398,16 @@ void CL_AdjustAngles (void)
 		cl.viewangles[PITCH] -= speed*cl_pitchspeed.value * CL_KeyState (&in_forward);
 		cl.viewangles[PITCH] += speed*cl_pitchspeed.value * CL_KeyState (&in_back);
 	}
-	
+
 	up = CL_KeyState (&in_lookup);
 	down = CL_KeyState(&in_lookdown);
-	
+
 	cl.viewangles[PITCH] -= speed*cl_pitchspeed.value * up;
 	cl.viewangles[PITCH] += speed*cl_pitchspeed.value * down;
 
 	if (up || down)
 		V_StopPitchDrift ();
-		
+	
 	if (cl.viewangles[PITCH] > cl.maxpitch)
 		cl.viewangles[PITCH] = cl.maxpitch;
 	if (cl.viewangles[PITCH] < cl.minpitch)
@@ -417,7 +417,7 @@ void CL_AdjustAngles (void)
 		cl.viewangles[ROLL] = 50;
 	if (cl.viewangles[ROLL] < -50)
 		cl.viewangles[ROLL] = -50;
-		
+	
 }
 
 /*
@@ -428,11 +428,11 @@ Send the intended movement message to the server
 ================
 */
 void CL_BaseMove (usercmd_t *cmd)
-{	
+{
 	CL_AdjustAngles ();
-	
+
 	memset (cmd, 0, sizeof(*cmd));
-	
+
 	VectorCopy (cl.viewangles, cmd->angles);
 	if (in_strafe.state & 1)
 	{
@@ -447,10 +447,10 @@ void CL_BaseMove (usercmd_t *cmd)
 	cmd->upmove -= cl_upspeed.value * CL_KeyState (&in_down);
 
 	if (! (in_klook.state & 1) )
-	{	
+	{
 		cmd->forwardmove += cl_forwardspeed.value * CL_KeyState (&in_forward);
 		cmd->forwardmove -= cl_backspeed.value * CL_KeyState (&in_back);
-	}	
+	}
 
 //
 // adjust for speed key
@@ -460,7 +460,7 @@ void CL_BaseMove (usercmd_t *cmd)
 		cmd->forwardmove *= cl_movespeedkey.value;
 		cmd->sidemove *= cl_movespeedkey.value;
 		cmd->upmove *= cl_movespeedkey.value;
-	}	
+	}
 }
 
 int MakeChar (int i)
@@ -487,11 +487,11 @@ void CL_FinishMove (usercmd_t *cmd)
 
 //
 // figure button bits
-//	
+//
 	if (in_attack.state & 3)
 		cmd->buttons |= 1;
 	in_attack.state &= ~2;
-	
+
 	if (in_jump.state & 3)
 		cmd->buttons |= 2;
 	in_jump.state &= ~2;
@@ -694,7 +694,7 @@ void CL_SendCmd (void)
 //
 // deliver the message
 //
-	Netchan_Transmit (&cls.netchan, buf.cursize, buf.data);	
+	Netchan_Transmit (&cls.netchan, buf.cursize, buf.data);
 }
 
 

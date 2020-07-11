@@ -41,19 +41,19 @@ void plat_spawn_inside_trigger ()
 
 //
 // middle trigger
-//	
+//
 	trigger = spawn();
 	trigger.touch = plat_center_touch;
 	trigger.movetype = MOVETYPE_NONE;
 	trigger.solid = SOLID_TRIGGER;
 	trigger.enemy = self;
-	
+
 	tmin = self.mins + '25 25 0';
 	tmax = self.maxs - '25 25 -8';
 	tmin_z = tmax_z - (self.pos1_z - self.pos2_z + 8);
 	if (self.spawnflags & PLAT_LOW_TRIGGER)
 		tmax_z = tmin_z + 8;
-	
+
 	if (self.size_x <= 50)
 	{
 		tmin_x = (self.mins_x + self.maxs_x) / 2;
@@ -64,7 +64,7 @@ void plat_spawn_inside_trigger ()
 		tmin_y = (self.mins_y + self.maxs_y) / 2;
 		tmax_y = tmin_y + 1;
 	}
-	
+
 	setsize (trigger, tmin, tmax);
 }
 
@@ -106,7 +106,7 @@ void plat_center_touch ()
 
 	if (other.classname != "player")
 		return;
-		
+	
 	if (other.health <= 0)
 		return;
 
@@ -130,7 +130,7 @@ void plat_outside_touch ()
 
 	if (other.health <= 0)
 		return;
-		
+	
 //dprint ("plat_outside_touch\n");
 	self = self.enemy;
 	if (self.state == STATE_TOP)
@@ -151,7 +151,7 @@ void plat_crush ()
 
 	other.deathtype = "squish";
 	T_Damage (other, self, self, 1);
-	
+
 	if (self.state == STATE_UP)
 		plat_go_down ();
 	else if (self.state == STATE_DOWN)
@@ -217,7 +217,7 @@ void func_plat ()
 	self.classname = "plat";
 	self.solid = SOLID_BSP;
 	self.movetype = MOVETYPE_PUSH;
-	setorigin (self, self.origin);	
+	setorigin (self, self.origin);
 	setmodel (self, self.model);
 	setsize (self, self.mins , self.maxs);
 
@@ -235,7 +235,7 @@ void func_plat ()
 
 	self.use = plat_trigger_use;
 
-	plat_spawn_inside_trigger ();	// the "start moving" trigger	
+	plat_spawn_inside_trigger ();	// the "start moving" trigger
 
 	if (self.targetname)
 	{
@@ -328,7 +328,7 @@ sounds
 
 */
 void func_train ()
-{	
+{
 	if (!self.speed)
 		self.speed = 100;
 	if (!self.target)
@@ -372,7 +372,7 @@ void func_train ()
 This is used for the final bos
 */
 void misc_teleporttrain ()
-{	
+{
 	if (!self.speed)
 		self.speed = 100;
 	if (!self.target)

@@ -68,7 +68,7 @@ C(D_DrawParticle):
 	fsubs	C(r_origin)+8
 	fxch	%st(2)			// local[0] | local[1] | local[2]
 
-//	transformed[2] = DotProduct(local, r_ppn);		
+//	transformed[2] = DotProduct(local, r_ppn);	
 	flds	C(r_ppn)		// r_ppn[0] | local[0] | local[1] | local[2]
 	fmul	%st(1),%st(0)	// dot0 | local[0] | local[1] | local[2]
 	flds	C(r_ppn)+4	// r_ppn[1] | dot0 | local[0] | local[1] | local[2]
@@ -91,26 +91,26 @@ C(D_DrawParticle):
 	fxch	%st(3)					// local[2] | local[0] | local[1] | 1/z
 
 	flds	C(r_pup)	// r_pup[0] | local[2] | local[0] | local[1] | 1/z
-	fmul	%st(2),%st(0)	// dot0 | local[2] | local[0] | local[1] | 1/z 
+	fmul	%st(2),%st(0)	// dot0 | local[2] | local[0] | local[1] | 1/z
 	flds	C(r_pup)+4	// r_pup[1] | dot0 | local[2] | local[0] |
-						//  local[1] | 1/z 
+						//  local[1] | 1/z
 
 	fnstsw	%ax
 	testb	$1,%ah
 	jnz		LPop6AndDone
 
 //	transformed[1] = DotProduct(local, r_pup);
-	fmul	%st(4),%st(0)	// dot1 | dot0 | local[2] | local[0] | local[1] | 1/z 
+	fmul	%st(4),%st(0)	// dot1 | dot0 | local[2] | local[0] | local[1] | 1/z
 	flds	C(r_pup)+8	// r_pup[2] | dot1 | dot0 | local[2] |
-						//  local[0] | local[1] | 1/z 
+						//  local[0] | local[1] | 1/z
 	fmul	%st(3),%st(0)	// dot2 | dot1 | dot0 | local[2] | local[0] |
-						//  local[1] | 1/z 
+						//  local[1] | 1/z
 	fxch	%st(2)		// dot0 | dot1 | dot2 | local[2] | local[0] |
-						//  local[1] | 1/z 
+						//  local[1] | 1/z
 	faddp	%st(0),%st(1) // dot0 + dot1 | dot2 | local[2] | local[0] |
-						//  local[1] | 1/z 
-	faddp	%st(0),%st(1) // y | local[2] | local[0] | local[1] | 1/z 
-	fxch	%st(3)		// local[1] | local[2] | local[0] | y | 1/z 
+						//  local[1] | 1/z
+	faddp	%st(0),%st(1) // y | local[2] | local[0] | local[1] | 1/z
+	fxch	%st(3)		// local[1] | local[2] | local[0] | y | 1/z
 
 //	transformed[0] = DotProduct(local, r_pright);
 	fmuls	C(r_pright)+4	// dot1 | local[2] | local[0] | y | 1/z
@@ -149,7 +149,7 @@ C(D_DrawParticle):
 	movl	DP_u,%eax
 	movl	DP_v,%edx
 
-// if ((v > d_vrectbottom_particle) || 
+// if ((v > d_vrectbottom_particle) ||
 // 	(u > d_vrectright_particle) ||
 // 	(v < d_vrecty) ||
 // 	(u < d_vrectx))

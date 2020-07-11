@@ -39,7 +39,7 @@ void trap_lightning_fire ()
 		self.nextthink = self.t_width;
 		return;
 	}
-	
+
 	t = find (world, targetname, self.target);
 	if (!t)
 		objerror ("trap_lightning_switched without a target");
@@ -94,7 +94,7 @@ void trap_lightning_start ()
 
 	// play sound
 	self.sounds = time;
-		
+	
 	trap_lightning_fire ();
 }
 

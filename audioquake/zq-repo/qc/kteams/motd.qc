@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -66,7 +66,7 @@ void() MOTDThinkX =
 // Kl33n3X check against Llamas
 	stuffcmd(self.owner, "say -d\n");
 
-	if(!self.owner.k_stuff) 
+	if(!self.owner.k_stuff)
 	{
 		StuffAliases();
 		p = self;
@@ -106,14 +106,14 @@ void() MOTDStuff =
 		self.owner.friendly = 0;
 		if(lock == 2) kick = 1;
 
-		else if(lock == 1) 
+		else if(lock == 1)
 		{
 			kick = 1;
 			p = find(world, classname, "player");
-			while(p != world && kick ==1) 
+			while(p != world && kick ==1)
 			{
 				t = infokey(self.owner, "team");
-				if(p != self.owner && p.netname != "" && infokey(p, "team") == t) 
+				if(p != self.owner && p.netname != "" && infokey(p, "team") == t)
 				{
 					kick = 0;
 				}
@@ -123,15 +123,15 @@ void() MOTDStuff =
 				}
 			}
 
-			if(kick) 
+			if(kick)
 			{
 				p = find(world, classname, "ghost");
-				while(p != world && kick ==1) 
+				while(p != world && kick ==1)
 				{
 					t = ftos(p.k_teamnum);
 					t2 = infokey(world, t);
 					t = infokey(self.owner, "team");
-					if(t == t2) 
+					if(t == t2)
 					{
 						kick = 0;
 					}
@@ -145,17 +145,17 @@ void() MOTDStuff =
 
 		if(lock == 1 && kick == 1) sprint(self.owner, 2, "Set your team before connecting\n");
 
-		else 
+		else
 		{
 			f2 = CountPlayers();
-			if(f2 >= k_attendees && stof(infokey(world, "k_exclusive"))) 
+			if(f2 >= k_attendees && stof(infokey(world, "k_exclusive")))
 			{
 				sprint(self.owner, 2, "Sorry, all teams are full\n");
 				kick = 1;
 			}
 		}
 
-		if(kick) 
+		if(kick)
 		{
 			self.owner.k_accepted = 0;
 			if(lock == 2) sprint(self.owner, 2, "Match in progress, server locked\n");
@@ -166,7 +166,7 @@ void() MOTDStuff =
 		}
 	}
 
-	if(match_in_progress == 2) 
+	if(match_in_progress == 2)
 	{
 		f2 = 1;
 		f3 = 0;
@@ -177,26 +177,26 @@ void() MOTDStuff =
 			if(t == self.owner.netname) f3 = 1;
 			else f2 = f2 + 1;
 		}
-		if(f2 == k_userid) 
+		if(f2 == k_userid)
 		{
 			t2 = infokey(self.owner, "team");
 			bprint(2, self.owner.netname, " arrives late ", t2, "‘\n");
-		} 
-		else 
+		}
+		else
 		{
 			p = find(world, classname, "ghost");
-			while(p != world && f3) 
+			while(p != world && f3)
 			{
 				if(p.cnt2 == f2) f3 = 0;
 				else p = find(p, classname, "ghost");
 			}
 
-			if(p != world) 
+			if(p != world)
 			{
 				t = ftos(p.k_teamnum);
 				t2 = infokey(world, t);
 				t = infokey(self.owner, "team");
-				if(t != t2) 
+				if(t != t2)
 				{
 					self.owner.k_accepted = 0;
 					sprint(self.owner, 2, "Please join your old team and reconnect\n");
@@ -216,8 +216,8 @@ void() MOTDStuff =
 				self.owner.friendly = p.friendly;
 				self.owner.k_teamnum = p.k_teamnum;
 				remove(p);
-			} 
-			else 
+			}
+			else
 			{
 				t2 = ftos(f2);
 				localcmd("localinfo ");
@@ -229,10 +229,10 @@ void() MOTDStuff =
 		}
 
 		tmp = infokey(self.owner, "team");
-		if(tmp != "") 
+		if(tmp != "")
 		{
 			f1 = 665;
-			while(k_teamid > f1 && !self.owner.k_teamnum) 
+			while(k_teamid > f1 && !self.owner.k_teamnum)
 			{
 				f1 = f1 + 1;
 				t = ftos(f1);
@@ -240,7 +240,7 @@ void() MOTDStuff =
 				tmp = infokey(self.owner, "team");
 				if(tmp == s1) self.owner.k_teamnum = f1;
 			}
-			if(!self.owner.k_teamnum) 
+			if(!self.owner.k_teamnum)
 			{
 				f1 = f1 + 1;
 				s1 = ftos(f1);
@@ -254,8 +254,8 @@ void() MOTDStuff =
 				self.owner.k_teamnum = f1;
 			}
 		} else self.owner.k_teamnum = 666;
-	} 
-	else 
+	}
+	else
 	{
 		bprint(2, self.owner.netname);
 		bprint(2, " entered the game\n");

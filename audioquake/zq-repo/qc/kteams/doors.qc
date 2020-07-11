@@ -36,7 +36,7 @@ const float DOOR_TOGGLE = 32;
 Doors are similar to buttons, but can spawn a fat trigger field around them
 to open without a touch, and they link together to form simultanious
 double/quad doors.
- 
+
 Door.owner is the master door.  If there is only one door, it points to itself.
 If multiple doors, all will point to a single one.
 
@@ -96,7 +96,7 @@ void door_go_down ()
 		self.takedamage = DAMAGE_YES;
 		self.health = self.max_health;
 	}
-	
+
 	self.state = STATE_DOWN;
 	SUB_CalcMove (self.pos1, self.speed, door_hit_bottom);
 }
@@ -111,7 +111,7 @@ void door_go_up ()
 		self.nextthink = self.ltime + self.wait;
 		return;
 	}
-	
+
 	sound (self, CHAN_VOICE, self.noise2, 1, ATTN_NORM);
 	self.state = STATE_UP;
 	SUB_CalcMove (self.pos2, self.speed, door_hit_top);
@@ -159,10 +159,10 @@ void door_fire ()
 			return;
 		}
 	}
-	
+
 // trigger all paired doors
 	starte = self;
-	
+
 	do
 	{
 		self.goalentity = activator;		// Who fired us
@@ -178,7 +178,7 @@ void door_use ()
 	entity	oself;
 
 	self.message = "";                      // door message are for touch only
-	self.owner.message = "";        
+	self.owner.message = "";       
 	self.enemy.message = "";
 
 	oself = self;
@@ -212,9 +212,9 @@ void door_trigger_touch ()
 void door_killed ()
 {
 	entity	oself;
-	
+
 #ifdef KTEAMS
-	if(match_in_progress != 2) 
+	if(match_in_progress != 2)
        return;
 #endif
 
@@ -254,7 +254,7 @@ void door_touch ()
 		centerprint (other, self.owner.message);
 		sound (other, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
 	}
-	
+
 // key door stuff
 	if (!self.items)
 		return;
@@ -290,7 +290,7 @@ void door_touch ()
 			else if (world.worldtype == 1)
 			{
 				centerprint (other, "You need the gold runekey");
-				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);                    
+				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);                   
 			}
 			else if (world.worldtype == 0)
 			{
@@ -375,10 +375,10 @@ void LinkDoors ()
 
 	cmins = self.mins;
 	cmaxs = self.maxs;
-	
+
 	starte = self;
 	t = self;
-	
+
 	do
 	{
 		self.owner = starte;                    // master door
@@ -390,14 +390,14 @@ void LinkDoors ()
 		if (self.message != "")
 			starte.message = self.message;
 
-		t = find (t, classname, self.classname);        
+		t = find (t, classname, self.classname);       
 		if (!t)
 		{
 			self.enemy = starte;            // make the chain a loop
 
 		// shootable, fired, or key doors just needed the owner/enemy links,
 		// they don't spawn a field
-	
+
 			self = self.owner;
 
 			if (self.health)
@@ -416,7 +416,7 @@ void LinkDoors ()
 		{
 			if (t.enemy)
 				objerror ("cross connected doors");
-			
+		
 			self.enemy = t;
 			self = t;
 
@@ -532,18 +532,18 @@ void func_door ()
 	self.max_health = self.health;
 	self.solid = SOLID_BSP;
 	self.movetype = MOVETYPE_PUSH;
-	setorigin (self, self.origin);  
+	setorigin (self, self.origin); 
 	setmodel (self, self.model);
 	self.classname = "door";
 
 	self.blocked = door_blocked;
 	self.use = door_use;
-	
+
 	if (self.spawnflags & DOOR_SILVER_KEY)
 		self.items = IT_KEY1;
 	if (self.spawnflags & DOOR_GOLD_KEY)
 		self.items = IT_KEY2;
-	
+
 	if (!self.speed)
 		self.speed = 100;
 	if (!self.wait)
@@ -572,10 +572,10 @@ void func_door ()
 		self.takedamage = DAMAGE_YES;
 		self.th_die = door_killed;
 	}
-	
+
 	if (self.items)
 		self.wait = -1;
-		
+	
 	self.touch = door_touch;
 
 // LinkDoors can't be done until all of the doors have been spawned, so
@@ -610,22 +610,22 @@ const float SECRET_YES_SHOOT	= 16;	// shootable even if targeted
 void fd_secret_use ()
 {
 	float	temp;
-	
+
 #ifdef KTEAMS
 	if(match_in_progress != 2)
         return;
 #endif
-	
+
         self.health = 10000;
 
 	// exit if still moving around...
 	if (self.origin != self.oldorigin)
 		return;
-	
+
 	self.message = "";             // no more message
 
 	SUB_UseTargets();                               // fire all targets / killtargets
-	
+
 	if (!(self.spawnflags & SECRET_NO_SHOOT))
 	{
 		self.th_pain = SUB_Null;
@@ -634,13 +634,13 @@ void fd_secret_use ()
 	self.velocity = VEC_ORIGIN;
 
 	// Make a sound, wait a little...
-	
+
 	sound(self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
 	self.nextthink = self.ltime + 0.1;
 
 	temp = 1 - (self.spawnflags & SECRET_1ST_LEFT); // 1 or -1
 	makevectors(self.mangle);
-	
+
 	if (!self.t_width)
 	{
 		if (self.spawnflags & SECRET_1ST_DOWN)
@@ -648,7 +648,7 @@ void fd_secret_use ()
 		else
 			self. t_width = fabs(v_right * self.size);
 	}
-		
+	
 	if (!self.t_length)
 		self. t_length = fabs(v_forward * self.size);
 
@@ -656,7 +656,7 @@ void fd_secret_use ()
 		self.dest1 = self.origin - v_up * self.t_width;
 	else
 		self.dest1 = self.origin + v_right * (self.t_width * temp);
-		
+	
 	self.dest2 = self.dest1 + v_forward * self.t_length;
 	SUB_CalcMove(self.dest1, self.speed, fd_secret_move1);
 	sound(self, CHAN_VOICE, self.noise2, 1, ATTN_NORM);
@@ -692,7 +692,7 @@ void fd_secret_move3 ()
 void fd_secret_move4 ()
 {
 	sound(self, CHAN_VOICE, self.noise2, 1, ATTN_NORM);
-	SUB_CalcMove(self.dest1, self.speed, fd_secret_move5);          
+	SUB_CalcMove(self.dest1, self.speed, fd_secret_move5);         
 }
 
 // Wait 1 second...
@@ -715,7 +715,7 @@ void fd_secret_done ()
 	{
 		self.health = 10000;
 		self.takedamage = DAMAGE_YES;
-		self.th_pain = fd_secret_use;   
+		self.th_pain = fd_secret_use;  
 		self.th_die = fd_secret_use;
 	}
 	sound(self, CHAN_NO_PHS_ADD+CHAN_VOICE, self.noise3, 1, ATTN_NORM);
@@ -751,7 +751,7 @@ void secret_touch ()
 		return;
 
 	self.attack_finished = time + 2;
-	
+
 	if (self.message != "")
 	{
 		centerprint (other, self.message);
@@ -809,7 +809,7 @@ void func_door_secret ()
 
 	if (!self.dmg)
 		self.dmg = 2;
-		
+	
 	// Magic formula...
 	self.mangle = self.angles;
 	self.angles = VEC_ORIGIN;
@@ -817,8 +817,8 @@ void func_door_secret ()
 	self.movetype = MOVETYPE_PUSH;
 	self.classname = "door";
 	setmodel (self, self.model);
-	setorigin (self, self.origin);  
-	
+	setorigin (self, self.origin); 
+
 	self.touch = secret_touch;
 	self.blocked = secret_blocked;
 	self.speed = 50;

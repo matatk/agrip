@@ -173,7 +173,7 @@ void exploder_fire ()
 
 	SUB_UseTargets ();
 
-	remove (self);	
+	remove (self);
 }
 
 void exploder_delayed_use ()

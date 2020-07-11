@@ -37,7 +37,7 @@ void	VID_Init (unsigned char *palette)
 	vid.colormap = host_colormap;
 	vid.buffer = vid_buffer;
 	vid.rowbytes = BASEWIDTH;
-	
+
 	d_pzbuffer = zbuffer;
 	D_InitCaches (surfcache, sizeof(surfcache));
 }

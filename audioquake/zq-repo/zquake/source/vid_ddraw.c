@@ -131,19 +131,19 @@ void VID_Update (vrect_t *rects)
 
 	lpddsOffScreenBuffer->lpVtbl->Unlock( lpddsOffScreenBuffer
 		, vid.buffer /* wtf? -- tonik */ );
-	
+
 	if ( ( rval = lpddsBackBuffer->lpVtbl->BltFast( lpddsFrontBuffer,
 															0, 0,
-															lpddsOffScreenBuffer, 
-															&r, 
+															lpddsOffScreenBuffer,
+															&r,
 															DDBLTFAST_WAIT ) ) == DDERR_SURFACELOST )
 	{
 		// Com_Printf ("DDERR_SURFACELOST\n");
 		lpddsBackBuffer->lpVtbl->Restore( lpddsFrontBuffer );
 		lpddsBackBuffer->lpVtbl->BltFast( lpddsFrontBuffer,
 													0, 0,
-													lpddsOffScreenBuffer, 
-													&r, 
+													lpddsOffScreenBuffer,
+													&r,
 													DDBLTFAST_WAIT);
 	}
 
@@ -221,7 +221,7 @@ void VID_SetPalette (unsigned char *palette)
 	DDRAW_SetPalette (currentpalette);
 }
 
-	
+
 
 void DDraw_Init (void)
 {
@@ -321,7 +321,7 @@ void DDraw_Init (void)
 	*/
 	memset( &ddsd, 0, sizeof( ddsd ) );
 	ddsd.dwSize = sizeof( ddsd );
-	
+
 	Com_Printf ( "...locking backbuffer: " );
 	if ( ( ddrval = lpddsOffScreenBuffer->lpVtbl->Lock( lpddsOffScreenBuffer, NULL, &ddsd, DDLOCK_WAIT, NULL ) ) != DD_OK )
 	{
@@ -373,7 +373,7 @@ void VID_Init (unsigned char *palette)
 	vid.colormap = host_colormap;
 	vid.buffer = vid_buffer;
 	vid.rowbytes = BASEWIDTH;
-	
+
 	d_pzbuffer = zbuffer;
 
 	D_InitCaches (surfcache, sizeof(surfcache));
@@ -421,7 +421,7 @@ void VID_Init (unsigned char *palette)
 		NULL,
 		global_hInstance,
 		NULL);
-	
+
 	if (!mainwindow)
 		Sys_Error ("Couldn't create DIB window");
 
@@ -478,7 +478,7 @@ void ClearAllStates (void)
 	extern void IN_ClearStates (void);
 	extern qbool keydown[256];
 	int		i;
-	
+
 // send an up event for each key, to make sure the server clears them all
 	for (i=0 ; i<256 ; i++)
 	{
@@ -664,7 +664,7 @@ LONG WINAPI MainWndProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// JACK: This is the mouse wheel with the Intellimouse
 		// Its delta is either positive or neg, and we generate the proper
 		// Event.
-		case WM_MOUSEWHEEL: 
+		case WM_MOUSEWHEEL:
 			if (in_mwheeltype != MWHEEL_DINPUT)
 			{
 				in_mwheeltype = MWHEEL_WINDOWMSG;

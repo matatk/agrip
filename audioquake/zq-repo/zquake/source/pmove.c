@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -80,7 +80,7 @@ void PM_ClipVelocity (vec3_t in, vec3_t normal, vec3_t out, float overbounce)
 	float	backoff;
 	float	change;
 	int		i;
-	
+
 	backoff = DotProduct (in, normal) * overbounce;
 
 	for (i=0 ; i<3 ; i++)
@@ -115,14 +115,14 @@ int PM_SlideMove (void)
 	vec3_t		end;
 	float		time_left;
 	int			blocked;
-	
+
 	numbumps = 4;
-	
+
 	blocked = 0;
 	VectorCopy (pmove.velocity, original_velocity);
 	VectorCopy (pmove.velocity, primal_velocity);
 	numplanes = 0;
-	
+
 	time_left = pm_frametime;
 
 	for (bumpcount=0 ; bumpcount<numbumps ; bumpcount++)
@@ -158,7 +158,7 @@ int PM_SlideMove (void)
 			blocked |= BLOCKED_OTHER;
 
 		time_left -= time_left * trace.fraction;
-		
+	
 	// cliped to another plane
 		if (numplanes >= MAX_CLIP_PLANES)
 		{	// this shouldn't really happen
@@ -184,7 +184,7 @@ int PM_SlideMove (void)
 			if (j == numplanes)
 				break;
 		}
-		
+	
 		if (i != numplanes)
 		{	// go along this plane
 		}
@@ -316,7 +316,7 @@ usedown:
 		VectorCopy (downvel, pmove.velocity);
 		return blocked;
 	}
-	
+
 	// copy z value from slide move
 	pmove.velocity[2] = downvel[2];
 
@@ -348,7 +348,7 @@ void PM_Friction (void)
 	float	drop;
 	vec3_t	start, stop;
 	trace_t	trace;
-	
+
 	if (pmove.waterjumptime)
 		return;
 
@@ -420,7 +420,7 @@ void PM_Accelerate (vec3_t wishdir, float wishspeed, float accel)
 	accelspeed = accel*pm_frametime*wishspeed;
 	if (accelspeed > addspeed)
 		accelspeed = addspeed;
-	
+
 	for (i=0 ; i<3 ; i++)
 		pmove.velocity[i] += accelspeed*wishdir[i];
 }
@@ -430,7 +430,7 @@ void PM_AirAccelerate (vec3_t wishdir, float wishspeed, float accel)
 	int			i;
 	float		addspeed, accelspeed, currentspeed, wishspd = wishspeed;
 	float		originalspeed = 0.0, newspeed = 0.0, speedcap = 0.0;
-		
+	
 	if (pmove.pm_type == PM_DEAD)
 		return;
 	if (pmove.waterjumptime)
@@ -451,7 +451,7 @@ void PM_AirAccelerate (vec3_t wishdir, float wishspeed, float accel)
 	accelspeed = accel * wishspeed * pm_frametime;
 	if (accelspeed > addspeed)
 		accelspeed = addspeed;
-	
+
 	for (i=0 ; i<3 ; i++)
 		pmove.velocity[i] += accelspeed*wishdir[i];
 
@@ -527,19 +527,19 @@ void PM_FlyMove ()
 
 	for (i=0 ; i<3 ; i++)
 		wishvel[i] = pm_forward[i]*pmove.cmd.forwardmove + pm_right[i]*pmove.cmd.sidemove;
-	
+
 	wishvel[2] += pmove.cmd.upmove;
 
 	VectorCopy (wishvel, wishdir);
 	wishspeed = VectorNormalize(wishdir);
-	
+
 	if (wishspeed > movevars.maxspeed) {
 		VectorScale (wishvel, movevars.maxspeed/wishspeed, wishvel);
 		wishspeed = movevars.maxspeed;
 	}
-	
+
 	PM_Accelerate (wishdir, wishspeed, movevars.accelerate);
-	
+
 	PM_StepSlideMove (false);
 }
 
@@ -560,7 +560,7 @@ void PM_AirMove (void)
 
 	fmove = pmove.cmd.forwardmove;
 	smove = pmove.cmd.sidemove;
-	
+
 	pm_forward[2] = 0;
 	pm_right[2] = 0;
 	VectorNormalize (pm_forward);
@@ -581,7 +581,7 @@ void PM_AirMove (void)
 		VectorScale (wishvel, movevars.maxspeed/wishspeed, wishvel);
 		wishspeed = movevars.maxspeed;
 	}
-	
+
 	if (pmove.onground)
 	{
 		if (movevars.slidefix)
@@ -607,7 +607,7 @@ void PM_AirMove (void)
 	else
 	{
 		int blocked;
-		
+	
 		// not on ground, so little effect on velocity
 		PM_AirAccelerate (wishdir, wishspeed, movevars.accelerate);
 
@@ -908,7 +908,7 @@ void PM_SpectatorMove (void)
 	// accelerate
 	fmove = pmove.cmd.forwardmove;
 	smove = pmove.cmd.sidemove;
-	
+
 	VectorNormalize (pm_forward);
 	VectorNormalize (pm_right);
 
@@ -941,9 +941,9 @@ void PM_SpectatorMove (void)
 		accelspeed = movevars.accelerate*pm_frametime*wishspeed;
 		if (accelspeed > addspeed)
 			accelspeed = addspeed;
-		
+	
 		for (i=0 ; i<3 ; i++)
-			pmove.velocity[i] += accelspeed*wishdir[i];	
+			pmove.velocity[i] += accelspeed*wishdir[i];
 	}
 
 	// move

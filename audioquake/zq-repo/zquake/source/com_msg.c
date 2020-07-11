@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -36,7 +36,7 @@ Handles byte ordering and avoids alignment errors
 void MSG_WriteChar (sizebuf_t *sb, int c)
 {
 	byte	*buf;
-	
+
 #ifdef PARANOID
 	if (c < -128 || c > 127)
 		Sys_Error ("MSG_WriteChar: range error");
@@ -49,7 +49,7 @@ void MSG_WriteChar (sizebuf_t *sb, int c)
 void MSG_WriteByte (sizebuf_t *sb, int c)
 {
 	byte	*buf;
-	
+
 #ifdef PARANOID
 	if (c < 0 || c > 255)
 		Sys_Error ("MSG_WriteByte: range error");
@@ -62,7 +62,7 @@ void MSG_WriteByte (sizebuf_t *sb, int c)
 void MSG_WriteShort (sizebuf_t *sb, int c)
 {
 	byte	*buf;
-	
+
 #ifdef PARANOID
 	if (c < ((short)0x8000) || c > (short)0x7fff)
 		Sys_Error ("MSG_WriteShort: range error");
@@ -76,7 +76,7 @@ void MSG_WriteShort (sizebuf_t *sb, int c)
 void MSG_WriteLong (sizebuf_t *sb, int c)
 {
 	byte	*buf;
-	
+
 	buf = SZ_GetSpace (sb, 4);
 	buf[0] = c&0xff;
 	buf[1] = (c>>8)&0xff;
@@ -91,11 +91,11 @@ void MSG_WriteFloat (sizebuf_t *sb, float f)
 		float	f;
 		int	l;
 	} dat;
-	
-	
+
+
 	dat.f = f;
 	dat.l = LittleLong (dat.l);
-	
+
 	SZ_Write (sb, &dat.l, 4);
 }
 
@@ -155,7 +155,7 @@ void MSG_WriteDeltaUsercmd (sizebuf_t *buf, usercmd_t *from, usercmd_t *cmd)
 		MSG_WriteAngle16 (buf, cmd->angles[1]);
 	if (bits & CM_ANGLE3)
 		MSG_WriteAngle16 (buf, cmd->angles[2]);
-	
+
 	if (bits & CM_FORWARD)
 		MSG_WriteShort (buf, cmd->forwardmove);
 	if (bits & CM_SIDE)
@@ -189,32 +189,32 @@ void MSG_WriteDeltaEntity (entity_state_t *from, entity_state_t *to, sizebuf_t *
 
 // send an update
 	bits = 0;
-	
+
 	for (i = 0; i < 3; i++)
 		if (to->s_origin[i] != from->s_origin[i])
 			bits |= U_ORIGIN1<<i;
 
 	if ( to->s_angles[0] != from->s_angles[0] )
 		bits |= U_ANGLE1;
-		
+	
 	if ( to->s_angles[1] != from->s_angles[1] )
 		bits |= U_ANGLE2;
-		
+	
 	if ( to->s_angles[2] != from->s_angles[2] )
 		bits |= U_ANGLE3;
-		
+	
 	if ( to->colormap != from->colormap )
 		bits |= U_COLORMAP;
-		
+	
 	if ( to->skinnum != from->skinnum )
 		bits |= U_SKIN;
-		
+	
 	if ( to->frame != from->frame )
 		bits |= U_FRAME;
-	
+
 	if ( to->effects != from->effects )
 		bits |= U_EFFECTS;
-	
+
 	if ( to->modelindex != from->modelindex )
 		bits |= U_MODEL;
 
@@ -239,7 +239,7 @@ void MSG_WriteDeltaEntity (entity_state_t *from, entity_state_t *to, sizebuf_t *
 	assert (!(i & U_REMOVE));
 
 	MSG_WriteShort (msg, i);
-	
+
 	if (bits & U_MOREBITS)
 		MSG_WriteByte (msg, bits&255);
 	if (bits & U_MODEL)
@@ -354,70 +354,70 @@ int MSG_GetReadCount(void)
 int MSG_ReadChar (void)
 {
 	int	c;
-	
+
 	if (msg_readcount+1 > net_message.cursize)
 	{
 		msg_badread = true;
 		return -1;
 	}
-		
+	
 	c = (signed char)net_message.data[msg_readcount];
 	msg_readcount++;
-	
+
 	return c;
 }
 
 int MSG_ReadByte (void)
 {
 	int	c;
-	
+
 	if (msg_readcount+1 > net_message.cursize)
 	{
 		msg_badread = true;
 		return -1;
 	}
-		
+	
 	c = (unsigned char)net_message.data[msg_readcount];
 	msg_readcount++;
-	
+
 	return c;
 }
 
 int MSG_ReadShort (void)
 {
 	int	c;
-	
+
 	if (msg_readcount+2 > net_message.cursize)
 	{
 		msg_badread = true;
 		return -1;
 	}
-		
+	
 	c = (short)(net_message.data[msg_readcount]
 	+ (net_message.data[msg_readcount+1]<<8));
-	
+
 	msg_readcount += 2;
-	
+
 	return c;
 }
 
 int MSG_ReadLong (void)
 {
 	int	c;
-	
+
 	if (msg_readcount+4 > net_message.cursize)
 	{
 		msg_badread = true;
 		return -1;
 	}
-		
+	
 	c = net_message.data[msg_readcount]
 	+ (net_message.data[msg_readcount+1]<<8)
 	+ (net_message.data[msg_readcount+2]<<16)
 	+ (net_message.data[msg_readcount+3]<<24);
-	
+
 	msg_readcount += 4;
-	
+
 	return c;
 }
 
@@ -429,23 +429,23 @@ float MSG_ReadFloat (void)
 		float	f;
 		int	l;
 	} dat;
-	
+
 	dat.b[0] = net_message.data[msg_readcount];
 	dat.b[1] = net_message.data[msg_readcount+1];
 	dat.b[2] = net_message.data[msg_readcount+2];
 	dat.b[3] = net_message.data[msg_readcount+3];
 	msg_readcount += 4;
-	
+
 	dat.l = LittleLong (dat.l);
 
-	return dat.f;	
+	return dat.f;
 }
 
 char *MSG_ReadString (void)
 {
 	static char	string[2048];
 	int		l,c;
-	
+
 	l = 0;
 	do
 	{
@@ -457,9 +457,9 @@ char *MSG_ReadString (void)
 		string[l] = c;
 		l++;
 	} while (l < sizeof(string)-1);
-	
+
 	string[l] = 0;
-	
+
 	return string;
 }
 
@@ -467,7 +467,7 @@ char *MSG_ReadStringLine (void)
 {
 	static char	string[2048];
 	int		l,c;
-	
+
 	l = 0;
 	do
 	{
@@ -479,9 +479,9 @@ char *MSG_ReadStringLine (void)
 		string[l] = c;
 		l++;
 	} while (l < sizeof(string)-1);
-	
+
 	string[l] = 0;
-	
+
 	return string;
 }
 
@@ -513,7 +513,7 @@ void MSG_ReadDeltaUsercmd (usercmd_t *from, usercmd_t *move, int protocol)
 	memcpy (move, from, sizeof(*move));
 
 	bits = MSG_ReadByte ();
-		
+	
 // read current angles
 	if (bits & CM_ANGLE1)
 		move->angles[0] = MSG_ReadAngle16 ();
@@ -528,7 +528,7 @@ void MSG_ReadDeltaUsercmd (usercmd_t *from, usercmd_t *move, int protocol)
 
 	if (bits & CM_ANGLE3)
 		move->angles[2] = MSG_ReadAngle16 ();
-		
+	
 // read movement
 	if (protocol < 27)
 	{
@@ -548,7 +548,7 @@ void MSG_ReadDeltaUsercmd (usercmd_t *from, usercmd_t *move, int protocol)
 		if (bits & CM_UP)
 			move->upmove = MSG_ReadShort ();
 	}
-	
+
 // read buttons
 	if (bits & CM_BUTTONS)
 		move->buttons = MSG_ReadByte ();

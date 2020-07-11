@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -36,7 +36,7 @@ void TimerThink ()
 		bprint(2, tmp);
 		if(f1 == 1)
 			bprint(2, "‘ minute remaining\n");
-		else 
+		else
 			bprint(2, "‘ minutes remaining\n");
 	}
 // s: seconds

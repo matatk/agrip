@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -34,7 +34,7 @@ int Q_atoi (char *str)
 	int		val;
 	int		sign;
 	int		c;
-	
+
 	if (*str == '-')
 	{
 		sign = -1;
@@ -42,7 +42,7 @@ int Q_atoi (char *str)
 	}
 	else
 		sign = 1;
-		
+	
 	val = 0;
 
 //
@@ -62,7 +62,7 @@ int Q_atoi (char *str)
 				return val*sign;
 		}
 	}
-	
+
 //
 // check for character
 //
@@ -70,7 +70,7 @@ int Q_atoi (char *str)
 	{
 		return sign * str[1];
 	}
-	
+
 //
 // assume decimal
 //
@@ -81,7 +81,7 @@ int Q_atoi (char *str)
 			return val*sign;
 		val = val*10 + c - '0';
 	}
-	
+
 	return 0;
 }
 
@@ -92,7 +92,7 @@ float Q_atof (char *str)
 	int		sign;
 	int		c;
 	int		decimal, total;
-	
+
 	if (*str == '-')
 	{
 		sign = -1;
@@ -100,7 +100,7 @@ float Q_atof (char *str)
 	}
 	else
 		sign = 1;
-		
+	
 	val = 0;
 
 //
@@ -120,7 +120,7 @@ float Q_atof (char *str)
 				return val*sign;
 		}
 	}
-	
+
 //
 // check for character
 //
@@ -128,7 +128,7 @@ float Q_atof (char *str)
 	{
 		return sign * str[1];
 	}
-	
+
 //
 // assume decimal
 //
@@ -155,7 +155,7 @@ float Q_atof (char *str)
 		val /= 10;
 		total--;
 	}
-	
+
 	return val*sign;
 }
 
@@ -370,7 +370,7 @@ float FloatSwap (float f)
 		float	f;
 		byte	b[4];
 	} dat1, dat2;
-	
+
 	dat1.f = f;
 	dat2.b[0] = dat1.b[3];
 	dat2.b[1] = dat1.b[2];
@@ -397,35 +397,35 @@ void SZ_Clear (sizebuf_t *buf)
 void *SZ_GetSpace (sizebuf_t *buf, int length)
 {
 	void	*data;
-	
+
 	if (buf->cursize + length > buf->maxsize)
 	{
 		if (!buf->allowoverflow)
 			Sys_Error ("SZ_GetSpace: overflow without allowoverflow set (%d)", buf->maxsize);
-		
+	
 		if (length > buf->maxsize)
 			Sys_Error ("SZ_GetSpace: %i is > full buffer size", length);
-			
+		
 		Sys_Printf ("SZ_GetSpace: overflow\n");	// because Com_Printf may be redirected
-		SZ_Clear (buf); 
+		SZ_Clear (buf);
 		buf->overflowed = true;
 	}
 
 	data = buf->data + buf->cursize;
 	buf->cursize += length;
-	
+
 	return data;
 }
 
 void SZ_Write (sizebuf_t *buf, const void *data, int length)
 {
-	memcpy (SZ_GetSpace(buf,length),data,length);		
+	memcpy (SZ_GetSpace(buf,length),data,length);	
 }
 
 void SZ_Print (sizebuf_t *buf, const char *data)
 {
 	int		len;
-	
+
 	len = strlen(data)+1;
 
 	if (!buf->cursize || buf->data[buf->cursize-1])

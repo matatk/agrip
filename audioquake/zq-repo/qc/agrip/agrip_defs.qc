@@ -25,13 +25,13 @@
 
 /**\file
     MOD HOOKS
-    
+   
     Enable hooks for mods (these allow mod authors to hook into the AGRIP/QC
     code at certain points thus making the process of modding a lot less
     invasive and keepign our and their code clean)...
 
     Simply define the following in your \<modname\>_defs.qc file...
-    
+   
     - AGRIP_MODHOOK_PRECACHE
          if enabled, the mod must provide a function agrip_modhook_precache()
          which can be used by the mod to load the sounds it requires at the

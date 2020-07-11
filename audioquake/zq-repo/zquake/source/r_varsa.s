@@ -46,7 +46,7 @@ float_point5:	.single	0.5
 
 .globl	fp_16, fp_64k, fp_1m, fp_64kx64k
 .globl	fp_1m_minus_1
-.globl	fp_8 
+.globl	fp_8
 fp_1m:			.single	1048576.0
 fp_1m_minus_1:	.single	1048575.0
 fp_64k:			.single	65536.0

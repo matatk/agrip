@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
 See the GNU General Public License for more details.
 
@@ -79,7 +79,7 @@ void R_TimeRefresh_f (void)
 		return;
 
 	startangle = r_refdef2.viewangles[1];
-	
+
 	start = Sys_DoubleTime ();
 	for (i=0 ; i<128 ; i++)
 	{
@@ -101,7 +101,7 @@ void R_TimeRefresh_f (void)
 	stop = Sys_DoubleTime ();
 	time = stop-start;
 	Com_Printf ("%f seconds (%f fps)\n", time, 128/time);
-	
+
 	r_refdef2.viewangles[1] = startangle;
 }
 
@@ -120,12 +120,12 @@ void R_LineGraph (int x, int y, int h)
 	int		color;
 
 // FIXME: should be disabled on no-buffer adapters, or should be in the driver
-	
+
 //	x += r_refdef.vrect.x;
 //	y += r_refdef.vrect.y;
-	
+
 	dest = vid.buffer + vid.rowbytes*y + x;
-	
+
 	s = r_graphheight.value;
 
 	if (h == 10000)
@@ -139,7 +139,7 @@ void R_LineGraph (int x, int y, int h)
 
 	if (h>s)
 		h = s;
-	
+
 	for (i=0 ; i<h ; i++, dest -= vid.rowbytes*2)
 	{
 		dest[0] = color;
@@ -171,7 +171,7 @@ void R_TimeGraph (void)
 	float	r_time2;
 	static byte	r_timings[MAX_TIMINGS];
 	int		x;
-	
+
 	r_time2 = Sys_DoubleTime ();
 
 	a = (r_time2-r_time1)/0.01;
@@ -284,7 +284,7 @@ void R_PrintTimes (void)
 	r_time2 = Sys_DoubleTime ();
 
 	ms = 1000* (r_time2 - r_time1);
-	
+
 	Com_Printf ("%5.1f ms %3i/%3i/%3i poly %3i surf\n",
 				ms, c_faceclip, r_polycount, r_drawnpolycount, c_surf);
 	c_surf = 0;
@@ -332,7 +332,7 @@ void WarpPalette (void)
 	int		i,j;
 	byte	newpalette[768];
 	int		basecolor[3];
-	
+
 	basecolor[0] = 130;
 	basecolor[1] = 80;
 	basecolor[2] = 50;
@@ -345,7 +345,7 @@ void WarpPalette (void)
 			newpalette[i*3+j] = (host_basepal[i*3+j] + basecolor[j])/2;
 		}
 	}
-	
+
 	VID_ShiftPalette (newpalette);
 }
 
@@ -359,7 +359,7 @@ void R_TransformFrustum (void)
 {
 	int		i;
 	vec3_t	v, v2;
-	
+
 	for (i=0 ; i<4 ; i++)
 	{
 		v[0] = screenedge[i].normal[2];
@@ -388,7 +388,7 @@ void TransformVector (vec3_t in, vec3_t out)
 {
 	out[0] = DotProduct(in,vright);
 	out[1] = DotProduct(in,vup);
-	out[2] = DotProduct(in,vpn);		
+	out[2] = DotProduct(in,vpn);	
 }
 
 #endif
@@ -471,7 +471,7 @@ void R_ViewChanged (float aspect)
 	pixelAspect = aspect;
 	xOrigin = r_refdef.xOrigin;
 	yOrigin = r_refdef.yOrigin;
-	
+
 	screenAspect = r_refdef.vrect.width*pixelAspect /
 			r_refdef.vrect.height;
 // 320*200 1.0 pixelAspect = 1.6 screenAspect
@@ -507,26 +507,26 @@ void R_ViewChanged (float aspect)
 	screenedge[0].normal[1] = 0;
 	screenedge[0].normal[2] = 1;
 	screenedge[0].type = PLANE_ANYZ;
-	
+
 // right side clip
 	screenedge[1].normal[0] =
 			1.0 / ((1.0-xOrigin)*r_refdef.horizontalFieldOfView);
 	screenedge[1].normal[1] = 0;
 	screenedge[1].normal[2] = 1;
 	screenedge[1].type = PLANE_ANYZ;
-	
+
 // top side clip
 	screenedge[2].normal[0] = 0;
 	screenedge[2].normal[1] = -1.0 / (yOrigin*verticalFieldOfView);
 	screenedge[2].normal[2] = 1;
 	screenedge[2].type = PLANE_ANYZ;
-	
+
 // bottom side clip
 	screenedge[3].normal[0] = 0;
 	screenedge[3].normal[1] = 1.0 / ((1.0-yOrigin)*verticalFieldOfView);
-	screenedge[3].normal[2] = 1;	
+	screenedge[3].normal[2] = 1;
 	screenedge[3].type = PLANE_ANYZ;
-	
+
 	for (i=0 ; i<4 ; i++)
 		VectorNormalize (screenedge[i].normal);
 
@@ -596,7 +596,7 @@ void R_SetupFrame (void)
 	r_refdef.ambientlight = r_refdef2.allowCheats ? min((int)r_ambient.value, 0) : 0;
 
 	R_CheckVariables ();
-	
+
 	R_AnimateLight ();
 
 	r_framecount++;
@@ -755,24 +755,24 @@ void R_32To8bit (unsigned int *in, int inwidth, int inheight, byte *out, int out
 }
 
 
-/* 
-============================================================================== 
- 
-						SCREEN SHOTS 
- 
-============================================================================== 
-*/ 
+/*
+==============================================================================
+
+						SCREEN SHOTS
+
+==============================================================================
+*/
 
 
-/* 
-================== 
+/*
+==================
 R_ScreenShot_f
-================== 
-*/  
-void R_ScreenShot_f (void) 
-{ 
-	int			i; 
-	char		pcxname[MAX_OSPATH]; 
+==================
+*/ 
+void R_ScreenShot_f (void)
+{
+	int			i;
+	char		pcxname[MAX_OSPATH];
 	char		checkname[MAX_OSPATH];
 	extern byte	current_pal[768];	// Tonik
 	FILE		*f;
@@ -785,31 +785,31 @@ void R_ScreenShot_f (void)
 	}
 	else
 	{
-		// 
-		// find a file name to save it to 
-		// 
+		//
+		// find a file name to save it to
+		//
 		strcpy(pcxname,"quake00.pcx");
-		
-		for (i=0 ; i<=99 ; i++) 
-		{ 
-			pcxname[5] = i/10 + '0'; 
-			pcxname[6] = i%10 + '0'; 
+	
+		for (i=0 ; i<=99 ; i++)
+		{
+			pcxname[5] = i/10 + '0';
+			pcxname[6] = i%10 + '0';
 			sprintf (checkname, "%s/%s", cls.gamedir, pcxname);
 			f = fopen (checkname, "rb");
 			if (!f)
 				break;  // file doesn't exist
 			fclose (f);
-		} 
-		if (i==100) 
+		}
+		if (i==100)
 		{
-			Com_Printf ("R_ScreenShot_f: Couldn't create a PCX"); 
+			Com_Printf ("R_ScreenShot_f: Couldn't create a PCX");
 			return;
 		}
 	}
- 
-// 
-// save the pcx file 
-// 
+
+//
+// save the pcx file
+//
 	D_EnableBackBufferAccess ();
 
 	WritePCX (vid.buffer, vid.width, vid.height, vid.rowbytes,
@@ -820,7 +820,7 @@ void R_ScreenShot_f (void)
 	COM_WriteFile (va("%s/%s", cls.gamedirfile, pcxname), pcxdata, pcxsize);
 
 	Com_Printf ("Wrote %s\n", pcxname);
-} 
+}
 
 /*
 Find closest color in the palette for named color
@@ -899,18 +899,18 @@ void R_DrawStringToSnap (const char *s, byte *buf, int x, int y, int width)
 }
 
 
-/* 
-================== 
+/*
+==================
 R_RSShot
 
 Memory pointed to by pcxdata is allocated using Hunk_TempAlloc
 Never store this pointer for later use!
 
 On failure (not enough memory), *pcxdata will be set to NULL
-================== 
-*/  
+==================
+*/ 
 void R_RSShot (byte **pcxdata, int *pcxsize)
-{ 
+{
 	int     x, y;
 	unsigned char		*src, *dest;
 	unsigned char		*newbuf;
@@ -923,9 +923,9 @@ void R_RSShot (byte **pcxdata, int *pcxsize)
 	time_t now;
 	extern cvar_t name;
 
-// 
-// save the pcx file 
-// 
+//
+// save the pcx file
+//
 	D_EnableBackBufferAccess ();
 
 	w = (vid.width < RSSHOT_WIDTH) ? vid.width : RSSHOT_WIDTH;
@@ -985,7 +985,7 @@ void R_RSShot (byte **pcxdata, int *pcxsize)
 	Q_free (newbuf);
 
 	// return with pcxdata and pcxsize
-} 
+}
 
 //=============================================================================
 

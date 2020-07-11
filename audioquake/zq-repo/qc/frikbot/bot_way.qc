@@ -160,7 +160,7 @@ entity FindWayPoint (entity start)
 
 	org = realorigin(self);
 
-	t = way_head; 
+	t = way_head;
 	if (start != world)
 	{
 		dst = vlen(start.origin - org);
@@ -189,7 +189,7 @@ entity FindWayPoint (entity start)
 			}
 		}
 		t = t._next;
-	} 
+	}
 	return best;
 }
 
@@ -214,7 +214,7 @@ entity make_waypoint (vector org)
 	point.movetype = MOVETYPE_NONE;
 	point.items = -1;
 	setorigin(point, org);
-	
+
 	setsize(point, VEC_HULL_MIN, VEC_HULL_MAX);
 	waypoints = waypoints + 1;
 	if (!way_head)
@@ -231,7 +231,7 @@ entity make_waypoint (vector org)
 
 	point.count = waypoints;
 	if (waypoint_mode > WM_LOADED) // editor modes
-		setmodel(point, "progs/s_bubble.spr"); 
+		setmodel(point, "progs/s_bubble.spr");
 	return point;
 }
 
@@ -277,7 +277,7 @@ void DynamicWaypoint ()
 				dynlink = dynpoint = 1;
 			editor = 1;
 		}
-	}	
+	}
 	else if (waypoint_mode == WM_DYNAMIC)
 		dynlink = dynpoint = 1;
 
@@ -294,7 +294,7 @@ void DynamicWaypoint ()
 
 // don't waypoint in single player
 	if (max_clients < 2)
-		return; 
+		return;
 // if you're dead
 	else if (self.health <= 0)
 	{
@@ -390,7 +390,7 @@ void DynamicWaypoint ()
 		}
 	}
 
-	if (frik_recognize_plat(false)) 
+	if (frik_recognize_plat(false))
 	{
 		if (vlen(trace_ent.velocity) > 0)
 		{
@@ -433,7 +433,7 @@ void DynamicWaypoint ()
 	}
 	self.current_way = t;
 	self.dyn_flags = 0;
-	
+
 	self.dyn_dest = self.origin + self.view_ofs;
 
 	if (frik_recognize_plat(false))
@@ -562,7 +562,7 @@ entity FindThing (string s)
 		{
 			dst = tdst;
 			best = t;
-		} 
+		}
 		t = find(t, classname, s);
 	}
 	return best;
@@ -601,9 +601,9 @@ entity FindRoute (entity lastone)
 				dst = tdst;
 				best = t;
 			}
-		} 
+		}
 		t = t._next;
-	} 
+	}
 	return best;
 }
 /*
@@ -673,7 +673,7 @@ void mark_path (entity this)
 	// ugh, better way to find players please!!!
 	if (this.classname != "player")
 		this.current_way = t;
-		
+	
 	if (t.enemy == world)
 	{
 		bot_lost(this, false);
@@ -691,7 +691,7 @@ void mark_path (entity this)
 		if (t == self.last_way)
 			return;
 		t.b_sound = t.b_sound | flag;
-		t = t.enemy; 	
+		t = t.enemy; 
 	}
 }
 
@@ -709,7 +709,7 @@ tripping the runaway loop counter
 void FollowLink (entity e2, float b_bit)
 {
 	float	dist;
-	
+
 	if (self.b_aiflags & b_bit)
 		dist = self.items;
 	else
@@ -806,7 +806,7 @@ void WaypointThink ()
 begin_route and bot_get_path
 
 PLEASE NOTE: bot_get_path replaces the old
-calls to begin_route. 
+calls to begin_route.
 
 Routing isn't done all at once now, but in two
 stages, the bot will calc a route *THEN*
@@ -821,7 +821,7 @@ float begin_route ()
 {
 	if (busy_waypoints > 0)
 		return false;
-	
+
 	if (route_table != world)
 	{
 		if (!route_table.ishuman)
@@ -844,7 +844,7 @@ float begin_route ()
 		busy_waypoints = 1;
 		return true;
 	}
-	else 
+	else
 	{
 		route_table = world;
 		busy_waypoints = 0;
@@ -885,12 +885,12 @@ BSP/QC Waypoint loading
 */
 
 void waypoint ()
-{	
+{
 	self.search_time = time;
 	self.solid = SOLID_TRIGGER;
 	self.movetype = MOVETYPE_NONE;
 	setorigin(self, self.origin);
-	
+
 	setsize(self, VEC_HULL_MIN, VEC_HULL_MAX);
 	waypoints = waypoints + 1;
 	if (!way_head)
@@ -942,7 +942,7 @@ Temporary Marker code
 */
 
 void SpawnTempWaypoint (vector org)
-{	
+{
 	entity	tep;
 
 	if (!self.temp_way)
