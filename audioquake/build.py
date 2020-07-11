@@ -3,8 +3,6 @@ import platform
 import os
 import sys
 import subprocess
-import urllib.request
-import zipfile
 import traceback
 import glob
 import string
@@ -50,7 +48,6 @@ class Config:
 	else:
 		raise NotImplementedError
 
-	dir_assets = 'downloaded-assets'
 	dir_manuals = 'manuals'
 	dir_manuals_converted = 'manuals-converted'
 	dir_dist_rcon = os.path.join(dir_dist, 'rcon')
@@ -226,33 +223,6 @@ def convert_manuals():
 
 
 #
-# Downloading support files
-#
-
-def get_summat(dest_dir, check_file, plural_name, url):
-	print('Checking:', plural_name)
-	real_dest_dir = os.path.join(Config.dir_assets, dest_dir)
-	if not os.path.isdir(real_dest_dir) \
-		or not os.path.isfile(os.path.join(real_dest_dir, check_file)):
-		print("It seems you don't have", plural_name)
-		# Try to re-extract, or re-download
-		zip_file_name = real_dest_dir + '.zip'
-		if os.path.isfile(zip_file_name):
-			print('Re-extracting...')
-		else:
-			print('Downloading...')
-			try:
-				urllib.request.urlretrieve(url, zip_file_name)
-			except:  # noqa E727
-				die('whilst downloading ' + url)
-		# Actually try to extract
-		try:
-			zipfile.ZipFile(zip_file_name).extractall(Config.dir_assets)
-		except:  # noqa E727
-			die('when extracting ' + zip_file_name)
-
-
-#
 # Running PyInstaller
 #
 
@@ -288,8 +258,6 @@ if __name__ == '__main__':
 	banner()
 	check_platform()
 
-	print('Preparing downloaded assets dir')
-	prep_dir(Config.dir_assets)
 	print('Preparing converted (HTML) manual dir')
 	prep_dir(Config.dir_manuals_converted)
 
