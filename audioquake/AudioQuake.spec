@@ -9,18 +9,26 @@ data_files = [
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 	('app-support-files/start-rcon.command', '.'),
 	('app-support-files/start-server.command', '.'),
-	('../ldl/bin/*', 'bin/'),
+	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 	('../ldl/style.xml', '.'),
-	('../../redist/quake.wad', '.')]
+	('../../non-redist/quake.wad', '.')]
 
 if platform.system() != 'Windows':
 	binary_files = [
 		('../giants/zq-repo/zquake/release-mac/zqds', '.'),
-		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', '.')]
+		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', '.'),
+		('../giants/Quake-Tools/qutils/qbsp/qbsp', 'bin/'),
+		('../giants/Quake-Tools/qutils/qbsp/light', 'bin/'),
+		('../giants/Quake-Tools/qutils/qbsp/vis', 'bin/'),
+		('../giants/Quake-Tools/qutils/qbsp/bspinfo', 'bin/')]
 else:
 	binary_files = [
 		('../giants/zq-repo/zquake/source/Release-server/zqds.exe', '.'),
-		('../giants/zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.')]
+		('../giants/zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.'),
+		('../giants/Quake-Tools/qutils/qbsp/qbsp.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/light/light.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/vis/vis.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/bspinfo/bspinfo.exe', 'bin/')]
 
 block_cipher = None
 

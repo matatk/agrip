@@ -4,10 +4,20 @@ import argparse
 import argcomplete
 import os
 import sys
+from ldllib.conf import prog
 from ldllib.convert import convert
 from ldllib.build import build, have_needed_stuff
 from ldllib.play import play
 from ldllib.roundtrip import roundtrip
+
+
+# These paths only work for *nix
+bin_base = os.path.join('..', 'giants', 'Quake-Tools', 'qutils', 'qbsp')
+prog.qbsp = os.path.join(bin_base, 'qbsp')
+prog.light = os.path.join(bin_base, 'light')
+prog.vis = os.path.join(bin_base, 'vis')
+prog.bspinfo = os.path.join(bin_base, 'bspinfo')
+# quake.wad has to be in the current directory
 
 
 def print_exception():
