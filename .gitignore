@@ -2,3 +2,24 @@
 *.swp
 *~
 *.pyc
+
+# *nix compilation
+giants/zq-repo/zquake/release-*
+giants/zq-repo/zqcc/*.o
+giants/zq-repo/zqcc/zqcc
+giants/zq-repo/zqcc/zqcc_debug
+# Gamecode
+giants/zq-repo/qc/agrip/*.dat
+# Visual Studio
+giants/zq-repo/zqcc/Release*
+giants/zq-repo/zqcc/Debug*
+giants/zq-repo/zqcc/*.suo
+giants/zq-repo/zqcc/*.sdf
+giants/zq-repo/zqcc/*.user
+giants/zq-repo/zqcc/.vs/
+giants/zq-repo/zquake/source/Release*
+giants/zq-repo/zquake/source/Debug*
+giants/zq-repo/zquake/source/*.suo
+giants/zq-repo/zquake/source/*.sdf
+giants/zq-repo/zquake/source/*.user
+giants/zq-repo/zquake/source/.vs/

@@ -27,9 +27,9 @@ class Info:
 
 
 class Config:
-	dir_make_zqcc = os.path.join('zq-repo', 'zqcc')
-	dir_make_zquake = os.path.join('zq-repo', 'zquake')
-	dir_qc = os.path.join('zq-repo', 'qc', 'agrip')
+	dir_make_zqcc = os.path.join('..', 'giants', 'zq-repo', 'zqcc')
+	dir_make_zquake = os.path.join('..', 'giants', 'zq-repo', 'zquake')
+	dir_qc = os.path.join('..', 'giants', 'zq-repo', 'qc', 'agrip')
 	dir_dist = 'dist'
 	dir_ldllib = os.path.join('..', 'ldl', 'ldllib')
 

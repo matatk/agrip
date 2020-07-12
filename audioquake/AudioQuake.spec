@@ -5,8 +5,8 @@ data_files = [
 	('mod-static-files/', 'id1'),
 	('manuals-converted/', 'manuals'),
 	('manuals/agrip.css', 'manuals'),
-	('zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
-	('zq-repo/qc/agrip/spprogs.dat', 'id1/'),
+	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
+	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 	('app-support-files/start-rcon.command', '.'),
 	('app-support-files/start-server.command', '.'),
 	('../ldl/bin/*', 'bin/'),
@@ -15,12 +15,12 @@ data_files = [
 
 if platform.system() != 'Windows':
 	binary_files = [
-		('zq-repo/zquake/release-mac/zqds', '.'),
-		('zq-repo/zquake/release-mac/zquake-glsdl', '.')]
+		('../giants/zq-repo/zquake/release-mac/zqds', '.'),
+		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', '.')]
 else:
 	binary_files = [
-		('zq-repo/zquake/source/Release-server/zqds.exe', '.'),
-		('zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.')]
+		('../giants/zq-repo/zquake/source/Release-server/zqds.exe', '.'),
+		('../giants/zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.')]
 
 block_cipher = None
 

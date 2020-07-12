@@ -19,7 +19,7 @@ def rename(directory):
 if __name__ == '__main__':
 	script_dir = os.path.dirname(os.path.abspath(__file__))
 
-	qtools_dir = os.path.join(script_dir, '..', 'vendor', 'Quake-Tools')
+	qtools_dir = os.path.join(script_dir, '..', 'giants', 'Quake-Tools')
 	qutils_dir = os.path.join(qtools_dir, 'qutils')
 	qbsp_dir = os.path.join(qutils_dir, 'qbsp')
 
