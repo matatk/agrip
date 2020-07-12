@@ -66,10 +66,16 @@ Both of these call "build-giants.py" in the root and "build-audioquake.py" in it
 1. Compiles the ZQuake engine.
 2. Compiles the ZQuake QuakeC compiler ("ZQCC").
 3. Uses the compiled ZQCC to compile the AudioQuake gamecode (which is under the "giants" directory as the ZQuake maintainers were kind enough to host our code in there).
-4. The Quake map compilation tools are included in this repo by way of a git submodule that references id Software's main repo. The filenames of the map tools sources are all upper-case, which is awkward on some *nix systems, so the build script renames them all lower-case.
+4. The Quake map compilation tools are included in this repo by way of a git submodule that references id Software's main repo. The filenames of the map tools sources are upper-case, which is awkward on some *nix systems, so the build script renames them to be lower-case.
 5. The Quake map tools are also hard-coded to look for certain files in certain places, which is no longer appropriate, so the build script patches them (with the patch files in "ldl/patches/") to adjust this behaviour.
 6. Finally the Quake map tools are compiled so they can be used by the Level Description Language tools, on the command-line or as part of AudioQuake distributions.
 
 The engine, QuakeC compiler, gamecode and map tools binaries remain in their respective directories under "giants" (they are picked up by the LDL tools and AudioQuake build script).
 
 For more info on the AudioQuake part of the build process, please read [audioquake/BUILD.md](audioquake/BUILD.md).
+
+### Where things might go wrong
+
+The output of the build process is designed to be minimal: success messages will not be reported, in order to keep things manageable. If an external (i.e. non-Python) build step encounters an error, however, the command will be re-run with all output shown.
+
+On Windows, the path to the "vcvars*.bat" files, which are needed to set up the command-line development environment, varies between versions of Visual Studio. Therefore, you may need to adjust this path in future.

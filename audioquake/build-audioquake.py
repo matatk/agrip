@@ -57,7 +57,7 @@ def convert_markdown_files(base_name, markdown_files, output_dir):
 
 def convert_manuals():
 	for manual in ['user-manual', 'development-manual']:
-		print('Converting', manual + '...')
+		print('Converting', manual)
 		sources = sorted(glob.glob(os.path.join(Config.dir_manuals, manual) + '*'))
 		convert_markdown_files(manual, sources, Config.dir_manuals_converted)
 
@@ -67,7 +67,7 @@ def convert_manuals():
 		'LICENCE': os.path.join(Config.dir_readme_licence, 'LICENCE.md')}
 
 	for docname, docpath in single_docs_to_convert.items():
-		print('Converting ' + docname + '...')
+		print('Converting ' + docname)
 		convert_markdown_files(docname, docpath, Config.dir_manuals_converted)
 
 
@@ -90,7 +90,7 @@ def run_pyinstaller():
 	shutil.copytree(Config.dir_ldllib, dir_local_ldllib)
 
 	for spec in ['AudioQuake.spec', 'rcon.spec']:
-		print('Running PyInstaller on ' + spec + '...')
+		print('Running PyInstaller on ' + spec)
 		try_to_run(
 			('pyinstaller', '-y', spec),
 			'failed to run PyInstaller on ' + spec)
@@ -104,24 +104,29 @@ def copy_in_rcon():
 
 	shutil.copy(
 		os.path.join(Config.dir_dist_rcon, rcon_bin),
-		Config.dir_dist_aq)
+		Config.dir_dist_aq_data)
 
 
 def build_audioquake():
 	with open(Config.file_aq_release, 'r') as f:
-		print('Building', f.readline().rstrip(), ':', f.readline().rstrip())
+		print(
+			'Building AudioQuake',
+			f.readline().rstrip() + ':', f.readline().rstrip())
 
 	check_platform()
 
 	print('Preparing converted (HTML) manual dir')
 	prep_dir(Config.dir_manuals_converted)
 
-	# Markdown to HTML...
+	# Markdown to HTML
 	convert_manuals()  # TODO replace with a check if it needs doing
 
 	# Build the executables
 	run_pyinstaller()
 	copy_in_rcon()
+
+	print('Completed building AudioQuake with Level Description Language.')
+	print('Distributable software is in:', Config.dir_dist)
 
 
 if __name__ == '__main__':

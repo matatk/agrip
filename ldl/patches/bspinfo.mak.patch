@@ -1,0 +1,30 @@
+--- qutils.orig/bspinfo/bspinfo.mak	2020-07-12 18:13:11.000000000 +0100
++++ qutils/bspinfo/bspinfo.mak	2020-07-12 18:14:46.000000000 +0100
+@@ -202,9 +202,9 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\cmdlib.c
++SOURCE=..\common\cmdlib.c
+ DEP_CPP_CMDLI=\
+-	"..\..\..\..\..\quake\utils2\common\cmdlib.h"\
++	"..\common\cmdlib.h"\
+ 	{$(INCLUDE)}"\sys\stat.h"\
+ 	{$(INCLUDE)}"\sys\types.h"\
+ 	
+@@ -217,11 +217,11 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\bspfile.c
++SOURCE=..\common\bspfile.c
+ DEP_CPP_BSPFI=\
+-	"..\..\..\..\..\quake\utils2\common\bspfile.h"\
+-	"..\..\..\..\..\quake\utils2\common\cmdlib.h"\
+-	"..\..\..\..\..\quake\utils2\common\mathlib.h"\
++	"..\common\bspfile.h"\
++	"..\common\cmdlib.h"\
++	"..\common\mathlib.h"\
+ 	
+ 
+ "$(INTDIR)\bspfile.obj" : $(SOURCE) $(DEP_CPP_BSPFI) "$(INTDIR)"

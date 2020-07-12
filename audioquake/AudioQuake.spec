@@ -25,10 +25,10 @@ else:
 	binary_files = [
 		('../giants/zq-repo/zquake/source/Release-server/zqds.exe', '.'),
 		('../giants/zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.'),
-		('../giants/Quake-Tools/qutils/qbsp/qbsp.exe', 'bin/'),
-		('../giants/Quake-Tools/qutils/light/light.exe', 'bin/'),
-		('../giants/Quake-Tools/qutils/vis/vis.exe', 'bin/'),
-		('../giants/Quake-Tools/qutils/bspinfo/bspinfo.exe', 'bin/')]
+		('../giants/Quake-Tools/qutils/qbsp/Release/qbsp.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/light/Release/light.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/vis/Release/vis.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/bspinfo/Release/bspinfo.exe', 'bin/')]
 
 block_cipher = None
 

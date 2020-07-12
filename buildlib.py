@@ -1,4 +1,4 @@
-"""FIXME"""
+"""Build gubbins"""
 import platform
 import os
 import sys
@@ -19,8 +19,10 @@ def is_windows():
 class Config:
 	base = os.path.dirname(os.path.abspath(__file__))
 
-	dir_make_zqcc = os.path.join(base, 'giants', 'zq-repo', 'zqcc')
-	dir_make_zquake = os.path.join(base, 'giants', 'zq-repo', 'zquake')
+	zq_repo = os.path.join(base, 'giants', 'zq-repo')
+	dir_make_zqcc = os.path.join(zq_repo, 'zqcc')
+	dir_make_zquake = os.path.join(zq_repo, 'zquake')
+	dir_zquake_source = os.path.join(zq_repo, 'zquake', 'source')
 	dir_qc = os.path.join(base, 'giants', 'zq-repo', 'qc', 'agrip')
 	dir_dist = os.path.join(base, 'audioquake', 'dist')
 	dir_ldllib = os.path.join(base, 'ldl', 'ldllib')
@@ -29,14 +31,14 @@ class Config:
 		bin_zqcc = os.path.join(dir_make_zqcc, 'zqcc')
 		bin_zqgl = os.path.join(dir_make_zquake, 'release-mac', 'zquake-glsdl')
 		bin_zqds = os.path.join(dir_make_zquake, 'release-mac', 'zqds')
-		dir_dist_aq = os.path.join(dir_dist, 'AudioQuake.app', 'Contents', 'MacOS')
+		dir_dist_aq_data = os.path.join(dir_dist, 'AudioQuake.app', 'Contents', 'MacOS')
 	elif is_windows():
 		bin_zqcc = os.path.join(dir_make_zqcc, 'Release', 'zqcc.exe')
 		bin_zqgl = os.path.join(
 			dir_make_zquake, 'source', 'Release-GL', 'zquake-gl.exe')
 		bin_zqds = os.path.join(
 			dir_make_zquake, 'source', 'Release-server', 'zqds.exe')
-		dir_dist_aq = os.path.join(dir_dist, 'AudioQuake')
+		dir_dist_aq_data = os.path.join(dir_dist, 'AudioQuake')
 	else:
 		raise NotImplementedError
 
@@ -45,8 +47,8 @@ class Config:
 	dir_dist_rcon = os.path.join(dir_dist, 'rcon')
 	dir_readme_licence = base
 
-	quake_tools = os.path.join(base, 'giants', 'Quake-Tools')
-	dir_qutils = os.path.join(quake_tools, 'qutils')
+	dir_quake_tools = os.path.join(base, 'giants', 'Quake-Tools')
+	dir_qutils = os.path.join(dir_quake_tools, 'qutils')
 	dir_qbsp = os.path.join(dir_qutils, 'qbsp')
 
 	dir_patches = os.path.join(base, 'ldl', 'patches')
@@ -98,7 +100,7 @@ def try_to_run(process_args, error_message):
 			process_args, stdout=DEVNULL, stderr=subprocess.STDOUT)
 		if result != 0:
 			print('Error running: ' + str(process_args)
-									+ ' - trying again, with full output...')
+									+ ' - trying again, with full output')
 			result = subprocess.call(process_args)
 			if result != 0:
 				die(error_message)
@@ -135,6 +137,28 @@ def _compile(path, name, targets=[]):
 	else:
 		for targ in targets:
 			_make(name, targ)
+
+
+def compile_zquake_windows():
+	path = Config.dir_zquake_source
+	try:
+		os.chdir(path)
+	except:  # noqa E727
+		die("can't change directory to: " + path)
+	try_to_run(
+		['msbuild', 'zquake.sln', '/p:Configuration=GLRelease', '/p:Platform=Win32'],
+		'ZQuake compilation')
+
+
+def compile_zqcc_windows():  # FIXME DRY
+	path = Config.dir_make_zqcc
+	try:
+		os.chdir(path)
+	except:  # noqa E727
+		die("can't change directory to: " + path)
+	try_to_run(
+		['msbuild', 'zqcc.sln', '/p:Configuration=Release', '/p:Platform=Win32'],
+		'ZQCC compilation')
 
 
 #
@@ -181,11 +205,44 @@ def patch_map_tools():
 	}
 
 	for title, patch_file in patches.items():
-		print('Patching', title + '...')
+		print('Patching', title)
 		patch_set = patch.fromfile(patch_file)
 		if not patch_set.apply(root=Config.dir_qbsp):
+			raise Exception('Patch', patch_file, 'failed.')
+
+	if is_windows():
+		patch_map_tools_windows()
+
+
+def patch_map_tools_windows():
+	windows_patches = {
+		'qbsp.mak': os.path.join(Config.dir_patches, 'qbsp.mak.patch'),
+		'light.mak': os.path.join(Config.dir_patches, 'light.mak.patch'),
+		'vis.mak': os.path.join(Config.dir_patches, 'vis.mak.patch'),
+		'bspinfo.mak': os.path.join(Config.dir_patches, 'bspinfo.mak.patch')
+	}
+
+	# FIXME DRY
+	for title, patch_file in windows_patches.items():
+		print('Patching', title)
+		patch_set = patch.fromfile(patch_file)
+		if not patch_set.apply(root=Config.dir_quake_tools):
 			raise Exception('Patch', patch_file, 'failed.')
 
 
 def compile_map_tools():
 	_compile(Config.dir_qbsp, 'Quake map tools')
+
+
+@comeback
+def compile_map_tools_windows():  # FIXME DRY
+        for prog in ['qbsp', 'vis', 'light', 'bspinfo']:
+            print('Map tool:', prog)
+            path = os.path.join(Config.dir_qutils, prog)
+            try:
+                    os.chdir(path)
+            except:  # noqa E727
+                    die("can't change directory to: " + path)
+            try_to_run(
+                    ['nmake', '/f', prog + '.mak', 'CFG=' + prog + ' - Win32 Release'],
+                    prog + ' compilation')

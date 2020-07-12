@@ -8,7 +8,6 @@ import wx
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, pick_file, \
 	Info, Warn, Error, ErrorException
-from ldllib.conf import prog
 from ldllib.convert import convert
 from ldllib.build import build, have_needed_stuff
 
@@ -68,15 +67,6 @@ class MapTab(wx.Panel):
 		self.SetSizer(sizer)
 
 	def build_and_play_ldl_map(self, filename, play_when_built=True):
-		# We're already in the AQ dir
-		bindir = 'bin'
-		prog.qbsp = path.join(bindir, 'qbsp')
-		prog.vis = path.join(bindir, 'vis')
-		prog.light = path.join(bindir, 'light')
-		prog.bspinfo = path.join(bindir, 'bspinfo')
-		# prog.quakewad
-		# prog.STYLE_FILE
-
 		aq_maps_dir = path.join('id1', 'maps')
 
 		xmldir, xmlfile = path.split(filename)
