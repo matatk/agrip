@@ -8,7 +8,7 @@ from launcherlib.ui.helpers import \
 	add_widget, add_opener_buttons, pick_file, launch_core, \
 	Info, YesNoWithTitle, ErrorException
 
-from qmodlib import QMODFile
+from qmodlib import QMODFile, InstalledQMOD
 
 
 class ModTab(wx.Panel):
@@ -60,13 +60,14 @@ class ModTab(wx.Panel):
 				ErrorException(self)
 
 	def play_mod(self, event):
-		# FIXME check watch on cfg and auto...
 		mod_dirs = list(map(lambda ini: path.dirname(ini), glob('**/qmod.ini')))
 		if len(mod_dirs) > 0:
 			chooser = wx.SingleChoiceDialog(
 				self, 'Installed mods', 'Play mod', mod_dirs)
 			if chooser.ShowModal() == wx.ID_OK:
 				choice = chooser.GetStringSelection()
+				installed_mod = InstalledQMOD(choice)
+				installed_mod.apply_watches()
 				launch_core(self, lambda: self.game_controller.launch_mod(choice))
 		else:
 			Info(self, 'No mods are installed.')

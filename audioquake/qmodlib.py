@@ -1,10 +1,19 @@
 """QMOD file handling"""
-from pathlib import Path
-from zipfile import ZipFile
 from configparser import ConfigParser
+from pathlib import Path
+import shutil
+from zipfile import ZipFile
 
 
 class BadQMODFileException(Exception):
+	pass
+
+
+class NoQMODDirectoryException(Exception):
+	pass
+
+
+class BadQMODDirectoryException(Exception):
 	pass
 
 
@@ -31,8 +40,6 @@ class QMODFile():
 		self.longdesc = ' '.join([line for line in config['longdesc'].values()])
 
 		self.gamedir = config['general']['gamedir']
-		self.watch_config = config['general']['watch_config']    # TODO impl
-		self.watch_config = config['general']['watch_autoexec']  # TODO impl
 
 		self.datafiles = files
 		self.zipfile = zipfile
@@ -42,3 +49,33 @@ class QMODFile():
 			self.zipfile.extract(datafile)
 
 		self.zipfile.extract('qmod.ini', path=self.gamedir)
+
+
+class InstalledQMOD():
+	def __init__(self, name):
+		path = Path(name)
+
+		if not path.is_dir():
+			raise NoQMODDirectoryException()
+
+		ini_path = path / 'qmod.ini'
+
+		if not ini_path.is_file():
+			raise BadQMODDirectoryException()
+
+		config = ConfigParser()
+		config.read_file(open(ini_path))
+
+		self.watch_config = config['general']['watch_config']
+		self.watch_autoexec = config['general']['watch_autoexec']
+
+		self.mod_path = path
+
+	def apply_watches(self):
+		id1_path = Path('id1')
+
+		if self.watch_config:
+			shutil.copy(id1_path / 'config.cfg', self.mod_path)
+
+		if self.watch_autoexec:
+			shutil.copy(id1_path / 'autoexec.cfg', self.mod_path)
