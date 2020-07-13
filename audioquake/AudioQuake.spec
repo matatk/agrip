@@ -3,35 +3,39 @@ import platform
 
 data_files = [
 	('mod-static-files/', 'id1'),
-	('downloaded-assets/quake-shareware-1.06', '.'),
-	('downloaded-assets/demos', '.'),
-	('downloaded-assets/maps', 'id1/maps'),
-	('downloaded-assets/mindgrid-audio_quake_2003.09.22/*.txt',
-		'mindgrid-docs'),
-	('downloaded-assets/mindgrid-audio_quake_2003.09.22/pak2.pak', 'id1'),
-	('downloaded-assets/skins/', 'id1/skins'),
 	('manuals-converted/', 'manuals'),
 	('manuals/agrip.css', 'manuals'),
-	('zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
-	('zq-repo/qc/agrip/spprogs.dat', 'id1/'),
+	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
+	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 	('app-support-files/start-rcon.command', '.'),
-	('app-support-files/start-server.command', '.')]
+	('app-support-files/start-server.command', '.'),
+	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
+	('../ldl/style.xml', '.'),
+	('../../non-redist/quake.wad', '.')]
 
 if platform.system() != 'Windows':
 	binary_files = [
-		('zq-repo/zquake/release-mac/zqds', '.'),
-		('zq-repo/zquake/release-mac/zquake-glsdl', '.')]
+		('../giants/zq-repo/zquake/release-mac/zqds', '.'),
+		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', '.'),
+		('../giants/Quake-Tools/qutils/qbsp/qbsp', 'bin/'),
+		('../giants/Quake-Tools/qutils/qbsp/light', 'bin/'),
+		('../giants/Quake-Tools/qutils/qbsp/vis', 'bin/'),
+		('../giants/Quake-Tools/qutils/qbsp/bspinfo', 'bin/')]
 else:
 	binary_files = [
-		('zq-repo/zquake/source/Release-server/zqds.exe', '.'),
-		('zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.')]
+		('../giants/zq-repo/zquake/source/Release-server/zqds.exe', '.'),
+		('../giants/zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.'),
+		('../giants/Quake-Tools/qutils/qbsp/Release/qbsp.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/light/Release/light.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/vis/Release/vis.exe', 'bin/'),
+		('../giants/Quake-Tools/qutils/bspinfo/Release/bspinfo.exe', 'bin/')]
 
 block_cipher = None
 
 a = Analysis(['AudioQuake.py'],  # noqa F821
 	binaries=binary_files,
 	datas=data_files,
-	hiddenimports=[],
+	hiddenimports=['pkg_resources.py2_warn'],
 	hookspath=[],
 	runtime_hooks=[],
 	excludes=[],
@@ -64,7 +68,15 @@ coll = COLLECT(exe,  # noqa F821
 	upx=True,
 	name='AudioQuake')
 
+if platform.system() != 'Windows':
+	info_plist = {
+		'NSRequiresAquaSystemAppearance': 'No'
+	}
+else:
+	info_plist = None
+
 app = BUNDLE(coll,  # noqa F821
 	name='AudioQuake.app',
 	icon=platform_icon,
+	info_plist=info_plist,
 	bundle_identifier=None)

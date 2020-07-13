@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="GLDebug|Win32">
+      <Configuration>GLDebug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="GLRelease|Win32">
+      <Configuration>GLRelease</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName />
+    <SccLocalPath />
+    <ProjectGuid>{8A7FC492-EE26-4949-8975-FB6B8C703072}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug-client\</OutDir>
+    <IntDir>.\Debug-client\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">
+    <OutDir>.\Debug-client-GL\</OutDir>
+    <IntDir>.\Debug-client-GL\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">
+    <OutDir>.\Release-client-GL\</OutDir>
+    <IntDir>.\Release-client-GL\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\WINDDK\3790.1830\inc\mfc42;C:\WINDDK\3790.1830\inc\atl30;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\WINDDK\3790.1830\lib\mfc\i386;C:\WINDDK\3790.1830\lib\atl\i386;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release-client\</OutDir>
+    <IntDir>.\Release-client\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;id386;CLIENTONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug-client\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Debug-client\zqclient.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Debug-client\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug-client\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug-client\zqclient.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug-client\zqclient.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <OutputFile>.\Debug-client/zq-client.exe</OutputFile>
+      <AdditionalDependencies>mgllt.lib;dxguid.lib;wsock32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;id386;GLQUAKE;CLIENTONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug-client-GL\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Debug-client-GL\zqclient.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Debug-client-GL\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug-client-GL\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug-client-GL\zqclient.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;GLQUAKE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug-client-GL\zqclient.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>.\Debug-client-GL/zq-client-gl.exe</OutputFile>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;wsock32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>AGRIP;MAUTH;WIN32;NDEBUG;_WINDOWS;GLQUAKE;CLIENTONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release-client-GL\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release-client-GL\zqclient.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release-client-GL\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release-client-GL\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release-client-GL\zqclient.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;GLQUAKE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release-client-GL\zqclient.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>.\Release-client-GL/zq-client-gl.exe</OutputFile>
+      <AdditionalDependencies>opengl32.lib;dxguid.lib;wsock32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;id386;CLIENTONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release-client\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release-client\zqclient.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release-client\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release-client\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release-client\zqclient.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release-client\zqclient.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <OutputFile>.\Release-client/zq-client.exe</OutputFile>
+      <AdditionalDependencies>mgllt.lib;dxguid.lib;wsock32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="cd_win.c" />
+    <ClCompile Include="cl_cam.c" />
+    <ClCompile Include="cl_cmd.c" />
+    <ClCompile Include="cl_demo.c" />
+    <ClCompile Include="cl_draw.c" />
+    <ClCompile Include="cl_effects.c" />
+    <ClCompile Include="cl_ents.c" />
+    <ClCompile Include="cl_input.c" />
+    <ClCompile Include="cl_main.c" />
+    <ClCompile Include="cl_nqdemo.c" />
+    <ClCompile Include="cl_parse.c" />
+    <ClCompile Include="cl_pred.c" />
+    <ClCompile Include="cl_sbar.c" />
+    <ClCompile Include="cl_screen.c" />
+    <ClCompile Include="cl_tent.c" />
+    <ClCompile Include="cl_view.c" />
+    <ClCompile Include="cmd.c" />
+    <ClCompile Include="cmodel.c" />
+    <ClCompile Include="com_msg.c" />
+    <ClCompile Include="common.c" />
+    <ClCompile Include="console.c" />
+    <ClCompile Include="crc.c" />
+    <ClCompile Include="cvar.c" />
+    <ClCompile Include="d_edge.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_fill.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_init.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_modech.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_polyse.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_sky.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_sprite.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_surf.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_vars.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="d_zpoint.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_draw.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_mesh.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_model.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_ngraph.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_ralias.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_refrag.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_rlight.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_rmain.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_rmisc.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_rsprite.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_rsurf.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_texture.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gl_warp.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="host.c" />
+    <ClCompile Include="in_win.c" />
+    <ClCompile Include="keys.c" />
+    <ClCompile Include="mathlib.c" />
+    <ClCompile Include="mdfour.c" />
+    <ClCompile Include="menu.c" />
+    <ClCompile Include="net_chan.c" />
+    <ClCompile Include="net_wins.c" />
+    <ClCompile Include="nonintel.c" />
+    <ClCompile Include="pmove.c" />
+    <ClCompile Include="pmovetst.c" />
+    <ClCompile Include="q_shared.c" />
+    <ClCompile Include="r_aclip.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_alias.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_bsp.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_draw.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_edge.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_efrag.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_light.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_main.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_misc.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_model.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_part.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_rast.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_scan.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_sky.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_sprite.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_surf.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="r_vars.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="rc_image.c" />
+    <ClCompile Include="rc_wad.c" />
+    <ClCompile Include="skin.c" />
+    <ClCompile Include="snd_dma.c" />
+    <ClCompile Include="snd_mem.c" />
+    <ClCompile Include="snd_mix.c" />
+    <ClCompile Include="snd_win.c" />
+    <ClCompile Include="sv_null.c" />
+    <ClCompile Include="sys_win.c" />
+    <ClCompile Include="teamplay.c" />
+    <ClCompile Include="version.c" />
+    <ClCompile Include="vid_wgl.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="vid_win.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="zone.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="adivtab.h" />
+    <ClInclude Include="anorm_dots.h" />
+    <ClInclude Include="anorms.h" />
+    <ClInclude Include="bothdefs.h" />
+    <ClInclude Include="bspfile.h" />
+    <ClInclude Include="cdaudio.h" />
+    <ClInclude Include="cl_sbar.h" />
+    <ClInclude Include="cl_view.h" />
+    <ClInclude Include="client.h" />
+    <ClInclude Include="cmd.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="console.h" />
+    <ClInclude Include="crc.h" />
+    <ClInclude Include="cvar.h" />
+    <ClInclude Include="d_iface.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="d_ifacea.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="d_local.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLDebug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GLRelease|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="draw.h" />
+    <ClInclude Include="gl_local.h" />
+    <ClInclude Include="gl_model.h" />
+    <ClInclude Include="gl_warp_sin.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="keys.h" />
+    <ClInclude Include="..\..\..\quake\v2\master\masterpr.h" />
+    <ClInclude Include="mathlib.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="modelgen.h" />
+    <ClInclude Include="net.h" />
+    <ClInclude Include="pmove.h" />
+    <ClInclude Include="protocol.h" />
+    <ClInclude Include="q_shared.h" />
+    <ClInclude Include="quakedef.h" />
+    <ClInclude Include="r_local.h" />
+    <ClInclude Include="r_model.h" />
+    <ClInclude Include="r_shared.h" />
+    <ClInclude Include="rc_image.h" />
+    <ClInclude Include="rc_wad.h" />
+    <ClInclude Include="render.h" />
+    <ClInclude Include="cl_screen.h" />
+    <ClInclude Include="sound.h" />
+    <ClInclude Include="spritegn.h" />
+    <ClInclude Include="sys.h" />
+    <ClInclude Include="teamplay.h" />
+    <ClInclude Include="version.h" />
+    <ClInclude Include="vid.h" />
+    <ClInclude Include="winquake.h" />
+    <ClInclude Include="zone.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="winquake.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="zquake.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

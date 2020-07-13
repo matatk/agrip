@@ -1,0 +1,1088 @@
+<html>
+<body>
+
+<h2><center>ZQuake Client Console Variables List</center></h2>
+<hr>
+<br>
+
+NOTE: this list is far from being finished<br>
+<br>
+
+<b>_vid_default_mode</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>_vid_default_mode_win</b><br>
+<i>Default:</i> 3<br>
+<br>
+
+<b>_vid_wait_override</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>_windowed_mouse</b><br>
+Whether to use the mouse in windowed display modes<br>
+<i>Default:</i> 1 for GL, 0 for software targets<br>
+<br>
+
+<b>baseskin</b><br>
+<i>Default:</i> "base"<br>
+<br>
+
+<b>bgmvolume</b><br>
+CD music volume. On Windows systems, the only possible values are 0 and 1.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>block_switch</b><br>
+Disables alt+tab switching in Win9x systems. Non-functional in WinNT/2k<br>
+<i>Default:</i> 0<br>
+<i>Comment:</i> Windows software targets only<br>
+<br>
+
+<b>bottomcolor</b><br>
+Just what it says, color of the bottom part of your player model.<br>
+<i>Flags:</i> archive, userinfo<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_anglespeedkey</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>cl_backspeed</b><br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> 200<br>
+<br>
+
+<b>cl_bob</b><br>
+<i>Default:</i> 0.02<br>
+<br>
+
+<b>cl_bobcycle</b><br>
+<i>Default:</i> 0.6<br>
+<br>
+
+<b>cl_bobup</b><br>
+<i>Default:</i> 0.5<br>
+<br>
+
+<b>cl_bonusflash</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>cl_c2sImpulseBackup</b><br>
+<i>Default:</i> 3<br>
+<br>
+
+<b>cl_c2spps</b><br>
+Equivalent to Qizmo proxy .c2spps command - controls how many packets you want
+to be sent to the server every settings. Low values make movement of players
+and other entities a bit choppy, but let you play with cl_maxfps 72 without
+lags.<br>
+You shouldn't ever need to change this variable when playing on LAN (or on
+cable)<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_chasecam</b><br>
+Turns on "through the eyes" view when tracking players in spectator mode. When
+disabled, the client will automatically try to find a good position for
+observing.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_chatmode</b><br>
+<i>Default:</i> 2<br>
+<br>
+
+<b>cl_clock</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_clock_x</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_clock_y</b><br>
+<i>Default:</i> -1<br>
+<br>
+
+<b>cl_crossx</b><br>
+Horizontal offset of the crosshair, in pixels.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_crossy</b><br>
+Vertical offset of the crosshair, in pixels.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_deadbodyFilter</b><br>
+When enabled, bodies of dead players are not drawn -- saves some fps. It's not
+a good idea to use this in Team Fortress because you won't be able to see a
+feigned spy.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_demoPingInterval</b><br>
+How often to request ping updates when recording demos. Default is 5 seconds;
+a zero value disables automatic ping requests.<br>
+This variable doesn't affect ping updates when the scoreboard is shown (they
+are always one update per 2 seconds).<br>
+<i>Default:</i> 5<br>
+<br>
+
+<b>cl_demoSpeed</b><br>
+How fast demos are played back. 1 is normal speed, 2 is double speed,
+0.5 is half speed, etc. Valid values are from 0.1 to 10.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>cl_explosion</b><br>
+Lets you change standard explosions to less fps-hogging ones. Possible values are:<br>
+0 - normal<br>
+1 - no particles<br>
+2 - no dynamic lighting<br>
+3 - no particles, no dynamic lighting (a lot faster than the default setting)<br>
+6 - teleport effect<br>
+7 - blood (a la Qizmo)<br>
+8 - more blood :-E~<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_filterdrawviewmodel</b><br>
+When enabled, r_drawviewmodel changes received from the server are ignored.
+Useful when playing Rocket Arena if you play with r_drawviewmodel 0 and
+don't want stupid RA servers to set it to 1.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_forwardspeed</b><br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> 200<br>
+<br>
+
+<b>cl_gibFilter</b><br>
+When enabled, gibs are not drawn -- saves some fps. It's a good idea to use
+this feature when you're playing an important game, but remember to flip it
+back to 0 sometimes when you're playing an FFA game or just having fun with
+bots -- you might have forgot how cool it looks when you gib a player with
+a quad rocket and meat sprays in all directions :-)<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_hightrack</b><br>
+Enables automatic switching to the player with the maximum amount of frags.
+Spectator mode only.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_hudswap</b><br>
+When enabled, the inventory is drawn on the left side of the screen.<br>
+Only works in "headsup" mode (cl_sbar = 0 and viewsize >= 100).<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_keypad</b><br>
+Whether to generate keypad key events /FIXME/<br>
+A value of 0 is QW compatibility mode<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>cl_maxfps</b><br>
+The upper limit of the number of frames that can be drawn each second.<br>
+Valid values are from 30 to 72, so setting cl_maxfps 10 is equivalent to cl_maxfps 30.<br>
+A value of 0 can also be used, in this case the fps cap is calculated from
+the rate setting: fps = max (30.0, min (rate.value/80.0, 72.0)).<br>
+Note that increasing cl_maxfps also increases both client and server traffic.<br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_movespeedkey</b><br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> 2.0<br>
+<br>
+
+<b>cl_muzzleflash</b><br>
+Whether to draw muzzle flashes (the flashes when a gun is shot)<br>
+0 - all turned off<br>
+1 - all turned on (default)<br>
+2 - own flashes off, all other on<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>cl_nodelta</b><br>
+Disables delta compression of server-to-client traffic. This increases ping,
+but makes recovery from lags faster.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_nofake</b><br>
+When set, disables "fake" messages sent by other players.<br>
+0 - Allow fake messages<br>
+1 - Disallow fake messages<br>
+2 - Allow fakes messages from teammates only<br>
+<i>Comments:</i>
+To "unfake" a message, ZQuake replaces all line feed (0x0A) and carriage return
+(0x0D) characters with a space symbol. A value of 2 disables fake messages
+from enemies but lets teammates use shorter names, so I suggest
+always using 2.<br>
+It must be noted that ZQuake cannot always determine
+who exactly sent the message when there is, for a example, a guy named
+"unnamed" in your team and "(unnamed)" in the enemy team, because a
+normal messsage from (unnamed) and a team message from unnamed will look
+identically. In this case ZQuake will "unfake" messages from both
+players.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_nopred</b><br>
+Disables client side movement prediction. Should only be used for testing.<br>
+<i>Default:</i>: 0<br>
+<br>
+
+<b>cl_oldPL</b><br>
+<i>Default:</i>: 0<br>
+<br>
+
+<b>cl_parseFunChars</b><br>
+<i>Default:</i>: 1<br>
+<br>
+
+<b>cl_parseSay</b><br>
+<i>Default:</i>: 0<br>
+<br>
+
+<b>cl_parseWhiteText</b><br>
+<i>Default:</i>: 1<br>
+<br>
+
+<b>cl_pitchspeed</b><br>
+<i>Default:</i> 150<br>
+<br>
+
+<b>cl_predict_players</b><br>
+Whether to predict other players' movement.<br>
+<i>Default:</i>: 1<br>
+<br>
+
+<b>cl_r2g</b><br>
+<i>Default:</i>: 0<br>
+<br>
+
+<b>cl_rollangle</b><br>
+<i>Default:</i>: 2.0<br>
+<br>
+
+<b>cl_rollspeed</b><br>
+<i>Default:</i>: 200<br>
+<br>
+
+<b>cl_sbar</b><br>
+<br>
+
+<b>cl_shownet</b><br>
+<br>
+
+<b>cl_sidespeed</b><br>
+<i>Default:</i> 350<br>
+<br>
+
+<b>cl_solid_players</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>cl_staticsounds</b><br>
+Setting to 0 disables all static sounds. Only takes effect after reconnecting.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>cl_timeout</b><br>
+<br>
+
+<b>cl_triggers</b><br>
+<br>
+
+<b>cl_trueLightning</b><br>
+Smoothes out shaft movement. Valid values are in 0..1 range. A zero value
+disables smoothing, 1 is 100% smoothing.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>cl_upspeed</b><br>
+<br>
+
+<b>cl_warncmd</b><br>
+<br>
+
+<b>cl_writecfg</b><br>
+<br>
+
+<b>cl_yawspeed</b><br>
+<i>Default:</i> 140<br>
+<br>
+
+<b>con_notifylines</b><br>
+<i>Default:</i> 4<br>
+<br>
+
+<b>con_notifytime</b><br>
+<i>Default:</i> 3<br>
+<br>
+
+<b>contrast</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>crosshair</b><br>
+Type of the crosshair.<br>
+0 - no crosshair at all<br>
+1 - a "+" character is used as the crosshair.<br>
+2 - QuakeWorld crosshair (a cross).<br>
+3 - New ZQuake crosshair (a small cross).<br>
+4 - New ZQuake crosshair (a dot).<br>
+<i>Default:</i> 2<br>
+<br>
+
+<b>crosshaircolor</b><br>
+Color of the crosshair. Has no effect on crosshair 1.<br>
+<i>Default:</i> 79 (red)<br>
+<br>
+
+<b>d_mipcap</b><br>
+Software targets only.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>d_mipscale</b><br>
+Software targets only.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>d_subdiv16</b><br>
+Enables 16-pixel subdivision in bmodel rendering code. Reduces the quality
+of walls a bit, but gives a slight (around 5%) speedup.<br>
+Software targets only.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>default_fov</b><br>
+<i>See also:</i> fov<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>developer</b><br>
+Enables printing of developer messages.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>enemyskin</b><br>
+<i>Default:</i> ""<br>
+<br>
+
+<b>entlatency</b><br>
+Unused<br>
+<i>Default:</i> 20<br>
+<br>
+
+<b>fov</b><br>
+Horizontal field of view, in angles. Low values produce a zoom effect, high
+values (110, 120) look weird but are used by many deathmatch players because of
+the additional field of view it provides<.br>
+<i>Default:</i> 90<br>
+<br>
+
+<b>freelook</b><br>
+Enables free look mode, that is, moving the mouse forward and back moves your
+view direction up or down. Both -mlook and freelook 0 must be specified to
+disable free look mode.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>gamma</b><br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> <br>
+<br>
+
+<b>host_speeds</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>joyadvanced</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyadvaxisr</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyadvaxisu</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyadvaxisv</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyadvaxisx</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyadvaxisy</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyadvaxisz</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyforwardsensitivity</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyforwardthreshold</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyname</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joypitchsensitivity</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joypitchthreshold</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joysidesensitivity</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joysidethreshold</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joystick</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joywwhack1</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joywwhack2</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyyawsensitivity</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>joyyawthreshold</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>loadas8bit</b><br>
+When enabled, all sounds are converted to 8 bit on load. This reduces sound
+quality, but also lowers memory usage. Quake automatically sets it to 1 on
+startup if you have 8 Mb of memory (or less).<br>
+<i>Default:</i> <br>
+<br>
+
+<b>localid</b><br>
+Used by GameSpy software (GameSpy adds a +localid parameter to the client's
+command line). Setting to "" disables execution of GameSpy commands.<br>
+<i>Default:</i> ""<br>
+<br>
+
+<b>lookspring</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>lookstrafe</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>m_filter</b><br>
+Interpolates mouse movement, providing a smoother gameplay on 40Hz mice, but
+increases "mouse lag".<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>m_forward</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>m_pitch</b><br>
+Y-axis mouse sensitivity. Selecting "invert mouse" in the Options menu
+sets m_pitch to a negative value.<br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> 0.022<br>
+<br>
+
+<b>m_side</b><br>
+<i>Default:</i> 0.8<br>
+<br>
+
+<b>m_yaw</b><br>
+X-axis mouse sensitivity. Don't change this, use the sensitivity variable instead.<br>
+<i>Default:</i> 0.022<br>
+<br>
+
+<b>mapname</b><br>
+Short name of the map being played (e.g. e1m1, dm6).<br>
+<i>Flags:</i> Read only<br>
+<i>Default:</i> ""<br>
+<br>
+
+<b>msg</b><br>
+Tells the server what messages you want to see.<br>
+0 - all messages<br>
+1 - all, but pickup messages<br>
+2 - all, but pickup and death messages<br>
+3 - chat messages only<br>
+4 - no messages at all.<br>
+The higher the value of msg, the less information will be printed on your screen;
+higher values also reduce server traffic.<br>
+<i>Flags:</i> archive, userinfo<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>name</b><br>
+Your name as it will be shown in the scoreboard<br>
+<i>Flags:</i> archive, userinfo<br>
+<i>Default:</i> unnamed<br>
+<br>
+
+<b>noaim</b><br>
+Disables automatic Y-axis aim unless it's already disabled on the server.
+Pretty useless because autoaim is disabled in qw servers by default.<br>
+<i>Flags:</i> archive, userinfo<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>noskins</b><br>
+Setting it to 1 disables external player skins completely (only the skins
+built into player.mdl will be used). noskins 2 also lets you use skins,
+but QW won't try to download missing skins when connecting to a server.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>nosound</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>password</b><br>
+<i>Flags:</i> userinfo<br>
+<i>Default:</i> ""<br>
+<br>
+
+<b>pm_jumpfixtime</b><br>
+Don't mess with this...<br>
+<i>Default:</i> <br>
+<br>
+
+<b>pm_ktphysics</b><br>
+Enables Kombat Teams style jump prediction on sloping surfaces. Set it to 1
+if you're playing on KT servers to avoid prediction errors when your ping is
+high.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>pm_slidefix</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>pushlatency</b><br>
+<i>Default:</i> -999<br>
+<br>
+
+<b>qizmo_dir</b><br>
+<i>Default:</i> "qizmo"<br>
+<br>
+
+<b>qport</b><br>
+<i>Default:</i> N/A<br>
+<br>
+
+<b>r_aliastransadj</b><br>
+Software renderer only.<br>
+<i>Default:</i> <br>
+<br>
+
+<b>r_aliastransbase</b><br>
+Software renderer only.<br>
+<i>Default:</i> <br>
+<br>
+
+<b>r_ambient</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>r_clearcolor</b><br>
+Software renderer only.<br>
+<i>Default:</i> 2 (dark grey)<br>
+<br>
+
+<b>r_drawentities</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>r_drawflame</b><br>
+When set to 0, torch models are not drawn. On maps like dm6 this gives you
+a noticeable speedup.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>r_draworder</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>r_drawviewmodel</b><br>
+Whether to draw the view weapon model.<br>
+0 - don't draw.<br>
+1 - always draw.<br>
+2 - only draw when fov is 90 or less<br>
+<i>Default:</i> 1 for GL and 2 for software.<br>
+<br>
+
+<b>r_dspeeds</b><br>
+Software renderer only.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>r_fastsky</b><br>
+Setting it to 1 draws flat polygons instead of normal sky.
+Helps fps a bit on maps with large sky areas, like dm2, dm3, or q1dm17.<br>
+<i>See also:</i> r_skycolor<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>r_fullbright</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>r_fullbrightSkins</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>r_graphheight</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>r_grenadeTrail</b><br>
+Setting it to 0 hides grenade trails<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>r_maxedges</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>r_maxsurfs</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>r_netgraph</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>r_numedges</b><br>
+<br>
+
+<b>r_numsurfs</b><br>
+<br>
+
+<b>r_polymodelstats</b><br>
+<br>
+
+<b>r_powerupGlow</b><br>
+<br>
+
+<b>r_reportedgeout</b><br>
+<br>
+
+<b>r_reportsurfout</b><br>
+<br>
+
+<b>r_rocketLight</b><br>
+Setting this variable to 0 disables dynamic lighting from rockets, thus giving
+a noticeable fps boost.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>r_rocketTrail</b><br>
+Lets you change the way rocket trails look or hide them completely.<br>
+0 - don't draw rocket trails.<br>
+1 - show default rocket trails.<br>
+2 - change rocket trails to grenade trails.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>r_skycolor</b><br>
+Changes the color of sky polygons when r_fastsky is enabled.<br>
+The values are Quake palette indexes, in 0..255 range. 0 is black, 15 is
+white, the values in between are shades of gray.<br>
+<i>Default:</i> 4 (dark gray)<br>
+<br>
+
+<b>r_speeds</b><br>
+<br>
+
+<b>r_timegraph</b><br>
+<br>
+
+<b>r_waterwarp</b><br>
+<br>
+
+<b>r_zgraph</b><br>
+<br>
+
+<b>rate</b><br>
+<br>
+
+<b>rcon_address</b><br>
+<br>
+
+<b>rcon_password</b><br>
+<br>
+
+<b>registered</b><br>
+<br>
+
+<b>s_ambientfade</b><br>
+How fast the volume of ambient sounds changes as you move around the map.<br>
+<i>Default:</i> 100<br>
+<br>
+
+<b>s_ambientlevel</b><br>
+Volume level of ambient sounds (produced by water and sky brushes).<br>
+<i>Default:</i> 0.3<br>
+<br>
+
+<b>s_mixahead</b><br>
+How far ahead to mix sounds (in seconds). High values make sound "laggy"
+(e.g. you fire a rocket but only hear the sound a split second later). Lower
+values can make sound choppy.<br>
+<i>Default:</i> 0.1<br>
+<br>
+
+<b>s_noextraupdate</b><br>
+When enabled, gives a slight increase in perfomance, but sound may become
+choppy if your computer is really slow.<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>s_precache</b><br>
+When enabled, all necessary sounds are loaded automatically when entering a new
+map. When disabled, sounds are only loaded on demand.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>s_show</b><br>
+When set, keeps printing to the console the number of sounds currently being
+played, in "--- (x) ---" style. Used for debugging<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>scr_allowsnap</b><br>
+Whether to allow screenshot uploads to be requested by server.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>scr_centerMenu</b><br>
+When enabled, the menu is centered vertically, otherwise it sticks to the top
+of the screen. Has no effect in 320x200 mode.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>scr_centerSbar</b><br>
+<br>
+
+<b>scr_centertime</b><br>
+<br>
+
+<b>scr_consize</b><br>
+<br>
+
+<b>scr_conspeed</b><br>
+<br>
+
+<b>scr_printspeed</b><br>
+<br>
+
+<b>sensitivity</b><br>
+Mouse sensitivity, controls how much your view direction changes when you
+move the mouse.<br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> 3</br>
+<br>
+
+<b>show_fps</b><br>
+When enabled, the frames per second counter is draw in the bottom right
+corner of the screen, just above the status bar<br>
+<i>Default:</i> 0</br>
+<br>
+
+<b>show_speed</b><br>
+When enabled, prints your horizontal velocity in the upper right corner of
+the screen. Useful for practising bunny hopping<br>
+A value of 1 shows your 'real' velocity. It is precise, but somewhat "laggy"
+when you have a high ping; show_speed 2, however, displays
+predicted velocity, it's may not be correct in some cases, but is updated faster.<br>
+<i>Default:</i> 0</br>
+<br>
+
+<b>showdrop</b><br>
+<br>
+
+<b>showpackets</b><br>
+<br>
+
+<b>showpause</b><br>
+When disabled, the "PAUSED" message is never printed on the screen.
+Useful for taking screenshots.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>showram</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>showturtle</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>skin</b><br>
+Name of a .pcx file that should be used as a skin for your player model.<br>
+Other players will only see it if they have an identically named .pcx file
+in their qw/skins folder, and haven't disabled skins with the "noskins 1"
+command.<br>
+If you created a nice looking skin for yourself and want to use it on a public
+server, ask the server admin to put your skin into the server's qw/skins folder.
+QuakeWorld automatically downloads skins from the server when connecting
+(unless noskins 1 or noskins 2 is set).
+<i>Flags:</i> archive, userinfo<br>
+<i>Default:</i> ""<br>
+<br>
+
+<b>spectator</b><br>
+<i>Flags:</i> userinfo<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>team</b><br>
+The name of the team you're on.<br>
+<i>Flags:</i> archive, userinfo<br>
+<i>Default:</i> ""<br>
+<br>
+
+<b>teamskin</b><br>
+<i>Default:</i> ""<br>
+<br>
+
+<b>topcolor</b><br>
+Just what it says, color of the upper half of your player model.<br>
+<i>Flags:</i> archive, userinfo<br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>tp_forceTriggers</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>tp_loadlocs</b><br>
+Whether to load .loc files automatically when going to a new map.<br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>tp_name_at</b><br>
+<i>Default:</i> "at"<br>
+<br>
+
+tp_name_axe
+tp_name_backpack
+tp_name_cells
+tp_name_flag
+tp_name_ga
+tp_name_gl
+tp_name_health
+tp_name_lg
+tp_name_mh
+tp_name_nails
+tp_name_ng
+tp_name_nothing
+tp_name_pent
+tp_name_quad
+tp_name_ra
+tp_name_ring
+tp_name_rl
+tp_name_rockets
+tp_name_sg
+tp_name_shells
+tp_name_sng
+tp_name_someplace
+tp_name_ssg
+tp_name_suit
+tp_name_ya
+tp_need_cells
+tp_need_ga
+tp_need_health
+tp_need_nails
+tp_need_ra
+tp_need_rl
+tp_need_rockets
+tp_need_shells
+tp_need_weapon
+<br>
+
+<b>tp_need_ya</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>tp_soundtrigger</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>v_centermove</b><br>
+<i>Default:</i> 0.15<br>
+<br>
+
+<b>v_centerspeed</b><br>
+<i>Default:</i> 500<br>
+<br>
+
+<b>v_contentblend</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>v_damagecshift</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>v_idlescale</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>v_ipitch_cycle</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>v_ipitch_level</b><br>
+<i>Default:</i> 0.3<br>
+<br>
+
+<b>v_iroll_cycle</b><br>
+<i>Default:</i> 0.5<br>
+<br>
+
+<b>v_iroll_level</b><br>
+<i>Default:</i> 0.1<br>
+<br>
+
+<b>v_iyaw_cycle</b><br>
+<i>Default:</i> 2.0<br>
+<br>
+
+<b>v_iyaw_level</b><br>
+<i>Default:</i> 0.3<br>
+<br>
+
+<b>v_kickpitch</b><br>
+<i>Default:</i> 0.6<br>
+<br>
+
+<b>v_kickroll</b><br>
+<i>Default:</i> 0.6<br>
+<br>
+
+<b>v_kicktime</b><br>
+<i>Default:</i> 0.5<br>
+<br>
+
+<b>v_pentcshift</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>v_quadcshift</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>v_ringcshift</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>v_suitcshift</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>vid_config_x</b><br>
+<i>Default:</i> 800<br>
+<br>
+
+<b>vid_config_y</b><br>
+<i>Default:</i> 600<br>
+<br>
+
+<b>vid_fullscreen_mode</b><br>
+<i>Default:</i> 3<br>
+<br>
+
+<b>vid_mode</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>vid_nopageflip</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>vid_resetonswitch</b><br>
+This is a workaround for the bug in some NVidia drivers, when you alt-tab out
+of quake and the screen gets garbaged.<br>When enabled, ZQuake will reset your
+Windows video mode every time you press alt-tab.<br>
+Note that some NVidia drivers lock up your system completely when you alt-tab.
+vid_resetonswitch will not help in this case (try starting ZQuake with -dibonly).<br>
+<i>Default:</i> 0<br>
+<i>Comment:</i> Windows software targets only<br>
+<br>
+
+<b>vid_stretch_by_2</b><br>
+<i>Default:</i> 1<br>
+<br>
+
+<b>vid_wait</b><br>
+<i>Default:</i> 0<br>
+<br>
+
+<b>vid_window_x</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>vid_window_y</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>vid_windowed_mode</b><br>
+<i>Default:</i> <br>
+<br>
+
+<b>viewsize</b><br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> 100<br>
+<br>
+
+<b>volume</b><br>
+Master sound volume. Controls volume of all game sounds, including ambient
+and static sounds.<br>
+<i>Flags:</i> archive<br>
+<i>Default:</i> 0.7<br>
+<br>
+
+<hr>
+<a href="http://zquake.frag.ru/">Back to ZQuake</a>
+</body>
+</html>

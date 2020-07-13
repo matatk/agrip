@@ -1,6 +1,0 @@
-wxPython==4.0.4
-pyobjc==5.2; sys_platform=="darwin"
-pywin32==224; sys_platform=="win32"
-mistune==0.8.4
-mistune-contrib==0.1
-PyInstaller==3.4

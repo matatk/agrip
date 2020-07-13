@@ -1,0 +1,11 @@
+--- qbsp.c.orig	2020-07-11 19:40:56.000000000 +0100
++++ qbsp.c	2020-07-11 19:41:09.000000000 +0100
+@@ -994,7 +994,7 @@
+ 	if (i != argc - 2 && i != argc - 1)
+ 		Error ("usage: qbsp [options] sourcefile [destfile]\noptions: -nojunc -nofill -threads[124] -draw -onlyents -verbose -proj <projectpath>");
+
+-	SetQdirFromPath (argv[i]);
++	// SetQdirFromPath (argv[i]);
+
+ //
+ // let forked processes change name for ps status

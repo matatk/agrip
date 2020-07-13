@@ -1,0 +1,11 @@
+--- writebsp.c.orig	2020-07-11 20:27:41.000000000 +0100
++++ writebsp.c	2020-07-11 20:28:13.000000000 +0100
+@@ -461,7 +461,7 @@
+ 		}
+ 	}
+ 	
+-	sprintf (fullpath, "%s/%s", gamedir, path);
++	sprintf (fullpath, "%s", path);
+ 
+ 	TEX_InitFromWad (fullpath);
+ 	

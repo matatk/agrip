@@ -1,0 +1,56 @@
+--- qutils.orig/qbsp/qbsp.mak	2020-07-12 18:13:11.000000000 +0100
++++ qutils/qbsp/qbsp.mak	2020-07-12 18:14:46.000000000 +0100
+@@ -445,7 +445,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\bspfile.c
++SOURCE=..\common\bspfile.c
+ DEP_CPP_BSPFI=\
+ 	".\..\common\cmdlib.h"\
+ 	".\..\common\mathlib.h"\
+@@ -460,7 +460,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\cmdlib.c
++SOURCE=..\common\cmdlib.c
+ DEP_CPP_CMDLI=\
+ 	".\..\common\cmdlib.h"\
+ 	{$(INCLUDE)}"\sys\TYPES.H"\
+@@ -475,7 +475,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\mathlib.c
++SOURCE=..\common\mathlib.c
+ DEP_CPP_MATHL=\
+ 	".\..\common\cmdlib.h"\
+ 	".\..\common\mathlib.h"\
+@@ -489,7 +489,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\mathlib.h
++SOURCE=..\common\mathlib.h
+ 
+ !IF  "$(CFG)" == "qbsp - Win32 Release"
+ 
+@@ -501,7 +501,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\cmdlib.h
++SOURCE=..\common\cmdlib.h
+ 
+ !IF  "$(CFG)" == "qbsp - Win32 Release"
+ 
+@@ -513,7 +513,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\bspfile.h
++SOURCE=..\common\bspfile.h
+ 
+ !IF  "$(CFG)" == "qbsp - Win32 Release"
+ 

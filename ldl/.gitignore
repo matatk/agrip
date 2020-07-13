@@ -1,7 +1,22 @@
 *.o
-qbsp
-light
-vis
 quake.wad
 *.bsp
 ldl-tutorial.html
+
+# Built map files
+first_20080427_1353.map
+tbaseldl.map
+test_05_big2dlayout.map
+test_05_comp3d.map
+test_05_simple3d.map
+tgothldl.map
+tut01.map
+tut02.map
+tut04.map
+tut05.map
+tut06.map
+tut07.map
+tut08.map
+tut09.map
+tut10.map
+tut11.map

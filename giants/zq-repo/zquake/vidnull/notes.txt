@@ -1,0 +1,9 @@
+Applying vidnull to our ZQ repo
+Last updated: 02/01/2008
+
+1. Copy the .sln and .vcproj files over from vidnull to zquake/source.
+2. Choose the GLRelease config and compile zqds and zquake.
+3. Copy the source files over from vidnull to zquake/source.
+4. Choose the VNRelease config and compile zquake.
+
+== END ==

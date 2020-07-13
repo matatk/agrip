@@ -1,0 +1,38 @@
+--- qutils.orig/light/light.mak	2020-07-12 18:13:11.000000000 +0100
++++ qutils/light/light.mak	2020-07-12 18:14:46.000000000 +0100
+@@ -346,7 +346,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\trilib.c
++SOURCE=..\common\trilib.c
+ DEP_CPP_TRILI=\
+ 	".\..\common\cmdlib.h"\
+ 	".\..\common\mathlib.h"\
+@@ -361,7 +361,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\mathlib.c
++SOURCE=..\common\mathlib.c
+ DEP_CPP_MATHL=\
+ 	".\..\common\cmdlib.h"\
+ 	".\..\common\mathlib.h"\
+@@ -375,7 +375,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\cmdlib.c
++SOURCE=..\common\cmdlib.c
+ DEP_CPP_CMDLI=\
+ 	".\..\common\cmdlib.h"\
+ 	{$(INCLUDE)}"\sys\TYPES.H"\
+@@ -390,7 +390,7 @@
+ ################################################################################
+ # Begin Source File
+ 
+-SOURCE=\quake\utils2\common\bspfile.c
++SOURCE=..\common\bspfile.c
+ DEP_CPP_BSPFI=\
+ 	".\..\common\cmdlib.h"\
+ 	".\..\common\mathlib.h"\
