@@ -104,7 +104,7 @@ def copy_in_rcon():
 
 	shutil.copy(
 		os.path.join(Config.dir_dist_rcon, rcon_bin),
-		Config.dir_dist_aq_data)
+		Config.dir_aq_data)
 
 
 def build_audioquake():

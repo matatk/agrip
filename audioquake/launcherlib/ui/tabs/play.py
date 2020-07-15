@@ -26,11 +26,12 @@ class PlayTab(wx.Panel):
 			add_launch_button(self, play, title, action)
 
 		if on_windows():
-			server = ('zqds.exe',)
-			rcon = ('rcon.exe', '--ask')
+			# FIXME use a function to set the value, give the function options
+			server = 'zqds.exe'
+			rcon = 'rcon.exe'
 		else:
-			server = ('./start-server.command',)
-			rcon = ('./start-rcon.command',)
+			server = './start-server.command'
+			rcon = './start-rcon.command'
 
 		add_opener_buttons(self, play, {
 			"Dedicated server": server,
@@ -44,8 +45,8 @@ class PlayTab(wx.Panel):
 		docs = wx.StaticBoxSizer(wx.VERTICAL, self, "Help")
 
 		add_opener_buttons(self, docs, {
-			'User manual': (path.join('manuals', 'user-manual.html'),),
-			'Sound legend': (path.join('manuals', 'sound-legend.html'),),
+			'User manual': path.join('manuals', 'user-manual.html'),
+			'Sound legend': path.join('manuals', 'sound-legend.html'),
 		})
 
 		add_widget(sizer, docs)
