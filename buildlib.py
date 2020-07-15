@@ -6,12 +6,28 @@ import subprocess
 import traceback
 
 
-def is_mac():
-	return platform.system() == 'Darwin'
+class PlatformSetError(Exception):
+	pass
 
 
-def is_windows():
-	return platform.system() == 'Windows'
+class DoSomethingError(Exception):
+	pass
+
+
+class OnlyOnError(Exception):
+	pass
+
+
+def platform_set(mac=None, windows=None):
+	if not mac or not windows:
+		raise PlatformSetError()
+
+	if platform.system() == 'Darwin':
+		return mac
+	elif platform.system() == 'Windows':
+		return windows
+	else:
+		raise NotImplementedError
 
 
 class Config:
@@ -25,20 +41,23 @@ class Config:
 	dir_dist = os.path.join(base, 'audioquake', 'dist')
 	dir_ldllib = os.path.join(base, 'ldl', 'ldllib')
 
-	if is_mac():
-		bin_zqcc = os.path.join(dir_make_zqcc, 'zqcc')
-		bin_zqgl = os.path.join(dir_make_zquake, 'release-mac', 'zquake-glsdl')
-		bin_zqds = os.path.join(dir_make_zquake, 'release-mac', 'zqds')
-		dir_aq_data = os.path.join(dir_dist, 'AudioQuake.app', 'Contents', 'MacOS')
-	elif is_windows():
-		bin_zqcc = os.path.join(dir_make_zqcc, 'Release', 'zqcc.exe')
-		bin_zqgl = os.path.join(
-			dir_make_zquake, 'source', 'Release-GL', 'zquake-gl.exe')
-		bin_zqds = os.path.join(
-			dir_make_zquake, 'source', 'Release-server', 'zqds.exe')
-		dir_aq_data = os.path.join(dir_dist, 'AudioQuake')
-	else:
-		raise NotImplementedError
+	bin_zqcc = platform_set(
+		mac=os.path.join(dir_make_zqcc, 'zqcc'),
+		windows=os.path.join(dir_make_zqcc, 'Release', 'zqcc.exe'))
+
+	bin_zqgl = platform_set(
+		mac=os.path.join(dir_make_zquake, 'release-mac', 'zquake-glsdl'),
+		windows=os.path.join(
+			dir_make_zquake, 'source', 'Release-GL', 'zquake-gl.exe'))
+
+	bin_zqds = platform_set(
+		mac=os.path.join(dir_make_zquake, 'release-mac', 'zqds'),
+		windows=os.path.join(
+			dir_make_zquake, 'source', 'Release-server', 'zqds.exe'))
+
+	dir_aq_data = platform_set(
+		mac=os.path.join(dir_dist, 'AudioQuake.app', 'Contents', 'MacOS'),
+		windows=os.path.join(dir_dist, 'AudioQuake'))
 
 	dir_manuals = os.path.join(base, 'audioquake', 'manuals')
 	dir_manuals_converted = os.path.join(base, 'audioquake', 'manuals-converted')
@@ -76,7 +95,7 @@ def die(message):
 
 
 def check_platform():
-	if not is_mac() and not is_windows():
+	if platform.system() != 'Darwin' and platform.system() != 'Windows':
 		die('Sorry, your platform is not supported yet.')
 
 
@@ -118,3 +137,29 @@ def make(path, name, targets=[]):
 	else:
 		for targ in targets:
 			_make(name, targ)
+
+
+def do_something(mac=None, windows=None):
+	if not mac or not windows:
+		raise DoSomethingError()
+
+	if platform.system() == 'Darwin':
+		mac()
+	elif platform.system() == 'Windows':
+		windows()
+	else:
+		raise NotImplementedError
+
+
+def only_on(mac=None, windows=None):
+	if mac and windows:
+		raise OnlyOnError()
+
+	if platform.system() == 'Darwin':
+		if mac:
+			mac()
+	elif platform.system() == 'Windows':
+		if windows:
+			windows()
+	else:
+		raise NotImplementedError

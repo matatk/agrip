@@ -14,7 +14,7 @@ lib_path = os.path.join(aq_path, os.pardir)
 sys.path.append(lib_path)
 
 from buildlib import Config, \
-	prep_dir, try_to_run, is_mac, check_platform, die, comeback
+	prep_dir, try_to_run, platform_set, check_platform, die, comeback
 
 
 #
@@ -97,10 +97,9 @@ def run_pyinstaller():
 
 
 def copy_in_rcon():
-	if is_mac():
-		rcon_bin = 'rcon'
-	else:
-		rcon_bin = 'rcon.exe'
+	rcon_bin = platform_set(
+		mac='rcon',
+		windows='rcon.exe')
 
 	shutil.copy(
 		os.path.join(Config.dir_dist_rcon, rcon_bin),

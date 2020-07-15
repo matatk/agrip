@@ -5,7 +5,7 @@ import os
 import patch_ng as patch
 
 from buildlib import Config, \
-	comeback, check_platform, make, is_mac, is_windows, die, try_to_run
+	comeback, check_platform, do_something, only_on, make, die, try_to_run
 
 
 #
@@ -87,9 +87,6 @@ def patch_map_tools():
 		if not patch_set.apply(root=Config.dir_qbsp):
 			raise Exception('Patch', patch_file, 'failed.')
 
-	if is_windows():
-		patch_map_tools_windows()
-
 
 def patch_map_tools_windows():
 	windows_patches = {
@@ -137,16 +134,15 @@ def build_giants():
 
 	print('Building', stuff + '...')
 
-	if is_mac():
-		print('Compiling zquake')
-		compile_zquake()
-		print('Compiling zqcc')
-		compile_zqcc()
-	else:
-		print('Compiling zquake')
-		compile_zquake_windows()
-		print('Compiling zqcc')
-		compile_zqcc_windows()
+	print('Compiling zquake')
+	do_something(
+		mac=compile_zquake,
+		windows=compile_zquake_windows)
+
+	print('Compiling zqcc')
+	do_something(
+		mac=compile_zqcc,
+		windows=compile_zqcc_windows)
 
 	print('Compiling gamecode')
 	compile_gamecode()
@@ -156,12 +152,12 @@ def build_giants():
 
 	print('Patching the Quake map tools')
 	patch_map_tools()
+	only_on(windows=patch_map_tools_windows)
 
 	print('Compiling the Quake map tools')
-	if is_mac():
-		compile_map_tools()
-	else:
-		compile_map_tools_windows()
+	do_something(
+		mac=compile_map_tools,
+		windows=compile_map_tools_windows)
 
 	print('Completed building', stuff + '.')
 
