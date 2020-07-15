@@ -1,6 +1,5 @@
 """AudioQuake Game Launcher - GUI helpers"""
 from os import path
-import subprocess
 import sys
 
 import wx
@@ -62,7 +61,7 @@ def add_opener_button(parent, sizer, title, thing_to_open):
 	def make_open_function(openee):
 		def open_thing(event):
 			try:
-				subprocess.check_call(opener() + openee)
+				opener(openee)
 			except:  # noqa E722
 				ErrorException(parent)
 		return open_thing

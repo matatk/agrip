@@ -37,8 +37,8 @@ class LauncherWindow(wx.Frame):
 		# Buttons
 
 		add_opener_buttons(panel, child_hbox, {
-			'README': (path.join('manuals', 'README.html'),),
-			'LICENCE': (path.join('manuals', 'LICENCE.html'),),
+			'README': path.join('manuals', 'README.html'),
+			'LICENCE': path.join('manuals', 'LICENCE.html'),
 		})
 
 		btn_quit = wx.Button(panel, -1, "Quit launcher")

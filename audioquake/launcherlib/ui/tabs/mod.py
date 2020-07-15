@@ -28,8 +28,8 @@ class ModTab(wx.Panel):
 
 		add_opener_buttons(self, sizer, {
 			'Development manual':
-				(path.join('manuals', 'development-manual.html'),),
-			'Developer debugging: show all files': ('.',)
+				path.join('manuals', 'development-manual.html'),
+			'Developer debugging: show all files': '.'
 		})
 
 		sizer.SetSizeHints(self)

@@ -1,6 +1,5 @@
 """AudioQuake Game Launcher - Map tab"""
 from os import path
-import subprocess
 import shutil
 
 import wx
@@ -60,8 +59,7 @@ class MapTab(wx.Panel):
 		add_widget(sizer, btn_ldl_test)
 
 		add_opener_button(
-			self, sizer, 'Open the LDL tutorial document',
-			('ldl-tutorial.html',))
+			self, sizer, 'Open the LDL tutorial document', 'ldl-tutorial.html')
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
@@ -87,10 +85,6 @@ class MapTab(wx.Panel):
 						self, lambda: self.game_controller.launch_map(map_base))
 				else:
 					Info(self, bspfile + ' built and installed')
-
-			except subprocess.CalledProcessError as error:
-				Error(self, error.output.decode().splitlines()[-1])
-
 			except:  # noqa E722
 				ErrorException(self)
 		else:

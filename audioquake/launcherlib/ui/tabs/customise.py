@@ -19,8 +19,8 @@ class CustomiseTab(wx.Panel):
 		# Settings
 
 		add_opener_buttons(self, sizer, {
-			'Edit autoexec.cfg': (path.join('id1', 'autoexec.cfg'),),
-			'Edit config.cfg': (path.join('id1', 'config.cfg'),),
+			'Edit autoexec.cfg': path.join('id1', 'autoexec.cfg'),
+			'Edit config.cfg': path.join('id1', 'config.cfg'),
 		})
 
 		# Install registered data
