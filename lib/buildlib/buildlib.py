@@ -31,7 +31,7 @@ def platform_set(mac=None, windows=None):
 
 
 class Config:
-	base = os.path.dirname(os.path.abspath(__file__))
+	base = os.path.dirname(os.path.abspath(sys.argv[0]))
 
 	zq_repo = os.path.join(base, 'giants', 'zq-repo')
 	dir_make_zqcc = os.path.join(zq_repo, 'zqcc')

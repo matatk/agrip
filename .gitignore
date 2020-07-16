@@ -2,6 +2,8 @@
 *.swp
 *~
 *.pyc
+.venv
+*.egg-info
 
 # *nix compilation
 giants/zq-repo/zquake/release-*

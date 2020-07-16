@@ -9,10 +9,6 @@ import sys
 import mistune
 import mistune_contrib.toc
 
-aq_path = os.path.dirname(os.path.abspath(__file__))
-lib_path = os.path.join(aq_path, os.pardir)
-sys.path.append(lib_path)
-
 from buildlib import Config, \
 	prep_dir, try_to_run, platform_set, check_platform, die, comeback
 
@@ -83,11 +79,6 @@ def run_pyinstaller():
 		os.chdir(path)
 	except:  # noqa E727
 		die("can't change directory to: " + path)
-
-	# Grab the LDL library from the next directory along
-	dir_local_ldllib = os.path.join(os.getcwd(), 'ldllib')
-	shutil.rmtree(dir_local_ldllib, ignore_errors=True)
-	shutil.copytree(Config.dir_ldllib, dir_local_ldllib)
 
 	for spec in ['AudioQuake.spec', 'rcon.spec']:
 		print('Running PyInstaller on ' + spec)
