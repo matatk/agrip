@@ -1,6 +1,7 @@
 """Build gubbins"""
 import platform
 import os
+from pathlib import Path
 import sys
 import subprocess
 import traceback
@@ -31,46 +32,44 @@ def platform_set(mac=None, windows=None):
 
 
 class Config:
-	base = os.path.dirname(os.path.abspath(sys.argv[0]))
+	base = Path(__file__).parent.parent.parent
 
-	zq_repo = os.path.join(base, 'giants', 'zq-repo')
-	dir_make_zqcc = os.path.join(zq_repo, 'zqcc')
-	dir_make_zquake = os.path.join(zq_repo, 'zquake')
-	dir_zquake_source = os.path.join(zq_repo, 'zquake', 'source')
-	dir_qc = os.path.join(base, 'giants', 'zq-repo', 'qc', 'agrip')
-	dir_dist = os.path.join(base, 'audioquake', 'dist')
-	dir_ldllib = os.path.join(base, 'ldl', 'ldllib')
+	zq_repo = base / 'giants' / 'zq-repo'
+	dir_make_zqcc = zq_repo / 'zqcc'
+	dir_make_zquake = zq_repo / 'zquake'
+	dir_zquake_source = zq_repo / 'zquake' / 'source'
+	dir_qc = base / 'giants' / 'zq-repo' / 'qc' / 'agrip'
+	dir_dist = base / 'audioquake' / 'dist'
+	dir_ldllib = base / 'ldl' / 'ldllib'
 
 	bin_zqcc = platform_set(
-		mac=os.path.join(dir_make_zqcc, 'zqcc'),
-		windows=os.path.join(dir_make_zqcc, 'Release', 'zqcc.exe'))
+		mac=dir_make_zqcc / 'zqcc',
+		windows=dir_make_zqcc / 'Release' / 'zqcc.exe')
 
 	bin_zqgl = platform_set(
-		mac=os.path.join(dir_make_zquake, 'release-mac', 'zquake-glsdl'),
-		windows=os.path.join(
-			dir_make_zquake, 'source', 'Release-GL', 'zquake-gl.exe'))
+		mac=dir_make_zquake / 'release-mac' / 'zquake-glsdl',
+		windows=dir_make_zquake / 'source' / 'Release-GL' / 'zquake-gl.exe')
 
 	bin_zqds = platform_set(
-		mac=os.path.join(dir_make_zquake, 'release-mac', 'zqds'),
-		windows=os.path.join(
-			dir_make_zquake, 'source', 'Release-server', 'zqds.exe'))
+		mac=dir_make_zquake / 'release-mac' / 'zqds',
+		windows=dir_make_zquake / 'source' / 'Release-server' / 'zqds.exe')
 
 	dir_aq_data = platform_set(
-		mac=os.path.join(dir_dist, 'AudioQuake.app', 'Contents', 'MacOS'),
-		windows=os.path.join(dir_dist, 'AudioQuake'))
+		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
+		windows=dir_dist / 'AudioQuake')
 
-	dir_manuals = os.path.join(base, 'audioquake', 'manuals')
-	dir_manuals_converted = os.path.join(base, 'audioquake', 'manuals-converted')
-	dir_dist_rcon = os.path.join(dir_dist, 'rcon')
+	dir_manuals = base / 'audioquake' / 'manuals'
+	dir_manuals_converted = base / 'audioquake' / 'manuals-converted'
+	dir_dist_rcon = dir_dist / 'rcon'
 	dir_readme_licence = base
 
-	dir_quake_tools = os.path.join(base, 'giants', 'Quake-Tools')
-	dir_qutils = os.path.join(dir_quake_tools, 'qutils')
-	dir_qbsp = os.path.join(dir_qutils, 'qbsp')
+	dir_quake_tools = base / 'giants' / 'Quake-Tools'
+	dir_qutils = dir_quake_tools / 'qutils'
+	dir_qbsp = dir_qutils / 'qbsp'
 
-	dir_patches = os.path.join(base, 'ldl', 'patches')
+	dir_patches = base / 'ldl' / 'patches'
 
-	file_aq_release = os.path.join(base, 'audioquake', 'release')
+	file_aq_release = base / 'audioquake' / 'release'
 
 
 def comeback(function):
@@ -100,8 +99,8 @@ def check_platform():
 
 
 def prep_dir(directory):
-	if os.path.exists(directory):
-		if not os.path.isdir(directory):
+	if Path(directory).exists():
+		if not Path(directory).is_dir():
 			raise Exception(directory + ' exists but is not a directory')
 	else:
 		os.mkdir(directory)
