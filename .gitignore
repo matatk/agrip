@@ -25,3 +25,5 @@ giants/zq-repo/zquake/source/*.suo
 giants/zq-repo/zquake/source/*.sdf
 giants/zq-repo/zquake/source/*.user
 giants/zq-repo/zquake/source/.vs/
+
+build-all.bat

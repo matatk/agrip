@@ -12,7 +12,7 @@ The day-to-day process of building the "giants" and AudioQuake is actually quite
 First-time set-up: Mac
 ----------------------
 
-These instructions were tested on macOS Catalina (10.15.5).
+These instructions were tested on macOS Catalina (10.15).
 
 ### Pre-requisites
 
@@ -46,15 +46,29 @@ First-time set-up: Windows
 
 These instructions have been tested on Windows 10 Home, 64-bit.
 
-* Download [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/community/). When installing:
+You don't need to download all of Visual Studio: whilst you _can_ use the graphical IDE to compile ZQuake and ZQCC, but you don't need to. If you want to use it, or already have it, check out the subsection below.
+
+* Install the [Build Tools for Visual Studio](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019) (that link takes you to part-way down the page. There is also an MSDN page called [Use the Microsoft C++ toolset from the command line](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line) that may be of interest.
+  + In "Workloads" choose "C++ build tools"
+  + In the "Installation details" section (a list of checkboxes) be sure to select "C++ MFC for latest v142 build tools" (this causes the corresponding ATL option to be selected too).
+* [Install Python 3.x](http://www.python.org/downloads/).
+  + The default installer from that page comes as 32-bit; that's fine.
+  + There is an "Add Python [version] to PATH" checkbox at the bottom of the first page of the install wizard; be sure to select it.
+  + You can then use the "Install now" option.
+  + You do not necessarily need to extend the path length limit.
+
+### Using the Visual Studio GUI, or customising an existing install
+
+* You can use [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/community/). When installing:
   + In "Workloads" choose "Desktop development with C++"
   + In the "Installation details" section (a list of checkboxes) be sure to select "C++ MFC for v142 build tools"
-* [Install Python 3.x](http://www.python.org/downloads/).
 
 Mac and Windows: Running a build
 --------------------------------
 
 Ensure you have the latest supporting Python packages with: `pip3 install -r requirements.txt` (the file lists everything needed by both AudioQuake and LDL).
+
+Open a command line in the root of the repo. You can do this via the GitHub Desktiop GUI if you like. On Windows, it's assumed you're using Command Prompt (not PowerShell).
 
 To run a complete build, issue the following commands at the command-line in the root of the repo:
 

@@ -44,7 +44,12 @@ def stage_1_create_venv():
 		print('The environment already exists.')
 	print()
 	print('Please enter the virtual environment and run ' + WHOAMI + ' again:')
-	print('    source ' + VENV + '/bin/activate && ./' + WHOAMI)
+	if platform.system() == 'Darwin':
+		print('    source ' + VENV + '/bin/activate && ./' + WHOAMI)
+	elif platform.system() == 'Windows':
+		print('    ' + VENV + '\\Scripts\\activate.bat && python ' + WHOAMI)
+	else:
+		raise NotImplementedError
 
 
 def stage_2_bootstrap_venv():
@@ -106,6 +111,17 @@ def build_everything_core():
 			['python', os.path.join('audioquake', 'build-audioquake.py')],
 			force_verbose=True)
 	elif platform.system() == 'Windows':
+		with open('build-all.bat', 'w') as batch:
+			build_vcvars_bat = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvars32.bat'
+			vs_vcvars_bat = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars32.bat'
+			if os.path.isfile(build_vcvars_bat):
+				batch.write('call "' + build_vcvars_bat + '"')
+			elif os.path.isfile(vs_vcvars_bat):
+				batch.write('call "' + vs_vcvars_bat + '"')
+			else:
+				raise Exception("Can't find either the MS Build tools nor Visual Studio build tools@")
+			batch.write(' && python build-giants.py && echo. && python audioquake\\build-audioquake.py')
+			batch.close()
 		try_to_run(['build-all.bat'], force_verbose=True)
 	else:
 		raise NotImplementedError
