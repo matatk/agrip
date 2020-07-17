@@ -33,7 +33,13 @@ def stage_1_create_venv():
 	print()
 	if not os.path.exists(VENV):
 		print('Creating the environment in:', VENV)
-		try_to_run(['python3', '-m', 'venv', VENV])
+		if platform.system() == 'Darwin':
+			python = 'python3'
+		elif platform.system() == 'Windows':
+			python = 'python'
+		else:
+			raise NotImplementedError
+		try_to_run([python, '-m', 'venv', VENV])
 	else:
 		print('The environment already exists.')
 	print()
@@ -100,7 +106,7 @@ def build_everything_core():
 			['python', os.path.join('audioquake', 'build-audioquake.py')],
 			force_verbose=True)
 	elif platform.system() == 'Windows':
-		try_to_run(['build-all.bat'])
+		try_to_run(['build-all.bat'], force_verbose=True)
 	else:
 		raise NotImplementedError
 

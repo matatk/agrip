@@ -82,7 +82,6 @@ def patch_map_tools():
 	}
 
 	for title, patch_file in patches.items():
-		print('Patching', title)
 		patch_set = patch.fromfile(patch_file)
 		if not patch_set.apply(root=Config.dir_qbsp):
 			raise Exception('Patch', patch_file, 'failed.')
@@ -111,7 +110,6 @@ def compile_map_tools():
 @comeback
 def compile_map_tools_windows():  # FIXME DRY
 	for prog in ['qbsp', 'vis', 'light', 'bspinfo']:
-		print('Map tool:', prog)
 		path = os.path.join(Config.dir_qutils, prog)
 		try:
 			os.chdir(path)
