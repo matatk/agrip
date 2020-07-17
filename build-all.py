@@ -10,16 +10,24 @@ VENV = '.venv'
 verbose = False
 
 
+#
+# Main stages
+#
+
 def main():
 	print(BANNER)
 	print()
 	if sys.prefix == sys.base_prefix:
-		check_create_venv()
+		stage_1_create_venv()
 	else:
-		bootstrap_venv()
+		stage_2_bootstrap_venv()
+		stage_3_build_everything()
+	print()
+	print('Remember to deactivate the virtual environment when finished with:')
+	print('    deactivate')
 
 
-def check_create_venv():
+def stage_1_create_venv():
 	print('Stage 1 of 3: Creating and entering the virtual Python environment')
 	print()
 	if not os.path.exists(VENV):
@@ -32,7 +40,7 @@ def check_create_venv():
 	print('    source ' + VENV + '/bin/activate && ./bootstrap.py')
 
 
-def bootstrap_venv():
+def stage_2_bootstrap_venv():
 	try:
 		import buildlib  # noqa 401
 		import ldllib    # noqa 401
@@ -40,13 +48,6 @@ def bootstrap_venv():
 		print('Stage 2 of 3: Installing required packages and shared code')
 		print()
 		install_deps_and_shared_code()
-
-	print('Stage 3 of 3: Running a build')
-	print()
-	build_everything()
-
-	print('Remember to deactivate the virtual environment when finished with:')
-	print('    deactivate')
 
 
 def install_deps_and_shared_code():
@@ -73,22 +74,21 @@ def install_deps_and_shared_code():
 	print()
 
 
-def build_everything():
-	if platform.system() == 'Windows':
-		pass  # TODO check for commands; run the batch file and restart
-
+def stage_3_build_everything():
+	print('Stage 3 of 3: Running a build')
+	print()
 	print('Now to build everything:')
 	print('a. compile the engine, gamecod and map tools')
 	print('b. assemble an AQ & LDL release')
 	print('Any building work done so far will be re-used.')
 	print()
+
 	try:
 		input('Run these build steps? (Enter to run or interrupt to abort) ')
 		print()
 		build_everything_core()
 	except KeyboardInterrupt:
 		print()
-	print()
 
 
 def build_everything_core():
@@ -103,6 +103,10 @@ def build_everything_core():
 	else:
 		raise NotImplementedError
 
+
+#
+# Support
+#
 
 def try_to_run(args, force_verbose=False):
 	sink = None if verbose or force_verbose else subprocess.DEVNULL
