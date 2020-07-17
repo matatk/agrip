@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Bootstrap the virtual environment and run a build"""
+"""Bootstrap the virtual environment and run a full build"""
 import argparse
 import os.path
 import platform
 import subprocess
 import sys
 
+WHOAMI = os.path.basename(__file__)
 VENV = '.venv'
 verbose = False
 
@@ -36,8 +37,8 @@ def stage_1_create_venv():
 	else:
 		print('The environment already exists.')
 	print()
-	print('Please enter the virtual environment and run bootstrap again:')
-	print('    source ' + VENV + '/bin/activate && ./bootstrap.py')
+	print('Please enter the virtual environment and run ' + WHOAMI + ' again:')
+	print('    source ' + VENV + '/bin/activate && ./' + WHOAMI)
 
 
 def stage_2_bootstrap_venv():
@@ -56,10 +57,10 @@ def install_deps_and_shared_code():
 	print('Language.')
 	print()
 	print('Normally this produces a lot of output; it will be kept quiet unless')
-	print('there is an error.')
+	print("there is an error, or you've used the -v/--verbose switch.")
 	print()
 	try:
-		input('Press Enter to continue, or interrupt to exit. ')
+		input('Press Enter to continue, or interrupt to abort. ')
 	except KeyboardInterrupt:
 		print()
 		sys.exit(0)
@@ -84,7 +85,7 @@ def stage_3_build_everything():
 	print()
 
 	try:
-		input('Run these build steps? (Enter to run or interrupt to abort) ')
+		input('Run these build steps? (Enter to run; interrupt to abort) ')
 		print()
 		build_everything_core()
 	except KeyboardInterrupt:
