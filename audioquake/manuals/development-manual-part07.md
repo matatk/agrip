@@ -1,13 +1,10 @@
-Stats and Servers System
-========================
+# Stats and Servers System
 
-Backstory and Goals
--------------------
+## Backstory and Goals
 
 FIXME
 
-Stats and Severs
-----------------
+## Stats and Severs
 
 ### Stats Gathering
 
@@ -25,7 +22,6 @@ FIXME
 
 FIXME
 
-MAUTH – Master AUTHentication protocol
---------------------------------------
+## MAUTH – Master AUTHentication protocol
 
 FIXME
