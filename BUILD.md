@@ -70,7 +70,7 @@ You don't need to download all of Visual Studio: whilst you _can_ use the graphi
 
 * Install the [Build Tools for Visual Studio](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019) (that link takes you to part-way down the page. There is also an MSDN page called [Use the Microsoft C++ toolset from the command line](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line) that may be of interest.
   + In "Workloads" choose "C++ build tools"
-  + In the "Installation details" section (a list of checkboxes) be sure to select "C++ MFC for latest v142 build tools" (this causes the corresponding ATL option to be selected too).
+  + In the "Installation details" section (a list of checkboxes) be sure to select "C++ MFC for latest v142 build tools (x86 & x64)" (this causes the corresponding ATL option to be selected too).
 * [Install Python 3.x](http://www.python.org/downloads/).
   + The default installer from that page comes as 32-bit; that's fine.
   + There is an "Add Python [version] to PATH" checkbox at the bottom of the first page of the install wizard (below the "Install now" button); be sure to select it.
@@ -79,10 +79,12 @@ You don't need to download all of Visual Studio: whilst you _can_ use the graphi
 
 #### Using the Visual Studio GUI, or customising an existing install
 
-You can use [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/community/). When installing:
+You can use [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/community/). The build scripts will still work automatically via the command-line, but they will use the Visual Studio development environment scripts, rather than the command-line ones.
+
+Here's what you need to ensure is installed:
 
 * In "Workloads" choose "Desktop development with C++"
-* In the "Installation details" section (a list of checkboxes) be sure to select "C++ MFC for v142 build tools"
+* In the "Installation details" section (a list of checkboxes) be sure to select "C++ MFC for latest v142 build tools (x86 & x64)".
 
 ## Your first build
 
