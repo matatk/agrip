@@ -57,40 +57,40 @@ OT_BUILDER = 'builder'
 
 dir_to_angle = {
 	dcp.SOUTHWEST: 225,
-	dcp.WEST:	  180,
+	dcp.WEST:      180,
 	dcp.NORTHWEST: 135,
-	dcp.SOUTH:	 270,
-	dcp.NORTH:	  90,
+	dcp.SOUTH:     270,
+	dcp.NORTH:      90,
 	dcp.SOUTHEAST: 315,
-	dcp.EAST:		0,
-	dcp.NORTHEAST:  45,
+	dcp.EAST:        0,
+	dcp.NORTHEAST:  45
 }
 
 facepos_to_fract = {
-	dcp.BOTTOMLEFT:	 (0.25, 0.25),
-	dcp.LEFT:		 (0.25, 0.50),
-	dcp.TOPLEFT:	 (0.25, 0.75),
+	dcp.BOTTOMLEFT:  (0.25, 0.25),
+	dcp.LEFT:        (0.25, 0.50),
+	dcp.TOPLEFT:     (0.25, 0.75),
 
-	dcp.BOTTOM:		 (0.50, 0.25),
-	dcp.CENTRE:		 (0.50, 0.50),
-	dcp.TOP:		 (0.50, 0.75),
+	dcp.BOTTOM:      (0.50, 0.25),
+	dcp.CENTRE:      (0.50, 0.50),
+	dcp.TOP:         (0.50, 0.75),
 
 	dcp.BOTTOMRIGHT: (0.75, 0.25),
-	dcp.RIGHT:		 (0.75, 0.50),
-	dcp.TOPRIGHT:	 (0.75, 0.75)
+	dcp.RIGHT:       (0.75, 0.50),
+	dcp.TOPRIGHT:    (0.75, 0.75)
 }
 
 compass_to_fract = {
 	dcp.SOUTHWEST: (0.25, 0.25),
-	dcp.WEST:	   (0.25, 0.50),
+	dcp.WEST:      (0.25, 0.50),
 	dcp.NORTHWEST: (0.25, 0.75),
 
-	dcp.SOUTH:	   (0.50, 0.25),
-	dcp.CENTRE:	   (0.50, 0.50),
-	dcp.NORTH:	   (0.50, 0.75),
+	dcp.SOUTH:     (0.50, 0.25),
+	dcp.CENTRE:    (0.50, 0.50),
+	dcp.NORTH:     (0.50, 0.75),
 
 	dcp.SOUTHEAST: (0.75, 0.25),
-	dcp.EAST:	   (0.75, 0.50),
+	dcp.EAST:      (0.75, 0.50),
 	dcp.NORTHEAST: (0.75, 0.75)
 }
 

@@ -1,0 +1,12 @@
+[flake8]
+
+ignore =
+	W191,  # indentation contains tabs
+	W503   # line break before binary operator
+
+per_file_ignores =
+	# Alignment of the 3D/direction constants
+	lib/ldllib/ldllib/level_05_down_connections.py:E241,
+
+	# Hanging indent issues (affecting the regex, but have to apply to file)
+	lib/ldllib/ldllib/level_00_up_map2mapxml.py:E131
