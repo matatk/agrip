@@ -6,9 +6,19 @@ import platform
 import subprocess
 import sys
 
+# Paths to the vcvars*.bat files, used to set up the dev tools environment
+# variables on Windows
+VCVARS_MSBUILD = (
+	'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\'
+	'BuildTools\\VC\\Auxiliary\\Build\\vcvars32.bat')
+VCVARS_VS = (
+	'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\'
+	'Community\\VC\\Auxiliary\\Build\\vcvars32.bat')
+
+GENERATED_BUILD_BATCH = 'build-all.bat'  # also in .gitignore
+VENV = '.venv'                           # matches .envrc
+verbose = False                          # set via command-line switch
 WHOAMI = os.path.basename(__file__)
-VENV = '.venv'
-verbose = False
 
 
 #
@@ -63,12 +73,14 @@ def stage_2_bootstrap_venv():
 
 
 def install_deps_and_shared_code():
-	print('This will call pip to update itself, then install the required')
-	print('packages and code shared between AudioQuake and Level Description')
-	print('Language.')
+	print(
+		'This will call pip to update itself, then install the required '
+		'packages and code shared between AudioQuake and Level Description '
+		'Language.')
 	print()
-	print('Normally this produces a lot of output; it will be kept quiet unless')
-	print("there is an error, or you've used the -v/--verbose switch.")
+	print(
+		'Normally this produces a lot of output; it will be kept quiet unless '
+		"there is an error, or you've used the -v/--verbose switch.")
 	print()
 	try:
 		input('Press Enter to continue, or interrupt to abort. ')
@@ -98,33 +110,39 @@ def stage_3_build_everything():
 	try:
 		input('Run these build steps? (Enter to run; interrupt to abort) ')
 		print()
-		build_everything_core()
+		if platform.system() == 'Darwin':
+			build_everything_core_mac()
+		elif platform.system() == 'Windows':
+			build_everything_core_windows()
+		else:
+			raise NotImplementedError
 	except KeyboardInterrupt:
 		print()
 
 
-def build_everything_core():
-	if platform.system() == 'Darwin':
-		try_to_run(['python', 'build-giants.py'], force_verbose=True)
-		print()
-		try_to_run(
-			['python', os.path.join('audioquake', 'build-audioquake.py')],
-			force_verbose=True)
-	elif platform.system() == 'Windows':
-		with open('build-all.bat', 'w') as batch:
-			build_vcvars_bat = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvars32.bat'
-			vs_vcvars_bat = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars32.bat'
-			if os.path.isfile(build_vcvars_bat):
-				batch.write('call "' + build_vcvars_bat + '"')
-			elif os.path.isfile(vs_vcvars_bat):
-				batch.write('call "' + vs_vcvars_bat + '"')
-			else:
-				raise Exception("Can't find either the MS Build tools nor Visual Studio build tools@")
-			batch.write(' && python build-giants.py && echo. && python audioquake\\build-audioquake.py')
-			batch.close()
-		try_to_run(['build-all.bat'], force_verbose=True)
-	else:
-		raise NotImplementedError
+def build_everything_core_mac():
+	try_to_run(['python', 'build-giants.py'], force_verbose=True)
+	print()
+	try_to_run(
+		['python', os.path.join('audioquake', 'build-audioquake.py')],
+		force_verbose=True)
+
+
+def build_everything_core_windows():
+	with open(GENERATED_BUILD_BATCH, 'w') as batch:
+		if os.path.isfile(VCVARS_MSBUILD):
+			batch.write('call "' + VCVARS_MSBUILD + '"')
+		elif os.path.isfile(VCVARS_VS):
+			batch.write('call "' + VCVARS_VS + '"')
+		else:
+			raise Exception(
+				"Can't find either the MS Build tools "
+				'nor Visual Studio build tools.')
+		batch.write(
+			' && python build-giants.py'
+			' && echo. && python audioquake\\build-audioquake.py')
+
+	try_to_run([GENERATED_BUILD_BATCH], force_verbose=True)
 
 
 #
