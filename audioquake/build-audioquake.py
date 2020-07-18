@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Get all the bits and bobs ready to build AudioQuake"""
 import os
+from pathlib import Path
 import string
-import glob
 import shutil
 
 import mistune
@@ -28,8 +28,7 @@ def convert_markdown_files(base_name, markdown_files, output_dir):
 
 	fancy_name = base_name.translate({ord('-'): ' '}).title()
 
-	document_template = open(
-		os.path.join(Config.dir_manuals, 'template.html'), 'r').read()
+	document_template = open(Config.dir_manuals / 'template.html', 'r').read()
 
 	if not isinstance(markdown_files, list):
 		markdown_files = [markdown_files]
@@ -46,20 +45,20 @@ def convert_markdown_files(base_name, markdown_files, output_dir):
 		toc=html_toc,
 		content=html_content)
 
-	open(os.path.join(output_dir, base_name + '.html'), 'w').write(
-		full_document)
+	open(output_dir / (base_name + '.html'), 'w').write(full_document)
 
 
 def convert_manuals():
 	for manual in ['user-manual', 'development-manual']:
 		print('Converting', manual)
-		sources = sorted(glob.glob(os.path.join(Config.dir_manuals, manual) + '*'))
+		sources = sorted(Config.dir_manuals.glob(manual + '*'))
 		convert_markdown_files(manual, sources, Config.dir_manuals_converted)
 
 	single_docs_to_convert = {
-		'sound-legend': os.path.join(Config.dir_manuals, 'user-manual-part07-b.md'),
-		'README': os.path.join(Config.dir_readme_licence, 'README.md'),
-		'LICENCE': os.path.join(Config.dir_readme_licence, 'LICENCE.md')}
+		'sound-legend': Config.dir_manuals / 'user-manual-part07-b.md',
+		'README': Config.dir_readme_licence / 'README.md',
+		'LICENCE': Config.dir_readme_licence / 'LICENCE.md'
+	}
 
 	for docname, docpath in single_docs_to_convert.items():
 		print('Converting ' + docname)
@@ -73,7 +72,7 @@ def convert_manuals():
 @comeback
 def run_pyinstaller():
 	# FIXME DRY all these chdirs
-	path = os.path.dirname(os.path.abspath(__file__))
+	path = Path(__file__).parent
 	try:
 		os.chdir(path)
 	except:  # noqa E727
@@ -92,7 +91,7 @@ def copy_in_rcon():
 		windows='rcon.exe')
 
 	shutil.copy(
-		os.path.join(Config.dir_dist_rcon, rcon_bin),
+		Config.dir_dist_rcon / rcon_bin,
 		Config.dir_aq_data)
 
 
