@@ -3,5 +3,3 @@ manuals-converted/
 # PyInstaller output
 build/
 dist/
-# Copy of LDL library in AudioQuake dir
-ldllib/

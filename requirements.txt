@@ -8,3 +8,5 @@ PyInstaller==3.6
 argcomplete==1.10.0
 xmltodict==0.12.0
 patch_ng==1.17
+
+md-toc==7.0.3
