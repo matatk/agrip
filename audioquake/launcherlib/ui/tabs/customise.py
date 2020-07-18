@@ -51,7 +51,6 @@ class CustomiseTab(wx.Panel):
 					except:  # noqa E722
 						ErrorException(self)
 				else:
-					Error(
-						self,
-						"One or both of the registered data files could "
-						+ "not be found in the chosen directory.")
+					Error(self, (
+						'One or both of the registered data files could '
+						'not be found in the chosen directory.'))
