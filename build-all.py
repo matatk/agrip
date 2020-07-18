@@ -130,11 +130,12 @@ def build_everything_core_mac():
 
 def build_everything_core_windows():
 	with open(GENERATED_BUILD_BATCH, 'w') as batch:
+		batch.write('@echo off\r\n')
 		if os.path.isfile(VCVARS_MSBUILD):
-			print('Found the Microsoft build tools')
+			print('Found the Microsoft build tools environment batch file')
 			batch.write('call "' + VCVARS_MSBUILD + '"')
 		elif os.path.isfile(VCVARS_VS):
-			print('Found Visual Studio')
+			print('Found Visual Studio environment batch file')
 			batch.write('call "' + VCVARS_VS + '"')
 		else:
 			raise Exception(
@@ -142,7 +143,7 @@ def build_everything_core_windows():
 				'the Visual Studio build tools.')
 		batch.write(
 			' && python build-giants.py'
-			' && echo. && python audioquake\\build-audioquake.py')
+			' && echo. && python audioquake\\build-audioquake.py\r\n')
 
 	try_to_run([GENERATED_BUILD_BATCH], force_verbose=True)
 
