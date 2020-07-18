@@ -4,7 +4,6 @@ import os
 import string
 import glob
 import shutil
-import sys
 
 import mistune
 import mistune_contrib.toc

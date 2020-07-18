@@ -106,15 +106,18 @@ def stamp_file_check(parent, name):
 	# TODO need to apply to mod loading for the first time
 	# TODO better sense for filename would be nice
 	stamp_file_name = 'not-first-run-' + name
-	prompt = 'When you run the ' + name + ' for the first time, Windows ' + \
-		'may ask you to allow it through the firewall.'
+	prompt = (
+		'When you run the ' + name + ' for the first time, Windows '
+		'may ask you to allow it through the firewall.')
 	if name == 'game':
-		prompt += ' This will be done in a secure window that pops up ' + \
-			'above the Quake engine, which you will need to use ALT-TAB ' + \
-			'and an Assistive Technology to access.'
+		prompt += (
+			' This will be done in a secure window that pops up'
+			' above the Quake engine, which you will need to use ALT-TAB'
+			' and an Assistive Technology to access.')
 	elif name == 'server':
-		prompt += ' Please also note that the server output window, and ' + \
-			'the remote console facility, are not self-voicing.'
+		prompt += (
+			' Please also note that the server output window, and'
+			' the remote console facility, are not self-voicing.')
 	else:
 		raise TypeError
 
