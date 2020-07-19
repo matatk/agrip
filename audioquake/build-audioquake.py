@@ -67,7 +67,7 @@ def convert_manuals():
 			'sound-legend'
 		],
 		'Level Description Language Tutorial': [
-			Config.dir_ldl / 'ldl-tutorial.md',
+			Config.dir_ldl / 'tutorial.md',
 			'ldl-tutorial'
 		]
 	}
