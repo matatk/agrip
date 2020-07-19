@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Get all the bits and bobs ready to build AudioQuake"""
+import argparse
 from os import chdir
 from pathlib import Path
 import string
@@ -10,6 +11,8 @@ import mistune_contrib.toc
 
 from buildlib import Config, \
 	prep_dir, try_to_run, platform_set, check_platform, die, comeback
+
+skip_pyinstaller = False  # set via command-line option
 
 
 #
@@ -111,12 +114,27 @@ def build_audioquake():
 	convert_manuals()  # TODO replace with a check if it needs doing
 
 	# Build the executables
-	run_pyinstaller()
-	copy_in_rcon()
-
-	print('Completed building AudioQuake with Level Description Language.')
-	print('Distributable software is in:', Config.dir_dist)
+	if not skip_pyinstaller:
+		run_pyinstaller()
+		copy_in_rcon()
+		print('Completed building AudioQuake with Level Description Language.')
+		print('Distributable software is in:', Config.dir_dist)
+	else:
+		print('Skipping running PyInstaller')
 
 
 if __name__ == '__main__':
+	BANNER = 'Build AudioQuake'
+
+	parser = argparse.ArgumentParser(description=BANNER)
+
+	parser.add_argument(
+		'-s', '--skip-pyinstaller', action='store_true',
+		help="Don't run PyInstaller (used for debugging manual conversion)")
+
+	args = parser.parse_args()
+
+	if args.skip_pyinstaller:
+		skip_pyinstaller = True
+
 	build_audioquake()
