@@ -1,6 +1,0 @@
-#!/bin/sh
-echo Linting shell scripts...
-shellcheck -- *.sh
-echo
-echo Linting Python scripts...
-flake8 --ignore="W191,E117,W503" -- *.py ldl/*.py
