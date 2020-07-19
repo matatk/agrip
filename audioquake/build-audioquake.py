@@ -23,15 +23,11 @@ class TocRenderer(mistune_contrib.toc.TocMixin, mistune.Renderer):
 	pass
 
 
-def convert_markdown_files(base_name, markdown_files, output_dir):
+def convert_markdown_files(base_name, fancy_name, markdown_files, output_dir):
 	toc = TocRenderer()
 	md = mistune.Markdown(renderer=toc)
-
-	source = ''
-
-	fancy_name = base_name.translate({ord('-'): ' '}).title()
-
 	document_template = open(Config.dir_manuals / 'template.html', 'r').read()
+	source = ''
 
 	if not isinstance(markdown_files, list):
 		markdown_files = [markdown_files]
@@ -52,21 +48,34 @@ def convert_markdown_files(base_name, markdown_files, output_dir):
 
 
 def convert_manuals():
-	for manual in ['user-manual', 'development-manual']:
-		print('Converting', manual)
-		sources = sorted(Config.dir_manuals.glob(manual + '*'))
-		convert_markdown_files(manual, sources, Config.dir_manuals_converted)
-
-	single_docs_to_convert = {
-		'sound-legend': Config.dir_manuals / 'user-manual-part07-b.md',
-		'README': Config.dir_readme_licence / 'README.md',
-		'LICENCE': Config.dir_readme_licence / 'LICENCE.md',
-		'ldl-tutorial': Config.dir_ldl / 'ldl-tutorial.md'
+	manuals = {
+		'AudioQuake User Manual': 'user-manual',
+		'AudioQuake Development Manual': 'development-manual'
 	}
 
-	for docname, docpath in single_docs_to_convert.items():
-		print('Converting ' + docname)
-		convert_markdown_files(docname, docpath, Config.dir_manuals_converted)
+	for title, manual_basename in manuals.items():
+		print('Converting', manual_basename)
+		sources = sorted(Config.dir_manuals.glob(manual_basename + '*'))
+		convert_markdown_files(
+			manual_basename, title, sources, Config.dir_manuals_converted)
+
+	single_docs_to_convert = {
+		'README': [Config.dir_readme_licence / 'README.md', 'README'],
+		'LICENCE': [Config.dir_readme_licence / 'LICENCE.md', 'LICENCE'],
+		'AudioQuake Sound Legend': [
+			Config.dir_manuals / 'user-manual-part07-b.md',
+			'sound-legend'
+		],
+		'Level Description Language Tutorial': [
+			Config.dir_ldl / 'ldl-tutorial.md',
+			'ldl-tutorial'
+		]
+	}
+
+	for title, details in single_docs_to_convert.items():
+		source, output = details
+		print('Converting ' + output)
+		convert_markdown_files(output, title, source, Config.dir_manuals_converted)
 
 
 #
