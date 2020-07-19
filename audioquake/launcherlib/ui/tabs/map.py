@@ -59,7 +59,8 @@ class MapTab(wx.Panel):
 		add_widget(sizer, btn_ldl_test)
 
 		add_opener_button(
-			self, sizer, 'Open the LDL tutorial document', 'ldl-tutorial.html')
+			self, sizer, 'Open the LDL tutorial document',
+			path.join('manuals', 'ldl-tutorial.html'))  # FIXME DRY?
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)

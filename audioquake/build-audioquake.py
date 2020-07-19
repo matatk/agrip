@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Get all the bits and bobs ready to build AudioQuake"""
-import os
+from os import chdir
 from pathlib import Path
 import string
 import shutil
@@ -57,7 +57,8 @@ def convert_manuals():
 	single_docs_to_convert = {
 		'sound-legend': Config.dir_manuals / 'user-manual-part07-b.md',
 		'README': Config.dir_readme_licence / 'README.md',
-		'LICENCE': Config.dir_readme_licence / 'LICENCE.md'
+		'LICENCE': Config.dir_readme_licence / 'LICENCE.md',
+		'ldl-tutorial': Config.dir_ldl / 'ldl-tutorial.md'
 	}
 
 	for docname, docpath in single_docs_to_convert.items():
@@ -74,7 +75,7 @@ def run_pyinstaller():
 	# FIXME DRY all these chdirs
 	path = Path(__file__).parent
 	try:
-		os.chdir(path)
+		chdir(path)
 	except:  # noqa E727
 		die("can't change directory to: " + path)
 

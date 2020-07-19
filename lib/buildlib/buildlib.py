@@ -67,7 +67,8 @@ class Config:
 	dir_qutils = dir_quake_tools / 'qutils'
 	dir_qbsp = dir_qutils / 'qbsp'
 
-	dir_patches = base / 'ldl' / 'patches'
+	dir_ldl = base / 'ldl'
+	dir_patches = dir_ldl / 'patches'
 
 	file_aq_release = base / 'audioquake' / 'release'
 
