@@ -11,7 +11,8 @@ data_files = [
 	('app-support-files/start-server.command', '.'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 	('../ldl/style.xml', '.'),
-	('../../non-redist/quake.wad', '.')]
+	('../../non-redist/quake.wad', '.'),
+	('../ldl/tut*.xml', 'ldl-tutorial-maps')]
 
 if platform.system() == 'Darwin':
 	binary_files = [
