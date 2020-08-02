@@ -12,9 +12,7 @@ The whole gamecode for *Quake*, with AGRIP extensions, and any modifications you
 
 ### The language
 
-FIXME ref
-
-QuakeC is similar to C in nature. This is not a tutorial on the language itself; it is assumed the reader is used to programming in general. Much information can be found through the resources listed in [appendix section](#ref-qc "QuakeC") on the matter.
+QuakeC is similar to C in nature. This is not a tutorial on the language itself; it is assumed the reader is used to programming in general. Much information can be found through the resources listed in [appendix section](#ref-qc) on the matter.
 
 ### Building Code—The Basics
 

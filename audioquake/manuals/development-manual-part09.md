@@ -1,12 +1,11 @@
-# QMOD INI File Settings
+<a name="qmod-ini"></a>
+# `qmod.ini` file settings
 
-The following sections detail the various options available to MOD authors in QMOD INI files. The are split into the two (current) sections of the INI file – "general" and "longdesc".
+The following sections detail the various options available to mod authors in `qmod.ini` files. The are split into the two (current) sections of the INI file—"general" and "longdesc".
 
 ### General
 
-This section contains details that the installer and launcher will both use. It allows you to provide the user with basic information about the MOD and determines how it will react to the user's (potentially customised) config files.
-
-**Table B.1. Configuration Items for the General Section of QMOD INI files**
+This section contains details that the installer and launcher will both use. It allows you to provide the user with basic information about the mod and determines how it will react to the user's (potentially customised) config files.
 
 | Key             | Notes                                                                                                                                                                  | Example(s)                                    |
 | :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------- |
@@ -29,14 +28,13 @@ version=3.7
 gamedir=jediquake37
 watch_config=yes
 watch_autoexec=yes
-
 ```
 
 ### Longdesc
 
-This section is optional and, if included, is used to give the user more information about the MOD when they select it in the game launcher's menu.
+This section is optional and, if included, is used to give the user more information about the mod when they select it in the game launcher's menu.
 
-Create it by assigning each "chunk" of your MOD's description to a key. Each chunk must be less than 80 characters long. Use keys which, when sorted, will result in the correct ordering of chunks (i.e. just number each chunk).
+Create it by assigning each "chunk" of your mod's description to a key. Each chunk must be less than 80 characters long. Use keys which, when sorted, will result in the correct ordering of chunks (i.e. just number each chunk).
 
 The obligatory example:
 
@@ -46,5 +44,4 @@ The obligatory example:
 01=force powers, new weapons and modifications of existing weapons...
 02=The bots may also surprise you as well...
 03=See the jediquake folder for documentation.
-
 ```

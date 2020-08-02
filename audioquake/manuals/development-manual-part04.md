@@ -42,9 +42,7 @@ It's easy\! You need to package up all the files required by your mod, in a part
 
 3. Take your mod directory and put it in a new directory that has the name of your mod. If you are naming your mod directories with an appended version number (`jediquake37`, for example), the name you give to the parent directory should *not* include this (`jediquke`, for example).
 
-FIXME REF
-
-4. Construct an INI file for your mod in this parent directory, next to your mod's installation directory. The INI file should be called `qmod.ini`. For details of all available options, consult [Appendix B, *QMOD INI File Settings*](#ref-qmodini "Appendix B. QMOD INI File Settings"). Here is an example, again taken from the *JediQuake* modification:
+4. Construct an INI file for your mod in this parent directory, next to your mod's installation directory. The INI file should be called `qmod.ini`. For details of all available options, consult [the `qmod.ini` file settings section](#qmod-ini). Here is an example, again taken from the *JediQuake* modification:
 
    ``` screen
    [general]
@@ -77,3 +75,4 @@ Very easy!
 * To play a mod, the user can use the play button that's also on the "Mod" tab of the launcher. They'll be given a list of installed mods and can pick one to play.
 
   If your INI file has requested that your mod be kept up-to-date with the user's config file changes, they'll be copied over by the launcher before your mod is run.
+
