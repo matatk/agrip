@@ -20,7 +20,7 @@ This section explains the meaning of the various toggle sounds used in the game.
 
 This section explains the meaning of the sounds that the navigation helper makes.
 
-**Table A.1. Structures**
+#### Structures
 
 | Sound                                               | Description                                                                           | Played when…                                                                                                                                                                            |
 | :-------------------------------------------------- | :------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -31,16 +31,14 @@ This section explains the meaning of the sounds that the navigation helper makes
 | [Scraping a Wall](../id1/sound/nav/wall-scrape.wav) | This indicates you're walking but a wall is in your way and you're scraping along it. | Played when a wall is in your way but you are able to walk, sliding along it.                                                                                                           |
 | [Wind](../id1/sound/nav/wind.wav)                   | This indicates that a lot of empty space can be found in a certain direction.         | Played when there is a large amount of empty space in a given direction from you (when a sweep has been initiated with the L key).                                                      |
 
-
-**Table A.2. Vertical Movement**
+#### Vertical movement
 
 | Sound                             | Description                                          | Played when…                                        |
 | :-------------------------------- | :--------------------------------------------------- | :-------------------------------------------------- |
 | [Up](../id1/sound/nav/up.wav)     | This sound indicates you're going up in the world.   | Played when you go up stairs, slopes or on lifts.   |
 | [Down](../id1/sound/nav/down.wav) | This sound indicates you're going down in the world. | Played when you go down stairs, slopes or on lifts. |
 
-
-**Table A.3. Hazard (Drop/Ledge) Warnings**
+#### Hazard (drop/ledge) warnings
 
 | Sound                                         | Description             | Played when…                                                                                                   |
 | :-------------------------------------------- | :---------------------- | :------------------------------------------------------------------------------------------------------------- |
@@ -60,7 +58,7 @@ You'll also hear the above sound if you ask for a description of what lies in th
 
 This section explains the meaning of sounds made by the independent navigation aids.
 
-**Table A.4. Waypoint Marker Sounds**
+#### Waypoint marker sounds
 
 | Sound                                               | Description                               | Played when…                                                                                                                                                                                   |
 | :-------------------------------------------------- | :---------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -93,7 +91,7 @@ If you try to use a weapon you don't yet possess, you'll hear this ["access deni
 
 This section explains the meaning of the sounds that the ESR makes.
 
-**Table A.5. Monster Indication Sounds**
+#### Monster indication sounds
 
 | Sound                                                          | Description                                                                      | Played when…                                                                |
 | :------------------------------------------------------------- | :------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
@@ -101,8 +99,7 @@ This section explains the meaning of the sounds that the ESR makes.
 | [Monster on same level](../id1/sound/esr/monster-same.wav)     | Sound indicating that a monster is at a similar level (elevation) to the player. | Played when a monster is detected and is on the same level as the player.   |
 | [Monster on higher level](../id1/sound/esr/monster-higher.wav) | Sound indicating that a monster is at a higher level (elevation) to the player.  | Played when a monster is detected and is on the higher level as the player. |
 
-
-**Table A.6. Enemy (Player or Bot) Indication Sounds**
+#### Enemy (player or bot) indication sounds
 
 | Sound                                                      | Description                                                                    | Played when…                                                              |
 | :--------------------------------------------------------- | :----------------------------------------------------------------------------- | :------------------------------------------------------------------------ |
@@ -110,8 +107,7 @@ This section explains the meaning of the sounds that the ESR makes.
 | [Enemy on same level](../id1/sound/esr/enemy-same.wav)     | Sound indicating that a enemy is at a similar level (elevation) to the player. | Played when a enemy is detected and is on the same level as the player.   |
 | [Enemy on higher level](../id1/sound/esr/enemy-higher.wav) | Sound indicating that a enemy is at a higher level (elevation) to the player.  | Played when a enemy is detected and is on the higher level as the player. |
 
-
-**Table A.7. Friend (Player or Bot) Indication Sounds**
+#### Friend (player or bot) indication sounds
 
 | Sound                                                        | Description                                                                     | Played when…                                                               |
 | :----------------------------------------------------------- | :------------------------------------------------------------------------------ | :------------------------------------------------------------------------- |
