@@ -94,7 +94,7 @@ To find out what's at the bottom, use the K key. You will get the ["access denie
 
 This gives you a bit more of a feel for how big the area around you actually is. It will play a [gentle wind](../id1/sound/nav/wind.wav) sound at various points in front of you if there are no walls or other obstacles in that direction. The sounds are generated in a sweep from left to right around you, in response to a pres of the L key. It works as if you were using a mobility cane to scan the area—though it has significantly greater range.
 
-The distance over which obstacles are scanned for is the navigation detection range and is customisable (please read [Customising *AudioQuake*](#customising-audioauake") for more details).
+The distance over which obstacles are scanned for is the navigation detection range and is customisable (please read [Customising *AudioQuake*](#customising-audioauake) for more details).
 
 #### Corner detection
 
@@ -196,7 +196,7 @@ A number of things may cause a map to end. This largely depends on what game mod
 
 ### Other keys and exiting the game
 
-One of *Quake*'s strengths is that it allows total control over which keys do what. *AudioQuake* does not take any of this control away from you (please read the [Customising *AudioQuake*](#customising-audioauake") section for details) but it does, by default, limit the number of defined keys. Originally, there were many ways to perform some game actions (like jumping or shooting). We have disabled a lot of the keys so that the likelihood of pressing a key you don't mean to and getting yourself into an unknown situation because of it is reduced.
+One of *Quake*'s strengths is that it allows total control over which keys do what. *AudioQuake* does not take any of this control away from you (please read the [Customising *AudioQuake*](#customising-audioauake) section for details) but it does, by default, limit the number of defined keys. Originally, there were many ways to perform some game actions (like jumping or shooting). We have disabled a lot of the keys so that the likelihood of pressing a key you don't mean to and getting yourself into an unknown situation because of it is reduced.
 
 Some extra keys you may be interested in are:
 
