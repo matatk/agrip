@@ -22,6 +22,10 @@ class MapTab(wx.Panel):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
+		add_opener_button(
+			self, sizer, 'Read the LDL tutorial',
+			path.join('manuals', 'ldl-tutorial.html'))  # FIXME DRY?
+
 		# File picker bits
 
 		add_widget(sizer, wx.StaticText(
@@ -64,10 +68,6 @@ class MapTab(wx.Panel):
 
 		btn_ldl_test.Bind(wx.EVT_BUTTON, ldl_test)
 		add_widget(sizer, btn_ldl_test)
-
-		add_opener_button(
-			self, sizer, 'Open the LDL tutorial document',
-			path.join('manuals', 'ldl-tutorial.html'))  # FIXME DRY?
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
