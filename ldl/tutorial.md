@@ -56,7 +56,7 @@ The workflow for using LDL is as follows.
 
    If it doesn't work, there could be an error in your XML file (or a bug in the LDL code, which we implore you to report!) Go back to the XML, try to fix the problem (error messages will try to help you do this) and try again.
 
-   If/when it does work, you will then be able to play the map in AudioQuake.
+   If/when it does work, you will then be able to play the map in *AudioQuake*.
 
 ## What can and can't it do?
 
@@ -90,15 +90,15 @@ For now, however, there's a great deal you *can* do—as we hope the tutorial be
 
 ## Running LDL
 
-LDL comes as part of AudioQuake—you can access it via the Launcher's "Map" tab. There you can open a map file you're working on (or one of the tutorial examples that match the tutorial steps below) and build and play it.
+LDL comes as part of *AudioQuake*—you can access it via the launcher's "Map" tab. There you can open a map file you're working on (or one of the tutorial examples that match the tutorial steps below) and build and play it.
 
 If you clone the AGRIP code repo from GitHub and use a Mac, you can also use the LDL command-line tools. Info on how to do that is provided in the READMEs and in the help for the LDL program itself.
 
-# Making Maps with LDL
+# Making maps with LDL
 
-This section is a tutorial on making levels with LDL. It assumes you've got AudioQuake and you have a text editor set up that can edit XML files.
+This section is a tutorial on making levels with LDL. It assumes you've got *AudioQuake* and you have a text editor set up that can edit XML files.
 
-## Basic Concepts
+## Basic concepts
 
 Before you start, please be aware of the following.
 
@@ -112,8 +112,7 @@ Before you start, please be aware of the following.
 
 * Unless you add enough deathmatch player start points, you will have great problems running the map in deathmatch mode, as all of the bots will try to spawn out of one start point. You'll read later how to add start points.
 
-   FIXME
-   For now, be aware that the map test script/batch file is provided so that you can test your maps in non-deathmatch mode. For that to work, you have to have one—and only one—`info_player_start` entity in your map. Again, more on this later.
+   For now, be aware that the *AudioQuake* launcher and the LDL command-line tools open your maps in non-deathmatch mode. For that to work, you have to have one—and only one—`info_player_start` entity in your map. Again, more on this later.
 
 ## Example 1: Hello, world!
 
@@ -234,7 +233,7 @@ One last thing to note about room sizes in LDL is that the sizes in the width an
 
 If you really really want to make your room exactly cube-shaped, you can—use any of the following for your room's size attribute "vsmall vsmall small", "small small big", "med med vlarge", "big big xlarge", "large large huge", "xlarge xlarge vhuge" or "huge huge xhuge".
 
-### XML Errors
+### XML errors
 
 We will now purposely introduce an error into the file, so that you can experience the effects and the solution, which will hopefully help you fix errors in your own maps, should they occur. Because XML files are very structured in nature, in our case with rooms inside maps and items inside rooms, they are sensitive to errors such as omitted information.
 
@@ -314,7 +313,7 @@ Let's make the last map a little more interesting. We’ll move the player start
 
 As this map is in the medieval style, you may have noticed the door making a different sound when it opened. The texturing and lighting of the level will also be different and more appropriate to the medieval style (meaning that sighted games might like to play your map too).
 
-### Compass Points
+### Compass points
 
 Currently the way to specify the location of items within rooms is to use compass points. When you specify the location of an item, it works in a similar way to connections above.
 
@@ -514,13 +513,13 @@ We've added an attribute, `extent`, to the connection and given it the size "+".
 
 You can specify sizes ("small", "med" and so on) in the `extent` attribute, as you can with rooms. You can also mix and match, so saying `extent='+ med'` means "take up all available width, but be only medium-sized in depth". Bear in mind that if the corridor was going from east to west (or vice-verse) these would be reversed (which is why it's often easier to just use "+" as the size specifier).
 
-### Vertical Connections to Other Rooms
+### Vertical connections to other rooms
 
 It is possible for you to position one room entirely on top of or underneath another and link them with connections as discussed earlier, though you'd use "u" (up) and "d" (down) to identify the walls the connections lie on. Currently it is not possible to make elevation devices for these connections (e.g. a plat).
 
 Another thing that could be done in future is supporting teleporters, so you could move between rooms instantaneously.
 
-# Some Golden Rules
+# Some golden rules
 
 * Always write well-formed XML. This means closing tags and quotes properly, or you will get a "parse error".
 
@@ -546,13 +545,13 @@ The file *style.xml* included with LDL contains information on the textures and 
 
 ## Test maps
 
-The tutorial files (*tut\*.xml* are also provided for your reference and are available from the AudioQuake Launcher.
+The tutorial files (*tut*\**.xml*) are also provided for your reference and are available from the *AudioQuake* launcher.
 
-If you check out the code from the repository, you will find various test maps (*test_0\*_\*.xml* files) that provide some examples on how to use the system. The number in the name indicates which layer of the system the map is written for (remember earlier we discussed that LDL is composed of a number of layers). The layer "05" maps because the lower levels rely on absolute coordinates.
+If you check out the code from the repository, you will find various test maps (*test_*\**_*\**.xml* files) that provide some examples on how to use the system. The number in the name indicates which layer of the system the map is written for (remember earlier we discussed that LDL is composed of a number of layers). The layer "05" maps because the lower levels rely on absolute coordinates.
 
 ## List of entities
 
-This list is also available on most *Quake* mapping websites, such as "*Quake* MAP Specs". Please note that most, but not all, entities are supported by the current release of LDL.
+This list is also available on most *Quake* mapping websites, such as [*Quake* MAP Specs](http://www.gamers.org/dEngine/quake/QDP/qmapspec.html). Please note that most, but not all, entities are supported by the current release of LDL.
 
 * **air\_bubbles**
     Rising bubbles
