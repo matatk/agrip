@@ -14,4 +14,4 @@ FIXME
 
 ## Scope for Change
 
-FIXME types of things you’d change in an engine qf, nexuiz, tenebrae
+FIXME types of things you'd change in an engine qf, nexuiz, tenebrae

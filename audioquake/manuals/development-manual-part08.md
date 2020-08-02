@@ -17,7 +17,7 @@ Please note that for more general links, you might want to consult the [links pa
     These provide a very basic overview of how the Gamecode and QuakeC fit into the overall development system.
   - [QuakeC Manual 1.0 by Ferrara Francesco (frank@aerre.it)](http://tylee.f2s.com/agrip/ref/QCMAN10.TXT)
     A comprehensive guide to QuakeC from the basics to more advanced topics.
-  - [QuakeC Reference Manual by David “DarkGrue” Hesprich (darkgrue@iname.com)](http://tylee.f2s.com/agrip/ref/QuakeC%20Reference%20Manual.doc)
+  - [QuakeC Reference Manual by David "DarkGrue" Hesprich (darkgrue@iname.com)](http://tylee.f2s.com/agrip/ref/QuakeC%20Reference%20Manual.doc)
     Another very good basics-to-advanced tutorial on QuakeC.
   - [The *Quake* Wiki](http://wiki.quakesrc.org/)
     This site contains a comprehensive list of QuakeC functions, their availability in different engines and standard engine extensions – and includes detailed information on most of them.
@@ -43,9 +43,9 @@ Please note that for more general links, you might want to consult the [links pa
 ### Perl
 
   - Perl Manual Pages
-    If you’re on a UNIX-like system, “man perl” should give you all of the information you need. If not, try browsing the [resources at perl.org](http://www.perl.org/docs.html).
+    If you're on a UNIX-like system, "man perl" should give you all of the information you need. If not, try browsing the [resources at perl.org](http://www.perl.org/docs.html).
 
 ### Community and Historical Links
 
-  - [id Software’s “idstuff” FTP directory](ftp://ftp.idsoftware.com/idstuff/)
-    Provides source and binaries (including patches) for lots of id’s games and editing and development tools. Not all Open Source but worth a look\! Note that this is just for the technology; extra maps and most official bonus packs are distributed via different channels.
+  - [id Software's "idstuff" FTP directory](ftp://ftp.idsoftware.com/idstuff/)
+    Provides source and binaries (including patches) for lots of id's games and editing and development tools. Not all Open Source but worth a look\! Note that this is just for the technology; extra maps and most official bonus packs are distributed via different channels.

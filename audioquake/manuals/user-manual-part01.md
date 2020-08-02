@@ -14,15 +14,15 @@ This part of the manual aims to introduce *AudioQuake* and gives you details on 
 
 So, *AudioQuake* is…
 
-### More than just an “accessible game”
+### More than just an "accessible game"
 
-*AudioQuake* is based on earlier software from AGRIP called “*AccessibleQuake*”. The previous game's ethos was to prove that accessibility barriers can be lowered and it allowed blind gamers to play singleplayer *Quake* (or offline multiplayer with computer-generated opponents). *AudioQuake*'s philosophy is to take this idea to its logical extreme and allow blind and vision-impaired players not only access to *Quake*, but *equal* access to both the game *and* the community of Internet play and level design and creation of new modified games that surrounds it. *AudioQuake* provides this via the following three main features:
+*AudioQuake* is based on earlier software from AGRIP called "*AccessibleQuake*". The previous game's ethos was to prove that accessibility barriers can be lowered and it allowed blind gamers to play singleplayer *Quake* (or offline multiplayer with computer-generated opponents). *AudioQuake*'s philosophy is to take this idea to its logical extreme and allow blind and vision-impaired players not only access to *Quake*, but *equal* access to both the game *and* the community of Internet play and level design and creation of new modified games that surrounds it. *AudioQuake* provides this via the following three main features:
 
-* Support for Internet multiplayer games in a variety of game modes such as co-operative, deathmatch, team deathmatch and capture the flag (provided via our use of the *ZQuake* “*QuakeWorld*” game engine). The traditional singleplayer gametypes are, of course, supported.
+* Support for Internet multiplayer games in a variety of game modes such as co-operative, deathmatch, team deathmatch and capture the flag (provided via our use of the *ZQuake* "*QuakeWorld*" game engine). The traditional singleplayer gametypes are, of course, supported.
 
-* “Implicit Accessibility”—The use of modern 3D audio and special effects technology to make the game inherently more accessible. This, in turn, means that the difference between the software that the sighted and blind use is dramatically minimised. For all intents and purposes, you'll be playing *the same* game.
+* "Implicit Accessibility"—The use of modern 3D audio and special effects technology to make the game inherently more accessible. This, in turn, means that the difference between the software that the sighted and blind use is dramatically minimised. For all intents and purposes, you'll be playing *the same* game.
 
-* Accessible level-editing tools. These will allow you to create your own levels (“maps”) for the game; something that sighted gamers have been able to do for some time. Coupling this with the fact that you can create your own code modifications easily, *AudioQuake* could be used as a platform for making your own games\!
+* Accessible level-editing tools. These will allow you to create your own levels ("maps") for the game; something that sighted gamers have been able to do for some time. Coupling this with the fact that you can create your own code modifications easily, *AudioQuake* could be used as a platform for making your own games\!
 
 **Note:** Please remember that at the current stage of development only the first of these three features have been fully implemented. We await community feedback on how we're doing so far and will continue to develop *AudioQuake* over time to bring you these benefits.
 
@@ -30,7 +30,7 @@ So, *AudioQuake* is…
 
 At first it may seem obvious that *AudioQuake* is, well, *Quake*. This idea, however, has had a profound impact on how the game is designed. At all times, we have tried to maintain the spirit of *Quake*. You will not find a lot of voice-over information because *Quake* didn't have it—our accessibility features are designed to use intuitive techniques and sounds so that you are not distracted from playing the game. We have only added the accessibility features necessary to play the game effectively. To keep things fair, we've not allowed *AudioQuake* players to do anything *Quake* players can't (within reason).
 
-This design philosophy comes across in the way the accessibility features present themselves in the game. The idea is that an *AudioQuake* player is no different than a *Quake* player, but they have in their possession certain “objects” that provide accessibility features such as enemy detection (the EtherScan RADAR), item detection (the Detector 5000) and navigation (the Navigation Helper). Many features can be toggled on or off according to your individual taste and level of sight.
+This design philosophy comes across in the way the accessibility features present themselves in the game. The idea is that an *AudioQuake* player is no different than a *Quake* player, but they have in their possession certain "objects" that provide accessibility features such as enemy detection (the EtherScan RADAR), item detection (the Detector 5000) and navigation (the Navigation Helper). Many features can be toggled on or off according to your individual taste and level of sight.
 
 #### ImplicitAccessibility
 
@@ -42,7 +42,7 @@ In the end, the main point of *AudioQuake* is not to prove that video game acces
 
 #### Not for Under-15s
 
-*Quake* has a “15” certificate. For obvious reasons, this also applies to *AudioQuake*. We do not recommend or condone the use of this software by anyone below 15 years of age.
+*Quake* has a "15" certificate. For obvious reasons, this also applies to *AudioQuake*. We do not recommend or condone the use of this software by anyone below 15 years of age.
 
 ### Customisable
 
