@@ -1,17 +1,25 @@
 # Engine Workings
 
+TBD
+
 ## Required Reading
 
-FIXME - Basic Knowledge from Wiki (links) IN REFERENCE APPENDIX
+TBD
+
+<!-- FIXME - Basic Knowledge from Wiki (links) IN REFERENCE APPENDIX -->
 
 ## Overview of a *Quake* Engine
 
-FIXME - sections/layers forks/lineage extensions quakesrc
+TBD
+
+<!-- FIXME - sections/layers forks/lineage extensions quakesrc -->
 
 ## Changes for Accessibility
 
-FIXME
+TBD
 
 ## Scope for Change
 
-FIXME types of things you'd change in an engine qf, nexuiz, tenebrae
+<!-- FIXME types of things you'd change in an engine qf, nexuiz, tenebrae -->
+
+TBD
