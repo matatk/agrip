@@ -1,16 +1,16 @@
 # What is Level Description Language?
 
-The AGRIP *Level Description Language*, or LDL, is a text-based format that allows people to easily describe 3D spaces. LDL is currently aimed at blind gamers who want to make maps for Quake. This is a preliminary concept release, so it's important to say what it does, doesn't and might do.
+The AGRIP *Level Description Language*, or LDL, is a text-based format that allows people to easily describe 3D spaces. LDL is currently aimed at blind gamers who want to make maps for *Quake*. This is a preliminary concept release, so it's important to say what it does, doesn't and might do.
 
 ## Digital archaeology note from 2020
 
-OK, the references to Quake are now ancient, but the techniques here could be applied to newer engines in much the same way; would love to see, or even help, that happen.
+OK, whilst *Quake* is now ancient (but still a milestone in gaming), the techniques here could be applied to newer engines in much the same way; would love to see, or even help, that happen. In the meantime, you can still use this to make and explore your own somewhat-simplistically-shaped-but-nonetheless-3D worlds! :-)
 
-**The document does talk about possible future major features; it's unlikely these will be implemented in the current context of the game of Quake, but they could be if the system is brought to a more modern engine—if you're interested in helping us do this, please get in touch.**
+**The document does talk about possible future major features; it's unlikely these will be implemented in the current context of the game of *Quake*, but they could be if the system is brought to a more modern engine—if you're interested in helping us do this, please get in touch.**
 
 ## Before LDL
 
-How would one go about making maps for Quake before LDL? If you just want to find out how to use LDL you can skip this section, however it does provide useful background information on the area that we are now working on providing access to.
+How would one go about making maps for *Quake* before LDL? If you just want to find out how to use LDL you can skip this section, however it does provide useful background information on the area that we are now working on providing access to.
 
 1. Level, or map, design would be done with a graphical CAD-like program that provides tools to draw the shapes of the component parts of the map's rooms on the screen. This typically presents four views in panes: one from each elevation (top, side, erm, other side?) and a 3D in-game style view that you can move around with a floating camera (without the constraints of things like gravity or solid walls) to get a better idea of your creation.
 
@@ -24,7 +24,7 @@ How would one go about making maps for Quake before LDL? If you just want to fin
 
 4. When the map is finished it must be saved as a *.map* file so that the level compilation tools can read it. The *.map* file is even lower-level than many level editors' internal formats. It contains a list of the brushes and entities in the map, but with the bushes defined in terms of triples of points on the 3D planes that make them up.
 
-5. Finally the *.map* file can be compiled with the Quake map compilation tools. These would be run as follows.
+5. Finally the *.map* file can be compiled with the *Quake* map compilation tools. These would be run as follows.
 
    + `bsp` *mapname*
 
@@ -40,7 +40,7 @@ How would one go about making maps for Quake before LDL? If you just want to fin
 
 ## How does LDL work?
 
-The operating principle of LDL is that we start with as high-level a description as possible and gradually transform it, by filling in the details, into a low-level description suitable for compiling with the standard Quake map tools. This allows you to talk in terms of rooms and connections between them, whereas the map tools at the bottom of the chain want to know about scary things like intersecting 3D planes.
+The operating principle of LDL is that we start with as high-level a description as possible and gradually transform it, by filling in the details, into a low-level description suitable for compiling with the standard *Quake* map tools. This allows you to talk in terms of rooms and connections between them, whereas the map tools at the bottom of the chain want to know about scary things like intersecting 3D planes.
 
 LDL—the code—is actually a chain as mentioned above. Each stage is quite separate and the whole thing works by feeding the output of one into the next, until we have our final answer—the *.map* file.
 
@@ -176,9 +176,9 @@ Finally we have got to the end of the map file so we can close the map element.
 </map>
 ```
 
-Try running this map through the LDL system. As part of the conversion to a *.map* file (which will be converted by the standard Quake mapping tools to a *.bsp*) the level will be textured and lit appropriately for the style chosen above.
+Try running this map through the LDL system. As part of the conversion to a *.map* file (which will be converted by the standard *Quake* mapping tools to a *.bsp*) the level will be textured and lit appropriately for the style chosen above.
 
-Once LDL and the Quake map tools have finished processing, the game will start and you should be in a medium-sized room with not much else going on.
+Once LDL and the *Quake* map tools have finished processing, the game will start and you should be in a medium-sized room with not much else going on.
 
 ## Example 2: Room sizes
 
@@ -230,7 +230,7 @@ Try making the room into a corridor: copy and paste the following into a file, t
 
 You will spawn in the middle of a thin, but long, corridor-shaped room. Try strafing left/right and notice you hit the walls almost immediately. Then try going back and forward.
 
-One last thing to note about room sizes in LDL is that the sizes in the width and depth dimensions have been designed to increase more quickly than in height—that is to say that a room with the size "med" (which is the same as "med med med") will be wider and deeper than it is tall. It will be as wide as it is deep but it won't be quite as high. This is because in most Quake maps, as with most buildings, rooms are not completely cube-shaped. This feature is designed to make it easy for you to make realistically-sized rooms even when you only specify one word for the size attribute.
+One last thing to note about room sizes in LDL is that the sizes in the width and depth dimensions have been designed to increase more quickly than in height—that is to say that a room with the size "med" (which is the same as "med med med") will be wider and deeper than it is tall. It will be as wide as it is deep but it won't be quite as high. This is because in most *Quake* maps, as with most buildings, rooms are not completely cube-shaped. This feature is designed to make it easy for you to make realistically-sized rooms even when you only specify one word for the size attribute.
 
 If you really really want to make your room exactly cube-shaped, you can—use any of the following for your room's size attribute "vsmall vsmall small", "small small big", "med med vlarge", "big big xlarge", "large large huge", "xlarge xlarge vhuge" or "huge huge xhuge".
 
@@ -552,7 +552,7 @@ If you check out the code from the repository, you will find various test maps (
 
 ## List of entities
 
-This list is also available on most Quake mapping websites, such as "Quake MAP Specs". Please note that most, but not all, entities are supported by the current release of LDL.
+This list is also available on most *Quake* mapping websites, such as "*Quake* MAP Specs". Please note that most, but not all, entities are supported by the current release of LDL.
 
 * **air\_bubbles**
     Rising bubbles
@@ -735,7 +735,7 @@ This list is also available on most Quake mapping websites, such as "Quake MAP S
     Shambler
 
 * **monster\_boss**
-    Cthon (Boss of Shareware Quake)
+    Cthon (Boss of Shareware *Quake*)
 
 * **monster\_enforcer**
     Enforcer
