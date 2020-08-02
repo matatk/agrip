@@ -62,11 +62,11 @@ def convert_manuals():
 	single_docs_to_convert = {
 		'README': [Config.dir_readme_licence / 'README.md', 'README'],
 		'LICENCE': [Config.dir_readme_licence / 'LICENCE.md', 'LICENCE'],
-		'AudioQuake Sound Legend': [
+		'AudioQuake sound legend': [
 			Config.dir_manuals / 'user-manual-part07-b.md',
 			'sound-legend'
 		],
-		'Level Description Language Tutorial': [
+		'Level Description Language tutorial': [
 			Config.dir_ldl / 'tutorial.md',
 			'ldl-tutorial'
 		]
