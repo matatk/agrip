@@ -1,14 +1,17 @@
 """AudioQuake Game Launcher - Map tab"""
+from glob import glob
 from os import path
 import shutil
 
 import wx
 
 from launcherlib.ui.helpers import \
-	add_widget, add_opener_button, launch_core, pick_file, \
+	add_widget, add_opener_button, launch_core, \
 	Info, Warn, Error, ErrorException
 from ldllib.convert import convert
 from ldllib.build import build, have_needed_stuff
+
+MAPS_DIR = 'ldl-tutorial-maps'
 
 
 class MapTab(wx.Panel):
@@ -28,9 +31,13 @@ class MapTab(wx.Panel):
 		add_widget(sizer, file_picker)
 
 		def pick_tutorial_map(event):
-			chosen = pick_file(self, "Open tutorial map", WILDCARD)
-			if chosen:
-				file_picker.SetPath(chosen)
+			maps = sorted(list(map(
+				lambda xml: path.basename(xml), glob(MAPS_DIR + '/*'))))
+			chooser = wx.SingleChoiceDialog(
+				self, 'LDL Tutorial Maps', 'Choose map', maps)
+			if chooser.ShowModal() == wx.ID_OK:
+				choice = chooser.GetStringSelection()
+				file_picker.SetPath(path.join(MAPS_DIR, choice))
 
 		tutorial_maps_button = wx.Button(self, -1, 'Choose a LDL tutorial map')
 		tutorial_maps_button.Bind(wx.EVT_BUTTON, pick_tutorial_map)
@@ -59,7 +66,8 @@ class MapTab(wx.Panel):
 		add_widget(sizer, btn_ldl_test)
 
 		add_opener_button(
-			self, sizer, 'Open the LDL tutorial document', 'ldl-tutorial.html')
+			self, sizer, 'Open the LDL tutorial document',
+			path.join('manuals', 'ldl-tutorial.html'))  # FIXME DRY?
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)

@@ -1,6 +1,6 @@
 """AudioQuake Game Launcher - Mod tab"""
-from os import path
 from glob import glob
+from os import path
 
 import wx
 

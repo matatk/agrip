@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Get all the bits and bobs ready to build AudioQuake"""
-import os
+import argparse
+from os import chdir
+from pathlib import Path
 import string
-import glob
 import shutil
 
 import mistune
@@ -10,6 +11,8 @@ import mistune_contrib.toc
 
 from buildlib import Config, \
 	prep_dir, try_to_run, platform_set, check_platform, die, comeback
+
+skip_pyinstaller = False  # set via command-line option
 
 
 #
@@ -20,16 +23,11 @@ class TocRenderer(mistune_contrib.toc.TocMixin, mistune.Renderer):
 	pass
 
 
-def convert_markdown_files(base_name, markdown_files, output_dir):
+def convert_markdown_files(base_name, fancy_name, markdown_files, output_dir):
 	toc = TocRenderer()
 	md = mistune.Markdown(renderer=toc)
-
+	document_template = open(Config.dir_manuals / 'template.html', 'r').read()
 	source = ''
-
-	fancy_name = base_name.translate({ord('-'): ' '}).title()
-
-	document_template = open(
-		os.path.join(Config.dir_manuals, 'template.html'), 'r').read()
 
 	if not isinstance(markdown_files, list):
 		markdown_files = [markdown_files]
@@ -46,24 +44,38 @@ def convert_markdown_files(base_name, markdown_files, output_dir):
 		toc=html_toc,
 		content=html_content)
 
-	open(os.path.join(output_dir, base_name + '.html'), 'w').write(
-		full_document)
+	open(output_dir / (base_name + '.html'), 'w').write(full_document)
 
 
 def convert_manuals():
-	for manual in ['user-manual', 'development-manual']:
-		print('Converting', manual)
-		sources = sorted(glob.glob(os.path.join(Config.dir_manuals, manual) + '*'))
-		convert_markdown_files(manual, sources, Config.dir_manuals_converted)
+	manuals = {
+		'AudioQuake User Manual': 'user-manual',
+		'AudioQuake Development Manual': 'development-manual'
+	}
+
+	for title, manual_basename in manuals.items():
+		print('Converting', manual_basename)
+		sources = sorted(Config.dir_manuals.glob(manual_basename + '*'))
+		convert_markdown_files(
+			manual_basename, title, sources, Config.dir_manuals_converted)
 
 	single_docs_to_convert = {
-		'sound-legend': os.path.join(Config.dir_manuals, 'user-manual-part07-b.md'),
-		'README': os.path.join(Config.dir_readme_licence, 'README.md'),
-		'LICENCE': os.path.join(Config.dir_readme_licence, 'LICENCE.md')}
+		'README': [Config.dir_readme_licence / 'README.md', 'README'],
+		'LICENCE': [Config.dir_readme_licence / 'LICENCE.md', 'LICENCE'],
+		'AudioQuake Sound Legend': [
+			Config.dir_manuals / 'user-manual-part07-b.md',
+			'sound-legend'
+		],
+		'Level Description Language Tutorial': [
+			Config.dir_ldl / 'tutorial.md',
+			'ldl-tutorial'
+		]
+	}
 
-	for docname, docpath in single_docs_to_convert.items():
-		print('Converting ' + docname)
-		convert_markdown_files(docname, docpath, Config.dir_manuals_converted)
+	for title, details in single_docs_to_convert.items():
+		source, output = details
+		print('Converting ' + output)
+		convert_markdown_files(output, title, source, Config.dir_manuals_converted)
 
 
 #
@@ -73,9 +85,9 @@ def convert_manuals():
 @comeback
 def run_pyinstaller():
 	# FIXME DRY all these chdirs
-	path = os.path.dirname(os.path.abspath(__file__))
+	path = Path(__file__).parent
 	try:
-		os.chdir(path)
+		chdir(path)
 	except:  # noqa E727
 		die("can't change directory to: " + path)
 
@@ -92,7 +104,7 @@ def copy_in_rcon():
 		windows='rcon.exe')
 
 	shutil.copy(
-		os.path.join(Config.dir_dist_rcon, rcon_bin),
+		Config.dir_dist_rcon / rcon_bin,
 		Config.dir_aq_data)
 
 
@@ -111,12 +123,27 @@ def build_audioquake():
 	convert_manuals()  # TODO replace with a check if it needs doing
 
 	# Build the executables
-	run_pyinstaller()
-	copy_in_rcon()
-
-	print('Completed building AudioQuake with Level Description Language.')
-	print('Distributable software is in:', Config.dir_dist)
+	if not skip_pyinstaller:
+		run_pyinstaller()
+		copy_in_rcon()
+		print('Completed building AudioQuake with Level Description Language.')
+		print('Distributable software is in:', Config.dir_dist)
+	else:
+		print('Skipping running PyInstaller')
 
 
 if __name__ == '__main__':
+	BANNER = 'Build AudioQuake'
+
+	parser = argparse.ArgumentParser(description=BANNER)
+
+	parser.add_argument(
+		'-s', '--skip-pyinstaller', action='store_true',
+		help="Don't run PyInstaller (used for debugging manual conversion)")
+
+	args = parser.parse_args()
+
+	if args.skip_pyinstaller:
+		skip_pyinstaller = True
+
 	build_audioquake()

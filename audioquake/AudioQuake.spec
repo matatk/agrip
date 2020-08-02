@@ -11,9 +11,10 @@ data_files = [
 	('app-support-files/start-server.command', '.'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 	('../ldl/style.xml', '.'),
-	('../../non-redist/quake.wad', '.')]
+	('../../non-redist/quake.wad', '.'),
+	('../ldl/tut*.xml', 'ldl-tutorial-maps')]
 
-if platform.system() != 'Windows':
+if platform.system() == 'Darwin':
 	binary_files = [
 		('../giants/zq-repo/zquake/release-mac/zqds', '.'),
 		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', '.'),
@@ -32,7 +33,8 @@ else:
 
 block_cipher = None
 
-a = Analysis(['AudioQuake.py'],  # noqa F821
+a = Analysis(  # noqa 821
+	['AudioQuake.py'],
 	binaries=binary_files,
 	datas=data_files,
 	hiddenimports=['pkg_resources.py2_warn'],
@@ -43,14 +45,15 @@ a = Analysis(['AudioQuake.py'],  # noqa F821
 	win_private_assemblies=False,
 	cipher=block_cipher)
 
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)  # noqa F821
+pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)  # noqa 821
 
-if platform.system() != 'Windows':
+if platform.system() == 'Darwin':
 	platform_icon = 'app-support-files/aq.icns'
 else:
 	platform_icon = 'app-support-files/aq.ico'
 
-exe = EXE(pyz,  # noqa F821
+exe = EXE(  # noqa 821
+	pyz,
 	a.scripts,
 	exclude_binaries=True,
 	name='AudioQuake',
@@ -60,7 +63,8 @@ exe = EXE(pyz,  # noqa F821
 	console=False,
 	icon=platform_icon)
 
-coll = COLLECT(exe,  # noqa F821
+coll = COLLECT(  # noqa 821
+	exe,
 	a.binaries,
 	a.zipfiles,
 	a.datas,
@@ -68,14 +72,15 @@ coll = COLLECT(exe,  # noqa F821
 	upx=True,
 	name='AudioQuake')
 
-if platform.system() != 'Windows':
+if platform.system() == 'Darwin':
 	info_plist = {
-		'NSRequiresAquaSystemAppearance': 'No'
+		'NSRequiresAquaSystemAppearance': 'No'  # Support dark mode
 	}
 else:
 	info_plist = None
 
-app = BUNDLE(coll,  # noqa F821
+app = BUNDLE(  # noqa 821
+	coll,
 	name='AudioQuake.app',
 	icon=platform_icon,
 	info_plist=info_plist,
