@@ -421,10 +421,6 @@ When you run the normal LDL compilation and test scripts on this map, you'll be 
 
 Hopefully you have now had a pleasant deathmatch experience in your own map\!
 
-### Directional Issues - FIXME
-
-Up until AudioQuake 0.3.0.1, there was a bug that caused the direction the player faced when spawning to always be labelled as "north". This has now been alleviated and thus if you upgrade your AudioQuake installation, you will be able to use LDL with it and not have this problem. Maps made with LDL will still work fine on older versions of AudioQuake, but there may well be some confusion with directions. It is best to at least test your maps on at least version 0.3.0.1 of AudioQuake for this reason.
-
 ### Co-operative maps
 
 These are similar to deathmatch maps in that you need to include more than one spawn point. However, the spawn points are usually situated together at the "start" of the map and must be of type `info_player_coop` (you can have as many as you like).
