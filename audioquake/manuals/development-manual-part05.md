@@ -4,7 +4,7 @@
 
 FIXME - Basic Knowledge from Wiki (links) IN REFERENCE APPENDIX
 
-## Overview of a Quake Engine
+## Overview of a *Quake* Engine
 
 FIXME - sections/layers forks/lineage extensions quakesrc
 

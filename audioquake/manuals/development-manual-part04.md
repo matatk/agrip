@@ -14,27 +14,27 @@ For the developer, you get the benefit of giving your users the above benefits w
 
 #### Why Not?
 
-We’ve designed this system to make it ideal for people to mod AudioQuake; it does all of the chores of setting up mods for the user and adds little extra work for the developer. There is, however, one situation in which it is not the best way to proceed: total conversions. Total conversions modify the game engine as well as the content and/or gamecode, so they are technically different games.
+We’ve designed this system to make it ideal for people to mod *AudioQuake*; it does all of the chores of setting up mods for the user and adds little extra work for the developer. There is, however, one situation in which it is not the best way to proceed: total conversions. Total conversions modify the game engine as well as the content and/or gamecode, so they are technically different games.
 
-We felt that those of you making total conversions would want to make your own separate game with its own installer. Naturally, the QMOD system can be used to create mods for any total conversion of AudioQuake, just as it can with AudioQuake itself, so even if you’re a total conversion developer, you can still take advantage of it\!
+We felt that those of you making total conversions would want to make your own separate game with its own installer. Naturally, the QMOD system can be used to create mods for any total conversion of *AudioQuake*, just as it can with *AudioQuake* itself, so even if you’re a total conversion developer, you can still take advantage of it\!
 
 ## How? (for Developers)
 
 It’s easy\! You need to package up all the files required by your mod, in a particular way, then create an INI file to describe your mod to the installer. Here is how…
 
-1.  Ensure that you have packaged up all the files your mod needs (sound, progs, models, maps, graphics) into the correct directory structure below your AudioQuake parent directory.
-    
+1.  Ensure that you have packaged up all the files your mod needs (sound, progs, models, maps, graphics) into the correct directory structure below your *AudioQuake* parent directory.
+
     Furthermore, ensure that anything that *isn’t* required is not in this directory\! This includes source code (that should be distributed separately).
 
 2.  Ensure your mod’s config instructions are included in a single file, mod.cfg. You can add mod-specific keys in this file. This file overrides settings in the user’s `config.cfg` and `autoexec.cfg` files.
-    
+
     Later on, you must specify if you want the game launcher to keep your mod updated with changes the user makes to their `config.cfg` and `autoexec.cfg` files.
-    
+
     Here is part of the `mod.cfg` file from the “JediQuake” modification:
-    
+
     ``` screen
     // Commands specific to this MOD...
-    
+
     bind "h" "+Blaster"
     // default key to use blaster is "h"
     ```
@@ -42,16 +42,16 @@ It’s easy\! You need to package up all the files required by your mod, in a pa
 3.  Take your mod directory and put it in a new directory that has the name of your mod. If you are naming your mod directories with an appended version number (`jediquake37`, for example), the name you give to the parent directory should *not* include this (`jediquke`, for example).
 
 4.  Construct an INI file for your mod in this parent directory, next to your mod’s installation directory. The INI file should be called `qmod.ini`. For details of all available options, consult [Appendix B, *QMOD INI File Settings*](#ref-qmodini "Appendix B. QMOD INI File Settings"). Here is an example, again taken from the “JediQuake” modification:
-    
+
     ``` screen
     [general]
     name=JediQuake
-    shortdesc=Audio Quake with a Star Wars flair!
+    shortdesc=Audio *Quake* with a Star Wars flair!
     version=3.7
     gamedir=jediquake37
     watch_config=yes
     watch_autoexec=yes
-    
+
     [longdesc]
     00=This mod adds various Star Wars style weapons to the game along with
     01=force powers, new weapons and modifications of existing weapons...
@@ -60,7 +60,7 @@ It’s easy\! You need to package up all the files required by your mod, in a pa
     ```
 
 5.  ZIP up the parent directory so that you have created a ZIP file with two items in it – the MOD’s installation directory and the `qmod.ini` file.
-    
+
     Finally, rename the ZIP file to the name of the parent directory (i.e. the MOD’s name) with a `.qmod` extension to replace the `.zip` one it pops out of your ZIP creator with.
 
 ## How? (for Users)
@@ -69,5 +69,5 @@ Very easy\! On Windows, a simple double-click should open the game launcher in Q
 
 ``` screen
 $ ./start.pl filename.qmod
-            
+
 ```

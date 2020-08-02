@@ -1,6 +1,6 @@
 # Maps
 
-There are quite a few maps supplied with AudioQuake that are extra to those that the shareware and registered versions of Quake provide. This part describes them. The description of the tutorial maps has been left a surprise.
+There are quite a few maps supplied with *AudioQuake* that are extra to those that the shareware and registered versions of *Quake* provide. This part describes them. The description of the tutorial maps has been left a surprise.
 
 ## Deathmatch/Team Deathmatch Maps
 

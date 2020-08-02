@@ -1,14 +1,14 @@
 ## Finding out More – The Web is Your Friend\!
 
-If you wish to learn anything about Quake/QuakeWorld (the online version), the best place to look is the web. The game is still very popular and you’ll find all sorts out about console commands, server admininstration and fancy moves when playing. A great set of starting points is:
+If you wish to learn anything about *Quake*/*QuakeWorld* (the online version), the best place to look is the web. The game is still very popular and you’ll find all sorts out about console commands, server admininstration and fancy moves when playing. A great set of starting points is:
 
-  - [QuakeWorld for Freshies](http://www.challenge-smackdown.com/qwguide/)
+  - [*QuakeWorld* for Freshies](http://www.challenge-smackdown.com/qwguide/)
 
-  - [QuakeWorld Client Console Commands](http://www.planetquake.com/console/commands/quakeworld_client.html)
+  - [*QuakeWorld* Client Console Commands](http://www.planetquake.com/console/commands/quakeworld_client.html)
 
-  - [QuakeWorld Server Console Commands](http://www.planetquake.com/console/commands/quakeworld_server.html)
+  - [*QuakeWorld* Server Console Commands](http://www.planetquake.com/console/commands/quakeworld_server.html)
 
-Please visit our web site and/or contact us if you need any further information on, or help with, any aspect of AudioQuake. You can find our contact details on the web site:
+Please visit our web site and/or contact us if you need any further information on, or help with, any aspect of *AudioQuake*. You can find our contact details on the web site:
 
 <http://www.agrip.org.uk/>
 
@@ -20,9 +20,9 @@ If you have any suggestions or queries relating to any aspect of the game, the d
 
 <http://www.agrip.org.uk/ContactUs>
 
-## Installing AudioQuake from Source
+## Installing *AudioQuake* from Source
 
-This appendix is primarily aimed at developers who wish to learn how AudioQuake works, contribute to the project or use it in their own works (remember that if you do this, you’re bound by the GNU General Public Licence and must keep your code open).
+This appendix is primarily aimed at developers who wish to learn how *AudioQuake* works, contribute to the project or use it in their own works (remember that if you do this, you’re bound by the GNU General Public Licence and must keep your code open).
 
 The game can be installed from source on both Linux and Windows. The following sections describe how this can be done.
 
@@ -31,81 +31,81 @@ The game can be installed from source on both Linux and Windows. The following s
 To install from a source package on Linux, follow the procedure below:
 
 1.  Extract the package you downloaded. For example:
-    
+
     ``` screen
-    $ tar zxf AudioQuake-0.3.0_linux-ppc.tar.gz
+    $ tar zxf *AudioQuake*-0.3.0_linux-ppc.tar.gz
     ```
 
 2.  Change into this directory and run the “setup” program. This will guide you through most of the installation process.
-    
+
     ``` screen
-    $ cd AudioQuake-0.3.0_linux-ppc
+    $ cd *AudioQuake*-0.3.0_linux-ppc
     $ ./setup
     ```
-    
+
     The setup program will detect that you’re using a source package and will inform you that you need to compile ZQuake and the QuakeC code in order to play the game. This can be achieved by following the remaining steps in this procedure.
 
 3.  You’ll need to compile “ZQCC” – ZQuake’s QuakeC compiler. It can be found in the `zquake-cvs/zqcc/` directory in your extracted source package. The program is written in C and compiling it is as simple as issuing the **make** command.
-    
+
     Be sure to put the resultant **zqcc** binary somewhere on your path to make the next step more convenient.
 
-4.  Once you’ve compiled **zqcc**, you can use it to compile the gamecode portion of AudioQuake. This is a customised version of the original Quake gamecode, which adds a number of accessibility features (such as the EtherScan RADAR and Detector 5000).
-    
+4.  Once you’ve compiled **zqcc**, you can use it to compile the gamecode portion of *AudioQuake*. This is a customised version of the original *Quake* gamecode, which adds a number of accessibility features (such as the EtherScan RADAR and Detector 5000).
+
     1.  Move into the `zquake-cvs/qc/agrip/` directory in your source package, then issue the following command:
-        
+
         ``` screen
         $ zqcc -progs progs.src
         ```
-        
+
         This will produce the `qwprogs.dat` file, which is the gamecode for the multiplayer game modes.
-    
+
     2.  You’ll then need to issue the same command as above but specifying `spprogs.dat` instead of `progs.src`, which will generate the singleplayer gamecode.
-    
+
     3.  Finally, move the two “.dat” files to the `agrip/` directory under your ZQuake installation directory (usually `~/.zquake/`).
 
-5.  Finally, you can compile the ZQuake engine itself. To do this, move into the `zquake-cvs/zquake/` directory within your extracted source package and issue the **make** command. You’ll be given help on what each of the make rules does. This should help you decide which one to use to compile the engine. For AudioQuake releases, we provide both the full game engine and a dedicated server binary.
-    
+5.  Finally, you can compile the ZQuake engine itself. To do this, move into the `zquake-cvs/zquake/` directory within your extracted source package and issue the **make** command. You’ll be given help on what each of the make rules does. This should help you decide which one to use to compile the engine. For *AudioQuake* releases, we provide both the full game engine and a dedicated server binary.
+
     When compilation has finished, you can move the binary from the `release-architecture`/ directory into your ZQuake installation directory (usually `~/.zquake/`).
 
 ### Installing from Source on Windows
 
-We recommend the use of [MinGW](http://www.mingw.org/), [LCC-Win32](http://www.cs.virginia.edu/~lcc-win32/), [Open Watcom](http://www.openwatcom.org/) or Visual C++ for compilation of ZQuake/AudioQuake on Windows. To install from a source package on Windows, follow the procedure below. We’ll assume you’re using Visual C++ at some stages, but this shouldn’t have too much of an impact on you if you’re using some of the other systems.
+We recommend the use of [MinGW](http://www.mingw.org/), [LCC-Win32](http://www.cs.virginia.edu/~lcc-win32/), [Open Watcom](http://www.openwatcom.org/) or Visual C++ for compilation of ZQuake/*AudioQuake* on Windows. To install from a source package on Windows, follow the procedure below. We’ll assume you’re using Visual C++ at some stages, but this shouldn’t have too much of an impact on you if you’re using some of the other systems.
 
-1.  Extract the package you downloaded. You can do this with any decent archiving utility (such as [7-Zip](http://www.7-zip.org/)). This extracted setup package will become your AudioQuake installation, so you might want to rename and move it so that it is convenient to get to.
-    
-    **Tip:** If you’d rather make your own binary setup packages from the source package, you can use [Inno Setup](http://www.jrsoftware.org/isinfo.php) on the `setup.iss` file in this directory (after you’ve followed the rest of these steps. Then you can use your own customised setup program to install AudioQuake (which will mean that you get the Start Menu shortcuts, too).
+1.  Extract the package you downloaded. You can do this with any decent archiving utility (such as [7-Zip](http://www.7-zip.org/)). This extracted setup package will become your *AudioQuake* installation, so you might want to rename and move it so that it is convenient to get to.
+
+    **Tip:** If you’d rather make your own binary setup packages from the source package, you can use [Inno Setup](http://www.jrsoftware.org/isinfo.php) on the `setup.iss` file in this directory (after you’ve followed the rest of these steps. Then you can use your own customised setup program to install *AudioQuake* (which will mean that you get the Start Menu shortcuts, too).
 
 2.  You’ll need to compile “ZQCC” – ZQuake’s QuakeC compiler. It can be found in the `zquake-cvs/zqcc/` directory in your extracted source package. The program is written in C and can be compiled with your favourite C development system.
-    
+
     Be sure to put the resultant **zqcc** binary somewhere on your path to make the next step more convenient.
 
-3.  Once you’ve compiled **zqcc**, you can use it to compile the gamecode portion of AudioQuake. This is a customised version of the original Quake gamecode, which adds a number of accessibility features (such as the EtherScan RADAR and Detector 5000).
-    
+3.  Once you’ve compiled **zqcc**, you can use it to compile the gamecode portion of *AudioQuake*. This is a customised version of the original *Quake* gamecode, which adds a number of accessibility features (such as the EtherScan RADAR and Detector 5000).
+
     1.  Move into the `zquake-cvs/qc/agrip/` directory in your source package, then issue the following command:
-        
+
         ``` screen
         > zqcc -progs progs.src
         ```
-        
+
         This will produce the `qwprogs.dat` file, which is the gamecode for the multiplayer game modes.
-    
+
     2.  You’ll then need to issue the same command as above but specifying `spprogs.dat` instead of `progs.src`, which will generate the singleplayer gamecode.
-    
+
     3.  Finally, move the two “.dat” files to the `agrip/` directory under your extracted source package.
 
 4.  Finally, you can compile the ZQuake engine itself. To do this, move into the `zquake-cvs/zquake/source/` directory within your extracted source package. There are a few steps involved in compiling ZQuake. They’re described below, with the assumption that you’re using Visual C++.
-    
+
     1.  Before you begin, you’ll need to download the compile support tools from ZQuake’s website. They’re needed for compiling the software (non-OpenGL) version of the engine. They come in a ZIP file and need to be placed in the `zquake-cvs/zquake/source/` directory in your extracted source package directory.
-        
+
         The tools can be downloaded from [ZQuake download page](http://zquake.frag.ru/eng/download/). They’re in the [`mgl_redist.zip`](http://zquake.frag.ru/files/mgl_redist.zip) file.
-    
+
     2.  Open `zquake.dsw` with Visual C++. In the Project Settings dialog, make sure (on the “C/C++” tab) that you define a symbol called “AGRIP”. This enables the AGRIP extensions to the engine during compilation.
-    
-    3.  In AudioQuake releases, we provide a full game engine and a dedicated server binary. To compile the full game engine, make sure that “zquake - Win32 Release” is selected as the active project. You can then choose to “Build zquake.exe”
-    
+
+    3.  In *AudioQuake* releases, we provide a full game engine and a dedicated server binary. To compile the full game engine, make sure that “zquake - Win32 Release” is selected as the active project. You can then choose to “Build zquake.exe”
+
     4.  You can then set “zqds - Win32 Release” as the active project and choose “Build zqds.exe” from the menu.
 
-5.  When compilation has finished, you can move the binary from the `release/` directory created by your compiler into the extracted source package directory. If you’re using this extracted directory as your AudioQuake installation, you can now safely (re)move the `zquake-cvs/` directory from it.
+5.  When compilation has finished, you can move the binary from the `release/` directory created by your compiler into the extracted source package directory. If you’re using this extracted directory as your *AudioQuake* installation, you can now safely (re)move the `zquake-cvs/` directory from it.
 
 ## Manual Revision History
 
@@ -115,15 +115,15 @@ Revision 0.3.0
 
 Day N<sup>th</sup> December 2004
 
- 
 
-A huge number of major updates and minor tweaks to reflect the move to ZQuake and new features introduced in the first milestone of AudioQuake.
+
+A huge number of major updates and minor tweaks to reflect the move to ZQuake and new features introduced in the first milestone of *AudioQuake*.
 
 Revision 0.2.1
 
 Thursday 29<sup>th</sup> July 2004
 
- 
+
 
 Updated for the name change and new features in 0.2.1. Updated jumping and game save/loading instructions. Removed Perl from the installation instructions (as it is now included in the setup package).
 
@@ -131,7 +131,7 @@ Revision 0.2.0
 
 Monday 5<sup>th</sup> July 2004
 
- 
+
 
 Added information on the new installer, speech integration and the tutorial maps, plus how to move on after exiting a level. Removed redundant information, moved the info on how to extract registered data to the reference section. A great deal of minor updates for 0.2.0.
 
@@ -139,15 +139,15 @@ Revision 0.1.0
 
 Thursday 10<sup>th</sup> June 2004
 
- 
 
-Added section on how to obtain and set up shareware Quake. Added age limit information. Also created the sounds reference section for beta.
+
+Added section on how to obtain and set up shareware *Quake*. Added age limit information. Also created the sounds reference section for beta.
 
 Revision 0.0.2
 
 Saturday 22<sup>nd</sup> May 2004
 
- 
+
 
 Updated for the 0.0.4 release (now includes bots).
 
@@ -155,7 +155,7 @@ Revision 0.0.1
 
 Tuesday 18<sup>th</sup> May 2004
 
- 
+
 
 Initial version, written for AGRIP 0.0.4.
 
@@ -165,12 +165,12 @@ Version 2, June 1991
 
 Copyright © 1989, 1991 Free Software Foundation, Inc.
 
-Free Software Foundation, Inc.   
-  51 Franklin Street, Fifth Floor,   
-  Boston,   
-  MA   
-  02110-1301  
-  USA  
+Free Software Foundation, Inc.
+  51 Franklin Street, Fifth Floor,
+  Boston,
+  MA
+  02110-1301
+  USA
 Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
 Version 2, June 1991
@@ -220,9 +220,9 @@ You may modify your copy or copies of the Program or any portion of it, thus for
 2.  You must cause any work that you distribute or publish, that in whole or in part contains or is derived from the Program or any part thereof, to be licensed as a whole at no charge to all third parties under the terms of this License.
 
 3.  If the modified program normally reads commands interactively when run, you must cause it, when started running for such interactive use in the most ordinary way, to print or display an announcement including an appropriate copyright notice and a notice that there is no warranty (or else, saying that you provide a warranty) and that users may redistribute the program under these conditions, and telling the user how to view a copy of this License.
-    
+
     ### Exception:
-    
+
     If the Program itself is interactive but does not normally print such an announcement, your work based on the Program is not required to print an announcement.)
 
 These requirements apply to the modified work as a whole. If identifiable sections of that work are not derived from the Program, and can be reasonably considered independent and separate works in themselves, then this License, and its terms, do not apply to those sections when you distribute them as separate works. But when you distribute the same sections as part of a whole which is a work based on the Program, the distribution of the whole must be on the terms of this License, whose permissions for other licensees extend to the entire whole, and thus to each and every part regardless of who wrote it.
@@ -327,13 +327,13 @@ Version 1.2, November 2002
 
 Copyright © 2000,2001,2002 Free Software Foundation, Inc.
 
-Free Software Foundation, Inc.  
- 51 Franklin Street, Fifth Floor,  
- Boston,  
- MA  
- 02110-1301  
- USA  
- 
+Free Software Foundation, Inc.
+ 51 Franklin Street, Fifth Floor,
+ Boston,
+ MA
+ 02110-1301
+ USA
+
 
 Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
@@ -456,13 +456,13 @@ Each version of the License is given a distinguishing version number. If the Doc
 To use this License in a document you have written, include a copy of the License in the document and put the following copyright and license notices just after the title page:
 
 > **Sample Invariant Sections list**
-> 
+>
 > Copyright (c) YEAR YOUR NAME. Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled “GNU Free Documentation License”.
 
 If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts, replace the “with…Texts.” line with this:
 
 > **Sample Invariant Sections list**
-> 
+>
 > with the Invariant Sections being LIST THEIR TITLES, with the Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
 
 If you have Invariant Sections without Cover Texts, or some other combination of the three, merge those two alternatives to suit the situation.

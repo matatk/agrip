@@ -1,10 +1,10 @@
-## Key to the AudioQuake Sounds
+## Key to the *AudioQuake* Sounds
 
-This appendix is a list of the sounds AudioQuake uses to tell you what’s going on. It contains links to the sounds and descriptions of them. Additionally, it gives you an example or two of when you’ll hear the sounds.
+This appendix is a list of the sounds *AudioQuake* uses to tell you what’s going on. It contains links to the sounds and descriptions of them. Additionally, it gives you an example or two of when you’ll hear the sounds.
 
 Depending on how your browser is set up, you should be able to listen to these sounds quite easily whilst reading the book (tell your browser to open them with a program that can play WAVE files and also tell it to do this automatically for all WAVE files).
 
-**Note:** Many in-game events are spoken to you so you won’t find them included in this list. Also, some of the sounds we use are in the Quake data files and as such cannot be included here because we don’t own the copyright on the Quake data.
+**Note:** Many in-game events are spoken to you so you won’t find them included in this list. Also, some of the sounds we use are in the *Quake* data files and as such cannot be included here because we don’t own the copyright on the *Quake* data.
 
 ### Toggle Sounds
 
@@ -27,11 +27,11 @@ This section explains the meaning of the sounds that the navigation helper makes
 | [Wall](../id1/sound/nav/wall.wav)                   | Sound indicating a wall has been detected.                                            | Played when there is a wall near you (at a volume proportional to your distance from it). Walls are “sounded” at half the volume of stairs and doors (to stop them getting in the way). |
 | [Slope](../id1/sound/nav/slope.wav)                 | Sound indicating a up or downwards slope (or set of stairs) has been detected.        | Played when there is a slope near you (at a volume proportional to your distance from it).                                                                                              |
 | [Door](../id1/sound/nav/door.wav)                   | Sound indicating a door has been detected.                                            | Played when there is a door near you (at a volume proportional to your distance from it).                                                                                               |
-| Touching a Wall (in Quake’s sounds)                 | This indicates you’re stood right next to (touching) a wall.                          | Played when you’re touching a wall and have wall touch warnings enabled.                                                                                                                |
+| Touching a Wall (in *Quake*’s sounds)                 | This indicates you’re stood right next to (touching) a wall.                          | Played when you’re touching a wall and have wall touch warnings enabled.                                                                                                                |
 | [Scraping a Wall](../id1/sound/nav/wall-scrape.wav) | This indicates you’re walking but a wall is in your way and you’re scraping along it. | Played when a wall is in your way but you are able to walk, sliding along it.                                                                                                           |
 | [Wind](../id1/sound/nav/wind.wav)                   | This indicates that a lot of empty space can be found in a certain direction.         | Played when there is a large amount of empty space in a given direction from you (when a sweep has been initiated with the L key).                                                      |
 
-  
+
 **Table A.2. Vertical Movement**
 
 | Sound                             | Description                                          | Played when…                                        |
@@ -39,7 +39,7 @@ This section explains the meaning of the sounds that the navigation helper makes
 | [Up](../id1/sound/nav/up.wav)     | This sound indicates you’re going up in the world.   | Played when you go up stairs, slopes or on lifts.   |
 | [Down](../id1/sound/nav/down.wav) | This sound indicates you’re going down in the world. | Played when you go down stairs, slopes or on lifts. |
 
-  
+
 **Table A.3. Hazard (Drop/Ledge) Warnings**
 
 | Sound                                         | Description             | Played when…                                                                                                   |
@@ -50,7 +50,7 @@ This section explains the meaning of the sounds that the navigation helper makes
 
 #### Jump Descriptions
 
-When you ask if you can make a jump, you’ll either be told (via speech or Braille, depending on how you’ve set AudioQuake up) that you can make it with a normal jump or you’ll need to do a running jump.
+When you ask if you can make a jump, you’ll either be told (via speech or Braille, depending on how you’ve set *AudioQuake* up) that you can make it with a normal jump or you’ll need to do a running jump.
 
 If this information is not available (i.e. if there is no jump in front of you, or you’re too far away from one), you’ll hear this generic [“access denied”](../id1/sound/deny.wav)-type sound.
 
@@ -77,8 +77,8 @@ This section explains the meaning of the sounds the D5k makes.
 
 | Sound                                                   | Description                                                                                                                                                       | Played when…                                                                                                 |
 | :------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
-| (standard Quake sounds)                                 | The Quake “item activation” sounds (such as health, ammo, armour, weapon or power-up pickup sounds) are played to indicate what type of object has been detected. | The sounds are played when you’re near an object (at a volume proportional to your distance from it).        |
-| [Backpack](../id1/sound/d5k/backpack.wav)               | A dropped backpack. (Quake didn’t have a sound for these.)                                                                                                        | Played when a dropped backpack is near you. Monsters drop them when they die (if they’ve not been exploded). |
+| (standard *Quake* sounds)                                 | The *Quake* “item activation” sounds (such as health, ammo, armour, weapon or power-up pickup sounds) are played to indicate what type of object has been detected. | The sounds are played when you’re near an object (at a volume proportional to your distance from it).        |
+| [Backpack](../id1/sound/d5k/backpack.wav)               | A dropped backpack. (*Quake* didn’t have a sound for these.)                                                                                                        | Played when a dropped backpack is near you. Monsters drop them when they die (if they’ve not been exploded). |
 | [Item is outside FOV](../id1/sound/d5k/outside-fov.wav) | Indicates that a D5k-detected item lies beyond your field of view.                                                                                                | Played when the D5k detects an item outside of your FOV (at a volume proportional to your distance from it). |
 
 ### Weapon Sounds
@@ -101,7 +101,7 @@ This section explains the meaning of the sounds that the ESR makes.
 | [Monster on same level](../id1/sound/esr/monster-same.wav)     | Sound indicating that a monster is at a similar level (elevation) to the player. | Played when a monster is detected and is on the same level as the player.   |
 | [Monster on higher level](../id1/sound/esr/monster-higher.wav) | Sound indicating that a monster is at a higher level (elevation) to the player.  | Played when a monster is detected and is on the higher level as the player. |
 
-  
+
 **Table A.6. Enemy (Player or Bot) Indication Sounds**
 
 | Sound                                                      | Description                                                                    | Played when…                                                              |
@@ -110,7 +110,7 @@ This section explains the meaning of the sounds that the ESR makes.
 | [Enemy on same level](../id1/sound/esr/enemy-same.wav)     | Sound indicating that a enemy is at a similar level (elevation) to the player. | Played when a enemy is detected and is on the same level as the player.   |
 | [Enemy on higher level](../id1/sound/esr/enemy-higher.wav) | Sound indicating that a enemy is at a higher level (elevation) to the player.  | Played when a enemy is detected and is on the higher level as the player. |
 
-  
+
 **Table A.7. Friend (Player or Bot) Indication Sounds**
 
 | Sound                                                        | Description                                                                     | Played when…                                                               |

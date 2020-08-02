@@ -1,10 +1,10 @@
 # Playing AudioQuake
 
-This part of the manual is a guide to playing AudioQuake. It is aimed at people who have played accessible games such as Shades of Doom and Monkey Business before. If you’d like more help and/or information than is provided here, please contact us and we’ll do what we can to help you out.
+This part of the manual is a guide to playing *AudioQuake*. It is aimed at people who have played accessible games such as Shades of Doom and Monkey Business before. If you’d like more help and/or information than is provided here, please contact us and we’ll do what we can to help you out.
 
-AudioQuake has a number of game modes. This part explains only what is common between all game modes. Please read the next part of the manual to find out more about each individual mode.
+*AudioQuake* has a number of game modes. This part explains only what is common between all game modes. Please read the next part of the manual to find out more about each individual mode.
 
-**Tip:** The following sections tell you which keys you can use to toggle various gameplay elements on and off. Please be aware that you’re welcome to change these – only the defaults are listed here. To learn how to redefine keys, please read the [Customising AudioQuake](#customising "Part VI. Customising AudioQuake") section.
+**Tip:** The following sections tell you which keys you can use to toggle various gameplay elements on and off. Please be aware that you’re welcome to change these – only the defaults are listed here. To learn how to redefine keys, please read the [Customising *AudioQuake*](#customising "Part VI. Customising *AudioQuake*") section.
 
 ## Starting AudioQuake
 
@@ -12,43 +12,43 @@ This section describes how to get the game running. Later sections in this part 
 
 ### Running the Game
 
-The “game launcher” (described in more detail shortly) is your entry point to AudioQuake. To start the game launcher in Linux, simply run **start.pl** from the directory where AudioQuake was installed. In Windows you can run the launcher via the Start Menu – Choose `Start`, `Programs`, `AudioQuake`, `Start AudioQuake`.
+The “game launcher” (described in more detail shortly) is your entry point to *AudioQuake*. To start the game launcher in Linux, simply run **start.pl** from the directory where *AudioQuake* was installed. In Windows you can run the launcher via the Start Menu – Choose `Start`, `Programs`, `*AudioQuake*`, `Start *AudioQuake*`.
 
-**Warning:** Please unload any access software such as a screen reader or magnifier before running AudioQuake. The game is self-voicing so additional access software is not required. You may also find that running access software alongside AudioQuake makes the game run slowly.
+**Warning:** Please unload any access software such as a screen reader or magnifier before running *AudioQuake*. The game is self-voicing so additional access software is not required. You may also find that running access software alongside *AudioQuake* makes the game run slowly.
 
 The game launcher should now begin talking to you. Please send an e-mail to our tech support address (found on the [ContactUs](http://www.agrip.org.uk/ContactUs) page of our site) if you are having problems and we’ll do our best to help you out.
 
 ### Initial Data File Set–up
 
-When run AudioQuake for the first time, the game will asess which version of the data files you have available. It will search for the registered Quake data on your hard disk (which is useful if you’ve purchased the electronic download of the game or have installed it from CD before). If when you installed AudioQuake, you indicated that you have a retail CD (by not having the Shareware episode downloaded for you), this is when you’ll be asked to insert the CD so that the data can be installed.
+When run *AudioQuake* for the first time, the game will asess which version of the data files you have available. It will search for the registered *Quake* data on your hard disk (which is useful if you’ve purchased the electronic download of the game or have installed it from CD before). If when you installed *AudioQuake*, you indicated that you have a retail CD (by not having the Shareware episode downloaded for you), this is when you’ll be asked to insert the CD so that the data can be installed.
 
 ### How Best to Listen
 
-AudioQuake runs in stereo sound and gives far superior performance on headphones than with traditional desktop computer speakers. We strongly recommend the use of headphones as they will let you get the most out of the game.
+*AudioQuake* runs in stereo sound and gives far superior performance on headphones than with traditional desktop computer speakers. We strongly recommend the use of headphones as they will let you get the most out of the game.
 
-Many people are now looking into, or own, surround-sound systems. Surround sound is something that we are going to be adding before AudioQuake reaches 1.0.0 (it is the core of the “Implicit Accessibility” feature).
+Many people are now looking into, or own, surround-sound systems. Surround sound is something that we are going to be adding before *AudioQuake* reaches 1.0.0 (it is the core of the “Implicit Accessibility” feature).
 
 ## The User Interface
 
-AudioQuake gives you the ability to interact with Quake the same way that sighted gamers do. This chapter describes the main user interface for the game (the *console*) as well as the *game launcher*, which we provided to make setting some options more convenient.
+*AudioQuake* gives you the ability to interact with *Quake* the same way that sighted gamers do. This chapter describes the main user interface for the game (the *console*) as well as the *game launcher*, which we provided to make setting some options more convenient.
 
 ### The Game Launcher
 
-As mentioned above, this program acts as a front-end to AudioQuake. It exists to allow you to adjust many accessibility-related options and review your keybindings before starting the game. The launcher has a spoken menu-based interface. To enter a menu choice simply type the letter that corresponds to your choice and press ENTER.
+As mentioned above, this program acts as a front-end to *AudioQuake*. It exists to allow you to adjust many accessibility-related options and review your keybindings before starting the game. The launcher has a spoken menu-based interface. To enter a menu choice simply type the letter that corresponds to your choice and press ENTER.
 
-You can adjust many settings of the game by using the launcher – visit [Part VI, “Customising AudioQuake”](#customising "Part VI. Customising AudioQuake") for more information.
+You can adjust many settings of the game by using the launcher – visit [Part VI, “Customising *AudioQuake*”](#customising "Part VI. Customising *AudioQuake*") for more information.
 
 ### The Console
 
-When you start Quake itself, you’ll be presented with a pre-recorded demo. To get to the console, press the key below ESC on your keyboard. Here you can type in commands to start new games, play the tutorial maps or join in a multiplayer match. Instructions on how to do this can be found throughout the rest of the manual. All of the in-game events are self-voicing, including text editing within the console. After you exit the game by typing the “quit” command into the console, the launcher’s main menu will re-appear. To fully exit AudioQuake, choose the exit (X) option from the main menu.
+When you start *Quake* itself, you’ll be presented with a pre-recorded demo. To get to the console, press the key below ESC on your keyboard. Here you can type in commands to start new games, play the tutorial maps or join in a multiplayer match. Instructions on how to do this can be found throughout the rest of the manual. All of the in-game events are self-voicing, including text editing within the console. After you exit the game by typing the “quit” command into the console, the launcher’s main menu will re-appear. To fully exit *AudioQuake*, choose the exit (X) option from the main menu.
 
 **Tip:** Type the **aghelp** command to get a list of some very useful commands you can use to interact with the game.
 
 **Tip:** If you get the syntax of a command wrong when you type it into the console, you’ll be presented with a message that explains the correct syntax for that command.
 
-### Quake Menu
+### *Quake* Menu
 
-In the original Quake, there was a traditional hierarchical menu. This is not present in AudioQuake as the console allows you to do more, is faster to use and is also the way most players choose to interact with the game nowadays, anyway.
+In the original *Quake*, there was a traditional hierarchical menu. This is not present in *AudioQuake* as the console allows you to do more, is faster to use and is also the way most players choose to interact with the game nowadays, anyway.
 
 ## Navigation
 
@@ -56,15 +56,15 @@ In the original Quake, there was a traditional hierarchical menu. This is not pr
 
 To move around, use the arrow keys. Turning is implemented in a familiar way to users of accessible games – pressing the arrow keys snaps the player round a certain number of degrees. By default, the player has a 16-point turn (that is to say each tap of the arrow keys will turn you 22.5 degrees in that direction).
 
-**Tip:** You can adjust the turning value, as well as many other aspects of the game – read [Customising AudioQuake](#customising "Part VI. Customising AudioQuake") to find out how.
+**Tip:** You can adjust the turning value, as well as many other aspects of the game – read [Customising *AudioQuake*](#customising "Part VI. Customising *AudioQuake*") to find out how.
 
-A very important move in Quake is “strafing”. To strafe, hold down ALT and press-and-hold the left or right arrow key. This moves you from side-to-side and helps you avoid incoming enemy fire.
+A very important move in *Quake* is “strafing”. To strafe, hold down ALT and press-and-hold the left or right arrow key. This moves you from side-to-side and helps you avoid incoming enemy fire.
 
 To jump, press SPACE. To jump over a gap in front of you, move up to the gap using the up arrow and press SPACE as you reach the edge. If you need to do a running jump, hold down the SHIFT key as well as the up arrow. Holding down SHIFT makes you run instead of walk.
 
 ### Navigation Helper
 
-AudioQuake provides a number of features to help you get around maps. These can all be toggled on/off. Some, but not all of them, are on by default (again, please read the customisation section for more information).
+*AudioQuake* provides a number of features to help you get around maps. These can all be toggled on/off. Some, but not all of them, are on by default (again, please read the customisation section for more information).
 
 To toggle the whole of the navigation subsystem on/off, use the N key.
 
@@ -76,7 +76,7 @@ The sound that walls make falls off more quickly than the sound steps/ramps and 
 
 ##### Wall Hit and Touch Warnings
 
-If you bump in to a wall, you’ll hear an “oomph” sound to indicate this has happened. Depending on how you’ve set up AudioQuake, you may also hear a continuous “wall-touch” sound played as long as you are still touching the wall.
+If you bump in to a wall, you’ll hear an “oomph” sound to indicate this has happened. Depending on how you’ve set up *AudioQuake*, you may also hear a continuous “wall-touch” sound played as long as you are still touching the wall.
 
 To toggle the sound that indicates you’re still right next to a wall, use the T key.
 
@@ -106,7 +106,7 @@ To find out what’s at the bottom, use the K key. You will get the [“access d
 
 This gives you a bit more of a feel for how big the area around you actually is. It will play a [gentle wind](../id1/sound/nav/wind.wav) sound at various points in front of you if there are no walls or other obstacles in that direction. The sounds are generated in a sweep from left to right around you, in response to a pres of the L key. It works as if you were using a mobility cane to scan the area – though it has significantly greater range.
 
-The distance over which obstacles are scanned for is the navigation detection range and is customisable (please read [Customising AudioQuake](#customising "Part VI. Customising AudioQuake") for more details).
+The distance over which obstacles are scanned for is the navigation detection range and is customisable (please read [Customising *AudioQuake*](#customising "Part VI. Customising *AudioQuake*") for more details).
 
 #### Corner Detection
 
@@ -150,7 +150,7 @@ The EtherScan RADAR (“ESR” as it is known for short) is a device that alerts
 
 To toggle monster detection on/off, press R. This acts as a kind of RADAR that lets you know where enemies are. The faster the beeps, the nearer the monster. The sound is actually two close-together beeps; the pitch difference between which tells you where (vertically) the monster is with respect to you. For example, if the monster is [lower](../id1/sound/esr/monster-lower.wav) or [higher](../id1/sound/esr/monster-higher.wav) than you. If the monster is roughly on the [same level](../id1/sound/esr/monster-same.wav) as you, the beeps will both have the same pitch.
 
-**Note:** Just as in regular Quake, you’re not given the ability to detect enemies through walls with the ESR. In AccessibleQuake, this was the case and it proved to be both unnecessary and potentially confusing. This way is much more fun :-).
+**Note:** Just as in regular *Quake*, you’re not given the ability to detect enemies through walls with the ESR. In AccessibleQuake, this was the case and it proved to be both unnecessary and potentially confusing. This way is much more fun :-).
 
 ### Hazard Detection
 
@@ -182,11 +182,11 @@ To fire, press CTRL.
 
 To switch weapons, use the keys 1-8 on they keyboard. You won’t start off with more than an Axe (1) and a Shotgun (2). By default, you’ll be using the gun at the start of any game.
 
-From 1 to 8, the weapons available in Quake are: Axe, Shotgun, Double-Barrelled Shotgun, Nailgun, Super Nailgun, Grenade Launcher (grenades are often affectionately known as pineapples), Rocket Launcher (the “boomstick”) and the Lightning Gun. There are four different types of ammo you can pick up: Shells, Nails, Rockets and Cells (the grenade launcher uses Rocket ammo).
+From 1 to 8, the weapons available in *Quake* are: Axe, Shotgun, Double-Barrelled Shotgun, Nailgun, Super Nailgun, Grenade Launcher (grenades are often affectionately known as pineapples), Rocket Launcher (the “boomstick”) and the Lightning Gun. There are four different types of ammo you can pick up: Shells, Nails, Rockets and Cells (the grenade launcher uses Rocket ammo).
 
 Some weapons are more effective against certain types of enemy than others – you’ll begin to get an idea of how your implements of destruction are working as you play the game. There are also a number of special moves you can do with some of the weapons. Again, you’ll begin to learn techniques as you play but to help you on your way, here are the names of some of the most interesting ones are the “rocket jump” and the “pineapple jump”. Beware of mixing liquids and electricity, too…
 
-If you run out of ammo, you’ll automatically switch to the next best weapon for which you do have enough for at least 1 shot. For more information on weapons, please consult Quake’s `MANUAL.txt` file.
+If you run out of ammo, you’ll automatically switch to the next best weapon for which you do have enough for at least 1 shot. For more information on weapons, please consult *Quake*’s `MANUAL.txt` file.
 
 ### Health, Ammo and Armour Indicators
 
@@ -208,7 +208,7 @@ A number of things may cause a map to end. This largely depends on what game mod
 
 ### Other Keys and Exiting the Game
 
-One of Quake’s strengths is that it allows total control over which keys do what. AudioQuake does not take any of this control away from you (please read the [Customising AudioQuake](#customising "Part VI. Customising AudioQuake") section for details) but it does, by default, limit the number of defined keys. Originally, there were many ways to perform some game actions (like jumping or shooting). We have disabled a lot of the keys so that the likelihood of pressing a key you don’t mean to and getting yourself into an unknown situation because of it is reduced.
+One of *Quake*’s strengths is that it allows total control over which keys do what. *AudioQuake* does not take any of this control away from you (please read the [Customising *AudioQuake*](#customising "Part VI. Customising *AudioQuake*") section for details) but it does, by default, limit the number of defined keys. Originally, there were many ways to perform some game actions (like jumping or shooting). We have disabled a lot of the keys so that the likelihood of pressing a key you don’t mean to and getting yourself into an unknown situation because of it is reduced.
 
 Some extra keys you may be interested in are:
 
@@ -216,7 +216,7 @@ Some extra keys you may be interested in are:
 
   - End – Pressing this key mutes all currently queued speech.
 
-  - F10 – Press F10 to exit Quake and return to the AudioQuake launcher’s main menu.
+  - F10 – Press F10 to exit *Quake* and return to the *AudioQuake* launcher’s main menu.
 
   - Pause – Erm, pauses the game. Press again (or ESC, or FIRE) to un-pause.
 
