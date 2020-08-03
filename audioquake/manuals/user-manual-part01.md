@@ -2,13 +2,23 @@
 
 This part of the manual aims to introduce *AudioQuake* and gives you details on how to get it set up on your computer.
 
+If you're interested in historical details, this is the section for you—but if you just want to get into playing the game, by all means visit [the "Playing *AudioQuake*" section](#playing-audioquake) instead.
+
 ## Digital archaeology note from 2020
 
-**This section of the document is kept relatively unchanged from the mid-2000s. Whilst *Quake* is now ancient (but still a milestone in gaming) and accessible games and mainstream game accessibility have taken off massively, we wanted to preserve the spirit of this part. It also mentions things that, whilst we'd've loved to work on, we never got time—but again they're preserved here for posterity.**
+<!-- Note: from repo README -->
 
-**If you're interested in historical details, this is the section for you—but if you just want to get into playing the game, by all means visit [the "Playing *AudioQuake*" section](#playing-audioquake) instead.**
+*AudioQuake* and the *Level Description Language* were successful experiments started in 2003 to see if it was possible to make a mainstream first-person shooter (FPS) accessible to blind and vision-impaired gamers. We sought to afford access not only to the game *Quake*, but also to the surrounding community of modding and even the creation of new levels ("maps").
+
+These aims were realised, with the help of the community during 2003, when we focussed on single-player and 2004, when the first networked accessible deathmatches were played and user-made mods were debuted. *Level Description Language*, which allows blind people to architect 3D maps, was released in 2008.
+
+Whilst the original *Quake* game is no longer mainstream, the experiment was successful (in that a number of single-player maps and many deathmatch maps are accessible, and blind gamers have created additional mods and maps for the game) and the lessons learnt apply equally well to modern FPSs. Also, we developed some accessibility techniques we'd like to share and that we'd be delighted if others might adopt for their own projects; particularly the *Level Description Language* as this empowers blind gamers (and its present "90-degree expressiveness" limitation is due only to a lack of advanced geometry on our part).
+
+Over the years since, it's been truly awesome to witness the strides and leaps in game accessibility that have been made possible by the continuing hard work of independent and large-scale developers, gamers and advocates the world over. We can't wait to find out what's next!
 
 ## What is *AudioQuake*?
+
+**This section of the document is kept relatively unchanged from the mid-2000s. Whilst *Quake* is now ancient (but still a milestone in gaming) and accessible games and mainstream game accessibility have taken off massively, we wanted to preserve the spirit of this part. It also mentions things that, whilst we'd've loved to work on, we never got time—but again they're preserved here for posterity.**
 
 *AudioQuake* is essentially a series of modifications to the game *Quake* by id Software that enable blind and vision-impaired people to play it. Actually, it is (or will be) quite a lot more than just that. This chapter explains the main things you need to know about *AudioQuake* to understand what it does and why it's here.
 
@@ -40,9 +50,9 @@ We have tried our best to make it possible for *AudioQuake* players to use the o
 
 In the end, the main point of *AudioQuake* is not to prove that video game accessibility is possible, as this has already been established. The main point is that *community* accessibility is possible—that blind and vision-impaired players can use *the exact same software*, join Internet games and contribute new maps and modifications, just as the sighted are able to.
 
-#### Not for Under-15s
+#### Not for under-15s
 
-*Quake* has a "15" certificate. For obvious reasons, this also applies to *AudioQuake*. We do not recommend or condone the use of this software by anyone below 15 years of age.
+*Quake* has a "15" certificate. For obvious reasons, we do not recommend nor condone the use of this software by anyone below 15 years of age.
 
 ### Customisable
 

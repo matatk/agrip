@@ -1,6 +1,10 @@
 <a name="multiplayer-game-modes"></a>
 # Multiplayer game modes
 
+<!-- FIXME -->
+
+**WARNING: This section has not yet been updated for the 2020 re-release.**
+
 Quake is not just a singleplayer fragfest\! In fact, many would say that it is far more fun to play over the Internet both with and against other humans. This part explains the variety of game modes on offer and how you can join in the fun.
 
 *AudioQuake* gives you the ability to play true Internet multiplayer games in a variety of modes. You can also play offline practice games against computer-generated "bots". This will allow you to hone your skills before joining real multiplayer games and allows you to play any time you like (not just when your friends are online).
