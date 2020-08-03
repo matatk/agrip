@@ -108,9 +108,7 @@ Our recommended method of setting up your mod, in terms of directory structure a
 
 * hooks.qc
 
-  Hooks from AGRIP into the main QuakeC gamecode. Not to be confused with the way we provide hooks into our code for mod developers; this file simply contains AGRIP code that we've put here to lower the footprint on the QuakeC gamecode as a whole.
-
-  The procedure for hooking into our code is described FIXME elsewhere.
+  Implementations for AGRIP functions that have been hooked into the main QuakeC gamecode. This file contains AGRIP code that we've put here to lower the footprint on the QuakeC gamecode as a whole.
 
 * marker.qc
 
