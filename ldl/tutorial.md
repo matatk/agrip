@@ -56,7 +56,7 @@ The workflow for using LDL is as follows.
 
    If it doesn't work, there could be an error in your XML file (or a bug in the LDL code, which we implore you to report!) Go back to the XML, try to fix the problem (error messages will try to help you do this) and try again.
 
-   If/when it does work, you will then be able to play the map in *AudioQuake*.
+   If/when it does work, you will then be able to play the map in **AudioQuake**.
 
 ## What can and can't it do?
 
@@ -90,13 +90,13 @@ For now, however, there's a great deal you *can* do—as we hope the tutorial be
 
 ## Running LDL
 
-LDL comes as part of *AudioQuake*—you can access it via the launcher's "Map" tab. There you can open a map file you're working on (or one of the tutorial examples that match the tutorial steps below) and build and play it.
+LDL comes as part of **AudioQuake**—you can access it via the launcher's "Map" tab. There you can open a map file you're working on (or one of the tutorial examples that match the tutorial steps below) and build and play it.
 
 If you clone the AGRIP code repo from GitHub and use a Mac, you can also use the LDL command-line tools. Info on how to do that is provided in the READMEs and in the help for the LDL program itself.
 
 # Making maps with LDL
 
-This section is a tutorial on making levels with LDL. It assumes you've got *AudioQuake* and you have a text editor set up that can edit XML files.
+This section is a tutorial on making levels with LDL. It assumes you've got **AudioQuake** and you have a text editor set up that can edit XML files.
 
 ## Basic concepts
 
@@ -112,7 +112,7 @@ Before you start, please be aware of the following.
 
 * Unless you add enough deathmatch player start points, you will have great problems running the map in deathmatch mode, as all of the bots will try to spawn out of one start point. You'll read later how to add start points.
 
-   For now, be aware that the *AudioQuake* launcher and the LDL command-line tools open your maps in non-deathmatch mode. For that to work, you have to have one—and only one—`info_player_start` entity in your map. Again, more on this later.
+   For now, be aware that the **AudioQuake** launcher and the LDL command-line tools open your maps in non-deathmatch mode. For that to work, you have to have one—and only one—`info_player_start` entity in your map. Again, more on this later.
 
 ## Example 1: Hello, world!
 
@@ -545,7 +545,7 @@ The file *style.xml* included with LDL contains information on the textures and 
 
 ## Test maps
 
-The tutorial files (*tut*\**.xml*) are also provided for your reference and are available from the *AudioQuake* launcher.
+The tutorial files (*tut*\**.xml*) are also provided for your reference and are available from the **AudioQuake** launcher.
 
 If you check out the code from the repository, you will find various test maps (*test_*\**_*\**.xml* files) that provide some examples on how to use the system. The number in the name indicates which layer of the system the map is written for (remember earlier we discussed that LDL is composed of a number of layers). The layer "05" maps because the lower levels rely on absolute coordinates.
 
