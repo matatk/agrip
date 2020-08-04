@@ -8,9 +8,10 @@ from launcherlib.game_controller.speech_synth import SpeechSynth
 
 
 class EngineWrapper(threading.Thread):
-	def __init__(self, command_line):
+	def __init__(self, command_line, on_error):
 		threading.Thread.__init__(self)
 		self._command_line = command_line
+		self._on_error = on_error
 
 	def run(self):
 		try:
@@ -47,7 +48,7 @@ class EngineWrapper(threading.Thread):
 				if retcode is not None:
 					if retcode != 0:
 						error = proc.stderr.read().decode('ascii')
-						speaker.say(error)
+						self._on_error(error)
 					break
 		except:  # noqa E722
 			self.conduit.put(sys.exc_info())

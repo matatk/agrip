@@ -5,13 +5,14 @@ import sys
 import wx
 
 from launcherlib.game_controller import LaunchState
-from launcherlib.utils import on_windows, opener, have_registered_data
+from launcherlib.utils import on_windows, opener
 
 BORDER_SIZE = 5
 
 launch_messages = {
 	LaunchState.NOT_FOUND: 'Engine not found',
 	LaunchState.ALREADY_RUNNING: 'The game is already running',
+	LaunchState.NO_REGISTERED_DATA: 'Registered Quake data not found'
 }
 
 
@@ -135,12 +136,9 @@ def first_time_check(parent, name):
 
 def launch_core(parent, method):
 	first_time_check(parent, 'game')
-	if not have_registered_data():
-		Error(parent, "No registered data installed.")
-	else:
-		try:
-			launch_state = method()
-			if launch_state is not LaunchState.LAUNCHED:
-				Warn(parent, launch_messages[launch_state])
-		except:  # noqa E722
-			ErrorException(parent)  # FIXME needed?
+	try:
+		launch_state = method()
+		if launch_state is not LaunchState.LAUNCHED:
+			Warn(parent, launch_messages[launch_state])
+	except:  # noqa E722
+		ErrorException(parent)  # FIXME needed?

@@ -3,7 +3,9 @@ from os import path
 
 import wx
 
-from launcherlib.ui.helpers import add_opener_buttons, add_widget, Warn
+from launcherlib.game_controller import GameController
+from launcherlib.ui.helpers import add_opener_buttons, add_widget, \
+	Info, Warn
 from launcherlib.ui.tabs.play import PlayTab
 from launcherlib.ui.tabs.customise import CustomiseTab
 from launcherlib.ui.tabs.mod import ModTab
@@ -11,12 +13,14 @@ from launcherlib.ui.tabs.map import MapTab
 
 
 class LauncherWindow(wx.Frame):
-	def __init__(self, parent, title, game_controller):
+	def __init__(self, parent, title):
 		wx.Frame.__init__(self, parent, title=title)
 
 		panel = wx.Panel(self)
 		root_vbox = wx.BoxSizer(wx.VERTICAL)
 		child_hbox = wx.BoxSizer(wx.HORIZONTAL)
+
+		game_controller = GameController(lambda message: Warn(self, message))
 
 		# Tabs
 

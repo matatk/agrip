@@ -18,7 +18,8 @@ class PlayTab(wx.Panel):
 		play = wx.StaticBoxSizer(wx.VERTICAL, self, "Play")
 
 		game_modes = {
-			"Play": game_controller.launch_default,
+			"Play Quake": game_controller.launch_default,
+			"Play Open Quartz": game_controller.launch_open_quartz,
 			"Tutorial": game_controller.launch_tutorial,
 		}
 

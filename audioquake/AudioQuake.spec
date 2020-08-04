@@ -3,13 +3,18 @@ import platform
 
 data_files = [
 	('mod-static-files/', 'id1'),
-	('manuals-converted/', 'manuals'),
-	('manuals/agrip.css', 'manuals'),
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
+
+	('../../non-redist/oq-pak-src-2004.08.01/', 'oq'),
+	('mod-static-files/', 'oq'),
+	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'oq/'),
+	('../giants/zq-repo/qc/agrip/spprogs.dat', 'oq/'),
+
+	('manuals-converted/', 'manuals'),
+	('manuals/agrip.css', 'manuals'),
 	('app-support-files/start-rcon.command', '.'),
 	('app-support-files/start-server.command', '.'),
-	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 	('../ldl/style.xml', '.'),
 	('../../non-redist/quake.wad', '.'),
 	('../ldl/tut*.xml', 'ldl-tutorial-maps')]
