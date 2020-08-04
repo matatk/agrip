@@ -1027,8 +1027,18 @@ void FS_InitFilesystem (void)
 //
 // start up with id1 by default
 //
+#ifndef AGRIP
 	FS_AddGameDirectory (va("%s/id1", com_basedir) );
 	FS_AddGameDirectory (va("%s/qw", com_basedir) );
+#else
+	i = COM_CheckParm ("-rootgame");
+	if (!i) {
+		FS_AddGameDirectory (va("%s/id1", com_basedir) );
+		FS_AddGameDirectory (va("%s/qw", com_basedir) );
+	} else {
+		FS_AddGameDirectory (va("%s/%s", com_basedir, com_argv[i+1]) );
+	}
+#endif
 
 	// any set gamedirs will be freed up to here
 	com_base_searchpaths = com_searchpaths;
