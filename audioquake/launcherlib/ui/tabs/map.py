@@ -5,6 +5,7 @@ import shutil
 
 import wx
 
+from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
 	Info, Warn, Error, ErrorException
@@ -73,7 +74,14 @@ class MapTab(wx.Panel):
 		self.SetSizer(sizer)
 
 	def build_and_play_ldl_map(self, filename, play_when_built=True):
-		aq_maps_dir = path.join('id1', 'maps')
+		if have_registered_data():
+			base = 'id1'
+			# TODO quake.wad management; ... ?
+		else:
+			base = 'oq'
+			# TODO quake.wad management; ... ?
+
+		aq_maps_dir = path.join(base, 'maps')
 
 		xmldir, xmlfile = path.split(filename)
 		map_base = path.splitext(xmlfile)[0]

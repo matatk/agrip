@@ -18,6 +18,7 @@ class CustomiseTab(wx.Panel):
 
 		# Settings
 
+		# FIXME copy these to oq when edited
 		add_opener_buttons(self, sizer, {
 			'Edit autoexec.cfg': path.join('id1', 'autoexec.cfg'),
 			'Edit config.cfg': path.join('id1', 'config.cfg'),
