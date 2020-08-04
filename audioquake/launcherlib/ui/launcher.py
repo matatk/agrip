@@ -4,8 +4,7 @@ from os import path
 import wx
 
 from launcherlib.game_controller import GameController
-from launcherlib.ui.helpers import add_opener_buttons, add_widget, \
-	Info, Warn
+from launcherlib.ui.helpers import add_opener_buttons, add_widget, Warn
 from launcherlib.ui.tabs.play import PlayTab
 from launcherlib.ui.tabs.customise import CustomiseTab
 from launcherlib.ui.tabs.mod import ModTab

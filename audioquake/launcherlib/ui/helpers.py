@@ -1,5 +1,6 @@
 """AudioQuake Game Launcher - GUI helpers"""
 from os import path
+import shutil
 import sys
 
 import wx
@@ -134,8 +135,17 @@ def first_time_check(parent, name):
 		pass
 
 
+def _update_oq_configs():
+	for config in ['autoexec.cfg', 'config.cfg']:
+		id1_file = path.join('id1', config)
+		oq_file = path.join('oq', config)
+		if path.getmtime(id1_file) > path.getmtime(oq_file):
+			shutil.copy(id1_file, oq_file)
+
+
 def launch_core(parent, method):
 	first_time_check(parent, 'game')
+	_update_oq_configs()
 	try:
 		launch_state = method()
 		if launch_state is not LaunchState.LAUNCHED:
