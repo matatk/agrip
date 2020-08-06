@@ -1,11 +1,10 @@
 """AudioQuake Game Launcher - Customise tab"""
 from os import path
-import shutil
 
 import wx
 
+from launcherlib.munging import do_stuff
 from launcherlib.utils import have_registered_data
-
 from launcherlib.ui.helpers import \
 	add_opener_buttons, add_widget, pick_directory, \
 	Info, Error, ErrorException
@@ -35,9 +34,13 @@ class CustomiseTab(wx.Panel):
 		self.SetSizer(sizer)
 
 	def install_registered_data(self, event):
-		if have_registered_data():
+		if have_registered_data():  # FIXME what if something else is missing?
 			Info(self, 'The registered data files are already installed.')
 		else:
+			Info(self, (
+				'The registered Quake data files will be copied to the AudioQuake '
+				'folder. Then the textures will be extracted, and the AGRIP maps '
+				'rebuilt with these textures, so they can be played.'))
 			incoming = pick_directory(
 				self, "Select folder containing pak0.pak and pak1.pak")
 			if incoming:
@@ -45,11 +48,15 @@ class CustomiseTab(wx.Panel):
 				incoming_pak1 = path.join(incoming, 'pak1.pak')
 				if path.isfile(incoming_pak0) and path.isfile(incoming_pak1):
 					try:
-						shutil.copy(incoming_pak0, 'id1')
-						shutil.copy(incoming_pak1, 'id1')
-						Info(self, 'Registered data installed.')
+						progress = wx.ProgressDialog(
+							'Installation', '', parent=self,
+							style=wx.PD_APP_MODAL | wx.PD_AUTO_HIDE)
+						do_stuff(progress, incoming_pak0, incoming_pak1)
+						Info(self, 'Installation complete.')
 					except:  # noqa E722
 						ErrorException(self)
+					finally:
+						progress.Destroy()
 				else:
 					Error(self, (
 						'One or both of the registered data files could '

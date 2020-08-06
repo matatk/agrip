@@ -13,6 +13,8 @@ data_files = [
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'oq/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'oq/'),
 
+	('../ldl/agdm*.map', 'id1/maps'),
+
 	('manuals-converted/', 'manuals'),
 	('manuals/agrip.css', 'manuals'),
 	('app-support-files/start-rcon.command', '.'),
