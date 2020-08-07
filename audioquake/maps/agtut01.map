@@ -7,6 +7,7 @@
 {
  "classname" "worldspawn"
  "message" "AGRIP Tutorial 01: Your first steps"
+ "wad" "quake.wad"
 // Brush 0
 // c1:g[1] -> c:d[7] -> poly:p[] -> poly:p[]
  {

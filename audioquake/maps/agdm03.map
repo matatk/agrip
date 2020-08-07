@@ -7,6 +7,7 @@
 {
  "classname" "worldspawn"
  "message" "Stack Overflow"
+ "wad" "quake.wad"
 // Brush 0
 // l0:g[1] -> south corridor:d[1] -> poly:p[] -> poly:p[]
  {

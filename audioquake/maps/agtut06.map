@@ -7,6 +7,7 @@
 {
  "classname" "worldspawn"
  "message" "AGRIP Tutorial 06: Use the ESR to work out where the Enemies are"
+ "wad" "quake.wad"
 // Brush 0
 // wallside wall
  {
