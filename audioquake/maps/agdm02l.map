@@ -7,6 +7,7 @@
 {
  "classname" "worldspawn"
  "message" "Halls of Retribution - Warring Factions Remix"
+ "wad" "quake.wad"
 // Brush 0
 // wallside wall
  {

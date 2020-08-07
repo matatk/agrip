@@ -7,6 +7,7 @@
 {
  "classname" "worldspawn"
  "message" "AGRIP Tutorial 09: Traps and Shootable Switches"
+ "wad" "quake.wad"
 // Brush 0
 // wallside wall
  {
