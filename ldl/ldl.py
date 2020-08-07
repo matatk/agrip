@@ -72,7 +72,7 @@ def handle_build(args):
 			elif ext == '.xml':
 				try:
 					convert(filename, args.verbose, args.keep)
-					build(base + '.map', base, args.verbose)
+					build(base + '.map', args.verbose)
 				except:  # noqa: E722
 					print_exception()
 				already_processed.add(base)
