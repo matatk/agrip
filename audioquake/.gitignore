@@ -3,3 +3,5 @@ manuals-converted/
 # PyInstaller output
 build/
 dist/
+# Compiled maps in the map source dir
+maps/*.bsp

@@ -2,6 +2,7 @@
 quake.wad
 *.bsp
 ldl-tutorial.html
+*_roundtripped*
 
 # Built map files
 first_20080427_1353.map

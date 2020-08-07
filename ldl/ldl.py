@@ -42,10 +42,9 @@ def handle_convert(args):
 			print(filename, 'is not a readable file - skipping')
 			continue
 		root, ext = os.path.splitext(filename)
-		base = os.path.basename(root)
 		if ext == '.xml':
 			try:
-				convert(filename, base, args.verbose, args.keep)
+				convert(filename, args.verbose, args.keep)
 			except:  # noqa: E722
 				print_exception()
 		else:
@@ -66,13 +65,13 @@ def handle_build(args):
 		if base not in already_processed:
 			if ext == '.map':
 				try:
-					build(filename, base, args.verbose)
+					build(filename, args.verbose)
 				except:  # noqa: E722
 					print_exception()
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
-					convert(filename, base, args.verbose, args.keep)
+					convert(filename, args.verbose, args.keep)
 					build(base + '.map', base, args.verbose)
 				except:  # noqa: E722
 					print_exception()
@@ -98,22 +97,22 @@ def handle_play(args):
 		if base not in already_processed:
 			if ext == '.bsp':
 				try:
-					play(filename, base, args.verbose)
+					play(filename, args.verbose)
 				except:  # noqa: E722
 					print_exception()
 				already_processed.add(base)
 			if ext == '.map':
 				try:
-					build(filename, base, args.verbose)
-					play(base + '.bsp', base, args.verbose)
+					build(filename, args.verbose)
+					play(root + '.bsp', args.verbose)
 				except:  # noqa: E722
 					print_exception()
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
-					convert(filename, base, args.verbose, args.keep)
-					build(base + '.map', base, args.verbose)
-					play(base + '.bsp', base, args.verbose)
+					convert(filename, args.verbose, args.keep)
+					build(root + '.map', args.verbose)
+					play(root + '.bsp', args.verbose)
 				except:  # noqa: E722
 					print_exception()
 				already_processed.add(base)
@@ -130,9 +129,8 @@ def handle_roundtrip(args):
 			print(filename, 'is not a readable file - skipping')
 			continue
 		root, ext = os.path.splitext(filename)
-		base = os.path.basename(root)
 		if ext == '.map':
-			roundtrip(filename, base, args.verbose, args.keep, args.play)
+			roundtrip(filename, args.verbose, args.keep, args.play)
 
 
 parser = argparse.ArgumentParser(

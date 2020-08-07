@@ -23,22 +23,30 @@ def have_needed_stuff():
 
 
 def run(args, verbose, errorcheck=True):
-	res = subprocess.run(args, capture_output=True, check=errorcheck)
+	try:
+		res = subprocess.run(args, capture_output=True, check=errorcheck)
+		# We may not be doing strict error-checking (e.g. for vis) but still
+		# want to know when it didn't work
+		if res.returncode != 0:
+			print('Ignored error from', os.path.basename(args[0]))
+	except subprocess.CalledProcessError as error:
+		print('Error from', error.cmd[0])
 	if verbose is True:
 		print(res.stdout.decode())
 
 
-def build(map_file_name, basename, verbose):
+def build(map_file_name, verbose):
 	print('Building', map_file_name)
-	run([prog.qbsp, basename], verbose)
-	run([prog.light, '-extra', basename], verbose)
-	run([prog.vis, '-level', '4', basename], verbose)
+	without_ext = os.path.splitext(map_file_name)[0]
+	run([prog.qbsp, without_ext], verbose)
+	run([prog.light, '-extra', without_ext], verbose)
+	run([prog.vis, '-level', '4', without_ext], verbose, errorcheck=False)
 
 	if verbose is True:
-		run([prog.bspinfo, basename], True, False)
+		run([prog.bspinfo, without_ext], True, False)
 
 	for ext in clean:
 		try:
-			os.unlink(basename + ext)
+			os.unlink(without_ext + ext)
 		except FileNotFoundError:
 			pass  # it may not have been created, e.g. if vis failed
