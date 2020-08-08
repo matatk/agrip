@@ -3,7 +3,6 @@
 This is only intended to be used by the command-line LDL tool. The AudioQuake
 launcher uses its own method for starting the game.'''
 from os import getcwd, chdir
-from os.path import basename
 from pathlib import Path
 import subprocess
 import shutil
@@ -38,8 +37,7 @@ def _run(map_base_name, verbose):
 	chdir(starting_dir)
 
 
-def play(bsp_file_name, verbose):
-	without_ext = bsp_file_name[:-4]
-	print('Playing', bsp_file_name)
-	shutil.copy(bsp_file_name, maps_dir)
-	_run(basename(without_ext), verbose)
+def play(bsp_file, verbose):
+	print('Playing', bsp_file)
+	shutil.copy(bsp_file, maps_dir)
+	_run(bsp_file.with_suffix('').name, verbose)

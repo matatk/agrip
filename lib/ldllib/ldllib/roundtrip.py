@@ -3,17 +3,11 @@ from .level_00_up_map2mapxml import main as level0up
 from .level_01_up_brushsizes import main as level1up
 from .level_00_down_map2mapxml import main as level0down
 from .level_01_down_brushsizes import main as level1down
-from .utils import set_verbosity
+from .utils import keep, set_verbosity
 from ldllib.play import play
 
 
-def _keep(keep, level, without_ext, content):
-	if keep:
-		with open(without_ext + '_level_' + str(level) + '.xml', 'w') as out:
-			out.write(content)
-
-
-def roundtrip(map_name, verbose, keep, play_after):
+def roundtrip(map_name, verbose, keep_intermediate, play_after):
 	print('Roundtripping', map_name)
 	map_name_without_ext = map_name[:-4]
 	roundtripped_map_name_without_ext = map_name_without_ext + '_roundtripped'
@@ -24,11 +18,11 @@ def roundtrip(map_name, verbose, keep, play_after):
 		map_string = map_file.read()
 
 	map_xml = level0up(map_string)
-	_keep(keep, 0, map_name_without_ext + '_up', map_xml)
+	keep(keep_intermediate, 0, map_name_without_ext + '_up', map_xml)
 	level_1 = level1up(map_xml)
-	_keep(keep, 1, map_name_without_ext + '_up', level_1)
+	keep(keep_intermediate, 1, map_name_without_ext + '_up', level_1)
 	map_xml_again = level1down(level_1)
-	_keep(keep, 0, map_name_without_ext + '_down', map_xml_again)
+	keep(keep_intermediate, 0, map_name_without_ext + '_down', map_xml_again)
 	map_again = level0down(map_xml_again)
 
 	with open(roundtripped_map_name, 'w') as outfile:

@@ -1,19 +1,18 @@
 # vim: ft=python
+from pathlib import Path
 import platform
 
 data_files = [
 	('mod-static-files/', 'id1'),
-	('mod-conditional-files/mod.id1.cfg', 'id1/mod.cfg'),
+	('mod-conditional-files/id1/mod.cfg', 'id1/'),
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 
 	('../../non-redist/oq-pak-src-2004.08.01/', 'oq'),
 	('mod-static-files/', 'oq'),
-	('mod-conditional-files/mod.oq.cfg', 'oq/mod.cfg'),
+	('mod-conditional-files/oq/mod.cfg', 'oq/'),
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'oq/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'oq/'),
-
-	('../ldl/agdm*.map', 'id1/maps'),
 
 	('manuals-converted/', 'manuals'),
 	('manuals/agrip.css', 'manuals'),
@@ -21,6 +20,11 @@ data_files = [
 	('app-support-files/start-server.command', '.'),
 	('../ldl/style.xml', '.'),
 	('../ldl/tut*.xml', 'ldl-tutorial-maps')]
+
+if next(Path('maps').glob('*.bsp'), None) is not None:
+	data_files.extend([
+		('maps/*.bsp', 'id1/maps/'),
+		('maps/*.bsp', 'oq/maps/')])
 
 if platform.system() == 'Darwin':
 	binary_files = [

@@ -2,22 +2,13 @@
 '''Level Description Language front-end'''
 import argparse
 import argcomplete
-import os
+from pathlib import Path
 import sys
-from ldllib.conf import prog
 from ldllib.convert import convert
-from ldllib.build import build, have_needed_stuff
+from ldllib.build import build, have_needed_stuff, use_repo_bins
 from ldllib.play import play
 from ldllib.roundtrip import roundtrip
-
-
-# These paths only work for *nix
-bin_base = os.path.join('..', 'giants', 'Quake-Tools', 'qutils', 'qbsp')
-prog.qbsp = os.path.join(bin_base, 'qbsp')
-prog.light = os.path.join(bin_base, 'light')
-prog.vis = os.path.join(bin_base, 'vis')
-prog.bspinfo = os.path.join(bin_base, 'bspinfo')
-# quake.wad has to be in the current directory
+from ldllib.utils import LDLException
 
 
 def print_exception():
@@ -37,15 +28,15 @@ class SubcommandHelpFormatter(argparse.RawDescriptionHelpFormatter):
 
 
 def handle_convert(args):
-	for filename in args.files:
-		if not os.path.isfile(filename):
-			print(filename, 'is not a readable file - skipping')
+	for filename_string in args.files:
+		filename = Path(filename_string)
+		if not filename.is_file():
+			print(filename_string, 'is not a readable file - skipping')
 			continue
-		root, ext = os.path.splitext(filename)
-		if ext == '.xml':
+		if filename.suffix == '.xml':
 			try:
 				convert(filename, args.verbose, args.keep)
-			except:  # noqa: E722
+			except LDLException:
 				print_exception()
 		else:
 			print('skipping', filename, '- not an XML file')
@@ -56,24 +47,26 @@ def handle_build(args):
 		sys.exit(42)
 
 	already_processed = set()
-	for filename in args.files:
-		if not os.path.isfile(filename):
+	for filename_string in args.files:
+		filename = Path(filename_string)
+		if not filename.is_file():
 			print(filename, 'is not a readable file - skipping')
 			continue
-		root, ext = os.path.splitext(filename)
-		base = os.path.basename(root)
+		ext = filename.suffix
+		root = filename.with_suffix('')
+		base = filename.name
 		if base not in already_processed:
 			if ext == '.map':
 				try:
 					build(filename, args.verbose)
-				except:  # noqa: E722
+				except (LDLException, FileNotFoundError):
 					print_exception()
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
 					convert(filename, args.verbose, args.keep)
-					build(base + '.map', args.verbose)
-				except:  # noqa: E722
+					build(root.with_suffix('.map'), args.verbose)
+				except (LDLException, FileNotFoundError):
 					print_exception()
 				already_processed.add(base)
 			else:
@@ -88,32 +81,34 @@ def handle_play(args):
 		sys.exit(42)
 
 	already_processed = set()
-	for filename in args.files:
-		if not os.path.isfile(filename):
-			print(filename, 'is not a readable file - skipping')
+	for filename_string in args.files:
+		filename = Path(filename_string)
+		if not filename.is_file():
+			print(filename_string, 'is not a readable file - skipping')
 			continue
-		root, ext = os.path.splitext(filename)
-		base = os.path.basename(root)
+		ext = filename.suffix
+		root = filename.with_suffix('')
+		base = filename.name
 		if base not in already_processed:
 			if ext == '.bsp':
 				try:
 					play(filename, args.verbose)
-				except:  # noqa: E722
+				except LDLException:
 					print_exception()
 				already_processed.add(base)
 			if ext == '.map':
 				try:
 					build(filename, args.verbose)
-					play(root + '.bsp', args.verbose)
-				except:  # noqa: E722
+					play(root.with_suffix('.bsp'), args.verbose)
+				except (LDLException, FileNotFoundError):
 					print_exception()
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
 					convert(filename, args.verbose, args.keep)
-					build(root + '.map', args.verbose)
-					play(root + '.bsp', args.verbose)
-				except:  # noqa: E722
+					build(root.with_suffix('.map'), args.verbose)
+					play(root.with_suffix('.bsp'), args.verbose)
+				except (LDLException, FileNotFoundError):
 					print_exception()
 				already_processed.add(base)
 		else:
@@ -124,13 +119,17 @@ def handle_play(args):
 def handle_roundtrip(args):
 	# TODO cope with XML too?
 	# TODO cope with XML and non-built MAPs when PLAY is requested?
-	for filename in args.files:
-		if not os.path.isfile(filename):
-			print(filename, 'is not a readable file - skipping')
+	for filename_string in args.files:
+		filename = Path(filename_string)
+		if not filename.is_file():
+			print(filename_string, 'is not a readable file - skipping')
 			continue
-		root, ext = os.path.splitext(filename)
+		ext = filename.suffix
 		if ext == '.map':
-			roundtrip(filename, args.verbose, args.keep, args.play)
+			try:
+				roundtrip(filename, args.verbose, args.keep, args.play)
+			except LDLException:
+				print_exception()
 
 
 parser = argparse.ArgumentParser(
@@ -196,6 +195,8 @@ parser_roundtrip.add_argument(
 
 parser_roundtrip.set_defaults(func=handle_roundtrip)
 
+
+use_repo_bins()
 
 argcomplete.autocomplete(parser)
 args = parser.parse_args()

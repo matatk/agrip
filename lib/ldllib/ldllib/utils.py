@@ -29,6 +29,10 @@ stage = None
 verbose = False
 
 
+class LDLException(Exception):
+	pass
+
+
 #
 # Construction Code
 #
@@ -624,12 +628,12 @@ class Region3D:
 			if isinstance(origin, Point2D):
 				origin = Point(origin.x, origin.y, 0)  # FIXME fix callers :-)
 			else:
-				raise TypeError('origin is not a 3D Point')
+				raise LDLException('origin is not a 3D Point')
 		if not isinstance(extent, Point):
 			if isinstance(extent, Point2D):
 				extent = Point(extent.x, extent.y, 0)  # FIXME fix callers :-)
 			else:
-				raise TypeError('extent is not a 3D Point')
+				raise LDLException('extent is not a 3D Point')
 		self.origin = origin
 		self.extent = extent
 		self.end = self.origin + self.extent
@@ -651,7 +655,7 @@ class Region2D:
 		if not isinstance(origin, Point2D) \
 			or not isinstance(extent, Point2D) \
 			or isinstance(rtype, Point2D):
-			raise TypeError
+			raise LDLException
 		self.origin = origin
 		self.extent = extent
 		self.end = self.origin + self.extent
@@ -689,7 +693,7 @@ def warning(data):
 
 def error(data):
 	message = 'Stage ' + str(stage) + ' ERROR! ' + data
-	raise Exception(message)  # TODO make an LDLException?
+	raise LDLException(message)
 
 
 def failParse(data=None):
@@ -700,7 +704,7 @@ def failParse(data=None):
 		message = 'Processing stage ' + stage + ': there was an error in ' + \
 			'the input given to this stage of processing -- perhaps ' + \
 			"the previous stage didn't work?"
-	raise Exception(message)  # TODO make an LDLException?
+	raise LDLException(message)
 
 
 def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
@@ -859,3 +863,13 @@ def set_verbosity(new_verbosity):
 	global verbose
 	verbose = new_verbosity
 	# TODO: split.py has "debug_printing" turned off hardcodedly - double-v?
+
+
+def keep(keep, level, without_ext, content):
+	"""Save intermediate-level LDL XML files
+
+	The 'keep' check is done here to make calling code simpler."""
+	if not keep:
+		return
+	out = without_ext.with_suffix('_level_' + str(level) + '.xml').open('w')
+	out.write(content)

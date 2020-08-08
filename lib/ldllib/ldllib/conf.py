@@ -1,5 +1,5 @@
 '''LDL Global Configuration Variables and Constants'''
-import os
+from pathlib import Path
 import platform
 
 
@@ -34,11 +34,11 @@ class prog:
 	MAP_ORIGIN = (0, 0, 0)
 	ELEV_DIST = 30
 
-	bins = 'bin'
-	qbsp = os.path.join(bins, 'qbsp')
-	vis = os.path.join(bins, 'vis')
-	light = os.path.join(bins, 'light')
-	bspinfo = os.path.join(bins, 'bspinfo')
+	bins = Path('bin')
+	qbsp = bins / 'qbsp'
+	vis = bins / 'vis'
+	light = bins / 'light'
+	bspinfo = bins / 'bspinfo'
 
 	if platform.system() == 'Windows':
 		qbsp += '.exe'
@@ -46,7 +46,7 @@ class prog:
 		light += '.exe'
 		bspinfo += '.exe'
 
-	quakewad = 'quake.wad'
+	quakewad = Path('quake.wad')
 
 
 #

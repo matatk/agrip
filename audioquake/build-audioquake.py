@@ -12,7 +12,28 @@ import mistune_contrib.toc
 from buildlib import Config, \
 	prep_dir, try_to_run, platform_set, check_platform, die, comeback
 
+from ldllib.build import build, have_needed_stuff, use_repo_bins
+
 skip_pyinstaller = False  # set via command-line option
+maps_were_built = False   # detected via build_maps_for_quake()
+
+
+#
+# Building the maps
+#
+
+def build_maps_for_quake():
+	global maps_were_built
+	use_repo_bins()
+
+	if have_needed_stuff():
+		maps = Path('maps').glob('*.map')
+
+		for mapfile in maps:
+			print('Building', mapfile)
+			build(mapfile, False)
+
+		maps_were_built = True
 
 
 #
@@ -118,16 +139,17 @@ def build_audioquake():
 
 	print('Preparing converted (HTML) manual dir')
 	prep_dir(Config.dir_manuals_converted)
+	convert_manuals()       # TODO replace with a check if it needs doing
 
-	# Markdown to HTML
-	convert_manuals()  # TODO replace with a check if it needs doing
+	print('Building AGRIP maps')
+	build_maps_for_quake()  # TODO cacheing
 
 	# Build the executables
 	if not skip_pyinstaller:
 		run_pyinstaller()
 		copy_in_rcon()
 		print('Completed building AudioQuake with Level Description Language.')
-		print('Distributable software is in:', Config.dir_dist)
+		print('Output directory:', Config.dir_dist)
 	else:
 		print('Skipping running PyInstaller')
 
@@ -147,3 +169,18 @@ if __name__ == '__main__':
 		skip_pyinstaller = True
 
 	build_audioquake()
+
+	if not maps_were_built:
+		print(
+			'\nPlease note: the "quake.wad" file, containing id Software\'s '
+			'Quake textures, is not present in the current directory. This '
+			'means the AGRIP maps have not been built for Quake. That needs '
+			'to happen in order to make a redistributable version of '
+			'AudioQuake and the Level Description Language.\n\n'
+
+			'You can make "quake.wad" by using the launcher\'s "Install '
+			'registered Quake data" feature. Copy "quake.wad" to this '
+			'directory, re-run the build process, and the maps will be '
+			'compiled.\n\n'
+
+			'The "quake.wad" file itself should not be redistributed.')

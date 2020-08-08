@@ -3,11 +3,11 @@ from os import path
 
 import wx
 
-from launcherlib.munging import do_stuff
 from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import \
 	add_opener_buttons, add_widget, pick_directory, \
 	Info, Error, ErrorException
+from launcherlib.ui.munging import do_stuff
 
 
 class CustomiseTab(wx.Panel):
@@ -38,9 +38,9 @@ class CustomiseTab(wx.Panel):
 			Info(self, 'The registered data files are already installed.')
 		else:
 			Info(self, (
-				'The registered Quake data files will be copied to the AudioQuake '
-				'folder. Then the textures will be extracted, and the AGRIP maps '
-				'rebuilt with these textures, so they can be played.'))
+				'The registered Quake data files will be copied to the '
+				'AudioQuake folder. Then the textures will be extracted, so '
+				'you can use them in your own maps.'))
 			incoming = pick_directory(
 				self, "Select folder containing pak0.pak and pak1.pak")
 			if incoming:
