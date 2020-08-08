@@ -7,7 +7,7 @@ from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import \
 	add_opener_buttons, add_widget, pick_directory, \
 	Info, Error, ErrorException
-from launcherlib.ui.munging import do_stuff
+from launcherlib.ui.munging import copy_paks_and_create_textures_wad
 
 
 class CustomiseTab(wx.Panel):
@@ -51,7 +51,8 @@ class CustomiseTab(wx.Panel):
 						progress = wx.ProgressDialog(
 							'Installation', '', parent=self,
 							style=wx.PD_APP_MODAL | wx.PD_AUTO_HIDE)
-						do_stuff(progress, incoming_pak0, incoming_pak1)
+						copy_paks_and_create_textures_wad(
+							progress, incoming_pak0, incoming_pak1)
 						Info(self, 'Installation complete.')
 					except:  # noqa E722
 						ErrorException(self)

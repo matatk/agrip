@@ -10,7 +10,7 @@ from vgio.quake import wad
 import wx
 
 
-def do_stuff(progress, pak0, pak1):
+def copy_paks_and_create_textures_wad(progress, pak0, pak1):
 	copy_paks(0, 40, progress, pak0, pak1)
 	make_quake_wad(40, 100, progress)
 
@@ -29,8 +29,6 @@ def copy_paks(start, end, progress, pak0, pak1):
 def make_quake_wad(start, end, progress):
 	bsps = []
 	miptextures = []
-
-	# FIXME finer progress
 
 	update_message(progress, start, 'Extracting textures')
 
