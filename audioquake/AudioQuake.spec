@@ -1,6 +1,7 @@
 # vim: ft=python
-from pathlib import Path
 import platform
+
+from buildlib import Config
 
 data_files = [
 	('mod-static-files/', 'id1'),
@@ -11,7 +12,7 @@ data_files = [
 	('../../non-redist/oq-pak-src-2004.08.01/', 'oq'),
 	('mod-static-files/', 'oq'),
 	('mod-conditional-files/oq/mod.cfg', 'oq/'),
-	('maps/free_wad/*.bsp', 'oq/maps/'),
+	('maps-freewad/*.bsp', 'oq/maps/'),
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'oq/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'oq/'),
 
@@ -22,8 +23,8 @@ data_files = [
 	('../ldl/style.xml', '.'),
 	('../ldl/tut*.xml', 'ldl-tutorial-maps')]
 
-if next(Path('maps').glob('*.bsp'), None) is not None:
-	data_files.extend([('maps/*.bsp', 'id1/maps/')])
+if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
+	data_files.extend([('maps-quakewad/*.bsp', 'id1/maps/')])
 
 if platform.system() == 'Darwin':
 	binary_files = [

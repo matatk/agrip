@@ -14,18 +14,14 @@ from buildlib import Config, \
 
 from ldllib.build import build, have_needed_stuff, set_wad_file, use_repo_bins
 
-skip_pyinstaller = False  # set via command-line option
-force_map_build = False   # also set via CLI
-
-maps_were_built_for_quake = False   # detected via build_maps_for_quake()
-
 wad_map = {
+	'quake': 'quake.wad',  # FIXME this doesn't represent a replacement yet
 	'free': 'free.wad',
 	'prototype': 'prototype_1_2.wad'
 }
 
 texture_map = {
-	'*lava1': {'free': '*lava', 'prototype': ''},
+	'*lava1': {'free': '*lava_s2', 'prototype': ''},
 	'+0basebtn': {'free': '+0switch', 'prototype': ''},
 	'+0slip': {'free': '*teleport', 'prototype': ''},
 	'bricka2_2': {'free': 'bricks256', 'prototype': ''},
@@ -51,37 +47,15 @@ texture_map = {
 	'wswitch1': {'free': '+0u_1', 'prototype': ''}
 }
 
+skip_pyinstaller = False           # set via command-line option
+force_map_build = False            # also set via CLI
+
+maps_were_built_for_quake = False  # detected via build_maps_for_quake()
+
 
 #
 # Building the maps
 #
-
-def build_maps_for_quake():
-	global maps_were_built_for_quake
-	used_cached_maps = False
-
-	use_repo_bins()
-
-	if have_needed_stuff():
-		maps = Path('maps').glob('*.map')
-
-		for mapfile in maps:
-			if mapfile.name == 'agdm02l.map':
-				continue  # FIXME it's borked
-
-			bspfile = mapfile.with_suffix('.bsp')
-			if force_map_build or not bspfile.is_file() \
-				or bspfile.stat().st_mtime < mapfile.stat().st_mtime:
-				print('Building', mapfile)
-				build(mapfile, False)
-			else:
-				used_cached_maps = True
-
-		if used_cached_maps:
-			print('Cached maps were used')
-
-		maps_were_built_for_quake = True
-
 
 def swap_wad(map_string, to):
 	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_map[to]}"')
@@ -93,40 +67,43 @@ def swap_textures(map_string, to):
 	return map_string
 
 
-def build_maps_with_free_wad():
+def build_maps_for(bsp_dir, wad_name, key):
+	global maps_were_built_for_quake  # only used if key is 'quake'
 	used_cached_maps = False
 
 	use_repo_bins()
-	set_wad_file('free.wad')
-
-	maps = Path('maps')
-	maps_free_wad = maps / 'free_wad'
-	maps_free_wad.mkdir(exist_ok=True)
+	set_wad_file(wad_name)
+	bsp_dir.mkdir(exist_ok=True)
 
 	if have_needed_stuff():
-		maps = maps.glob('*.map')
+		maps = Config.dir_maps_source.glob('*.map')
 
 		for mapfile in maps:
 			if mapfile.name == 'agdm02l.map':
-				continue  # FIXME it's borked
+				continue  # TODO that map's borked
 
-			free_wad_mapfile = maps_free_wad / mapfile.name
-			free_wad_bspfile = free_wad_mapfile.with_suffix('.bsp')
-			if force_map_build or not free_wad_bspfile.is_file() \
-				or not free_wad_mapfile.is_file() \
-				or free_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
+			this_wad_mapfile = bsp_dir / mapfile.name
+			this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
+			if force_map_build or not this_wad_bspfile.is_file() \
+				or not this_wad_mapfile.is_file() \
+				or this_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
 				map_string = mapfile.read_text()
-				map_string = swap_wad(map_string, 'free')
-				map_string = swap_textures(map_string, 'free')
-				free_wad_mapfile.write_text(map_string)
-				build(free_wad_mapfile, False)
+				map_string = swap_wad(map_string, key)
+				if key != 'quake':
+					map_string = swap_textures(map_string, key)
+				this_wad_mapfile.write_text(map_string)
+				build(this_wad_mapfile, False)
 			else:
 				used_cached_maps = True
 
 		if used_cached_maps:
 			print('Cached maps were used')
+
+		if key == 'quake':
+			maps_were_built_for_quake = True
 	else:
-		raise Exception('Build tools missing')
+		if key != 'quake':
+			raise Exception('Build tools missing')
 
 
 #
@@ -232,13 +209,13 @@ def build_audioquake():
 
 	print('Preparing converted (HTML) manual dir')
 	prep_dir(Config.dir_manuals_converted)
-	convert_manuals()       # TODO replace with a check if it needs doing
+	convert_manuals()  # TODO replace with a check if it needs doing
 
 	print('Building AGRIP maps for Quake')
-	build_maps_for_quake()  # TODO cacheing
+	build_maps_for(Config.dir_maps_quakewad, 'quake.wad', 'quake')
 
 	print('Building AGRIP maps for Open Quartz')
-	build_maps_with_free_wad()     # TODO cacheing
+	build_maps_for(Config.dir_maps_freewad, 'free.wad', 'free')
 
 	# Build the executables
 	if not skip_pyinstaller:

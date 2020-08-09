@@ -1,9 +1,9 @@
 # Manual intermediate files
 manuals-converted/
-# Compiled maps in the map source dir
-maps/*.bsp
-maps/free_wad/
-# Textures files
+# Compiled maps dirs
+maps-freewad/
+maps-quakewad/
+# Textures files FIXME remove
 quake.wad
 free.wad
 # PyInstaller output
