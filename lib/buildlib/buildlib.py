@@ -34,13 +34,13 @@ def platform_set(mac=None, windows=None):
 class Config:
 	base = Path(__file__).parent.parent.parent
 
+	dir_readme_licence = base
+
 	zq_repo = base / 'giants' / 'zq-repo'
 	dir_make_zqcc = zq_repo / 'zqcc'
 	dir_make_zquake = zq_repo / 'zquake'
 	dir_zquake_source = zq_repo / 'zquake' / 'source'
-	dir_qc = base / 'giants' / 'zq-repo' / 'qc' / 'agrip'
-	dir_dist = base / 'audioquake' / 'dist'
-	dir_ldllib = base / 'ldl' / 'ldllib'
+	dir_qc = zq_repo / 'qc' / 'agrip'
 
 	bin_zqcc = platform_set(
 		mac=dir_make_zqcc / 'zqcc',
@@ -54,23 +54,25 @@ class Config:
 		mac=dir_make_zquake / 'release-mac' / 'zqds',
 		windows=dir_make_zquake / 'source' / 'Release-server' / 'zqds.exe')
 
-	dir_aq_data = platform_set(
-		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
-		windows=dir_dist / 'AudioQuake')
-
-	dir_manuals = base / 'audioquake' / 'manuals'
-	dir_manuals_converted = base / 'audioquake' / 'manuals-converted'
-	dir_dist_rcon = dir_dist / 'rcon'
-	dir_readme_licence = base
-
 	dir_quake_tools = base / 'giants' / 'Quake-Tools'
 	dir_qutils = dir_quake_tools / 'qutils'
 	dir_qbsp = dir_qutils / 'qbsp'
 
+	dir_ldllib = base / 'ldl' / 'ldllib'
+
+	aq = base / 'audioquake'
+	file_aq_release = aq / 'release'
+	dir_dist = aq / 'dist'
+	dir_manuals = aq / 'manuals'
+	dir_manuals_converted = aq / 'manuals-converted'
+	dir_dist_rcon = dir_dist / 'rcon'
+
+	dir_aq_data = platform_set(
+		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
+		windows=dir_dist / 'AudioQuake')
+
 	dir_ldl = base / 'ldl'
 	dir_patches = dir_ldl / 'patches'
-
-	file_aq_release = base / 'audioquake' / 'release'
 
 
 def comeback(function):

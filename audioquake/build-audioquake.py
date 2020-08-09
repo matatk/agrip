@@ -15,39 +15,9 @@ from buildlib import Config, \
 from ldllib.build import build, have_needed_stuff, set_wad_file, use_repo_bins
 
 skip_pyinstaller = False  # set via command-line option
+force_map_build = False   # also set via CLI
+
 maps_were_built_for_quake = False   # detected via build_maps_for_quake()
-
-
-#
-# Building the maps
-#
-
-def build_maps_for_quake():
-	global maps_were_built_for_quake
-	used_cached_maps = False
-
-	use_repo_bins()
-
-	if have_needed_stuff():
-		maps = Path('maps').glob('*.map')
-
-		for mapfile in maps:
-			if mapfile.name == 'agdm02l.map':
-				continue  # FIXME it's borked
-
-			bspfile = mapfile.with_suffix('.bsp')
-			if not bspfile.is_file() \
-				or bspfile.stat().st_mtime < mapfile.stat().st_mtime:
-				print('Building', mapfile)
-				build(mapfile, False)
-			else:
-				used_cached_maps = True
-
-		if used_cached_maps:
-			print('Cached maps were used')
-
-		maps_were_built_for_quake = True
-
 
 wad_map = {
 	'free': 'free.wad',
@@ -82,6 +52,37 @@ texture_map = {
 }
 
 
+#
+# Building the maps
+#
+
+def build_maps_for_quake():
+	global maps_were_built_for_quake
+	used_cached_maps = False
+
+	use_repo_bins()
+
+	if have_needed_stuff():
+		maps = Path('maps').glob('*.map')
+
+		for mapfile in maps:
+			if mapfile.name == 'agdm02l.map':
+				continue  # FIXME it's borked
+
+			bspfile = mapfile.with_suffix('.bsp')
+			if force_map_build or not bspfile.is_file() \
+				or bspfile.stat().st_mtime < mapfile.stat().st_mtime:
+				print('Building', mapfile)
+				build(mapfile, False)
+			else:
+				used_cached_maps = True
+
+		if used_cached_maps:
+			print('Cached maps were used')
+
+		maps_were_built_for_quake = True
+
+
 def swap_wad(map_string, to):
 	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_map[to]}"')
 
@@ -111,7 +112,7 @@ def build_maps_with_free_wad():
 
 			free_wad_mapfile = maps_free_wad / mapfile.name
 			free_wad_bspfile = free_wad_mapfile.with_suffix('.bsp')
-			if not free_wad_bspfile.is_file() \
+			if force_map_build or not free_wad_bspfile.is_file() \
 				or not free_wad_mapfile.is_file() \
 				or free_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
 				map_string = mapfile.read_text()
@@ -273,9 +274,13 @@ if __name__ == '__main__':
 		'-s', '--skip-pyinstaller', action='store_true',
 		help="Don't run PyInstaller (used for debugging manual conversion)")
 
+	parser.add_argument(
+		'-f', '--force-map-build', action='store_true',
+		help='Rebuild the maps (useful for debugging texture changes)')
+
 	args = parser.parse_args()
 
-	if args.skip_pyinstaller:
-		skip_pyinstaller = True
+	skip_pyinstaller = args.skip_pyinstaller
+	force_map_build = args.force_map_build
 
 	build_audioquake()
