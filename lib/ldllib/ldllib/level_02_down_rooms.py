@@ -58,7 +58,8 @@ def processInfo(doc, map):
 	worldspawn.appendChild(
 		utils.createProperty(doc, 'worldtype', str(worldtype_num)))
 	worldspawn.appendChild(utils.createProperty(doc, 'message', mapname))
-	worldspawn.appendChild(utils.createProperty(doc, 'wad', prog.wadfile))
+	# FIXME style:
+	worldspawn.appendChild(utils.createProperty(doc, 'wad', str(prog.wadfile)))
 	map.replaceChild(worldspawn, info)
 	return worldspawn
 

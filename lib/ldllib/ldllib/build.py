@@ -26,9 +26,13 @@ def use_repo_bins():
 	# quake.wad has to be in the current directory
 
 
+def set_wad_file(name):
+	prog.wadfile = Path(name)
+
+
 def have_needed_stuff():
 	missing = []
-	for exe in [prog.qbsp, prog.vis, prog.light, prog.bspinfo, prog.quakewad]:
+	for exe in [prog.qbsp, prog.vis, prog.light, prog.bspinfo, prog.wadfile]:
 		if not exe.is_file():
 			missing.append(exe)
 
@@ -46,12 +50,14 @@ def run(args, verbose, errorcheck=True):
 		res = subprocess.run(args, capture_output=True, check=errorcheck)
 		# We may not be doing strict error-checking (e.g. for vis) but still
 		# want to know when it didn't work
-		if res.returncode != 0:
+		if verbose is True:
+			print(res.stdout.decode())
+		elif res.returncode != 0:
 			print('Ignored error from', args[0].name)
 	except subprocess.CalledProcessError as error:
 		print('Error from', error.cmd[0].name)
-	if verbose is True:
-		print(res.stdout.decode())
+		if verbose:
+			print(error.output.decode())
 
 
 def build(map_file, verbose):

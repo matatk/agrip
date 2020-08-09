@@ -11,6 +11,7 @@ data_files = [
 	('../../non-redist/oq-pak-src-2004.08.01/', 'oq'),
 	('mod-static-files/', 'oq'),
 	('mod-conditional-files/oq/mod.cfg', 'oq/'),
+	('maps/free_wad/*.bsp', 'oq/maps/'),
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'oq/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'oq/'),
 
@@ -22,9 +23,7 @@ data_files = [
 	('../ldl/tut*.xml', 'ldl-tutorial-maps')]
 
 if next(Path('maps').glob('*.bsp'), None) is not None:
-	data_files.extend([
-		('maps/*.bsp', 'id1/maps/'),
-		('maps/*.bsp', 'oq/maps/')])
+	data_files.extend([('maps/*.bsp', 'id1/maps/')])
 
 if platform.system() == 'Darwin':
 	binary_files = [

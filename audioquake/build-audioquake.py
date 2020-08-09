@@ -12,10 +12,10 @@ import mistune_contrib.toc
 from buildlib import Config, \
 	prep_dir, try_to_run, platform_set, check_platform, die, comeback
 
-from ldllib.build import build, have_needed_stuff, use_repo_bins
+from ldllib.build import build, have_needed_stuff, set_wad_file, use_repo_bins
 
 skip_pyinstaller = False  # set via command-line option
-maps_were_built = False   # detected via build_maps_for_quake()
+maps_were_built_for_quake = False   # detected via build_maps_for_quake()
 
 
 #
@@ -23,17 +23,109 @@ maps_were_built = False   # detected via build_maps_for_quake()
 #
 
 def build_maps_for_quake():
-	global maps_were_built
+	global maps_were_built_for_quake
+	used_cached_maps = False
+
 	use_repo_bins()
 
 	if have_needed_stuff():
 		maps = Path('maps').glob('*.map')
 
 		for mapfile in maps:
-			print('Building', mapfile)
-			build(mapfile, False)
+			if mapfile.name == 'agdm02l.map':
+				continue  # FIXME it's borked
 
-		maps_were_built = True
+			bspfile = mapfile.with_suffix('.bsp')
+			if not bspfile.is_file() \
+				or bspfile.stat().st_mtime < mapfile.stat().st_mtime:
+				print('Building', mapfile)
+				build(mapfile, False)
+			else:
+				used_cached_maps = True
+
+		if used_cached_maps:
+			print('Cached maps were used')
+
+		maps_were_built_for_quake = True
+
+
+wad_map = {
+	'free': 'free.wad',
+	'prototype': 'prototype_1_2.wad'
+}
+
+texture_map = {
+	'*lava1': {'free': '*lava', 'prototype': ''},
+	'+0basebtn': {'free': '+0switch', 'prototype': ''},
+	'+0slip': {'free': '*teleport', 'prototype': ''},
+	'bricka2_2': {'free': 'bricks256', 'prototype': ''},
+	'crate0_side': {'free': 'tsl_crate2', 'prototype': ''},
+	'crate1_top': {'free': 'tsl_crate2top', 'prototype': ''},
+	'door02_7': {'free': 'srib2', 'prototype': ''},
+	'door03_3': {'free': 'tile', 'prototype': ''},
+	'emetal1_3': {'free': 'strangethang', 'prototype': ''},
+	'ground1_1': {'free': 'grass4', 'prototype': ''},
+	'med100': {'free': 'chimneytop', 'prototype': ''},
+	'metal2_4': {'free': 'bolt10', 'prototype': ''},
+	'sfloor4_1': {'free': 'u_tex22', 'prototype': ''},
+	'sfloor4_6': {'free': 'tsl_hex1', 'prototype': ''},
+	'sky1': {'free': 'sky3', 'prototype': ''},
+	'tech01_1': {'free': 'swire2a', 'prototype': ''},
+	'tech01_5': {'free': 'swire4', 'prototype': ''},
+	'tech02_2': {'free': 'tsl_2', 'prototype': ''},
+	'tech03_2': {'free': 'u_tex24', 'prototype': ''},
+	'tech04_7': {'free': 'sriba3', 'prototype': ''},
+	'tech06_2': {'free': 'tsl_light1', 'prototype': ''},
+	'tech08_1': {'free': 'tsl_1', 'prototype': ''},
+	'tech08_2': {'free': 'smetal64a', 'prototype': ''},
+	'wswitch1': {'free': '+0u_1', 'prototype': ''}
+}
+
+
+def swap_wad(map_string, to):
+	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_map[to]}"')
+
+
+def swap_textures(map_string, to):
+	for texture in texture_map:
+		map_string = map_string.replace(texture, texture_map[texture][to])
+	return map_string
+
+
+def build_maps_with_free_wad():
+	used_cached_maps = False
+
+	use_repo_bins()
+	set_wad_file('free.wad')
+
+	maps = Path('maps')
+	maps_free_wad = maps / 'free_wad'
+	maps_free_wad.mkdir(exist_ok=True)
+
+	if have_needed_stuff():
+		maps = maps.glob('*.map')
+
+		for mapfile in maps:
+			if mapfile.name == 'agdm02l.map':
+				continue  # FIXME it's borked
+
+			free_wad_mapfile = maps_free_wad / mapfile.name
+			free_wad_bspfile = free_wad_mapfile.with_suffix('.bsp')
+			if not free_wad_bspfile.is_file() \
+				or not free_wad_mapfile.is_file() \
+				or free_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
+				map_string = mapfile.read_text()
+				map_string = swap_wad(map_string, 'free')
+				map_string = swap_textures(map_string, 'free')
+				free_wad_mapfile.write_text(map_string)
+				build(free_wad_mapfile, False)
+			else:
+				used_cached_maps = True
+
+		if used_cached_maps:
+			print('Cached maps were used')
+	else:
+		raise Exception('Build tools missing')
 
 
 #
@@ -141,8 +233,11 @@ def build_audioquake():
 	prep_dir(Config.dir_manuals_converted)
 	convert_manuals()       # TODO replace with a check if it needs doing
 
-	print('Building AGRIP maps')
+	print('Building AGRIP maps for Quake')
 	build_maps_for_quake()  # TODO cacheing
+
+	print('Building AGRIP maps for Open Quartz')
+	build_maps_with_free_wad()     # TODO cacheing
 
 	# Build the executables
 	if not skip_pyinstaller:
@@ -152,6 +247,21 @@ def build_audioquake():
 		print('Output directory:', Config.dir_dist)
 	else:
 		print('Skipping running PyInstaller')
+
+	if not maps_were_built_for_quake:
+		print(
+			'\nPlease note: the "quake.wad" file, containing id Software\'s '
+			'Quake textures, is not present in the current directory. This '
+			'means the AGRIP maps have not been built for Quake. That needs '
+			'to happen in order to make a redistributable version of '
+			'AudioQuake and the Level Description Language.\n\n'
+
+			'You can make "quake.wad" by using the launcher\'s "Install '
+			'registered Quake data" feature. Copy "quake.wad" to this '
+			'directory, re-run the build process, and the maps will be '
+			'compiled.\n\n'
+
+			'The "quake.wad" file itself should not be redistributed.')
 
 
 if __name__ == '__main__':
@@ -169,18 +279,3 @@ if __name__ == '__main__':
 		skip_pyinstaller = True
 
 	build_audioquake()
-
-	if not maps_were_built:
-		print(
-			'\nPlease note: the "quake.wad" file, containing id Software\'s '
-			'Quake textures, is not present in the current directory. This '
-			'means the AGRIP maps have not been built for Quake. That needs '
-			'to happen in order to make a redistributable version of '
-			'AudioQuake and the Level Description Language.\n\n'
-
-			'You can make "quake.wad" by using the launcher\'s "Install '
-			'registered Quake data" feature. Copy "quake.wad" to this '
-			'directory, re-run the build process, and the maps will be '
-			'compiled.\n\n'
-
-			'The "quake.wad" file itself should not be redistributed.')

@@ -2,7 +2,10 @@
 manuals-converted/
 # Compiled maps in the map source dir
 maps/*.bsp
+maps/free_wad/
+# Textures files
 quake.wad
+free.wad
 # PyInstaller output
 build/
 dist/
