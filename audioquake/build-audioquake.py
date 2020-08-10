@@ -34,17 +34,17 @@ texture_map = {
 	'ground1_1': {'free': 'grass4', 'prototype': '128_green_1'},
 	'med100': {'free': 'chimneytop', 'prototype': '32_honey_2'},
 	'metal2_4': {'free': 'bolt10', 'prototype': '128_grey_3'},  # TODO as below
-	'sfloor4_1': {'free': 'u_tex22', 'prototype': '128_blue_3'},
-	'sfloor4_6': {'free': 'tsl_hex1', 'prototype': '64_honey_3'},
+	'sfloor4_1': {'free': 'shex2', 'prototype': '128_blue_3'},
+	'sfloor4_6': {'free': 'u_tex22', 'prototype': '64_honey_3'},
 	'sky1': {'free': 'sky3', 'prototype': 'sky1'},
-	'tech01_1': {'free': 'swire2a', 'prototype': '128_grey_3'},
+	'tech01_1': {'free': 'swire2c', 'prototype': '128_grey_3'},
 	'tech01_5': {'free': 'swire4', 'prototype': '128_grey_2'},
-	'tech02_2': {'free': 'tsl_2', 'prototype': '16_honey_1'},
+	'tech02_2': {'free': 'bolt7', 'prototype': '16_honey_1'},
 	'tech03_2': {'free': 'u_tex24', 'prototype': '128_brown_2'},
 	'tech04_7': {'free': 'sriba3', 'prototype': '16_cyan_1'},
-	'tech06_2': {'free': 'tsl_light1', 'prototype': '128_honey_2'},
-	'tech08_1': {'free': 'tsl_1', 'prototype': '128_cyan_3'},
-	'tech08_2': {'free': 'smetal64a', 'prototype': '128_brown_3'},
+	'tech06_2': {'free': 's128z', 'prototype': '128_honey_2'},
+	'tech08_1': {'free': 's128f', 'prototype': '128_cyan_3'},
+	'tech08_2': {'free': 's128k', 'prototype': '128_brown_3'},
 	'wswitch1': {'free': '+0u_1', 'prototype': 'text_light'}
 }
 
