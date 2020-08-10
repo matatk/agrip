@@ -21,30 +21,30 @@ wad_map = {
 }
 
 texture_map = {
-	'*lava1': {'free': '*lava_s2', 'prototype': ''},
-	'+0basebtn': {'free': '+0switch', 'prototype': ''},
-	'+0slip': {'free': '*teleport', 'prototype': ''},
-	'bricka2_2': {'free': 'bricks256', 'prototype': ''},
-	'crate0_side': {'free': 'tsl_crate2', 'prototype': ''},
-	'crate1_top': {'free': 'tsl_crate2top', 'prototype': ''},
-	'door02_7': {'free': 'srib2', 'prototype': ''},
-	'door03_3': {'free': 'tile', 'prototype': ''},
-	'emetal1_3': {'free': 'strangethang', 'prototype': ''},
-	'ground1_1': {'free': 'grass4', 'prototype': ''},
-	'med100': {'free': 'chimneytop', 'prototype': ''},
-	'metal2_4': {'free': 'bolt10', 'prototype': ''},
-	'sfloor4_1': {'free': 'u_tex22', 'prototype': ''},
-	'sfloor4_6': {'free': 'tsl_hex1', 'prototype': ''},
-	'sky1': {'free': 'sky3', 'prototype': ''},
-	'tech01_1': {'free': 'swire2a', 'prototype': ''},
-	'tech01_5': {'free': 'swire4', 'prototype': ''},
-	'tech02_2': {'free': 'tsl_2', 'prototype': ''},
-	'tech03_2': {'free': 'u_tex24', 'prototype': ''},
-	'tech04_7': {'free': 'sriba3', 'prototype': ''},
-	'tech06_2': {'free': 'tsl_light1', 'prototype': ''},
-	'tech08_1': {'free': 'tsl_1', 'prototype': ''},
-	'tech08_2': {'free': 'smetal64a', 'prototype': ''},
-	'wswitch1': {'free': '+0u_1', 'prototype': ''}
+	'*lava1': {'free': '*lava_s2', 'prototype': '*lava_64_1'},
+	'+0basebtn': {'free': '+0switch', 'prototype': '+0button_1'},
+	'+0slip': {'free': '*teleport', 'prototype': '*tele01'},
+	'bricka2_2': {'free': 'bricks256', 'prototype': '64_green_3'},
+	'crate0_side': {'free': 'tsl_crate2', 'prototype': 'light1_big'},
+	'crate1_top': {'free': 'tsl_crate2top', 'prototype': 'light1_grt'},
+	'door02_7': {'free': 'srib2', 'prototype': 'blood_1'},
+	'door03_3': {'free': 'tile', 'prototype': 'cyan_1'},
+	'emetal1_3': {'free': 'strangethang', 'prototype': '128_honey_1'},
+	'ground1_1': {'free': 'grass4', 'prototype': '128_green_1'},
+	'med100': {'free': 'chimneytop', 'prototype': '32_honey_2'},
+	'metal2_4': {'free': 'bolt10', 'prototype': '128_grey_3'},  # TODO as below
+	'sfloor4_1': {'free': 'u_tex22', 'prototype': '128_blue_3'},
+	'sfloor4_6': {'free': 'tsl_hex1', 'prototype': '64_honey_3'},
+	'sky1': {'free': 'sky3', 'prototype': 'sky1'},
+	'tech01_1': {'free': 'swire2a', 'prototype': '128_grey_3'},
+	'tech01_5': {'free': 'swire4', 'prototype': '128_grey_2'},
+	'tech02_2': {'free': 'tsl_2', 'prototype': '16_honey_1'},
+	'tech03_2': {'free': 'u_tex24', 'prototype': '128_brown_2'},
+	'tech04_7': {'free': 'sriba3', 'prototype': '16_cyan_1'},
+	'tech06_2': {'free': 'tsl_light1', 'prototype': '128_honey_2'},
+	'tech08_1': {'free': 'tsl_1', 'prototype': '128_cyan_3'},
+	'tech08_2': {'free': 'smetal64a', 'prototype': '128_brown_3'},
+	'wswitch1': {'free': '+0u_1', 'prototype': 'text_light'}
 }
 
 skip_pyinstaller = False           # set via command-line option
@@ -67,12 +67,12 @@ def swap_textures(map_string, to):
 	return map_string
 
 
-def build_maps_for(bsp_dir, wad_name, key):
+def build_maps_for(bsp_dir, key, map_name_extra=''):
 	global maps_were_built_for_quake  # only used if key is 'quake'
 	used_cached_maps = False
 
 	use_repo_bins()
-	set_wad_file(wad_name)
+	set_wad_file(wad_map[key])
 	bsp_dir.mkdir(exist_ok=True)
 
 	if have_needed_stuff():
@@ -82,7 +82,8 @@ def build_maps_for(bsp_dir, wad_name, key):
 			if mapfile.name == 'agdm02l.map':
 				continue  # TODO that map's borked
 
-			this_wad_mapfile = bsp_dir / mapfile.name
+			map_name = mapfile.stem + map_name_extra + mapfile.suffix
+			this_wad_mapfile = bsp_dir / map_name
 			this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
 			if force_map_build or not this_wad_bspfile.is_file() \
 				or not this_wad_mapfile.is_file() \
@@ -212,10 +213,13 @@ def build_audioquake():
 	convert_manuals()  # TODO replace with a check if it needs doing
 
 	print('Building AGRIP maps for Quake')
-	build_maps_for(Config.dir_maps_quakewad, 'quake.wad', 'quake')
+	build_maps_for(Config.dir_maps_quakewad, 'quake')
 
 	print('Building AGRIP maps for Open Quartz')
-	build_maps_for(Config.dir_maps_freewad, 'free.wad', 'free')
+	build_maps_for(Config.dir_maps_freewad, 'free')
+
+	print('Building AGRIP maps for high-contrast mode')
+	build_maps_for(Config.dir_maps_prototypewad, 'prototype', 'hc')
 
 	# Build the executables
 	if not skip_pyinstaller:

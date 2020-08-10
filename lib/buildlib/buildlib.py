@@ -69,6 +69,7 @@ class Config:
 	dir_maps_source = aq / 'maps'
 	dir_maps_quakewad = aq / 'maps-quakewad'
 	dir_maps_freewad = aq / 'maps-freewad'
+	dir_maps_prototypewad = aq / 'maps-prototypewad'
 
 	dir_aq_data = platform_set(
 		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',

@@ -6,6 +6,7 @@ from buildlib import Config
 data_files = [
 	('mod-static-files/', 'id1'),
 	('mod-conditional-files/id1/mod.cfg', 'id1/'),
+	('maps-prototypewad/*.bsp', 'id1/maps/'),
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 
@@ -13,6 +14,7 @@ data_files = [
 	('mod-static-files/', 'oq'),
 	('mod-conditional-files/oq/mod.cfg', 'oq/'),
 	('maps-freewad/*.bsp', 'oq/maps/'),
+	('maps-prototypewad/*.bsp', 'oq/maps/'),
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'oq/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'oq/'),
 
