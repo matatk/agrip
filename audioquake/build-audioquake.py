@@ -3,6 +3,7 @@
 import argparse
 from os import chdir
 from pathlib import Path
+import re
 import string
 import shutil
 
@@ -61,13 +62,17 @@ def swap_wad(map_string, to):
 	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_map[to]}"')
 
 
+def make_following_map_high_contrast(map_string):
+	return re.sub(r'"map" "(.+)"', r'"map" "\1hc"', map_string)
+
+
 def swap_textures(map_string, to):
 	for texture in texture_map:
 		map_string = map_string.replace(texture, texture_map[texture][to])
 	return map_string
 
 
-def build_maps_for(bsp_dir, key, map_name_extra=''):
+def build_maps_for(bsp_dir, key):
 	global maps_were_built_for_quake  # only used if key is 'quake'
 	used_cached_maps = False
 
@@ -82,16 +87,26 @@ def build_maps_for(bsp_dir, key, map_name_extra=''):
 			if mapfile.name == 'agdm02l.map':
 				continue  # TODO that map's borked
 
-			map_name = mapfile.stem + map_name_extra + mapfile.suffix
+			if key == 'prototype':  # implies high contrast mode
+				map_name = mapfile.stem + 'hc' + mapfile.suffix
+			else:
+				map_name = mapfile.name
+
 			this_wad_mapfile = bsp_dir / map_name
 			this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
+
 			if force_map_build or not this_wad_bspfile.is_file() \
 				or not this_wad_mapfile.is_file() \
 				or this_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
 				map_string = mapfile.read_text()
 				map_string = swap_wad(map_string, key)
+
 				if key != 'quake':
 					map_string = swap_textures(map_string, key)
+
+				if key == 'prototype':
+					map_string = make_following_map_high_contrast(map_string)
+
 				this_wad_mapfile.write_text(map_string)
 				build(this_wad_mapfile, False)
 			else:
@@ -219,7 +234,7 @@ def build_audioquake():
 	build_maps_for(Config.dir_maps_freewad, 'free')
 
 	print('Building AGRIP maps for high-contrast mode')
-	build_maps_for(Config.dir_maps_prototypewad, 'prototype', 'hc')
+	build_maps_for(Config.dir_maps_prototypewad, 'prototype')
 
 	# Build the executables
 	if not skip_pyinstaller:
