@@ -1,14 +1,26 @@
 #!/usr/bin/env python3
 '''Level Description Language front-end'''
 import argparse
-import argcomplete
+from enum import IntEnum
 from pathlib import Path
 import sys
+
+import argcomplete
+
 from ldllib.convert import convert
 from ldllib.build import build, have_needed_stuff, use_repo_bins
 from ldllib.play import play
 from ldllib.roundtrip import roundtrip
 from ldllib.utils import LDLException
+
+
+class Mode(IntEnum):
+	CONVERT = 0
+	BUILD = 1
+	PLAY = 2
+
+	def __str__(self):
+		return self.name.lower()
 
 
 def print_exception():
@@ -28,89 +40,59 @@ class SubcommandHelpFormatter(argparse.RawDescriptionHelpFormatter):
 
 
 def handle_convert(args):
-	for filename_string in args.files:
-		filename = Path(filename_string)
-		if not filename.is_file():
-			print(filename_string, 'is not a readable file - skipping')
-			continue
-		if filename.suffix == '.xml':
-			try:
-				convert(filename, args.verbose, args.keep)
-			except LDLException:
-				print_exception()
-		else:
-			print('skipping', filename, '- not an XML file')
+	handle_core(args, Mode.CONVERT)
 
 
 def handle_build(args):
-	if not have_needed_stuff():
-		sys.exit(42)
-
-	already_processed = set()
-	for filename_string in args.files:
-		filename = Path(filename_string)
-		if not filename.is_file():
-			print(filename, 'is not a readable file - skipping')
-			continue
-		ext = filename.suffix
-		root = filename.with_suffix('')
-		base = filename.name
-		if base not in already_processed:
-			if ext == '.map':
-				try:
-					build(filename, args.verbose)
-				except (LDLException, FileNotFoundError):
-					print_exception()
-				already_processed.add(base)
-			elif ext == '.xml':
-				try:
-					convert(filename, args.verbose, args.keep)
-					build(root.with_suffix('.map'), args.verbose)
-				except (LDLException, FileNotFoundError):
-					print_exception()
-				already_processed.add(base)
-			else:
-				print('skipping', filename, '- not an expected file type')
-		else:
-			if args.verbose:
-				print('skipping', filename, '- already processed', base)
+	handle_core(args, Mode.BUILD)
 
 
 def handle_play(args):
-	if not have_needed_stuff():
+	handle_core(args, Mode.PLAY)
+
+
+def handle_core(args, mode):
+	if mode >= Mode.BUILD and not have_needed_stuff():
 		sys.exit(42)
 
 	already_processed = set()
 	for filename_string in args.files:
 		filename = Path(filename_string)
 		if not filename.is_file():
-			print(filename_string, 'is not a readable file - skipping')
+			if args.verbose:
+				print(filename_string, 'is not a readable file - skipping')
 			continue
 		ext = filename.suffix
 		root = filename.with_suffix('')
-		base = filename.name
+		base = filename.stem
 		if base not in already_processed:
-			if ext == '.bsp':
+			if ext == '.bsp' and mode == Mode.PLAY:
 				try:
 					play(filename, args.verbose)
 				except LDLException:
 					print_exception()
 				already_processed.add(base)
-			if ext == '.map':
+			elif ext == '.map' and mode >= Mode.BUILD:
 				try:
 					build(filename, args.verbose)
-					play(root.with_suffix('.bsp'), args.verbose)
+					if mode == Mode.PLAY:
+						play(root.with_suffix('.bsp'), args.verbose)
 				except (LDLException, FileNotFoundError):
 					print_exception()
 				already_processed.add(base)
 			elif ext == '.xml':
 				try:
 					convert(filename, args.verbose, args.keep)
-					build(root.with_suffix('.map'), args.verbose)
-					play(root.with_suffix('.bsp'), args.verbose)
+					if mode > Mode.CONVERT:
+						build(root.with_suffix('.map'), args.verbose)
+					if mode == Mode.PLAY:
+						play(root.with_suffix('.bsp'), args.verbose)
 				except (LDLException, FileNotFoundError):
 					print_exception()
 				already_processed.add(base)
+			else:
+				if args.verbose:
+					print("Can't", mode, filename, '-- skipping')
 		else:
 			if args.verbose:
 				print('skipping', filename, '- already processed', base)
