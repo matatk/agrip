@@ -55,47 +55,48 @@ def handle_core(args, mode):
 	if mode >= Mode.BUILD and not have_needed_stuff():
 		sys.exit(42)
 
-	already_processed = set()
-	for filename_string in args.files:
-		filename = Path(filename_string)
-		if not filename.is_file():
-			if args.verbose:
-				print(filename_string, 'is not a readable file - skipping')
-			continue
-		ext = filename.suffix
-		root = filename.with_suffix('')
-		base = filename.stem
-		if base not in already_processed:
-			if ext == '.bsp' and mode == Mode.PLAY:
-				try:
-					play(filename, args.verbose)
-				except LDLException:
-					print_exception()
-				already_processed.add(base)
-			elif ext == '.map' and mode >= Mode.BUILD:
-				try:
-					build(filename, args.verbose)
+	# We only loop over the basenames of the files passed in, because the user
+	# could have various temporary files in the directory, and we want to go
+	# from the XML by default.
+
+	files = [Path(filename) for filename in args.files]
+	bases = set([Path(filepath.stem) for filepath in files])
+
+	for basename in bases:
+		xmlfile = basename.with_suffix('.xml')
+		mapfile = basename.with_suffix('.map')
+		bspfile = basename.with_suffix('.bsp')
+
+		if xmlfile in files:
+			try:
+				if mode >= Mode.CONVERT:
+					convert(xmlfile, args.verbose, args.keep)
+					if mode >= Mode.BUILD:
+						build(mapfile, args.verbose)
+						if mode == Mode.PLAY:
+							play(bspfile, args.verbose)
+			except (LDLException, FileNotFoundError):
+				print_exception()
+
+		elif mapfile in files:
+			try:
+				if mode >= Mode.BUILD:
+					build(mapfile, args.verbose)
 					if mode == Mode.PLAY:
-						play(root.with_suffix('.bsp'), args.verbose)
-				except (LDLException, FileNotFoundError):
-					print_exception()
-				already_processed.add(base)
-			elif ext == '.xml':
-				try:
-					convert(filename, args.verbose, args.keep)
-					if mode > Mode.CONVERT:
-						build(root.with_suffix('.map'), args.verbose)
-					if mode == Mode.PLAY:
-						play(root.with_suffix('.bsp'), args.verbose)
-				except (LDLException, FileNotFoundError):
-					print_exception()
-				already_processed.add(base)
-			else:
-				if args.verbose:
-					print("Can't", mode, filename, '-- skipping')
+						play(bspfile, args.verbose)
+			except (LDLException, FileNotFoundError):
+				print_exception()
+
+		elif bspfile in files:
+			try:
+				if mode == Mode.PLAY:
+					play(bspfile, args.verbose)
+			except LDLException:
+				print_exception()
+
 		else:
 			if args.verbose:
-				print('skipping', filename, '- already processed', base)
+				print("Can't", mode, basename, '-- skipping')
 
 
 def handle_roundtrip(args):
@@ -104,10 +105,10 @@ def handle_roundtrip(args):
 	for filename_string in args.files:
 		filename = Path(filename_string)
 		if not filename.is_file():
-			print(filename_string, 'is not a readable file - skipping')
+			if args.verbose:
+				print(filename_string, 'is not a readable file - skipping')
 			continue
-		ext = filename.suffix
-		if ext == '.map':
+		if filename.suffix == '.map':
 			try:
 				roundtrip(filename, args.verbose, args.keep, args.play)
 			except LDLException:
