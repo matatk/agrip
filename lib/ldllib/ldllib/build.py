@@ -60,7 +60,7 @@ def run(args, verbose, errorcheck=True):
 			print(error.output.decode())
 
 
-def build(map_file, verbose):
+def build(map_file, verbose=False):
 	print('Building', map_file)
 	without_ext = map_file.with_suffix('')
 	run([prog.qbsp, without_ext], verbose)
@@ -71,7 +71,4 @@ def build(map_file, verbose):
 		run([prog.bspinfo, without_ext], True, False)
 
 	for ext in clean:
-		try:
-			map_file.with_suffix(ext).unlink()
-		except FileNotFoundError:
-			pass  # it may not have been created, e.g. if vis failed
+		map_file.with_suffix(ext).unlink(missing_ok=True)

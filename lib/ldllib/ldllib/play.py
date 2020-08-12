@@ -21,7 +21,7 @@ command_line_basis = [
 	'+map']
 
 
-def _run(map_base_name, verbose):
+def _run(map_base_name, verbose=False):
 	starting_dir = getcwd()
 	chdir(aq_dir)
 	command_line = command_line_basis + [map_base_name]

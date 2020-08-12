@@ -7,7 +7,8 @@ from .utils import keep, set_verbosity
 from ldllib.play import play
 
 
-def roundtrip(map_name, verbose, keep_intermediate, play_after):
+def roundtrip(
+	map_name, verbose=False, keep_intermediate=False, play_after=False):
 	print('Roundtripping', map_name)
 	map_name_without_ext = map_name[:-4]
 	roundtripped_map_name_without_ext = map_name_without_ext + '_roundtripped'

@@ -8,7 +8,7 @@ from .level_05_down_connections import main as level5
 from .utils import keep, set_verbosity
 
 
-def convert(xml_file, verbose, keep_intermediate):
+def convert(xml_file, verbose=False, keep_intermediate=False):
 	print('Converting', xml_file)
 	set_verbosity(verbose)
 
