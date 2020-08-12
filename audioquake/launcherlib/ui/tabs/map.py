@@ -52,6 +52,28 @@ class MapTab(wx.Panel):
 		play_checkbox.SetValue(True)
 		add_widget(sizer, play_checkbox)
 
+		texture_set_hbox = wx.BoxSizer(wx.HORIZONTAL)
+
+		label = wx.StaticText(self, label='Texture set:')
+
+		pick = wx.Choice(
+			self, -1, choices=['Quake', 'Open Quartz', 'High contrast'])
+
+		if not have_registered_data():
+			pick.SetSelection(1)
+
+		# FIXME name= doesn't get reflected by VO; what about NVDA?
+		btn_info = wx.Button(
+			self, label='?', name='Info about the texture set',
+			style=wx.BU_EXACTFIT)
+		btn_info.Bind(wx.EVT_BUTTON, lambda event: Info(
+			self, 'FIXME'))  # FIXME
+
+		add_widget(texture_set_hbox, label, border=False)
+		add_widget(texture_set_hbox, pick, border=False, expand=True)
+		add_widget(texture_set_hbox, btn_info, border=False)
+		add_widget(sizer, texture_set_hbox)
+
 		btn_ldl_test = wx.Button(self, -1, "Build the map")
 
 		def ldl_test(event):
@@ -91,8 +113,8 @@ class MapTab(wx.Panel):
 
 		if have_needed_stuff():
 			try:
-				convert(filename, map_base, False, False)
-				build(mapfile, map_base, False)
+				convert(filename, verbose=False, keep_intermediate=False)
+				build(mapfile, verbose=False)
 
 				shutil.move(bspfile, abs_installed_bspfile)
 
@@ -102,6 +124,7 @@ class MapTab(wx.Panel):
 				else:
 					Info(self, bspfile + ' built and installed')
 			except:  # noqa E722
+				# FIXME LDLError only?
 				ErrorException(self)
 		else:
 			Warn(self, "Can't find map-building tools")
