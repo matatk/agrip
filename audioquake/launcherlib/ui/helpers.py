@@ -62,10 +62,7 @@ def add_opener_button(parent, sizer, title, thing_to_open):
 
 	def make_open_function(openee):
 		def open_thing(event):
-			try:
-				opener(openee)
-			except:  # noqa E722
-				ErrorException(parent)
+			opener(openee)
 		return open_thing
 
 	button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
