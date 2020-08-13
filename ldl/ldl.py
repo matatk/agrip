@@ -117,6 +117,18 @@ def handle_roundtrip(args):
 
 parser = argparse.ArgumentParser(
 	description='AGRIP Level Description Language Tools',
+	epilog=(
+		'The order of precedence for file extensions is: ".xml"; ".map"; '
+		'".bsp". Thus if you ask for the "convert" action, and there is both a '
+		'"mymap.xml" and a "mymap.map" file in the list of files to process, '
+		'then "mymap.xml" is converted, overwriting "mymap.map".\n\n'
+
+		"The rationale for this behaviour is that it's best to keep the XML "
+		'files as the single point of truth, so LDL should always try to work '
+		'as close to the XML files as possible.\n\n'
+
+		'It also means that you can keep intermediate files from previous runs '
+		'and still use wildcards quite liberally on the command-line.'),
 	formatter_class=SubcommandHelpFormatter)
 
 parser.add_argument(
