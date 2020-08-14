@@ -871,5 +871,6 @@ def keep(keep, level, without_ext, content):
 	The 'keep' check is done here to make calling code simpler."""
 	if not keep:
 		return
-	out = without_ext.with_suffix('_level_' + str(level) + '.xml').open('w')
-	out.write(content)
+	intermediate_name = str(without_ext) + '_level_' + str(level) + '.xml'
+	with open(intermediate_name, 'w') as out:
+		out.write(content)
