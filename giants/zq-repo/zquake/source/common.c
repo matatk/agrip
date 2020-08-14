@@ -905,7 +905,6 @@ void FS_AddGameDirectory (char *dir)
 	search->next = com_searchpaths;
 	com_searchpaths = search;
 
-#ifndef AGRIP
 //
 // add any pak files in the format pak0.pak pak1.pak, ...
 //
@@ -920,19 +919,6 @@ void FS_AddGameDirectory (char *dir)
 		search->next = com_searchpaths;
 		com_searchpaths = search;	
 	}
-#else
-	for (i=0 ; i<10 ; i++)
-	{
-		sprintf (pakfile, "%s/pak%i.pak", dir, i);
-		pak = FS_LoadPackFile (pakfile);
-		if (!pak)
-			continue;
-		search = Hunk_Alloc (sizeof(searchpath_t));
-		search->pack = pak;
-		search->next = com_searchpaths;
-		com_searchpaths = search;	
-	}
-#endif
 }
 
 /*
@@ -1041,8 +1027,18 @@ void FS_InitFilesystem (void)
 //
 // start up with id1 by default
 //
+#ifndef AGRIP
 	FS_AddGameDirectory (va("%s/id1", com_basedir) );
 	FS_AddGameDirectory (va("%s/qw", com_basedir) );
+#else
+	i = COM_CheckParm ("-rootgame");
+	if (!i) {
+		FS_AddGameDirectory (va("%s/id1", com_basedir) );
+		FS_AddGameDirectory (va("%s/qw", com_basedir) );
+	} else {
+		FS_AddGameDirectory (va("%s/%s", com_basedir, com_argv[i+1]) );
+	}
+#endif
 
 	// any set gamedirs will be freed up to here
 	com_base_searchpaths = com_searchpaths;
