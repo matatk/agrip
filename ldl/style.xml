@@ -6,13 +6,12 @@
 
 	-->
 
-	<!-- FIXME put these 'loose texture elements' into an element? -->
 	<!-- LDL texture name to Quake texture -->
 	<texture name='ground'		value='GROUND1_6' />
 	<texture name='brick_vine'	value='bricka2_1' />
 	<texture name='brick_crack'	value='bricka2_2' />
 	<texture name='brick_norm'	value='bricka2_4' />
-	<texture name='brick_blood'	value='bricka2_6' />
+	<texture name='brick_dark'	value='bricka2_6' />
 	<texture name='base_wall1'	value='tech03_2' />
 	<texture name='base_wall2'	value='tech06_2' />
 	<texture name='base_ceil'	value='tech01_5' />
@@ -59,7 +58,7 @@
 		<surface id='n' texture='brick_vine' />
 		<surface id='s' texture='brick_norm' />
 		<surface id='e' texture='brick_crack' />
-		<surface id='w' texture='brick_blood' />
+		<surface id='w' texture='brick_dark' />
 		<surface id='u' texture='med_ceil' />
 		<surface id='d' texture='med_floor1' />
 		<surface id='door' texture='med_door1' />
