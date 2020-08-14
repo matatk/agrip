@@ -20,8 +20,6 @@ from ldllib.conf import (
 	lightingstyle,
 	prog,
 	propertytype,
-	soundtypes_door,
-	soundtypes_plat,
 	valid_entities
 )
 
@@ -41,7 +39,7 @@ class LDLException(Exception):
 # z-wise
 # FIXME make the walls extend vertically if top/bottom missing.
 # FIXME make specificaton of texture over style possible
-def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
+def makeHollow(doc, worldtype, worldspawn, sf, origin, extent, absentwalls, holes, style):
 	'''Makes a hollow object (room/corridor) with the given paramaters.
 
 	Works out the brushes, textures.
@@ -70,7 +68,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 		getHoles(holes, dcp.DOWN))
 	for part in parts:
 		part3d = addDim(part, dims.Z, brush_start.z)
-		makeBrush(doc, worldspawn, sf, style, part3d, dcp.DOWN)
+		makeBrush(doc, worldtype, worldspawn, sf, style, part3d, dcp.DOWN)
 	# up (ceiling)
 	if dcp.UP not in absentwalls:
 		brush_start = origin + Point(0, 0, extent.z - prog.lip)
@@ -83,7 +81,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 		getHoles(holes, dcp.UP))
 	for part in parts:
 		part3d = addDim(part, dims.Z, brush_start.z)
-		makeBrush(doc, worldspawn, sf, style, part3d, dcp.UP)
+		makeBrush(doc, worldtype, worldspawn, sf, style, part3d, dcp.UP)
 	# north wall; y represents depth
 	if dcp.NORTH not in absentwalls:
 		brush_start = origin + Point(0, extent.y - prog.lip, prog.lip)
@@ -96,7 +94,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			getHoles(holes, dcp.NORTH))
 		for part in parts:
 			part3d = addDim(part, dims.Y, brush_start.y)
-			makeBrush(doc, worldspawn, sf, style, part3d, dcp.NORTH)
+			makeBrush(doc, worldtype, worldspawn, sf, style, part3d, dcp.NORTH)
 	# south wall
 	# FIXME holes need to be expressed the other way 'round (i.e. 0 is at RHS
 	# not LHS)?
@@ -111,7 +109,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			getHoles(holes, dcp.SOUTH))
 		for part in parts:
 			part3d = addDim(part, dims.Y, brush_start.y)
-			makeBrush(doc, worldspawn, sf, style, part3d, dcp.SOUTH)
+			makeBrush(doc, worldtype, worldspawn, sf, style, part3d, dcp.SOUTH)
 	# west wall
 	if dcp.WEST not in absentwalls:
 		if dcp.NORTH not in absentwalls and dcp.SOUTH not in absentwalls:
@@ -138,7 +136,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			getHoles(holes, dcp.WEST))
 		for part in parts:
 			part3d = addDim(part, dims.X, brush_start.x)
-			makeBrush(doc, worldspawn, sf, style, part3d, dcp.WEST)
+			makeBrush(doc, worldtype, worldspawn, sf, style, part3d, dcp.WEST)
 	# east wall
 	if dcp.EAST not in absentwalls:
 		if dcp.NORTH not in absentwalls and dcp.SOUTH not in absentwalls:
@@ -164,7 +162,7 @@ def makeHollow(doc, worldspawn, sf, origin, extent, absentwalls, holes, style):
 			getHoles(holes, dcp.EAST))
 		for part in parts:
 			part3d = addDim(part, dims.X, brush_start.x)
-			makeBrush(doc, worldspawn, sf, style, part3d, dcp.EAST)
+			makeBrush(doc, worldtype, worldspawn, sf, style, part3d, dcp.EAST)
 	# Return inner extents...
 	return inner_origin, inner_abslut_extent
 
@@ -302,15 +300,21 @@ class StyleFetcher:
 		else:
 			error('no such lighting style \'' + style + '\'')
 
-	# Texture Table and Texture Set Stuff
+	# Sound lookup
 
-	def getWorldtypeName(self, style):
-		if style in self.worldtypeTable:
-			return self.worldtypeTable[style]
+	def getSound(self, worldtype, map_worldtype, entity_name):
+		if worldtype in self.soundLookup:
+			lookup_worldtype = worldtype
 		else:
-			error(
-				"getWorldtype: Trying to find worldtype for a nonexistant style '"
-				+ str(style) + "'. Please make sure that the style name is correct.")
+			lookup_worldtype = map_worldtype
+
+		if lookup_worldtype in self.soundLookup:
+			if entity_name in self.soundLookup[lookup_worldtype]:
+				return self.soundLookup[lookup_worldtype][entity_name]
+			else:
+				error(f"getSound: no such entity_name '{entity_name}'.")
+		else:
+			error(f"getSound: no such lookup_worldtype '{lookup_worldtype}'.")
 
 	# Texture Table and Texture Set Stuff
 
@@ -320,11 +324,19 @@ class StyleFetcher:
 		else:
 			return False
 
-	def getSetTex(self, style, surf):
+	def getSetTex(self, style, worldtype, surf):
 		if style in self.textureSets:
-			return self.textureTable[self.textureSets[style][surf]]
+			if surf in self.textureSets[style]:
+				lookup_style = style
+			else:
+				lookup_style = worldtype
 		else:
-			error('getSetTex: no such texture style set \'' + style + '\'.')
+			lookup_style = worldtype
+
+		if lookup_style in self.textureSets:
+			return self.textureTable[self.textureSets[lookup_style][surf]]
+		else:
+			error(f"getSetTex: no such texture lookup_style set '{lookup_style}'.")
 
 	# FIXME DRY
 	def populate_lighting_detail_offset(
@@ -495,17 +507,13 @@ class StyleFetcher:
 		return dlightingset
 
 	def __init__(self):
-		self.worldtypeTable = {}  # translates style names to their worldtype names
 		self.textureTable = {}  # translates easy texture names to actual ones
-		self.textureSets = {}  # a set of textures to be applied to a hollow
+		self.textureSets = {}   # a set of textures to be applied to a hollow
 		self.lightingSets = {}  # as above but with lighting
-		temp_texture_set = {}  # we build up the texture set hash in here
+		self.soundLookup = {}   # returns sound key for entity in worldtype
+		temp_texture_set = {}   # we build up the texture set hash in here
 		temp_lighting_set = {}  # as above but with lighting
 		s = xml.dom.minidom.parse(prog.STYLE_FILE)
-		# Get worldtypes...
-		for worldtype in s.getElementsByTagName('worldtype'):
-			self.worldtypeTable[worldtype.getAttribute('style')] = \
-				worldtype.getAttribute('value')
 		# Get textures...
 		for texture in s.getElementsByTagName('texture'):
 			self.textureTable[texture.getAttribute('name')] = \
@@ -527,6 +535,13 @@ class StyleFetcher:
 		# Reset the hashes back to defaults...
 		self.lightingSets = temp_lighting_set
 		temp_lighting_set = {}
+
+		for soundset in s.getElementsByTagName('soundset'):
+			entity_sound_map = {}
+			for entity in soundset.getElementsByTagName('entity'):
+				entity_sound_map[entity.getAttribute('name')] = \
+					entity.getAttribute('sounds')
+			self.soundLookup[soundset.getAttribute('name')] = entity_sound_map
 
 	def __str__(self):
 		pp = pprint.PrettyPrinter()
@@ -707,7 +722,7 @@ def failParse(data=None):
 	raise LDLException(message)
 
 
-def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
+def makeBrush(doc, worldtype, worldspawn, sf, style, part, dir, texture=None):
 	# FIXME split into two versions -- onef for dir / style and one for just
 	# plain text?
 	'''Make a brush
@@ -724,7 +739,7 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 	if not part.type or part.type == connector.STEP:
 		# assume just regular solid brush...
 		if mode_style:
-			t = sf.getSetTex(style, dir)
+			t = sf.getSetTex(style, worldtype, dir)
 			if t:
 				worldspawn.appendChild(createSolid(doc, part.origin, part.extent, t))
 			else:
@@ -740,13 +755,15 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 		door_ent.appendChild(createProperty(doc, 'angle', '-1'))
 		door_ent.appendChild(createProperty(doc, 'speed', '400'))
 		door_ent.appendChild(
-			createProperty(doc, 'sounds', soundtypes_door[sf.getWorldtypeName(style)]))
+			# FIXME: should not use 'func_door' in the lookup - lower level?
+			createProperty(doc, 'sounds', sf.getSound(
+				style, worldtype, 'func_door')))
 		if part.props['key']:
 			door_ent.appendChild(
 				createProperty(doc, 'spawnflags', key_access[part.props['key']]))
 		# Ignore specified texture for doors; use style one...
 		door_ent.appendChild(createSolid(
-			doc, part.origin, part.extent, sf.getSetTex(style, connector.DOOR)))
+			doc, part.origin, part.extent, sf.getSetTex(style, worldtype, connector.DOOR)))
 		map.appendChild(door_ent)
 	elif part.type == connector.PLAT:
 		# need to append to map, not worldspawn
@@ -754,7 +771,9 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 		plat_ent = doc.createElement('entity')
 		plat_ent.appendChild(createProperty(doc, 'classname', 'func_plat'))
 		plat_ent.appendChild(
-			createProperty(doc, 'sounds', soundtypes_plat[sf.getWorldtypeName(style)]))
+			# FIXME: should not use 'func_plat' in the lookup - lower level?
+			createProperty(doc, 'sounds', sf.getSound(
+				style, worldtype, 'func_plat')))
 		if part.props['position'] == dcp.DOWN:
 			height = part.extent.z - prog.lip
 			part.origin.z = part.origin.z + part.extent.z - prog.lip
@@ -768,7 +787,7 @@ def makeBrush(doc, worldspawn, sf, style, part, dir, texture=None):
 		plat_ent.appendChild(createProperty(doc, 'height', str(height)))
 		# Ignore specified texture for plats; use style one...
 		plat_ent.appendChild(createSolid(
-			doc, part.origin, part.extent, sf.getSetTex(style, connector.PLAT)))
+			doc, part.origin, part.extent, sf.getSetTex(style, worldtype, connector.PLAT)))
 		map.appendChild(plat_ent)
 	else:
 		error(

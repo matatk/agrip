@@ -111,20 +111,6 @@ key_access = {
 	'gold': '8'
 }
 
-# FIXME needs expansion
-# FIXME should be different?
-soundtypes_door = {
-	'base': '2',
-	'medieval': '2'
-}
-
-# FIXME needs expansion
-# FIXME should be different?
-soundtypes_plat = {
-	'base': '2',
-	'medieval': '2'
-}
-
 
 class lightingstyle:
 	GRID = 'grid'

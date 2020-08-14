@@ -30,12 +30,12 @@ padding = '  '
 
 def processMap(doc):
 	map = doc.documentElement
-	worldspawn = processInfo(doc, map)
+	worldtype, worldspawn = processInfo(doc, map)
 	# Go through each successive element and process it accordingly.
 	# (Yes, this is very SAX-like but we don't use SAX because by using DOM we
 	# get to manipulate the tree as we go, which we do need to do.)
 	for node in map.childNodes[1:]:
-		processNode(doc, map, worldspawn, s, Point(0, 0, 0), node)
+		processNode(doc, map, worldtype, worldspawn, s, Point(0, 0, 0), node)
 
 
 def processInfo(doc, map):
@@ -61,16 +61,16 @@ def processInfo(doc, map):
 	# FIXME style:
 	worldspawn.appendChild(utils.createProperty(doc, 'wad', str(prog.wadfile)))
 	map.replaceChild(worldspawn, info)
-	return worldspawn
+	return (worldtype, worldspawn)
 
 
-def processNode(doc, parent, worldspawn, s, offset, node):
-	global paddinglevel
+def processNode(doc, parent, worldtype, worldspawn, s, offset, node):
+	global paddinglevel  # FIXME remove?
 	paddinglevel = paddinglevel + 1
 	if node.localName == 'hollow':
-		processHollow(doc, parent, worldspawn, s, offset, node)
+		processHollow(doc, parent, worldtype, worldspawn, s, offset, node)
 	elif node.localName == 'solid':
-		processSolid(doc, parent, worldspawn, s, offset, node)
+		processSolid(doc, parent, worldtype, worldspawn, s, offset, node)
 	elif node.localName == 'entity':
 		processEntity(doc, parent, offset, node)
 	elif node.localName is None:
@@ -80,12 +80,7 @@ def processNode(doc, parent, worldspawn, s, offset, node):
 	paddinglevel = paddinglevel - 1
 
 
-style = None
-
-
-def processHollow(doc, parent, worldspawn, s, offset, hollow):
-	'''Note: sets global style var.'''
-	global style
+def processHollow(doc, parent, worldtype, worldspawn, s, offset, hollow):
 	o = utils.getPoint(hollow.getAttribute('origin')) + offset
 	e = utils.getPoint(hollow.getAttribute('extent'))
 	style = hollow.getAttribute('style')
@@ -129,17 +124,16 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 
 	# Now we have the required structural info (absent walls and holes), we can
 	# turn this hollow into a series of textured brushes...
-	io, ie = utils.makeHollow(doc, worldspawn, s, o, e, absentwalls, holes, style)
+	io, ie = utils.makeHollow(doc, worldtype, worldspawn, s, o, e, absentwalls, holes, style)
 	# Contained solids, hollows and entities...
 	for node in hollow.childNodes:
-		processNode(doc, hollow, worldspawn, s, io, node)
+		processNode(doc, hollow, worldtype, worldspawn, s, io, node)
 	# We can't remove the child or we screw over tree traversal (urgh)...
 	utils.insertPlaceholder(doc, parent, hollow)
 
 
-def processSolid(doc, parent, worldspawn, sf, offset, solid):
-	'''Note: uses style set in parent hollow.'''
-	global style
+def processSolid(doc, parent, worldtype, worldspawn, sf, offset, solid):
+	style = parent.getAttribute('style')
 	o = utils.getPoint(solid.getAttribute('origin')) + offset
 	e = utils.getPoint(solid.getAttribute('extent'))
 	t = solid.getAttribute('texture')
@@ -183,7 +177,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				holes)
 			for part in parts:
 				part3d = utils.addDim(part, dims.Y, o.y, e.y)
-				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
+				utils.makeBrush(doc, worldtype, worldspawn, sf, style, part3d, f, t)
 		elif f == dcp.UP:
 			parts = split.splitWall(
 				utils.Region2D(
@@ -194,7 +188,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			for part in parts:
 				part3d = utils.addDim(
 					part, dims.Z, o.z + prog.lip_small, e.z - prog.lip_small * 2)
-				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
+				utils.makeBrush(doc, worldtype, worldspawn, sf, style, part3d, f, t)
 			else:
 				utils.error('Unsupported holeface ' + f + ' requested for hole in solid.')
 	else:
@@ -214,7 +208,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			type,
 			props
 		)
-		utils.makeBrush(doc, worldspawn, sf, style, brush, type, t)
+		utils.makeBrush(doc, worldtype, worldspawn, sf, style, brush, type, t)
 	# We can't remove the child or we screw over tree traversal (urgh)...
 	utils.insertPlaceholder(doc, parent, solid)
 
@@ -232,7 +226,7 @@ def processEntity(doc, parent, offset, entity):
 # FIXME DRY
 def main(xml_in):
 	utils.set_stage(2)
-	global s
+	global s  # FIXME remove?
 	s = utils.StyleFetcher()
 	try:
 		m = xml.dom.minidom.parseString(xml_in)

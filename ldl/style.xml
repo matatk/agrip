@@ -1,60 +1,47 @@
 <?xml version='1.0' encoding='utf-8'?>
 <style>
-	<!-- FIXME put these into an element -->
-	<texture name='ground'			desc='FIXME' value='GROUND1_6' />
-	<texture name='brick_vine'	desc='FIXME' value='bricka2_1' />
-	<texture name='brick_crack'	desc='FIXME' value='bricka2_2' />
-	<texture name='brick_norm'	desc='FIXME' value='bricka2_4' />
-	<texture name='brick_blood'	desc='FIXME' value='bricka2_6' />
-	<texture name='base_wall1'	desc='FIXME' value='tech03_2' />
-	<texture name='base_wall2'	desc='FIXME' value='tech06_2' />
-	<texture name='base_ceil'		desc='FIXME' value='tech01_5' />
-	<texture name='med_ceil'		desc='FIXME' value='grave01_3' />
-	<texture name='base_floor'	desc='FIXME' value='sfloor4_1' />
-	<texture name='med_floor1'	desc='FIXME' value='afloor1_4' />
-	<texture name='med_floor2'	desc='FIXME' value='afloor3_1' />
-	<texture name='base_door'		desc='FIXME' value='door02_7' />
-	<texture name='med_door1'		desc='FIXME' value='adoor03_3' />
-	<texture name='med_door2'		desc='FIXME' value='adoor03_5' />
-	<texture name='water1'			desc='FIXME' value='*water0' />
-	<texture name='water2'			desc='FIXME' value='*water2' />
-	<texture name='water3'			desc='FIXME' value='*water1' />
-	<texture name='slime1'			desc='FIXME' value='*slime' />
-	<texture name='slime2'			desc='FIXME' value='*slime0' />
-	<texture name='slime3'			desc='FIXME' value='*slime1' />
-	<texture name='lava'				desc='FIXME' value='*lava1' />
-	<texture name='teleport'		desc='FIXME' value='*teleport' />
-	<texture name='sky_light'				desc='FIXME' value='sky4' />
-	<texture name='sky_dark'				desc='FIXME' value='sky1' />
+	<!--
 
-	<worldtype style='outsidelight' value='base'/>
-	<worldtype style='outsidedark' value='base'/>
-	<worldtype style='base' value='base'/>
-	<worldtype style='medieval' value='medieval'/>
+		Textures
 
-	<textureset name='outsidelight'>
-		<surface id='n' texture='sky_light' />
-		<surface id='s' texture='sky_light' />
-		<surface id='e' texture='sky_light' />
-		<surface id='w' texture='sky_light' />
-		<surface id='u' texture='sky_light' />
-		<surface id='d' texture='ground' />
-		<surface id='door' texture='base_door' />
-		<surface id='plat' texture='ground' />
-		<surface id='step' texture='ground' />
-	</textureset>
+	-->
 
-	<textureset name='outsidedark'>
-		<surface id='n' texture='sky_dark' />
-		<surface id='s' texture='sky_dark' />
-		<surface id='e' texture='sky_dark' />
-		<surface id='w' texture='sky_dark' />
-		<surface id='u' texture='sky_dark' />
-		<surface id='d' texture='ground' />
-		<surface id='door' texture='base_door' />
-		<surface id='plat' texture='ground' />
-		<surface id='step' texture='ground' />
-	</textureset>
+	<!-- FIXME put these 'loose texture elements' into an element? -->
+	<!-- LDL texture name to Quake texture -->
+	<texture name='ground'		value='GROUND1_6' />
+	<texture name='brick_vine'	value='bricka2_1' />
+	<texture name='brick_crack'	value='bricka2_2' />
+	<texture name='brick_norm'	value='bricka2_4' />
+	<texture name='brick_blood'	value='bricka2_6' />
+	<texture name='base_wall1'	value='tech03_2' />
+	<texture name='base_wall2'	value='tech06_2' />
+	<texture name='base_ceil'	value='tech01_5' />
+	<texture name='med_ceil'	value='grave01_3' />
+	<texture name='base_floor'	value='sfloor4_1' />
+	<texture name='med_floor1'	value='afloor1_4' />
+	<texture name='med_floor2'	value='afloor3_1' />
+	<texture name='base_door'	value='door02_7' />
+	<texture name='med_door1'	value='adoor03_3' />
+	<texture name='med_door2'	value='adoor03_5' />
+	<texture name='water1'		value='*water0' />
+	<texture name='water2'		value='*water2' />
+	<texture name='water3'		value='*water1' />
+	<texture name='slime1'		value='*slime' />
+	<texture name='slime2'		value='*slime0' />
+	<texture name='slime3'		value='*slime1' />
+	<texture name='lava'		value='*lava1' />
+	<texture name='teleport'	value='*teleport' />
+	<texture name='sky_light'	value='sky4' />
+	<texture name='sky_dark'	value='sky1' />
+
+
+	<!--
+
+		Texture sets
+
+	-->
+
+	<!-- Base texture sets for each world type -->
 
 	<textureset name='base'>
 		<surface id='n' texture='base_wall1' />
@@ -80,9 +67,63 @@
 		<surface id='step' texture='ground' />
 	</textureset>
 
+	<!-- Patch texture sets.
+
+        These sets are incomplete because they just change the textures for some
+        of the rooms. Anything missing gets deferred to the textureset for the
+        map's worldtype.
+	-->
+
+	<textureset name='outsidelight'>
+		<surface id='n' texture='sky_light' />
+		<surface id='s' texture='sky_light' />
+		<surface id='e' texture='sky_light' />
+		<surface id='w' texture='sky_light' />
+		<surface id='u' texture='sky_light' />
+		<surface id='d' texture='ground' />
+		<surface id='plat' texture='ground' />
+		<surface id='step' texture='ground' />
+	</textureset>
+
+	<textureset name='outsidedark'>
+		<surface id='n' texture='sky_dark' />
+		<surface id='s' texture='sky_dark' />
+		<surface id='e' texture='sky_dark' />
+		<surface id='w' texture='sky_dark' />
+		<surface id='u' texture='sky_dark' />
+		<surface id='d' texture='ground' />
+		<surface id='plat' texture='ground' />
+		<surface id='step' texture='ground' />
+	</textureset>
+
+
+	<!--
+
+		Sound sets
+
+	-->
+
+	<!--
+		Thanks to:
+        https://quakewiki.org/wiki/func_door#Keys
+        https://quakewiki.org/wiki/func_plat#Keys
+    -->
 	<soundset name='base'>
-		<!-- FIXME -->
+		<entity name="func_door" sounds="2" /> <!-- machine -->
+		<entity name="func_plat" sounds="1" /> <!-- base fast -->
 	</soundset>
+
+	<soundset name='medieval'>
+		<entity name="func_door" sounds="3" /> <!-- stone chain -->
+		<entity name="func_plat" sounds="2" /> <!-- chain slow -->
+	</soundset>
+
+
+	<!--
+
+		Lighting sets
+
+	-->
 
 	<lightingset name='outsidelight'>
 		<lighting id='outsidelight_small' maxs='700 700 300' type='perimeter'>
