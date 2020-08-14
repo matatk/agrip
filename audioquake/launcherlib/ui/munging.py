@@ -16,7 +16,6 @@ def copy_paks_and_create_textures_wad(progress, pak0, pak1):
 
 
 def copy_paks(start, end, progress, pak0, pak1):
-	update_message(progress, start, 'Copying .pak files')
 	for pak in [pak0, pak1]:
 		if not is_pakfile(pak):
 			raise BadPakFile(f'{pak} is not a .pak file')
@@ -29,8 +28,6 @@ def copy_paks(start, end, progress, pak0, pak1):
 def make_quake_wad(start, end, progress):
 	bsps = []
 	miptextures = []
-
-	update_message(progress, start, 'Extracting textures')
 
 	for name in ['pak0.pak', 'pak1.pak']:
 		with PakFile(path.join('id1', name), 'r') as pak:
@@ -71,7 +68,3 @@ def make_quake_wad(start, end, progress):
 def update(progress, start, end, step, of):
 	progress.Update(start + ((step / of) * (end - start)))
 	wx.Yield()
-
-
-def update_message(progress, start, message):
-	progress.Update(start, message)
