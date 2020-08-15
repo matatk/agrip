@@ -38,7 +38,8 @@ class CustomiseTab(wx.Panel):
 			Info(self, 'The registered data files are already installed.')
 		else:
 			Info(self, (
-				'The registered Quake data files will be copied to the '
+				"If you've bought Quake, please select the folder where the "
+				"registered Quake data files are. They'll be copied to the "
 				'AudioQuake folder. Then the textures will be extracted, so '
 				'you can use them in your own maps.'))
 			incoming = pick_directory(

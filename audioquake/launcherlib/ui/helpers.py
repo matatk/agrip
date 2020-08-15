@@ -11,9 +11,11 @@ from launcherlib.utils import on_windows, opener
 BORDER_SIZE = 5
 
 launch_messages = {
-	LaunchState.NOT_FOUND: 'Engine not found',
-	LaunchState.ALREADY_RUNNING: 'The game is already running',
-	LaunchState.NO_REGISTERED_DATA: 'Registered Quake data not found'
+	LaunchState.NOT_FOUND: 'Engine not found.',
+	LaunchState.ALREADY_RUNNING: 'The game is already running.',
+	LaunchState.NO_REGISTERED_DATA: (
+		'Registered Quake data not found. If you bought Quake, you can install '
+		'the registered data - check out the "Customise" tab.')
 }
 
 
