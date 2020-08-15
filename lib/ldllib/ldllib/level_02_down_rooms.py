@@ -136,11 +136,9 @@ def processSolid(doc, parent, worldtype, worldspawn, sf, offset, solid):
 	style = parent.getAttribute('style')
 	o = utils.getPoint(solid.getAttribute('origin')) + offset
 	e = utils.getPoint(solid.getAttribute('extent'))
-	t = solid.getAttribute('texture')
 	type = solid.getAttribute('type')
-	if not t:
-		if not type:
-			utils.error('solid with no type also has no texture attribute set')
+	if not type:
+		utils.error('solid with no type')
 	f = solid.getAttribute('holeface')
 	# Get holes info...
 	# FIXME this is repeated code from the hollow one -- any way we can
@@ -177,7 +175,7 @@ def processSolid(doc, parent, worldtype, worldspawn, sf, offset, solid):
 				holes)
 			for part in parts:
 				part3d = utils.addDim(part, dims.Y, o.y, e.y)
-				utils.makeBrush(doc, worldtype, worldspawn, sf, style, part3d, f, t)
+				utils.makeBrush(doc, worldtype, worldspawn, sf, style, part3d, f)
 		elif f == dcp.UP:
 			parts = split.splitWall(
 				utils.Region2D(
@@ -188,7 +186,7 @@ def processSolid(doc, parent, worldtype, worldspawn, sf, offset, solid):
 			for part in parts:
 				part3d = utils.addDim(
 					part, dims.Z, o.z + prog.lip_small, e.z - prog.lip_small * 2)
-				utils.makeBrush(doc, worldtype, worldspawn, sf, style, part3d, f, t)
+				utils.makeBrush(doc, worldtype, worldspawn, sf, style, part3d, f)
 			else:
 				utils.error('Unsupported holeface ' + f + ' requested for hole in solid.')
 	else:
@@ -208,7 +206,7 @@ def processSolid(doc, parent, worldtype, worldspawn, sf, offset, solid):
 			type,
 			props
 		)
-		utils.makeBrush(doc, worldtype, worldspawn, sf, style, brush, type, t)
+		utils.makeBrush(doc, worldtype, worldspawn, sf, style, brush, type)
 	# We can't remove the child or we screw over tree traversal (urgh)...
 	utils.insertPlaceholder(doc, parent, solid)
 

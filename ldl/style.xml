@@ -2,98 +2,68 @@
 <style>
 	<!--
 
-		Textures
-
-	-->
-
-	<!-- LDL texture name to Quake texture -->
-	<texture name='ground'		value='GROUND1_6' />
-	<texture name='brick_vine'	value='bricka2_1' />
-	<texture name='brick_crack'	value='bricka2_2' />
-	<texture name='brick_norm'	value='bricka2_4' />
-	<texture name='brick_dark'	value='bricka2_6' />
-	<texture name='base_wall1'	value='tech03_2' />
-	<texture name='base_wall2'	value='tech06_2' />
-	<texture name='base_ceil'	value='tech01_5' />
-	<texture name='med_ceil'	value='grave01_3' />
-	<texture name='base_floor'	value='sfloor4_1' />
-	<texture name='med_floor1'	value='afloor1_4' />
-	<texture name='med_floor2'	value='afloor3_1' />
-	<texture name='base_door'	value='door02_7' />
-	<texture name='med_door1'	value='adoor03_3' />
-	<texture name='med_door2'	value='adoor03_5' />
-	<texture name='water1'		value='*water0' />
-	<texture name='water2'		value='*water2' />
-	<texture name='water3'		value='*water1' />
-	<texture name='slime1'		value='*slime' />
-	<texture name='slime2'		value='*slime0' />
-	<texture name='slime3'		value='*slime1' />
-	<texture name='lava'		value='*lava1' />
-	<texture name='teleport'	value='*teleport' />
-	<texture name='sky_light'	value='sky4' />
-	<texture name='sky_dark'	value='sky1' />
-
-
-	<!--
-
 		Texture sets
 
 	-->
 
-	<!-- Base texture sets for each world type -->
+	<!--
+		For each game/wad, there are two types of texture set:
 
-	<textureset name='base'>
-		<surface id='n' texture='base_wall1' />
-		<surface id='s' texture='base_wall1' />
-		<surface id='e' texture='base_wall2' />
-		<surface id='w' texture='base_wall2' />
-		<surface id='u' texture='base_ceil' />
-		<surface id='d' texture='base_floor' />
-		<surface id='door' texture='base_door' />
-		<surface id='plat' texture='ground' />
-		<surface id='step' texture='ground' />
-	</textureset>
+        * A base texture set for each worldtype ('base' and 'medieval' so far).
 
-	<textureset name='medieval'>
-		<surface id='n' texture='brick_vine' />
-		<surface id='s' texture='brick_norm' />
-		<surface id='e' texture='brick_crack' />
-		<surface id='w' texture='brick_dark' />
-		<surface id='u' texture='med_ceil' />
-		<surface id='d' texture='med_floor1' />
-		<surface id='door' texture='med_door1' />
-		<surface id='plat' texture='ground' />
-		<surface id='step' texture='ground' />
-	</textureset>
-
-	<!-- Patch texture sets.
-
-        These sets are incomplete because they just change the textures for some
-        of the rooms. Anything missing gets deferred to the textureset for the
-        map's worldtype.
+        * Patch texture sets that the user can specify using the 'style'
+		  attribute on any given room. These sets are incomplete because they
+          just change the textures for some of the rooms. Anything missing gets
+          deferred to the textureset for the map's worldtype.
 	-->
 
-	<textureset name='outsidelight'>
-		<surface id='n' texture='sky_light' />
-		<surface id='s' texture='sky_light' />
-		<surface id='e' texture='sky_light' />
-		<surface id='w' texture='sky_light' />
-		<surface id='u' texture='sky_light' />
-		<surface id='d' texture='ground' />
-		<surface id='plat' texture='ground' />
-		<surface id='step' texture='ground' />
-	</textureset>
+	<wad game="quake" file="quake.wad">
+		<textureset name='base'>
+			<surface id='n' texture='tech03_2' />
+			<surface id='s' texture='tech03_2' />
+			<surface id='e' texture='tech06_2' />
+			<surface id='w' texture='tech06_2' />
+			<surface id='u' texture='tech01_5' />
+			<surface id='d' texture='sfloor4_1' />
+			<surface id='door' texture='door02_7' />
+			<surface id='plat' texture='GROUND1_6' /> <!-- FIXME do better! -->
+			<surface id='step' texture='GROUND1_6' /> <!-- FIXME do better! -->
+		</textureset>
 
-	<textureset name='outsidedark'>
-		<surface id='n' texture='sky_dark' />
-		<surface id='s' texture='sky_dark' />
-		<surface id='e' texture='sky_dark' />
-		<surface id='w' texture='sky_dark' />
-		<surface id='u' texture='sky_dark' />
-		<surface id='d' texture='ground' />
-		<surface id='plat' texture='ground' />
-		<surface id='step' texture='ground' />
-	</textureset>
+		<textureset name='medieval'>
+			<surface id='n' texture='bricka2_1' />
+			<surface id='s' texture='bricka2_4' />
+			<surface id='e' texture='bricka2_2' />
+			<surface id='w' texture='bricka2_6' />
+			<surface id='u' texture='grave01_3' />
+			<surface id='d' texture='afloor1_4' />
+			<surface id='door' texture='adoor03_3' />
+			<surface id='plat' texture='GROUND1_6' />
+			<surface id='step' texture='GROUND1_6' />
+		</textureset>
+
+		<textureset name='outsidelight'>
+			<surface id='n' texture='sky4' />
+			<surface id='s' texture='sky4' />
+			<surface id='e' texture='sky4' />
+			<surface id='w' texture='sky4' />
+			<surface id='u' texture='sky4' />
+			<surface id='d' texture='GROUND1_6' />
+			<surface id='plat' texture='GROUND1_6' />
+			<surface id='step' texture='GROUND1_6' />
+		</textureset>
+
+		<textureset name='outsidedark'>
+			<surface id='n' texture='sky1' />
+			<surface id='s' texture='sky1' />
+			<surface id='e' texture='sky1' />
+			<surface id='w' texture='sky1' />
+			<surface id='u' texture='sky1' />
+			<surface id='d' texture='GROUND1_6' />
+			<surface id='plat' texture='GROUND1_6' />
+			<surface id='step' texture='GROUND1_6' />
+		</textureset>
+	</wad>
 
 
 	<!--
@@ -103,10 +73,10 @@
 	-->
 
 	<!--
-		Thanks to:
-        https://quakewiki.org/wiki/func_door#Keys
-        https://quakewiki.org/wiki/func_plat#Keys
-    -->
+		Thanks to: (TODO: ACK these elsehwere)
+		https://quakewiki.org/wiki/func_door#Keys
+		https://quakewiki.org/wiki/func_plat#Keys
+	-->
 	<soundset name='base'>
 		<entity name="func_door" sounds="2" /> <!-- machine -->
 		<entity name="func_plat" sounds="1" /> <!-- base fast -->

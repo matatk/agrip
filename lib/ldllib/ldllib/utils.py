@@ -316,13 +316,7 @@ class StyleFetcher:
 		else:
 			error(f"getSound: no such lookup_worldtype '{lookup_worldtype}'.")
 
-	# Texture Table and Texture Set Stuff
-
-	def getTex(self, tex):
-		if tex in self.textureTable:
-			return self.textureTable[tex]
-		else:
-			return False
+	# Texture Set Stuff
 
 	def getSetTex(self, style, worldtype, surf):
 		if style in self.textureSets:
@@ -334,7 +328,7 @@ class StyleFetcher:
 			lookup_style = worldtype
 
 		if lookup_style in self.textureSets:
-			return self.textureTable[self.textureSets[lookup_style][surf]]
+			return self.textureSets[lookup_style][surf]
 		else:
 			error(f"getSetTex: no such texture lookup_style set '{lookup_style}'.")
 
@@ -507,17 +501,12 @@ class StyleFetcher:
 		return dlightingset
 
 	def __init__(self):
-		self.textureTable = {}  # translates easy texture names to actual ones
 		self.textureSets = {}   # a set of textures to be applied to a hollow
 		self.lightingSets = {}  # as above but with lighting
 		self.soundLookup = {}   # returns sound key for entity in worldtype
 		temp_texture_set = {}   # we build up the texture set hash in here
 		temp_lighting_set = {}  # as above but with lighting
 		s = xml.dom.minidom.parse(prog.STYLE_FILE)
-		# Get textures...
-		for texture in s.getElementsByTagName('texture'):
-			self.textureTable[texture.getAttribute('name')] = \
-				texture.getAttribute('value')
 		# Get texturesets...
 		for textureset in s.getElementsByTagName('textureset'):
 			for surface in textureset.getElementsByTagName('surface'):
@@ -545,10 +534,9 @@ class StyleFetcher:
 
 	def __str__(self):
 		pp = pprint.PrettyPrinter()
-		out = 'TEXTURE TABLE:\n' + pp.pformat(self.textureTable) + '\n'
-		out = out + '\nTEXTURE SETS:\n' + pp.pformat(self.textureSets) + '\n'
-		out = out + '\nLIGHTING SETS:\n' + pp.pformat(self.lightingSets)
-		return out
+		return \
+			'\nTEXTURE SETS:\n' + pp.pformat(self.textureSets) + '\n' \
+			+ '\nLIGHTING SETS:\n' + pp.pformat(self.lightingSets)
 
 
 #
@@ -722,31 +710,26 @@ def failParse(data=None):
 	raise LDLException(message)
 
 
-def makeBrush(doc, worldtype, worldspawn, sf, style, part, dir, texture=None):
+def makeBrush(doc, worldtype, worldspawn, sf, style, part, dir):
 	# FIXME split into two versions -- onef for dir / style and one for just
 	# plain text?
 	'''Make a brush
 
+	FIXME: The next comment is no longer the case; it didn't seem to be used,
+	so I removed it as part of the move to supporting WADs...
+
 	optional texture name used to force a particular texture (e.g. when making
 	a solid) note that we have to append brush last for QuArK to able to read
 	the .map file.'''
-	mode_style = True
-	if sf.getTex(texture):
-		mode_style = False
-
 	# React to step brushes as normal ones by simply adding them as static
 	# brushes; react to other, more complex types differently...
 	if not part.type or part.type == connector.STEP:
 		# assume just regular solid brush...
-		if mode_style:
-			t = sf.getSetTex(style, worldtype, dir)
-			if t:
-				worldspawn.appendChild(createSolid(doc, part.origin, part.extent, t))
-			else:
-				error('something')
+		t = sf.getSetTex(style, worldtype, dir)
+		if t:
+			worldspawn.appendChild(createSolid(doc, part.origin, part.extent, t))
 		else:
-			worldspawn.appendChild(
-				createSolid(doc, part.origin, part.extent, sf.getTex(texture)))
+			error('something')
 	elif part.type == connector.DOOR:
 		# need to append to map, not worldspawn
 		map = doc.getElementsByTagName('map')[0]
