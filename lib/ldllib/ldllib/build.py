@@ -23,16 +23,16 @@ def use_repo_bins():
 		prog.bspinfo = bin_base / 'bspinfo' / 'Release' / 'bspinfo.exe'
 	else:
 		raise NotImplementedError
-	# quake.wad has to be in the current directory
 
 
 def set_wad_file(name):
 	prog.wadfile = Path(name)
 
 
+# FIXME check for WAD files (???)
 def have_needed_stuff():
 	missing = []
-	for exe in [prog.qbsp, prog.vis, prog.light, prog.bspinfo, prog.wadfile]:
+	for exe in [prog.qbsp, prog.vis, prog.light, prog.bspinfo]:
 		if not exe.is_file():
 			missing.append(exe)
 

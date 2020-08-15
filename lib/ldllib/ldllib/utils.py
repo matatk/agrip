@@ -500,21 +500,30 @@ class StyleFetcher:
 			pass  # probably whitespace
 		return dlightingset
 
-	def __init__(self):
+	def _get_texture_sets(self, root):
+		for textureset in root.getElementsByTagName('textureset'):
+			texs = {}
+			for surface in textureset.getElementsByTagName('surface'):
+				# FIXME check that each surface id is valid.
+				texs[surface.getAttribute('id')] = surface.getAttribute('texture')
+				self.textureSets[textureset.getAttribute('name')] = texs
+
+	def __init__(self, wad_file=None):
+		# FIXME docs: hollow or solid, for the texture sets comment?
 		self.textureSets = {}   # a set of textures to be applied to a hollow
 		self.lightingSets = {}  # as above but with lighting
 		self.soundLookup = {}   # returns sound key for entity in worldtype
-		temp_texture_set = {}   # we build up the texture set hash in here
 		temp_lighting_set = {}  # as above but with lighting
 		s = xml.dom.minidom.parse(prog.STYLE_FILE)
-		# Get texturesets...
-		for textureset in s.getElementsByTagName('textureset'):
-			for surface in textureset.getElementsByTagName('surface'):
-				# FIXME check that each surface id is valid.
-				temp_texture_set[surface.getAttribute('id')] \
-					= surface.getAttribute('texture')
-			self.textureSets[textureset.getAttribute('name')] = temp_texture_set
-			temp_texture_set = {}
+
+		# If a WAD file has been given, get the appropriate texture sets. This
+		# may have been called from a level that doesn't need textures, just
+		# ignore this bit.
+		if wad_file:
+			for wad in s.getElementsByTagName('wad'):
+				if wad.getAttribute('file') == wad_file:
+					self._get_texture_sets(wad)
+
 		# Get lighting styles...
 		for lightingset in s.getElementsByTagName('lightingset'):
 			# Within each lighting set is a lighting element that contains the rest...

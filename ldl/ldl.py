@@ -7,7 +7,7 @@ import sys
 
 import argcomplete
 
-from ldllib.convert import convert
+from ldllib.convert import convert, DEFAULT_WAD_FILE, WAD_FILES
 from ldllib.build import build, have_needed_stuff, use_repo_bins
 from ldllib.play import play
 from ldllib.roundtrip import roundtrip
@@ -26,17 +26,6 @@ class Mode(IntEnum):
 def print_exception():
 	etype, evalue, etraceback = sys.exc_info()
 	print(evalue)
-
-
-# Don't repeat the valid subcommands in the subcommand help section
-# https://stackoverflow.com/a/13429281/1485308
-class SubcommandHelpFormatter(argparse.RawDescriptionHelpFormatter):
-	def _format_action(self, action):
-		parts = super(argparse.RawDescriptionHelpFormatter, self) \
-			._format_action(action)
-		if action.nargs == argparse.PARSER:
-			parts = '\n'.join(parts.split('\n')[1:])
-		return parts
 
 
 def handle_convert(args):
@@ -70,7 +59,11 @@ def handle_core(args, mode):
 		if xmlfile in files:
 			try:
 				if mode >= Mode.CONVERT:
-					convert(xmlfile, args.verbose, args.keep)
+					convert(
+						xmlfile,
+						wad=args.wad,
+						verbose=args.verbose,
+						keep_intermediate=args.keep)
 					if mode >= Mode.BUILD:
 						build(mapfile, args.verbose)
 						if mode == Mode.PLAY:
@@ -121,15 +114,15 @@ parser = argparse.ArgumentParser(
 		'The order of precedence for file extensions is: ".xml"; ".map"; '
 		'".bsp". Thus if you ask for the "convert" action, and there is both a '
 		'"mymap.xml" and a "mymap.map" file in the list of files to process, '
-		'then "mymap.xml" is converted, overwriting "mymap.map".\n\n'
+		'then "mymap.xml" is converted, overwriting "mymap.map". '
 
 		"The rationale for this behaviour is that it's best to keep the XML "
 		'files as the single point of truth, so LDL should always try to work '
-		'as close to the XML files as possible.\n\n'
+		'as closely to the XML files as possible. '
 
 		'It also means that you can keep intermediate files from previous runs '
 		'and still use wildcards quite liberally on the command-line.'),
-	formatter_class=SubcommandHelpFormatter)
+	formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 parser.add_argument(
 	'-v', '--verbose', action='store_true',
@@ -138,6 +131,10 @@ parser.add_argument(
 parser.add_argument(
 	'-k', '--keep', action='store_true',
 	help='save intermediate XML files at each level of conversion')
+
+parser.add_argument(
+	'-w', '--wad', default=DEFAULT_WAD_FILE, choices=WAD_FILES,
+	help='Texture WAD file to use')
 
 subparsers = parser.add_subparsers(
 	title='actions', required=True, dest='action',

@@ -7,9 +7,13 @@ from .level_04_down_buildermacros import main as level4
 from .level_05_down_connections import main as level5
 from .utils import keep, set_verbosity
 
+DEFAULT_WAD_FILE = 'quake.wad'
+WAD_FILES = ['quake.wad', 'free.wad', 'prototype_1_2.wad']
 
-def convert(xml_file, verbose=False, keep_intermediate=False):
-	print('Converting', xml_file)
+
+def convert(
+	xml_file, wad=DEFAULT_WAD_FILE, verbose=False, keep_intermediate=False):
+	print('Converting', xml_file, 'using', wad)
 	set_verbosity(verbose)
 
 	ldl_string = xml_file.read_text()
@@ -21,7 +25,7 @@ def convert(xml_file, verbose=False, keep_intermediate=False):
 	keep(keep_intermediate, 3, without_ext, level3string)
 	level2string = level3(level3string)
 	keep(keep_intermediate, 2, without_ext, level2string)
-	level1string = level2(level2string)
+	level1string = level2(level2string, wad)
 	keep(keep_intermediate, 1, without_ext, level1string)
 	level0string = level1(level1string)
 	keep(keep_intermediate, 0, without_ext, level0string)

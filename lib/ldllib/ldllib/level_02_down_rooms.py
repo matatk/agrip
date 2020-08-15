@@ -28,9 +28,9 @@ paddinglevel = -1
 padding = '  '
 
 
-def processMap(doc):
+def processMap(doc, wad_file):
 	map = doc.documentElement
-	worldtype, worldspawn = processInfo(doc, map)
+	worldtype, worldspawn = processInfo(doc, map, wad_file)
 	# Go through each successive element and process it accordingly.
 	# (Yes, this is very SAX-like but we don't use SAX because by using DOM we
 	# get to manipulate the tree as we go, which we do need to do.)
@@ -38,7 +38,8 @@ def processMap(doc):
 		processNode(doc, map, worldtype, worldspawn, s, Point(0, 0, 0), node)
 
 
-def processInfo(doc, map):
+# TODO: Does this need to be done at this level? Shouldn't it be lower?
+def processInfo(doc, map, wad_file):
 	info = map.firstChild
 	for property in info.childNodes:
 		# FIXME we assume all children of info are property elements
@@ -59,7 +60,7 @@ def processInfo(doc, map):
 		utils.createProperty(doc, 'worldtype', str(worldtype_num)))
 	worldspawn.appendChild(utils.createProperty(doc, 'message', mapname))
 	# FIXME style:
-	worldspawn.appendChild(utils.createProperty(doc, 'wad', str(prog.wadfile)))
+	worldspawn.appendChild(utils.createProperty(doc, 'wad', wad_file))
 	map.replaceChild(worldspawn, info)
 	return (worldtype, worldspawn)
 
@@ -221,17 +222,20 @@ def processEntity(doc, parent, offset, entity):
 	doc.documentElement.appendChild(entity.cloneNode(True))
 
 
-# FIXME DRY
-def main(xml_in):
+# Note: the WAD file is passed in because it's in this level that we include
+#       it in the XML (as per the TODO above, maybe it should be done lower
+#       down...)
+# FIXME DRY with the other levels
+def main(xml_in, wad_file):
 	utils.set_stage(2)
 	global s  # FIXME remove?
-	s = utils.StyleFetcher()
+	s = utils.StyleFetcher(wad_file)
 	try:
 		m = xml.dom.minidom.parseString(xml_in)
 	except:  # noqa: E722
 		utils.failParse()
 	utils.remove_whitespace_nodes(m)
-	processMap(m)
+	processMap(m, wad_file)
 	m.getElementsByTagName('map')[0] \
 		.setAttribute('stackdesc', prog.stackdescs[2])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)

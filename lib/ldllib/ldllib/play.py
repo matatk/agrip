@@ -37,7 +37,7 @@ def _run(map_base_name, verbose=False):
 	chdir(starting_dir)
 
 
-def play(bsp_file, verbose):
+def play(bsp_file, verbose=False):
 	print('Playing', bsp_file)
 	shutil.copy(bsp_file, maps_dir)
 	_run(bsp_file.with_suffix('').name, verbose)
