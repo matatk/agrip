@@ -1,0 +1,45 @@
+../progs.dat
+
+defs.qc
+bot.qc
+bot_way.qc
+bot_fight.qc 
+bot_ai.qc
+bot_misc.qc
+bot_phys.qc
+bot_move.qc
+bot_ed.qc
+subs.qc
+fight.qc
+ai.qc
+combat.qc
+items.qc
+weapons.qc
+world.qc
+client.qc
+player.qc
+monsters.qc
+doors.qc
+buttons.qc
+triggers.qc
+plats.qc
+misc.qc
+
+
+
+ogre.qc
+demon.qc
+shambler.qc
+knight.qc
+soldier.qc
+wizard.qc
+dog.qc
+zombie.qc
+boss.qc
+
+tarbaby.qc		// registered
+hknight.qc		// registered
+fish.qc			// registered
+shalrath.qc		// registered
+enforcer.qc		// registered
+oldone.qc		// registered
