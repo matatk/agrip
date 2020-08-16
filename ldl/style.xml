@@ -28,6 +28,7 @@
 			<surface id='door' texture='door02_7' />
 			<surface id='plat' texture='GROUND1_6' /> <!-- FIXME do better! -->
 			<surface id='step' texture='GROUND1_6' /> <!-- FIXME do better! -->
+			<!-- FIXME changing the style file didn't fail the test until the second run of the test. -->
 		</textureset>
 
 		<textureset name='medieval'>
@@ -49,8 +50,6 @@
 			<surface id='w' texture='sky4' />
 			<surface id='u' texture='sky4' />
 			<surface id='d' texture='GROUND1_6' />
-			<surface id='plat' texture='GROUND1_6' />
-			<surface id='step' texture='GROUND1_6' />
 		</textureset>
 
 		<textureset name='outsidedark'>
@@ -60,8 +59,6 @@
 			<surface id='w' texture='sky1' />
 			<surface id='u' texture='sky1' />
 			<surface id='d' texture='GROUND1_6' />
-			<surface id='plat' texture='GROUND1_6' />
-			<surface id='step' texture='GROUND1_6' />
 		</textureset>
 	</wad>
 
