@@ -49,7 +49,7 @@ def handle_core(args, mode):
 	# from the XML by default.
 
 	files = [Path(filename) for filename in args.files]
-	bases = set([Path(filepath.stem) for filepath in files])
+	bases = [filepath.with_suffix('') for filepath in files]
 
 	for basename in bases:
 		xmlfile = basename.with_suffix('.xml')
