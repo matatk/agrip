@@ -38,8 +38,8 @@
 			<surface id='u' texture='grave01_3' />
 			<surface id='d' texture='afloor1_4' />
 			<surface id='door' texture='adoor03_3' />
-			<surface id='plat' texture='GROUND1_6' /> <!-- FIXME -->
-			<surface id='step' texture='GROUND1_6' /> <!-- FIXME -->
+			<surface id='plat' texture='wmet1_1' />
+			<surface id='step' texture='wall3_4' />
 		</textureset>
 
 		<textureset name='outsidelight'>
