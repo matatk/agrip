@@ -1,5 +1,4 @@
 *.o
-quake.wad
 *.bsp
 ldl-tutorial.html
 *_roundtripped*
