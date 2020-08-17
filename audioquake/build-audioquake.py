@@ -11,9 +11,9 @@ import mistune
 import mistune_contrib.toc
 
 from buildlib import Config, \
-	prep_dir, try_to_run, platform_set, check_platform, die, comeback
-
-from ldllib.build import build, have_needed_progs, use_repo_bins, swap_wad
+	try_to_run, platform_set, check_platform, die, comeback, prep_dir
+from ldllib.build import build, have_needed_progs, use_repo_bins, \
+	swap_wad, hc_variant
 from ldllib.convert import use_repo_wads, have_wad_for
 
 texture_map = {
@@ -79,11 +79,7 @@ def build_maps_for(bsp_dir, key):
 	maps_to_build = list(maps)  # i.e. copy
 
 	for mapfile in maps:
-		if key == 'prototype':  # implies high contrast mode
-			map_name = mapfile.stem + 'hc' + mapfile.suffix
-		else:
-			map_name = mapfile.name
-
+		map_name = hc_variant(key, mapfile)
 		this_wad_mapfile = bsp_dir / map_name
 		this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
 
@@ -225,6 +221,7 @@ def build_audioquake():
 	check_platform()
 
 	print('Converting manuals and single docs to HTML')
+	prep_dir(Config.dir_manuals_converted)
 	convert_manuals()  # TODO replace with a check if it needs doing
 
 	print('Building AGRIP maps for Quake')
