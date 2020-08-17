@@ -50,6 +50,7 @@ def swap_wad(map_string, to):
 
 
 # TODO move this, and the above, and the ones in convert? to somewhere central
+# FIXME doesn't do basename; preserves suffix
 def basename_maybe_hc(wad, file_path):
 	if wad == 'prototype':
 		out = file_path.stem + 'hc' + file_path.suffix

@@ -13,6 +13,13 @@ from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
 
 LDL_TUTORIAL_MAPS_DIR = 'ldl-tutorial-maps'
+PRETTY_WAD_NAMES = ['Quake', 'Open Quartz', 'High contrast']
+LOOKUP_WAD_NAMES = ['quake', 'free', 'prototype']
+wad_bspdests = {
+	'quake': ['id1'],
+	'free': ['oq'],
+	'prototype': ['id1', 'oq']
+}
 
 
 class MapTab(wx.Panel):
@@ -57,7 +64,7 @@ class MapTab(wx.Panel):
 		label = wx.StaticText(self, label='Texture set:')
 
 		pick = wx.Choice(
-			self, -1, choices=['Quake', 'Open Quartz', 'High contrast'])
+			self, -1, choices=PRETTY_WAD_NAMES)
 
 		if not have_registered_data():
 			pick.SetSelection(1)
@@ -80,7 +87,12 @@ class MapTab(wx.Panel):
 				Error(self, "Can't find chosen file.")
 				return
 
-			self.build_and_play_ldl_map(path, play_checkbox.GetValue())
+			if play_checkbox.GetValue() is True:
+				play_as = LOOKUP_WAD_NAMES[pick.GetSelection()]
+			else:
+				play_as = None
+
+			self.build_and_play_ldl_map(path, play_as)
 
 		btn_pick_ldl_map_file.Bind(wx.EVT_BUTTON, pick_ldl_map_file)
 		add_widget(sizer, btn_pick_ldl_map_file)
@@ -88,24 +100,24 @@ class MapTab(wx.Panel):
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
-	def build_and_play_ldl_map(self, xmlfile, play_when_built=True):
-		wad_bspdests = {
-			'quake': ['id1'],
-			'free': ['oq'],
-			'prototype': ['id1', 'oq']
-		}
-
+	def build_and_play_ldl_map(self, xmlfile, play_as):
 		for wad, destinations in wad_bspdests.items():
 			if wad == 'quake' and not have_wad_for('quake', quiet=True):
-				continue  # TODO flag it in some way?
+				continue
 			try:
 				self.build_and_copy(xmlfile, wad, destinations)
 			except LDLError:
 				ErrorException(self)
 				return
 
-		if play_when_built:
-			map_basename = xmlfile.stem
+		if play_as:
+			map_basename = basename_maybe_hc(play_as, xmlfile.with_suffix(''))
+
+			if play_as == 'quake' and not have_wad_for('quake', quiet=True):
+				Warn(self, 'Quake is not installed, so will play in Open Quartz')
+			if play_as == 'free' and have_wad_for('quake', quiet=True):
+				Warn(self, 'bug; playing in Quake anyway!')
+
 			launch_core(
 				self, lambda: self.game_controller.launch_map(map_basename))
 		else:
