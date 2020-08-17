@@ -5,9 +5,13 @@ import subprocess
 
 from .conf import prog
 from .utils import LDLError
+from .convert import wad_files
 
-clean = ['.h1', '.h2', '.prt', '.pts']
+clean = ['.h1', '.h2', '.prt', '.pts', '.temp']  # last is if WAD path updated
+temp_map_suffix = '.temp'
 
+
+# Public
 
 def use_repo_bins():
 	if platform.system() == 'Darwin':
@@ -41,6 +45,64 @@ def have_needed_progs():
 		return True
 
 
+def swap_wad(map_string, to):
+	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_files[to]}"')
+
+
+def build(map_file, verbose=False, quiet=False, throw=False):
+	"""Run a complete build for this map
+
+	verbose - whether to print the stdout from the program
+	quiet   - whether to print anything to stdout (overrides 'verbose')
+	throw   - whether to raise a CalledProcessError if encountered
+
+	If this is being called via the LDL command-line tools, we generally don't
+	want to throw errors (because there may be other files to process), but we
+	do want to monitor for them. There's a switch for verbosity. If we're
+	running this via code, we probably can't see the output, so there's no
+	need, and we probably do want to re-raise errors."""
+
+	if not quiet:
+		print('Building', map_file)
+
+	# If the map file has a relative path to "quake.wad" we need to point it to
+	# the correct full path. The map is then saved with a new name.
+	build_map_path = swap_quake_wad_for_full_path(map_file)
+	without_ext = build_map_path.with_suffix('')
+
+	run(
+		[prog.qbsp, build_map_path], verbose=verbose, quiet=quiet, throw=throw)
+	run(
+		[prog.light, '-extra', without_ext],
+		verbose=verbose, quiet=quiet, throw=throw)
+	run(
+		[prog.vis, '-level', '4', without_ext],
+		verbose=verbose, errorcheck=False, quiet=quiet, throw=throw)
+
+	if not quiet and verbose:
+		run([prog.bspinfo, without_ext], verbose=True, errorcheck=False)
+
+	for ext in clean:
+		map_file.with_suffix(ext).unlink(missing_ok=True)
+
+
+# Private
+
+def swap_quake_wad_for_full_path(map_path):
+	"""Use the full/correct WAD file path
+
+	If changes needed to be made, save the map file as mapname.temp.
+
+	Returns the original or new map file path"""
+	map_string = map_path.read_text()
+	modifed_map_string = swap_wad(map_string, 'quake')
+	if len(map_string) != len(modifed_map_string):
+		output_map = map_path.with_suffix(temp_map_suffix)
+		output_map.write_text(modifed_map_string)
+		return output_map
+	return map_path
+
+
 def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 	"""Run a builder program
 
@@ -65,36 +127,3 @@ def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 			print('Error from', error.cmd[0].name)
 			if verbose:
 				print(error.output.decode())
-
-
-def build(map_file, verbose=False, quiet=False, throw=False):
-	"""Run a complete build for this map
-
-	verbose - whether to print the stdout from the program
-	quiet   - whether to print anything to stdout (overrides 'verbose')
-	throw   - whether to raise a CalledProcessError if encountered
-
-	If this is being called via the LDL command-line tools, we generally don't
-	want to throw errors (because there may be other files to process), but we
-	do want to monitor for them. There's a switch for verbosity. If we're
-	running this via code, we probably can't see the output, so there's no
-	need, and we probably do want to re-raise errors."""
-
-	if not quiet:
-		print('Building', map_file)
-	without_ext = map_file.with_suffix('')
-
-	run(
-		[prog.qbsp, without_ext], verbose=verbose, quiet=quiet, throw=throw)
-	run(
-		[prog.light, '-extra', without_ext],
-		verbose=verbose, quiet=quiet, throw=throw)
-	run(
-		[prog.vis, '-level', '4', without_ext],
-		verbose=verbose, errorcheck=False, quiet=quiet, throw=throw)
-
-	if not quiet and verbose:
-		run([prog.bspinfo, without_ext], verbose=True, errorcheck=False)
-
-	for ext in clean:
-		map_file.with_suffix(ext).unlink(missing_ok=True)

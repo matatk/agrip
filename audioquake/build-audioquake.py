@@ -13,8 +13,8 @@ import mistune_contrib.toc
 from buildlib import Config, \
 	prep_dir, try_to_run, platform_set, check_platform, die, comeback
 
-from ldllib.build import build, have_needed_progs, use_repo_bins
-from ldllib.convert import use_repo_wads, wad_files, have_wad_for
+from ldllib.build import build, have_needed_progs, use_repo_bins, swap_wad
+from ldllib.convert import use_repo_wads, have_wad_for
 
 texture_map = {
 	'*lava1': {'free': '*lava_s2', 'prototype': '*lava_64_1'},
@@ -52,10 +52,6 @@ maps_were_built_for_quake = False  # detected via build_maps_for_quake()
 #
 # Building the maps
 #
-
-def swap_wad(map_string, to):
-	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_files[to]}"')
-
 
 def make_following_map_high_contrast(map_string):
 	return re.sub(r'"map" "(.+)"', r'"map" "\1hc"', map_string)
