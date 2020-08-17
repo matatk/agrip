@@ -53,7 +53,7 @@ maps_were_built_for_quake = False  # detected via build_maps_for_quake()
 # Building the maps
 #
 
-def make_following_map_high_contrast(map_string):
+def high_contrast(map_string):
 	return re.sub(r'"map" "(.+)"', r'"map" "\1hc"', map_string)
 
 
@@ -72,17 +72,13 @@ def build_maps_for(bsp_dir, key):
 	bsp_dir.mkdir(exist_ok=True)
 
 	if not have_needed_progs():
-		raise Exception('Build tools missing')
+		raise Exception('Quake map tools missing')
 
-	if not have_wad_for(key):
-		return
-
-	maps = Config.dir_maps_source.glob('*.map')
+	maps = list(Config.dir_maps_source.glob('*.map'))
+	maps.remove(Config.dir_maps_source / 'agdm02l.map')  # TODO: it is borked
+	maps_to_build = list(maps)  # i.e. copy
 
 	for mapfile in maps:
-		if mapfile.name == 'agdm02l.map':
-			continue  # TODO that map's borked
-
 		if key == 'prototype':  # implies high contrast mode
 			map_name = mapfile.stem + 'hc' + mapfile.suffix
 		else:
@@ -94,6 +90,10 @@ def build_maps_for(bsp_dir, key):
 		if force_map_build or not this_wad_bspfile.is_file() \
 			or not this_wad_mapfile.is_file() \
 			or this_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
+
+			if not have_wad_for(key, quiet=True):
+				continue
+
 			map_string = mapfile.read_text()
 			map_string = swap_wad(map_string, key)
 
@@ -104,17 +104,23 @@ def build_maps_for(bsp_dir, key):
 				throw_errors = False
 
 			if key == 'prototype':
-				map_string = make_following_map_high_contrast(map_string)
+				map_string = high_contrast(map_string)
 
 			this_wad_mapfile.write_text(map_string)
 			build(this_wad_mapfile, throw=throw_errors, quiet=True)
 		else:
 			used_cached_maps = True
 
-	if used_cached_maps:
-		print('Cached maps were used')
+		maps_to_build.remove(mapfile)
 
-	if key == 'quake':
+	if len(maps_to_build) > 0:
+		print(len(maps_to_build), 'maps left to build')
+	elif used_cached_maps:
+		print('all maps were retrieved from the cache or built')
+	else:
+		print('all maps were built')
+
+	if key == 'quake' and len(maps_to_build) == 0:
 		maps_were_built_for_quake = True
 
 

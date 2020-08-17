@@ -43,9 +43,10 @@ def use_repo_wads(root=None):
 		'prototype_1_2.wad'
 
 
-def have_wad_for(name):
+def have_wad_for(name, quiet=False):
 	if not wad_files[name].is_file():
-		print(f'ERROR: Missing {wad_files[name]}')
+		if not quiet:
+			print(f'ERROR: Missing {wad_files[name]}')
 		return False
 	return True
 
