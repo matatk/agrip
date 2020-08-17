@@ -4,7 +4,6 @@ import shutil
 
 import wx
 
-from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
 	Info, Warn, Error, ErrorException
@@ -66,9 +65,6 @@ class MapTab(wx.Panel):
 		pick = wx.Choice(
 			self, -1, choices=PRETTY_WAD_NAMES)
 
-		if not have_registered_data():
-			pick.SetSelection(1)
-
 		add_widget(texture_set_hbox, label, border=False)
 		add_widget(texture_set_hbox, pick, border=False, expand=True)
 		add_widget(sizer, texture_set_hbox)
@@ -114,7 +110,13 @@ class MapTab(wx.Panel):
 			map_basename = basename_maybe_hc(play_as, xmlfile.with_suffix(''))
 
 			if play_as == 'quake' and not have_wad_for('quake', quiet=True):
-				Warn(self, 'Quake is not installed, so will play in Open Quartz')
+				Warn(self, (
+					'Quake is not installed, so the map will play in Open '
+					'Quartz.\n\n'
+
+					'If you bought Quake, you can use the "Install registered '
+					'Quake data" button on the Customise tab in order to use '
+					'the Quake textures in maps.'))
 			if play_as == 'free' and have_wad_for('quake', quiet=True):
 				Warn(self, 'bug; playing in Quake anyway!')
 
