@@ -13,7 +13,7 @@ import mistune_contrib.toc
 from buildlib import Config, \
 	try_to_run, platform_set, check_platform, die, comeback, prep_dir
 from ldllib.build import build, have_needed_progs, use_repo_bins, \
-	swap_wad, hc_variant
+	swap_wad, basename_maybe_hc
 from ldllib.convert import use_repo_wads, have_wad_for
 
 texture_map = {
@@ -53,6 +53,7 @@ maps_were_built_for_quake = False  # detected via build_maps_for_quake()
 # Building the maps
 #
 
+# FIXME: apply this to LDL builds
 def high_contrast(map_string):
 	return re.sub(r'"map" "(.+)"', r'"map" "\1hc"', map_string)
 
@@ -79,7 +80,7 @@ def build_maps_for(bsp_dir, key):
 	maps_to_build = list(maps)  # i.e. copy
 
 	for mapfile in maps:
-		map_name = hc_variant(key, mapfile)
+		map_name = basename_maybe_hc(key, mapfile)
 		this_wad_mapfile = bsp_dir / map_name
 		this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
 

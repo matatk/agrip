@@ -49,12 +49,23 @@ def swap_wad(map_string, to):
 	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_files[to]}"')
 
 
-def build(map_file, verbose=False, quiet=False, throw=False):
+# TODO move this, and the above, and the ones in convert? to somewhere central
+def basename_maybe_hc(wad, file_path):
+	if wad == 'prototype':
+		out = file_path.stem + 'hc' + file_path.suffix
+	else:
+		out = file_path.name
+	return Path(out)
+
+
+def build(map_file, bsp_file=None, verbose=False, quiet=False, throw=False):
 	"""Run a complete build for this map
 
-	verbose - whether to print the stdout from the program
-	quiet   - whether to print anything to stdout (overrides 'verbose')
-	throw   - whether to raise a CalledProcessError if encountered
+	map_file - source map file
+	bsp_file - output bsp file (this may be different, e.g. high-contrast mode
+	verbose  - whether to print the stdout from the program
+	quiet    - whether to print anything to stdout (overrides 'verbose')
+	throw    - whether to raise a CalledProcessError if encountered
 
 	If this is being called via the LDL command-line tools, we generally don't
 	want to throw errors (because there may be other files to process), but we
@@ -68,19 +79,23 @@ def build(map_file, verbose=False, quiet=False, throw=False):
 	# If the map file has a relative path to "quake.wad" we need to point it to
 	# the correct full path. The map is then saved with a new name.
 	build_map_path = swap_quake_wad_for_full_path(map_file)
-	without_ext = build_map_path.with_suffix('')
+	built_file = build_map_path.with_suffix('') if not bsp_file else bsp_file
+
+	qbsp_args = [prog.qbsp, build_map_path]
+	if bsp_file:
+		qbsp_args.append(bsp_file)
 
 	run(
-		[prog.qbsp, build_map_path], verbose=verbose, quiet=quiet, throw=throw)
+		qbsp_args, verbose=verbose, quiet=quiet, throw=throw)
 	run(
-		[prog.light, '-extra', without_ext],
+		[prog.light, '-extra', built_file],
 		verbose=verbose, quiet=quiet, throw=throw)
 	run(
-		[prog.vis, '-level', '4', without_ext],
+		[prog.vis, '-level', '4', built_file],
 		verbose=verbose, errorcheck=False, quiet=quiet, throw=throw)
 
 	if not quiet and verbose:
-		run([prog.bspinfo, without_ext], verbose=True, errorcheck=False)
+		run([prog.bspinfo, built_file], verbose=True, errorcheck=False)
 
 	for ext in clean:
 		map_file.with_suffix(ext).unlink(missing_ok=True)

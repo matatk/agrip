@@ -9,10 +9,10 @@ from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
 	Info, Warn, Error, ErrorException
 from ldllib.convert import convert, have_wad_for
-from ldllib.build import build, have_needed_progs
+from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
 
-MAPS_DIR = 'ldl-tutorial-maps'
+LDL_TUTORIAL_MAPS_DIR = 'ldl-tutorial-maps'
 
 
 class MapTab(wx.Panel):
@@ -37,12 +37,12 @@ class MapTab(wx.Panel):
 
 		def pick_tutorial_map(event):
 			maps = sorted(list(map(
-				lambda xml: xml.name, Path(MAPS_DIR).glob('*'))))
+				lambda xml: xml.name, Path(LDL_TUTORIAL_MAPS_DIR).glob('*'))))
 			chooser = wx.SingleChoiceDialog(
 				self, 'LDL Tutorial Maps', 'Choose map', maps)
 			if chooser.ShowModal() == wx.ID_OK:
 				choice = chooser.GetStringSelection()
-				file_picker.SetPath(str(Path(MAPS_DIR) / choice))
+				file_picker.SetPath(str(Path(LDL_TUTORIAL_MAPS_DIR) / choice))
 
 		tutorial_maps_button = wx.Button(self, -1, 'Choose a LDL tutorial map')
 		tutorial_maps_button.Bind(wx.EVT_BUTTON, pick_tutorial_map)
@@ -95,15 +95,9 @@ class MapTab(wx.Panel):
 			'prototype': ['id1', 'oq']
 		}
 
-		if not have_wad_for('quake'):
-			print('no quake wad')
-			return
-
-		for wad, destinations in wadfile_bspdests.items():
-			if wad == 'quake.wad' and not have_registered_data():
-				continue
-			elif wad == 'prototype_1_2.wad':
-				pass  # TODO
+		for wad, destinations in wad_bspdests.items():
+			if wad == 'quake' and not have_wad_for('quake', quiet=True):
+				continue  # TODO flag it in some way?
 			try:
 				self.build_and_copy(xmlfile, wad, destinations)
 			except LDLError:
@@ -118,15 +112,16 @@ class MapTab(wx.Panel):
 			Info(self, map_basename + ' built and installed')
 
 	@staticmethod
-	def build_and_copy(xmlfile, wad_file, dest_dirs):
-		print('build_and_copy():', xmlfile, wad_file, dest_dirs)
+	def build_and_copy(xmlfile, wad, dest_dirs):
 		mapfile = xmlfile.with_suffix('.map')
-		bspfile = xmlfile.with_suffix('.bsp')
+		bspfile = basename_maybe_hc(wad, xmlfile.with_suffix('.bsp'))
+
+		convert(xmlfile, wad=wad)
+		build(mapfile, bsp_file=bspfile, quiet=True, throw=True)
 
 		for dest_dir in dest_dirs:
-			convert(xmlfile, wad=wad_file)
-			build(mapfile, quiet=True, throw=True)
 			full_dest = Path(dest_dir) / 'maps' / bspfile
-			print('full_dest is: ', full_dest)
-			print('moving', bspfile, 'to', full_dest)
-			shutil.move(bspfile, full_dest)
+			shutil.copy(bspfile, full_dest)
+
+		bspfile.unlink()
+		mapfile.unlink()
