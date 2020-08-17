@@ -114,7 +114,7 @@ def build_maps_for(bsp_dir, key):
 		maps_to_build.remove(mapfile)
 
 	if len(maps_to_build) > 0:
-		print(len(maps_to_build), 'maps left to build')
+		print(len(maps_to_build), 'maps left to build (may need WAD file)')
 	elif used_cached_maps:
 		print('all maps were retrieved from the cache or built')
 	else:
