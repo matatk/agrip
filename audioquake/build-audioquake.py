@@ -163,7 +163,6 @@ def convert_manuals():
 	}
 
 	for title, manual_basename in manuals.items():
-		print('Converting', manual_basename)
 		sources = sorted(Config.dir_manuals.glob(manual_basename + '*'))
 		convert_markdown_files(
 			manual_basename, title, sources, Config.dir_manuals_converted)
@@ -183,8 +182,8 @@ def convert_manuals():
 
 	for title, details in single_docs_to_convert.items():
 		source, output = details
-		print('Converting ' + output)
-		convert_markdown_files(output, title, source, Config.dir_manuals_converted)
+		convert_markdown_files(
+			output, title, source, Config.dir_manuals_converted)
 
 
 #
@@ -225,8 +224,7 @@ def build_audioquake():
 
 	check_platform()
 
-	print('Preparing converted (HTML) manual dir')
-	prep_dir(Config.dir_manuals_converted)
+	print('Converting manuals and single docs to HTML')
 	convert_manuals()  # TODO replace with a check if it needs doing
 
 	print('Building AGRIP maps for Quake')
