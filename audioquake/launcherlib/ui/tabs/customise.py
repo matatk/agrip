@@ -34,7 +34,7 @@ class CustomiseTab(wx.Panel):
 		self.SetSizer(sizer)
 
 	def install_registered_data(self, event):
-		if have_registered_data():  # FIXME what if something else is missing?
+		if have_registered_data():  # TODO what if something else is missing?
 			Info(self, 'The registered data files are already installed.')
 		else:
 			Info(self, (

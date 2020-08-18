@@ -21,13 +21,13 @@ class SpeechSynth():
 	def say(self, text):
 		if on_windows():
 			self.speaker.Speak(text, 1)  # async
-			# FIXME TODO: get ENUM value so that's not magic number
+			# TODO: get ENUM value so that's not magic number
 		else:
 			self.ve.startSpeakingString_(text)
 
 	def stop(self):
 		if on_windows():
 			self.speaker.Speak('', 2)  # purge before speaking
-			# FIXME TODO: get ENUM value so that's not magic number
+			# TODO: get ENUM value so that's not magic number
 		else:
 			self.ve.stopSpeaking()

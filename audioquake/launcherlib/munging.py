@@ -30,7 +30,7 @@ def make_quake_wad(start, end, progress):
 	bsps = []
 	miptextures = []
 
-	# FIXME finer progress
+	# TODO finer progress
 
 	update_message(progress, start, 'Extracting textures')
 

@@ -53,7 +53,6 @@ maps_were_built_for_quake = False  # detected via build_maps_for_quake()
 # Building the maps
 #
 
-# FIXME: apply this to LDL builds
 def high_contrast(map_string):
 	return re.sub(r'"map" "(.+)"', r'"map" "\1hc"', map_string)
 
@@ -189,7 +188,7 @@ def convert_manuals():
 
 @comeback
 def run_pyinstaller():
-	# FIXME DRY all these chdirs
+	# TODO DRY all these chdirs
 	path = Path(__file__).parent
 	try:
 		chdir(path)
