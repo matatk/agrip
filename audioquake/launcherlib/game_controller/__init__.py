@@ -12,6 +12,12 @@ class LaunchState(enum.Enum):
 	NO_REGISTERED_DATA = enum.auto()
 
 
+class RootGame(enum.Enum):
+	ANY = enum.auto()
+	QUAKE = enum.auto()
+	OPEN_QUARTZ = enum.auto()
+
+
 class GameController():
 	opts_default = ("-window", "+set sensitivity 0")
 	opts_open_quartz = ("-rootgame", "oq")
@@ -28,23 +34,23 @@ class GameController():
 		elif self._engine_wrapper.is_alive():
 			return True
 
-	def _launch_core(self, options=(), game=None):
+	def _launch_core(self, options=(), game=RootGame.ANY):
 		if self._is_running():
 			return LaunchState.ALREADY_RUNNING
 
 		parameters = self.opts_default + options
 
-		if game is None:
+		if game is RootGame.ANY:
 			if have_registered_data():
 				pass  # prefer quake
 			else:
 				parameters += self.opts_open_quartz
-		elif game == 'quake':
+		elif game is RootGame.QUAKE:
 			if have_registered_data():
 				pass  # ok
 			else:
 				return LaunchState.NO_REGISTERED_DATA
-		elif game == 'open-quartz':
+		elif game is RootGame.OPEN_QUARTZ:
 			parameters += self.opts_open_quartz
 		else:
 			raise TypeError(f"Invalid game name '{game}'")
@@ -59,15 +65,15 @@ class GameController():
 		return LaunchState.LAUNCHED
 
 	def launch_quake(self):
-		return self._launch_core(game='quake')
+		return self._launch_core(game=RootGame.QUAKE)
 
 	def launch_open_quartz(self):
-		return self._launch_core(game='open-quartz')
+		return self._launch_core(game=RootGame.OPEN_QUARTZ)
 
 	def launch_tutorial(self):
 		return self._launch_core(self.opts_tutorial)
 
-	def launch_map(self, name, game=None):
+	def launch_map(self, name, game=RootGame.ANY):
 		return self._launch_core(
 			self.opts_custom_map_base + ('+map', name), game=game)
 

@@ -4,6 +4,7 @@ import shutil
 
 import wx
 
+from launcherlib.game_controller import RootGame
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
 	Info, Warn, Error, ErrorException, HOW_TO_INSTALL
@@ -117,13 +118,13 @@ class MapTab(wx.Panel):
 					Warn(self, (
 						'Quake is not installed, so the map will play in Open '
 						'Quartz.\n\n' + HOW_TO_INSTALL))
-					play_as_game = 'open-quartz'
+					play_as_game = RootGame.OPEN_QUARTZ
 				else:
-					play_as_game = 'quake'
+					play_as_game = RootGame.QUAKE
 			elif play_wad == WADs.FREE:
-				play_as_game = 'open-quartz'
+				play_as_game = RootGame.OPEN_QUARTZ
 			elif play_wad == WADs.PROTOTYPE:
-				play_as_game = None
+				play_as_game = RootGame.ANY
 			else:
 				raise TypeError(f"Unknown WAD type '{play_wad}'")
 
