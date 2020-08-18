@@ -5,7 +5,7 @@ import subprocess
 
 from .conf import prog
 from .utils import LDLError
-from .convert import wad_files
+from .convert import WAD_FILES, WADs
 
 clean = ['.h1', '.h2', '.prt', '.pts', '.temp']  # last is if WAD path updated
 temp_map_suffix = '.temp'
@@ -46,17 +46,13 @@ def have_needed_progs():
 
 
 def swap_wad(map_string, to):
-	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_files[to]}"')
+	return map_string.replace('"wad" "quake.wad"', f'"wad" "{WAD_FILES[to]}"')
 
 
 # TODO move this, and the above, and the ones in convert? to somewhere central?
 # FIXME doesn't do basename; preserves suffix
 def basename_maybe_hc(wad, file_path):
-	VALID_WADs = ['quake', 'free', 'prototype']  # FIXME DRY
-	if wad not in VALID_WADs:
-		raise TypeError(f"Invalid WAD name '{wad}'")
-
-	if wad == 'prototype':
+	if wad == WADs.PROTOTYPE:
 		out = file_path.stem + 'hc' + file_path.suffix
 	else:
 		out = file_path.name
@@ -115,7 +111,7 @@ def swap_quake_wad_for_full_path(map_path):
 
 	Returns the original or new map file path"""
 	map_string = map_path.read_text()
-	modifed_map_string = swap_wad(map_string, 'quake')
+	modifed_map_string = swap_wad(map_string, WADs.QUAKE)
 	if len(map_string) != len(modifed_map_string):
 		output_map = map_path.with_suffix(temp_map_suffix)
 		output_map.write_text(modifed_map_string)

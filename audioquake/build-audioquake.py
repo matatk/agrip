@@ -14,33 +14,33 @@ from buildlib import Config, \
 	try_to_run, platform_set, check_platform, die, comeback, prep_dir
 from ldllib.build import build, have_needed_progs, use_repo_bins, \
 	swap_wad, basename_maybe_hc
-from ldllib.convert import use_repo_wads, have_wad_for
+from ldllib.convert import use_repo_wads, have_wad, WADs
 
 texture_map = {
-	'*lava1': {'free': '*lava_s2', 'prototype': '*lava_64_1'},
-	'+0basebtn': {'free': '+0switch', 'prototype': '+0button_1'},
-	'+0slip': {'free': '*teleport', 'prototype': '*tele01'},
-	'bricka2_2': {'free': 'bricks256', 'prototype': '64_green_3'},
-	'crate0_side': {'free': 'tsl_crate2', 'prototype': 'light1_big'},
-	'crate1_top': {'free': 'tsl_crate2top', 'prototype': 'light1_grt'},
-	'door02_7': {'free': 'srib2', 'prototype': 'blood_1'},
-	'door03_3': {'free': 'tile', 'prototype': 'cyan_1'},
-	'emetal1_3': {'free': 'strangethang', 'prototype': '128_honey_1'},
-	'ground1_1': {'free': 'grass4', 'prototype': '128_green_1'},
-	'med100': {'free': 'chimneytop', 'prototype': '32_honey_2'},
-	'metal2_4': {'free': 'bolt10', 'prototype': '128_grey_3'},  # TODO as below
-	'sfloor4_1': {'free': 'shex2', 'prototype': '128_blue_3'},
-	'sfloor4_6': {'free': 'u_tex22', 'prototype': '64_honey_3'},
-	'sky1': {'free': 'sky3', 'prototype': 'sky1'},
-	'tech01_1': {'free': 'swire2c', 'prototype': '128_grey_3'},
-	'tech01_5': {'free': 'swire4', 'prototype': '128_grey_2'},
-	'tech02_2': {'free': 'bolt7', 'prototype': '16_honey_1'},
-	'tech03_2': {'free': 'u_tex24', 'prototype': '128_brown_2'},
-	'tech04_7': {'free': 'sriba3', 'prototype': '16_cyan_1'},
-	'tech06_2': {'free': 's128z', 'prototype': '128_honey_2'},
-	'tech08_1': {'free': 's128f', 'prototype': '128_cyan_3'},
-	'tech08_2': {'free': 's128k', 'prototype': '128_brown_3'},
-	'wswitch1': {'free': '+0u_1', 'prototype': 'text_light'}
+	'*lava1': {WADs.FREE: '*lava_s2', WADs.PROTOTYPE: '*lava_64_1'},
+	'+0basebtn': {WADs.FREE: '+0switch', WADs.PROTOTYPE: '+0button_1'},
+	'+0slip': {WADs.FREE: '*teleport', WADs.PROTOTYPE: '*tele01'},
+	'bricka2_2': {WADs.FREE: 'bricks256', WADs.PROTOTYPE: '64_green_3'},
+	'crate0_side': {WADs.FREE: 'tsl_crate2', WADs.PROTOTYPE: 'light1_big'},
+	'crate1_top': {WADs.FREE: 'tsl_crate2top', WADs.PROTOTYPE: 'light1_grt'},
+	'door02_7': {WADs.FREE: 'srib2', WADs.PROTOTYPE: 'blood_1'},
+	'door03_3': {WADs.FREE: 'tile', WADs.PROTOTYPE: 'cyan_1'},
+	'emetal1_3': {WADs.FREE: 'strangethang', WADs.PROTOTYPE: '128_honey_1'},
+	'ground1_1': {WADs.FREE: 'grass4', WADs.PROTOTYPE: '128_green_1'},
+	'med100': {WADs.FREE: 'chimneytop', WADs.PROTOTYPE: '32_honey_2'},
+	'metal2_4': {WADs.FREE: 'bolt10', WADs.PROTOTYPE: '128_grey_3'},  # TODO as below
+	'sfloor4_1': {WADs.FREE: 'shex2', WADs.PROTOTYPE: '128_blue_3'},
+	'sfloor4_6': {WADs.FREE: 'u_tex22', WADs.PROTOTYPE: '64_honey_3'},
+	'sky1': {WADs.FREE: 'sky3', WADs.PROTOTYPE: 'sky1'},
+	'tech01_1': {WADs.FREE: 'swire2c', WADs.PROTOTYPE: '128_grey_3'},
+	'tech01_5': {WADs.FREE: 'swire4', WADs.PROTOTYPE: '128_grey_2'},
+	'tech02_2': {WADs.FREE: 'bolt7', WADs.PROTOTYPE: '16_honey_1'},
+	'tech03_2': {WADs.FREE: 'u_tex24', WADs.PROTOTYPE: '128_brown_2'},
+	'tech04_7': {WADs.FREE: 'sriba3', WADs.PROTOTYPE: '16_cyan_1'},
+	'tech06_2': {WADs.FREE: 's128z', WADs.PROTOTYPE: '128_honey_2'},
+	'tech08_1': {WADs.FREE: 's128f', WADs.PROTOTYPE: '128_cyan_3'},
+	'tech08_2': {WADs.FREE: 's128k', WADs.PROTOTYPE: '128_brown_3'},
+	'wswitch1': {WADs.FREE: '+0u_1', WADs.PROTOTYPE: 'text_light'}
 }
 
 skip_pyinstaller = False           # set via command-line option
@@ -64,8 +64,8 @@ def swap_textures(map_string, to):
 	return map_string
 
 
-def build_maps_for(bsp_dir, key):
-	global maps_were_built_for_quake  # only used if key is 'quake'
+def build_maps_for(bsp_dir, wad):
+	global maps_were_built_for_quake  # only used if wad is 'quake'
 	used_cached_maps = False
 
 	use_repo_bins()
@@ -80,7 +80,7 @@ def build_maps_for(bsp_dir, key):
 	maps_to_build = list(maps)  # i.e. copy
 
 	for mapfile in maps:
-		map_name = basename_maybe_hc(key, mapfile)
+		map_name = basename_maybe_hc(wad, mapfile)
 		this_wad_mapfile = bsp_dir / map_name
 		this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
 
@@ -88,19 +88,19 @@ def build_maps_for(bsp_dir, key):
 			or not this_wad_mapfile.is_file() \
 			or this_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
 
-			if not have_wad_for(key, quiet=True):
+			if not have_wad(wad, quiet=True):
 				continue
 
 			map_string = mapfile.read_text()
-			map_string = swap_wad(map_string, key)
+			map_string = swap_wad(map_string, wad)
 
-			if key != 'quake':
-				map_string = swap_textures(map_string, key)
+			if wad != WADs.QUAKE:
+				map_string = swap_textures(map_string, wad)
 				throw_errors = True
 			else:
 				throw_errors = False
 
-			if key == 'prototype':
+			if wad == WADs.PROTOTYPE:
 				map_string = high_contrast(map_string)
 
 			this_wad_mapfile.write_text(map_string)
@@ -117,7 +117,7 @@ def build_maps_for(bsp_dir, key):
 	else:
 		print('all maps were built')
 
-	if key == 'quake' and len(maps_to_build) == 0:
+	if wad == 'quake' and len(maps_to_build) == 0:
 		maps_were_built_for_quake = True
 
 
@@ -226,13 +226,13 @@ def build_audioquake():
 	convert_manuals()  # TODO replace with a check if it needs doing
 
 	print('Building AGRIP maps for Quake')
-	build_maps_for(Config.dir_maps_quakewad, 'quake')
+	build_maps_for(Config.dir_maps_quakewad, WADs.QUAKE)
 
 	print('Building AGRIP maps for Open Quartz')
-	build_maps_for(Config.dir_maps_freewad, 'free')
+	build_maps_for(Config.dir_maps_freewad, WADs.FREE)
 
 	print('Building AGRIP maps for high-contrast mode')
-	build_maps_for(Config.dir_maps_prototypewad, 'prototype')
+	build_maps_for(Config.dir_maps_prototypewad, WADs.PROTOTYPE)
 
 	# Build the executables
 	if not skip_pyinstaller:

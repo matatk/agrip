@@ -7,23 +7,22 @@ import wx
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
 	Info, Warn, Error, ErrorException, HOW_TO_INSTALL
-from ldllib.convert import convert, have_wad_for
+from ldllib.convert import convert, have_wad, WADs
 from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
 
 LDL_TUTORIAL_MAPS_DIR = 'ldl-tutorial-maps'
 
 wad_bspdests = {
-	'quake': ['id1'],
-	'free': ['oq'],
-	'prototype': ['id1', 'oq']
+	WADs.QUAKE: ['id1'],
+	WADs.FREE: ['oq'],
+	WADs.PROTOTYPE: ['id1', 'oq']
 }
 
-# TODO DRY with other stuff?
 game_names = {
-	'Quake': 'quake',
-	'Open Quartz': 'free',
-	'High contrast': 'prototype'
+	'Quake': WADs.QUAKE,
+	'Open Quartz': WADs.FREE,
+	'High contrast': WADs.PROTOTYPE
 }
 
 
@@ -102,7 +101,7 @@ class MapTab(wx.Panel):
 
 	def build_and_play_ldl_map(self, xmlfile, play_wad):
 		for wad, destinations in wad_bspdests.items():
-			if wad == 'quake' and not have_wad_for('quake', quiet=True):
+			if wad == WADs.QUAKE and not have_wad(WADs.QUAKE, quiet=True):
 				continue
 			try:
 				self.build_and_copy(xmlfile, wad, destinations)
@@ -113,18 +112,20 @@ class MapTab(wx.Panel):
 		if play_wad:
 			map_basename = basename_maybe_hc(play_wad, xmlfile.with_suffix(''))
 
-			if play_wad == 'quake':
-				if not have_wad_for('quake', quiet=True):
+			if play_wad == WADs.QUAKE:
+				if not have_wad(WADs.QUAKE, quiet=True):
 					Warn(self, (
 						'Quake is not installed, so the map will play in Open '
 						'Quartz.\n\n' + HOW_TO_INSTALL))
 					play_as_game = 'open-quartz'
 				else:
 					play_as_game = 'quake'
-			elif play_wad == 'free':
+			elif play_wad == WADs.FREE:
 				play_as_game = 'open-quartz'
-			elif play_wad == 'prototype':
+			elif play_wad == WADs.PROTOTYPE:
 				play_as_game = None
+			else:
+				raise TypeError(f"Unknown WAD type '{play_wad}'")
 
 			launch_core(self, lambda: self.game_controller.launch_map(
 				map_basename, game=play_as_game))

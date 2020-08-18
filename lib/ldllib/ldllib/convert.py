@@ -1,4 +1,5 @@
 '''LDL XML-to-map Converter'''
+from enum import Enum
 from pathlib import Path
 from platform import system
 
@@ -10,14 +11,20 @@ from .level_04_down_buildermacros import main as level4
 from .level_05_down_connections import main as level5
 from .utils import keep, set_verbosity
 
-WAD_CHOICES = ['quake', 'free', 'prototype']
-DEFAULT_WAD = 'quake'
 
-# Assume the WAD files are in the current directory
-wad_files = {
-	'quake': Path('quake.wad'),
-	'free': Path('free_wad.wad'),
-	'prototype': Path('prototype_1_2.wad')
+class WADs(Enum):
+	QUAKE = 'quake'
+	FREE = 'free'
+	PROTOTYPE = 'prototype'
+
+
+DEFAULT_WAD = WADs.QUAKE
+
+# By default, assume the WAD files are in the current directory
+WAD_FILES = {
+	WADs.QUAKE: Path('quake.wad'),
+	WADs.FREE: Path('free_wad.wad'),
+	WADs.PROTOTYPE: Path('prototype_1_2.wad')
 }
 
 
@@ -29,31 +36,31 @@ def use_repo_wads(root=None):
 	base = root if root else Path('..')
 
 	if system() == 'Darwin':
-		wad_files['quake'] = base / 'audioquake' / 'dist' \
+		WAD_FILES[WADs.QUAKE] = base / 'audioquake' / 'dist' \
 			/ 'AudioQuake.app' / 'Contents' / 'MacOS' / 'quake.wad'
 	elif system() == 'Windows':
-		wad_files['quake'] = base / 'audioquake' / 'dist' \
+		WAD_FILES[WADs.QUAKE] = base / 'audioquake' / 'dist' \
 			/ 'AudioQuake' / 'quake.wad'
 	else:
 		raise NotImplementedError
 
-	wad_files['free'] = base / 'giants' / 'oq-pak-src-2004.08.01' / 'maps' / \
-		'textures' / 'free_wad.wad'
-	wad_files['prototype'] = base / 'giants' / 'prototype_wad_1_2' / \
-		'prototype_1_2.wad'
+	WAD_FILES[WADs.FREE] = base / 'giants' / 'oq-pak-src-2004.08.01' / 'maps' \
+		/ 'textures' / 'free_wad.wad'
+	WAD_FILES[WADs.PROTOTYPE] = base / 'giants' / 'prototype_wad_1_2' \
+		/ 'prototype_1_2.wad'
 
 
-def have_wad_for(name, quiet=False):
-	if not wad_files[name].is_file():
+def have_wad(name, quiet=False):
+	if not WAD_FILES[name].is_file():
 		if not quiet:
-			print(f'ERROR: Missing {wad_files[name]}')
+			print(f'ERROR: Missing {WAD_FILES[name]}')
 		return False
 	return True
 
 
 def convert(
 	xml_file, wad=DEFAULT_WAD, verbose=False, keep_intermediate=False):
-	print('Converting', xml_file, 'using', wad, 'textures')
+	print('Converting', xml_file, 'using', wad.value, 'textures')
 	set_verbosity(verbose)
 
 	ldl_string = xml_file.read_text()
@@ -65,11 +72,11 @@ def convert(
 	keep(keep_intermediate, 3, without_ext, level3string)
 	level2string = level3(level3string)
 	keep(keep_intermediate, 2, without_ext, level2string)
-	level1string = level2(level2string, wad)
+	level1string = level2(level2string, wad.value)
 	keep(keep_intermediate, 1, without_ext, level1string)
 	level0string = level1(level1string)
 	keep(keep_intermediate, 0, without_ext, level0string)
-	mapfile = level0(level0string, wad_files[wad])
+	mapfile = level0(level0string, WAD_FILES[wad])
 
 	with xml_file.with_suffix('.map').open('w') as outfile:
 		outfile.write(mapfile)

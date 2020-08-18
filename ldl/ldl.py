@@ -7,8 +7,7 @@ import sys
 
 import argcomplete
 
-from ldllib.convert import WAD_CHOICES, DEFAULT_WAD, use_repo_wads, \
-	have_wad_for, convert
+from ldllib.convert import WADs, DEFAULT_WAD, use_repo_wads, have_wad, convert
 from ldllib.build import build, have_needed_progs, use_repo_bins
 from ldllib.play import play
 from ldllib.roundtrip import roundtrip
@@ -45,7 +44,7 @@ def handle_core(args, mode):
 	if mode >= Mode.BUILD and not have_needed_progs():
 		sys.exit(42)
 
-	if mode >= Mode.BUILD and not have_wad_for(args.wad):
+	if mode >= Mode.BUILD and not have_wad(args.wad):
 		sys.exit(42)
 
 	# We only loop over the basenames of the files passed in, because the user
@@ -138,8 +137,8 @@ parser.add_argument(
 
 parser.add_argument(
 	'-w', '--wad',
-	default=DEFAULT_WAD,
-	choices=WAD_CHOICES,
+	default=DEFAULT_WAD.value,
+	choices=[w.value for w in WADs],
 	help='Texture WAD file to use')
 
 
@@ -200,4 +199,5 @@ use_repo_wads()
 
 argcomplete.autocomplete(parser)
 args = parser.parse_args()
+args.wad = WADs(args.wad)
 args.func(args)
