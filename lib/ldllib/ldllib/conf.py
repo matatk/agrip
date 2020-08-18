@@ -41,10 +41,10 @@ class prog:
 	bspinfo = bins / 'bspinfo'
 
 	if platform.system() == 'Windows':
-		qbsp += '.exe'
-		vis += '.exe'
-		light += '.exe'
-		bspinfo += '.exe'
+		qbsp = qbsp.with_suffix('.exe')
+		vis += vis.with_suffix('.exe')
+		light += light.with_suffix('.exe')
+		bspinfo += bspinfo.with_suffix('.exe')
 
 
 #
