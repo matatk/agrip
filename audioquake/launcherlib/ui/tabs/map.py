@@ -6,7 +6,7 @@ import wx
 
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
-	Info, Warn, Error, ErrorException
+	Info, Warn, Error, ErrorException, HOW_TO_INSTALL
 from ldllib.convert import convert, have_wad_for
 from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
@@ -112,11 +112,7 @@ class MapTab(wx.Panel):
 			if play_as == 'quake' and not have_wad_for('quake', quiet=True):
 				Warn(self, (
 					'Quake is not installed, so the map will play in Open '
-					'Quartz.\n\n'
-
-					'If you bought Quake, you can use the "Install registered '
-					'Quake data" button on the Customise tab in order to use '
-					'the Quake textures in maps.'))
+					'Quartz.\n\n' + HOW_TO_INSTALL))
 			if play_as == 'free' and have_wad_for('quake', quiet=True):
 				Warn(self, 'bug; playing in Quake anyway!')
 

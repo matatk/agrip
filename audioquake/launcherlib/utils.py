@@ -1,10 +1,14 @@
 """AudioQuake Game Launcher - Utilities"""
+import inspect
 import os
 from subprocess import check_call
 import platform
 
 
 def on_windows():  # FIXME move to a more comprehenseive approach
+	curframe = inspect.currentframe()
+	calframe = inspect.getouterframes(curframe, 2)
+	print('on_windows() is DEPRECATED. Called by:', calframe[1][1:4])
 	return platform.system() == 'Windows'
 
 

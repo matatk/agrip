@@ -10,12 +10,15 @@ from launcherlib.utils import on_windows, opener
 
 BORDER_SIZE = 5
 
+HOW_TO_INSTALL = (
+	'If you bought Quake, you can install the registered data - '
+	'check out the "Customise" tab.')
+
 launch_messages = {
 	LaunchState.NOT_FOUND: 'Engine not found.',
 	LaunchState.ALREADY_RUNNING: 'The game is already running.',
 	LaunchState.NO_REGISTERED_DATA: (
-		'Registered Quake data not found. If you bought Quake, you can install '
-		'the registered data - check out the "Customise" tab.')
+		'Registered Quake data not found. ' + HOW_TO_INSTALL)
 }
 
 
@@ -145,9 +148,6 @@ def _update_oq_configs():
 def launch_core(parent, method):
 	first_time_check(parent, 'game')
 	_update_oq_configs()
-	try:
-		launch_state = method()
-		if launch_state is not LaunchState.LAUNCHED:
-			Warn(parent, launch_messages[launch_state])
-	except:  # noqa E722
-		ErrorException(parent)  # FIXME needed?
+	launch_state = method()
+	if launch_state is not LaunchState.LAUNCHED:
+		Warn(parent, launch_messages[launch_state])

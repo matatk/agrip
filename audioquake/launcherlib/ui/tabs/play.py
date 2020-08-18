@@ -2,7 +2,7 @@
 import wx
 
 from launcherlib.ui.helpers import add_launch_button, add_opener_buttons
-from launcherlib.game_controller import on_windows
+from launcherlib.utils import on_windows
 
 
 class PlayTab(wx.Panel):
@@ -11,7 +11,7 @@ class PlayTab(wx.Panel):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		game_modes = {
-			"Play Quake": game_controller.launch_default,
+			"Play Quake": game_controller.launch_quake,
 			"Play Open Quartz": game_controller.launch_open_quartz,
 			"Tutorial": game_controller.launch_tutorial,
 		}

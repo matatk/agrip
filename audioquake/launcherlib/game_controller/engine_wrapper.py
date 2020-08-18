@@ -1,4 +1,5 @@
 """AudioQuake Game Launcher - Game controller - Engine wrapper"""
+from pathlib import Path
 import threading
 import subprocess
 import sys
@@ -8,10 +9,14 @@ from launcherlib.game_controller.speech_synth import SpeechSynth
 
 
 class EngineWrapper(threading.Thread):
-	def __init__(self, command_line, on_error):
+	def __init__(self, args, on_error):
 		threading.Thread.__init__(self)
-		self._command_line = command_line
+		self._engine = 'zquake-gl.exe' if on_windows() else './zquake-glsdl'
+		self._command_line = (self._engine,) + args
 		self._on_error = on_error
+
+	def engine_found(self):
+		return Path(self._engine).is_file()
 
 	def run(self):
 		try:
