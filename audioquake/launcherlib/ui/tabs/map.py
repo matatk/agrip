@@ -12,12 +12,18 @@ from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
 
 LDL_TUTORIAL_MAPS_DIR = 'ldl-tutorial-maps'
-PRETTY_WAD_NAMES = ['Quake', 'Open Quartz', 'High contrast']
-LOOKUP_WAD_NAMES = ['quake', 'free', 'prototype']
+
 wad_bspdests = {
 	'quake': ['id1'],
 	'free': ['oq'],
 	'prototype': ['id1', 'oq']
+}
+
+# TODO DRY with other stuff?
+game_names = {
+	'Quake': 'quake',
+	'Open Quartz': 'free',
+	'High contrast': 'prototype'
 }
 
 
@@ -61,9 +67,7 @@ class MapTab(wx.Panel):
 		texture_set_hbox = wx.BoxSizer(wx.HORIZONTAL)
 
 		label = wx.StaticText(self, label='Texture set:')
-
-		pick = wx.Choice(
-			self, -1, choices=PRETTY_WAD_NAMES)
+		pick = wx.Choice(self, -1, choices=list(game_names.keys()))
 
 		add_widget(texture_set_hbox, label, border=False)
 		add_widget(texture_set_hbox, pick, border=False, expand=True)
@@ -84,11 +88,11 @@ class MapTab(wx.Panel):
 				return
 
 			if play_checkbox.GetValue() is True:
-				play_as = LOOKUP_WAD_NAMES[pick.GetSelection()]
+				play_wad = list(game_names.values())[pick.GetSelection()]
 			else:
-				play_as = None
+				play_wad = None
 
-			self.build_and_play_ldl_map(path, play_as)
+			self.build_and_play_ldl_map(path, play_wad)
 
 		btn_pick_ldl_map_file.Bind(wx.EVT_BUTTON, pick_ldl_map_file)
 		add_widget(sizer, btn_pick_ldl_map_file)
@@ -96,7 +100,7 @@ class MapTab(wx.Panel):
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
-	def build_and_play_ldl_map(self, xmlfile, play_as):
+	def build_and_play_ldl_map(self, xmlfile, play_wad):
 		for wad, destinations in wad_bspdests.items():
 			if wad == 'quake' and not have_wad_for('quake', quiet=True):
 				continue
@@ -106,20 +110,26 @@ class MapTab(wx.Panel):
 				ErrorException(self)
 				return
 
-		if play_as:
-			map_basename = basename_maybe_hc(play_as, xmlfile.with_suffix(''))
+		if play_wad:
+			map_basename = basename_maybe_hc(play_wad, xmlfile.with_suffix(''))
 
-			if play_as == 'quake' and not have_wad_for('quake', quiet=True):
-				Warn(self, (
-					'Quake is not installed, so the map will play in Open '
-					'Quartz.\n\n' + HOW_TO_INSTALL))
-			if play_as == 'free' and have_wad_for('quake', quiet=True):
-				Warn(self, 'bug; playing in Quake anyway!')
+			if play_wad == 'quake':
+				if not have_wad_for('quake', quiet=True):
+					Warn(self, (
+						'Quake is not installed, so the map will play in Open '
+						'Quartz.\n\n' + HOW_TO_INSTALL))
+					play_as_game = 'open-quartz'
+				else:
+					play_as_game = 'quake'
+			elif play_wad == 'free':
+				play_as_game = 'open-quartz'
+			elif play_wad == 'prototype':
+				play_as_game = None
 
-			launch_core(
-				self, lambda: self.game_controller.launch_map(map_basename))
+			launch_core(self, lambda: self.game_controller.launch_map(
+				map_basename, game=play_as_game))
 		else:
-			Info(self, map_basename + ' built and installed')
+			Info(self, xmlfile.stem + ' built and installed')
 
 	@staticmethod
 	def build_and_copy(xmlfile, wad, dest_dirs):

@@ -67,8 +67,9 @@ class GameController():
 	def launch_tutorial(self):
 		return self._launch_core(self.opts_tutorial)
 
-	def launch_map(self, name):
-		return self._launch_core(self.opts_custom_map_base + ('+map', name))
+	def launch_map(self, name, game=None):
+		return self._launch_core(
+			self.opts_custom_map_base + ('+map', name), game=game)
 
 	def launch_mod(self, name):
 		return self._launch_core(('-game', name))

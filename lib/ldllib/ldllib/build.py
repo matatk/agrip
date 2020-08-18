@@ -49,9 +49,13 @@ def swap_wad(map_string, to):
 	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_files[to]}"')
 
 
-# TODO move this, and the above, and the ones in convert? to somewhere central
+# TODO move this, and the above, and the ones in convert? to somewhere central?
 # FIXME doesn't do basename; preserves suffix
 def basename_maybe_hc(wad, file_path):
+	VALID_WADs = ['quake', 'free', 'prototype']  # FIXME DRY
+	if wad not in VALID_WADs:
+		raise TypeError(f"Invalid WAD name '{wad}'")
+
 	if wad == 'prototype':
 		out = file_path.stem + 'hc' + file_path.suffix
 	else:
