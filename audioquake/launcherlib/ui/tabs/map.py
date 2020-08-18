@@ -1,4 +1,5 @@
 """AudioQuake Game Launcher - Map tab"""
+import xml.dom.minidom
 from pathlib import Path
 import shutil
 
@@ -27,6 +28,16 @@ game_names = {
 }
 
 
+def find_ldl_tutorial_maps():
+	maps = {}
+	map_filenames = sorted(list(Path(LDL_TUTORIAL_MAPS_DIR).glob('tut*.xml')))
+	for ldlfile in map_filenames:
+		dom = xml.dom.minidom.parseString(ldlfile.read_text())
+		pretty = dom.getElementsByTagName('map')[0].getAttribute('name')
+		maps[ldlfile] = pretty
+	return maps
+
+
 class MapTab(wx.Panel):
 	def __init__(self, parent, game_controller):
 		WILDCARD = "XML files (*.xml)|*.xml"
@@ -48,13 +59,12 @@ class MapTab(wx.Panel):
 		add_widget(sizer, file_picker)
 
 		def pick_tutorial_map(event):
-			maps = sorted(list(map(
-				lambda xml: xml.name, Path(LDL_TUTORIAL_MAPS_DIR).glob('*'))))
+			maps = find_ldl_tutorial_maps()
 			chooser = wx.SingleChoiceDialog(
-				self, 'LDL Tutorial Maps', 'Choose map', maps)
+				self, 'LDL Tutorial Maps', 'Choose map', list(maps.values()))
 			if chooser.ShowModal() == wx.ID_OK:
-				choice = chooser.GetStringSelection()
-				file_picker.SetPath(str(Path(LDL_TUTORIAL_MAPS_DIR) / choice))
+				choice = chooser.GetSelection()
+				file_picker.SetPath(str(list(maps.keys())[choice]))
 
 		tutorial_maps_button = wx.Button(self, -1, 'Choose a LDL tutorial map')
 		tutorial_maps_button.Bind(wx.EVT_BUTTON, pick_tutorial_map)
