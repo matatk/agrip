@@ -8,6 +8,13 @@ OK, whilst *Quake* is now ancient (but still a milestone in gaming), the techniq
 
 **The document does talk about possible future major features; it's unlikely these will be implemented in the current context of the game of *Quake*, but they could be if the system is brought to a more modern engine—if you're interested in helping us do this, please get in touch.**
 
+There are, however, a couple of new features that did get added...
+
+* Inspired by accessibility features of modern games, such as [The Last of Us Part II](https://www.bbc.co.uk/news/technology-53093613), there's a "high-contrast" mode that offers a much simpler set of visual themes for the maps (more solid blocks of colour), to make them easier to navigate. Please note that this doesn't extend to the monsters, though you may find that either the *Quake* or *Open Quartz* monsters contrast well with the brighter map environment.
+* You can build maps not just for *Quake* but also for *Open Quartz* as LDL supplies themes for both.
+
+If you're building maps via the *AudioQuake and LDL Launcher*, it will build all versions of your map, for you to play in either *Open Quartz* or *Quake*. It'll also let you play the map in any mode after building, but if you want to get to it in-game later, be sure to include "hc" at the end of the map name if you want to play the high-contrast version.
+
 ## Before LDL
 
 How would one go about making maps for *Quake* before LDL? If you just want to find out how to use LDL you can skip this section, however it does provide useful background information on the area that we are now working on providing access to.
