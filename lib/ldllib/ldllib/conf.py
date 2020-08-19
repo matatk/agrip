@@ -42,9 +42,9 @@ class prog:
 
 	if platform.system() == 'Windows':
 		qbsp = qbsp.with_suffix('.exe')
-		vis += vis.with_suffix('.exe')
-		light += light.with_suffix('.exe')
-		bspinfo += bspinfo.with_suffix('.exe')
+		vis = vis.with_suffix('.exe')
+		light = light.with_suffix('.exe')
+		bspinfo = bspinfo.with_suffix('.exe')
 
 
 #

@@ -28,13 +28,10 @@ WAD_FILES = {
 }
 
 
-def use_repo_wads(root=None):
-	# If being called from LDL, the base path is one level up. If being run as
-	# part of the AudioQuake build process, the absolute base path can be
-	# passed in.
-	# FIXME: If running LDL from a different directory... ?
-	base = root if root else Path('..')
-
+def use_repo_wads(base):
+	# If being called from LDL, the base path is one level up. If being run
+	# as part of the AudioQuake build process, the absolute base path can
+	# be passed in.
 	if system() == 'Darwin':
 		WAD_FILES[WADs.QUAKE] = base / 'audioquake' / 'dist' \
 			/ 'AudioQuake.app' / 'Contents' / 'MacOS' / 'quake.wad'

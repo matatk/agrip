@@ -4,15 +4,24 @@ This is only intended to be used by the command-line LDL tool. The AudioQuake
 launcher uses its own method for starting the game.'''
 from os import getcwd, chdir
 from pathlib import Path
+from platform import system
 import subprocess
 import shutil
 
 base = Path(__file__).parent.parent.parent.parent
-aq_dir = base / 'audioquake' / 'dist' / 'AudioQuake.app' / 'Contents' / 'MacOS'
+if system() == 'Darwin':
+	aq_dir = base / 'audioquake' / 'dist' / 'AudioQuake.app' / 'Contents' / 'MacOS'
+	engine = './zquake-glsdl'
+elif system() == 'Windows':
+	aq_dir = base / 'audioquake' / 'dist' / 'AudioQuake'
+	engine = 'zquake-gl.exe'
+else:
+	raise NotImplementedError
+
 maps_dir = aq_dir / 'id1' / 'maps'
 
 command_line_basis = [
-	'./zquake-glsdl',
+	engine,
 	'-window',
 	'-width', '640',
 	'-height', '480',

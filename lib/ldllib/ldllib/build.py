@@ -13,15 +13,18 @@ temp_map_suffix = '.temp'
 
 # Public
 
-def use_repo_bins():
+def use_repo_bins(base):
+	# If being called from LDL, the base path is one level up. If being run
+	# as part of the AudioQuake build process, the absolute base path can
+	# be passed in.
 	if platform.system() == 'Darwin':
-		bin_base = Path('..', 'giants', 'Quake-Tools', 'qutils', 'qbsp')
+		bin_base = base / 'giants' / 'Quake-Tools' / 'qutils' / 'qbsp'
 		prog.qbsp = bin_base / 'qbsp'
 		prog.light = bin_base / 'light'
 		prog.vis = bin_base / 'vis'
 		prog.bspinfo = bin_base / 'bspinfo'
 	elif platform.system() == 'Windows':
-		bin_base = Path('..', 'giants', 'Quake-Tools', 'qutils')
+		bin_base = base / 'giants' / 'Quake-Tools' / 'qutils'
 		prog.qbsp = bin_base / 'qbsp' / 'Release' / 'qbsp.exe'
 		prog.light = bin_base / 'light' / 'Release' / 'light.exe'
 		prog.vis = bin_base / 'vis' / 'Release' / 'vis.exe'

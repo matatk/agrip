@@ -194,8 +194,9 @@ parser_roundtrip.add_argument(
 parser_roundtrip.set_defaults(func=handle_roundtrip)
 
 
-use_repo_bins()
-use_repo_wads()
+base_dir = Path(__file__).absolute().parent.parent
+use_repo_bins(base_dir)
+use_repo_wads(base_dir)
 
 argcomplete.autocomplete(parser)
 args = parser.parse_args()

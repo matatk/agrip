@@ -67,8 +67,8 @@ def build_maps_for(bsp_dir, wad):
 	global needed_quake_wad  # only used if wad is 'quake'
 	used_cached_maps = False
 
-	use_repo_bins()
-	use_repo_wads(root=Config.base)
+	use_repo_bins(Config.base)
+	use_repo_wads(Config.base)
 	bsp_dir.mkdir(exist_ok=True)
 
 	if not have_needed_progs():
