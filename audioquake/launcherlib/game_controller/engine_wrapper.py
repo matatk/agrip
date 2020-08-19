@@ -22,8 +22,7 @@ class EngineWrapper(threading.Thread):
 		try:
 			speaker = SpeechSynth()
 
-			# The docs imply this shouldn't be necessary but it seems to be...
-			# FIXME needed?
+			# The docs imply this shouldn't be necessary but it is...
 			if on_windows():
 				self._command_line = ' '.join(self._command_line)
 
