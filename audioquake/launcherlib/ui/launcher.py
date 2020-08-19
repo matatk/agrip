@@ -19,7 +19,13 @@ class LauncherWindow(wx.Frame):
 		game_controller = GameController(lambda message: Warn(self, message))
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		notebook = wx.Listbook(self)
+
+		if system() == 'Darwin':
+			notebook = wx.Notebook(self)
+		elif system() == 'Windows':
+			notebook = wx.Listbook(self)
+		else:
+			raise NotImplementedError
 
 		tab_play = PlayTab(notebook, game_controller)
 		tab_help = HelpTab(notebook)
