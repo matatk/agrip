@@ -13,7 +13,10 @@ class PlayTab(wx.Panel):
 		game_modes = {
 			"Play Quake": game_controller.launch_quake,
 			"Play Open Quartz": game_controller.launch_open_quartz,
-			"Tutorial": game_controller.launch_tutorial,
+			"Tutorial":
+				lambda: game_controller.launch_tutorial(high_contrast=False),
+			"Tutorial (high-contrast maps)":
+				lambda: game_controller.launch_tutorial(high_contrast=True)
 		}
 
 		for title, action in game_modes.items():

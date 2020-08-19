@@ -23,6 +23,7 @@ class GameController():
 	opts_open_quartz = ("-rootgame", "oq")
 	opts_custom_map_base = ("+coop 0", "+deathmatch 0")
 	opts_tutorial = opts_custom_map_base + ("+map agtut01",)
+	opts_tutorial_high_contrast = opts_custom_map_base + ("+map agtut01hc",)
 
 	def __init__(self, on_error):
 		self._engine_wrapper = None
@@ -70,8 +71,11 @@ class GameController():
 	def launch_open_quartz(self):
 		return self._launch_core(game=RootGame.OPEN_QUARTZ)
 
-	def launch_tutorial(self):
-		return self._launch_core(self.opts_tutorial)
+	def launch_tutorial(self, high_contrast=False):
+		if high_contrast:
+			return self._launch_core(self.opts_tutorial_high_contrast)
+		else:
+			return self._launch_core(self.opts_tutorial)
 
 	def launch_map(self, name, game=RootGame.ANY):
 		return self._launch_core(
