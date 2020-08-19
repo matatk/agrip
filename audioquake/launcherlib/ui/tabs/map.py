@@ -14,6 +14,7 @@ from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
 
 LDL_TUTORIAL_MAPS_DIR = 'ldl-tutorial-maps'
+LDL_EXAMPLE_MAPS_DIR = 'ldl-example-maps'
 
 wad_bspdests = {
 	WADs.QUAKE: ['id1'],
@@ -28,9 +29,9 @@ game_names = {
 }
 
 
-def find_ldl_tutorial_maps():
+def find_ldl_maps(place):
 	maps = {}
-	map_filenames = sorted(list(Path(LDL_TUTORIAL_MAPS_DIR).glob('tut*.xml')))
+	map_filenames = sorted(list(Path(place).glob('*.xml')))
 	for ldlfile in map_filenames:
 		dom = xml.dom.minidom.parseString(ldlfile.read_text())
 		pretty = dom.getElementsByTagName('map')[0].getAttribute('name')
@@ -56,19 +57,31 @@ class MapTab(wx.Panel):
 			self, -1, 'Open a Level Description Language (LDL) map'))
 		file_picker = wx.FilePickerCtrl(
 			self, -1, message="Open map", wildcard=WILDCARD)
-		add_widget(sizer, file_picker)
 
-		def pick_tutorial_map(event):
-			maps = find_ldl_tutorial_maps()
+		# Choosing a tutorial or example map
+
+		def add_map_picker(place, kinda):
+			def pick_map(event):
+				pick_ldl_map(place, kinda)
+
+			maps_button = wx.Button(self, -1, kinda + ' maps')
+			maps_button.Bind(wx.EVT_BUTTON, pick_map)
+			add_widget(sizer, maps_button)
+
+		def pick_ldl_map(place, kinda):
+			maps = find_ldl_maps(place)
 			chooser = wx.SingleChoiceDialog(
-				self, 'LDL Tutorial Maps', 'Choose map', list(maps.values()))
+				self, f'{kinda} maps:', 'Select map', list(maps.values()))
 			if chooser.ShowModal() == wx.ID_OK:
 				choice = chooser.GetSelection()
 				file_picker.SetPath(str(list(maps.keys())[choice]))
 
-		tutorial_maps_button = wx.Button(self, -1, 'Choose a LDL tutorial map')
-		tutorial_maps_button.Bind(wx.EVT_BUTTON, pick_tutorial_map)
-		add_widget(sizer, tutorial_maps_button)
+		add_map_picker(LDL_TUTORIAL_MAPS_DIR, 'LDL tutorial')
+		add_map_picker(LDL_EXAMPLE_MAPS_DIR, 'LDL example')
+
+		add_widget(sizer, file_picker)
+
+		# Play and texture selection
 
 		play_checkbox = wx.CheckBox(self, -1, "Play the map when built")
 		play_checkbox.SetValue(True)
@@ -82,6 +95,8 @@ class MapTab(wx.Panel):
 		add_widget(texture_set_hbox, label, border=False)
 		add_widget(texture_set_hbox, pick, border=False, expand=True)
 		add_widget(sizer, texture_set_hbox)
+
+		# Let's do this!
 
 		btn_pick_ldl_map_file = wx.Button(self, -1, "Build the map")
 
@@ -106,6 +121,8 @@ class MapTab(wx.Panel):
 
 		btn_pick_ldl_map_file.Bind(wx.EVT_BUTTON, pick_ldl_map_file)
 		add_widget(sizer, btn_pick_ldl_map_file)
+
+		# Wiring wrap-up
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)

@@ -22,8 +22,11 @@ data_files = [
 	('manuals/agrip.css', 'manuals'),
 	('app-support-files/start-rcon.command', '.'),
 	('app-support-files/start-server.command', '.'),
+
 	('../ldl/style.xml', '.'),
 	('../ldl/tut*.xml', 'ldl-tutorial-maps'),
+	('../ldl/test_05_*.xml', 'ldl-example-maps'),
+	('../ldl/t*ldl.xml', 'ldl-example-maps'),
 
 	('../../non-redist/prototype_wad_1_2/prototype_1_2.wad', '.'),
 	('../../non-redist/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', '.')]
