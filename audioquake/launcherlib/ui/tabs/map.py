@@ -51,14 +51,10 @@ class MapTab(wx.Panel):
 			self, sizer, 'Read the LDL tutorial',
 			Path('manuals') / 'ldl-tutorial.html')  # TODO DRY?
 
-		# File picker bits
+		# File picker and choosing a tutorial or example map bits
 
 		add_widget(sizer, wx.StaticText(
 			self, -1, 'Open a Level Description Language (LDL) map'))
-		file_picker = wx.FilePickerCtrl(
-			self, -1, message="Open map", wildcard=WILDCARD)
-
-		# Choosing a tutorial or example map
 
 		def add_map_picker(place, kinda):
 			def pick_map(event):
@@ -79,6 +75,9 @@ class MapTab(wx.Panel):
 		add_map_picker(LDL_TUTORIAL_MAPS_DIR, 'LDL tutorial')
 		add_map_picker(LDL_EXAMPLE_MAPS_DIR, 'LDL example')
 
+		file_picker = wx.FilePickerCtrl(
+			self, -1, message="Open map", wildcard=WILDCARD)
+
 		add_widget(sizer, file_picker)
 
 		# Play and texture selection
@@ -91,6 +90,7 @@ class MapTab(wx.Panel):
 
 		label = wx.StaticText(self, label='Texture set:')
 		pick = wx.Choice(self, -1, choices=list(game_names.keys()))
+		pick.SetSelection(0)  # Needed on Windows
 
 		add_widget(texture_set_hbox, label, border=False)
 		add_widget(texture_set_hbox, pick, border=False, expand=True)
