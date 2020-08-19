@@ -28,7 +28,7 @@ texture_map = {
 	'emetal1_3': {WADs.FREE: 'strangethang', WADs.PROTOTYPE: '128_honey_1'},
 	'ground1_1': {WADs.FREE: 'grass4', WADs.PROTOTYPE: '128_green_1'},
 	'med100': {WADs.FREE: 'chimneytop', WADs.PROTOTYPE: '32_honey_2'},
-	'metal2_4': {WADs.FREE: 'bolt10', WADs.PROTOTYPE: '128_grey_3'},  # TODO as below
+	'metal2_4': {WADs.FREE: 'bolt10', WADs.PROTOTYPE: '128_grey_3'},  # TODO x2
 	'sfloor4_1': {WADs.FREE: 'shex2', WADs.PROTOTYPE: '128_blue_3'},
 	'sfloor4_6': {WADs.FREE: 'u_tex22', WADs.PROTOTYPE: '64_honey_3'},
 	'sky1': {WADs.FREE: 'sky3', WADs.PROTOTYPE: 'sky1'},
@@ -46,7 +46,7 @@ texture_map = {
 skip_pyinstaller = False           # set via command-line option
 force_map_build = False            # also set via CLI
 
-maps_were_built_for_quake = False  # detected via build_maps_for_quake()
+needed_quake_wad = False  # detected via build_maps_for_quake()
 
 
 #
@@ -64,7 +64,7 @@ def swap_textures(map_string, to):
 
 
 def build_maps_for(bsp_dir, wad):
-	global maps_were_built_for_quake  # only used if wad is 'quake'
+	global needed_quake_wad  # only used if wad is 'quake'
 	used_cached_maps = False
 
 	use_repo_bins()
@@ -116,8 +116,8 @@ def build_maps_for(bsp_dir, wad):
 	else:
 		print('all maps were built')
 
-	if wad == 'quake' and len(maps_to_build) == 0:
-		maps_were_built_for_quake = True
+	if wad == WADs.QUAKE and len(maps_to_build) > 0:
+		needed_quake_wad = True
 
 
 #
@@ -242,7 +242,7 @@ def build_audioquake():
 	else:
 		print('Skipping running PyInstaller')
 
-	if not maps_were_built_for_quake:
+	if needed_quake_wad:
 		print(
 			'\nPlease note: the "quake.wad" file, containing id Software\'s '
 			'Quake textures, is not present in the AudioQuake distributable '
