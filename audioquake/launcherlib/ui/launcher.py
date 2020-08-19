@@ -16,12 +16,10 @@ class LauncherWindow(wx.Frame):
 	def __init__(self, parent, title):
 		wx.Frame.__init__(self, parent, title=title)
 
-		panel = wx.Panel(self)
-		sizer = wx.BoxSizer(wx.VERTICAL)
-
 		game_controller = GameController(lambda message: Warn(self, message))
 
-		notebook = wx.Notebook(panel)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		notebook = wx.Listbook(self)
 
 		tab_play = PlayTab(notebook, game_controller)
 		tab_help = HelpTab(notebook)
@@ -36,8 +34,8 @@ class LauncherWindow(wx.Frame):
 		notebook.AddPage(tab_map, "Map")
 
 		sizer.Add(notebook, 1, wx.EXPAND)
-		panel.SetSizer(sizer)
 		sizer.SetSizeHints(self)  # doesn't seem to be needed?
+		self.SetSizer(sizer)
 
 		if system() == 'Darwin':
 			menubar = wx.MenuBar()
