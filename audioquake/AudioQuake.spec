@@ -1,7 +1,5 @@
 # vim: ft=python
-import platform
-
-from buildlib import Config
+from buildlib import Config, platform_set, platform_set_only_on
 
 data_files = [
 	('mod-static-files/', 'id1'),
@@ -34,22 +32,21 @@ data_files = [
 if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
 	data_files.extend([('maps-quakewad/*.bsp', 'id1/maps/')])
 
-if platform.system() == 'Darwin':
-	binary_files = [
+binary_files = platform_set(
+	mac=[
 		('../giants/zq-repo/zquake/release-mac/zqds', '.'),
 		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', '.'),
 		('../giants/Quake-Tools/qutils/qbsp/qbsp', 'bin/'),
 		('../giants/Quake-Tools/qutils/qbsp/light', 'bin/'),
 		('../giants/Quake-Tools/qutils/qbsp/vis', 'bin/'),
-		('../giants/Quake-Tools/qutils/qbsp/bspinfo', 'bin/')]
-else:
-	binary_files = [
+		('../giants/Quake-Tools/qutils/qbsp/bspinfo', 'bin/')],
+	windows=[
 		('../giants/zq-repo/zquake/source/Release-server/zqds.exe', '.'),
 		('../giants/zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.'),
 		('../giants/Quake-Tools/qutils/qbsp/Release/qbsp.exe', 'bin/'),
 		('../giants/Quake-Tools/qutils/light/Release/light.exe', 'bin/'),
 		('../giants/Quake-Tools/qutils/vis/Release/vis.exe', 'bin/'),
-		('../giants/Quake-Tools/qutils/bspinfo/Release/bspinfo.exe', 'bin/')]
+		('../giants/Quake-Tools/qutils/bspinfo/Release/bspinfo.exe', 'bin/')])
 
 block_cipher = None
 
@@ -67,10 +64,9 @@ a = Analysis(  # noqa 821
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)  # noqa 821
 
-if platform.system() == 'Darwin':
-	platform_icon = 'app-support-files/aq.icns'
-else:
-	platform_icon = 'app-support-files/aq.ico'
+platform_icon = platform_set(
+	mac='app-support-files/aq.icns',
+	windows='app-support-files/aq.ico')
 
 exe = EXE(  # noqa 821
 	pyz,
@@ -92,12 +88,10 @@ coll = COLLECT(  # noqa 821
 	upx=True,
 	name='AudioQuake')
 
-if platform.system() == 'Darwin':
-	info_plist = {
+info_plist = platform_set_only_on(
+	mac={
 		'NSRequiresAquaSystemAppearance': 'No'  # Support dark mode
-	}
-else:
-	info_plist = None
+	})
 
 app = BUNDLE(  # noqa 821
 	coll,

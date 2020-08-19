@@ -2,7 +2,7 @@
 """Bootstrap the virtual environment and run a full build"""
 import argparse
 import os.path
-import platform
+from platform import system
 import subprocess
 import sys
 
@@ -43,9 +43,9 @@ def stage_1_create_venv():
 	print()
 	if not os.path.exists(VENV):
 		print('Creating the environment in:', VENV)
-		if platform.system() == 'Darwin':
+		if system() == 'Darwin':
 			python = 'python3'
-		elif platform.system() == 'Windows':
+		elif system() == 'Windows':
 			python = 'python'
 		else:
 			raise NotImplementedError
@@ -54,9 +54,9 @@ def stage_1_create_venv():
 		print('The environment already exists.')
 	print()
 	print('Please enter the virtual environment and run ' + WHOAMI + ' again:')
-	if platform.system() == 'Darwin':
+	if system() == 'Darwin':
 		print('    source ' + VENV + '/bin/activate && ./' + WHOAMI)
-	elif platform.system() == 'Windows':
+	elif system() == 'Windows':
 		print('    ' + VENV + '\\Scripts\\activate.bat && python ' + WHOAMI)
 	else:
 		raise NotImplementedError
@@ -110,9 +110,9 @@ def stage_3_build_everything():
 	try:
 		input('Run these build steps? (Enter to run; interrupt to abort) ')
 		print()
-		if platform.system() == 'Darwin':
+		if system() == 'Darwin':
 			build_everything_core_mac()
-		elif platform.system() == 'Windows':
+		elif system() == 'Windows':
 			build_everything_core_windows()
 		else:
 			raise NotImplementedError

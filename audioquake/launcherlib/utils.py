@@ -2,24 +2,22 @@
 import inspect
 import os
 from subprocess import check_call
-import platform
+from platform import system
+
+from buildlib import do_something
 
 
 def on_windows():  # FIXME move to a more comprehenseive approach
 	curframe = inspect.currentframe()
 	calframe = inspect.getouterframes(curframe, 2)
 	print('on_windows() is DEPRECATED. Called by:', calframe[1][1:4])
-	return platform.system() == 'Windows'
+	return system() == 'Windows'
 
 
 def opener(openee):
-	system = platform.system()
-	if system == 'Windows':
-		os.startfile(openee)
-	elif system == 'Darwin':
-		check_call(['open', openee])
-	else:
-		raise NotImplementedError
+	do_something(
+		mac=check_call(['open', openee]),
+		windows=os.startfile(openee))
 
 
 def have_registered_data():

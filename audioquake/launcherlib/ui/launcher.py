@@ -1,7 +1,7 @@
 """AudioQuake Game Launcher - Main launcher window"""
-from platform import system
-
 import wx
+
+from buildlib import do_something, only_on
 
 from launcherlib.game_controller import GameController
 from launcherlib.ui.helpers import Warn
@@ -20,12 +20,13 @@ class LauncherWindow(wx.Frame):
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
-		if system() == 'Darwin':
-			notebook = wx.Notebook(self)
-		elif system() == 'Windows':
-			notebook = wx.Listbook(self)
-		else:
-			raise NotImplementedError
+		notebook = do_something(
+			mac=lambda: print('Mac'),
+			windows=lambda: print('Windows'))
+
+		notebook = do_something(
+			mac=lambda: wx.Notebook(self),
+			windows=lambda: wx.Listbook(self))
 
 		tab_play = PlayTab(notebook, game_controller)
 		tab_help = HelpTab(notebook)
@@ -43,9 +44,11 @@ class LauncherWindow(wx.Frame):
 		sizer.SetSizeHints(self)  # doesn't seem to be needed?
 		self.SetSizer(sizer)
 
-		if system() == 'Darwin':
+		def set_up_menu_bar():
 			menubar = wx.MenuBar()
 			wx.MenuBar.MacSetCommonMenuBar(menubar)
+
+		only_on(mac=set_up_menu_bar)
 
 		# TODO: If Quit on the Menu Bar is used and the engine is running, the
 		# app gets the beachball until the engine is quat and then it quits.

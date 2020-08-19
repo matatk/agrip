@@ -1,7 +1,7 @@
 """Build gubbins"""
-import platform
 import os
 from pathlib import Path
+from platform import system
 import sys
 import subprocess
 import traceback
@@ -19,13 +19,14 @@ class OnlyOnError(Exception):
 	pass
 
 
+# FIXME DRY with do_something really (just cope with types)
 def platform_set(mac=None, windows=None):
 	if not mac or not windows:
 		raise PlatformSetError()
 
-	if platform.system() == 'Darwin':
+	if system() == 'Darwin':
 		return mac
-	elif platform.system() == 'Windows':
+	elif system() == 'Windows':
 		return windows
 	else:
 		raise NotImplementedError
@@ -101,7 +102,7 @@ def die(message):
 
 
 def check_platform():
-	if platform.system() != 'Darwin' and platform.system() != 'Windows':
+	if system() != 'Darwin' and system() != 'Windows':
 		die('Sorry, your platform is not supported yet.')
 
 
@@ -145,27 +146,42 @@ def make(path, name, targets=[]):
 			_make(name, targ)
 
 
+# FIXME DRY with platform_set really (just cope with types)
 def do_something(mac=None, windows=None):
 	if not mac or not windows:
 		raise DoSomethingError()
 
-	if platform.system() == 'Darwin':
-		mac()
-	elif platform.system() == 'Windows':
-		windows()
+	if system() == 'Darwin':
+		return mac()
+	elif system() == 'Windows':
+		return windows()
 	else:
 		raise NotImplementedError
 
 
+# FIXME DRY with the others - only diff is the check
 def only_on(mac=None, windows=None):
-	if mac and windows:
+	if (mac and windows) or (not mac and not windows):
 		raise OnlyOnError()
 
-	if platform.system() == 'Darwin':
+	if system() == 'Darwin':
 		if mac:
-			mac()
-	elif platform.system() == 'Windows':
+			return mac()
+	elif system() == 'Windows':
 		if windows:
-			windows()
+			return windows()
+	else:
+		raise NotImplementedError
+
+
+# FIXME DRY with the others - only diff is the check
+def platform_set_only_on(mac=None, windows=None):
+	if (mac and windows) or (not mac and not windows):
+		raise OnlyOnError()
+
+	if system() == 'Darwin':
+		return mac
+	elif system() == 'Windows':
+		return windows
 	else:
 		raise NotImplementedError
