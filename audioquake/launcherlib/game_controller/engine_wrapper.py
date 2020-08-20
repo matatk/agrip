@@ -4,14 +4,16 @@ import threading
 import subprocess
 import sys
 
-from launcherlib.utils import on_windows
+from buildlib import platform_set, only_on
 from launcherlib.game_controller.speech_synth import SpeechSynth
 
 
 class EngineWrapper(threading.Thread):
 	def __init__(self, args, on_error):
 		threading.Thread.__init__(self)
-		self._engine = 'zquake-gl.exe' if on_windows() else './zquake-glsdl'
+		self._engine = platform_set(
+			mac='./zquake-glsdl',
+			windows='zquake-gl.exe')
 		self._command_line = (self._engine,) + args
 		self._on_error = on_error
 
@@ -23,8 +25,10 @@ class EngineWrapper(threading.Thread):
 			speaker = SpeechSynth()
 
 			# The docs imply this shouldn't be necessary but it is...
-			if on_windows():
+			# FIXME need only_reassign_on
+			def reassign_commandline():
 				self._command_line = ' '.join(self._command_line)
+			only_on(windows=reassign_commandline)
 
 			# Buffering may be necessary for Windows; seems not to affect Mac
 			proc = subprocess.Popen(

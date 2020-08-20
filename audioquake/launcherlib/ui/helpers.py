@@ -5,8 +5,9 @@ import sys
 
 import wx
 
+from buildlib import only_on
 from launcherlib.game_controller import LaunchState
-from launcherlib.utils import on_windows, opener
+from launcherlib.utils import opener
 
 BORDER_SIZE = 5
 
@@ -131,10 +132,8 @@ def stamp_file_check(parent, name):
 
 
 def first_time_check(parent, name):
-	if on_windows():
-		stamp_file_check(parent, name)
-	else:
-		pass
+	only_on(
+		windows=lambda: stamp_file_check(parent, name))
 
 
 def _update_oq_configs():
