@@ -8,7 +8,7 @@ data_files = [
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
 
-	('../../non-redist/oq-pak-src-2004.08.01/', 'oq'),
+	('../giants/oq-pak-src-2004.08.01/', 'oq'),
 	('mod-static-files/', 'oq'),
 	('mod-conditional-files/oq/mod.cfg', 'oq/'),
 	('maps-freewad/*.bsp', 'oq/maps/'),
@@ -26,8 +26,8 @@ data_files = [
 	('../ldl/test_05_*.xml', 'ldl-example-maps'),
 	('../ldl/t*ldl.xml', 'ldl-example-maps'),
 
-	('../../non-redist/prototype_wad_1_2/prototype_1_2.wad', '.'),
-	('../../non-redist/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', '.')]
+	('../giants/prototype_wad_1_2/prototype_1_2.wad', '.'),
+	('../giants/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', '.')]
 
 if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
 	data_files.extend([('maps-quakewad/*.bsp', 'id1/maps/')])

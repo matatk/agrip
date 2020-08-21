@@ -1,0 +1,3 @@
+exec default.cfg
+exec autoexec.cfg
+exec config.cfg
