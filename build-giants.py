@@ -5,7 +5,7 @@ import os
 import patch_ng as patch
 
 from buildlib import Config, \
-	comeback, check_platform, do_something, only_on, make, die, try_to_run
+	comeback, check_platform, doset, doset_only, make, die, try_to_run
 
 
 #
@@ -133,12 +133,12 @@ def build_giants():
 	print('Building', stuff + '...')
 
 	print('Compiling zquake')
-	do_something(
+	doset(
 		mac=compile_zquake,
 		windows=compile_zquake_windows)
 
 	print('Compiling zqcc')
-	do_something(
+	doset(
 		mac=compile_zqcc,
 		windows=compile_zqcc_windows)
 
@@ -150,10 +150,10 @@ def build_giants():
 
 	print('Patching the Quake map tools')
 	patch_map_tools()
-	only_on(windows=patch_map_tools_windows)
+	doset_only(windows=patch_map_tools_windows)
 
 	print('Compiling the Quake map tools')
-	do_something(
+	doset(
 		mac=compile_map_tools,
 		windows=compile_map_tools_windows)
 
