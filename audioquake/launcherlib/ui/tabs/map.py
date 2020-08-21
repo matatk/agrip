@@ -9,6 +9,7 @@ from launcherlib.game_controller import RootGame
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
 	Info, Warn, Error, ErrorException, HOW_TO_INSTALL
+from launcherlib.utils import opener
 from ldllib.convert import convert, have_wad, WADs
 from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
@@ -57,11 +58,11 @@ class MapTab(wx.Panel):
 			self, -1, 'Open a Level Description Language (LDL) map'))
 
 		def add_map_picker(place, kinda):
-			def pick_map(event):
+			def pick_map_handler(event):
 				pick_ldl_map(place, kinda)
 
 			maps_button = wx.Button(self, -1, kinda + ' maps')
-			maps_button.Bind(wx.EVT_BUTTON, pick_map)
+			maps_button.Bind(wx.EVT_BUTTON, pick_map_handler)
 			add_widget(sizer, maps_button)
 
 		def pick_ldl_map(place, kinda):
@@ -98,9 +99,9 @@ class MapTab(wx.Panel):
 
 		# Let's do this!
 
-		btn_pick_ldl_map_file = wx.Button(self, -1, "Build the map")
+		btn_build = wx.Button(self, -1, "Build the map")
 
-		def pick_ldl_map_file(event):
+		def check_picker_path():
 			filename = file_picker.GetPath()
 
 			if len(filename) == 0:
@@ -112,22 +113,37 @@ class MapTab(wx.Panel):
 				Error(self, "Can't find chosen file.")
 				return
 
+			return path
+
+		def build_and_play_handler(event):
+			if (path := check_picker_path()) is None:
+				return
+
 			if play_checkbox.GetValue() is True:
 				play_wad = list(game_names.values())[pick.GetSelection()]
 			else:
 				play_wad = None
 
-			self.build_and_play_ldl_map(path, play_wad)
+			self.build_and_play(path, play_wad)
 
-		btn_pick_ldl_map_file.Bind(wx.EVT_BUTTON, pick_ldl_map_file)
-		add_widget(sizer, btn_pick_ldl_map_file)
+		btn_build.Bind(wx.EVT_BUTTON, build_and_play_handler)
+		add_widget(sizer, btn_build)
+
+		btn_edit = wx.Button(self, -1, "Edit the map (default editor)")
+
+		def edit_map_handler(event):
+			if path := check_picker_path():
+				opener(path)
+
+		btn_edit.Bind(wx.EVT_BUTTON, edit_map_handler)
+		add_widget(sizer, btn_edit)
 
 		# Wiring wrap-up
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
-	def build_and_play_ldl_map(self, xmlfile, play_wad):
+	def build_and_play(self, xmlfile, play_wad):
 		for wad, destinations in wad_bspdests.items():
 			if wad == WADs.QUAKE and not have_wad(WADs.QUAKE, quiet=True):
 				continue

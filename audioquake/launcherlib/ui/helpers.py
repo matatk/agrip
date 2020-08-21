@@ -5,7 +5,7 @@ import sys
 
 import wx
 
-from buildlib import only_on
+from buildlib import doset_only
 from launcherlib.game_controller import LaunchState
 from launcherlib.utils import opener
 
@@ -48,9 +48,9 @@ def add_launch_button(parent, sizer, title, action):
 	button = wx.Button(parent, -1, title)
 
 	def make_launch_function(game_start_method):
-		def launch(event):
+		def launch_handler(event):
 			launch_core(parent, game_start_method)
-		return launch
+		return launch_handler
 
 	# FIXME server and rcon don't return LaunchStatusy thingies
 
@@ -67,9 +67,9 @@ def add_opener_button(parent, sizer, title, thing_to_open):
 	button = wx.Button(parent, -1, title)
 
 	def make_open_function(openee):
-		def open_thing(event):
+		def open_thing_handler(event):
 			opener(openee)
-		return open_thing
+		return open_thing_handler
 
 	button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
 	add_widget(sizer, button)
@@ -132,7 +132,7 @@ def stamp_file_check(parent, name):
 
 
 def first_time_check(parent, name):
-	only_on(
+	doset_only(
 		windows=lambda: stamp_file_check(parent, name))
 
 

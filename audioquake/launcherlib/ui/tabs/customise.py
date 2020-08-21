@@ -18,14 +18,16 @@ class CustomiseTab(wx.Panel):
 		# Settings
 
 		add_opener_buttons(self, sizer, {
-			'Edit autoexec.cfg': path.join('id1', 'autoexec.cfg'),
-			'Edit config.cfg': path.join('id1', 'config.cfg'),
+			'Edit autoexec.cfg (with default editor)':
+				path.join('id1', 'autoexec.cfg'),
+			'Edit config.cfg (with default editor)':
+				path.join('id1', 'config.cfg'),
 		})
 
 		# Install registered data
 
 		reg_data_button = wx.Button(self, -1, 'Install registered Quake data')
-		reg_data_button.Bind(wx.EVT_BUTTON, self.install_registered_data)
+		reg_data_button.Bind(wx.EVT_BUTTON, self.install_data_handler)
 		add_widget(sizer, reg_data_button)
 
 		# Wiring
@@ -33,7 +35,7 @@ class CustomiseTab(wx.Panel):
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
-	def install_registered_data(self, event):
+	def install_data_handler(self, event):
 		if have_registered_data():  # TODO what if something else is missing?
 			Info(self, 'The registered data files are already installed.')
 		else:

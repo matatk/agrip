@@ -2,13 +2,13 @@
 import os
 from subprocess import check_call
 
-from buildlib import do_something
+from buildlib import doset
 
 
 def opener(openee):
-	do_something(
-		mac=check_call(['open', openee]),
-		windows=os.startfile(openee))
+	doset(
+		mac=lambda: check_call(['open', openee]),
+		windows=lambda: os.startfile(openee))
 
 
 def have_registered_data():

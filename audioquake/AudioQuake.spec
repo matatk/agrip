@@ -1,5 +1,5 @@
 # vim: ft=python
-from buildlib import Config, platform_set, platform_set_only_on
+from buildlib import Config, doset, doset_only
 
 data_files = [
 	('mod-static-files/', 'id1'),
@@ -32,7 +32,7 @@ data_files = [
 if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
 	data_files.extend([('maps-quakewad/*.bsp', 'id1/maps/')])
 
-binary_files = platform_set(
+binary_files = doset(
 	mac=[
 		('../giants/zq-repo/zquake/release-mac/zqds', '.'),
 		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', '.'),
@@ -64,7 +64,7 @@ a = Analysis(  # noqa 821
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)  # noqa 821
 
-platform_icon = platform_set(
+platform_icon = doset(
 	mac='app-support-files/aq.icns',
 	windows='app-support-files/aq.ico')
 
@@ -88,7 +88,7 @@ coll = COLLECT(  # noqa 821
 	upx=True,
 	name='AudioQuake')
 
-info_plist = platform_set_only_on(
+info_plist = doset_only(
 	mac={
 		'NSRequiresAquaSystemAppearance': 'No'  # Support dark mode
 	})
