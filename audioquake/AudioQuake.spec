@@ -23,7 +23,10 @@ data_files = [
 	('app-support-files/start-rcon.command', '.'),
 	('app-support-files/start-server.command', '.'),
 	('../ldl/style.xml', '.'),
-	('../ldl/tut*.xml', 'ldl-tutorial-maps')]
+	('../ldl/tut*.xml', 'ldl-tutorial-maps'),
+
+	('../../non-redist/prototype_wad_1_2/prototype_1_2.wad', '.'),
+	('../../non-redist/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', '.')]
 
 if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
 	data_files.extend([('maps-quakewad/*.bsp', 'id1/maps/')])
