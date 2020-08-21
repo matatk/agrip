@@ -7,11 +7,12 @@ import sys
 
 import argcomplete
 
-from ldllib.convert import convert, DEFAULT_WAD_FILE, WAD_FILES
-from ldllib.build import build, have_needed_stuff, use_repo_bins
+from ldllib.convert import WAD_CHOICES, DEFAULT_WAD, use_repo_wads, \
+	have_wad_for, convert
+from ldllib.build import build, have_needed_progs, use_repo_bins
 from ldllib.play import play
 from ldllib.roundtrip import roundtrip
-from ldllib.utils import LDLException
+from ldllib.utils import LDLError
 
 
 class Mode(IntEnum):
@@ -41,7 +42,10 @@ def handle_play(args):
 
 
 def handle_core(args, mode):
-	if mode >= Mode.BUILD and not have_needed_stuff():
+	if mode >= Mode.BUILD and not have_needed_progs():
+		sys.exit(42)
+
+	if mode >= Mode.BUILD and not have_wad_for(args.wad):
 		sys.exit(42)
 
 	# We only loop over the basenames of the files passed in, because the user
@@ -68,7 +72,7 @@ def handle_core(args, mode):
 						build(mapfile, args.verbose)
 						if mode == Mode.PLAY:
 							play(bspfile, args.verbose)
-			except (LDLException, FileNotFoundError):
+			except (LDLError, FileNotFoundError):
 				print_exception()
 
 		elif mapfile in files:
@@ -77,14 +81,14 @@ def handle_core(args, mode):
 					build(mapfile, args.verbose)
 					if mode == Mode.PLAY:
 						play(bspfile, args.verbose)
-			except (LDLException, FileNotFoundError):
+			except (LDLError, FileNotFoundError):
 				print_exception()
 
 		elif bspfile in files:
 			try:
 				if mode == Mode.PLAY:
 					play(bspfile, args.verbose)
-			except LDLException:
+			except LDLError:
 				print_exception()
 
 		else:
@@ -104,7 +108,7 @@ def handle_roundtrip(args):
 		if filename.suffix == '.map':
 			try:
 				roundtrip(filename, args.verbose, args.keep, args.play)
-			except LDLException:
+			except LDLError:
 				print_exception()
 
 
@@ -133,8 +137,11 @@ parser.add_argument(
 	help='save intermediate XML files at each level of conversion')
 
 parser.add_argument(
-	'-w', '--wad', default=DEFAULT_WAD_FILE, choices=WAD_FILES,
+	'-w', '--wad',
+	default=DEFAULT_WAD,
+	choices=WAD_CHOICES,
 	help='Texture WAD file to use')
+
 
 subparsers = parser.add_subparsers(
 	title='actions', required=True, dest='action',
@@ -189,6 +196,7 @@ parser_roundtrip.set_defaults(func=handle_roundtrip)
 
 
 use_repo_bins()
+use_repo_wads()
 
 argcomplete.autocomplete(parser)
 args = parser.parse_args()

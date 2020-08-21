@@ -27,7 +27,11 @@ stage = None
 verbose = False
 
 
-class LDLException(Exception):
+class LDLError(Exception):
+	pass
+
+
+class LDLCalledProcessError(LDLError):
 	pass
 
 
@@ -330,7 +334,7 @@ class StyleFetcher:
 		if lookup_style in self.textureSets:
 			return self.textureSets[lookup_style][surf]
 		else:
-			error(f"getSetTex: no such texture lookup_style set '{lookup_style}'.")
+			error(f"getSetTex: no such texture set '{lookup_style}'.")
 
 	# FIXME DRY
 	def populate_lighting_detail_offset(
@@ -508,7 +512,7 @@ class StyleFetcher:
 				texs[surface.getAttribute('id')] = surface.getAttribute('texture')
 				self.textureSets[textureset.getAttribute('name')] = texs
 
-	def __init__(self, wad_file=None):
+	def __init__(self, texture_mode=None):
 		# FIXME docs: hollow or solid, for the texture sets comment?
 		self.textureSets = {}   # a set of textures to be applied to a hollow
 		self.lightingSets = {}  # as above but with lighting
@@ -519,9 +523,9 @@ class StyleFetcher:
 		# If a WAD file has been given, get the appropriate texture sets. This
 		# may have been called from a level that doesn't need textures, just
 		# ignore this bit.
-		if wad_file:
+		if texture_mode:
 			for wad in s.getElementsByTagName('wad'):
-				if wad.getAttribute('file') == wad_file:
+				if wad.getAttribute('name') == texture_mode:
 					self._get_texture_sets(wad)
 
 		# Get lighting styles...
@@ -640,12 +644,12 @@ class Region3D:
 			if isinstance(origin, Point2D):
 				origin = Point(origin.x, origin.y, 0)  # FIXME fix callers :-)
 			else:
-				raise LDLException('origin is not a 3D Point')
+				raise LDLError('origin is not a 3D Point')
 		if not isinstance(extent, Point):
 			if isinstance(extent, Point2D):
 				extent = Point(extent.x, extent.y, 0)  # FIXME fix callers :-)
 			else:
-				raise LDLException('extent is not a 3D Point')
+				raise LDLError('extent is not a 3D Point')
 		self.origin = origin
 		self.extent = extent
 		self.end = self.origin + self.extent
@@ -667,7 +671,7 @@ class Region2D:
 		if not isinstance(origin, Point2D) \
 			or not isinstance(extent, Point2D) \
 			or isinstance(rtype, Point2D):
-			raise LDLException
+			raise LDLError
 		self.origin = origin
 		self.extent = extent
 		self.end = self.origin + self.extent
@@ -705,7 +709,7 @@ def warning(data):
 
 def error(data):
 	message = 'Stage ' + str(stage) + ' ERROR! ' + data
-	raise LDLException(message)
+	raise LDLError(message)
 
 
 def failParse(data=None):
@@ -716,7 +720,7 @@ def failParse(data=None):
 		message = 'Processing stage ' + stage + ': there was an error in ' + \
 			'the input given to this stage of processing -- perhaps ' + \
 			"the previous stage didn't work?"
-	raise LDLException(message)
+	raise LDLError(message)
 
 
 def makeBrush(doc, worldtype, worldspawn, sf, style, part, dir):

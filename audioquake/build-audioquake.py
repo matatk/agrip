@@ -13,13 +13,8 @@ import mistune_contrib.toc
 from buildlib import Config, \
 	prep_dir, try_to_run, platform_set, check_platform, die, comeback
 
-from ldllib.build import build, have_needed_stuff, set_wad_file, use_repo_bins
-
-wad_map = {
-	'quake': 'quake.wad',  # FIXME this doesn't represent a replacement yet
-	'free': 'free.wad',
-	'prototype': 'prototype_1_2.wad'
-}
+from ldllib.build import build, have_needed_progs, use_repo_bins
+from ldllib.convert import use_repo_wads, wad_files, have_wad_for
 
 texture_map = {
 	'*lava1': {'free': '*lava_s2', 'prototype': '*lava_64_1'},
@@ -59,7 +54,7 @@ maps_were_built_for_quake = False  # detected via build_maps_for_quake()
 #
 
 def swap_wad(map_string, to):
-	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_map[to]}"')
+	return map_string.replace('"wad" "quake.wad"', f'"wad" "{wad_files[to]}"')
 
 
 def make_following_map_high_contrast(map_string):
@@ -77,49 +72,54 @@ def build_maps_for(bsp_dir, key):
 	used_cached_maps = False
 
 	use_repo_bins()
-	set_wad_file(wad_map[key])
+	use_repo_wads(root=Config.base)
 	bsp_dir.mkdir(exist_ok=True)
 
-	if have_needed_stuff():
-		maps = Config.dir_maps_source.glob('*.map')
+	if not have_needed_progs():
+		raise Exception('Build tools missing')
 
-		for mapfile in maps:
-			if mapfile.name == 'agdm02l.map':
-				continue  # TODO that map's borked
+	if not have_wad_for(key):
+		return
 
-			if key == 'prototype':  # implies high contrast mode
-				map_name = mapfile.stem + 'hc' + mapfile.suffix
+	maps = Config.dir_maps_source.glob('*.map')
+
+	for mapfile in maps:
+		if mapfile.name == 'agdm02l.map':
+			continue  # TODO that map's borked
+
+		if key == 'prototype':  # implies high contrast mode
+			map_name = mapfile.stem + 'hc' + mapfile.suffix
+		else:
+			map_name = mapfile.name
+
+		this_wad_mapfile = bsp_dir / map_name
+		this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
+
+		if force_map_build or not this_wad_bspfile.is_file() \
+			or not this_wad_mapfile.is_file() \
+			or this_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
+			map_string = mapfile.read_text()
+			map_string = swap_wad(map_string, key)
+
+			if key != 'quake':
+				map_string = swap_textures(map_string, key)
+				throw_errors = True
 			else:
-				map_name = mapfile.name
+				throw_errors = False
 
-			this_wad_mapfile = bsp_dir / map_name
-			this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
+			if key == 'prototype':
+				map_string = make_following_map_high_contrast(map_string)
 
-			if force_map_build or not this_wad_bspfile.is_file() \
-				or not this_wad_mapfile.is_file() \
-				or this_wad_mapfile.stat().st_mtime < mapfile.stat().st_mtime:
-				map_string = mapfile.read_text()
-				map_string = swap_wad(map_string, key)
+			this_wad_mapfile.write_text(map_string)
+			build(this_wad_mapfile, throw=throw_errors, quiet=True)
+		else:
+			used_cached_maps = True
 
-				if key != 'quake':
-					map_string = swap_textures(map_string, key)
+	if used_cached_maps:
+		print('Cached maps were used')
 
-				if key == 'prototype':
-					map_string = make_following_map_high_contrast(map_string)
-
-				this_wad_mapfile.write_text(map_string)
-				build(this_wad_mapfile, False)
-			else:
-				used_cached_maps = True
-
-		if used_cached_maps:
-			print('Cached maps were used')
-
-		if key == 'quake':
-			maps_were_built_for_quake = True
-	else:
-		if key != 'quake':
-			raise Exception('Build tools missing')
+	if key == 'quake':
+		maps_were_built_for_quake = True
 
 
 #
@@ -248,14 +248,15 @@ def build_audioquake():
 	if not maps_were_built_for_quake:
 		print(
 			'\nPlease note: the "quake.wad" file, containing id Software\'s '
-			'Quake textures, is not present in the current directory. This '
-			'means the AGRIP maps have not been built for Quake. That needs '
-			'to happen in order to make a redistributable version of '
-			'AudioQuake and the Level Description Language.\n\n'
+			'Quake textures, is not present in the AudioQuake distributable '
+			'directory. This means the AGRIP maps have not been built for '
+			'Quake. That needs to happen in order to make a redistributable '
+			'version of AudioQuake and the Level Description Language.\n\n'
 
-			'You can make "quake.wad" by using the launcher\'s "Install '
-			'registered Quake data" feature. Copy "quake.wad" to this '
-			'directory, re-run the build process, and the maps will be '
+			'You can make "quake.wad" by running AudioQuake directly from the '
+			'distributable directory, and using the launcher\'s "Install '
+			'registered Quake data" feature. Then re-run the build process, '
+			'and the WAD file will be picked up, and the maps will be '
 			'compiled.\n\n'
 
 			'The "quake.wad" file itself should not be redistributed.')

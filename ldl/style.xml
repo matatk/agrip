@@ -9,15 +9,15 @@
 	<!--
 		For each game/wad, there are two types of texture set:
 
-        * A base texture set for each worldtype ('base' and 'medieval' so far).
+		* A base texture set for each worldtype ('base' and 'medieval' so far).
 
-        * Patch texture sets that the user can specify using the 'style'
+		* Patch texture sets that the user can specify using the 'style'
 		  attribute on any given room. These sets are incomplete because they
-          just change the textures for some of the rooms. Anything missing gets
-          deferred to the textureset for the map's worldtype.
+		  just change the textures for some of the rooms. Anything missing gets
+		  deferred to the textureset for the map's worldtype.
 	-->
 
-	<wad file="quake.wad">
+	<wad name="quake">
 		<textureset name='base'>
 			<surface id='n' texture='tech03_2' />
 			<surface id='s' texture='tech03_2' />
@@ -61,7 +61,7 @@
 		</textureset>
 	</wad>
 
-	<wad file="free.wad">
+	<wad name="free">
 		<textureset name='base'>
 			<surface id='n' texture='u_tex24' />
 			<surface id='s' texture='u_tex24' />
@@ -105,7 +105,7 @@
 		</textureset>
 	</wad>
 
-	<wad file="prototype_1_2.wad">
+	<wad name="prototype">
 		<textureset name='base'>
 			<surface id='n' texture='128_brown_2' />
 			<surface id='s' texture='128_brown_2' />

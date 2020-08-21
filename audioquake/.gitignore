@@ -4,10 +4,6 @@ manuals-converted/
 maps-freewad/
 maps-quakewad/
 maps-prototypewad/
-# Textures files FIXME remove
-quake.wad
-free.wad
-prototype_1_2.wad
 # PyInstaller output
 build/
 dist/
