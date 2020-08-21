@@ -66,7 +66,7 @@
 			<surface id='n' texture='u_tex24' />
 			<surface id='s' texture='u_tex24' />
 			<surface id='e' texture='s128z' />
-			<surface id='w' texture='s128z' />
+			<surface id='w' texture='s128f' />
 			<surface id='u' texture='swire4' />
 			<surface id='d' texture='shex2' />
 			<surface id='door' texture='srib2' />
@@ -76,11 +76,11 @@
 
 		<textureset name='medieval'>
 			<surface id='n' texture='archeo2' />
-			<surface id='s' texture='archeo3' />
-			<surface id='e' texture='bricks256' />
-			<surface id='w' texture='brownstone256' />
-			<surface id='u' texture='brownbot' />
-			<surface id='d' texture='tiles' />
+			<surface id='s' texture='archeo1' />
+			<surface id='e' texture='brown_brick' />
+			<surface id='w' texture='medbrick2' />
+			<surface id='u' texture='goldmet' />
+			<surface id='d' texture='rock' />
 			<surface id='door' texture='tile' />
 			<surface id='plat' texture='ulrich24' />
 			<surface id='step' texture='tsl_rock' />
