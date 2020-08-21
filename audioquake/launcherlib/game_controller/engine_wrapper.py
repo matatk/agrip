@@ -1,25 +1,34 @@
 """AudioQuake Game Launcher - Game controller - Engine wrapper"""
+from pathlib import Path
 import threading
 import subprocess
 import sys
 
-from launcherlib.utils import on_windows
+from buildlib import platform_set, only_on
 from launcherlib.game_controller.speech_synth import SpeechSynth
 
 
 class EngineWrapper(threading.Thread):
-	def __init__(self, command_line):
+	def __init__(self, args, on_error):
 		threading.Thread.__init__(self)
-		self._command_line = command_line
+		self._engine = platform_set(
+			mac='./zquake-glsdl',
+			windows='zquake-gl.exe')
+		self._command_line = (self._engine,) + args
+		self._on_error = on_error
+
+	def engine_found(self):
+		return Path(self._engine).is_file()
 
 	def run(self):
 		try:
 			speaker = SpeechSynth()
 
-			# The docs imply this shouldn't be necessary but it seems to be...
-			# FIXME needed?
-			if on_windows():
+			# The docs imply this shouldn't be necessary but it is...
+			# FIXME need only_reassign_on
+			def reassign_commandline():
 				self._command_line = ' '.join(self._command_line)
+			only_on(windows=reassign_commandline)
 
 			# Buffering may be necessary for Windows; seems not to affect Mac
 			proc = subprocess.Popen(
@@ -47,7 +56,7 @@ class EngineWrapper(threading.Thread):
 				if retcode is not None:
 					if retcode != 0:
 						error = proc.stderr.read().decode('ascii')
-						speaker.say(error)
+						self._on_error(error)
 					break
 		except:  # noqa E722
 			self.conduit.put(sys.exc_info())

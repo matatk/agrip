@@ -1,17 +1,25 @@
 """AudioQuake Game Launcher - GUI helpers"""
 from os import path
+import shutil
 import sys
 
 import wx
 
+from buildlib import only_on
 from launcherlib.game_controller import LaunchState
-from launcherlib.utils import on_windows, opener, have_registered_data
+from launcherlib.utils import opener
 
 BORDER_SIZE = 5
 
+HOW_TO_INSTALL = (
+	'If you bought Quake, you can install the registered data - '
+	'check out the "Customise" tab.')
+
 launch_messages = {
-	LaunchState.NOT_FOUND: 'Engine not found',
-	LaunchState.ALREADY_RUNNING: 'The game is already running',
+	LaunchState.NOT_FOUND: 'Engine not found.',
+	LaunchState.ALREADY_RUNNING: 'The game is already running.',
+	LaunchState.NO_REGISTERED_DATA: (
+		'Registered Quake data not found. ' + HOW_TO_INSTALL)
 }
 
 
@@ -60,10 +68,7 @@ def add_opener_button(parent, sizer, title, thing_to_open):
 
 	def make_open_function(openee):
 		def open_thing(event):
-			try:
-				opener(openee)
-			except:  # noqa E722
-				ErrorException(parent)
+			opener(openee)
 		return open_thing
 
 	button.Bind(wx.EVT_BUTTON, make_open_function(thing_to_open))
@@ -127,20 +132,21 @@ def stamp_file_check(parent, name):
 
 
 def first_time_check(parent, name):
-	if on_windows():
-		stamp_file_check(parent, name)
-	else:
-		pass
+	only_on(
+		windows=lambda: stamp_file_check(parent, name))
+
+
+def _update_oq_configs():
+	for config in ['autoexec.cfg', 'config.cfg']:
+		id1_file = path.join('id1', config)
+		oq_file = path.join('oq', config)
+		if path.getmtime(id1_file) > path.getmtime(oq_file):
+			shutil.copy(id1_file, oq_file)
 
 
 def launch_core(parent, method):
 	first_time_check(parent, 'game')
-	if not have_registered_data():
-		Error(parent, "No registered data installed.")
-	else:
-		try:
-			launch_state = method()
-			if launch_state is not LaunchState.LAUNCHED:
-				Warn(parent, launch_messages[launch_state])
-		except:  # noqa E722
-			ErrorException(parent)  # FIXME needed?
+	_update_oq_configs()
+	launch_state = method()
+	if launch_state is not LaunchState.LAUNCHED:
+		Warn(parent, launch_messages[launch_state])

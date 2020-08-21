@@ -1,21 +1,14 @@
 """AudioQuake Game Launcher - Utilities"""
 import os
 from subprocess import check_call
-import platform
 
-
-def on_windows():  # FIXME move to a more comprehenseive approach
-	return platform.system() == 'Windows'
+from buildlib import do_something
 
 
 def opener(openee):
-	system = platform.system()
-	if system == 'Windows':
-		os.startfile(openee)
-	elif system == 'Darwin':
-		check_call(['open', openee])
-	else:
-		raise NotImplementedError
+	do_something(
+		mac=check_call(['open', openee]),
+		windows=os.startfile(openee))
 
 
 def have_registered_data():

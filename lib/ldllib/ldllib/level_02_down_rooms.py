@@ -24,21 +24,23 @@ from ldllib.conf import (
 	worldtypes
 )
 
+# FIXME remove?
 paddinglevel = -1
 padding = '  '
 
 
-def processMap(doc):
+def processMap(doc, wad):
 	map = doc.documentElement
-	worldspawn = processInfo(doc, map)
+	worldtype, worldspawn = processInfo(doc, map, wad)
 	# Go through each successive element and process it accordingly.
 	# (Yes, this is very SAX-like but we don't use SAX because by using DOM we
 	# get to manipulate the tree as we go, which we do need to do.)
 	for node in map.childNodes[1:]:
-		processNode(doc, map, worldspawn, s, Point(0, 0, 0), node)
+		processNode(doc, map, worldtype, worldspawn, s, Point(0, 0, 0), node)
 
 
-def processInfo(doc, map):
+# TODO: Does this need to be done at this level? Shouldn't it be lower?
+def processInfo(doc, map, wad):
 	info = map.firstChild
 	for property in info.childNodes:
 		# FIXME we assume all children of info are property elements
@@ -58,18 +60,20 @@ def processInfo(doc, map):
 	worldspawn.appendChild(
 		utils.createProperty(doc, 'worldtype', str(worldtype_num)))
 	worldspawn.appendChild(utils.createProperty(doc, 'message', mapname))
-	worldspawn.appendChild(utils.createProperty(doc, 'wad', prog.wadfile))
+	# Note: this isn't the full path to the WAD yet due to the slashes apparently
+	#       causing escaping issues - the full path is used on conversion to .map.
+	worldspawn.appendChild(utils.createProperty(doc, 'wad', wad))
 	map.replaceChild(worldspawn, info)
-	return worldspawn
+	return (worldtype, worldspawn)
 
 
-def processNode(doc, parent, worldspawn, s, offset, node):
-	global paddinglevel
+def processNode(doc, parent, worldtype, worldspawn, s, offset, node):
+	global paddinglevel  # FIXME remove?
 	paddinglevel = paddinglevel + 1
 	if node.localName == 'hollow':
-		processHollow(doc, parent, worldspawn, s, offset, node)
+		processHollow(doc, parent, worldtype, worldspawn, s, offset, node)
 	elif node.localName == 'solid':
-		processSolid(doc, parent, worldspawn, s, offset, node)
+		processSolid(doc, parent, worldtype, worldspawn, s, offset, node)
 	elif node.localName == 'entity':
 		processEntity(doc, parent, offset, node)
 	elif node.localName is None:
@@ -79,12 +83,7 @@ def processNode(doc, parent, worldspawn, s, offset, node):
 	paddinglevel = paddinglevel - 1
 
 
-style = None
-
-
-def processHollow(doc, parent, worldspawn, s, offset, hollow):
-	'''Note: sets global style var.'''
-	global style
+def processHollow(doc, parent, worldtype, worldspawn, s, offset, hollow):
 	o = utils.getPoint(hollow.getAttribute('origin')) + offset
 	e = utils.getPoint(hollow.getAttribute('extent'))
 	style = hollow.getAttribute('style')
@@ -128,24 +127,21 @@ def processHollow(doc, parent, worldspawn, s, offset, hollow):
 
 	# Now we have the required structural info (absent walls and holes), we can
 	# turn this hollow into a series of textured brushes...
-	io, ie = utils.makeHollow(doc, worldspawn, s, o, e, absentwalls, holes, style)
+	io, ie = utils.makeHollow(doc, worldtype, worldspawn, s, o, e, absentwalls, holes, style)
 	# Contained solids, hollows and entities...
 	for node in hollow.childNodes:
-		processNode(doc, hollow, worldspawn, s, io, node)
+		processNode(doc, hollow, worldtype, worldspawn, s, io, node)
 	# We can't remove the child or we screw over tree traversal (urgh)...
 	utils.insertPlaceholder(doc, parent, hollow)
 
 
-def processSolid(doc, parent, worldspawn, sf, offset, solid):
-	'''Note: uses style set in parent hollow.'''
-	global style
+def processSolid(doc, parent, worldtype, worldspawn, sf, offset, solid):
+	style = parent.getAttribute('style')
 	o = utils.getPoint(solid.getAttribute('origin')) + offset
 	e = utils.getPoint(solid.getAttribute('extent'))
-	t = solid.getAttribute('texture')
 	type = solid.getAttribute('type')
-	if not t:
-		if not type:
-			utils.error('solid with no type also has no texture attribute set')
+	if not type:
+		utils.error('solid with no type')
 	f = solid.getAttribute('holeface')
 	# Get holes info...
 	# FIXME this is repeated code from the hollow one -- any way we can
@@ -182,7 +178,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 				holes)
 			for part in parts:
 				part3d = utils.addDim(part, dims.Y, o.y, e.y)
-				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
+				utils.makeBrush(doc, worldtype, worldspawn, sf, style, part3d, f)
 		elif f == dcp.UP:
 			parts = split.splitWall(
 				utils.Region2D(
@@ -193,7 +189,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			for part in parts:
 				part3d = utils.addDim(
 					part, dims.Z, o.z + prog.lip_small, e.z - prog.lip_small * 2)
-				utils.makeBrush(doc, worldspawn, sf, style, part3d, f, t)
+				utils.makeBrush(doc, worldtype, worldspawn, sf, style, part3d, f)
 			else:
 				utils.error('Unsupported holeface ' + f + ' requested for hole in solid.')
 	else:
@@ -213,7 +209,7 @@ def processSolid(doc, parent, worldspawn, sf, offset, solid):
 			type,
 			props
 		)
-		utils.makeBrush(doc, worldspawn, sf, style, brush, type, t)
+		utils.makeBrush(doc, worldtype, worldspawn, sf, style, brush, type)
 	# We can't remove the child or we screw over tree traversal (urgh)...
 	utils.insertPlaceholder(doc, parent, solid)
 
@@ -228,17 +224,20 @@ def processEntity(doc, parent, offset, entity):
 	doc.documentElement.appendChild(entity.cloneNode(True))
 
 
-# FIXME DRY
-def main(xml_in):
+# Note: the WAD file is passed in because it's in this level that we include
+#       it in the XML (as per the TODO above, maybe it should be done lower
+#       down...)
+# FIXME DRY with the other levels
+def main(xml_in, wad):
 	utils.set_stage(2)
-	global s
-	s = utils.StyleFetcher()
+	global s  # FIXME remove?
+	s = utils.StyleFetcher(wad)
 	try:
 		m = xml.dom.minidom.parseString(xml_in)
 	except:  # noqa: E722
 		utils.failParse()
 	utils.remove_whitespace_nodes(m)
-	processMap(m)
+	processMap(m, wad)
 	m.getElementsByTagName('map')[0] \
 		.setAttribute('stackdesc', prog.stackdescs[2])
 	m.getElementsByTagName('map')[0].setAttribute('generator', __file__)

@@ -1,5 +1,9 @@
 # Manual intermediate files
 manuals-converted/
+# Compiled maps dirs
+maps-freewad/
+maps-quakewad/
+maps-prototypewad/
 # PyInstaller output
 build/
 dist/

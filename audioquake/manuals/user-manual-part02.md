@@ -16,15 +16,28 @@ There are two main ways to interact with the game and surrounding tools.
 The *AudioQuake* launcher is a GUI app that lets you do the following:
 
 * Playing the game (including the tutorial).
+
 * Using the *Level Description Language (LDL)* to make and try out your own maps.
+
 * Installing and playing mods.
+
 * Customising settings (via editing your config files).
 
-You need to use a screen reader to access the launcher.
+You need to use a screen reader to access the launcher. When you open it, you'll find five tabs:
+
+* The **Play** tab gives you buttons to start *Quake* or *Open Quartz* in normal or tutorial modes.
+
+* The **Help** tab gives you access to documents like this one :-).
+
+* The **Customise** tab lets you edit configuration files and install the registered *Quake* data if you've bought the game.
+
+* The **Mod** tab can be used to install mods from *QMOD* files, and to play any installed mods.
+
+* The **Map** tab is where you can access the *Level Description Language (LDL)* tools and tutorial.
 
 ### The console
 
-The console is a command-line interface. To reach it, press the tilde (<kbd>~</kbd>) key on your keyboard. Here you can type in commands to start new games, play the tutorial maps or join in a multiplayer match. Instructions on how to do this can be found throughout the rest of this manual. All of the in-game events are self-voicing, including text editing within the console.
+The console is *Quake*'s in-game command-line interface. To reach it, press the tilde (<kbd>~</kbd>) key on your keyboard. Here you can type in commands to start new games, play the tutorial maps or join in a multiplayer match. Instructions on how to do this can be found throughout the rest of this manual. All of the in-game events are self-voicing, including text editing within the console.
 
 **Tip:** Issue the **help** command to get a list of some very useful commands you can use to interact with the game.
 

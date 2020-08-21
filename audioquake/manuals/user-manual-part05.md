@@ -2,6 +2,8 @@
 
 There are quite a few maps supplied with *AudioQuake* that are extra to those that the shareware and registered versions of *Quake* provide. This part describes them. The description of the tutorial maps has been left a surprise.
 
+**Tip:** All of the maps described here can be played in *Quake*, *Open Quartz* and high-contrast mode within either of those games. To load the high-contrast versions, simply append "hc" to the map name when issuing the `map` command in the console (e.g. `map agdm01hc`).
+
 ## Deathmatch/team deathmatch maps
 
 The AGRIP deathmatch maps all begin with "agdm", then have a number. Some of them end with a letter—"t" indicates the map is a 1on1 arena and "l" indicates a large map.

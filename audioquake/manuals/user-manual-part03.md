@@ -20,6 +20,12 @@ tut
 
 ```
 
+If you want to use the high-contrast versions of the tutorial maps, you can instead enter:
+
+```screen
+tuthc
+```
+
 **Tip:** For power users, the above is equivalent to entering the following three commands…
 
 ``` screen

@@ -1,7 +1,7 @@
 """Build gubbins"""
-import platform
 import os
 from pathlib import Path
+from platform import system
 import sys
 import subprocess
 import traceback
@@ -19,13 +19,14 @@ class OnlyOnError(Exception):
 	pass
 
 
+# FIXME DRY with do_something really (just cope with types)
 def platform_set(mac=None, windows=None):
 	if not mac or not windows:
 		raise PlatformSetError()
 
-	if platform.system() == 'Darwin':
+	if system() == 'Darwin':
 		return mac
-	elif platform.system() == 'Windows':
+	elif system() == 'Windows':
 		return windows
 	else:
 		raise NotImplementedError
@@ -34,13 +35,13 @@ def platform_set(mac=None, windows=None):
 class Config:
 	base = Path(__file__).parent.parent.parent
 
+	dir_readme_licence = base
+
 	zq_repo = base / 'giants' / 'zq-repo'
 	dir_make_zqcc = zq_repo / 'zqcc'
 	dir_make_zquake = zq_repo / 'zquake'
 	dir_zquake_source = zq_repo / 'zquake' / 'source'
-	dir_qc = base / 'giants' / 'zq-repo' / 'qc' / 'agrip'
-	dir_dist = base / 'audioquake' / 'dist'
-	dir_ldllib = base / 'ldl' / 'ldllib'
+	dir_qc = zq_repo / 'qc' / 'agrip'
 
 	bin_zqcc = platform_set(
 		mac=dir_make_zqcc / 'zqcc',
@@ -54,23 +55,29 @@ class Config:
 		mac=dir_make_zquake / 'release-mac' / 'zqds',
 		windows=dir_make_zquake / 'source' / 'Release-server' / 'zqds.exe')
 
-	dir_aq_data = platform_set(
-		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
-		windows=dir_dist / 'AudioQuake')
-
-	dir_manuals = base / 'audioquake' / 'manuals'
-	dir_manuals_converted = base / 'audioquake' / 'manuals-converted'
-	dir_dist_rcon = dir_dist / 'rcon'
-	dir_readme_licence = base
-
 	dir_quake_tools = base / 'giants' / 'Quake-Tools'
 	dir_qutils = dir_quake_tools / 'qutils'
 	dir_qbsp = dir_qutils / 'qbsp'
 
+	dir_ldllib = base / 'ldl' / 'ldllib'
+
+	aq = base / 'audioquake'
+	file_aq_release = aq / 'release'
+	dir_dist = aq / 'dist'
+	dir_manuals = aq / 'manuals'
+	dir_manuals_converted = aq / 'manuals-converted'
+	dir_dist_rcon = dir_dist / 'rcon'
+	dir_maps_source = aq / 'maps'
+	dir_maps_quakewad = aq / 'maps-quakewad'
+	dir_maps_freewad = aq / 'maps-freewad'
+	dir_maps_prototypewad = aq / 'maps-prototypewad'
+
+	dir_aq_data = platform_set(
+		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
+		windows=dir_dist / 'AudioQuake')
+
 	dir_ldl = base / 'ldl'
 	dir_patches = dir_ldl / 'patches'
-
-	file_aq_release = base / 'audioquake' / 'release'
 
 
 def comeback(function):
@@ -95,7 +102,7 @@ def die(message):
 
 
 def check_platform():
-	if platform.system() != 'Darwin' and platform.system() != 'Windows':
+	if system() != 'Darwin' and system() != 'Windows':
 		die('Sorry, your platform is not supported yet.')
 
 
@@ -139,27 +146,42 @@ def make(path, name, targets=[]):
 			_make(name, targ)
 
 
+# FIXME DRY with platform_set really (just cope with types)
 def do_something(mac=None, windows=None):
 	if not mac or not windows:
 		raise DoSomethingError()
 
-	if platform.system() == 'Darwin':
-		mac()
-	elif platform.system() == 'Windows':
-		windows()
+	if system() == 'Darwin':
+		return mac()
+	elif system() == 'Windows':
+		return windows()
 	else:
 		raise NotImplementedError
 
 
+# FIXME DRY with the others - only diff is the check
 def only_on(mac=None, windows=None):
-	if mac and windows:
+	if (mac and windows) or (not mac and not windows):
 		raise OnlyOnError()
 
-	if platform.system() == 'Darwin':
+	if system() == 'Darwin':
 		if mac:
-			mac()
-	elif platform.system() == 'Windows':
+			return mac()
+	elif system() == 'Windows':
 		if windows:
-			windows()
+			return windows()
+	else:
+		raise NotImplementedError
+
+
+# FIXME DRY with the others - only diff is the check
+def platform_set_only_on(mac=None, windows=None):
+	if (mac and windows) or (not mac and not windows):
+		raise OnlyOnError()
+
+	if system() == 'Darwin':
+		return mac
+	elif system() == 'Windows':
+		return windows
 	else:
 		raise NotImplementedError

@@ -19,7 +19,8 @@ def norm_ws(text):
 
 
 class MapXML2Map(xml.sax.ContentHandler):
-	def __init__(self):
+	def __init__(self, wad_file):
+		self.wad_file = str(wad_file)
 		self.paddinglevel = 0
 		self.chPadding()
 		self.inName = self.inValue = self.inPoint = self.inTexture = 0
@@ -53,8 +54,15 @@ class MapXML2Map(xml.sax.ContentHandler):
 			self.inTexture = 1
 		elif name == 'property':
 			self.paddinglevel = self.paddinglevel + 1
+
+			# This is done here to avoid escaping problems in level 2.
+			if attrs['name'] == 'wad':
+				value = self.wad_file
+			else:
+				value = attrs['value']
+
 			self._add(
-				self.padding + '"' + attrs['name'] + '" "' + attrs['value'] + '"\n')
+				self.padding + '"' + attrs['name'] + '" "' + value + '"\n')
 			self.paddinglevel = self.paddinglevel - 1
 
 	def characters(self, ch):
@@ -81,9 +89,9 @@ class MapXML2Map(xml.sax.ContentHandler):
 			self._add('"\n')
 
 
-def main(xml_in):
+def main(xml_in, wad_file):
 	utils.set_stage(0)
-	conv = MapXML2Map()
+	conv = MapXML2Map(wad_file)
 	try:
 		xml.sax.parseString(xml_in, conv)
 	except:  # noqa: E722
