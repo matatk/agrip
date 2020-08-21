@@ -21,10 +21,6 @@ class LauncherWindow(wx.Frame):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		notebook = do_something(
-			mac=lambda: print('Mac'),
-			windows=lambda: print('Windows'))
-
-		notebook = do_something(
 			mac=lambda: wx.Notebook(self),
 			windows=lambda: wx.Listbook(self))
 
