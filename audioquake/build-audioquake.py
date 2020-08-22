@@ -20,7 +20,7 @@ texture_map = {
 	'*lava1': {WADs.FREE: '*lava_s2', WADs.PROTOTYPE: '*lava_64_1'},
 	'+0basebtn': {WADs.FREE: '+0switch', WADs.PROTOTYPE: '+0button_1'},
 	'+0slip': {WADs.FREE: '*teleport', WADs.PROTOTYPE: '*tele01'},
-	'bricka2_2': {WADs.FREE: 'bricks256', WADs.PROTOTYPE: '64_green_3'},
+	'bricka2_2': {WADs.FREE: 's64h', WADs.PROTOTYPE: '64_green_3'},
 	'crate0_side': {WADs.FREE: 'tsl_crate2', WADs.PROTOTYPE: 'light1_big'},
 	'crate1_top': {WADs.FREE: 'tsl_crate2top', WADs.PROTOTYPE: 'light1_grt'},
 	'door02_7': {WADs.FREE: 'srib2', WADs.PROTOTYPE: 'blood_1'},
