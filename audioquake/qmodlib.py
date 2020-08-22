@@ -66,8 +66,8 @@ class InstalledQMOD():
 		config = ConfigParser()
 		config.read_file(open(ini_path))
 
-		self.watch_config = config['general']['watch_config']
-		self.watch_autoexec = config['general']['watch_autoexec']
+		self.watch_config = config['general'].getboolean('watch_config')
+		self.watch_autoexec = config['general'].getboolean('watch_autoexec')
 
 		self.mod_path = path
 
