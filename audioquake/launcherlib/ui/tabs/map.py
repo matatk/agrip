@@ -89,7 +89,7 @@ class MapTab(wx.Panel):
 
 		texture_set_hbox = wx.BoxSizer(wx.HORIZONTAL)
 
-		label = wx.StaticText(self, label='Texture set:')
+		label = wx.StaticText(self, label='Play map with texture set:')
 		pick = wx.Choice(self, -1, choices=list(game_names.keys()))
 		pick.SetSelection(0)  # Needed on Windows
 
@@ -174,7 +174,9 @@ class MapTab(wx.Panel):
 			launch_core(self, lambda: self.game_controller.launch_map(
 				map_basename, game=play_as_game))
 		else:
-			Info(self, xmlfile.stem + ' built and installed')
+			Info(
+				self, xmlfile.stem
+				+ ' built (for all texture sets) and installed.')
 
 	@staticmethod
 	def build_and_copy(xmlfile, wad, dest_dirs):
