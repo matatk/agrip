@@ -19,7 +19,7 @@ class RootGame(enum.Enum):
 
 
 class GameController():
-	opts_default = ("-window", "+set sensitivity 0")
+	opts_default = ("-window", "+noskins 1", "+set sensitivity 0")
 	opts_open_quartz = ("-rootgame", "oq")
 	opts_custom_map_base = ("+coop 0", "+deathmatch 0")
 	opts_tutorial = opts_custom_map_base + ("+map agtut01",)
