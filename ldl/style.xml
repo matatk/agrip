@@ -115,7 +115,7 @@
 			<surface id='d' texture='128_blue_3' />
 			<surface id='door' texture='blood_1' />
 			<surface id='plat' texture='16_honey_1' />
-			<surface id='step' texture='16_grey_3' />
+			<surface id='step' texture='16_blue_3' />
 		</textureset>
 
 		<textureset name='medieval'>
@@ -126,7 +126,7 @@
 			<surface id='u' texture='128_gold_2' />
 			<surface id='d' texture='128_grey_3' />
 			<surface id='door' texture='blood_1' />
-			<surface id='plat' texture='16_honey_1' />
+			<surface id='plat' texture='16_cyan_1' />
 			<surface id='step' texture='16_grey_3' />
 		</textureset>
 
