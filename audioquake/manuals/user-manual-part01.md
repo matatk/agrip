@@ -80,9 +80,21 @@ We would love to see a community spring up around *AudioQuake* and make other ga
 
 Installing both *AudioQuake* and the *Level Description Language (LDL)* is just a case of extracting the ZIP file you downloaded and running either "AudioQuake.app" on the Mac, or "AudioQuake.exe" on Windows. However, there are a couple of other things you need to know.
 
+### Playing *Open Quartz* out-of-the-box
+
+You need some game data files to actually play the game. *AudioQuake* comes with the Open Source and Free Software *Open Quartz* data pack. It's similar in spirit to *Quake* in that it's a first-person shooter and aims to be a drop-in replacement for *Quake*, but it sounds (and looks) quite different and is a game in its own right (though much smaller in size and scope, and not single-player focused).
+
+You can start playing *Open Quartz* with all the accessibility features that *AudioQuake* provides out-of-the box. You can also make your own maps with *Level Description Language (LDL)* using the *Open Quartz* textures and even some high-contrast textures, courtesy of *Prototype.wad* too.
+
+Whilst using *Open Quartz* supports custom mapping and even some mods originally made for *AudioQuake*, there are some limitations at the moment: *Open Quartz* doesn't have replacements for some of *Quake*'s data, so you will find that some maps and mods won't work.
+
+<!-- FIXME -->
+
+Currently at least one of the *Level Description Language (LDL)* maps requires some of this data and won't run under *Open Quartz*.
+
 ### Buying *Quake*
 
-As explained above, *AudioQuake* is a series of modifications to the game *Quake*. For *AudioQuake* to function correctly, you must have *Quake*. Whilst there is a Shareware episode, it doesn't permit using custom maps, which *AudioQuake* uses a lot of, and the *Level Description Language (LDL)* allows you to write.
+We recommend that you buy *Quake* so you can use its data with *AudioQuake* (not all the levels are accessible, but a number are—having the full *Quake* data also means you can experience its ambience and use it in your own maps). Whilst there is a Shareware episode of *Quake*, it doesn't permit using custom maps, which *AudioQuake* provides, and the *Level Description Language (LDL)* allows you to create.
 
 You can buy *Quake* online from the following places. Please note that ***AudioQuake* does not support the mission packs**.
 
@@ -93,16 +105,4 @@ You can buy *Quake* online from the following places. Please note that ***AudioQ
     * [*Quake Mission Pack 1: Scourge of Armagon*](https://store.steampowered.com/app/9040/QUAKE_Mission_Pack_1_Scourge_of_Armagon/)
     * [*Quake Mission Pack 2: Dissolution of Eternity*](https://store.steampowered.com/app/9030/QUAKE_Mission_Pack_2_Dissolution_of_Eternity/)
 -->
-
-### Playing *Open Quartz* instead of *Quake*
-
-However, *AudioQuake* does come with the Open Source and Free Software *Open Quartz* data pack. It's similar in spirit to *Quake* in that it's a first-person shooter and aims to be a drop-in replacement for *Quake*, but it sounds (and looks) quite different and is a game in its own right.
-
-You can start playing *Open Quartz* with all the accesibility features that *AudioQuake* provides out-of-the box. You can also make your own maps with *Level Description Language (LDL)* using the *Open Quartz* textures and even some high-contrast textures, courtessy of *Prototype.wad* too.
-
-Whilst using *Open Quartz* supports custom mapping and even some mods originally made for *AudioQuake*, there are some limitations at the moment: *Open Quartz* doesn't have replacements for some of *Quake*'s data, so you will find that some maps and mods won't work.
-
-Currently at least one of the *Level Description Language (LDL)* maps requires some of this data and won't run under *Open Quartz*.
-
-<!-- FIXME -->
 
