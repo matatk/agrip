@@ -6,6 +6,7 @@ import sys
 import wx
 
 from buildlib import doset_only
+import launcherlib.config as config
 from launcherlib.game_controller import LaunchState
 from launcherlib.utils import opener
 
@@ -106,46 +107,34 @@ def MsgBox(parent, message, caption, icon, style=wx.OK):
 	return wx.MessageDialog(parent, message, caption, style | icon).ShowModal()
 
 
-def stamp_file_check(parent, name):
-	# TODO only 'game' seems to be used, not 'server'
-	# TODO need to apply to mod loading for the first time
-	# TODO better sense for filename would be nice
-	stamp_file_name = 'not-first-run-' + name
+def first_time_check(parent):
+	# TODO need to apply to mod loading for the first time (already done?)
 	prompt = (
-		'When you run the ' + name + ' for the first time, Windows '
-		'may ask you to allow it through the firewall.')
-	if name == 'game':
-		prompt += (
-			' This will be done in a secure window that pops up'
-			' above the Quake engine, which you will need to use ALT-TAB'
-			' and an Assistive Technology to access.')
-	elif name == 'server':
-		prompt += (
-			' Please also note that the server output window, and'
-			' the remote console facility, are not self-voicing.')
-	else:
-		raise TypeError
+		'When you run the game for the first time, Windows '
+		'may ask you to allow it through the firewall.\n\n'
 
-	if not path.exists(stamp_file_name):
+		'This will be done in a secure window that pops up'
+		'above the Quake engine, which you will need to use ALT-TAB'
+		'and an Assistive Technology to access.\n\n'
+
+		'Please also note that the server output window, and'
+		'the remote console facility, are not self-voicing.')
+
+	if config.first_game_run():
 		Warn(parent, prompt)
-		open(stamp_file_name, 'a').close()
-
-
-def first_time_check(parent, name):
-	doset_only(
-		windows=lambda: stamp_file_check(parent, name))
+		config.first_game_run(False)
 
 
 def _update_oq_configs():
-	for config in ['autoexec.cfg', 'config.cfg']:
-		id1_file = path.join('id1', config)
-		oq_file = path.join('oq', config)
+	for config_file in ['autoexec.cfg', 'config.cfg']:
+		id1_file = path.join('id1', config_file)
+		oq_file = path.join('oq', config_file)
 		if path.getmtime(id1_file) > path.getmtime(oq_file):
 			shutil.copy(id1_file, oq_file)
 
 
 def launch_core(parent, method):
-	first_time_check(parent, 'game')
+	doset_only(windows=lambda: first_time_check(parent))
 	_update_oq_configs()
 	launch_state = method()
 	if launch_state is not LaunchState.LAUNCHED:
