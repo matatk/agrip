@@ -1,6 +1,10 @@
 AGRIP AudioQuake and Level Description Language
 ===============================================
 
+***Quake* has a "15" certificate. For obvious reasons, we do not
+recommend nor condone the use of this software by anyone below 15 years
+of age.**
+
 *AudioQuake* and the *Level Description Language* were successful
 experiments started in 2003 to see if it was possible to make a
 mainstream first-person shooter (FPS) accessible to blind and
@@ -58,10 +62,9 @@ most-welcome Star Wars conversions to "excessive overkill"-style
 fragfests. The standard modding tools can be used for this, as they are
 inherently accessible.
 
-You need the official *Quake* data files for the game to work.
-
-*Quake* has a "15" certificate. For obvious reasons, we do not recommend
-nor condone the use of this software by anyone below 15 years of age.
+You can play right away because the Open Quartz community-made data pack
+is included. You can also buy the official *Quake* data files for use
+with the game too (instructions can be found in the user manual).
 
 Level Description Language
 --------------------------
