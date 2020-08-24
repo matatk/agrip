@@ -1,4 +1,4 @@
-"""Build gubbins"""
+"""Build and cross-platform handling gubbins"""
 import os
 from pathlib import Path
 from platform import system
@@ -35,13 +35,15 @@ def _do_or_set(mac=None, windows=None):
 
 
 def doset(mac=None, windows=None):
-	if not mac or not windows:
+	if mac is None and windows is None:
 		raise MissingPlatformError()
 	return _do_or_set(mac, windows)
 
 
 def doset_only(mac=None, windows=None):
-	if (mac and windows) or (not mac and not windows):
+	if mac is None and windows is None:
+		raise MissingPlatformError()
+	if mac is not None and windows is not None:
 		raise TooManyPlatformsError()
 	return _do_or_set(mac, windows)
 

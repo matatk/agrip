@@ -3,6 +3,8 @@ from pathlib import Path
 import platform
 import subprocess
 
+from buildlib import doset
+
 from .conf import prog
 from .utils import LDLError
 from .convert import WAD_FILES, WADs
@@ -131,7 +133,8 @@ def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 	quiet      - whether to print anything to stdout (overrides 'verbose')
 	throw      - whether to raise a CalledProcessError if encountered"""
 	try:
-		res = subprocess.run(args, capture_output=True, check=errorcheck)
+		sh = doset(mac=False, windows=True)
+		res = subprocess.run(args, capture_output=True, check=errorcheck, shell=sh)
 		# We may not be doing strict error-checking (e.g. for vis) but still
 		# want to know when it didn't work
 		if not quiet and verbose:
