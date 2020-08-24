@@ -56,7 +56,6 @@ class GameController():
 		else:
 			raise TypeError(f"Invalid game name '{game}'")
 
-		print('_launch_core():', game, parameters)
 		self._engine_wrapper = EngineWrapper(parameters, self._on_error)
 
 		if not self._engine_wrapper.engine_found():
