@@ -124,7 +124,13 @@ class MapTab(wx.Panel):
 			else:
 				play_wad = None
 
-			self.build_and_play(path, play_wad)
+			if path.name == 'tut07.xml' \
+				and not have_wad(WADs.QUAKE, quiet=True):
+				Warn(self, (
+					'Sorry, ' + path.name + ' requires the Quake data '
+					'in order to run. This is a known issue.'))
+			else:
+				self.build_and_play(path, play_wad)
 
 		btn_build.Bind(wx.EVT_BUTTON, build_and_play_handler)
 		add_widget(sizer, btn_build)
