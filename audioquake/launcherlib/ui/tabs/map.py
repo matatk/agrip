@@ -89,7 +89,7 @@ class MapTab(wx.Panel):
 
 		texture_set_hbox = wx.BoxSizer(wx.HORIZONTAL)
 
-		label = wx.StaticText(self, label='Play map with texture set:')
+		label = wx.StaticText(self, label='Play map with texture set: ')
 		pick = wx.Choice(self, -1, choices=list(game_names.keys()))
 		pick.SetSelection(0)  # Needed on Windows
 
