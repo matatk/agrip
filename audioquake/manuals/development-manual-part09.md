@@ -1,5 +1,5 @@
 <a name="qmod-ini"></a>
-# `qmod.ini` file settings
+## `qmod.ini` file settings
 
 The following sections detail the various options available to mod authors in `qmod.ini` files. The are split into the two (current) sections of the INI file—"general" and "longdesc".
 
@@ -9,12 +9,12 @@ This section contains details that the installer and launcher will both use. It 
 
 | Key             | Notes                                                                                                                                                                  | Example(s)                                    |
 | :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------- |
-| name            | Name that users are presented with (in the installer and mod list)                                                                                                     | JediQuake                                     |
-| shortdesc       | Short(\!\!) description used by installer and mod list in the launcher                                                                                                 | *AudioQuake* with a Star Wars flair\!           |
-| version         | The (user-facing) version number of your mod                                                                                                                           | 3.7                                           |
-| gamedir         | Which directory your mod must run from                                                                                                                                 | jediquake37                                   |
-| watch\_config   | Should your mod be updated with the user's latest `config.cfg` file when it changes? Note that this does not change your mod's `mod.cfg` file, which has precedence.   | yes (or anything else if you don't want this) |
-| watch\_autoexec | Should your mod be updated with the user's latest `autoexec.cfg` file when it changes? Note that this does not change your mod's `mod.cfg` file, which has precedence. | yes (or anything else if you don't want this) |
+| name            | Name that users are presented with (in the installer and mod list)                                                                                                     | `JediQuake`                                     |
+| shortdesc       | Short(\!\!) description used by installer and mod list in the launcher                                                                                                 | `AudioQuake with a Star Wars flair!`           |
+| version         | The (user-facing) version number of your mod                                                                                                                           | `3.7`                                           |
+| gamedir         | Which directory your mod must run from                                                                                                                                 | `jediquake37`                                   |
+| watch\_config   | Should your mod be updated with the user's latest `config.cfg` file when it changes? Note that this does not change your mod's `mod.cfg` file, which has precedence.   | Either `yes`/`true`/`on`/`1`, or `no`/`false`/`off`/`0`. |
+| watch\_autoexec | Should your mod be updated with the user's latest `autoexec.cfg` file when it changes? Note that this does not change your mod's `mod.cfg` file, which has precedence. | Either `yes`/`true`/`on`/`1`, or `no`/`false`/`off`/`0`. |
 
 #### Example
 

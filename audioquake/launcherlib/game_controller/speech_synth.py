@@ -1,6 +1,6 @@
 """AudioQuake Game Launcher - Game controller - Speech synth"""
 from platform import system
-from buildlib import do_something
+from buildlib import doset
 
 if system() == 'Darwin':
 	from AppKit import NSSpeechSynthesizer
@@ -13,7 +13,7 @@ else:
 
 class SpeechSynth():
 	def __init__(self):
-		do_something(
+		doset(
 			mac=self._init_mac,
 			windows=self._init_windows)
 

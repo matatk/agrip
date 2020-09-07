@@ -1,25 +1,33 @@
-AudioQuake 2020.0 (??/??/2020)
-==============================
+AudioQuake 2020.0 (Latest beta: ??/??/2020)
+===========================================
 
-This is a re-release in which we've massively revamped the code -- including
-the Level Description Language -- to run on modern platforms, with a new
-GUI-based launcher/level-builder and modern, cross-platform build system. There
-are no functionality changes, but it should be a great deal easier to get, play
-and modify the game now. Whilst no longer relevant in the mainstream sense, we
-wanted to make sure that the game would still run, and that you could more
-easily make levels for it.
+This is a re-release in which we've massively revamped the
+code---including the Level Description Language (LDL)---to run on modern
+platforms, with a new GUI-based launcher and a new cross-platform build
+system. There are some new features, and it should be a great deal
+easier to get, play and modify the game now. Whilst no longer
+mainstream, we wanted to make sure that the game would still run, and
+that you could more easily make levels for it.
 
-**Technical change highlights:**
-
-* Level Description Language tools and tutorials included with the game.
-* Shiny new GUI launcher (based on wxWidgets).
-* Slicker Text-to-Speech performance.
-* The launcher can load in the registered Quake data if you bought the game.
-* ??? You can now also install QMOD files via the GUI.
-* ??? Documentation updates.
-* Much code cleanup behind the scenes.
-  - All of the Python code has been tidied up a lot.
-  - We are now using PyInstaller to bundle the app.
+-   Level Description Language (LDL) tools and tutorials are included
+    with the game.
+-   Shiny new GUI launcher (based on wxWidgets), with all the main
+    features of the previous text-based launcher (including QMOD and
+    registered Quake data installation) and more.
+-   You can play out-of-the-box courtesy of the Open Quartz community
+    data pack.
+-   Levels you make can be played using Quake or Open Quartz textures,
+    or a new set of high-contrast textures.
+-   More flexible styling of LDL maps (supporting the above sets of
+    textures, as well as additional styles you can apply to parts of
+    maps, e.g. to make some areas appear outside).
+-   The launcher can load in the registered Quake data if you bought the
+    game.
+-   Big documentation updates.
+-   Much code clean-up behind the scenes.
+    -   All of the Python code has been tidied up a lot.
+    -   We are now using PyInstaller to bundle the app.
+    -   Slicker text-to-speech performance.
 
 AudioQuake 0.3.0 (02/01/2008)
 =============================
@@ -29,16 +37,16 @@ that aims to take accessibility and community involvement to its logical
 extreme. This release represents a move in game engine and many months
 of hard work. So much has changed that only a summary is given here.
 
--   Move to the ZQuake QuakeWorld engine -- the first Open Source
+-   Move to the ZQuake QuakeWorld engine---the first Open Source
     mainstream accessible game engine (many thanks to Tonik and the
     other developers for allowing our patches in).
 -   Port of the AccessibleQuake game code to ZQuake's QuakeC system
     (which supports multiple online and offline gametypes).
--   Internet Multiplayer support -- Yes; you can play Quake online a
+-   Internet Multiplayer support---Yes; you can play Quake online a
     variety of game modes!
--   Internet Game Server -- Set up your own games with total control
-    over maps and game rules.
--   Online statistics -- track your progress with respect to other
+-   Internet Game Server---Set up your own games with total control over
+    maps and game rules.
+-   Online statistics---track your progress with respect to other
     AudioQuake players.
 -   http://stats.agrip.org.uk/ is a portal for all online features of
     the game.
@@ -49,7 +57,7 @@ of hard work. So much has changed that only a summary is given here.
     Linux, as well as being able to use the data from the downloadable
     version of Quake for Windows.
 -   Many bug fixes and feature enhancements to both the engine and game
-    code in this move -- such as new footstep sounds (from Davy Loots)
+    code in this move---such as new footstep sounds (from Davy Loots)
     and movement speed indication, ESR enhancements and general gameplay
     review.
 
@@ -75,7 +83,7 @@ project we now host ("AudioQuake").
 -   Made ESR level determination Z tolerance configurable (it was a very
     long time ago, as I remember).
 
--   Major line editing improvements -- punctuation characters (such as
+-   Major line editing improvements---punctuation characters (such as
     the bang, tick dot and dash) are now announced properly when typed
     or reviewed.
 
@@ -125,18 +133,18 @@ made because there have been a number of big improvements.
     and Visual Studio Installer 1.1 (used to create ".msi"s out of the
     SAPI 5.1 redist' ".msm"s).
 
--   After too many problems -- the killer being that Windows just
-    doesn't do pipes -- we have fallen back to using Perl for the
-    start-agrip / TTS interface launcher. This does have the advantage
-    that we can do a nice cross-platform front-end.
+-   After too many problems---the killer being that Windows just doesn't
+    do pipes---we have fallen back to using Perl for the start-agrip /
+    TTS interface launcher. This does have the advantage that we can do
+    a nice cross-platform front-end.
 
 -   Altered make-release.sh so that it makes separate "nix" and "win32"
     releases. The win32 releases can then be copied to a suitable
     development box where the Inno Setup script can be compiled to
     create executable setup packages.
 
--   Improved my QF patch code to go through Con\_Printf (so that
-    fflush() is done implicitly).
+-   Improved my QF patch code to go through Con_Printf (so that fflush()
+    is done implicitly).
 
 -   Removed a load of sounds from the QuakeC side so as to make way for
     SAPI.
@@ -184,7 +192,7 @@ Whilst in development, this was 0.0.5, but was re-released as 0.1.0
     accessible set-up had been reverted to one that could confuse some
     AGRIP objects.
 
--   Fixed a bug where the bots would render you SOLID\_NOT on coming to
+-   Fixed a bug where the bots would render you SOLID_NOT on coming to
     your aid (caused by me not escaping from the goal item grabbing
     routine if the goal item is a player).
 
@@ -200,7 +208,7 @@ Whilst in development, this was 0.0.5, but was re-released as 0.1.0
 AGRIP 0.0.4 (22/05/2004)
 ========================
 
--   Added jump detection -- you can press J for a description of ho you
+-   Added jump detection---you can press J for a description of ho you
     will be able to make a jump. If the hazard doesn't represent a jump,
     or you can't make it, you'll hear the "access denied" sound. If you
     can make it with a running jump, you'll hear a shotgun-like sound.
@@ -272,9 +280,9 @@ AGRIP 0.0.3 (13/05/2004)
 
 First release after 0.0.x has been extended.
 
--   The "wall\_hit\_warnings" are now "wall\_touch\_warnings". By
-    default they're off but if on, they keep the walls making sound if
-    you're still near them.
+-   The "wall_hit_warnings" are now "wall_touch_warnings". By default
+    they're off but if on, they keep the walls making sound if you're
+    still near them.
 
 -   Added a number of extra configuration options to help make the nav
     system quieter and more customisable (toggles for all

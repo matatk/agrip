@@ -1,4 +1,4 @@
-"""Build gubbins"""
+"""Build and cross-platform handling gubbins"""
 import os
 from pathlib import Path
 from platform import system
@@ -7,78 +7,50 @@ import subprocess
 import traceback
 
 
-class PlatformSetError(Exception):
+#
+# Doing/setting things cross-platform
+#
+
+class MissingPlatformError(Exception):
 	pass
 
 
-class DoSomethingError(Exception):
+class TooManyPlatformsError(Exception):
 	pass
 
 
-class OnlyOnError(Exception):
-	pass
-
-
-# FIXME DRY with do_something really (just cope with types)
-def platform_set(mac=None, windows=None):
-	if not mac or not windows:
-		raise PlatformSetError()
+def _do_or_set(mac=None, windows=None):
+	def _core(thing):
+		if callable(thing):
+			return thing()
+		elif thing is not None:
+			return thing
 
 	if system() == 'Darwin':
-		return mac
+		return _core(mac)
 	elif system() == 'Windows':
-		return windows
+		return _core(windows)
 	else:
 		raise NotImplementedError
 
 
-class Config:
-	base = Path(__file__).parent.parent.parent
+def doset(mac=None, windows=None):
+	if mac is None and windows is None:
+		raise MissingPlatformError()
+	return _do_or_set(mac, windows)
 
-	dir_readme_licence = base
 
-	zq_repo = base / 'giants' / 'zq-repo'
-	dir_make_zqcc = zq_repo / 'zqcc'
-	dir_make_zquake = zq_repo / 'zquake'
-	dir_zquake_source = zq_repo / 'zquake' / 'source'
-	dir_qc = zq_repo / 'qc' / 'agrip'
+def doset_only(mac=None, windows=None):
+	if mac is None and windows is None:
+		raise MissingPlatformError()
+	if mac is not None and windows is not None:
+		raise TooManyPlatformsError()
+	return _do_or_set(mac, windows)
 
-	bin_zqcc = platform_set(
-		mac=dir_make_zqcc / 'zqcc',
-		windows=dir_make_zqcc / 'Release' / 'zqcc.exe')
 
-	bin_zqgl = platform_set(
-		mac=dir_make_zquake / 'release-mac' / 'zquake-glsdl',
-		windows=dir_make_zquake / 'source' / 'Release-GL' / 'zquake-gl.exe')
-
-	bin_zqds = platform_set(
-		mac=dir_make_zquake / 'release-mac' / 'zqds',
-		windows=dir_make_zquake / 'source' / 'Release-server' / 'zqds.exe')
-
-	dir_quake_tools = base / 'giants' / 'Quake-Tools'
-	dir_qutils = dir_quake_tools / 'qutils'
-	dir_qbsp = dir_qutils / 'qbsp'
-
-	dir_ldllib = base / 'ldl' / 'ldllib'
-
-	aq = base / 'audioquake'
-	file_aq_release = aq / 'release'
-	dir_dist = aq / 'dist'
-	dir_manuals = aq / 'manuals'
-	dir_manuals_converted = aq / 'manuals-converted'
-	dir_dist_rcon = dir_dist / 'rcon'
-	dir_maps_source = aq / 'maps'
-	dir_maps_quakewad = aq / 'maps-quakewad'
-	dir_maps_freewad = aq / 'maps-freewad'
-	dir_maps_prototypewad = aq / 'maps-prototypewad'
-
-	dir_aq_data = platform_set(
-		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
-		windows=dir_dist / 'AudioQuake')
-
-	dir_ldl = base / 'ldl'
-	dir_patches = dir_ldl / 'patches'
-
+#
+# Build functions
+#
 
 def comeback(function):
 	def wrapper(*args, **kwargs):
@@ -146,42 +118,53 @@ def make(path, name, targets=[]):
 			_make(name, targ)
 
 
-# FIXME DRY with platform_set really (just cope with types)
-def do_something(mac=None, windows=None):
-	if not mac or not windows:
-		raise DoSomethingError()
+#
+# Configuration
+#
 
-	if system() == 'Darwin':
-		return mac()
-	elif system() == 'Windows':
-		return windows()
-	else:
-		raise NotImplementedError
+class Config:
+	base = Path(__file__).parent.parent.parent
 
+	dir_readme_licence = base
 
-# FIXME DRY with the others - only diff is the check
-def only_on(mac=None, windows=None):
-	if (mac and windows) or (not mac and not windows):
-		raise OnlyOnError()
+	zq_repo = base / 'giants' / 'zq-repo'
+	dir_make_zqcc = zq_repo / 'zqcc'
+	dir_make_zquake = zq_repo / 'zquake'
+	dir_zquake_source = zq_repo / 'zquake' / 'source'
+	dir_qc = zq_repo / 'qc' / 'agrip'
 
-	if system() == 'Darwin':
-		if mac:
-			return mac()
-	elif system() == 'Windows':
-		if windows:
-			return windows()
-	else:
-		raise NotImplementedError
+	bin_zqcc = doset(
+		mac=dir_make_zqcc / 'zqcc',
+		windows=dir_make_zqcc / 'Release' / 'zqcc.exe')
 
+	bin_zqgl = doset(
+		mac=dir_make_zquake / 'release-mac' / 'zquake-glsdl',
+		windows=dir_make_zquake / 'source' / 'Release-GL' / 'zquake-gl.exe')
 
-# FIXME DRY with the others - only diff is the check
-def platform_set_only_on(mac=None, windows=None):
-	if (mac and windows) or (not mac and not windows):
-		raise OnlyOnError()
+	bin_zqds = doset(
+		mac=dir_make_zquake / 'release-mac' / 'zqds',
+		windows=dir_make_zquake / 'source' / 'Release-server' / 'zqds.exe')
 
-	if system() == 'Darwin':
-		return mac
-	elif system() == 'Windows':
-		return windows
-	else:
-		raise NotImplementedError
+	dir_quake_tools = base / 'giants' / 'Quake-Tools'
+	dir_qutils = dir_quake_tools / 'qutils'
+	dir_qbsp = dir_qutils / 'qbsp'
+
+	dir_ldllib = base / 'ldl' / 'ldllib'
+
+	aq = base / 'audioquake'
+	file_aq_release = aq / 'release'
+	dir_dist = aq / 'dist'
+	dir_manuals = aq / 'manuals'
+	dir_manuals_converted = aq / 'manuals-converted'
+	dir_dist_rcon = dir_dist / 'rcon'
+	dir_maps_source = aq / 'maps'
+	dir_maps_quakewad = aq / 'maps-quakewad'
+	dir_maps_freewad = aq / 'maps-freewad'
+	dir_maps_prototypewad = aq / 'maps-prototypewad'
+
+	dir_aq_data = doset(
+		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
+		windows=dir_dist / 'AudioQuake')
+
+	dir_ldl = base / 'ldl'
+	dir_patches = dir_ldl / 'patches'

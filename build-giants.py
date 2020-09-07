@@ -5,7 +5,7 @@ import os
 import patch_ng as patch
 
 from buildlib import Config, \
-	comeback, check_platform, do_something, only_on, make, die, try_to_run
+	comeback, check_platform, doset, doset_only, make, die, try_to_run
 
 
 #
@@ -58,7 +58,7 @@ def compile_gamecode():
 
 def make_gamecode(progs):
 	try_to_run(
-		(os.path.join(Config.dir_qc, Config.bin_zqcc), '-progs', progs),
+		(Config.dir_qc / Config.bin_zqcc, '-progs', progs),
 		'failed to compile gamecode file: ' + progs)
 
 
@@ -74,33 +74,30 @@ def rename_qutils():
 				os.path.join(root, name.lower()))
 
 
-def patch_map_tools():
-	patches = {
-		'Makefile': os.path.join(Config.dir_patches, 'makefile.patch'),
-		'writebsp.c': os.path.join(Config.dir_patches, 'writebsp.c.patch'),
-		'qbsp.c': os.path.join(Config.dir_patches, 'qbsp.c.patch')
-	}
-
+def _patch_map_tools_core(patches, root):
 	for title, patch_file in patches.items():
 		patch_set = patch.fromfile(patch_file)
-		if not patch_set.apply(root=Config.dir_qbsp):
-			raise Exception('Patch', patch_file, 'failed.')
+		if not patch_set.apply(root=root):
+			raise Exception(f'Patch "{patch_file.name}": OK')
+
+
+def patch_map_tools_all():
+	patches_all = {
+		'Makefile': Config.dir_patches / 'makefile.patch',
+		'writebsp.c': Config.dir_patches / 'writebsp.c.patch',
+		'qbsp.c': Config.dir_patches / 'qbsp.c.patch'
+	}
+	_patch_map_tools_core(patches_all, Config.dir_qbsp)
 
 
 def patch_map_tools_windows():
 	windows_patches = {
-		'qbsp.mak': os.path.join(Config.dir_patches, 'qbsp.mak.patch'),
-		'light.mak': os.path.join(Config.dir_patches, 'light.mak.patch'),
-		'vis.mak': os.path.join(Config.dir_patches, 'vis.mak.patch'),
-		'bspinfo.mak': os.path.join(Config.dir_patches, 'bspinfo.mak.patch')
+		'qbsp.mak': Config.dir_patches / 'qbsp.mak.patch',
+		'light.mak': Config.dir_patches / 'light.mak.patch',
+		'vis.mak': Config.dir_patches / 'vis.mak.patch',
+		'bspinfo.mak': Config.dir_patches / 'bspinfo.mak.patch'
 	}
-
-	# FIXME DRY
-	for title, patch_file in windows_patches.items():
-		print('Patching', title)
-		patch_set = patch.fromfile(patch_file)
-		if not patch_set.apply(root=Config.dir_quake_tools):
-			raise Exception('Patch', patch_file, 'failed.')
+	_patch_map_tools_core(windows_patches, Config.dir_quake_tools)
 
 
 def compile_map_tools():
@@ -133,12 +130,12 @@ def build_giants():
 	print('Building', stuff + '...')
 
 	print('Compiling zquake')
-	do_something(
+	doset(
 		mac=compile_zquake,
 		windows=compile_zquake_windows)
 
 	print('Compiling zqcc')
-	do_something(
+	doset(
 		mac=compile_zqcc,
 		windows=compile_zqcc_windows)
 
@@ -149,11 +146,11 @@ def build_giants():
 	rename_qutils()
 
 	print('Patching the Quake map tools')
-	patch_map_tools()
-	only_on(windows=patch_map_tools_windows)
+	patch_map_tools_all()
+	doset_only(windows=patch_map_tools_windows)
 
 	print('Compiling the Quake map tools')
-	do_something(
+	doset(
 		mac=compile_map_tools,
 		windows=compile_map_tools_windows)
 

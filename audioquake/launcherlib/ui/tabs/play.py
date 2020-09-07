@@ -1,7 +1,7 @@
 """AudioQuake Game Launcher - Play tab"""
 import wx
 
-from buildlib import platform_set
+from buildlib import doset
 from launcherlib.ui.helpers import add_launch_button, add_opener_buttons
 
 
@@ -22,11 +22,11 @@ class PlayTab(wx.Panel):
 		for title, action in game_modes.items():
 			add_launch_button(self, sizer, title, action)
 
-		server = platform_set(
+		server = doset(
 			mac='./start-server.command',
 			windows='zqds.exe')
 
-		rcon = platform_set(
+		rcon = doset(
 			mac='./start-rcon.command',
 			windows='rcon.exe')
 

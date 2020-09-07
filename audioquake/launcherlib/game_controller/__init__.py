@@ -19,7 +19,7 @@ class RootGame(enum.Enum):
 
 
 class GameController():
-	opts_default = ("-window", "+set sensitivity 0")
+	opts_default = ("-window", "+noskins 1", "+set sensitivity 0")
 	opts_open_quartz = ("-rootgame", "oq")
 	opts_custom_map_base = ("+coop 0", "+deathmatch 0")
 	opts_tutorial = opts_custom_map_base + ("+map agtut01",)
@@ -56,7 +56,6 @@ class GameController():
 		else:
 			raise TypeError(f"Invalid game name '{game}'")
 
-		print('_launch_core():', game, parameters)
 		self._engine_wrapper = EngineWrapper(parameters, self._on_error)
 
 		if not self._engine_wrapper.engine_found():

@@ -11,7 +11,7 @@ import mistune
 import mistune_contrib.toc
 
 from buildlib import Config, \
-	try_to_run, platform_set, check_platform, die, comeback, prep_dir
+	try_to_run, doset, check_platform, die, comeback, prep_dir
 from ldllib.build import build, have_needed_progs, use_repo_bins, \
 	swap_wad, basename_maybe_hc
 from ldllib.convert import use_repo_wads, have_wad, WADs
@@ -203,7 +203,7 @@ def run_pyinstaller():
 
 
 def copy_in_rcon():
-	rcon_bin = platform_set(
+	rcon_bin = doset(
 		mac='rcon',
 		windows='rcon.exe')
 

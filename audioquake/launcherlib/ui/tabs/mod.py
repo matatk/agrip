@@ -19,11 +19,11 @@ class ModTab(wx.Panel):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		select_qmod_button = wx.Button(self, -1, 'Play a mod')
-		select_qmod_button.Bind(wx.EVT_BUTTON, self.play_mod)
+		select_qmod_button.Bind(wx.EVT_BUTTON, self.play_mod_handler)
 		add_widget(sizer, select_qmod_button)
 
 		install_qmod_button = wx.Button(self, -1, 'Install a mod')
-		install_qmod_button.Bind(wx.EVT_BUTTON, self.install_qmod)
+		install_qmod_button.Bind(wx.EVT_BUTTON, self.install_qmod_handler)
 		add_widget(sizer, install_qmod_button)
 
 		add_opener_buttons(self, sizer, {
@@ -35,7 +35,7 @@ class ModTab(wx.Panel):
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
-	def install_qmod(self, event):
+	def install_qmod_handler(self, event):
 		incoming = pick_file(
 			self, "Select a QMOD file", "QMOD files (*.qmod)|*.qmod")
 		if incoming:
@@ -59,7 +59,7 @@ class ModTab(wx.Panel):
 			except:  # noqa E722
 				ErrorException(self)
 
-	def play_mod(self, event):
+	def play_mod_handler(self, event):
 		mod_dirs = list(map(lambda ini: path.dirname(ini), glob('**/qmod.ini')))
 		if len(mod_dirs) > 0:
 			chooser = wx.SingleChoiceDialog(

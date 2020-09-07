@@ -1,7 +1,7 @@
 """AudioQuake Game Launcher - Main launcher window"""
 import wx
 
-from buildlib import do_something, only_on
+from buildlib import doset, doset_only
 
 from launcherlib.game_controller import GameController
 from launcherlib.ui.helpers import Warn
@@ -20,11 +20,7 @@ class LauncherWindow(wx.Frame):
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
-		notebook = do_something(
-			mac=lambda: print('Mac'),
-			windows=lambda: print('Windows'))
-
-		notebook = do_something(
+		notebook = doset(
 			mac=lambda: wx.Notebook(self),
 			windows=lambda: wx.Listbook(self))
 
@@ -48,7 +44,7 @@ class LauncherWindow(wx.Frame):
 			menubar = wx.MenuBar()
 			wx.MenuBar.MacSetCommonMenuBar(menubar)
 
-		only_on(mac=set_up_menu_bar)
+		doset_only(mac=set_up_menu_bar)
 
 		# TODO: If Quit on the Menu Bar is used and the engine is running, the
 		# app gets the beachball until the engine is quat and then it quits.

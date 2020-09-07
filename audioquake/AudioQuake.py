@@ -5,6 +5,7 @@ import traceback
 
 import wx
 
+from launcherlib.config import init as init_config
 from launcherlib.ui.launcher import LauncherWindow
 from launcherlib.ui.helpers import MsgBox
 
@@ -25,5 +26,6 @@ if __name__ == '__main__':
 	app = wx.App()
 	sys.excepthook = error_hook
 	chdir(getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__))))
+	init_config()
 	LauncherWindow(None, "AudioQuake and LDL Launcher").Show()
 	app.MainLoop()
