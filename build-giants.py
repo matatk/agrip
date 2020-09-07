@@ -74,20 +74,20 @@ def rename_qutils():
 				os.path.join(root, name.lower()))
 
 
-def _patch_map_tools_core(patches):
+def _patch_map_tools_core(patches, root):
 	for title, patch_file in patches.items():
 		patch_set = patch.fromfile(patch_file)
-		if not patch_set.apply(root=Config.dir_qbsp):
-			raise Exception(f'Patch "{patch_file.name}" failed.')
+		if not patch_set.apply(root=root):
+			raise Exception(f'Patch "{patch_file.name}": OK')
 
 
 def patch_map_tools_all():
-	patches_for_all_platforms = {
+	patches_all = {
 		'Makefile': Config.dir_patches / 'makefile.patch',
 		'writebsp.c': Config.dir_patches / 'writebsp.c.patch',
 		'qbsp.c': Config.dir_patches / 'qbsp.c.patch'
 	}
-	_patch_map_tools_core(patches_for_all_platforms)
+	_patch_map_tools_core(patches_all, Config.dir_qbsp)
 
 
 def patch_map_tools_windows():
@@ -97,7 +97,7 @@ def patch_map_tools_windows():
 		'vis.mak': Config.dir_patches / 'vis.mak.patch',
 		'bspinfo.mak': Config.dir_patches / 'bspinfo.mak.patch'
 	}
-	_patch_map_tools_core(windows_patches)
+	_patch_map_tools_core(windows_patches, Config.dir_quake_tools)
 
 
 def compile_map_tools():
