@@ -1,6 +1,4 @@
 """AudioQuake & LDL Launcher - Mod tab"""
-from os import path
-
 import wx
 
 from launcherlib import dirs
@@ -41,7 +39,7 @@ class ModTab(wx.Panel):
 			title = qmod.name + ' ' + qmod.version
 			desc = qmod.shortdesc + '\n\n' + qmod.longdesc
 
-			if path.exists(qmod.gamedir):
+			if (dirs.data / qmod.gamedir).exists():
 				body = desc \
 					+ "\n\nThere's already a mod installed in '" \
 					+ qmod.gamedir + "'. Do you still want to " \
