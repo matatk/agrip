@@ -1,5 +1,4 @@
-"""AudioQuake Game Launcher"""
-from os import path, chdir
+"""AudioQuake & LDL Launcher"""
 import sys
 import traceback
 
@@ -7,6 +6,7 @@ import wx
 
 from buildlib import doset_only
 from launcherlib.config import init as init_config
+import launcherlib.dirs as dirs
 from launcherlib.ui.launcher import LauncherWindow
 from launcherlib.ui.helpers import MsgBox, Warn
 
@@ -28,8 +28,8 @@ if __name__ == '__main__':
 	sys.excepthook = error_hook
 	chdir(getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__))))
 	try:
-		init_config()
-		LauncherWindow(None, "AudioQuake and LDL Launcher").Show()
+		init_config(dirs.root)
+		LauncherWindow(None, "AudioQuake & LDL Launcher").Show()
 		app.MainLoop()
 	except OSError:
 		doset_only(mac=lambda: Warn(None, (

@@ -44,11 +44,11 @@ class QMODFile():
 		self.datafiles = files
 		self.zipfile = zipfile
 
-	def install(self):
+	def install(self, root):
 		for datafile in self.datafiles:
-			self.zipfile.extract(datafile)
+			self.zipfile.extract(datafile, path=root)  # will be within gamedir
 
-		self.zipfile.extract('qmod.ini', path=self.gamedir)
+		self.zipfile.extract('qmod.ini', path=root / self.gamedir)
 
 
 class InstalledQMOD():
@@ -69,10 +69,13 @@ class InstalledQMOD():
 		self.watch_config = config['general'].getboolean('watch_config')
 		self.watch_autoexec = config['general'].getboolean('watch_autoexec')
 
+		self.name = config['general']['name']
+		self.version = config['general']['version']
+
 		self.mod_path = path
 
 	def apply_watches(self):
-		id1_path = Path('id1')
+		id1_path = self.mod_path.parent / 'id1'
 
 		if self.watch_config:
 			shutil.copy(id1_path / 'config.cfg', self.mod_path)

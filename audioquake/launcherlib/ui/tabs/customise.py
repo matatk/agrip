@@ -1,12 +1,12 @@
-"""AudioQuake Game Launcher - Customise tab"""
+"""AudioQuake & LDL Launcher - Customise tab"""
 from os import path
 
 import wx
 
+from launcherlib import dirs
 from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import \
-	add_opener_buttons, add_widget, pick_directory, \
-	Info, Error, ErrorException
+	add_opener_buttons, add_widget, pick_directory, Info, Error
 from launcherlib.ui.munging import copy_paks_and_create_textures_wad
 
 
@@ -19,9 +19,9 @@ class CustomiseTab(wx.Panel):
 
 		add_opener_buttons(self, sizer, {
 			'Edit autoexec.cfg (with default editor)':
-				path.join('id1', 'autoexec.cfg'),
+				dirs.data / 'id1' / 'autoexec.cfg',
 			'Edit config.cfg (with default editor)':
-				path.join('id1', 'config.cfg'),
+				dirs.data / 'id1' / 'config.cfg'
 		})
 
 		# Install registered data
@@ -36,7 +36,7 @@ class CustomiseTab(wx.Panel):
 		self.SetSizer(sizer)
 
 	def install_data_handler(self, event):
-		if have_registered_data():  # TODO what if something else is missing?
+		if have_registered_data():
 			Info(self, 'The registered data files are already installed.')
 		else:
 			Info(self, (
@@ -57,8 +57,6 @@ class CustomiseTab(wx.Panel):
 						copy_paks_and_create_textures_wad(
 							progress, incoming_pak0, incoming_pak1)
 						Info(self, 'Installation complete.')
-					except:  # noqa E722
-						ErrorException(self)
 					finally:
 						progress.Destroy()
 				else:

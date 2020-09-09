@@ -16,6 +16,12 @@ from ldllib.build import build, have_needed_progs, use_repo_bins, \
 	swap_wad, basename_maybe_hc
 from ldllib.convert import use_repo_wads, have_wad, WADs
 
+
+#
+# Texture mapping for building .map files
+#
+
+# Note: The LDL texture mappings are done in ldl/style.xml
 texture_map = {
 	'*lava1': {WADs.FREE: '*lava_s2', WADs.PROTOTYPE: '*lava_64_1'},
 	'+0basebtn': {WADs.FREE: '+0switch', WADs.PROTOTYPE: '+0button_1'},
@@ -43,9 +49,48 @@ texture_map = {
 	'wswitch1': {WADs.FREE: '+0u_1', WADs.PROTOTYPE: 'text_light'}
 }
 
-skip_pyinstaller = False           # set via command-line option
-force_map_build = False            # also set via CLI
 
+#
+# Files to copy into final directory structure
+#
+
+# source is relative to the <repo>/audioquake/ dir
+# dest is relative to the final directory structure's root
+
+final_dir_files = [
+	('mod-static-files/', 'data/id1'),
+	('mod-conditional-files/id1/mod.cfg', 'data/id1'),
+	('maps-prototypewad/*.bsp', 'data/id1/maps/'),
+	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'data/id1'),
+	('../giants/zq-repo/qc/agrip/spprogs.dat', 'data/id1'),
+
+	('../giants/oq-pak-src-2004.08.01/', 'data/oq'),
+	('mod-static-files/', 'data/oq'),
+	('mod-conditional-files/oq/mod.cfg', 'data/oq'),
+	('maps-freewad/*.bsp', 'data/oq/maps/'),
+	('maps-prototypewad/*.bsp', 'data/oq/maps/'),
+	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'data/oq'),
+	('../giants/zq-repo/qc/agrip/spprogs.dat', 'data/oq'),
+
+	('manuals-converted/', 'manuals'),
+	('manuals/agrip.css', 'manuals'),
+
+	('../ldl/tut*.xml', 'ldl-tutorial-maps'),
+	('../ldl/test_05_*.xml', 'ldl-example-maps'),
+	('../ldl/t*ldl.xml', 'ldl-example-maps')]
+
+if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
+	final_dir_files.extend([('maps-quakewad/*.bsp', 'data/id1/maps/')])
+
+
+#
+# Constants and state
+#
+
+FINAL_DIR = 'collated'
+version_string = None     # read from 'release' file
+skip_pyinstaller = False  # set via command-line option
+force_map_build = False   # also set via CLI
 needed_quake_wad = False  # detected via build_maps_for_quake()
 
 
@@ -212,11 +257,73 @@ def copy_in_rcon():
 		Config.dir_aq_data)
 
 
+#
+# Creating the final directory and archive
+#
+
+def make_final_dir():
+	src_base = Config.dir_aq
+	dest_base = Config.dir_dist / FINAL_DIR
+
+	# TODO do something with this like caching
+	shutil.rmtree(dest_base, ignore_errors=True)
+
+	for src, dest in final_dir_files:
+		src_path = src_base / src
+		dest_path = dest_base / dest
+		if src_path.is_dir():
+			shutil.copytree(src_path, dest_path, dirs_exist_ok=True)
+		elif src_path.is_file():
+			if not dest_path.is_dir():
+				dest_path.mkdir()
+			shutil.copy(src_path, dest_path, follow_symlinks=False)
+		elif '*' in src:
+			if not dest_path.is_dir():
+				dest_path.mkdir()
+			for globbywobby in Config.dir_aq.glob(src):
+				shutil.copy(globbywobby, dest_path, follow_symlinks=False)
+		else:
+			raise TypeError(src)
+
+
+def move_app_to_final_dir():
+	# FIXME: Check Windows paths
+	# FIXME: Shortcut for Windows
+	source = doset(
+		mac=Config.dir_dist / 'AudioQuake.app',
+		windows=Config.dir_dist / 'AudioQuake')
+
+	destination = doset(
+		mac=Config.dir_dist / FINAL_DIR,
+		windows=Config.dir_dist / FINAL_DIR)
+
+	if source.is_dir() and destination.is_dir():
+		shutil.move(str(source), str(destination))
+	else:
+		raise Exception(f'Either "{source}" or "{destination}" is not a directory!')
+
+
+def make_zip():
+	program_name = 'AudioQuake+LDL'
+	platform_name = doset(mac='Mac', windows='Windows')
+	archive_name = f'{program_name}_{version_string}_{platform_name}'
+	shutil.make_archive(
+		Config.dir_dist / archive_name, 'zip', Config.dir_dist / FINAL_DIR)
+
+
+#
+# Main
+#
+
 def build_audioquake():
+	global version_string
+
 	with open(Config.file_aq_release, 'r') as f:
+		version_string = f.readline().rstrip()
+		version_name = f.readline().rstrip()
 		print(
-			'Building AudioQuake',
-			f.readline().rstrip() + ':', f.readline().rstrip())
+			'Building AudioQuake & Level Description Language',
+			version_string + ': ' + version_name)
 
 	check_platform()
 
@@ -237,8 +344,11 @@ def build_audioquake():
 	if not skip_pyinstaller:
 		run_pyinstaller()
 		copy_in_rcon()
-		print('Completed building AudioQuake with Level Description Language.')
-		print('Output directory:', Config.dir_dist)
+		print('Creating distributable directory structure')
+		make_final_dir()
+		move_app_to_final_dir()
+		print('Creating distributable archive')
+		make_zip()
 	else:
 		print('Skipping running PyInstaller')
 
@@ -260,7 +370,7 @@ def build_audioquake():
 
 
 if __name__ == '__main__':
-	BANNER = 'Build AudioQuake'
+	BANNER = 'Build AudioQuake & Level Description Language'
 
 	parser = argparse.ArgumentParser(description=BANNER)
 

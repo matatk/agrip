@@ -1,8 +1,7 @@
-"""AudioQuake Game Launcher - Help tab"""
-from os import path
-
+"""AudioQuake & LDL Launcher - Help tab"""
 import wx
 
+from launcherlib import dirs
 from launcherlib.ui.helpers import add_opener_buttons
 
 
@@ -12,10 +11,10 @@ class HelpTab(wx.Panel):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		add_opener_buttons(self, sizer, {
-			'User manual': path.join('manuals', 'user-manual.html'),
-			'Sound legend': path.join('manuals', 'sound-legend.html'),
-			'README': path.join('manuals', 'README.html'),
-			'LICENCE': path.join('manuals', 'LICENCE.html')
+			'User manual': dirs.manuals / 'user-manual.html',
+			'Sound legend': dirs.manuals / 'sound-legend.html',
+			'README': dirs.manuals / 'README.html',
+			'LICENCE': dirs.manuals / 'LICENCE.html'
 		})
 
 		sizer.SetSizeHints(self)

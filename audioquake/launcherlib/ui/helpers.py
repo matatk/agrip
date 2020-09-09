@@ -1,5 +1,4 @@
-"""AudioQuake Game Launcher - GUI helpers"""
-from os import path
+"""AudioQuake & LDL Launcher - GUI helpers"""
 import shutil
 import sys
 
@@ -7,6 +6,7 @@ import wx
 
 from buildlib import doset_only
 import launcherlib.config as config
+from launcherlib import dirs
 from launcherlib.game_controller import LaunchState
 from launcherlib.utils import opener
 
@@ -127,9 +127,9 @@ def first_time_check(parent):
 
 def _update_oq_configs():
 	for config_file in ['autoexec.cfg', 'config.cfg']:
-		id1_file = path.join('id1', config_file)
-		oq_file = path.join('oq', config_file)
-		if path.getmtime(id1_file) > path.getmtime(oq_file):
+		id1_file = dirs.data / 'id1' / config_file
+		oq_file = dirs.data / 'oq' / config_file
+		if id1_file.stat().st_mtime > oq_file.stat().st_mtime:
 			shutil.copy(id1_file, oq_file)
 
 

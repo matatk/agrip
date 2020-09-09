@@ -1,10 +1,11 @@
-"""AudioQuake Game Launcher - Map tab"""
+"""AudioQuake & LDL Launcher - Map tab"""
 import xml.dom.minidom
 from pathlib import Path
 import shutil
 
 import wx
 
+from launcherlib import dirs
 from launcherlib.game_controller import RootGame
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
@@ -14,9 +15,11 @@ from ldllib.convert import convert, have_wad, WADs
 from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
 
-LDL_TUTORIAL_MAPS_DIR = 'ldl-tutorial-maps'
-LDL_EXAMPLE_MAPS_DIR = 'ldl-example-maps'
+LDL_TUTORIAL_MAPS_DIR = dirs.root / 'ldl-tutorial-maps'
+LDL_EXAMPLE_MAPS_DIR = dirs.root / 'ldl-example-maps'
 
+# The game data dirs where the map should go, given the WAD being used.
+# The absolute path is constructed in build_and_copy().
 wad_bspdests = {
 	WADs.QUAKE: ['id1'],
 	WADs.FREE: ['oq'],
@@ -50,7 +53,7 @@ class MapTab(wx.Panel):
 
 		add_opener_button(
 			self, sizer, 'Read the LDL tutorial',
-			Path('manuals') / 'ldl-tutorial.html')  # TODO DRY?
+			dirs.manuals / 'ldl-tutorial.html')  # TODO DRY?
 
 		# File picker and choosing a tutorial or example map bits
 
@@ -193,7 +196,7 @@ class MapTab(wx.Panel):
 		build(mapfile, bsp_file=bspfile, quiet=True, throw=True)
 
 		for dest_dir in dest_dirs:
-			full_dest = Path(dest_dir) / 'maps' / bspfile
+			full_dest = dirs.data / dest_dir / 'maps' / bspfile
 			shutil.copy(bspfile, full_dest)
 
 		bspfile.unlink()

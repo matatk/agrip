@@ -1,4 +1,4 @@
-"""AudioQuake Game Launcher - Main launcher window"""
+"""AudioQuake & LDL Launcher - Main launcher window"""
 import wx
 
 from buildlib import doset, doset_only

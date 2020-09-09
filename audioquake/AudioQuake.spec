@@ -1,60 +1,36 @@
 # vim: ft=python
-from buildlib import Config, doset, doset_only
+from buildlib import doset, doset_only
 
 data_files = [
-	('mod-static-files/', 'id1'),
-	('mod-conditional-files/id1/mod.cfg', 'id1/'),
-	('maps-prototypewad/*.bsp', 'id1/maps/'),
-	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'id1/'),
-	('../giants/zq-repo/qc/agrip/spprogs.dat', 'id1/'),
-
-	('../giants/oq-pak-src-2004.08.01/', 'oq'),
-	('mod-static-files/', 'oq'),
-	('mod-conditional-files/oq/mod.cfg', 'oq/'),
-	('maps-freewad/*.bsp', 'oq/maps/'),
-	('maps-prototypewad/*.bsp', 'oq/maps/'),
-	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'oq/'),
-	('../giants/zq-repo/qc/agrip/spprogs.dat', 'oq/'),
-
-	('manuals-converted/', 'manuals'),
-	('manuals/agrip.css', 'manuals'),
-	('app-support-files/start-rcon.command', '.'),
-	('app-support-files/start-server.command', '.'),
-
-	('../ldl/style.xml', '.'),
-	('../ldl/tut*.xml', 'ldl-tutorial-maps'),
-	('../ldl/test_05_*.xml', 'ldl-example-maps'),
-	('../ldl/t*ldl.xml', 'ldl-example-maps'),
-
-	('../giants/prototype_wad_1_2/prototype_1_2.wad', '.'),
-	('../giants/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', '.')]
-
-if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
-	data_files.extend([('maps-quakewad/*.bsp', 'id1/maps/')])
+	('app-support-files/start-rcon.command', 'engines'),    # FIXME Mac
+	('app-support-files/start-server.command', 'engines'),  # FIXME Mac
+	('../ldl/style.xml', 'mapping'),
+	('../giants/prototype_wad_1_2/prototype_1_2.wad', 'mapping'),
+	('../giants/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', 'mapping')]
 
 binary_files = doset(
 	mac=[
-		('../giants/zq-repo/zquake/release-mac/zqds', '.'),
-		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', '.'),
-		('../giants/Quake-Tools/qutils/qbsp/qbsp', 'bin/'),
-		('../giants/Quake-Tools/qutils/qbsp/light', 'bin/'),
-		('../giants/Quake-Tools/qutils/qbsp/vis', 'bin/'),
-		('../giants/Quake-Tools/qutils/qbsp/bspinfo', 'bin/')],
+		('../giants/zq-repo/zquake/release-mac/zqds', 'engines'),
+		('../giants/zq-repo/zquake/release-mac/zquake-glsdl', 'engines'),
+		('../giants/Quake-Tools/qutils/qbsp/qbsp', 'mapping'),
+		('../giants/Quake-Tools/qutils/qbsp/light', 'mapping'),
+		('../giants/Quake-Tools/qutils/qbsp/vis', 'mapping'),
+		('../giants/Quake-Tools/qutils/qbsp/bspinfo', 'mapping')],
 	windows=[
-		('../giants/zq-repo/zquake/source/Release-server/zqds.exe', '.'),
-		('../giants/zq-repo/zquake/source/Release-GL/zquake-gl.exe', '.'),
-		('../giants/Quake-Tools/qutils/qbsp/Release/qbsp.exe', 'bin/'),
-		('../giants/Quake-Tools/qutils/light/Release/light.exe', 'bin/'),
-		('../giants/Quake-Tools/qutils/vis/Release/vis.exe', 'bin/'),
-		('../giants/Quake-Tools/qutils/bspinfo/Release/bspinfo.exe', 'bin/')])
+		('../giants/zq-repo/zquake/source/Release-server/zqds.exe', 'engines'),
+		('../giants/zq-repo/zquake/source/Release-GL/zquake-gl.exe', 'engines'),
+		('../giants/Quake-Tools/qutils/qbsp/Release/qbsp.exe', 'mapping'),
+		('../giants/Quake-Tools/qutils/light/Release/light.exe', 'mapping'),
+		('../giants/Quake-Tools/qutils/vis/Release/vis.exe', 'mapping'),
+		('../giants/Quake-Tools/qutils/bspinfo/Release/bspinfo.exe', 'mapping')])
 
 block_cipher = None
 
 a = Analysis(  # noqa 821
 	['AudioQuake.py'],
+	hiddenimports=['pkg_resources.py2_warn'],
 	binaries=binary_files,
 	datas=data_files,
-	hiddenimports=['pkg_resources.py2_warn'],
 	hookspath=[],
 	runtime_hooks=[],
 	excludes=[],

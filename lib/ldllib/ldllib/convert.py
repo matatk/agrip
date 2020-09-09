@@ -1,7 +1,6 @@
 '''LDL XML-to-map Converter'''
 from enum import Enum
 from pathlib import Path
-from platform import system
 
 from .level_00_down_map2mapxml import main as level0
 from .level_01_down_brushsizes import main as level1
@@ -20,11 +19,12 @@ class WADs(Enum):
 
 DEFAULT_WAD = WADs.QUAKE
 
-# By default, assume the WAD files are in the current directory
+# By default, assume the WAD files are in the 'mapping' directory
+# FIXME The base dir should be passed when calling this
 WAD_FILES = {
-	WADs.QUAKE: Path('quake.wad'),
-	WADs.FREE: Path('free_wad.wad'),
-	WADs.PROTOTYPE: Path('prototype_1_2.wad')
+	WADs.QUAKE: Path('mapping') / 'quake.wad',
+	WADs.FREE: Path('mapping') / 'free_wad.wad',
+	WADs.PROTOTYPE: Path('mapping') / 'prototype_1_2.wad'
 }
 
 
@@ -32,15 +32,8 @@ def use_repo_wads(base):
 	# If being called from LDL, the base path is one level up. If being run
 	# as part of the AudioQuake build process, the absolute base path can
 	# be passed in.
-	if system() == 'Darwin':
-		WAD_FILES[WADs.QUAKE] = base / 'audioquake' / 'dist' \
-			/ 'AudioQuake.app' / 'Contents' / 'MacOS' / 'quake.wad'
-	elif system() == 'Windows':
-		WAD_FILES[WADs.QUAKE] = base / 'audioquake' / 'dist' \
-			/ 'AudioQuake' / 'quake.wad'
-	else:
-		raise NotImplementedError
-
+	WAD_FILES[WADs.QUAKE] = base / 'audioquake' / 'dist' \
+		/ 'collated' / 'data' / 'id1' / 'quake.wad'
 	WAD_FILES[WADs.FREE] = base / 'giants' / 'oq-pak-src-2004.08.01' / 'maps' \
 		/ 'textures' / 'free_wad.wad'
 	WAD_FILES[WADs.PROTOTYPE] = base / 'giants' / 'prototype_wad_1_2' \

@@ -1,4 +1,4 @@
-"""AudioQuake Game Launcher - Configuration service"""
+"""AudioQuake & LDL Launcher - Configuration service"""
 from configparser import ConfigParser
 
 CONFIG_FILENAME = 'audioquake.ini'  # i.e. in the current directory
@@ -7,27 +7,32 @@ INITIAL_CONFIG = {
 	'first_game_run': 'yes'
 }
 
+_root = None
 _config = None
 
 # This isn't a package, but __path__ has to be set or __getattr__ gets called
 __path__ = None
 
 
-def init():
+def init(root):
 	"""Read the existing config file, or create a default one
+
+	root is a pathlib.Path that points to an existing directory.
 
 	Due to the default path (above) this will create the file in the current
 	directory, so needs to be called in the right place."""
 	global _config
+	global _root
+	_root = root
 	_config = ConfigParser()
-	_config.read(CONFIG_FILENAME)
+	_config.read(_root / CONFIG_FILENAME)
 	if len(_config) == 1:  # always has a default section
 		_config['launcher'] = INITIAL_CONFIG
 		save()
 
 
 def save():
-	with open(CONFIG_FILENAME, 'w') as configfile:
+	with open(_root / CONFIG_FILENAME, 'w') as configfile:
 		_config.write(configfile)
 
 
