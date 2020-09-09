@@ -5,9 +5,10 @@ import traceback
 
 import wx
 
+from buildlib import doset_only
 from launcherlib.config import init as init_config
 from launcherlib.ui.launcher import LauncherWindow
-from launcherlib.ui.helpers import MsgBox
+from launcherlib.ui.helpers import MsgBox, Warn
 
 
 def error_hook(etype, value, trace):
@@ -26,6 +27,19 @@ if __name__ == '__main__':
 	app = wx.App()
 	sys.excepthook = error_hook
 	chdir(getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__))))
-	init_config()
-	LauncherWindow(None, "AudioQuake and LDL Launcher").Show()
-	app.MainLoop()
+	try:
+		init_config()
+		LauncherWindow(None, "AudioQuake and LDL Launcher").Show()
+		app.MainLoop()
+	except OSError:
+		doset_only(mac=lambda: Warn(None, (
+			'The code behind AudioQuake, Level Description Language and '
+			"supporting tools is not signed, so it can't be verified by "
+			'Apple.\n\n'
+
+			'If you still want to run them, move this application somewhere '
+			'else on your computer and re-open it.\n\n'
+
+			"If you've already done that, you may need to grant permission "
+			'for the application to access certain folders, in System '
+			'Preferences > Security & Privacy > Privacy tab.')))

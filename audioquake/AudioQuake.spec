@@ -98,4 +98,4 @@ app = BUNDLE(  # noqa 821
 	name='AudioQuake.app',
 	icon=platform_icon,
 	info_plist=info_plist,
-	bundle_identifier=None)
+	bundle_identifier='uk.org.agrip.AudioQuake')
