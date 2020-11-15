@@ -7,7 +7,7 @@ from buildlib import doset_only
 from launcherlib.config import init as init_config
 import launcherlib.dirs as dirs
 from launcherlib.ui.launcher import LauncherWindow
-from launcherlib.ui.helpers import MsgBox, Warn, error_hook
+from launcherlib.ui.helpers import Warn, error_hook
 
 
 if __name__ == '__main__':

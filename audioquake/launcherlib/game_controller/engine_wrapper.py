@@ -1,9 +1,7 @@
 """AudioQuake & LDL Launcher - Game controller - Engine wrapper"""
 from pathlib import Path
 import threading
-import traceback
 import subprocess
-import sys
 
 from buildlib import doset, doset_only
 from launcherlib import dirs
