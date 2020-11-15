@@ -25,6 +25,7 @@ def init(root):
 	global _root
 	_root = root
 	_config = ConfigParser()
+	print('config module init; path:', _root / CONFIG_FILENAME)
 	_config.read(_root / CONFIG_FILENAME)
 	if len(_config) == 1:  # always has a default section
 		_config['launcher'] = INITIAL_CONFIG

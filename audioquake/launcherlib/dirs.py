@@ -3,7 +3,10 @@
 This works out the paths to the different directories that the launcher needs.
 Some files are distributed inside the bundle created by PyInstaller, whereas
 others are kept outside (because they'll be modified). The launcher could be
-running from within an Application (Mac) or folder (Windows)."""
+running from within an Application (Mac) or folder (Windows).
+
+Note: if changing whether things are included in or outsdie of the app
+bundle/dir, you'll want to change AudioQuake.spec too."""
 from pathlib import Path
 import sys
 
@@ -12,8 +15,10 @@ from buildlib import doset
 _inited = False
 
 if not _inited:
+	print('dirs module init')
 	if hasattr(sys, '_MEIPASS'):
-		# Running frozen
+		# Running from frozen app bundle/dir
+		print('running frozen')
 		launcher_dir = Path(getattr(sys, '_MEIPASS'))
 		root_dir = doset(
 			mac=launcher_dir.parent.parent.parent,
@@ -23,6 +28,7 @@ if not _inited:
 		collated = Path(__file__).parent.parent / 'dist' / 'collated'
 		if collated.is_dir():
 			# Using latest .py code, but already-prepared frozen assets
+			print('running with latest code and already-prepared assets')
 			launcher_dir = doset(
 				mac=collated / 'AudioQuake.app' / 'Contents' / 'MacOS',
 				windows=collated / 'AudioQuake')  # FIXME: check
@@ -30,8 +36,10 @@ if not _inited:
 		else:
 			# Using latest .py code and no frozen assets (this won't work
 			# terribly much :-))
-			launcher_dir = root_dir = Path(__file__).resolve().parent
+			print('running with latest code and no prepared assets')
+			launcher_dir = root_dir = Path(__file__).resolve().parent.parent
 	_inited = True
+	print('root dir:', root_dir)
 
 root = root_dir                     # Where audioquake.ini goes
 data = root_dir / 'data'            # The game data (id1, oq, mods)

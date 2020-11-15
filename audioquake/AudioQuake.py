@@ -26,7 +26,7 @@ def error_hook(etype, value, trace):
 if __name__ == '__main__':
 	app = wx.App()
 	sys.excepthook = error_hook
-	chdir(getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__))))
+
 	try:
 		init_config(dirs.root)
 		LauncherWindow(None, "AudioQuake & LDL Launcher").Show()
