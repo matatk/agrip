@@ -1,6 +1,5 @@
 """AudioQuake & LDL Launcher"""
 import sys
-import traceback
 
 import wx
 
@@ -8,19 +7,7 @@ from buildlib import doset_only
 from launcherlib.config import init as init_config
 import launcherlib.dirs as dirs
 from launcherlib.ui.launcher import LauncherWindow
-from launcherlib.ui.helpers import MsgBox, Warn
-
-
-def error_hook(etype, value, trace):
-	# TODO focus goes to the OK button :-S.
-	exception_info = traceback.format_exception_only(etype, value)
-	trace_info = traceback.format_tb(trace)
-	please_report = (
-		'Please report this error, with the following details, at '
-		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
-	message = "".join(
-		[please_report] + exception_info + ['\n'] + trace_info)
-	MsgBox(None, message, 'Unanticipated error (launcher bug)', wx.ICON_ERROR)
+from launcherlib.ui.helpers import MsgBox, Warn, error_hook
 
 
 if __name__ == '__main__':

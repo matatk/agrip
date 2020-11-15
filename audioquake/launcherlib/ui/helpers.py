@@ -1,6 +1,7 @@
 """AudioQuake & LDL Launcher - GUI helpers"""
 import shutil
 import sys
+import traceback
 
 import wx
 
@@ -139,3 +140,15 @@ def launch_core(parent, method):
 	launch_state = method()
 	if launch_state is not LaunchState.LAUNCHED:
 		Warn(parent, launch_messages[launch_state])
+
+
+def error_hook(etype, value, trace):
+	# TODO focus goes to the OK button :-S.
+	exception_info = traceback.format_exception_only(etype, value)
+	trace_info = traceback.format_tb(trace)
+	please_report = (
+		'Please report this error, with the following details, at '
+		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
+	message = "".join(
+		[please_report] + exception_info + ['\n'] + trace_info)
+	MsgBox(None, message, 'Unanticipated error (launcher bug)', wx.ICON_ERROR)

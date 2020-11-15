@@ -57,7 +57,7 @@ def stage_1_create_venv():
 	if system() == 'Darwin':
 		print('    source ' + VENV + '/bin/activate && ./' + WHOAMI)
 	elif system() == 'Windows':
-		print('    ' + VENV + '\\Scripts\\activate.bat && python ' + WHOAMI)
+		print('    ' + str(VENV) + '\\Scripts\\activate.bat && python ' + WHOAMI)
 	else:
 		raise NotImplementedError
 
@@ -133,10 +133,10 @@ def build_everything_core_windows():
 		batch.write('@echo off\r\n')
 		if VCVARS_MSBUILD.is_file():
 			print('Found the Microsoft build tools environment batch file')
-			batch.write('call "' + VCVARS_MSBUILD + '"')
+			batch.write('call "' + str(VCVARS_MSBUILD) + '"')
 		elif VCVARS_VS.is_file():
 			print('Found Visual Studio environment batch file')
-			batch.write('call "' + VCVARS_VS + '"')
+			batch.write('call "' + str(VCVARS_VS) + '"')
 		else:
 			raise Exception(
 				"Can't find the MS Build tools nor "

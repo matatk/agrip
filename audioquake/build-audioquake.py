@@ -271,17 +271,17 @@ def make_final_dir():
 	for src, dest in final_dir_files:
 		src_path = src_base / src
 		dest_path = dest_base / dest
-		if src_path.is_dir():
+		if '*' in src:  # Have to check this first on Windows
+			if not dest_path.is_dir():
+				dest_path.mkdir()
+			for globbywobby in Config.dir_aq.glob(src):
+				shutil.copy(globbywobby, dest_path, follow_symlinks=False)
+		elif src_path.is_dir():
 			shutil.copytree(src_path, dest_path, dirs_exist_ok=True)
 		elif src_path.is_file():
 			if not dest_path.is_dir():
 				dest_path.mkdir()
 			shutil.copy(src_path, dest_path, follow_symlinks=False)
-		elif '*' in src:
-			if not dest_path.is_dir():
-				dest_path.mkdir()
-			for globbywobby in Config.dir_aq.glob(src):
-				shutil.copy(globbywobby, dest_path, follow_symlinks=False)
 		else:
 			raise TypeError(src)
 

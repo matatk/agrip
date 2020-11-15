@@ -1,10 +1,12 @@
 """AudioQuake & LDL Launcher - Main launcher window"""
+import sys
+
 import wx
 
 from buildlib import doset, doset_only
 
 from launcherlib.game_controller import GameController
-from launcherlib.ui.helpers import Warn
+from launcherlib.ui.helpers import Warn, error_hook
 from launcherlib.ui.tabs.play import PlayTab
 from launcherlib.ui.tabs.help import HelpTab
 from launcherlib.ui.tabs.customise import CustomiseTab
@@ -16,7 +18,7 @@ class LauncherWindow(wx.Frame):
 	def __init__(self, parent, title):
 		wx.Frame.__init__(self, parent, title=title)
 
-		game_controller = GameController(lambda message: Warn(self, message))
+		game_controller = GameController(lambda: error_hook(*sys.exc_info()))
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
 

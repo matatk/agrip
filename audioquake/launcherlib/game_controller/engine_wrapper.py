@@ -1,6 +1,7 @@
 """AudioQuake & LDL Launcher - Game controller - Engine wrapper"""
 from pathlib import Path
 import threading
+import traceback
 import subprocess
 import sys
 
@@ -27,7 +28,7 @@ class EngineWrapper(threading.Thread):
 
 			# The docs imply this shouldn't be necessary but it is...
 			def reassign_commandline():
-				self._command_line = ' '.join(self._command_line)
+				self._command_line = ' '.join(str(part) for part in self._command_line)
 			doset_only(windows=reassign_commandline)
 
 			# Buffering may be necessary for Windows; seems not to affect Mac
@@ -59,4 +60,4 @@ class EngineWrapper(threading.Thread):
 						self._on_error(error)
 					break
 		except:  # noqa E722
-			self.conduit.put(sys.exc_info())
+			self._on_error()
