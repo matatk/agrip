@@ -26,7 +26,7 @@ class prog:
 		4: 'Stage 04: Builder Macros',
 		5: 'Stage 0y: 3D Connections Level'
 	}
-	STYLE_FILE = 'style.xml'
+	STYLE_FILE = Path('mapping') / 'style.xml'
 	# the style file for our maps (contains textures, sounds and lighting presets)
 	concretion_attempts = 3
 	# number of times the top level tries to parse the hash for info required for
