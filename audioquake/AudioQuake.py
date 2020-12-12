@@ -15,7 +15,7 @@ if __name__ == '__main__':
 	sys.excepthook = error_hook
 
 	try:
-		init_config(dirs.data)
+		init_config(dirs.config)
 		LauncherWindow(None, "AudioQuake & LDL Launcher").Show()
 		app.MainLoop()
 	except OSError:

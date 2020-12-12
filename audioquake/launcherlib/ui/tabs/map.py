@@ -15,9 +15,6 @@ from ldllib.convert import convert, have_wad, WADs
 from ldllib.build import build, basename_maybe_hc
 from ldllib.utils import LDLError
 
-LDL_TUTORIAL_MAPS_DIR = dirs.root / 'ldl-tutorial-maps'
-LDL_EXAMPLE_MAPS_DIR = dirs.root / 'ldl-example-maps'
-
 # The game data dirs where the map should go, given the WAD being used.
 # The absolute path is constructed in build_and_copy().
 wad_bspdests = {
@@ -76,8 +73,8 @@ class MapTab(wx.Panel):
 				choice = chooser.GetSelection()
 				file_picker.SetPath(str(list(maps.keys())[choice]))
 
-		add_map_picker(LDL_TUTORIAL_MAPS_DIR, 'LDL tutorial')
-		add_map_picker(LDL_EXAMPLE_MAPS_DIR, 'LDL example')
+		add_map_picker(dirs.maps_tutorial, 'LDL tutorial')
+		add_map_picker(dirs.maps_example, 'LDL example')
 
 		file_picker = wx.FilePickerCtrl(
 			self, -1, message="Open map", wildcard=WILDCARD)

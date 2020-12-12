@@ -57,6 +57,7 @@ texture_map = {
 # source is relative to the <repo>/audioquake/ dir
 # dest is relative to the final directory structure's root
 
+# NOTE: If editing these, synch up with launcherlib/dirs.py
 final_dir_files = [
 	('mod-static-files/', 'data/id1'),
 	('mod-conditional-files/id1/mod.cfg', 'data/id1'),
@@ -72,12 +73,12 @@ final_dir_files = [
 	('../giants/zq-repo/qc/agrip/qwprogs.dat', 'data/oq'),
 	('../giants/zq-repo/qc/agrip/spprogs.dat', 'data/oq'),
 
-	('manuals-converted/', 'manuals'),
-	('manuals/agrip.css', 'manuals'),
+	('manuals-converted/', 'docs'),
+	('manuals/agrip.css', 'docs'),
 
-	('../ldl/tut*.xml', 'ldl-tutorial-maps'),
-	('../ldl/test_05_*.xml', 'ldl-example-maps'),
-	('../ldl/t*ldl.xml', 'ldl-example-maps')]
+	('../ldl/tut*.xml', 'tutorial-maps'),
+	('../ldl/test_05_*.xml', 'example-maps'),
+	('../ldl/t*ldl.xml', 'example-maps')]
 
 if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
 	final_dir_files.extend([('maps-quakewad/*.bsp', 'data/id1/maps/')])

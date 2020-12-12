@@ -7,7 +7,7 @@ INITIAL_CONFIG = {
 	'first_game_run': 'yes'
 }
 
-_root = None
+_config_file_directory = None
 _config = None
 
 # This isn't a package, but __path__ has to be set or __getattr__ gets called
@@ -22,18 +22,18 @@ def init(root):
 	Due to the default path (above) this will create the file in the current
 	directory, so needs to be called in the right place."""
 	global _config
-	global _root
-	_root = root
+	global _config_file_directory
+	_config_file_directory = root
 	_config = ConfigParser()
-	print('config module init; path:', _root / CONFIG_FILENAME)
-	_config.read(_root / CONFIG_FILENAME)
+	print('config module init; path:', _config_file_directory / CONFIG_FILENAME)
+	_config.read(_config_file_directory / CONFIG_FILENAME)
 	if len(_config) == 1:  # always has a default section
 		_config['launcher'] = INITIAL_CONFIG
 		save()
 
 
 def save():
-	with open(_root / CONFIG_FILENAME, 'w') as configfile:
+	with open(_config_file_directory / CONFIG_FILENAME, 'w') as configfile:
 		_config.write(configfile)
 
 
