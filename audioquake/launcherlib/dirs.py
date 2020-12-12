@@ -13,6 +13,7 @@ import sys
 from buildlib import doset
 
 _inited = False
+_latest_code_only = False
 
 if not _inited:
 	print('dirs module init')
@@ -38,11 +39,18 @@ if not _inited:
 			# terribly much :-))
 			print('running with latest code and no prepared assets')
 			launcher_dir = root_dir = Path(__file__).resolve().parent.parent
+			# Set a flag to later adjust the 'data' path because that's where
+			# the config file goes, and if we're just running the latest code
+			# from the development repo, there's no 'data' directory.
+			_latest_code_only = True
 	_inited = True
 	print('root dir:', root_dir)
 
 root = root_dir                     # Where audioquake.ini goes
-data = root_dir / 'data'            # The game data (id1, oq, mods)
+data = root_dir / 'data'            # The game data (id1, oq, mods) and config
 manuals = root_dir / 'manuals'      # Manuals and standalone docs
 engines = launcher_dir / 'engines'  # The game/server and start commands (Mac)
 mapping = launcher_dir / 'mapping'  # Mapping binaries and resources
+
+if _latest_code_only:
+	data = root_dir

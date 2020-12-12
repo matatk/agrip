@@ -2,8 +2,8 @@
 from buildlib import doset, doset_only
 
 data_files = [
-	('app-support-files/start-rcon.command', 'engines'),    # FIXME Mac
-	('app-support-files/start-server.command', 'engines'),  # FIXME Mac
+	('app-support-files/start-rcon.command', 'engines'),    # FIXME Mac-only
+	('app-support-files/start-server.command', 'engines'),  # FIXME Mac-only
 	('../ldl/style.xml', 'mapping'),
 	('../giants/prototype_wad_1_2/prototype_1_2.wad', 'mapping'),
 	('../giants/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', 'mapping')]
