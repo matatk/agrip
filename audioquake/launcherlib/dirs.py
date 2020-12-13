@@ -43,7 +43,6 @@ if not _inited:
 	_inited = True
 	print('root dir:', root_dir)
 
-root = root_dir                             # FIXME remove?
 # NOTE: If editing the below, synch up with AudioQuake.spec
 data = root_dir / 'data'                    # Game files (id1, oq, mods)
 config = root_dir / 'data'                  # Where audioquake.ini goes

@@ -288,8 +288,6 @@ def make_final_dir():
 
 
 def move_app_to_final_dir():
-	# FIXME: Check Windows paths
-	# FIXME: Shortcut for Windows
 	source = doset(
 		mac=Config.dir_dist / 'AudioQuake.app',
 		windows=Config.dir_dist / 'AudioQuake')
