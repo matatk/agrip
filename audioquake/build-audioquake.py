@@ -62,7 +62,7 @@ texture_map = {
 # dest is relative to the final directory structure's root
 
 # NOTE: If editing these, synch up with launcherlib/dirs.py
-final_dir_files = [
+collated_dir_files = [
 	('mod-static-files/', 'data/id1'),
 	('mod-conditional-files/id1/mod.cfg', 'data/id1'),
 	('maps-prototypewad/*.bsp', 'data/id1/maps/'),
@@ -85,14 +85,13 @@ final_dir_files = [
 	('../ldl/t*ldl.xml', 'example-maps')]
 
 if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
-	final_dir_files.extend([('maps-quakewad/*.bsp', 'data/id1/maps/')])
+	collated_dir_files.extend([('maps-quakewad/*.bsp', 'data/id1/maps/')])
 
 
 #
 # Constants and state
 #
 
-FINAL_DIR = 'collated'    # FIXME: put into Config 
 version_string = None     # read from 'release' file
 skip_pyinstaller = False  # set via command-line option
 force_map_build = False   # also set via CLI
@@ -181,7 +180,7 @@ class TocRenderer(mistune_contrib.toc.TocMixin, mistune.Renderer):
 def convert_markdown_files(base_name, fancy_name, markdown_files, output_dir):
 	toc = TocRenderer()
 	md = mistune.Markdown(renderer=toc)
-	document_template = open(Config.dir_manuals / 'template.html', 'r').read()
+	document_template = open(Config.dir_manuals_src / 'template.html', 'r').read()
 	source = ''
 
 	if not isinstance(markdown_files, list):
@@ -209,7 +208,7 @@ def convert_manuals():
 	}
 
 	for title, manual_basename in manuals.items():
-		sources = sorted(Config.dir_manuals.glob(manual_basename + '*'))
+		sources = sorted(Config.dir_manuals_src.glob(manual_basename + '*'))
 		convert_markdown_files(
 			manual_basename, title, sources, Config.dir_manuals_converted)
 
@@ -217,7 +216,7 @@ def convert_manuals():
 		'README': [Config.dir_readme_licence / 'README.md', 'README'],
 		'LICENCE': [Config.dir_readme_licence / 'LICENCE.md', 'LICENCE'],
 		'AudioQuake sound legend': [
-			Config.dir_manuals / 'user-manual-part07-b.md',
+			Config.dir_manuals_src / 'user-manual-part07-b.md',
 			'sound-legend'
 		],
 		'Level Description Language tutorial': [
@@ -266,14 +265,14 @@ def copy_in_rcon():
 # Creating the final directory and archive
 #
 
-def make_final_dir():
+def make_collated_dir():
 	src_base = Config.dir_aq
-	dest_base = Config.dir_dist / FINAL_DIR
+	dest_base = Config.dir_dist_collated
 
 	# TODO do something with this like caching
 	shutil.rmtree(dest_base, ignore_errors=True)
 
-	for src, dest in final_dir_files:
+	for src, dest in collated_dir_files:
 		src_path = src_base / src
 		dest_path = dest_base / dest
 		if '*' in src:  # Have to check this first on Windows
@@ -291,14 +290,14 @@ def make_final_dir():
 			raise TypeError(src)
 
 
-def move_app_to_final_dir():
+def move_app_to_collated_dir():
 	source = doset(
 		mac=Config.dir_dist / 'AudioQuake.app',
 		windows=Config.dir_dist / 'AudioQuake')
 
 	destination = doset(
-		mac=Config.dir_dist / FINAL_DIR,
-		windows=Config.dir_dist / FINAL_DIR)
+		mac=Config.dir_dist_collated,
+		windows=Config.dir_dist_collated)
 
 	if source.is_dir() and destination.is_dir():
 		shutil.move(str(source), str(destination))
@@ -307,29 +306,29 @@ def move_app_to_final_dir():
 
 
 def windows_make_shortcut_to_app():
-        new_folder_name = 'app-support-files'
-        
-        pyinstaller_built_folder = Config.dir_dist / FINAL_DIR / 'AudioQuake'
-        new_folder_path = Config.dir_dist / FINAL_DIR / new_folder_name
-        link_path = Config.dir_dist / FINAL_DIR / 'AudioQuake.lnk'
-        relative_path_to_exe = Path(new_folder_name) / 'AudioQuake.exe'
+	new_folder_name = 'app-support-files'
 
-        print('Making Windows launcher shortcut (and renaming generated directory)')
-        pyinstaller_built_folder.rename(new_folder_path)
+	pyinstaller_built_folder = Config.dir_dist_collated / 'AudioQuake'
+	new_folder_path = Config.dir_dist_collated / new_folder_name
+	link_path = Config.dir_dist_collated / 'AudioQuake.lnk'
+	relative_path_to_exe = Path(new_folder_name) / 'AudioQuake.exe'
 
-        with winshell.shortcut(str(link_path)) as shortcut:
-                shortcut.path = '%windir%\explorer.exe'
-                shortcut.arguments = '"' + str(relative_path_to_exe) + '"'
-                shortcut.icon_location = '%SystemRoot%\System32\SHELL32.dll', 41
-                shortcut.description = "AudioQuake & LDL Launcher"
-        
+	print('Making Windows launcher shortcut (and renaming generated directory)')
+	pyinstaller_built_folder.rename(new_folder_path)
+
+	with winshell.shortcut(str(link_path)) as shortcut:
+		shortcut.path = r'%windir%\explorer.exe'
+		shortcut.arguments = '"' + str(relative_path_to_exe) + '"'
+		shortcut.icon_location = r'%SystemRoot%\System32\SHELL32.dll', 41
+		shortcut.description = "AudioQuake & LDL Launcher"
+
 
 def make_zip():
 	program_name = 'AudioQuake+LDL'
 	platform_name = doset(mac='Mac', windows='Windows')
 	archive_name = f'{program_name}_{version_string}_{platform_name}'
 	shutil.make_archive(
-		Config.dir_dist / archive_name, 'zip', Config.dir_dist / FINAL_DIR)
+		Config.dir_dist / archive_name, 'zip', Config.dir_dist_collated)
 
 
 #
@@ -366,8 +365,8 @@ def build_audioquake():
 		run_pyinstaller()
 		copy_in_rcon()
 		print('Creating distributable directory structure')
-		make_final_dir()
-		move_app_to_final_dir()
+		make_collated_dir()
+		move_app_to_collated_dir()
 		doset_only(windows=windows_make_shortcut_to_app)
 		print('Creating distributable archive')
 		make_zip()
