@@ -3,15 +3,19 @@
 import argparse
 from os import chdir
 from pathlib import Path
+from platform import system
 import re
 import string
 import shutil
+
+if system() == 'Windows':
+	import winshell
 
 import mistune
 import mistune_contrib.toc
 
 from buildlib import Config, \
-	try_to_run, doset, check_platform, die, comeback, prep_dir
+	try_to_run, doset, doset_only, check_platform, die, comeback, prep_dir
 from ldllib.build import build, have_needed_progs, use_repo_bins, \
 	swap_wad, basename_maybe_hc
 from ldllib.convert import use_repo_wads, have_wad, WADs
@@ -88,7 +92,7 @@ if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
 # Constants and state
 #
 
-FINAL_DIR = 'collated'
+FINAL_DIR = 'collated'    # FIXME: put into Config 
 version_string = None     # read from 'release' file
 skip_pyinstaller = False  # set via command-line option
 force_map_build = False   # also set via CLI
@@ -302,6 +306,24 @@ def move_app_to_final_dir():
 		raise Exception(f'Either "{source}" or "{destination}" is not a directory!')
 
 
+def windows_make_shortcut_to_app():
+        new_folder_name = 'app-support-files'
+        
+        pyinstaller_built_folder = Config.dir_dist / FINAL_DIR / 'AudioQuake'
+        new_folder_path = Config.dir_dist / FINAL_DIR / new_folder_name
+        link_path = Config.dir_dist / FINAL_DIR / 'AudioQuake.lnk'
+        relative_path_to_exe = Path(new_folder_name) / 'AudioQuake.exe'
+
+        print('Making Windows launcher shortcut (and renaming generated directory)')
+        pyinstaller_built_folder.rename(new_folder_path)
+
+        with winshell.shortcut(str(link_path)) as shortcut:
+                shortcut.path = '%windir%\explorer.exe'
+                shortcut.arguments = '"' + str(relative_path_to_exe) + '"'
+                shortcut.icon_location = '%SystemRoot%\System32\SHELL32.dll', 41
+                shortcut.description = "AudioQuake & LDL Launcher"
+        
+
 def make_zip():
 	program_name = 'AudioQuake+LDL'
 	platform_name = doset(mac='Mac', windows='Windows')
@@ -346,6 +368,7 @@ def build_audioquake():
 		print('Creating distributable directory structure')
 		make_final_dir()
 		move_app_to_final_dir()
+		doset_only(windows=windows_make_shortcut_to_app)
 		print('Creating distributable archive')
 		make_zip()
 	else:
