@@ -522,7 +522,7 @@ class StyleFetcher:
 		self.lightingSets = {}  # as above but with lighting
 		self.soundLookup = {}   # returns sound key for entity in worldtype
 		temp_lighting_set = {}  # as above but with lighting
-		s = xml.dom.minidom.parse(str(maptools.STYLE_FILE))
+		s = xml.dom.minidom.parse(str(maptools.styles))
 
 		# If a WAD file has been given, get the appropriate texture sets. This
 		# may have been called from a level that doesn't need textures, just
@@ -905,7 +905,7 @@ class maptools:
 	qbsp = 'qbsp'
 	light = 'light'
 	vis = 'vis'
-	STYLE_FILE = 'style.xml'
+	styles = 'style.xml'
 
 	if system() == 'Windows':
 		qbsp += '.exe'
@@ -914,16 +914,14 @@ class maptools:
 
 
 def use_bins(base):
-	print('DEBUG: use_bins()', base)
 	maptools.qbsp = base / maptools.qbsp
 	maptools.light = base / maptools.light
 	maptools.vis = base / maptools.vis
-	maptools.STYLE_FILE = base / maptools.STYLE_FILE
+	maptools.styles = base / maptools.styles
 
 
 def use_repo_bins(base):
-	# FIXME: add synch note both ways with buildlib.py
-	print('DEBUG: use_repo_bins()')
+	# FIXME: add synch note both ways with buildlib.py, others?
 	# If being called from LDL, the base path is one level up. If being run
 	# as part of the AudioQuake build process, the absolute base path can
 	# be passed in.
@@ -953,7 +951,6 @@ class WADs(Enum):
 
 DEFAULT_WAD = WADs.QUAKE
 
-# FIXME make a class like the above
 WAD_FILES = {
 	WADs.QUAKE: 'quake.wad',
 	WADs.FREE: 'free_wad.wad',
@@ -962,16 +959,13 @@ WAD_FILES = {
 
 
 def use_wads(dir_open, dir_quake):
-	# FIXME: add synch note both ways with spec?
-	print('DEBUG: use_wads()')
 	WAD_FILES[WADs.FREE] = dir_open / WAD_FILES[WADs.FREE]
 	WAD_FILES[WADs.PROTOTYPE] = dir_open / WAD_FILES[WADs.PROTOTYPE]
 	WAD_FILES[WADs.QUAKE] = dir_quake / WAD_FILES[WADs.QUAKE]
 
 
 def use_repo_wads(base):
-	# FIXME: add synch note both ways with buildlib.py
-	print('DEBUG: use_repo_wads()')
+	# FIXME: add synch note both ways with buildlib.py, others?
 	# If being called from LDL, the base path is one level up. If being run
 	# as part of the AudioQuake build process, the absolute base path can
 	# be passed in.
@@ -988,8 +982,6 @@ def use_repo_wads(base):
 def have_needed_tools():
 	missing = []
 	for exe in [maptools.qbsp, maptools.vis, maptools.light, maptools.bspinfo]:
-		if exe.is_file():
-			print('DEBUG: have', exe)
 		if not exe.is_file():
 			missing.append(exe)
 
@@ -1007,5 +999,4 @@ def have_wad(name, quiet=False):
 		if not quiet:
 			print(f'ERROR: Missing {WAD_FILES[name]}')
 		return False
-	print('DEBUG: have WAD', WAD_FILES[name])
 	return True
