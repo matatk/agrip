@@ -7,11 +7,13 @@ import sys
 
 import argcomplete
 
-from ldllib.convert import WADs, DEFAULT_WAD, use_repo_wads, have_wad, convert
-from ldllib.build import build, have_needed_progs, use_repo_bins
+from ldllib.convert import convert
+from ldllib.build import build
 from ldllib.play import play
 from ldllib.roundtrip import roundtrip
-from ldllib.utils import LDLError
+from ldllib.utils import LDLError, \
+	WADs, DEFAULT_WAD, use_repo_wads, have_wad, \
+	have_needed_tools, use_repo_bins
 
 
 class Mode(IntEnum):
@@ -41,7 +43,7 @@ def handle_play(args):
 
 
 def handle_core(args, mode):
-	if mode >= Mode.BUILD and not have_needed_progs():
+	if mode >= Mode.BUILD and not have_needed_tools():
 		sys.exit(42)
 
 	if mode >= Mode.BUILD and not have_wad(args.wad):
@@ -68,25 +70,25 @@ def handle_core(args, mode):
 						verbose=args.verbose,
 						keep_intermediate=args.keep)
 					if mode >= Mode.BUILD:
-						build(mapfile, args.verbose)
+						build(mapfile, verbose=args.verbose)
 						if mode == Mode.PLAY:
-							play(bspfile, args.verbose)
+							play(bspfile, verbose=args.verbose)
 			except (LDLError, FileNotFoundError):
 				print_exception()
 
 		elif mapfile in files:
 			try:
 				if mode >= Mode.BUILD:
-					build(mapfile, args.verbose)
+					build(mapfile, verbose=args.verbose)
 					if mode == Mode.PLAY:
-						play(bspfile, args.verbose)
+						play(bspfile, verbose=args.verbose)
 			except (LDLError, FileNotFoundError):
 				print_exception()
 
 		elif bspfile in files:
 			try:
 				if mode == Mode.PLAY:
-					play(bspfile, args.verbose)
+					play(bspfile, verbose=args.verbose)
 			except LDLError:
 				print_exception()
 
@@ -106,6 +108,7 @@ def handle_roundtrip(args):
 			continue
 		if filename.suffix == '.map':
 			try:
+				# TODO: check argument order
 				roundtrip(filename, args.verbose, args.keep, args.play)
 			except LDLError:
 				print_exception()

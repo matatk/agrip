@@ -11,9 +11,9 @@ from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
 	Info, Warn, Error, ErrorException, HOW_TO_INSTALL
 from launcherlib.utils import opener
-from ldllib.convert import convert, have_wad, WADs
+from ldllib.convert import convert
 from ldllib.build import build, basename_maybe_hc
-from ldllib.utils import LDLError
+from ldllib.utils import LDLError, have_wad, WADs, use_bins, use_wads
 
 # The game data dirs where the map should go, given the WAD being used.
 # The absolute path is constructed in build_and_copy().
@@ -148,6 +148,11 @@ class MapTab(wx.Panel):
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
+
+		# Set up LDL paths
+
+		use_bins(dirs.map_tools)
+		use_wads(dirs.map_tools, dirs.data / 'id1')
 
 	def build_and_play(self, xmlfile, play_wad):
 		for wad, destinations in wad_bspdests.items():

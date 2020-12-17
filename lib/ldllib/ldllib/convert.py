@@ -1,51 +1,11 @@
 '''LDL XML-to-map Converter'''
-from enum import Enum
-from pathlib import Path
-
 from .level_00_down_map2mapxml import main as level0
 from .level_01_down_brushsizes import main as level1
 from .level_02_down_rooms import main as level2
 from .level_03_down_lighting import main as level3
 from .level_04_down_buildermacros import main as level4
 from .level_05_down_connections import main as level5
-from .utils import keep, set_verbosity
-
-
-class WADs(Enum):
-	QUAKE = 'quake'
-	FREE = 'free'
-	PROTOTYPE = 'prototype'
-
-
-DEFAULT_WAD = WADs.QUAKE
-
-# By default, assume the WAD files are in the 'mapping' directory
-# FIXME The base dir should be passed when calling this
-WAD_FILES = {
-	WADs.QUAKE: Path('mapping') / 'quake.wad',
-	WADs.FREE: Path('mapping') / 'free_wad.wad',
-	WADs.PROTOTYPE: Path('mapping') / 'prototype_1_2.wad'
-}
-
-
-def use_repo_wads(base):
-	# If being called from LDL, the base path is one level up. If being run
-	# as part of the AudioQuake build process, the absolute base path can
-	# be passed in.
-	WAD_FILES[WADs.QUAKE] = base / 'audioquake' / 'dist' \
-		/ 'collated' / 'data' / 'id1' / 'quake.wad'
-	WAD_FILES[WADs.FREE] = base / 'giants' / 'oq-pak-src-2004.08.01' / 'maps' \
-		/ 'textures' / 'free_wad.wad'
-	WAD_FILES[WADs.PROTOTYPE] = base / 'giants' / 'prototype_wad_1_2' \
-		/ 'prototype_1_2.wad'
-
-
-def have_wad(name, quiet=False):
-	if not WAD_FILES[name].is_file():
-		if not quiet:
-			print(f'ERROR: Missing {WAD_FILES[name]}')
-		return False
-	return True
+from .utils import keep, set_verbosity, WAD_FILES, DEFAULT_WAD
 
 
 def convert(

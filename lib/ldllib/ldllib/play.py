@@ -8,18 +8,23 @@ from platform import system
 import subprocess
 import shutil
 
+from buildlib import Config
+
+# FIXME: Make this call the launcher with a special mode
+# FIXME: sort paths
+# FIXME: use build lib paths? don't see an issue; other parts of ldl use it
+# FIXME: may not need this at all?
 base = Path(__file__).parent.parent.parent.parent
 if system() == 'Darwin':
-	aq_dir = base / 'audioquake' / 'dist' / 'AudioQuake.app' / 'Contents' / 'MacOS'
 	engine = './zquake-glsdl'
 elif system() == 'Windows':
-	aq_dir = base / 'audioquake' / 'dist' / 'AudioQuake'
 	engine = 'zquake-gl.exe'
 else:
 	raise NotImplementedError
 
-maps_dir = aq_dir / 'id1' / 'maps'
+maps_dir = Config.dir_dist_collated / 'data' / 'id1' / 'maps'
 
+# FIXME: Make this call the launcher with a special mode
 command_line_basis = [
 	engine,
 	'-window',
@@ -32,7 +37,8 @@ command_line_basis = [
 
 def _run(map_base_name, verbose=False):
 	starting_dir = getcwd()
-	chdir(aq_dir)
+	# FIXME: Make this call the launcher with a special mode
+	chdir(Config.dir_aq_exe_internals / 'engines')  # FIXME: synch note with spec?
 	command_line = command_line_basis + [map_base_name]
 	try:
 		res = subprocess.run(command_line, capture_output=True, check=True)

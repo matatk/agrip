@@ -1,7 +1,10 @@
 # vim: ft=python
 from buildlib import doset, doset_only
 
-# NOTE: If editing any of these paths, synch up with launcherlib/dirs.py
+# The files copied in here are going to end up in the internal folder/bundle
+# for the launcher, and are not intended to be easily publicly accessible.
+
+# NOTE: Synch with launcherlib/dirs.py and build-audioquake.py.
 
 data_files = [
 	('app-support-files/start-rcon.command', 'engines'),    # FIXME Mac-only
@@ -43,8 +46,8 @@ a = Analysis(  # noqa 821
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)  # noqa 821
 
 platform_icon = doset(
-	mac='app-support-files/aq.icns',
-	windows='app-support-files/aq.ico')
+	mac='app-support-files/aq.icns',     # FIXME DRY?
+	windows='app-support-files/aq.ico')  # FIXME DRY?
 
 exe = EXE(  # noqa 821
 	pyz,

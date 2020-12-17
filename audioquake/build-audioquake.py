@@ -16,9 +16,9 @@ import mistune_contrib.toc
 
 from buildlib import Config, \
 	try_to_run, doset, doset_only, check_platform, die, comeback, prep_dir
-from ldllib.build import build, have_needed_progs, use_repo_bins, \
-	swap_wad, basename_maybe_hc
-from ldllib.convert import use_repo_wads, have_wad, WADs
+from ldllib.build import build, swap_wad, basename_maybe_hc
+from ldllib.utils import use_repo_wads, have_wad, WADs, \
+	have_needed_tools, use_repo_bins
 
 
 #
@@ -58,10 +58,13 @@ texture_map = {
 # Files to copy into final directory structure
 #
 
+# These files copied in here are going to end up outside of the launcher
+# directory/bundle, so are easily publicly accessible.
+
+# NOTE: Synch with launcherlib/dirs.py and AudioQuake.spec.
+
 # source is relative to the <repo>/audioquake/ dir
 # dest is relative to the final directory structure's root
-
-# NOTE: If editing these, synch up with launcherlib/dirs.py
 collated_dir_files = [
 	('mod-static-files/', 'data/id1'),
 	('mod-conditional-files/id1/mod.cfg', 'data/id1'),
@@ -120,7 +123,7 @@ def build_maps_for(bsp_dir, wad):
 	use_repo_wads(Config.base)
 	bsp_dir.mkdir(exist_ok=True)
 
-	if not have_needed_progs():
+	if not have_needed_tools():
 		raise Exception('Quake map tools missing')
 
 	maps = list(Config.dir_maps_source.glob('*.map'))
@@ -258,7 +261,7 @@ def copy_in_rcon():
 
 	shutil.copy(
 		Config.dir_dist_rcon / rcon_bin,
-		Config.dir_aq_data)
+		Config.dir_aq_exe_internals)
 
 
 #

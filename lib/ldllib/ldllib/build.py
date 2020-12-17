@@ -1,54 +1,18 @@
 '''LDL interface to Quake map compilation tools'''
 from pathlib import Path
-import platform
 import subprocess
 
 from buildlib import doset
 
-from .conf import prog
-from .utils import LDLError
-from .convert import WAD_FILES, WADs
+from .utils import LDLError, WADs, WAD_FILES, maptools
 
 clean = ['.h1', '.h2', '.prt', '.pts', '.temp']  # last is if WAD path updated
 temp_map_suffix = '.temp'
 
 
+#
 # Public
-
-def use_repo_bins(base):
-	# If being called from LDL, the base path is one level up. If being run
-	# as part of the AudioQuake build process, the absolute base path can
-	# be passed in.
-	if platform.system() == 'Darwin':
-		bin_base = base / 'giants' / 'Quake-Tools' / 'qutils' / 'qbsp'
-		prog.qbsp = bin_base / 'qbsp'
-		prog.light = bin_base / 'light'
-		prog.vis = bin_base / 'vis'
-		prog.bspinfo = bin_base / 'bspinfo'
-	elif platform.system() == 'Windows':
-		bin_base = base / 'giants' / 'Quake-Tools' / 'qutils'
-		prog.qbsp = bin_base / 'qbsp' / 'Release' / 'qbsp.exe'
-		prog.light = bin_base / 'light' / 'Release' / 'light.exe'
-		prog.vis = bin_base / 'vis' / 'Release' / 'vis.exe'
-		prog.bspinfo = bin_base / 'bspinfo' / 'Release' / 'bspinfo.exe'
-	else:
-		raise NotImplementedError
-
-
-def have_needed_progs():
-	missing = []
-	for exe in [prog.qbsp, prog.vis, prog.light, prog.bspinfo]:
-		if not exe.is_file():
-			missing.append(exe)
-
-	if len(missing) > 0:
-		print(
-			'ERROR: The following map tools are missing:\n\t'
-			+ '\n\t'.join([str(path) for path in missing]))
-		return False
-	else:
-		return True
-
+#
 
 def swap_wad(map_string, to):
 	return map_string.replace('"wad" "quake.wad"', f'"wad" "{WAD_FILES[to]}"')
@@ -68,7 +32,7 @@ def build(map_file, bsp_file=None, verbose=False, quiet=False, throw=False):
 	"""Run a complete build for this map
 
 	map_file - source map file
-	bsp_file - output bsp file (this may be different, e.g. high-contrast mode
+	bsp_file - output bsp file (this may be different, e.g. high-contrast mode)
 	verbose  - whether to print the stdout from the program
 	quiet    - whether to print anything to stdout (overrides 'verbose')
 	throw    - whether to raise a CalledProcessError if encountered
@@ -87,27 +51,29 @@ def build(map_file, bsp_file=None, verbose=False, quiet=False, throw=False):
 	build_map_path = swap_quake_wad_for_full_path(map_file)
 	built_file = build_map_path.with_suffix('') if not bsp_file else bsp_file
 
-	qbsp_args = [prog.qbsp, build_map_path]
+	qbsp_args = [maptools.qbsp, build_map_path]
 	if bsp_file:
 		qbsp_args.append(bsp_file)
 
 	run(
 		qbsp_args, verbose=verbose, quiet=quiet, throw=throw)
 	run(
-		[prog.light, '-extra', built_file],
+		[maptools.light, '-extra', built_file],
 		verbose=verbose, quiet=quiet, throw=throw)
 	run(
-		[prog.vis, '-level', '4', built_file],
+		[maptools.vis, '-level', '4', built_file],
 		verbose=verbose, errorcheck=False, quiet=quiet, throw=throw)
 
 	if not quiet and verbose:
-		run([prog.bspinfo, built_file], verbose=True, errorcheck=False)
+		run([maptools.bspinfo, built_file], verbose=True, errorcheck=False)
 
 	for ext in clean:
 		map_file.with_suffix(ext).unlink(missing_ok=True)
 
 
+#
 # Private
+#
 
 def swap_quake_wad_for_full_path(map_path):
 	"""Use the full/correct WAD file path
@@ -133,8 +99,9 @@ def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 	quiet      - whether to print anything to stdout (overrides 'verbose')
 	throw      - whether to raise a CalledProcessError if encountered"""
 	try:
-		sh = doset(mac=False, windows=True)
-		res = subprocess.run(args, capture_output=True, check=errorcheck, shell=sh)
+		use_shell = doset(mac=False, windows=True)
+		res = subprocess.run(
+			args, capture_output=True, check=errorcheck, shell=use_shell)
 		# We may not be doing strict error-checking (e.g. for vis) but still
 		# want to know when it didn't work
 		if not quiet and verbose:
@@ -142,6 +109,7 @@ def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 		elif res.returncode != 0 and not quiet:
 			print('Ignored error from', args[0].name)
 	except subprocess.CalledProcessError as error:
+		print('caught error')
 		if throw:
 			details = error.output.decode().splitlines()[-1]
 			raise LDLError(error.cmd[0].name + ': ' + details)

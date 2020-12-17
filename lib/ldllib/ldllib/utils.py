@@ -9,10 +9,14 @@
 
 import sys
 import xml.dom.minidom
-import ldllib.split as split
 import pprint
-from ldllib.plane import Point
-from ldllib.conf import (
+from enum import Enum
+from pathlib import Path
+from platform import system
+
+import ldllib.split as split
+from .plane import Point
+from .conf import (
 	connector,
 	dims,
 	dcp,
@@ -518,7 +522,7 @@ class StyleFetcher:
 		self.lightingSets = {}  # as above but with lighting
 		self.soundLookup = {}   # returns sound key for entity in worldtype
 		temp_lighting_set = {}  # as above but with lighting
-		s = xml.dom.minidom.parse(prog.STYLE_FILE)
+		s = xml.dom.minidom.parse(str(maptools.STYLE_FILE))
 
 		# If a WAD file has been given, get the appropriate texture sets. This
 		# may have been called from a level that doesn't need textures, just
@@ -889,3 +893,119 @@ def keep(keep, level, without_ext, content):
 	intermediate_name = str(without_ext) + '_level_' + str(level) + '.xml'
 	with open(intermediate_name, 'w') as out:
 		out.write(content)
+
+
+#
+# Handling external bins and resources
+#
+
+# Map tools binaries and style file
+
+class maptools:
+	qbsp = 'qbsp'
+	light = 'light'
+	vis = 'vis'
+	STYLE_FILE = 'style.xml'
+
+	if system() == 'Windows':
+		qbsp += '.exe'
+		light += '.exe'
+		vis += '.exe'
+
+
+def use_bins(base):
+	print('DEBUG: use_bins()', base)
+	maptools.qbsp = base / maptools.qbsp
+	maptools.light = base / maptools.light
+	maptools.vis = base / maptools.vis
+	maptools.STYLE_FILE = base / maptools.STYLE_FILE
+
+
+def use_repo_bins(base):
+	# FIXME: add synch note both ways with buildlib.py
+	print('DEBUG: use_repo_bins()')
+	# If being called from LDL, the base path is one level up. If being run
+	# as part of the AudioQuake build process, the absolute base path can
+	# be passed in.
+	if system() == 'Darwin':
+		bin_base = base / 'giants' / 'Quake-Tools' / 'qutils' / 'qbsp'
+		maptools.qbsp = bin_base / 'qbsp'
+		maptools.light = bin_base / 'light'
+		maptools.vis = bin_base / 'vis'
+		maptools.bspinfo = bin_base / 'bspinfo'
+	elif system() == 'Windows':
+		bin_base = base / 'giants' / 'Quake-Tools' / 'qutils'
+		maptools.qbsp = bin_base / 'qbsp' / 'Release' / 'qbsp.exe'
+		maptools.light = bin_base / 'light' / 'Release' / 'light.exe'
+		maptools.vis = bin_base / 'vis' / 'Release' / 'vis.exe'
+		maptools.bspinfo = bin_base / 'bspinfo' / 'Release' / 'bspinfo.exe'
+	else:
+		raise NotImplementedError
+
+
+# Texture WAD files
+
+class WADs(Enum):
+	QUAKE = 'quake'
+	FREE = 'free'
+	PROTOTYPE = 'prototype'
+
+
+DEFAULT_WAD = WADs.QUAKE
+
+# FIXME make a class like the above
+WAD_FILES = {
+	WADs.QUAKE: 'quake.wad',
+	WADs.FREE: 'free_wad.wad',
+	WADs.PROTOTYPE: 'prototype_1_2.wad'
+}
+
+
+def use_wads(dir_open, dir_quake):
+	# FIXME: add synch note both ways with spec?
+	print('DEBUG: use_wads()')
+	WAD_FILES[WADs.FREE] = dir_open / WAD_FILES[WADs.FREE]
+	WAD_FILES[WADs.PROTOTYPE] = dir_open / WAD_FILES[WADs.PROTOTYPE]
+	WAD_FILES[WADs.QUAKE] = dir_quake / WAD_FILES[WADs.QUAKE]
+
+
+def use_repo_wads(base):
+	# FIXME: add synch note both ways with buildlib.py
+	print('DEBUG: use_repo_wads()')
+	# If being called from LDL, the base path is one level up. If being run
+	# as part of the AudioQuake build process, the absolute base path can
+	# be passed in.
+	WAD_FILES[WADs.QUAKE] = base / 'audioquake' / 'dist' \
+		/ 'collated' / 'data' / 'id1' / 'quake.wad'
+	WAD_FILES[WADs.FREE] = base / 'giants' / 'oq-pak-src-2004.08.01' / 'maps' \
+		/ 'textures' / 'free_wad.wad'
+	WAD_FILES[WADs.PROTOTYPE] = base / 'giants' / 'prototype_wad_1_2' \
+		/ 'prototype_1_2.wad'
+
+
+# Checking for needed tools/wads
+
+def have_needed_tools():
+	missing = []
+	for exe in [maptools.qbsp, maptools.vis, maptools.light, maptools.bspinfo]:
+		if exe.is_file():
+			print('DEBUG: have', exe)
+		if not exe.is_file():
+			missing.append(exe)
+
+	if len(missing) > 0:
+		print(
+			'ERROR: The following map tools are missing:\n\t'
+			+ '\n\t'.join([str(path) for path in missing]))
+		return False
+	else:
+		return True
+
+
+def have_wad(name, quiet=False):
+	if not WAD_FILES[name].is_file():
+		if not quiet:
+			print(f'ERROR: Missing {WAD_FILES[name]}')
+		return False
+	print('DEBUG: have WAD', WAD_FILES[name])
+	return True
