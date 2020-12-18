@@ -16,7 +16,7 @@ import mistune_contrib.toc
 
 from buildlib import Config, \
 	try_to_run, doset, doset_only, check_platform, die, comeback, prep_dir
-from ldllib.build import build, swap_wad, basename_maybe_hc
+from ldllib.build import build, swap_wad, bsp_maybe_hc
 from ldllib.utils import use_repo_wads, have_wad, WADs, \
 	have_needed_tools, use_repo_bins
 
@@ -131,7 +131,7 @@ def build_maps_for(bsp_dir, wad):
 	maps_to_build = list(maps)  # i.e. copy
 
 	for mapfile in maps:
-		map_name = basename_maybe_hc(wad, mapfile)
+		map_name = bsp_maybe_hc(wad, mapfile)
 		this_wad_mapfile = bsp_dir / map_name
 		this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
 

@@ -8,7 +8,7 @@ import sys
 import argcomplete
 
 from ldllib.convert import convert
-from ldllib.build import build
+from ldllib.build import bsp_maybe_hc, build
 from ldllib.play import play
 from ldllib.roundtrip import roundtrip
 from ldllib.utils import LDLError, \
@@ -59,7 +59,7 @@ def handle_core(args, mode):
 	for basename in bases:
 		xmlfile = basename.with_suffix('.xml')
 		mapfile = basename.with_suffix('.map')
-		bspfile = basename.with_suffix('.bsp')
+		bspfile = bsp_maybe_hc(args.wad, basename)
 
 		if xmlfile in files:
 			try:
@@ -70,7 +70,7 @@ def handle_core(args, mode):
 						verbose=args.verbose,
 						keep_intermediate=args.keep)
 					if mode >= Mode.BUILD:
-						build(mapfile, verbose=args.verbose)
+						build(mapfile, bspfile, verbose=args.verbose)
 						if mode == Mode.PLAY:
 							play(bspfile, verbose=args.verbose)
 			except (LDLError, FileNotFoundError):

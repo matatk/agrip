@@ -7,7 +7,7 @@ from buildlib import doset
 from .utils import LDLError, WADs, WAD_FILES, maptools
 
 clean = ['.h1', '.h2', '.prt', '.pts', '.temp']  # last is if WAD path updated
-temp_map_suffix = '.temp'
+TEMP_MAP_SUFFIX = '.temp'
 
 
 #
@@ -18,13 +18,11 @@ def swap_wad(map_string, to):
 	return map_string.replace('"wad" "quake.wad"', f'"wad" "{WAD_FILES[to]}"')
 
 
-# TODO move this, and the above, and the ones in convert? to somewhere central?
-# FIXME doesn't do basename; preserves suffix
-def basename_maybe_hc(wad, file_path):
+def bsp_maybe_hc(wad, file_path):
 	if wad == WADs.PROTOTYPE:
-		out = file_path.stem + 'hc' + file_path.suffix
+		out = file_path.stem + 'hc.bsp'
 	else:
-		out = file_path.name
+		out = file_path.stem + '.bsp'
 	return Path(out)
 
 
@@ -44,31 +42,36 @@ def build(map_file, bsp_file=None, verbose=False, quiet=False, throw=False):
 	need, and we probably do want to re-raise errors."""
 
 	if not quiet:
-		print('Building', map_file)
+		print('Building', map_file, bsp_file)
 
 	# If the map file has a relative path to "quake.wad" we need to point it to
 	# the correct full path. The map is then saved with a new name.
-	build_map_path = swap_quake_wad_for_full_path(map_file)
-	built_file = build_map_path.with_suffix('') if not bsp_file else bsp_file
+	build_map_file = swap_quake_wad_for_full_path(map_file)
+	print('build_map_file', build_map_file)
+	build_bsp = build_map_file.with_suffix('') if not bsp_file else bsp_file
 
-	qbsp_args = [maptools.qbsp, build_map_path]
+	qbsp_args = [maptools.qbsp, build_map_file]
 	if bsp_file:
 		qbsp_args.append(bsp_file)
 
 	run(
 		qbsp_args, verbose=verbose, quiet=quiet, throw=throw)
 	run(
-		[maptools.light, '-extra', built_file],
+		[maptools.light, '-extra', build_bsp],
 		verbose=verbose, quiet=quiet, throw=throw)
 	run(
-		[maptools.vis, '-level', '4', built_file],
+		[maptools.vis, '-level', '4', build_bsp],
 		verbose=verbose, errorcheck=False, quiet=quiet, throw=throw)
 
 	if not quiet and verbose:
-		run([maptools.bspinfo, built_file], verbose=True, errorcheck=False)
+		run([maptools.bspinfo, build_bsp], verbose=True, errorcheck=False)
 
 	for ext in clean:
-		map_file.with_suffix(ext).unlink(missing_ok=True)
+		print('cleaning', ext)
+		print(build_map_file.with_suffix(ext))
+		build_map_file.with_suffix(ext).unlink(missing_ok=True)
+
+	# Note: the build happens in the current directory
 
 
 #
@@ -84,7 +87,7 @@ def swap_quake_wad_for_full_path(map_path):
 	map_string = map_path.read_text()
 	modifed_map_string = swap_wad(map_string, WADs.QUAKE)
 	if len(map_string) != len(modifed_map_string):
-		output_map = map_path.with_suffix(temp_map_suffix)
+		output_map = map_path.with_suffix(TEMP_MAP_SUFFIX)
 		output_map.write_text(modifed_map_string)
 		return output_map
 	return map_path

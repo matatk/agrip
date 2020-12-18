@@ -12,7 +12,7 @@ from launcherlib.ui.helpers import \
 	Info, Warn, Error, ErrorException, HOW_TO_INSTALL
 from launcherlib.utils import opener
 from ldllib.convert import convert
-from ldllib.build import build, basename_maybe_hc
+from ldllib.build import build, bsp_maybe_hc
 from ldllib.utils import LDLError, have_wad, WADs, use_bins, use_wads
 
 # The game data dirs where the map should go, given the WAD being used.
@@ -165,7 +165,7 @@ class MapTab(wx.Panel):
 				return
 
 		if play_wad:
-			map_basename = basename_maybe_hc(play_wad, xmlfile.with_suffix(''))
+			map_basename = bsp_maybe_hc(play_wad, xmlfile).with_suffix('')
 
 			if play_wad == WADs.QUAKE:
 				if not have_wad(WADs.QUAKE, quiet=True):
@@ -192,7 +192,7 @@ class MapTab(wx.Panel):
 	@staticmethod
 	def build_and_copy(xmlfile, wad, dest_dirs):
 		mapfile = xmlfile.with_suffix('.map')
-		bspfile = basename_maybe_hc(wad, xmlfile.with_suffix('.bsp'))
+		bspfile = bsp_maybe_hc(wad, xmlfile)
 
 		convert(xmlfile, wad=wad)
 		build(mapfile, bsp_file=bspfile, quiet=True, throw=True)

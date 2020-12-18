@@ -11,7 +11,6 @@ import sys
 import xml.dom.minidom
 import pprint
 from enum import Enum
-from pathlib import Path
 from platform import system
 
 import ldllib.split as split
