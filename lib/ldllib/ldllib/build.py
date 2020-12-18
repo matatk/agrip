@@ -49,7 +49,6 @@ def build(map_file, bsp_file=None, verbose=False, quiet=False, throw=False):
 	# If the map file has a relative path to "quake.wad" we need to point it to
 	# the correct full path. The map is then saved with a new name.
 	build_map_file = swap_quake_wad_for_full_path(map_file)
-	print('build_map_file', build_map_file)
 	build_bsp = build_map_file.with_suffix('') if not bsp_file else bsp_file
 
 	qbsp_args = [maptools.qbsp, build_map_file]
@@ -69,18 +68,14 @@ def build(map_file, bsp_file=None, verbose=False, quiet=False, throw=False):
 		run([maptools.bspinfo, build_bsp], verbose=True, errorcheck=False)
 
 	if build_map_file.suffix == '.temp':
-		print('cleaning', build_map_file)
 		build_map_file.unlink()
-	else:
-		print('no temp fils')
 
 	for ext in clean:
 		if bsp_file:
-			file_to_clean = Path.cwd() / bsp_file.with_suffix(ext)
+			basename = bsp_file.with_suffix(ext)
 		else:
-			file_to_clean = Path.cwd() / map_file.with_suffix(ext)
-		print('cleaning', file_to_clean)
-		file_to_clean.unlink(missing_ok=True)
+			basename = map_file.with_suffix(ext)
+		(Path.cwd() / basename.with_suffix(ext)).unlink(missing_ok=True)
 
 
 #
