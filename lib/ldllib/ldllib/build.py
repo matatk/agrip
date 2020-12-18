@@ -112,7 +112,6 @@ def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 		elif res.returncode != 0 and not quiet:
 			print('Ignored error from', args[0].name)
 	except subprocess.CalledProcessError as error:
-		print('caught error')
 		if throw:
 			details = error.output.decode().splitlines()[-1]
 			raise LDLError(error.cmd[0].name + ': ' + details)

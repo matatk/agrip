@@ -131,8 +131,8 @@ def build_maps_for(bsp_dir, wad):
 	maps_to_build = list(maps)  # i.e. copy
 
 	for mapfile in maps:
-		map_name = bsp_maybe_hc(wad, mapfile)
-		this_wad_mapfile = bsp_dir / map_name
+		bsp_name = bsp_maybe_hc(wad, mapfile)
+		this_wad_mapfile = (bsp_dir / bsp_name).with_suffix('.map')
 		this_wad_bspfile = this_wad_mapfile.with_suffix('.bsp')
 
 		if force_map_build or not this_wad_bspfile.is_file() \
