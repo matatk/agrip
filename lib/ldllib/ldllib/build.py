@@ -6,7 +6,7 @@ from buildlib import doset
 
 from .utils import LDLError, WADs, WAD_FILES, maptools
 
-clean = ['.h1', '.h2', '.prt', '.pts', '.temp']  # last is if WAD path updated
+clean = ['.h1', '.h2', '.prt', '.pts']  # also .temp, but goes in different dir
 TEMP_MAP_SUFFIX = '.temp'
 
 
@@ -26,6 +26,8 @@ def bsp_maybe_hc(wad, file_path):
 	return Path(out)
 
 
+# TODO: The temp file will be next to the original map; the output from qbsp
+#       etc will go into the current directory; need a build/temp directory?
 def build(map_file, bsp_file=None, verbose=False, quiet=False, throw=False):
 	"""Run a complete build for this map
 
@@ -66,12 +68,19 @@ def build(map_file, bsp_file=None, verbose=False, quiet=False, throw=False):
 	if not quiet and verbose:
 		run([maptools.bspinfo, build_bsp], verbose=True, errorcheck=False)
 
-	for ext in clean:
-		print('cleaning', ext)
-		print(build_map_file.with_suffix(ext))
-		build_map_file.with_suffix(ext).unlink(missing_ok=True)
+	if build_map_file.suffix == '.temp':
+		print('cleaning', build_map_file)
+		build_map_file.unlink()
+	else:
+		print('no temp fils')
 
-	# Note: the build happens in the current directory
+	for ext in clean:
+		if bsp_file:
+			file_to_clean = Path.cwd() / bsp_file.with_suffix(ext)
+		else:
+			file_to_clean = Path.cwd() / map_file.with_suffix(ext)
+		print('cleaning', file_to_clean)
+		file_to_clean.unlink(missing_ok=True)
 
 
 #
@@ -87,9 +96,9 @@ def swap_quake_wad_for_full_path(map_path):
 	map_string = map_path.read_text()
 	modifed_map_string = swap_wad(map_string, WADs.QUAKE)
 	if len(map_string) != len(modifed_map_string):
-		output_map = map_path.with_suffix(TEMP_MAP_SUFFIX)
-		output_map.write_text(modifed_map_string)
-		return output_map
+		new_map_path = map_path.with_suffix(TEMP_MAP_SUFFIX)
+		new_map_path.write_text(modifed_map_string)
+		return new_map_path
 	return map_path
 
 

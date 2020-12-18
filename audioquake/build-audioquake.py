@@ -128,7 +128,7 @@ def build_maps_for(bsp_dir, wad):
 
 	maps = list(Config.dir_maps_source.glob('*.map'))
 	maps.remove(Config.dir_maps_source / 'agdm02l.map')  # TODO: it is borked
-	maps_to_build = list(maps)  # i.e. copy
+	maps_to_build = list(maps)
 
 	for mapfile in maps:
 		bsp_name = bsp_maybe_hc(wad, mapfile)
