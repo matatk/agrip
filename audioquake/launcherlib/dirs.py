@@ -13,10 +13,8 @@ _inited = False
 _adjust_config_dir_to_be_root = False
 
 if not _inited:
-	print('dirs module init')
 	if hasattr(sys, '_MEIPASS'):
 		# Running from frozen app bundle/dir
-		print('running frozen')
 		launcher_dir = Path(getattr(sys, '_MEIPASS'))
 		root_dir = doset(
 			mac=launcher_dir.parent.parent.parent,
@@ -26,7 +24,6 @@ if not _inited:
 		collated = Path(__file__).parent.parent / 'dist' / 'collated'
 		if collated.is_dir():
 			# Using latest .py code, but already-prepared frozen assets
-			print('running with latest code and already-prepared assets')
 			launcher_dir = doset(
 				mac=collated / 'AudioQuake.app' / 'Contents' / 'MacOS',
 				windows=collated / 'AudioQuake')
@@ -34,14 +31,12 @@ if not _inited:
 		else:
 			# Using latest .py code and no frozen assets (this won't work
 			# terribly much :-))
-			print('running with latest code and no prepared assets')
 			launcher_dir = root_dir = Path(__file__).resolve().parent.parent
 			# Set a flag to later adjust the config path because that's where
 			# the config file goes, and if we're just running the latest code
 			# from the development repo, there's no 'data' directory.
 			_adjust_config_dir_to_be_root = True
 	_inited = True
-	print('root dir:', root_dir)
 
 # NOTE: Synch with build-audioquake.py and AudioQuake.spec.
 data = root_dir / 'data'                    # Game files (id1, oq, mods)
