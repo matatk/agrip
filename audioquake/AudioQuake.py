@@ -45,18 +45,27 @@ def gui_main(game_controller, args):
 			'Preferences > Security & Privacy > Privacy tab.')))
 
 
-def list_mods(game_controller, args):
-	# FIXME: implement :-)
-	print('list mods - TODO!')
-
-
-def play_map(game_controller, args):
+def _play_core(action):
 	if system() == 'Windows' and config.first_game_run:
 		print(
 			'Sorry, you must run AudioQuake from the GUI launcher for the '
 			'first time on Windows. You may then run it from the command line.')
 	else:
-		game_controller.launch_map(args.map)
+		action()
+
+
+def play_map(game_controller, args):
+	_play_core(lambda: game_controller.launch_map(args.name))
+
+
+def list_mods(game_controller, args):
+	# FIXME: implement :-)
+	print('list mods - TODO!')
+
+
+def play_mod(game_controller, args):
+	# FIXME: check valid mod
+	_play_core(lambda: game_controller.launch_mod(args.dir))
 
 
 if __name__ == '__main__':
@@ -74,12 +83,17 @@ if __name__ == '__main__':
 		description='issue "{action} -h/--help" for more help on each one',
 		help='By default the Launcher will start in GUI mode')
 
+	map_cmd = subparsers.add_parser(
+		'map', help='Boot into a particular map (via Quake or Open Quartz)')
+	map_cmd.add_argument('name', help="The map's name without trailing '.bsp'")
+	map_cmd.set_defaults(func=play_map)
+
 	ls_mods_cmd = subparsers.add_parser('list-mods', help='List installed mods')
 	ls_mods_cmd.set_defaults(func=list_mods)
 
-	map_cmd = subparsers.add_parser('map', help='Boot into a particular map')
-	map_cmd.add_argument('map', help="The map's name without trailing '.bsp'")
-	map_cmd.set_defaults(func=play_map)
+	mod_cmd = subparsers.add_parser('mod', help='Boot into a particular mod')
+	mod_cmd.add_argument('dir', help="The mod's directory name")
+	mod_cmd.set_defaults(func=play_mod)
 
 	parser.set_defaults(func=gui_main)
 
