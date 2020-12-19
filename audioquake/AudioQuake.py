@@ -1,23 +1,35 @@
 """AudioQuake & LDL Launcher"""
+from platform import system
 import argparse
 
 from buildlib import doset_only
-from launcherlib.config import init as init_config
+import launcherlib.config as config
 import launcherlib.dirs as dirs
-from launcherlib.ui.launcher import LauncherWindow
-from launcherlib.ui.helpers import Warn, error_hook
+from launcherlib.game_controller import GameController
+from launcherlib.utils import error_message_and_title
 
 
-def gui_main(args):
+def text_error_hook():
+	message, title = error_message_and_title()
+	print(f'{title}: {message}')
+
+
+def gui_main(game_controller, args):
 	import sys
+
 	import wx
 
+	from launcherlib.ui.launcher import LauncherWindow
+	from launcherlib.ui.helpers import Warn, gui_error_hook
+
 	app = wx.App()
-	sys.excepthook = error_hook
+	sys.excepthook = gui_error_hook
+
+	game_controller.set_error_handler(gui_error_hook)
 
 	try:
-		init_config(dirs.config)
-		LauncherWindow(None, "AudioQuake & LDL Launcher").Show()
+		LauncherWindow(
+			None, "AudioQuake & LDL Launcher", game_controller).Show()
 		app.MainLoop()
 	except OSError:
 		doset_only(mac=lambda: Warn(None, (
@@ -33,20 +45,26 @@ def gui_main(args):
 			'Preferences > Security & Privacy > Privacy tab.')))
 
 
-def list_mods(args):
-	print('list mods')
+def list_mods(game_controller, args):
+	# FIXME: implement :-)
+	print('list mods - TODO!')
 
 
-def play(args):
-	print('play', args.mod, args.map)
+def play_map(game_controller, args):
+	if system() == 'Windows' and config.first_game_run:
+		print(
+			'Sorry, you must run AudioQuake from the GUI launcher for the '
+			'first time on Windows. You may then run it from the command line.')
+	else:
+		game_controller.launch_map(args.map)
 
 
 if __name__ == '__main__':
-	BANNER = 'AudioQuake & Level Description Language Launcher'
+	config.init(dirs.config)
+	game_controller = GameController()
+	game_controller.set_error_handler(text_error_hook)
 
-	# FIXME always init config first; refuse to use CLI on first run
-	# FIXME separate game controller from GUI
-	# FIXME pass settings to game controller (isn't this already done?)
+	BANNER = 'AudioQuake & Level Description Language Launcher'
 
 	parser = argparse.ArgumentParser(
 		description=BANNER,
@@ -56,17 +74,14 @@ if __name__ == '__main__':
 		description='issue "{action} -h/--help" for more help on each one',
 		help='By default the Launcher will start in GUI mode')
 
-	mods_cmd = subparsers.add_parser('list-mods', help='List installed mods')
-	mods_cmd.set_defaults(func=list_mods)
+	ls_mods_cmd = subparsers.add_parser('list-mods', help='List installed mods')
+	ls_mods_cmd.set_defaults(func=list_mods)
 
-	play_cmd = subparsers.add_parser(
-		'play', help='Boot into a particular mod and map')
-	play_cmd.add_argument('mod', help="The mod's directory name")
-	play_cmd.add_argument(
-		'map', nargs='?', help="The map's name without trailing '.bsp'")
-	play_cmd.set_defaults(func=play)
+	map_cmd = subparsers.add_parser('map', help='Boot into a particular map')
+	map_cmd.add_argument('map', help="The map's name without trailing '.bsp'")
+	map_cmd.set_defaults(func=play_map)
 
 	parser.set_defaults(func=gui_main)
 
 	args = parser.parse_args()
-	args.func(args)
+	args.func(game_controller, args)

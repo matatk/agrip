@@ -21,13 +21,14 @@ else:
 
 
 def _run(map_base_name, verbose=False):
-	command_line = [LAUNCHER, 'play', 'id1', map_base_name]
+	command_line = [LAUNCHER, 'map', map_base_name]
 	try:
 		res = subprocess.run(command_line, capture_output=True, check=True)
 		if verbose is True:
 			print(res.stdout.decode())
 	except subprocess.CalledProcessError:
-		print('There was an error running ZQuake - details follow')
+		print('There was an error running the game - details follow')
+		print()
 		subprocess.run(command_line)
 		print()
 		print('You may need to build AudioQuake and import the registered data.')

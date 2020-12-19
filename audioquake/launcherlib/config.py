@@ -25,7 +25,6 @@ def init(root):
 	global _config_file_directory
 	_config_file_directory = root
 	_config = ConfigParser()
-	print('config module init; path:', _config_file_directory / CONFIG_FILENAME)
 	_config.read(_config_file_directory / CONFIG_FILENAME)
 	if len(_config) == 1:  # always has a default section
 		_config['launcher'] = INITIAL_CONFIG
@@ -55,11 +54,13 @@ def _convert_to_type(string):
 		return string
 
 
-def _get_or_set_core(name, value=None):
-	if value is None:
+def _get_or_set_core(name, new_value=None):
+	if new_value is None:
 		return _convert_to_type(_config['launcher'][name])
-	else:
-		_config['launcher'][name] = _convert_to_string(value)
+
+	new_value_string = _convert_to_string(new_value)
+	if _config['launcher'][name] != new_value_string:
+		_config['launcher'][name] = new_value_string
 		save()
 
 

@@ -1,7 +1,6 @@
 """AudioQuake & LDL Launcher - GUI helpers"""
 import shutil
-import sys
-import traceback
+from sys import exc_info
 
 import wx
 
@@ -9,7 +8,7 @@ from buildlib import doset_only
 import launcherlib.config as config
 from launcherlib import dirs
 from launcherlib.game_controller import LaunchState
-from launcherlib.utils import opener
+from launcherlib.utils import opener, error_message_and_title
 
 BORDER_SIZE = 5
 
@@ -96,8 +95,9 @@ def Error(parent, message):
 	MsgBox(parent, message, 'Error', wx.ICON_ERROR)
 
 
+# TODO: where is this used?
 def ErrorException(parent):
-	Error(parent, str(sys.exc_info()[1]))
+	Error(parent, str(exc_info()[1]))
 
 
 def YesNoWithTitle(parent, title, body):
@@ -108,8 +108,8 @@ def MsgBox(parent, message, caption, icon, style=wx.OK):
 	return wx.MessageDialog(parent, message, caption, style | icon).ShowModal()
 
 
-def first_time_check(parent):
-	# TODO need to apply to mod loading for the first time (already done?)
+# FIXME: need to apply to mod loading for the first time (already done?)
+def first_time_windows_prompt(parent):
 	prompt = (
 		'When you run the game for the first time, Windows '
 		'may ask you to allow it through the firewall.\n\n'
@@ -120,10 +120,7 @@ def first_time_check(parent):
 
 		'Please also note that the server output window, and'
 		'the remote console facility, are not self-voicing.')
-
-	if config.first_game_run():
-		Warn(parent, prompt)
-		config.first_game_run(False)
+	Warn(parent, prompt)
 
 
 def _update_oq_configs():
@@ -135,20 +132,17 @@ def _update_oq_configs():
 
 
 def launch_core(parent, method):
-	doset_only(windows=lambda: first_time_check(parent))
+	if config.first_game_run():
+		doset_only(windows=lambda: first_time_windows_prompt(parent))
+		config.first_game_run(False)
+
 	_update_oq_configs()
+
 	launch_state = method()
 	if launch_state is not LaunchState.LAUNCHED:
 		Warn(parent, launch_messages[launch_state])
 
 
-def error_hook(etype, value, trace):
-	# TODO focus goes to the OK button :-S.
-	exception_info = traceback.format_exception_only(etype, value)
-	trace_info = traceback.format_tb(trace)
-	please_report = (
-		'Please report this error, with the following details, at '
-		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
-	message = "".join(
-		[please_report] + exception_info + ['\n'] + trace_info)
-	MsgBox(None, message, 'Unanticipated error (launcher bug)', wx.ICON_ERROR)
+def gui_error_hook():
+	message, title = error_message_and_title()
+	MsgBox(None, message, title, wx.ICON_ERROR)

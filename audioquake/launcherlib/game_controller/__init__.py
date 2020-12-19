@@ -27,8 +27,10 @@ class GameController():
 	opts_tutorial = opts_custom_map_base + ("+map agtut01",)
 	opts_tutorial_high_contrast = opts_custom_map_base + ("+map agtut01hc",)
 
-	def __init__(self, on_error):
+	def __init__(self):
 		self._engine_wrapper = None
+
+	def set_error_handler(self, on_error):
 		self._on_error = on_error
 
 	def _is_running(self):
@@ -83,7 +85,7 @@ class GameController():
 			self.opts_custom_map_base + ("+map " + str(name),), game=game)
 
 	def launch_mod(self, name):
-		print('launching', name)
+		print('Launching mod:', name)
 		return self._launch_core(("-game", name))
 
 	def quit(self):
