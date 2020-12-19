@@ -1,6 +1,7 @@
 """AudioQuake & LDL Launcher"""
-from platform import system
 import argparse
+from platform import system
+from sys import exit
 
 from buildlib import doset_only
 import launcherlib.config as config
@@ -46,12 +47,12 @@ def gui_main(game_controller, args):
 
 
 def _play_core(action):
-	if system() == 'Windows' and config.first_game_run:
+	if system() == 'Windows' and config.first_game_run():
 		print(
 			'Sorry, you must run AudioQuake from the GUI launcher for the '
 			'first time on Windows. You may then run it from the command line.')
-	else:
-		action()
+		exit(42)
+	action()
 
 
 def play_map(game_controller, args):

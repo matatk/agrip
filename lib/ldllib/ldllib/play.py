@@ -12,10 +12,12 @@ MAPS_DIR = Build.dir_dist_collated / 'data' / 'id1' / 'maps'
 
 if system() == 'Darwin':
 	# TODO: Couldn't use dir_aq_exe_internals but it's almost right
+	# TODO: Synch note
 	LAUNCHER = Build.dir_dist_collated / 'AudioQuake.app' / 'Contents' \
 		/ 'MacOS' / 'AudioQuake'
 elif system() == 'Windows':
-	LAUNCHER = Build.dir_dist_collated / 'AudioQuake' / 'AudioQuake.exe'
+	# TODO: Synch note
+	LAUNCHER = Build.dir_dist_collated / 'app-support-files' / 'AudioQuake.exe'
 else:
 	raise NotImplementedError
 
@@ -27,11 +29,11 @@ def _run(map_base_name, verbose=False):
 		if verbose is True:
 			print(res.stdout.decode())
 	except subprocess.CalledProcessError:
-		print('There was an error running the game - details follow')
-		print()
-		subprocess.run(command_line)
-		print()
-		print('You may need to build AudioQuake and import the registered data.')
+		if system() == 'Windows':
+                        print('There was an error running AudioQuake. Unfortunately on Windows it is not possible to give you the details, but make sure you have run the game at least once via the GUI (as this is needed on Windows).')
+		else:
+                        print('There was an error running AudioQuake; details follow.')
+                        subprocess.run(command_line)
 
 
 def play(bsp_file, verbose=False):
