@@ -14,7 +14,7 @@ if system() == 'Windows':
 import mistune
 import mistune_contrib.toc
 
-from buildlib import Config, \
+from buildlib import Build, \
 	try_to_run, doset, doset_only, check_platform, die, comeback, prep_dir
 from ldllib.build import build, swap_wad, bsp_maybe_hc
 from ldllib.utils import use_repo_wads, have_wad, WADs, \
@@ -87,7 +87,7 @@ collated_dir_files = [
 	('../ldl/test_05_*.xml', 'example-maps'),
 	('../ldl/t*ldl.xml', 'example-maps')]
 
-if next(Config.dir_maps_quakewad.glob('*.bsp'), None) is not None:
+if next(Build.dir_maps_quakewad.glob('*.bsp'), None) is not None:
 	collated_dir_files.extend([('maps-quakewad/*.bsp', 'data/id1/maps/')])
 
 
@@ -119,15 +119,15 @@ def build_maps_for(bsp_dir, wad):
 	global needed_quake_wad  # only used if wad is 'quake'
 	used_cached_maps = False
 
-	use_repo_bins(Config.base)
-	use_repo_wads(Config.base)
+	use_repo_bins(Build.base)
+	use_repo_wads(Build.base)
 	bsp_dir.mkdir(exist_ok=True)
 
 	if not have_needed_tools():
 		raise Exception('Quake map tools missing')
 
-	maps = list(Config.dir_maps_source.glob('*.map'))
-	maps.remove(Config.dir_maps_source / 'agdm02l.map')  # TODO: it is borked
+	maps = list(Build.dir_maps_source.glob('*.map'))
+	maps.remove(Build.dir_maps_source / 'agdm02l.map')  # TODO: it is borked
 	maps_to_build = list(maps)
 
 	for mapfile in maps:
@@ -183,7 +183,7 @@ class TocRenderer(mistune_contrib.toc.TocMixin, mistune.Renderer):
 def convert_markdown_files(base_name, fancy_name, markdown_files, output_dir):
 	toc = TocRenderer()
 	md = mistune.Markdown(renderer=toc)
-	document_template = open(Config.dir_manuals_src / 'template.html', 'r').read()
+	document_template = open(Build.dir_manuals_src / 'template.html', 'r').read()
 	source = ''
 
 	if not isinstance(markdown_files, list):
@@ -211,19 +211,19 @@ def convert_manuals():
 	}
 
 	for title, manual_basename in manuals.items():
-		sources = sorted(Config.dir_manuals_src.glob(manual_basename + '*'))
+		sources = sorted(Build.dir_manuals_src.glob(manual_basename + '*'))
 		convert_markdown_files(
-			manual_basename, title, sources, Config.dir_manuals_converted)
+			manual_basename, title, sources, Build.dir_manuals_converted)
 
 	single_docs_to_convert = {
-		'README': [Config.dir_readme_licence / 'README.md', 'README'],
-		'LICENCE': [Config.dir_readme_licence / 'LICENCE.md', 'LICENCE'],
+		'README': [Build.dir_readme_licence / 'README.md', 'README'],
+		'LICENCE': [Build.dir_readme_licence / 'LICENCE.md', 'LICENCE'],
 		'AudioQuake sound legend': [
-			Config.dir_manuals_src / 'user-manual-part07-b.md',
+			Build.dir_manuals_src / 'user-manual-part07-b.md',
 			'sound-legend'
 		],
 		'Level Description Language tutorial': [
-			Config.dir_ldl / 'tutorial.md',
+			Build.dir_ldl / 'tutorial.md',
 			'ldl-tutorial'
 		]
 	}
@@ -231,7 +231,7 @@ def convert_manuals():
 	for title, details in single_docs_to_convert.items():
 		source, output = details
 		convert_markdown_files(
-			output, title, source, Config.dir_manuals_converted)
+			output, title, source, Build.dir_manuals_converted)
 
 
 #
@@ -260,8 +260,8 @@ def copy_in_rcon():
 		windows='rcon.exe')
 
 	shutil.copy(
-		Config.dir_dist_rcon / rcon_bin,
-		Config.dir_aq_exe_internals)
+		Build.dir_dist_rcon / rcon_bin,
+		Build.dir_aq_exe_internals)
 
 
 #
@@ -269,8 +269,8 @@ def copy_in_rcon():
 #
 
 def make_collated_dir():
-	src_base = Config.dir_aq
-	dest_base = Config.dir_dist_collated
+	src_base = Build.dir_aq
+	dest_base = Build.dir_dist_collated
 
 	# TODO do something with this like caching
 	shutil.rmtree(dest_base, ignore_errors=True)
@@ -281,7 +281,7 @@ def make_collated_dir():
 		if '*' in src:  # Have to check this first on Windows
 			if not dest_path.is_dir():
 				dest_path.mkdir()
-			for globbywobby in Config.dir_aq.glob(src):
+			for globbywobby in Build.dir_aq.glob(src):
 				shutil.copy(globbywobby, dest_path, follow_symlinks=False)
 		elif src_path.is_dir():
 			shutil.copytree(src_path, dest_path, dirs_exist_ok=True)
@@ -295,12 +295,12 @@ def make_collated_dir():
 
 def move_app_to_collated_dir():
 	source = doset(
-		mac=Config.dir_dist / 'AudioQuake.app',
-		windows=Config.dir_dist / 'AudioQuake')
+		mac=Build.dir_dist / 'AudioQuake.app',
+		windows=Build.dir_dist / 'AudioQuake')
 
 	destination = doset(
-		mac=Config.dir_dist_collated,
-		windows=Config.dir_dist_collated)
+		mac=Build.dir_dist_collated,
+		windows=Build.dir_dist_collated)
 
 	if source.is_dir() and destination.is_dir():
 		shutil.move(str(source), str(destination))
@@ -311,9 +311,9 @@ def move_app_to_collated_dir():
 def windows_make_shortcut_to_app():
 	new_folder_name = 'app-support-files'
 
-	pyinstaller_built_folder = Config.dir_dist_collated / 'AudioQuake'
-	new_folder_path = Config.dir_dist_collated / new_folder_name
-	link_path = Config.dir_dist_collated / 'AudioQuake.lnk'
+	pyinstaller_built_folder = Build.dir_dist_collated / 'AudioQuake'
+	new_folder_path = Build.dir_dist_collated / new_folder_name
+	link_path = Build.dir_dist_collated / 'AudioQuake.lnk'
 	relative_path_to_exe = Path(new_folder_name) / 'AudioQuake.exe'
 
 	print('Making Windows launcher shortcut (and renaming generated directory)')
@@ -331,7 +331,7 @@ def make_zip():
 	platform_name = doset(mac='Mac', windows='Windows')
 	archive_name = f'{program_name}_{version_string}_{platform_name}'
 	shutil.make_archive(
-		Config.dir_dist / archive_name, 'zip', Config.dir_dist_collated)
+		Build.dir_dist / archive_name, 'zip', Build.dir_dist_collated)
 
 
 #
@@ -341,7 +341,7 @@ def make_zip():
 def build_audioquake():
 	global version_string
 
-	with open(Config.file_aq_release, 'r') as f:
+	with open(Build.file_aq_release, 'r') as f:
 		version_string = f.readline().rstrip()
 		version_name = f.readline().rstrip()
 		print(
@@ -351,17 +351,17 @@ def build_audioquake():
 	check_platform()
 
 	print('Converting manuals and single docs to HTML')
-	prep_dir(Config.dir_manuals_converted)
+	prep_dir(Build.dir_manuals_converted)
 	convert_manuals()  # TODO replace with a check if it needs doing
 
 	print('Building AGRIP maps for Quake')
-	build_maps_for(Config.dir_maps_quakewad, WADs.QUAKE)
+	build_maps_for(Build.dir_maps_quakewad, WADs.QUAKE)
 
 	print('Building AGRIP maps for Open Quartz')
-	build_maps_for(Config.dir_maps_freewad, WADs.FREE)
+	build_maps_for(Build.dir_maps_freewad, WADs.FREE)
 
 	print('Building AGRIP maps for high-contrast mode')
-	build_maps_for(Config.dir_maps_prototypewad, WADs.PROTOTYPE)
+	build_maps_for(Build.dir_maps_prototypewad, WADs.PROTOTYPE)
 
 	# Build the executables
 	if not skip_pyinstaller:

@@ -6,16 +6,16 @@ from platform import system
 import subprocess
 import shutil
 
-from buildlib import Config
+from buildlib import Build
 
-MAPS_DIR = Config.dir_dist_collated / 'data' / 'id1' / 'maps'
+MAPS_DIR = Build.dir_dist_collated / 'data' / 'id1' / 'maps'
 
 if system() == 'Darwin':
 	# TODO: Couldn't use dir_aq_exe_internals but it's almost right
-	LAUNCHER = Config.dir_dist_collated / 'AudioQuake.app' / 'Contents' \
+	LAUNCHER = Build.dir_dist_collated / 'AudioQuake.app' / 'Contents' \
 		/ 'MacOS' / 'AudioQuake'
 elif system() == 'Windows':
-	LAUNCHER = Config.dir_dist_collated / 'AudioQuake' / 'AudioQuake.exe'
+	LAUNCHER = Build.dir_dist_collated / 'AudioQuake' / 'AudioQuake.exe'
 else:
 	raise NotImplementedError
 

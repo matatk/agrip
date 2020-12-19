@@ -119,10 +119,10 @@ def make(path, name, targets=[]):
 
 
 #
-# Configuration
+# Build directories
 #
 
-class Config:
+class Build:
 	base = Path(__file__).parent.parent.parent
 
 	dir_readme_licence = base

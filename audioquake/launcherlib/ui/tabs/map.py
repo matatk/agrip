@@ -2,6 +2,7 @@
 import xml.dom.minidom
 from pathlib import Path
 import shutil
+from sys import exc_info
 
 import wx
 
@@ -9,7 +10,7 @@ from launcherlib import dirs
 from launcherlib.game_controller import RootGame
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
-	Info, Warn, Error, ErrorException, HOW_TO_INSTALL
+	Info, Warn, Error, HOW_TO_INSTALL
 from launcherlib.utils import opener
 from ldllib.convert import convert
 from ldllib.build import build, bsp_maybe_hc
@@ -161,7 +162,7 @@ class MapTab(wx.Panel):
 			try:
 				self.build_and_copy(xmlfile, wad, destinations)
 			except LDLError:
-				ErrorException(self)
+				Error(self, str(exc_info()[1]))
 				return
 
 		if play_wad:

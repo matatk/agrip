@@ -1,6 +1,5 @@
 """AudioQuake & LDL Launcher - GUI helpers"""
 import shutil
-from sys import exc_info
 
 import wx
 
@@ -93,11 +92,6 @@ def Warn(parent, message):
 
 def Error(parent, message):
 	MsgBox(parent, message, 'Error', wx.ICON_ERROR)
-
-
-# TODO: where is this used?
-def ErrorException(parent):
-	Error(parent, str(exc_info()[1]))
 
 
 def YesNoWithTitle(parent, title, body):
