@@ -371,10 +371,9 @@ def build_audioquake():
 		make_collated_dir()
 		move_app_to_collated_dir()
 		doset_only(windows=windows_make_shortcut_to_app)
-		print('Creating distributable archive')
-		make_zip()
-	else:
-		print('Skipping running PyInstaller')
+		if not args.skip_zip:
+			print('Creating distributable archive')
+			make_zip()
 
 	if needed_quake_wad:
 		print(
@@ -399,11 +398,17 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description=BANNER)
 
 	parser.add_argument(
-		'-s', '--skip-pyinstaller', action='store_true',
-		help="Don't run PyInstaller (used for debugging manual conversion)")
+		'-P', '--skip-pyinstaller', action='store_true',
+		help=(
+			"Don't run PyInstaller (and don't create the distributable "
+			'directory nor archive)'))
 
 	parser.add_argument(
-		'-f', '--force-map-build', action='store_true',
+		'-Z', '--skip-zip', action='store_true',
+		help="Don't make the distributable archive")
+
+	parser.add_argument(
+		'-m', '--force-map-build', action='store_true',
 		help='Rebuild the maps (useful for debugging texture changes)')
 
 	args = parser.parse_args()
