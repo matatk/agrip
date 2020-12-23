@@ -30,10 +30,14 @@ def _run(map_base_name, verbose=False):
 			print(res.stdout.decode())
 	except subprocess.CalledProcessError:
 		if system() == 'Windows':
-                        print('There was an error running AudioQuake. Unfortunately on Windows it is not possible to give you the details, but make sure you have run the game at least once via the GUI (as this is needed on Windows).')
+			print(
+				'There was an error running AudioQuake. Unfortunately on '
+				'Windows it is not possible to give you the details, but '
+				'make sure you have run the game at least once via the GUI '
+				'(as this is needed on Windows).')
 		else:
-                        print('There was an error running AudioQuake; details follow.')
-                        subprocess.run(command_line)
+			print('There was an error running AudioQuake; details follow.')
+			subprocess.run(command_line)
 
 
 def play(bsp_file, verbose=False):
