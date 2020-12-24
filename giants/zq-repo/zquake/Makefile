@@ -165,7 +165,7 @@ RELEASE_BUILD_DIR		 =$(MAIN_DIR)/release-$(ARCH)
 # compiler flags
 PRJ_FLAGS				 = -DVWEP_TEST #-DHALFLIFEBSP
 MAUTH_FLAGS				 =-DMAUTH # the Master AUTHentication patch
-BASE_CFLAGS				 =-Wall -Wno-format-y2k -DAGRIP $(PRJ_FLAGS) $(ARCH_CFLAGS) $(MAUTH_FLAGS)
+BASE_CFLAGS				 =-Wall -Wno-implicit-function-declaration -Wno-format-y2k -DAGRIP $(PRJ_FLAGS) $(ARCH_CFLAGS) $(MAUTH_FLAGS)
 BASE_RELEASE_CFLAGS		 =-ffast-math -fomit-frame-pointer -fexpensive-optimizations
 ifneq ($(CC_BASEVERSION),4) # if we're not auto-vectorizing then we can unroll the loops (mdfour ahoy)
 	BASE_RELEASE_CFLAGS  += -funroll-loops

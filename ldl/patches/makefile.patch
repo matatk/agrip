@@ -4,7 +4,7 @@
 -
 -EXES = qbsp light vis bspinfo entmap visx
 -NTEXES = qbsp.exe light.exe vis.exe bspinfo.exe entmap.exe visx.exe
-+CFLAGS = -I ../common
++CFLAGS = -I ../common -Wno-implicit-function-declaration
 +EXES = qbsp light vis bspinfo
 +NTEXES = qbsp.exe light.exe vis.exe bspinfo.exe
  
