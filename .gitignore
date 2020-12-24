@@ -26,4 +26,5 @@ giants/zq-repo/zquake/source/*.sdf
 giants/zq-repo/zquake/source/*.user
 giants/zq-repo/zquake/source/.vs/
 
+# Windows compilation (synch with ./build-all.py)
 build-all.bat

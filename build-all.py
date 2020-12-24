@@ -15,7 +15,7 @@ VCVARS_VS = Path(
 	'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\'
 	'Community\\VC\\Auxiliary\\Build\\vcvars32.bat')
 
-GENERATED_BUILD_BATCH = 'build-all.bat'  # also in .gitignore
+GENERATED_BUILD_BATCH = 'build-all.bat'  # NOTE: Synch with .gitignore
 VENV = Path('.venv')                     # matches .envrc
 verbose = False                          # set via command-line switch
 WHOAMI = Path(__file__).name
