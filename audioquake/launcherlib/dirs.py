@@ -5,6 +5,7 @@ Some files are distributed inside the bundle created by PyInstaller, whereas
 others are kept outside (because they'll be modified). The launcher could be
 running from within an Application (Mac) or folder (Windows)."""
 from pathlib import Path
+from platform import system
 import sys
 
 from buildlib import doset, Build  # FIXME: would rather not import all this 
@@ -49,3 +50,8 @@ maps_tutorial = root_dir / 'tutorial-maps'  # LDL tutorial maps
 
 if _adjust_config_dir_to_be_root:
 	config = root_dir
+
+# On Windows we must change to somewhere because if the shortcut is used to start the launcher, the working directory will be the system directory, which i snot a nice place to try to build maps.
+if system() == 'Windows':
+	from os import chdir
+	chdir(root_dir)
