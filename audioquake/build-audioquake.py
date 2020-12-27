@@ -320,7 +320,7 @@ def windows_make_shortcut_to_app():
 	with winshell.shortcut(str(link_path)) as shortcut:
 		shortcut.path = r'%windir%\explorer.exe'
 		shortcut.arguments = '"' + str(relative_path_to_exe) + '"'
-		shortcut.icon_location = r'%SystemRoot%\System32\SHELL32.dll', 41
+		shortcut.icon_location = r'%SystemRoot%\System32\SHELL32.dll', 176  # XP-style white arrow on green bkg
 		shortcut.description = "AudioQuake & LDL Launcher"
 
 
