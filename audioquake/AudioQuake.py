@@ -1,7 +1,7 @@
 """AudioQuake & LDL Launcher"""
 import argparse
 from platform import system
-from sys import exit
+import sys
 
 from buildlib import doset_only
 import launcherlib.config as config
@@ -10,14 +10,12 @@ from launcherlib.game_controller import GameController
 from launcherlib.utils import error_message_and_title
 
 
-def text_error_hook():
-	message, title = error_message_and_title()
+def text_error_hook(etype, value, traceback):
+	message, title = error_message_and_title(etype, value, traceback)
 	print(f'{title}: {message}')
 
 
 def gui_main(game_controller, args):
-	import sys
-
 	import wx
 
 	from launcherlib.ui.launcher import LauncherWindow
@@ -25,7 +23,6 @@ def gui_main(game_controller, args):
 
 	app = wx.App()
 	sys.excepthook = gui_error_hook
-
 	game_controller.set_error_handler(gui_error_hook)
 
 	try:
@@ -51,8 +48,9 @@ def _play_core(action):
 		print(
 			'Sorry, you must run AudioQuake from the GUI launcher for the '
 			'first time on Windows. You may then run it from the command line.')
-		exit(42)
-	action()
+		sys.exit(42)
+	result = action()
+	print('Result of launching game:', result)
 
 
 def play_map(game_controller, args):
@@ -73,6 +71,7 @@ if __name__ == '__main__':
 	config.init(dirs.config)
 	game_controller = GameController()
 	game_controller.set_error_handler(text_error_hook)
+	sys.excepthook = text_error_hook
 
 	BANNER = 'AudioQuake & Level Description Language Launcher'
 

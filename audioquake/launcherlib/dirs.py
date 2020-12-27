@@ -7,7 +7,7 @@ running from within an Application (Mac) or folder (Windows)."""
 from pathlib import Path
 import sys
 
-from buildlib import doset
+from buildlib import doset, Build  # FIXME: would rather not import all this 
 
 _inited = False
 _adjust_config_dir_to_be_root = False
@@ -26,7 +26,7 @@ if not _inited:
 			# Using latest .py code, but already-prepared frozen assets
 			launcher_dir = doset(
 				mac=collated / 'AudioQuake.app' / 'Contents' / 'MacOS',
-				windows=collated / 'AudioQuake')
+				windows=collated / Build.dir_windows_app_dir_name)
 			root_dir = collated
 		else:
 			# Using latest .py code and no frozen assets (this won't work

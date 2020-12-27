@@ -78,7 +78,7 @@ def _patch_map_tools_core(patches, root):
 	for title, patch_file in patches.items():
 		patch_set = patch.fromfile(patch_file)
 		if not patch_set.apply(root=root):
-			raise Exception(f'Patch "{patch_file.name}": OK')
+			die(f'Patch "{patch_file.name}" failed (try cleaning the giants/Quake-Tools submodule)')
 
 
 def patch_map_tools_all():

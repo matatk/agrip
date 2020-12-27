@@ -137,6 +137,6 @@ def launch_core(parent, method):
 		Warn(parent, launch_messages[launch_state])
 
 
-def gui_error_hook():
-	message, title = error_message_and_title()
+def gui_error_hook(etype, value, traceback):
+	message, title = error_message_and_title(etype, value, traceback)
 	MsgBox(None, message, title, wx.ICON_ERROR)

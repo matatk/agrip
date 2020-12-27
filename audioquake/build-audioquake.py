@@ -309,12 +309,10 @@ def move_app_to_collated_dir():
 
 
 def windows_make_shortcut_to_app():
-	new_folder_name = 'app-support-files'
-
 	pyinstaller_built_folder = Build.dir_dist_collated / 'AudioQuake'
-	new_folder_path = Build.dir_dist_collated / new_folder_name
+	new_folder_path = Build.dir_dist_collated / Build.dir_windows_app_dir_name
 	link_path = Build.dir_dist_collated / 'AudioQuake.lnk'
-	relative_path_to_exe = Path(new_folder_name) / 'AudioQuake.exe'
+	relative_path_to_exe = Path(Build.dir_windows_app_dir_name) / 'AudioQuake.exe'
 
 	print('Making Windows launcher shortcut (and renaming generated directory)')
 	pyinstaller_built_folder.rename(new_folder_path)

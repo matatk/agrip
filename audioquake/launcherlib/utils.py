@@ -1,6 +1,5 @@
 """AudioQuake & LDL Launcher - Utilities"""
 from subprocess import check_call
-from sys import exc_info
 from traceback import format_exception_only, format_tb
 
 from platform import system
@@ -23,10 +22,9 @@ def have_registered_data():
 	return pak0path.is_file() and pak1path.is_file()
 
 
-def error_message_and_title():
-	etype, value, trace = exc_info()
+def error_message_and_title(etype, value, traceback):
 	exception_info = format_exception_only(etype, value)
-	trace_info = format_tb(trace)
+	trace_info = format_tb(traceback)
 	please_report = (
 		'Please report this error, with the following details, at '
 		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
