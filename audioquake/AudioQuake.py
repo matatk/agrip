@@ -1,6 +1,5 @@
 """AudioQuake & LDL Launcher"""
 import argparse
-from platform import system
 import sys
 
 from buildlib import doset_only
@@ -10,10 +9,9 @@ from launcherlib.game_controller import GameController
 from launcherlib.utils import error_message_and_title
 
 
-def text_error_hook(etype, value, traceback):
-	message, title = error_message_and_title(etype, value, traceback)
-	print(f'{title}: {message}')
-
+#
+# Modes
+#
 
 def gui_main(game_controller, args):
 	import wx
@@ -43,23 +41,12 @@ def gui_main(game_controller, args):
 			'Preferences > Security & Privacy > Privacy tab.')))
 
 
-def _play_core(action):
-	if system() == 'Windows' and config.first_game_run():
-		print(
-			'Sorry, you must run AudioQuake from the GUI launcher for the '
-			'first time on Windows. You may then run it from the command line.')
-		sys.exit(42)
-	result = action()
-	print('Result of launching game:', result)
-
-
 def play_map(game_controller, args):
 	_play_core(lambda: game_controller.launch_map(args.name))
 
 
 def list_mods(game_controller, args):
-	# FIXME: implement :-)
-	print('list mods - TODO!')
+	print('list mods - TODO!')  # FIXME: implement :-)
 
 
 def play_mod(game_controller, args):
@@ -67,16 +54,44 @@ def play_mod(game_controller, args):
 	_play_core(lambda: game_controller.launch_mod(args.dir))
 
 
+#
+# Helpers
+#
+
+def text_error_hook(etype, value, traceback):
+	message, title = error_message_and_title(etype, value, traceback)
+	print(f'{title}: {message}')
+
+
+def windows_chdir():
+	"""If the shortcut is used, the working directory will be the system
+	directory, which is not a nice place to try to build maps."""
+	from os import chdir
+	chdir(dirs.root)
+
+
+def cli_first_time_windows_check():
+	print(
+		'Sorry, you must run AudioQuake from the GUI launcher for the '
+		'first time on Windows. You may then run it from the command line.')
+	sys.exit(42)
+
+
+def _play_core(action):
+	doset_only(windows=cli_first_time_windows_check)
+	result = action()
+	print('Result of launching game:', result)
+
+
 if __name__ == '__main__':
-	config.init(dirs.config)
+	sys.excepthook = text_error_hook
 	game_controller = GameController()
 	game_controller.set_error_handler(text_error_hook)
-	sys.excepthook = text_error_hook
-
-	BANNER = 'AudioQuake & Level Description Language Launcher'
+	config.init(dirs.config)
+	doset_only(windows=windows_chdir)
 
 	parser = argparse.ArgumentParser(
-		description=BANNER,
+		description='AudioQuake & Level Description Language Launcher',
 		epilog='There is a separate LDL command-line tool in the AGRIP repo.')
 	subparsers = parser.add_subparsers(
 		title='actions',
@@ -96,6 +111,5 @@ if __name__ == '__main__':
 	mod_cmd.set_defaults(func=play_mod)
 
 	parser.set_defaults(func=gui_main)
-
 	args = parser.parse_args()
 	args.func(game_controller, args)

@@ -168,7 +168,7 @@ class Build:
 		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
 		windows=dir_dist / 'AudioQuake')
 	dir_dist_collated = dir_dist / 'collated'
-	dir_windows_app_dir_name = 'app-gubbins'
+	dir_windows_app = 'app-gubbins'
 
 	dir_ldl = base / 'ldl'
 	dir_patches = dir_ldl / 'patches'

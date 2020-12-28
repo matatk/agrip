@@ -2,9 +2,10 @@
 from subprocess import check_call
 from traceback import format_exception_only, format_tb
 
-from platform import system
-if system() == 'Windows':
+try:
 	from os import startfile
+except ImportError:
+	pass
 
 from buildlib import doset
 from launcherlib import dirs

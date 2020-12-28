@@ -3,13 +3,14 @@
 import argparse
 from os import chdir
 from pathlib import Path
-from platform import system
 import re
 import string
 import shutil
 
-if system() == 'Windows':
+try:
 	import winshell
+except ImportError:
+	pass
 
 import mistune
 import mistune_contrib.toc
@@ -310,9 +311,9 @@ def move_app_to_collated_dir():
 
 def windows_make_shortcut_to_app():
 	pyinstaller_built_folder = Build.dir_dist_collated / 'AudioQuake'
-	new_folder_path = Build.dir_dist_collated / Build.dir_windows_app_dir_name
+	new_folder_path = Build.dir_dist_collated / Build.dir_windows_app
 	link_path = Build.dir_dist_collated / 'AudioQuake.lnk'
-	relative_path_to_exe = Path(Build.dir_windows_app_dir_name) / 'AudioQuake.exe'
+	relative_path_to_exe = Path(Build.dir_windows_app) / 'AudioQuake.exe'
 
 	print('Making Windows launcher shortcut (and renaming generated directory)')
 	pyinstaller_built_folder.rename(new_folder_path)
@@ -320,7 +321,8 @@ def windows_make_shortcut_to_app():
 	with winshell.shortcut(str(link_path)) as shortcut:
 		shortcut.path = r'%windir%\explorer.exe'
 		shortcut.arguments = '"' + str(relative_path_to_exe) + '"'
-		shortcut.icon_location = r'%SystemRoot%\System32\SHELL32.dll', 176  # XP-style white arrow on green bkg
+		# The icon shall be the XP-style white arrow on green background
+		shortcut.icon_location = r'%SystemRoot%\System32\SHELL32.dll', 176
 		shortcut.description = "AudioQuake & LDL Launcher"
 
 

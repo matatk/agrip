@@ -5,10 +5,9 @@ Some files are distributed inside the bundle created by PyInstaller, whereas
 others are kept outside (because they'll be modified). The launcher could be
 running from within an Application (Mac) or folder (Windows)."""
 from pathlib import Path
-from platform import system
 import sys
 
-from buildlib import doset, Build  # FIXME: would rather not import all this 
+from buildlib import doset, Build  # TODO: somehow not need Build?
 
 _inited = False
 _adjust_config_dir_to_be_root = False
@@ -27,7 +26,7 @@ if not _inited:
 			# Using latest .py code, but already-prepared frozen assets
 			launcher_dir = doset(
 				mac=collated / 'AudioQuake.app' / 'Contents' / 'MacOS',
-				windows=collated / Build.dir_windows_app_dir_name)
+				windows=collated / Build.dir_windows_app)
 			root_dir = collated
 		else:
 			# Using latest .py code and no frozen assets (this won't work
@@ -40,6 +39,7 @@ if not _inited:
 	_inited = True
 
 # NOTE: Synch with build-audioquake.py and AudioQuake.spec.
+root = root_dir                             # Only used for Windows chdir
 data = root_dir / 'data'                    # Game files (id1, oq, mods)
 config = root_dir / 'data'                  # Where audioquake.ini goes
 manuals = root_dir / 'docs'                 # Manuals and standalone docs
@@ -50,8 +50,3 @@ maps_tutorial = root_dir / 'tutorial-maps'  # LDL tutorial maps
 
 if _adjust_config_dir_to_be_root:
 	config = root_dir
-
-# On Windows we must change to somewhere because if the shortcut is used to start the launcher, the working directory will be the system directory, which i snot a nice place to try to build maps.
-if system() == 'Windows':
-	from os import chdir
-	chdir(root_dir)
