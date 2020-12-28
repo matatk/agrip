@@ -1,4 +1,4 @@
-"""AudioQuake Game Launcher - Game controller - Speech synth"""
+"""AudioQuake & LDL Launcher - Game controller - Speech synth"""
 from platform import system
 from buildlib import doset
 

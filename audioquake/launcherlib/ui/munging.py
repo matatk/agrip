@@ -1,13 +1,13 @@
-"""AudioQuake Game Launcher - Map, texture and WAD munging"""
+"""AudioQuake & LDL Launcher - Map, texture and WAD munging"""
 from io import BytesIO
-from os import path
 import shutil
 
 from vgio.quake.pak import PakFile, is_pakfile, BadPakFile
 from vgio.quake.bsp.bsp29 import Bsp
 from vgio.quake import wad
-
 import wx
+
+from launcherlib import dirs
 
 
 def copy_paks_and_create_textures_wad(progress, pak0, pak1):
@@ -19,9 +19,9 @@ def copy_paks(start, end, progress, pak0, pak1):
 	for pak in [pak0, pak1]:
 		if not is_pakfile(pak):
 			raise BadPakFile(f'{pak} is not a .pak file')
-	shutil.copy(pak0, 'id1')
+	shutil.copy(pak0, dirs.data / 'id1')
 	update(progress, start, end, 0.54, 2)  # 18 M
-	shutil.copy(pak1, 'id1')
+	shutil.copy(pak1, dirs.data / 'id1')
 	update(progress, start, end, 2, 2)     # 33 M
 
 
@@ -30,7 +30,7 @@ def make_quake_wad(start, end, progress):
 	miptextures = []
 
 	for name in ['pak0.pak', 'pak1.pak']:
-		with PakFile(path.join('id1', name), 'r') as pak:
+		with PakFile(str(dirs.data / 'id1' / name), 'r') as pak:
 			for item in pak.namelist():
 				if item.endswith('.bsp'):
 					bsps.append(pak.read(item))
@@ -45,7 +45,7 @@ def make_quake_wad(start, end, progress):
 
 	update(progress, start, end, 2, 3)
 
-	with wad.WadFile('quake.wad', mode='w') as wad_file:
+	with wad.WadFile(str(dirs.data / 'id1' / 'quake.wad'), mode='w') as wad_file:
 		for miptex in miptextures:
 			if not miptex:
 				continue

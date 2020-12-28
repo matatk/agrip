@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 """Bootstrap the virtual environment and run a full build"""
 import argparse
-import os.path
+from pathlib import Path
 from platform import system
 import subprocess
 import sys
 
 # Paths to the vcvars*.bat files, used to set up the dev tools environment
 # variables on Windows
-VCVARS_MSBUILD = (
+VCVARS_MSBUILD = Path(
 	'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\'
 	'BuildTools\\VC\\Auxiliary\\Build\\vcvars32.bat')
-VCVARS_VS = (
+VCVARS_VS = Path(
 	'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\'
 	'Community\\VC\\Auxiliary\\Build\\vcvars32.bat')
 
-GENERATED_BUILD_BATCH = 'build-all.bat'  # also in .gitignore
-VENV = '.venv'                           # matches .envrc
+GENERATED_BUILD_BATCH = 'build-all.bat'  # NOTE: Synch with .gitignore
+VENV = Path('.venv')                     # matches .envrc
 verbose = False                          # set via command-line switch
-WHOAMI = os.path.basename(__file__)
+WHOAMI = Path(__file__).name
 
 
 #
@@ -41,7 +41,7 @@ def main():
 def stage_1_create_venv():
 	print('Stage 1 of 3: Creating and entering the virtual Python environment')
 	print()
-	if not os.path.exists(VENV):
+	if not VENV.is_dir():
 		print('Creating the environment in:', VENV)
 		if system() == 'Darwin':
 			python = 'python3'
@@ -57,7 +57,7 @@ def stage_1_create_venv():
 	if system() == 'Darwin':
 		print('    source ' + VENV + '/bin/activate && ./' + WHOAMI)
 	elif system() == 'Windows':
-		print('    ' + VENV + '\\Scripts\\activate.bat && python ' + WHOAMI)
+		print('    ' + str(VENV) + '\\Scripts\\activate.bat && python ' + WHOAMI)
 	else:
 		raise NotImplementedError
 
@@ -93,8 +93,8 @@ def install_deps_and_shared_code():
 	print('Installing required packages (may take some time)')
 	try_to_run(['pip3', 'install', '--requirement', 'requirements.txt'])
 	print('Installing shared code as packages')
-	try_to_run(['pip3', 'install', '--editable', os.path.join('lib', 'buildlib')])
-	try_to_run(['pip3', 'install', '--editable', os.path.join('lib', 'ldllib')])
+	try_to_run(['pip3', 'install', '--editable', Path('lib') / 'buildlib'])
+	try_to_run(['pip3', 'install', '--editable', Path('lib') / 'ldllib'])
 	print()
 
 
@@ -124,19 +124,19 @@ def build_everything_core_mac():
 	try_to_run(['python', 'build-giants.py'], force_verbose=True)
 	print()
 	try_to_run(
-		['python', os.path.join('audioquake', 'build-audioquake.py')],
+		['python', Path('audioquake') / 'build-audioquake.py'],
 		force_verbose=True)
 
 
 def build_everything_core_windows():
 	with open(GENERATED_BUILD_BATCH, 'w') as batch:
 		batch.write('@echo off\r\n')
-		if os.path.isfile(VCVARS_MSBUILD):
+		if VCVARS_MSBUILD.is_file():
 			print('Found the Microsoft build tools environment batch file')
-			batch.write('call "' + VCVARS_MSBUILD + '"')
-		elif os.path.isfile(VCVARS_VS):
+			batch.write('call "' + str(VCVARS_MSBUILD) + '"')
+		elif VCVARS_VS.is_file():
 			print('Found Visual Studio environment batch file')
-			batch.write('call "' + VCVARS_VS + '"')
+			batch.write('call "' + str(VCVARS_VS) + '"')
 		else:
 			raise Exception(
 				"Can't find the MS Build tools nor "

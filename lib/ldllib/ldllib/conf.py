@@ -1,6 +1,4 @@
 '''LDL Global Configuration Variables and Constants'''
-from pathlib import Path
-import platform
 
 
 #
@@ -26,25 +24,11 @@ class prog:
 		4: 'Stage 04: Builder Macros',
 		5: 'Stage 0y: 3D Connections Level'
 	}
-	STYLE_FILE = 'style.xml'
-	# the style file for our maps (contains textures, sounds and lighting presets)
 	concretion_attempts = 3
 	# number of times the top level tries to parse the hash for info required for
 	# the lower levels.
 	MAP_ORIGIN = (0, 0, 0)
 	ELEV_DIST = 30
-
-	bins = Path('bin')
-	qbsp = bins / 'qbsp'
-	vis = bins / 'vis'
-	light = bins / 'light'
-	bspinfo = bins / 'bspinfo'
-
-	if platform.system() == 'Windows':
-		qbsp = qbsp.with_suffix('.exe')
-		vis = vis.with_suffix('.exe')
-		light = light.with_suffix('.exe')
-		bspinfo = bspinfo.with_suffix('.exe')
 
 
 #

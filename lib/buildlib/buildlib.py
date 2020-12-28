@@ -119,10 +119,10 @@ def make(path, name, targets=[]):
 
 
 #
-# Configuration
+# Build directories
 #
 
-class Config:
+class Build:
 	base = Path(__file__).parent.parent.parent
 
 	dir_readme_licence = base
@@ -151,20 +151,24 @@ class Config:
 
 	dir_ldllib = base / 'ldl' / 'ldllib'
 
-	aq = base / 'audioquake'
-	file_aq_release = aq / 'release'
-	dir_dist = aq / 'dist'
-	dir_manuals = aq / 'manuals'
-	dir_manuals_converted = aq / 'manuals-converted'
-	dir_dist_rcon = dir_dist / 'rcon'
-	dir_maps_source = aq / 'maps'
-	dir_maps_quakewad = aq / 'maps-quakewad'
-	dir_maps_freewad = aq / 'maps-freewad'
-	dir_maps_prototypewad = aq / 'maps-prototypewad'
+	dir_aq = base / 'audioquake'
+	file_aq_release = dir_aq / 'release'
 
-	dir_aq_data = doset(
+	dir_manuals_src = dir_aq / 'manuals'
+	dir_manuals_converted = dir_aq / 'manuals-converted'
+
+	dir_maps_source = dir_aq / 'maps'
+	dir_maps_quakewad = dir_aq / 'maps-quakewad'
+	dir_maps_freewad = dir_aq / 'maps-freewad'
+	dir_maps_prototypewad = dir_aq / 'maps-prototypewad'
+
+	dir_dist = dir_aq / 'dist'
+	dir_dist_rcon = dir_dist / 'rcon'
+	dir_aq_exe_internals = doset(
 		mac=dir_dist / 'AudioQuake.app' / 'Contents' / 'MacOS',
 		windows=dir_dist / 'AudioQuake')
+	dir_dist_collated = dir_dist / 'collated'
+	dir_windows_app = 'app-gubbins'
 
 	dir_ldl = base / 'ldl'
 	dir_patches = dir_ldl / 'patches'

@@ -1,12 +1,10 @@
-"""AudioQuake Game Launcher - Mod tab"""
-from glob import glob
-from os import path
-
+"""AudioQuake & LDL Launcher - Mod tab"""
 import wx
 
+from launcherlib import dirs
 from launcherlib.ui.helpers import \
-	add_widget, add_opener_buttons, pick_file, launch_core, \
-	Info, YesNoWithTitle, ErrorException
+	add_widget, add_opener_button, pick_file, launch_core, \
+	Info, YesNoWithTitle
 
 from qmodlib import QMODFile, InstalledQMOD
 
@@ -26,11 +24,9 @@ class ModTab(wx.Panel):
 		install_qmod_button.Bind(wx.EVT_BUTTON, self.install_qmod_handler)
 		add_widget(sizer, install_qmod_button)
 
-		add_opener_buttons(self, sizer, {
-			'Development manual':
-				path.join('manuals', 'development-manual.html'),
-			'Developer debugging: show all files': '.'
-		})
+		add_opener_button(
+			self, sizer, 'Development manual',
+			dirs.manuals / 'development-manual.html')
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
@@ -39,35 +35,35 @@ class ModTab(wx.Panel):
 		incoming = pick_file(
 			self, "Select a QMOD file", "QMOD files (*.qmod)|*.qmod")
 		if incoming:
-			try:
-				qmod = QMODFile(incoming)
-				title = qmod.name + ' ' + qmod.version
-				desc = qmod.shortdesc + '\n\n' + qmod.longdesc
+			qmod = QMODFile(incoming)
+			title = qmod.name + ' ' + qmod.version
+			desc = qmod.shortdesc + '\n\n' + qmod.longdesc
 
-				if path.exists(qmod.gamedir):
-					body = desc \
-						+ "\n\nThere's already a mod installed in '" \
-						+ qmod.gamedir + "'. Do you still want to " \
-						+ 'install this mod?'
-				else:
-					body = desc + '\n\nWould you like to install this mod?'
+			if (dirs.data / qmod.gamedir).exists():
+				body = desc \
+					+ "\n\nThere's already a mod installed in '" \
+					+ qmod.gamedir + "'. Do you still want to " \
+					+ 'install this mod?'
+			else:
+				body = desc + '\n\nWould you like to install this mod?'
 
-				answer = YesNoWithTitle(self, title, body)
-				if answer == wx.ID_YES:
-					qmod.install()
-					Info(self, qmod.name + ' installed.')
-			except:  # noqa E722
-				ErrorException(self)
+			answer = YesNoWithTitle(self, title, body)
+			if answer == wx.ID_YES:
+				qmod.install(dirs.data)
+				Info(self, qmod.name + ' installed.')
 
 	def play_mod_handler(self, event):
-		mod_dirs = list(map(lambda ini: path.dirname(ini), glob('**/qmod.ini')))
+		mod_dirs = [ini.parent for ini in dirs.data.glob('**/qmod.ini')]
+		mod_objs = [InstalledQMOD(mod_dir) for mod_dir in mod_dirs]
+		mod_info = [f'{mod.name} {mod.version}' for mod in mod_objs]
+
 		if len(mod_dirs) > 0:
 			chooser = wx.SingleChoiceDialog(
-				self, 'Installed mods', 'Play mod', mod_dirs)
+				self, 'Installed mods', 'Play mod', mod_info)
 			if chooser.ShowModal() == wx.ID_OK:
-				choice = chooser.GetStringSelection()
-				installed_mod = InstalledQMOD(choice)
-				installed_mod.apply_watches()
-				launch_core(self, lambda: self.game_controller.launch_mod(choice))
+				index = chooser.GetSelection()
+				mod_objs[index].apply_watches()
+				launch_core(self, lambda: self.game_controller.launch_mod(
+					mod_dirs[index].name))  # only need the leaf dirname
 		else:
 			Info(self, 'No mods are installed.')

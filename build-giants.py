@@ -4,7 +4,7 @@ import os
 
 import patch_ng as patch
 
-from buildlib import Config, \
+from buildlib import Build, \
 	comeback, check_platform, doset, doset_only, make, die, try_to_run
 
 
@@ -13,15 +13,15 @@ from buildlib import Config, \
 #
 
 def compile_zqcc():
-	make(Config.dir_make_zqcc, 'zqcc')
+	make(Build.dir_make_zqcc, 'zqcc')
 
 
 def compile_zquake():
-	make(Config.dir_make_zquake, 'zquake', ['gl', 'server'])
+	make(Build.dir_make_zquake, 'zquake', ['gl', 'server'])
 
 
 def compile_zquake_windows():
-	path = Config.dir_zquake_source
+	path = Build.dir_zquake_source
 	try:
 		os.chdir(path)
 	except:  # noqa E727
@@ -32,7 +32,7 @@ def compile_zquake_windows():
 
 
 def compile_zqcc_windows():  # FIXME DRY
-	path = Config.dir_make_zqcc
+	path = Build.dir_make_zqcc
 	try:
 		os.chdir(path)
 	except:  # noqa E727
@@ -49,16 +49,16 @@ def compile_zqcc_windows():  # FIXME DRY
 @comeback
 def compile_gamecode():
 	try:
-		os.chdir(Config.dir_qc)
+		os.chdir(Build.dir_qc)
 	except:  # noqa E727
-		die("can't change to QuakeC directory: " + Config.dir_qc)
+		die("can't change to QuakeC directory: " + Build.dir_qc)
 	make_gamecode('progs.src')
 	make_gamecode('spprogs.src')
 
 
 def make_gamecode(progs):
 	try_to_run(
-		(Config.dir_qc / Config.bin_zqcc, '-progs', progs),
+		(Build.dir_qc / Build.bin_zqcc, '-progs', progs),
 		'failed to compile gamecode file: ' + progs)
 
 
@@ -67,7 +67,7 @@ def make_gamecode(progs):
 #
 
 def rename_qutils():
-	for root, files, dirs in os.walk(Config.dir_qutils, topdown=False):
+	for root, files, dirs in os.walk(Build.dir_qutils, topdown=False):
 		for name in files + dirs:
 			os.rename(
 				os.path.join(root, name),
@@ -78,36 +78,36 @@ def _patch_map_tools_core(patches, root):
 	for title, patch_file in patches.items():
 		patch_set = patch.fromfile(patch_file)
 		if not patch_set.apply(root=root):
-			raise Exception(f'Patch "{patch_file.name}": OK')
+			die(f'Patch "{patch_file.name}" failed (try cleaning the giants/Quake-Tools submodule)')
 
 
 def patch_map_tools_all():
 	patches_all = {
-		'Makefile': Config.dir_patches / 'makefile.patch',
-		'writebsp.c': Config.dir_patches / 'writebsp.c.patch',
-		'qbsp.c': Config.dir_patches / 'qbsp.c.patch'
+		'Makefile': Build.dir_patches / 'makefile.patch',
+		'writebsp.c': Build.dir_patches / 'writebsp.c.patch',
+		'qbsp.c': Build.dir_patches / 'qbsp.c.patch'
 	}
-	_patch_map_tools_core(patches_all, Config.dir_qbsp)
+	_patch_map_tools_core(patches_all, Build.dir_qbsp)
 
 
 def patch_map_tools_windows():
 	windows_patches = {
-		'qbsp.mak': Config.dir_patches / 'qbsp.mak.patch',
-		'light.mak': Config.dir_patches / 'light.mak.patch',
-		'vis.mak': Config.dir_patches / 'vis.mak.patch',
-		'bspinfo.mak': Config.dir_patches / 'bspinfo.mak.patch'
+		'qbsp.mak': Build.dir_patches / 'qbsp.mak.patch',
+		'light.mak': Build.dir_patches / 'light.mak.patch',
+		'vis.mak': Build.dir_patches / 'vis.mak.patch',
+		'bspinfo.mak': Build.dir_patches / 'bspinfo.mak.patch'
 	}
-	_patch_map_tools_core(windows_patches, Config.dir_quake_tools)
+	_patch_map_tools_core(windows_patches, Build.dir_quake_tools)
 
 
 def compile_map_tools():
-	make(Config.dir_qbsp, 'Quake map tools')
+	make(Build.dir_qbsp, 'Quake map tools')
 
 
 @comeback
 def compile_map_tools_windows():  # FIXME DRY
 	for prog in ['qbsp', 'vis', 'light', 'bspinfo']:
-		path = os.path.join(Config.dir_qutils, prog)
+		path = os.path.join(Build.dir_qutils, prog)
 		try:
 			os.chdir(path)
 		except:  # noqa E727

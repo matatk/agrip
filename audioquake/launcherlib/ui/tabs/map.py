@@ -1,22 +1,23 @@
-"""AudioQuake Game Launcher - Map tab"""
+"""AudioQuake & LDL Launcher - Map tab"""
 import xml.dom.minidom
 from pathlib import Path
 import shutil
+from sys import exc_info
 
 import wx
 
+from launcherlib import dirs
 from launcherlib.game_controller import RootGame
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
-	Info, Warn, Error, ErrorException, HOW_TO_INSTALL
+	Info, Warn, Error, HOW_TO_INSTALL
 from launcherlib.utils import opener
-from ldllib.convert import convert, have_wad, WADs
-from ldllib.build import build, basename_maybe_hc
-from ldllib.utils import LDLError
+from ldllib.convert import convert
+from ldllib.build import build, bsp_maybe_hc
+from ldllib.utils import LDLError, have_wad, WADs, use_bins, use_wads
 
-LDL_TUTORIAL_MAPS_DIR = 'ldl-tutorial-maps'
-LDL_EXAMPLE_MAPS_DIR = 'ldl-example-maps'
-
+# The game data dirs where the map should go, given the WAD being used.
+# The absolute path is constructed in build_and_copy().
 wad_bspdests = {
 	WADs.QUAKE: ['id1'],
 	WADs.FREE: ['oq'],
@@ -50,7 +51,7 @@ class MapTab(wx.Panel):
 
 		add_opener_button(
 			self, sizer, 'Read the LDL tutorial',
-			Path('manuals') / 'ldl-tutorial.html')  # TODO DRY?
+			dirs.manuals / 'ldl-tutorial.html')  # TODO DRY?
 
 		# File picker and choosing a tutorial or example map bits
 
@@ -73,8 +74,8 @@ class MapTab(wx.Panel):
 				choice = chooser.GetSelection()
 				file_picker.SetPath(str(list(maps.keys())[choice]))
 
-		add_map_picker(LDL_TUTORIAL_MAPS_DIR, 'LDL tutorial')
-		add_map_picker(LDL_EXAMPLE_MAPS_DIR, 'LDL example')
+		add_map_picker(dirs.maps_tutorial, 'LDL tutorial')
+		add_map_picker(dirs.maps_example, 'LDL example')
 
 		file_picker = wx.FilePickerCtrl(
 			self, -1, message="Open map", wildcard=WILDCARD)
@@ -149,6 +150,11 @@ class MapTab(wx.Panel):
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
 
+		# Set up LDL paths
+
+		use_bins(dirs.map_tools)
+		use_wads(dirs.map_tools, dirs.data / 'id1')
+
 	def build_and_play(self, xmlfile, play_wad):
 		for wad, destinations in wad_bspdests.items():
 			if wad == WADs.QUAKE and not have_wad(WADs.QUAKE, quiet=True):
@@ -156,11 +162,11 @@ class MapTab(wx.Panel):
 			try:
 				self.build_and_copy(xmlfile, wad, destinations)
 			except LDLError:
-				ErrorException(self)
+				Error(self, str(exc_info()[1]))
 				return
 
 		if play_wad:
-			map_basename = basename_maybe_hc(play_wad, xmlfile.with_suffix(''))
+			map_basename = bsp_maybe_hc(play_wad, xmlfile).with_suffix('')
 
 			if play_wad == WADs.QUAKE:
 				if not have_wad(WADs.QUAKE, quiet=True):
@@ -187,13 +193,13 @@ class MapTab(wx.Panel):
 	@staticmethod
 	def build_and_copy(xmlfile, wad, dest_dirs):
 		mapfile = xmlfile.with_suffix('.map')
-		bspfile = basename_maybe_hc(wad, xmlfile.with_suffix('.bsp'))
+		bspfile = bsp_maybe_hc(wad, xmlfile)
 
 		convert(xmlfile, wad=wad)
 		build(mapfile, bsp_file=bspfile, quiet=True, throw=True)
 
 		for dest_dir in dest_dirs:
-			full_dest = Path(dest_dir) / 'maps' / bspfile
+			full_dest = dirs.data / dest_dir / 'maps' / bspfile
 			shutil.copy(bspfile, full_dest)
 
 		bspfile.unlink()

@@ -1,7 +1,8 @@
-"""AudioQuake Game Launcher - Play tab"""
+"""AudioQuake & LDL Launcher - Play tab"""
 import wx
 
 from buildlib import doset
+from launcherlib import dirs
 from launcherlib.ui.helpers import add_launch_button, add_opener_buttons
 
 
@@ -23,12 +24,12 @@ class PlayTab(wx.Panel):
 			add_launch_button(self, sizer, title, action)
 
 		server = doset(
-			mac='./start-server.command',
-			windows='zqds.exe')
+			mac=dirs.engines / 'start-server.command',
+			windows=dirs.engines / 'zqds.exe')
 
 		rcon = doset(
-			mac='./start-rcon.command',
-			windows='rcon.exe')
+			mac=dirs.engines / 'start-rcon.command',
+			windows=dirs.engines / 'rcon.exe')
 
 		add_opener_buttons(self, sizer, {
 			"Dedicated server": server,
