@@ -72,9 +72,8 @@ You don't need to download all of Visual Studio: whilst you _can_ use the graphi
   + In "Workloads" choose "C++ build tools"
   + In the "Installation details" section (a list of checkboxes) be sure to select "C++ MFC for latest v142 build tools (x86 & x64)" (this causes the corresponding ATL option to be selected too).
 * [Install Python 3.x](http://www.python.org/downloads/).
-  + The default installer from that page comes as 32-bit; that's fine.
-  + There is an "Add Python [version] to PATH" checkbox at the bottom of the first page of the install wizard (below the "Install now" button); be sure to select it.
-  + You can then use the "Install now" button.
+  + The default installer from that page comes as 64-bit; that's fine. (This was tested with 32-bit v3.8.4 and 64-bit v3.9.1.)
+  + There is an "Add Python [version] to PATH" checkbox at the bottom of the first page of the install wizard (below the "Install now" button); be sure to select it. You can then use the "Install now" button.
   + You do not necessarily need to extend the path length limit, when asked.
 
 #### Using the Visual Studio GUI, or customising an existing install
