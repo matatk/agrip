@@ -94,11 +94,12 @@ def first_time_windows_prompt(parent):
 		'When you run the game for the first time, Windows '
 		'may ask you to allow it through the firewall.\n\n'
 
-		'This will be done in a secure window that pops up'
-		'above the Quake engine, which you will need to use ALT-TAB'
+		'This will be done in a secure window that pops up '
+		'above the Quake engine, which you will need to use ALT-TAB '
 		'and an Assistive Technology to access.\n\n'
 
-		'Please also note that the server output window, and'
+		# FIXME: do this somewhere else?
+		'Please also note that the server output window, and '
 		'the remote console facility, are not self-voicing.')
 	Warn(parent, prompt)
 
