@@ -1,6 +1,6 @@
 """AudioQuake & LDL Launcher - Play tab"""
 try:
-	from subprocess import run, CREATE_NEW_CONSOLE
+	from subprocess import run, CalledProcessError, CREATE_NEW_CONSOLE
 except ImportError:
 	pass
 
@@ -8,43 +8,38 @@ import wx
 
 from buildlib import doset
 from launcherlib import dirs
-from launcherlib.ui.helpers import add_widget, launch_core
+from launcherlib.ui.helpers import add_widget, launch_core, Warn
 
 
 #
-# Mac server/rcon starters
+# Console program starter helpers
 #
 
 def start_server_mac(event):
 	zqds = dirs.engines / 'zqds'
 	basedir = dirs.data
-	run_via_apple_script(f'{zqds} -basedir {basedir} -game id1')
+	run_apple_script(f'{zqds} -basedir {basedir} -game id1')
 
 
-def start_rcon_mac(event):
-	run_via_apple_script(dirs.gubbins / 'rcon')
-
-
-def run_via_apple_script(command):
+def run_apple_script(command):
 	script = f'tell application "Terminal" to activate do script "{command}"'
 	args = ['osascript', '-e', script]
-	run(args)
+	try:
+		run(args, check=True)
+	except CalledProcessError:
+		Warn(None, (
+			'The dedicated server and remote console are text-mode programs. '
+			'In order to run them, the AudioQuake & LDL launcher needs access '
+			'to automate the Terminal app.\n\n'
+
+			'You can grant this permission in System Preferences > Security & '
+			'Privacy > Privacy tab. Go to "Automation" in the list of '
+			'permissions, then find "AudioQuake" in the list of applications, '
+			'and be sure to select the "Terminal" checkbox.'))
 
 
-#
-# Windows server/rcon starters
-#
-
-def start_in_console(prog):
+def run_win_console(prog):
 	run(prog, creationflags=CREATE_NEW_CONSOLE)
-
-
-def start_server_windows(event):
-	start_in_console(dirs.engines / 'zqds.exe')
-
-
-def start_rcon_windows(event):
-	start_in_console(dirs.gubbings / 'rcon.exe')
 
 
 #
@@ -92,9 +87,13 @@ class PlayTab(wx.Panel):
 
 		server_stuff = {
 			"Dedicated server": doset(
-				mac=start_server_mac, windows=start_rcon_windows, set_only=True),
+				mac=start_server_mac,
+				windows=lambda evt: run_win_console(dirs.gubbings / 'rcon.exe'),
+				set_only=True),
 			"Remote console": doset(
-				mac=start_rcon_mac, windows=start_rcon_windows, set_only=True)
+				mac=lambda evt: run_apple_script(dirs.gubbins / 'rcon'),
+				windows=lambda evt: run_win_console(dirs.engines / 'zqds.exe'),
+				set_only=True)
 		}
 
 		for title, action in server_stuff.items():
