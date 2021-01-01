@@ -19,7 +19,7 @@ launch_messages = {
 	LaunchState.NOT_FOUND: 'Engine not found.',
 	LaunchState.ALREADY_RUNNING: 'The game is already running.',
 	LaunchState.NO_REGISTERED_DATA: (
-		'Registered Quake data not found. ' + HOW_TO_INSTALL)
+		'Registered Quake data not found.\n\n' + HOW_TO_INSTALL + '\n\nYou can play Open Quartz without the registered version of Quake.')
 }
 
 
@@ -100,7 +100,7 @@ def first_time_windows_prompt(parent):
 
 		# FIXME: do this somewhere else?
 		'Please also note that the server output window, and '
-		'the remote console facility, are not self-voicing.')
+		'the remote console facility, are not self-voicing; they are text-mode programs and will run in a terminal window.')
 	Warn(parent, prompt)
 
 
@@ -115,13 +115,14 @@ def _update_oq_configs():
 def launch_core(parent, method):
 	if config.first_game_run():
 		doset_only(windows=lambda: first_time_windows_prompt(parent))
-		config.first_game_run(False)
 
 	_update_oq_configs()
 
 	launch_state = method()
-	if launch_state is not LaunchState.LAUNCHED:
-		Warn(parent, launch_messages[launch_state])
+	if launch_state is LaunchState.LAUNCHED:
+		config.first_game_run(False)
+	else:
+		Error(parent, launch_messages[launch_state])
 
 
 def gui_error_hook(etype, value, traceback):
