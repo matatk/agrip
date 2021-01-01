@@ -4,7 +4,8 @@ from configparser import ConfigParser
 CONFIG_FILENAME = 'audioquake.ini'  # i.e. in the current directory
 
 INITIAL_CONFIG = {
-	'first_game_run': 'yes'
+	'first_game_run': 'yes',
+	'fullscreen': 'no'
 }
 
 _config_file_directory = None
@@ -26,8 +27,22 @@ def init(root):
 	_config_file_directory = root
 	_config = ConfigParser()
 	_config.read(_config_file_directory / CONFIG_FILENAME)
-	if len(_config) == 1:  # always has a default section
+	if len(_config.sections()) == 0:
 		_config['launcher'] = INITIAL_CONFIG
+		save()
+	else:
+		_upgrade_config()
+
+
+def _upgrade_config():
+	made_changes = False
+
+	for key, default in INITIAL_CONFIG.items():
+		if key not in _config['launcher']:
+			_config['launcher'][key] = default
+			made_changes = True
+
+	if made_changes:
 		save()
 
 

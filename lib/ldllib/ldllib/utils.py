@@ -319,9 +319,9 @@ class StyleFetcher:
 			if entity_name in self.soundLookup[lookup_worldtype]:
 				return self.soundLookup[lookup_worldtype][entity_name]
 			else:
-				error(f"getSound: no such entity_name '{entity_name}'.")
+				error(f'getSound: no such entity_name "{entity_name}"')
 		else:
-			error(f"getSound: no such lookup_worldtype '{lookup_worldtype}'.")
+			error(f'getSound: no such lookup_worldtype "{lookup_worldtype}"')
 
 	# Texture Set Stuff
 
@@ -337,7 +337,7 @@ class StyleFetcher:
 		if lookup_style in self.textureSets:
 			return self.textureSets[lookup_style][surf]
 		else:
-			error(f"getSetTex: no such texture set '{lookup_style}'.")
+			error(f'getSetTex: no such texture set "{lookup_style}"')
 
 	# FIXME DRY
 	def populate_lighting_detail_offset(

@@ -1,6 +1,7 @@
 """AudioQuake & LDL Launcher - Game controller"""
 import enum
 
+import launcherlib.config as config
 from launcherlib import dirs
 from launcherlib.utils import have_registered_data
 from launcherlib.game_controller.engine_wrapper import EngineWrapper
@@ -20,12 +21,11 @@ class RootGame(enum.Enum):
 
 
 class GameController():
-	opts_default = (
-		"-basedir", dirs.data, "-window", "+noskins 1", "+set sensitivity 0")
-	opts_open_quartz = ("-rootgame", "oq")
-	opts_custom_map_base = ("+coop 0", "+deathmatch 0")
-	opts_tutorial = opts_custom_map_base + ("+map agtut01",)
-	opts_tutorial_high_contrast = opts_custom_map_base + ("+map agtut01hc",)
+	opts_default = ('-basedir', dirs.data, '+noskins 1', '+set sensitivity 0')
+	opts_open_quartz = ('-rootgame', 'oq')
+	opts_custom_map_base = ('+coop 0', '+deathmatch 0')
+	opts_tutorial = opts_custom_map_base + ('+map agtut01',)
+	opts_tutorial_high_contrast = opts_custom_map_base + ('+map agtut01hc',)
 
 	def __init__(self):
 		self._engine_wrapper = None
@@ -43,7 +43,8 @@ class GameController():
 		if self._is_running():
 			return LaunchState.ALREADY_RUNNING
 
-		parameters = self.opts_default + options
+		screen_mode = ('-fullscreen',) if config.fullscreen() else ('-window',)
+		parameters = self.opts_default + options + screen_mode
 
 		if game is RootGame.ANY:
 			if have_registered_data():
@@ -58,7 +59,7 @@ class GameController():
 		elif game is RootGame.OPEN_QUARTZ:
 			parameters += self.opts_open_quartz
 		else:
-			raise TypeError(f"Invalid game name '{game}'")
+			raise TypeError(f'Invalid game name "{game}"')
 
 		self._engine_wrapper = EngineWrapper(parameters, self._on_error)
 
@@ -82,11 +83,11 @@ class GameController():
 
 	def launch_map(self, name, game=RootGame.ANY):
 		return self._launch_core(
-			self.opts_custom_map_base + ("+map " + str(name),), game=game)
+			self.opts_custom_map_base + ('+map ' + str(name),), game=game)
 
 	def launch_mod(self, name):
 		print('Launching mod:', name)
-		return self._launch_core(("-game", name))
+		return self._launch_core(('-game', name))
 
 	def quit(self):
 		if self._is_running():

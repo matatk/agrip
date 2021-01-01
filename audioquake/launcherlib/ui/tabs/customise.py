@@ -4,6 +4,7 @@ from os import path
 import wx
 
 from launcherlib import dirs
+import launcherlib.config as config
 from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import \
 	add_opener_buttons, add_widget, pick_directory, Info, Error
@@ -29,6 +30,16 @@ class CustomiseTab(wx.Panel):
 		reg_data_button = wx.Button(self, -1, 'Install registered Quake data')
 		reg_data_button.Bind(wx.EVT_BUTTON, self.install_data_handler)
 		add_widget(sizer, reg_data_button)
+
+		# Video mode settings
+
+		fullscreen = wx.CheckBox(self, -1, "Fullscreen")
+		fullscreen.SetValue(config.fullscreen())
+		self.Bind(
+			wx.EVT_CHECKBOX,
+			lambda event: config.fullscreen(event.IsChecked()),
+			fullscreen)
+		add_widget(sizer, fullscreen)
 
 		# Wiring
 

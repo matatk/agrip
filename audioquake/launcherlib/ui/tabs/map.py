@@ -181,7 +181,7 @@ class MapTab(wx.Panel):
 			elif play_wad == WADs.PROTOTYPE:
 				play_as_game = RootGame.ANY
 			else:
-				raise TypeError(f"Unknown WAD type '{play_wad}'")
+				raise TypeError(f'Unknown WAD type "{play_wad}"')
 
 			launch_core(self, lambda: self.game_controller.launch_map(
 				map_basename, game=play_as_game))
