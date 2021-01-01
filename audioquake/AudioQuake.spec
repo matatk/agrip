@@ -7,8 +7,6 @@ from buildlib import doset, doset_only
 # NOTE: Synch with launcherlib/dirs.py and build-audioquake.py.
 
 data_files = [
-	('app-support-files/start-rcon.command', 'engines'),    # FIXME Mac-only
-	('app-support-files/start-server.command', 'engines'),  # FIXME Mac-only
 	('../ldl/style.xml', 'maptools'),
 	('../giants/prototype_wad_1_2/prototype_1_2.wad', 'maptools'),
 	('../giants/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', 'maptools')]
@@ -45,9 +43,7 @@ a = Analysis(  # noqa 821
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)  # noqa 821
 
-platform_icon = doset(
-	mac='app-support-files/aq.icns',     # FIXME DRY?
-	windows='app-support-files/aq.ico')  # FIXME DRY?
+platform_icon = doset(mac='icons/aq.icns', windows='icons/aq.ico')
 
 exe = EXE(  # noqa 821
 	pyz,

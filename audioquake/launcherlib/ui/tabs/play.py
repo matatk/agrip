@@ -1,10 +1,88 @@
 """AudioQuake & LDL Launcher - Play tab"""
+try:
+	from subprocess import run, CalledProcessError, CREATE_NEW_CONSOLE
+except ImportError:
+	pass
+
 import wx
 
 from buildlib import doset
 from launcherlib import dirs
-from launcherlib.ui.helpers import add_launch_button, add_opener_buttons
+from launcherlib.utils import have_registered_data
+from launcherlib.ui.helpers import add_widget, launch_core, \
+	Error, HOW_TO_INSTALL
 
+
+#
+# Console program starter helpers
+#
+
+def registered_check():
+	if not have_registered_data():
+		Error(None, (
+			'You must have the registered version of Quake in order to run '
+			'a server that uses custom maps.\n\n' + HOW_TO_INSTALL))
+		return False
+	return True
+
+
+def start_server_mac(event):
+	if registered_check():
+		zqds = dirs.engines / 'zqds'
+		run_apple_script(f'{zqds} -basedir {dirs.data} -game id1')
+
+
+def run_apple_script(command):
+	script = f'tell application "Terminal" to activate do script "{command}"'
+	args = ['osascript', '-e', script]
+	try:
+		run(args, check=True)
+	except CalledProcessError:
+		Error(None, (
+			'The dedicated server and remote console are text-mode programs. '
+			'In order to run them, the AudioQuake & LDL launcher needs access '
+			'to automate the Terminal app.\n\n'
+
+			'You can grant this permission in System Preferences > Security & '
+			'Privacy > Privacy tab. Go to "Automation" in the list of '
+			'permissions, then find "AudioQuake" in the list of applications, '
+			'and be sure to select the "Terminal" checkbox.'))
+
+
+def start_server_windows(event):
+	if registered_check():
+		run_win_console([dirs.engines / 'zqds.exe', '-basedir', dirs.data])
+
+
+def run_win_console(prog):
+	run(prog, creationflags=CREATE_NEW_CONSOLE)
+
+
+#
+# Helpers
+#
+
+def add_launch_button(parent, sizer, title, action):
+	button = wx.Button(parent, -1, title)
+
+	def make_launch_function(game_start_method):
+		def launch_handler(event):
+			launch_core(parent, game_start_method)
+		return launch_handler
+
+	button.Bind(wx.EVT_BUTTON, make_launch_function(action))
+	add_widget(sizer, button)
+
+
+def add_cli_tool_button(parent, sizer, title, action):
+	button = wx.Button(parent, -1, title)
+	button.Bind(wx.EVT_BUTTON, action)
+	add_widget(sizer, button)
+
+
+#
+# The main event
+#
 
 class PlayTab(wx.Panel):
 	def __init__(self, parent, game_controller):
@@ -23,18 +101,19 @@ class PlayTab(wx.Panel):
 		for title, action in game_modes.items():
 			add_launch_button(self, sizer, title, action)
 
-		server = doset(
-			mac=dirs.engines / 'start-server.command',
-			windows=dirs.engines / 'zqds.exe')
+		server_stuff = {
+			"Dedicated server": doset(
+				mac=start_server_mac,
+				windows=start_server_windows,
+				set_only=True),
+			"Remote console": doset(
+				mac=lambda evt: run_apple_script(dirs.gubbins / 'rcon'),
+				windows=lambda evt: run_win_console(dirs.gubbins / 'rcon.exe'),
+				set_only=True)
+		}
 
-		rcon = doset(
-			mac=dirs.engines / 'start-rcon.command',
-			windows=dirs.engines / 'rcon.exe')
-
-		add_opener_buttons(self, sizer, {
-			"Dedicated server": server,
-			"Remote console": rcon,
-		})
+		for title, action in server_stuff.items():
+			add_cli_tool_button(self, sizer, title, action)
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)

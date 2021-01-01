@@ -19,7 +19,8 @@ launch_messages = {
 	LaunchState.NOT_FOUND: 'Engine not found.',
 	LaunchState.ALREADY_RUNNING: 'The game is already running.',
 	LaunchState.NO_REGISTERED_DATA: (
-		'Registered Quake data not found. ' + HOW_TO_INSTALL)
+		'Registered Quake data not found.\n\n' + HOW_TO_INSTALL + '\n\n'
+		'You can play Open Quartz without the registered version of Quake.')
 }
 
 
@@ -42,20 +43,6 @@ def _pick_core(picker_func):
 		return
 
 	return picker.GetPath()
-
-
-def add_launch_button(parent, sizer, title, action):
-	button = wx.Button(parent, -1, title)
-
-	def make_launch_function(game_start_method):
-		def launch_handler(event):
-			launch_core(parent, game_start_method)
-		return launch_handler
-
-	# FIXME server and rcon don't return LaunchStatusy thingies
-
-	button.Bind(wx.EVT_BUTTON, make_launch_function(action))
-	add_widget(sizer, button)
 
 
 def add_opener_buttons(parent, sizer, things_to_open):
@@ -105,15 +92,17 @@ def MsgBox(parent, message, caption, icon, style=wx.OK):
 # FIXME: need to apply to mod loading for the first time (already done?)
 def first_time_windows_prompt(parent):
 	prompt = (
-		'When you run the game for the first time, Windows '
-		'may ask you to allow it through the firewall.\n\n'
+		'When you run the game for the first time, Windows may ask you to '
+		'allow it through the firewall.\n\n'
 
-		'This will be done in a secure window that pops up'
-		'above the Quake engine, which you will need to use ALT-TAB'
-		'and an Assistive Technology to access.\n\n'
+		'This will be done in a secure window that pops up above the Quake '
+		'engine, which you will need to use ALT-TAB and an Assistive '
+		'Technology to access.\n\n'
 
-		'Please also note that the server output window, and'
-		'the remote console facility, are not self-voicing.')
+		# FIXME: do this somewhere else?
+		'Please also note that the server output window, and the remote '
+		'console, are not self-voicing; they are text-mode programs and will '
+		'run in a terminal window.')
 	Warn(parent, prompt)
 
 
@@ -128,13 +117,14 @@ def _update_oq_configs():
 def launch_core(parent, method):
 	if config.first_game_run():
 		doset_only(windows=lambda: first_time_windows_prompt(parent))
-		config.first_game_run(False)
 
 	_update_oq_configs()
 
 	launch_state = method()
-	if launch_state is not LaunchState.LAUNCHED:
-		Warn(parent, launch_messages[launch_state])
+	if launch_state is LaunchState.LAUNCHED:
+		config.first_game_run(False)
+	else:
+		Error(parent, launch_messages[launch_state])
 
 
 def gui_error_hook(etype, value, traceback):
