@@ -44,20 +44,6 @@ def _pick_core(picker_func):
 	return picker.GetPath()
 
 
-def add_launch_button(parent, sizer, title, action):
-	button = wx.Button(parent, -1, title)
-
-	def make_launch_function(game_start_method):
-		def launch_handler(event):
-			launch_core(parent, game_start_method)
-		return launch_handler
-
-	# FIXME server and rcon don't return LaunchStatusy thingies
-
-	button.Bind(wx.EVT_BUTTON, make_launch_function(action))
-	add_widget(sizer, button)
-
-
 def add_opener_buttons(parent, sizer, things_to_open):
 	for title, thing in things_to_open.items():
 		add_opener_button(parent, sizer, title, thing)

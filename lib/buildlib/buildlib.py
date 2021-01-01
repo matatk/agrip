@@ -19,9 +19,9 @@ class TooManyPlatformsError(Exception):
 	pass
 
 
-def _do_or_set(mac=None, windows=None):
+def _do_or_set(mac=None, windows=None, set_only=False):
 	def _core(thing):
-		if callable(thing):
+		if callable(thing) and not set_only:
 			return thing()
 		elif thing is not None:
 			return thing
@@ -34,18 +34,18 @@ def _do_or_set(mac=None, windows=None):
 		raise NotImplementedError
 
 
-def doset(mac=None, windows=None):
+def doset(mac=None, windows=None, set_only=False):
 	if mac is None and windows is None:
 		raise MissingPlatformError()
-	return _do_or_set(mac, windows)
+	return _do_or_set(mac, windows, set_only)
 
 
-def doset_only(mac=None, windows=None):
+def doset_only(mac=None, windows=None, set_only=False):
 	if mac is None and windows is None:
 		raise MissingPlatformError()
 	if mac is not None and windows is not None:
 		raise TooManyPlatformsError()
-	return _do_or_set(mac, windows)
+	return _do_or_set(mac, windows, set_only)
 
 
 #

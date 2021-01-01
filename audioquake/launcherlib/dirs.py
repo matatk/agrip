@@ -43,6 +43,7 @@ root = root_dir                             # Only used for Windows chdir
 data = root_dir / 'data'                    # Game files (id1, oq, mods)
 config = root_dir / 'data'                  # Where audioquake.ini goes
 manuals = root_dir / 'docs'                 # Manuals and standalone docs
+gubbins = launcher_dir                      # Needed for running rcon
 engines = launcher_dir / 'engines'          # The game/server and Mac cmds
 map_tools = launcher_dir / 'maptools'       # Mapping bins and resources
 maps_example = root_dir / 'example-maps'    # LDL example maps
