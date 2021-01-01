@@ -9,7 +9,8 @@ import wx
 from buildlib import doset
 from launcherlib import dirs
 from launcherlib.utils import have_registered_data
-from launcherlib.ui.helpers import add_widget, launch_core, Error, HOW_TO_INSTALL
+from launcherlib.ui.helpers import add_widget, launch_core, \
+	Error, HOW_TO_INSTALL
 
 
 #
@@ -17,18 +18,21 @@ from launcherlib.ui.helpers import add_widget, launch_core, Error, HOW_TO_INSTAL
 #
 
 def registered_check():
-        if not have_registered_data():
-                Error(None, 'You must have the registered version of Quake in order to run a server that uses custom maps.\n\n' + HOW_TO_INSTALL)
-                return False
-        return True
+	if not have_registered_data():
+		Error(None, (
+			'You must have the registered version of Quake in order to run '
+			'a server that uses custom maps.\n\n' + HOW_TO_INSTALL))
+		return False
+	return True
+
 
 def start_server_mac(event):
-        if registered_check():
-                zqds = dirs.engines / 'zqds'
-                run_apple_script(f'{zqds} -basedir {dirs.data} -game id1')
+	if registered_check():
+		zqds = dirs.engines / 'zqds'
+		run_apple_script(f'{zqds} -basedir {dirs.data} -game id1')
 
 
-def run_apple_script(parent, command):
+def run_apple_script(command):
 	script = f'tell application "Terminal" to activate do script "{command}"'
 	args = ['osascript', '-e', script]
 	try:
@@ -46,13 +50,12 @@ def run_apple_script(parent, command):
 
 
 def start_server_windows(event):
-        if registered_check():
-                run_win_console([dirs.engines / 'zqds.exe', '-basedir', dirs.data])
+	if registered_check():
+		run_win_console([dirs.engines / 'zqds.exe', '-basedir', dirs.data])
 
 
 def run_win_console(prog):
-        run(prog, creationflags=CREATE_NEW_CONSOLE)
-
+	run(prog, creationflags=CREATE_NEW_CONSOLE)
 
 
 #
