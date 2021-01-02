@@ -3,15 +3,9 @@ import enum
 
 import launcherlib.config as config
 from launcherlib import dirs
-from launcherlib.utils import have_registered_data
+from launcherlib.utils import have_registered_data, LaunchState, \
+	width_and_height
 from launcherlib.game_controller.engine_wrapper import EngineWrapper
-
-
-class LaunchState(enum.Enum):
-	LAUNCHED = enum.auto()
-	NOT_FOUND = enum.auto()
-	ALREADY_RUNNING = enum.auto()
-	NO_REGISTERED_DATA = enum.auto()
 
 
 class RootGame(enum.Enum):
@@ -44,7 +38,15 @@ class GameController():
 			return LaunchState.ALREADY_RUNNING
 
 		screen_mode = ('-fullscreen',) if config.fullscreen() else ('-window',)
-		parameters = self.opts_default + options + screen_mode
+
+		# FIXME: enforce min and max resolutions
+		xstr, ystr = width_and_height(config.resolution())
+		if xstr == '640' and ystr == '400':
+			resolution = ()
+		else:
+			resolution = ('-width', xstr, '-height', ystr)
+
+		parameters = self.opts_default + options + screen_mode + resolution
 
 		if game is RootGame.ANY:
 			if have_registered_data():
@@ -61,6 +63,7 @@ class GameController():
 		else:
 			raise TypeError(f'Invalid game name "{game}"')
 
+		print(parameters)
 		self._engine_wrapper = EngineWrapper(parameters, self._on_error)
 
 		if not self._engine_wrapper.engine_found():

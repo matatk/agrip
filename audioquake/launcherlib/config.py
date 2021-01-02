@@ -5,7 +5,8 @@ CONFIG_FILENAME = 'audioquake.ini'  # i.e. in the current directory
 
 INITIAL_CONFIG = {
 	'first_game_run': 'yes',
-	'fullscreen': 'no'
+	'fullscreen': 'no',
+	'resolution': '640x400'  # ZQuake default
 }
 
 _config_file_directory = None

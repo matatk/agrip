@@ -5,14 +5,56 @@ import wx
 
 from launcherlib import dirs
 import launcherlib.config as config
-from launcherlib.utils import have_registered_data
+from launcherlib.utils import have_registered_data, InvalidResolutionError, \
+	width_and_height
 from launcherlib.ui.helpers import \
 	add_opener_buttons, add_widget, pick_directory, Info, Error
 from launcherlib.ui.munging import copy_paks_and_create_textures_wad
 
 
+RESOLUTIONS = [
+	'320x200 (16:10)',
+	'320x240 (4:3)',
+	'640x400 (16:10) [default]',
+	'848x477 (16:9)',
+	'640x480 (4:3)',
+	'768x480 (16:10)',
+	'864x486 (16:9)',
+	'720x540 (4:3)',
+	'864x540 (16:10)',
+	'960x540 (16:9)',
+	'800x600 (4:3)',
+	'1152x720 (16:10)',
+	'1280x720 (16:9)',
+	'1024x768 (4:3)',
+	'1600x900 (16:9)',
+	'1600x1000 (16:10)',
+	'1440x1080 (4:3)',
+	'1728x1080 (16:10)',
+	'1920x1080 (16:9)']
+
+DEFAULT_RESOLUTION_INDEX = 2
+
+
+def find_resolution_index(partial_resolution):
+	"""Given a resolution string, find the index of the resolution, if it
+	matches one of the presets. If it doesn't return -1. If it's invalid,
+	return -2."""
+	try:
+		given_xstr, given_ystr = width_and_height(partial_resolution)
+	except InvalidResolutionError:
+		return -2
+
+	for index, resolution_string in enumerate(RESOLUTIONS):
+		res_xstr, res_ystr = width_and_height(resolution_string)
+		if given_xstr == res_xstr and given_ystr == res_ystr:
+			return index
+
+	return -1
+
+
 class CustomiseTab(wx.Panel):
-	def __init__(self, parent):
+	def __init__(self, parent, game_controller):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -33,13 +75,48 @@ class CustomiseTab(wx.Panel):
 
 		# Video mode settings
 
-		fullscreen = wx.CheckBox(self, -1, "Fullscreen")
+		add_widget(sizer, wx.StaticLine(self, -1))
+		add_widget(sizer, wx.StaticText(
+			self, -1, 'Video mode settings', style=wx.ALIGN_CENTRE_HORIZONTAL))
+
+		fullscreen = wx.CheckBox(
+			self, -1, 'Run full-screen (instead of windowed)')
 		fullscreen.SetValue(config.fullscreen())
-		self.Bind(
+		fullscreen.Bind(
 			wx.EVT_CHECKBOX,
 			lambda event: config.fullscreen(event.IsChecked()),
 			fullscreen)
 		add_widget(sizer, fullscreen)
+
+		resolution_hbox = wx.BoxSizer(wx.HORIZONTAL)
+		label = wx.StaticText(self, label='Resolution:')
+
+		pick = wx.Choice(self, -1, choices=RESOLUTIONS)
+		chosen_resolution_index = find_resolution_index(config.resolution())
+		# FIXME: what about if launched via command line?
+		print('chosen_resolution_index:', chosen_resolution_index)
+		if chosen_resolution_index >= 0:
+			print('res is a preset one')
+			pick.SetSelection(chosen_resolution_index)
+		elif chosen_resolution_index == -1:
+			print('res valid but custom')
+			pick.Disable()
+		else:
+			print('res invalid')
+			pick.SetSelection(DEFAULT_RESOLUTION_INDEX)
+			config.resolution(RESOLUTIONS[DEFAULT_RESOLUTION_INDEX])
+		pick.Bind(
+			wx.EVT_CHOICE,
+			lambda event: config.resolution(RESOLUTIONS[event.GetSelection()]))
+
+		add_widget(resolution_hbox, label, border=False)
+		add_widget(resolution_hbox, pick, border=False, expand=True)
+		add_widget(sizer, resolution_hbox)
+
+		quick_test = wx.Button(self, -1, 'Play tutorial (F10 to quit game)')
+		quick_test.Bind(
+			wx.EVT_BUTTON, lambda event: game_controller.launch_tutorial())
+		add_widget(sizer, quick_test)
 
 		# Wiring
 

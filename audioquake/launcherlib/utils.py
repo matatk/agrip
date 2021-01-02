@@ -1,4 +1,5 @@
 """AudioQuake & LDL Launcher - Utilities"""
+import enum
 from subprocess import check_call
 from traceback import format_exception_only, format_tb
 
@@ -9,6 +10,32 @@ except ImportError:
 
 from buildlib import doset
 from launcherlib import dirs
+
+
+class LaunchState(enum.Enum):
+	LAUNCHED = enum.auto()
+	NOT_FOUND = enum.auto()
+	ALREADY_RUNNING = enum.auto()
+	NO_REGISTERED_DATA = enum.auto()
+
+
+class InvalidResolutionError(Exception):
+	pass
+
+
+def width_and_height(resolution_name):
+	if ' ' in resolution_name:
+		dimensions = resolution_name.split(' ')[0]
+	else:
+		dimensions = resolution_name
+	try:
+		xstr, ystr = dimensions.split('x')
+	except ValueError:
+		raise InvalidResolutionError(
+			f'Invalid screen resolution "{resolution_name}" - if you manually '
+			'edited audioquake.ini please check it is correct. To fix this you '
+			'can choose a preset screen resolution in the Customise tab.')
+	return xstr, ystr
 
 
 def opener(openee):
@@ -29,6 +56,11 @@ def error_message_and_title(etype, value, traceback):
 	please_report = (
 		'Please report this error, with the following details, at '
 		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
-	message = "".join(
-		[please_report] + exception_info + ['\n'] + trace_info)
-	return (message, 'Unanticipated error (launcher bug)')
+	if etype is InvalidResolutionError:
+		message = value
+		title = 'Whoops, apocalypse'
+	else:
+		message = "".join(
+			[please_report] + exception_info + ['\n'] + trace_info)
+		title = 'Unanticipated error (launcher bug)'
+	return message, title

@@ -56,7 +56,8 @@ class MapTab(wx.Panel):
 		# File picker and choosing a tutorial or example map bits
 
 		add_widget(sizer, wx.StaticText(
-			self, -1, 'Open a Level Description Language (LDL) map'))
+			self, -1, 'Open a Level Description Language (LDL) map',
+			style=wx.ALIGN_CENTRE_HORIZONTAL))
 
 		def add_map_picker(place, kinda):
 			def pick_map_handler(event):
