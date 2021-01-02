@@ -10,6 +10,7 @@ except ImportError:
 
 from buildlib import doset
 from launcherlib import dirs
+from launcherlib.game_controller.engine_wrapper import EngineWrapperError
 
 
 class LaunchState(enum.Enum):
@@ -57,8 +58,11 @@ def error_message_and_title(etype, value, traceback):
 		'Please report this error, with the following details, at '
 		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
 	if etype is InvalidResolutionError:
-		message = value
+		message = value  # FIXME: this must never actually be caught? 
 		title = 'Whoops, apocalypse'
+	elif etype is EngineWrapperError:
+		message = str(value)
+		title = 'An error was reported by the ZQuake engine.'
 	else:
 		message = "".join(
 			[please_report] + exception_info + ['\n'] + trace_info)
