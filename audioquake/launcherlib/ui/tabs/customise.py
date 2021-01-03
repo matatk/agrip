@@ -3,6 +3,7 @@ from os import path
 
 import wx
 
+from buildlib import doset_only
 from launcherlib import dirs
 import launcherlib.config as config
 from launcherlib.utils import have_registered_data
@@ -68,7 +69,10 @@ class CustomiseTab(wx.Panel):
 		add_widget(resolution_hbox, pick_res, border=False, expand=True)
 		add_widget(sizer, resolution_hbox)
 
-		quick_test = wx.Button(self, -1, 'Play tutorial (F10 to quit game)')
+		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
+			self, -1, "Note: avoid sizes bigger than your desktop.")))
+
+		quick_test = wx.Button(self, -1, 'Play tutorial (F10 to quit)')
 		quick_test.Bind(
 			wx.EVT_BUTTON, lambda event: game_controller.launch_tutorial())
 		add_widget(sizer, quick_test)
