@@ -45,9 +45,10 @@ def error_message_and_title(etype, value, traceback):
 			extra_info = f'ZQuake error info:\n{stderr}'
 		else:
 			extra_info = '(No further info available.)'
-		message = \
-			'This may be due to a screen mode being unavailable, in which case, please try choosing a different one.\n\n' + \
-			'If it relates to anything else, ' + please_report.lower() + extra_info
+		message = (
+			'This may be due to a screen mode being unavailable, in which '
+			'case, please try choosing a different one.\n\nIf it relates to '
+			'anything else, ' + please_report.lower() + extra_info)
 		title = 'An error was reported by the ZQuake engine'
 	else:
 		message = "".join(
