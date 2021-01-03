@@ -59,12 +59,11 @@ class EngineWrapper(threading.Thread):
 
 				if retcode is not None:
 					if retcode != 0:
-						shared = 'ZQuake reproted an error'
 						stderr = proc.stderr.read().decode('ascii')
 						if len(stderr) > 0:
-							raise EngineWrapperError(f'{shared}: "{stderr}"')
+							raise EngineWrapperError(stderr)
 						else:
-							raise EngineWrapperError(shared)
+							raise EngineWrapperError()
 					break
 		except:  # noqa E722
 			self._on_error(*sys.exc_info())

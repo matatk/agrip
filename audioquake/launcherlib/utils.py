@@ -40,10 +40,15 @@ def error_message_and_title(etype, value, traceback):
 		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
 
 	if etype is EngineWrapperError:
-		message = str(value) + '\n\n' + \
-			'If this relates to anything other than unavailable screen ' \
-			'resolutions, ' + please_report.lower()
-		title = 'An error was reported by the ZQuake engine.'
+		stderr = str(value)
+		if len(stderr) > 0:
+			extra_info = f'ZQuake error info:\n{stderr}'
+		else:
+			extra_info = '(No further info available.)'
+		message = \
+			'This may be due to a screen mode being unavailable, in which case, please try choosing a different one.\n\n' + \
+			'If it relates to anything else, ' + please_report.lower() + extra_info
+		title = 'An error was reported by the ZQuake engine'
 	else:
 		message = "".join(
 			[please_report] + exception_info + ['\n'] + trace_info)
