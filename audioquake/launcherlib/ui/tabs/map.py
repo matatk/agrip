@@ -51,7 +51,7 @@ class MapTab(wx.Panel):
 
 		add_opener_button(
 			self, sizer, 'Read the LDL tutorial',
-			dirs.manuals / 'ldl-tutorial.html')  # TODO DRY?
+			dirs.manuals / 'ldl-tutorial.html')
 
 		# File picker and choosing a tutorial or example map bits
 

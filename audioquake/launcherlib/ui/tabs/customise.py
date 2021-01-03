@@ -29,6 +29,7 @@ class CustomiseTab(wx.Panel):
 
 		# Install registered data
 
+		add_widget(sizer, wx.StaticLine(self, -1))
 		reg_data_button = wx.Button(self, -1, 'Install registered Quake data')
 		reg_data_button.Bind(wx.EVT_BUTTON, self.install_data_handler)
 		add_widget(sizer, reg_data_button)
@@ -81,7 +82,7 @@ class CustomiseTab(wx.Panel):
 			wx.PostEvent(pick_res, choice_event)
 			pick_res.Enable()
 
-		reset = wx.Button(self, -1, 'Reset to defaults')
+		reset = wx.Button(self, -1, 'Reset video mode to defaults')
 		reset.Bind(wx.EVT_BUTTON, reset_to_defaults)
 		add_widget(sizer, reset)
 
