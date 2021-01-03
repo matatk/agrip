@@ -3,9 +3,10 @@ import enum
 
 import launcherlib.config as config
 from launcherlib import dirs
-from launcherlib.utils import have_registered_data, LaunchState, \
-	width_and_height
+from launcherlib.utils import have_registered_data, LaunchState
 from launcherlib.game_controller.engine_wrapper import EngineWrapper
+from launcherlib.resolutions import resolution_size_from_config, \
+	DEFAULT_WIDTH, DEFAULT_HEIGHT
 
 
 class RootGame(enum.Enum):
@@ -39,9 +40,8 @@ class GameController():
 
 		screen_mode = ('-fullscreen',) if config.fullscreen() else ('-window',)
 
-		# FIXME: enforce min and max resolutions
-		xstr, ystr = width_and_height(config.resolution())
-		if xstr == '640' and ystr == '400':
+		xstr, ystr, _ = resolution_size_from_config()
+		if xstr == DEFAULT_WIDTH and ystr == DEFAULT_HEIGHT:
 			resolution = ()
 		else:
 			resolution = ('-width', xstr, '-height', ystr)

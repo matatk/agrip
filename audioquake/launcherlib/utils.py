@@ -20,25 +20,6 @@ class LaunchState(enum.Enum):
 	NO_REGISTERED_DATA = enum.auto()
 
 
-class InvalidResolutionError(Exception):
-	pass
-
-
-def width_and_height(resolution_name):
-	if ' ' in resolution_name:
-		dimensions = resolution_name.split(' ')[0]
-	else:
-		dimensions = resolution_name
-	try:
-		xstr, ystr = dimensions.split('x')
-	except ValueError:
-		raise InvalidResolutionError(
-			f'Invalid screen resolution "{resolution_name}" - if you manually '
-			'edited audioquake.ini please check it is correct. To fix this you '
-			'can choose a preset screen resolution in the Customise tab.')
-	return xstr, ystr
-
-
 def opener(openee):
 	doset(
 		mac=lambda: check_call(['open', openee]),
@@ -57,14 +38,15 @@ def error_message_and_title(etype, value, traceback):
 	please_report = (
 		'Please report this error, with the following details, at '
 		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
-	if etype is InvalidResolutionError:
-		message = value  # FIXME: this must never actually be caught? 
-		title = 'Whoops, apocalypse'
-	elif etype is EngineWrapperError:
-		message = str(value)
+
+	if etype is EngineWrapperError:
+		message = str(value) + '\n\n' + \
+			'If this relates to anything other than unavailable screen ' \
+			'resolutions, ' + please_report.lower()
 		title = 'An error was reported by the ZQuake engine.'
 	else:
 		message = "".join(
 			[please_report] + exception_info + ['\n'] + trace_info)
 		title = 'Unanticipated error (launcher bug)'
+
 	return message, title
