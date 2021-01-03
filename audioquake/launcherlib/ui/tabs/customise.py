@@ -51,7 +51,7 @@ class CustomiseTab(wx.Panel):
 		add_widget(sizer, fullscreen)
 
 		resolution_hbox = wx.BoxSizer(wx.HORIZONTAL)
-		label = wx.StaticText(self, label='Resolution:')
+		label = wx.StaticText(self, label='Resolution: ')
 
 		pick_res = wx.Choice(self, -1, choices=RESOLUTIONS)
 
@@ -70,7 +70,7 @@ class CustomiseTab(wx.Panel):
 		add_widget(sizer, resolution_hbox)
 
 		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
-			self, -1, "Note: avoid sizes bigger than your desktop.")))
+			self, -1, "Note: avoid sizes larger than your desktop.")))
 
 		quick_test = wx.Button(self, -1, 'Play tutorial (F10 to quit)')
 		quick_test.Bind(
