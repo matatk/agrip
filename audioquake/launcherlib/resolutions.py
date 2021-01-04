@@ -4,27 +4,14 @@ from buildlib import doset
 import launcherlib.config as config
 
 RESOLUTIONS = [
-	'320x200 (16:10)',
-	'320x240 (4:3)',
 	'640x400 (16:10)',  # Default on macOS
-	'848x477 (16:9)',
 	'640x480 (4:3)',    # Default on Windows
-	'768x480 (16:10)',
-	'864x486 (16:9)',
-	'720x540 (4:3)',
-	'864x540 (16:10)',
-	'960x540 (16:9)',
 	'800x600 (4:3)',
 	'1152x720 (16:10)',
 	'1280x720 (16:9)',
-	'1024x768 (4:3)',
-	'1600x900 (16:9)',
-	'1600x1000 (16:10)',
-	'1440x1080 (4:3)',
-	'1728x1080 (16:10)',
-	'1920x1080 (16:9)']
+	'1024x768 (4:3)']
 
-DEFAULT_RESOLUTION_INDEX = doset(mac=2, windows=4)
+DEFAULT_RESOLUTION_INDEX = doset(mac=0, windows=1)
 
 RESOLUTIONS[DEFAULT_RESOLUTION_INDEX] += ' [default]'
 
