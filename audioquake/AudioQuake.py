@@ -6,7 +6,7 @@ from buildlib import doset_only
 import launcherlib.config as config
 import launcherlib.dirs as dirs
 from launcherlib.game_controller import GameController
-from launcherlib.utils import error_message_and_title, format_bindings
+from launcherlib.utils import error_message_and_title, format_bindings_as_text
 
 
 #
@@ -55,7 +55,7 @@ def play_mod(game_controller, args):
 
 
 def list_keys(game_controller, args):
-	config_bindings, autoexec_bindings = format_bindings()
+	config_bindings, autoexec_bindings = format_bindings_as_text()
 	print('config.cfg bindings')
 	print("\n".join(config_bindings))
 	print()

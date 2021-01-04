@@ -11,9 +11,9 @@ class HelpTab(wx.Panel):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
 		add_opener_buttons(self, sizer, {
+			'README': dirs.manuals / 'README.html',
 			'User manual': dirs.manuals / 'user-manual.html',
 			'Sound legend': dirs.manuals / 'sound-legend.html',
-			'README': dirs.manuals / 'README.html',
 			'LICENCE': dirs.manuals / 'LICENCE.html'
 		})
 
