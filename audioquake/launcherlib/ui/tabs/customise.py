@@ -70,9 +70,11 @@ class CustomiseTab(wx.Panel):
 		add_widget(sizer, resolution_hbox)
 
 		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
-			self, -1, "Note: avoid sizes larger than your desktop.")))
-
-		quick_test = wx.Button(self, -1, 'Play tutorial (F10 to quit)')
+			self, -1, "Some modes may not be available full-screen.")))
+		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
+			self, -1, "Modes may be cropped when Windows' UI is scaled.")))
+		
+		quick_test = wx.Button(self, -1, 'Try it out: Play tutorial')
 		quick_test.Bind(
 			wx.EVT_BUTTON, lambda event: game_controller.launch_tutorial())
 		add_widget(sizer, quick_test)
