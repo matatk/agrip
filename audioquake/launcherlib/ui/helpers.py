@@ -6,8 +6,7 @@ import wx
 from buildlib import doset_only
 import launcherlib.config as config
 from launcherlib import dirs
-from launcherlib.game_controller import LaunchState
-from launcherlib.utils import opener, error_message_and_title
+from launcherlib.utils import opener, error_message_and_title, LaunchState
 
 BORDER_SIZE = 5
 

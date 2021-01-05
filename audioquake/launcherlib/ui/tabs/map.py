@@ -51,12 +51,13 @@ class MapTab(wx.Panel):
 
 		add_opener_button(
 			self, sizer, 'Read the LDL tutorial',
-			dirs.manuals / 'ldl-tutorial.html')  # TODO DRY?
+			dirs.manuals / 'ldl-tutorial.html')
 
 		# File picker and choosing a tutorial or example map bits
 
 		add_widget(sizer, wx.StaticText(
-			self, -1, 'Open a Level Description Language (LDL) map'))
+			self, -1, 'Open a Level Description Language (LDL) map',
+			style=wx.ALIGN_CENTRE_HORIZONTAL))
 
 		def add_map_picker(place, kinda):
 			def pick_map_handler(event):
@@ -181,7 +182,7 @@ class MapTab(wx.Panel):
 			elif play_wad == WADs.PROTOTYPE:
 				play_as_game = RootGame.ANY
 			else:
-				raise TypeError(f"Unknown WAD type '{play_wad}'")
+				raise TypeError(f'Unknown WAD type "{play_wad}"')
 
 			launch_core(self, lambda: self.game_controller.launch_map(
 				map_basename, game=play_as_game))

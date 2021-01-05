@@ -2,10 +2,15 @@
 from pathlib import Path
 import threading
 import subprocess
+import sys
 
 from buildlib import doset, doset_only
 from launcherlib import dirs
 from launcherlib.game_controller.speech_synth import SpeechSynth
+
+
+class EngineWrapperError(Exception):
+	pass
 
 
 class EngineWrapper(threading.Thread):
@@ -54,8 +59,11 @@ class EngineWrapper(threading.Thread):
 
 				if retcode is not None:
 					if retcode != 0:
-						error = proc.stderr.read().decode('ascii')
-						self._on_error(error)
+						stderr = proc.stderr.read().decode('ascii')
+						if len(stderr) > 0:
+							raise EngineWrapperError(stderr)
+						else:
+							raise EngineWrapperError()
 					break
 		except:  # noqa E722
-			self._on_error()
+			self._on_error(*sys.exc_info())

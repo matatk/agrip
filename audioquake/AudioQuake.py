@@ -71,10 +71,11 @@ def windows_chdir():
 
 
 def cli_first_time_windows_check():
-	print(
-		'Sorry, you must run AudioQuake from the GUI launcher for the '
-		'first time on Windows. You may then run it from the command line.')
-	sys.exit(42)
+	if config.first_game_run():
+		print(
+			'Sorry, you must run AudioQuake from the GUI launcher for the '
+			'first time on Windows. You may then run it from the command line.')
+		sys.exit(42)
 
 
 def _play_core(action):

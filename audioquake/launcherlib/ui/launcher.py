@@ -23,7 +23,7 @@ class LauncherWindow(wx.Frame):
 
 		tab_play = PlayTab(notebook, game_controller)
 		tab_help = HelpTab(notebook)
-		tab_customise = CustomiseTab(notebook)
+		tab_customise = CustomiseTab(notebook, game_controller)
 		tab_mod = ModTab(notebook, game_controller)
 		tab_map = MapTab(notebook, game_controller)
 

@@ -3,15 +3,19 @@ from os import path
 
 import wx
 
+from buildlib import doset_only
 from launcherlib import dirs
+import launcherlib.config as config
 from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import \
 	add_opener_buttons, add_widget, pick_directory, Info, Error
 from launcherlib.ui.munging import copy_paks_and_create_textures_wad
+from launcherlib.resolutions import resolution_index_from_config, \
+	RESOLUTIONS, DEFAULT_RESOLUTION_INDEX
 
 
 class CustomiseTab(wx.Panel):
-	def __init__(self, parent):
+	def __init__(self, parent, game_controller):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -26,9 +30,67 @@ class CustomiseTab(wx.Panel):
 
 		# Install registered data
 
+		add_widget(sizer, wx.StaticLine(self, -1))
 		reg_data_button = wx.Button(self, -1, 'Install registered Quake data')
 		reg_data_button.Bind(wx.EVT_BUTTON, self.install_data_handler)
 		add_widget(sizer, reg_data_button)
+
+		# Video mode settings
+
+		add_widget(sizer, wx.StaticLine(self, -1))
+		add_widget(sizer, wx.StaticText(
+			self, -1, 'Video mode settings', style=wx.ALIGN_CENTRE_HORIZONTAL))
+
+		fullscreen = wx.CheckBox(
+			self, -1, 'Run full-screen (instead of windowed)')
+
+		fullscreen.SetValue(config.fullscreen())
+		fullscreen.Bind(
+			wx.EVT_CHECKBOX,
+			lambda event: config.fullscreen(event.IsChecked()))
+		add_widget(sizer, fullscreen)
+
+		resolution_hbox = wx.BoxSizer(wx.HORIZONTAL)
+		label = wx.StaticText(self, label='Resolution: ')
+
+		pick_res = wx.Choice(self, -1, choices=RESOLUTIONS)
+
+		index, _ = resolution_index_from_config()
+		if index:
+			pick_res.SetSelection(index)
+		else:
+			pick_res.Disable()
+
+		pick_res.Bind(
+			wx.EVT_CHOICE,
+			lambda event: config.resolution(RESOLUTIONS[event.GetSelection()]))
+
+		add_widget(resolution_hbox, label, border=False)
+		add_widget(resolution_hbox, pick_res, border=False, expand=True)
+		add_widget(sizer, resolution_hbox)
+
+		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
+			self, -1, "Some modes may not be available full-screen.")))
+		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
+			self, -1, "Modes may be cropped when Windows' UI is scaled.")))
+
+		quick_test = wx.Button(self, -1, 'Try it out: Play tutorial')
+		quick_test.Bind(
+			wx.EVT_BUTTON, lambda event: game_controller.launch_tutorial())
+		add_widget(sizer, quick_test)
+
+		def reset_to_defaults(event):
+			fullscreen.SetValue(False)
+			wx.PostEvent(fullscreen, wx.CommandEvent(wx.wxEVT_CHECKBOX))
+			pick_res.SetSelection(DEFAULT_RESOLUTION_INDEX)
+			choice_event = wx.CommandEvent(wx.wxEVT_CHOICE)
+			choice_event.SetInt(DEFAULT_RESOLUTION_INDEX)
+			wx.PostEvent(pick_res, choice_event)
+			pick_res.Enable()
+
+		reset = wx.Button(self, -1, 'Reset video mode to defaults')
+		reset.Bind(wx.EVT_BUTTON, reset_to_defaults)
+		add_widget(sizer, reset)
 
 		# Wiring
 

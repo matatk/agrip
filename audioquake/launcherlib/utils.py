@@ -1,4 +1,5 @@
 """AudioQuake & LDL Launcher - Utilities"""
+import enum
 from subprocess import check_call
 from traceback import format_exception_only, format_tb
 
@@ -9,6 +10,14 @@ except ImportError:
 
 from buildlib import doset
 from launcherlib import dirs
+from launcherlib.game_controller.engine_wrapper import EngineWrapperError
+
+
+class LaunchState(enum.Enum):
+	LAUNCHED = enum.auto()
+	NOT_FOUND = enum.auto()
+	ALREADY_RUNNING = enum.auto()
+	NO_REGISTERED_DATA = enum.auto()
 
 
 def opener(openee):
@@ -29,6 +38,21 @@ def error_message_and_title(etype, value, traceback):
 	please_report = (
 		'Please report this error, with the following details, at '
 		'https://github.com/matatk/agrip/issues/new - thanks!\n\n')
-	message = "".join(
-		[please_report] + exception_info + ['\n'] + trace_info)
-	return (message, 'Unanticipated error (launcher bug)')
+
+	if etype is EngineWrapperError:
+		stderr = str(value)
+		if len(stderr) > 0:
+			extra_info = f'ZQuake error info:\n{stderr}'
+		else:
+			extra_info = '(No further info available.)'
+		message = (
+			'This may be due to a screen mode being unavailable, in which '
+			'case, please try choosing a different one.\n\nIf it relates to '
+			'anything else, ' + please_report.lower() + extra_info)
+		title = 'An error was reported by the ZQuake engine'
+	else:
+		message = "".join(
+			[please_report] + exception_info + ['\n'] + trace_info)
+		title = 'Unanticipated error (launcher bug)'
+
+	return message, title
