@@ -7,7 +7,7 @@ except ImportError:
 import wx
 import wx.html2
 
-from buildlib import doset
+from buildlib import doset, doset_only
 from launcherlib import dirs
 from launcherlib.utils import have_registered_data, format_bindings_as_html
 from launcherlib.ui.helpers import add_widget, launch_core, \
@@ -60,7 +60,7 @@ def run_win_console(prog):
 
 
 #
-# Helpers
+# General helpers
 #
 
 def add_launch_button(parent, sizer, title, action):
@@ -79,6 +79,15 @@ def add_cli_tool_button(parent, sizer, title, action):
 	button = wx.Button(parent, -1, title)
 	button.Bind(wx.EVT_BUTTON, action)
 	add_widget(sizer, button)
+
+
+def windows_accessibility_fix(browser):
+	robot = wx.UIActionSimulator()
+	browser.SetFocus()
+	position = browser.GetPosition()
+	position = browser.ClientToScreen(position)
+	robot.MouseMove(position)
+	robot.MouseClick()
 
 
 #
@@ -105,6 +114,8 @@ class KeyBindingsView(wx.Dialog):
 		add_widget(sizer, close)
 
 		self.SetSizer(sizer)
+
+		doset_only(windows=lambda: windows_accessibility_fix(browser))
 
 
 class PlayTab(wx.Panel):
