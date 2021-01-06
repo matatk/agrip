@@ -24,6 +24,8 @@ class ModTab(wx.Panel):
 		install_qmod_button.Bind(wx.EVT_BUTTON, self.install_qmod_handler)
 		add_widget(sizer, install_qmod_button)
 
+		add_widget(sizer, wx.StaticLine(self, -1))
+
 		add_opener_button(
 			self, sizer, 'Development manual',
 			dirs.manuals / 'development-manual.html')

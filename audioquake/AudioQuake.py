@@ -6,7 +6,7 @@ from buildlib import doset_only
 import launcherlib.config as config
 import launcherlib.dirs as dirs
 from launcherlib.game_controller import GameController
-from launcherlib.utils import error_message_and_title
+from launcherlib.utils import error_message_and_title, format_bindings_as_text
 
 
 #
@@ -52,6 +52,15 @@ def list_mods(game_controller, args):
 def play_mod(game_controller, args):
 	# FIXME: check valid mod
 	_play_core(lambda: game_controller.launch_mod(args.dir))
+
+
+def list_keys(game_controller, args):
+	config_bindings, autoexec_bindings = format_bindings_as_text()
+	print('config.cfg bindings')
+	print("\n".join(config_bindings))
+	print()
+	print('autoexec.cfg bindings')
+	print("\n".join(autoexec_bindings))
 
 
 #
@@ -110,6 +119,9 @@ if __name__ == '__main__':
 	mod_cmd = subparsers.add_parser('mod', help='Boot into a particular mod')
 	mod_cmd.add_argument('dir', help="The mod's directory name")
 	mod_cmd.set_defaults(func=play_mod)
+
+	ls_keys_cmd = subparsers.add_parser('list-keys', help='List key bindings')
+	ls_keys_cmd.set_defaults(func=list_keys)
 
 	parser.set_defaults(func=gui_main)
 	args = parser.parse_args()

@@ -5,10 +5,11 @@ except ImportError:
 	pass
 
 import wx
+import wx.html2
 
-from buildlib import doset
+from buildlib import doset, doset_only
 from launcherlib import dirs
-from launcherlib.utils import have_registered_data
+from launcherlib.utils import have_registered_data, format_bindings_as_html
 from launcherlib.ui.helpers import add_widget, launch_core, \
 	Error, HOW_TO_INSTALL
 
@@ -59,7 +60,7 @@ def run_win_console(prog):
 
 
 #
-# Helpers
+# General helpers
 #
 
 def add_launch_button(parent, sizer, title, action):
@@ -80,14 +81,49 @@ def add_cli_tool_button(parent, sizer, title, action):
 	add_widget(sizer, button)
 
 
+def windows_accessibility_fix(browser):
+	robot = wx.UIActionSimulator()
+	browser.SetFocus()
+	position = browser.GetPosition()
+	position = browser.ClientToScreen(position)
+	robot.MouseMove(position)
+	robot.MouseClick()
+
+
 #
 # The main event
 #
+
+class KeyBindingsView(wx.Dialog):
+	def __init__(self, parent):
+		screen_width, screen_height = wx.GetDisplaySize()
+
+		wx.Dialog.__init__(
+			self, parent, style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER,
+			size=(screen_width * 0.5, screen_height * 0.7),
+			title='Key bindings')
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		browser = wx.html2.WebView.New(self)
+		display = format_bindings_as_html()
+		browser.SetPage(display, "")
+		sizer.Add(browser, 1, wx.EXPAND, 10)
+
+		close = wx.Button(self, -1, 'Close')
+		close.Bind(wx.EVT_BUTTON, lambda event: self.Destroy())
+		add_widget(sizer, close)
+
+		self.SetSizer(sizer)
+
+		doset_only(windows=lambda: windows_accessibility_fix(browser))
+
 
 class PlayTab(wx.Panel):
 	def __init__(self, parent, game_controller):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		# Playing the game
 
 		game_modes = {
 			"Play Quake": game_controller.launch_quake,
@@ -100,6 +136,22 @@ class PlayTab(wx.Panel):
 
 		for title, action in game_modes.items():
 			add_launch_button(self, sizer, title, action)
+
+		# Listing key bindings
+
+		add_widget(sizer, wx.StaticLine(self, -1))
+
+		bindings = wx.Button(self, -1, 'List key bindings')
+
+		def bindings_window(event):
+			KeyBindingsView(self).Show()
+
+		bindings.Bind(wx.EVT_BUTTON, bindings_window)
+		add_widget(sizer, bindings)
+
+		# Server stuff
+
+		add_widget(sizer, wx.StaticLine(self, -1))
 
 		server_stuff = {
 			"Dedicated server": doset(

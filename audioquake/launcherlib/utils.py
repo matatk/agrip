@@ -1,5 +1,6 @@
 """AudioQuake & LDL Launcher - Utilities"""
 import enum
+import re
 from subprocess import check_call
 from traceback import format_exception_only, format_tb
 
@@ -56,3 +57,88 @@ def error_message_and_title(etype, value, traceback):
 		title = 'Unanticipated error (launcher bug)'
 
 	return message, title
+
+
+def get_bindings():
+	config_keys_directions = {
+		'forward': None, 'back': None, 'left': None, 'right': None}
+	config_keys_other = []
+
+	standard_binding = re.compile(r'^bind (.+) "\+?(.+)"$')
+	ignores = ['echo', 'screenshot', 'impulse', '`', 'MOUSE']
+
+	with open(dirs.data / 'id1' / 'config.cfg', 'r') as cfg:
+		key = {}
+		for line in cfg.readlines():
+			ignore = any(map(lambda term: term in line, ignores))
+			if not ignore:
+				if match := standard_binding.match(line):
+					key['current'] = match.group(1)
+					action = match.group(2)
+					key['action'] = action
+					if action in config_keys_directions:
+						config_keys_directions[action] = key
+					else:
+						config_keys_other.append(key)
+					key = {}
+
+	autoexec_keys = []
+
+	alias_binding = re.compile(r'^bind "(.+)" "aga_\w+"$')
+	alias_default = re.compile(r'^// default key (?:to|for) (.+) is "(.+)"$')
+
+	with open(dirs.data / 'id1' / 'autoexec.cfg', 'r') as cfg:
+		key = {}
+		for line in cfg.readlines():
+			if match := alias_binding.match(line):
+				key['current'] = match.group(1)
+			elif match := alias_default.match(line):
+				key['help'] = match.group(1)
+				key['default'] = match.group(2)
+				autoexec_keys.append(key)
+				key = {}
+
+	config_keys = list(config_keys_directions.values()) + config_keys_other
+
+	return config_keys, autoexec_keys
+
+
+def format_bindings_as_text():
+	config_keys, autoexec_keys = get_bindings()
+
+	config_list = [f"{key['current']} {key['action']}" for key in config_keys]
+	autoexec_list = [
+		f"{key['current']} {key['help']} (default: {key['default']})"
+		for key in autoexec_keys]
+
+	return config_list, autoexec_list
+
+
+def format_bindings_as_html():
+	config_keys, autoexec_keys = get_bindings()
+
+	html = '<!DOCTYPE html><head><style>\n' \
+		+ 'table { border-collapse: collapse; }\n' \
+		+ 'th, td { padding: 0.5em; border: 1px solid gray; }</style>\n' \
+		+ '</head><body>\n' \
+		+ '<h1>Key bindings</h1>' \
+		+ '<p>This page shows your current key bindings. To change them, ' \
+		+ 'check out the Customise tab, and the comments in the config files ' \
+		+ 'as well as the user manual.\n' \
+		+ '<h2>Basic movement and action keys</h2>\n'
+
+	html += '<table><tr><th>Key</th><th>Action</th></tr>\n'
+	for key in config_keys:
+		html += f"<tr><td>{key['current']}</td><td>{key['action']}</td></tr>\n"
+	html += '</table>\n'
+
+	html += '<h2>Navigation helpers, devices, bots, messages and more</h2>\n'
+	html += '<table><tr><th>Current</th><th>Action</th><th>Default</th></tr>\n'
+	for key in autoexec_keys:
+		html += (
+			f"<tr><td>{key['current']}</td><td>{key['help']}</td>"
+			f"<td>{key['default']}</td></tr>\n")
+	html += '</table>\n'
+
+	html += '</body></html>'
+	return html
