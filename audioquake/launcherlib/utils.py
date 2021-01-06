@@ -60,7 +60,9 @@ def error_message_and_title(etype, value, traceback):
 
 
 def get_bindings():
-	config_keys = []
+	config_keys_directions = {
+		'forward': None, 'back': None, 'left': None, 'right': None}
+	config_keys_other = []
 
 	standard_binding = re.compile(r'^bind (.+) "\+?(.+)"$')
 	ignores = ['echo', 'screenshot', 'impulse', '`', 'MOUSE']
@@ -72,8 +74,12 @@ def get_bindings():
 			if not ignore:
 				if match := standard_binding.match(line):
 					key['current'] = match.group(1)
-					key['action'] = match.group(2)
-					config_keys.append(key)
+					action = match.group(2)
+					key['action'] = action
+					if action in config_keys_directions:
+						config_keys_directions[action] = key
+					else:
+						config_keys_other.append(key)
 					key = {}
 
 	autoexec_keys = []
@@ -91,6 +97,8 @@ def get_bindings():
 				key['default'] = match.group(2)
 				autoexec_keys.append(key)
 				key = {}
+
+	config_keys = list(config_keys_directions.values()) + config_keys_other
 
 	return config_keys, autoexec_keys
 
