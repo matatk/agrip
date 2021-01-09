@@ -56,7 +56,7 @@ class CustomiseTab(wx.Panel):
 		pick_res = wx.Choice(self, -1, choices=RESOLUTIONS)
 
 		index, _ = resolution_index_from_config()
-		if index:
+		if index >= 0:
 			pick_res.SetSelection(index)
 		else:
 			pick_res.Disable()
