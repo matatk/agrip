@@ -117,8 +117,10 @@ def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 			print('Ignored error from', args[0].name)
 	except subprocess.CalledProcessError as error:
 		if throw:
-			details = error.output.decode().splitlines()[-1]
-			raise LDLError(error.cmd[0].name + ': ' + details)
+			details = doset(
+                                mac=lambda: error.output.decode().splitlines()[-1],
+                                windows='(details unavailable on Windows)')
+			raise LDLError(error.cmd[0].name + ': ' + str(details))
 		elif not quiet:
 			print('Error from', error.cmd[0].name)
 			if verbose:
