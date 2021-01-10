@@ -117,8 +117,27 @@ def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 			print('Ignored error from', args[0].name)
 	except subprocess.CalledProcessError as error:
 		if throw:
-			details = error.output.decode().splitlines()[-1]
-			raise LDLError(error.cmd[0].name + ': ' + details)
+			program = error.cmd[0].name
+			details = doset(
+				mac=lambda: error.output.decode().splitlines()[-1],
+				windows=(
+					'Details are unavailable on Windows. This may be due to '
+					'the path to the WAD file containing the textures being '
+					'too long for the map tools, in which case moving the '
+					'AudioQuake+LDL folder closer to the root of your drive '
+					'can address this.'))
+			message = doset(
+				mac=f'{program}: {details}',
+				windows=f'{program} reported an error. {details}')
+
+			if 'Token too large on line ' in message:
+				message += (
+					'\n\nThis error is caused by the path to the WAD file '
+					'that contains the textures for the map being too long. '
+					'You can address it by moving the AudioQuake+LDL folder '
+					'closer to the root of your drive, shortening the path.')
+
+			raise LDLError(message)
 		elif not quiet:
 			print('Error from', error.cmd[0].name)
 			if verbose:
