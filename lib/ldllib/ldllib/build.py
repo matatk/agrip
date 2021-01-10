@@ -129,6 +129,14 @@ def run(args, errorcheck=True, verbose=False, quiet=False, throw=False):
 			message = doset(
 				mac=f'{program}: {details}',
 				windows=f'{program} reported an error. {details}')
+
+			if 'Token too large on line ' in message:
+				message += (
+					'\n\nThis error is caused by the path to the WAD file '
+					'that contains the textures for the map being too long. '
+					'You can address it by moving the AudioQuake+LDL folder '
+					'closer to the root of your drive, shortening the path.')
+
 			raise LDLError(message)
 		elif not quiet:
 			print('Error from', error.cmd[0].name)
