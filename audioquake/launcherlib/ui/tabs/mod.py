@@ -40,8 +40,7 @@ class ModTab(wx.Panel):
 			try:
 				qmod = QMODFile(incoming)
 			except BadQMODFileError as err:
-				Error(
-					self, 'There is a problem with the QMOD file: ' + str(err))
+				Error(self, f'There is a problem with the QMOD file: {err}.')
 				return
 
 			title = qmod.name + ' ' + qmod.version
