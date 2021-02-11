@@ -163,7 +163,7 @@ class MapTab(wx.Panel):
 			try:
 				self.build_and_copy(xmlfile, wad, destinations)
 			except LDLError:
-				Error(self, str(exc_info()[1]))
+				Error(self, str(exc_info()[1]))  # TODO: Why not str(err)?
 				return
 
 		if play_wad:

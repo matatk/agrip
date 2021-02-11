@@ -5,15 +5,15 @@ import shutil
 from zipfile import ZipFile
 
 
-class BadQMODFileException(Exception):
+class BadQMODFileError(Exception):
 	pass
 
 
-class NoQMODDirectoryException(Exception):
+class NoQMODDirectoryError(Exception):
 	pass
 
 
-class BadQMODDirectoryException(Exception):
+class BadQMODDirectoryError(Exception):
 	pass
 
 
@@ -21,14 +21,14 @@ class QMODFile():
 	def __init__(self, path):
 		zipfile = ZipFile(path, mode='r')
 		if zipfile.testzip() is not None:
-			raise BadQMODFileException("'" + path + "' failed zip test")
+			raise BadQMODFileError("'" + path + "' failed zip test")
 		files = zipfile.namelist()
 		if 'qmod.ini' not in files:
-			raise BadQMODFileException("Missing 'qmod.ini'")
+			raise BadQMODFileError("Missing 'qmod.ini'")
 		files.remove('qmod.ini')
 		dirs = set([Path(x).parts[0] for x in files])
 		if len(dirs) > 1:
-			raise BadQMODFileException('Improper directory structure')
+			raise BadQMODFileError('Improper directory structure')
 
 		ini_string = zipfile.read('qmod.ini').decode('utf-8')
 		config = ConfigParser()
@@ -56,12 +56,12 @@ class InstalledQMOD():
 		path = Path(name)
 
 		if not path.is_dir():
-			raise NoQMODDirectoryException()
+			raise NoQMODDirectoryError()
 
 		ini_path = path / 'qmod.ini'
 
 		if not ini_path.is_file():
-			raise BadQMODDirectoryException()
+			raise BadQMODDirectoryError()
 
 		config = ConfigParser()
 		config.read_file(open(ini_path))
