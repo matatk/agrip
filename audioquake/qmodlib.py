@@ -1,5 +1,6 @@
 """QMOD file handling"""
 from configparser import ConfigParser
+from os.path import commonprefix
 from pathlib import Path
 import shutil
 from zipfile import ZipFile, BadZipFile
@@ -17,6 +18,24 @@ class BadQMODDirectoryError(Exception):
 	pass
 
 
+def unwrap_and_embed_ini(archive, wrapper, gamedir):
+	offset = len(wrapper)
+	for info in archive.infolist():
+		name = info.filename
+		if len(name) > offset:
+			member = name[offset:]
+			if member == 'qmod.ini':
+				# Ensure INI gets extracted in the root
+				info.filename = gamedir + '/' + member
+			elif member.endswith('qmod.ini'):
+				# Some mods errantly include a duplicate
+				# TODO: Check for this if I ever write a checker
+				continue
+			else:
+				info.filename = member
+			yield info
+
+
 class QMODFile():
 	def __init__(self, path):
 		try:
@@ -28,17 +47,24 @@ class QMODFile():
 		if archive.testzip() is not None:
 			raise BadQMODFileError(f"'{path}' failed zip test")
 
-		files = archive.namelist()
-		if 'qmod.ini' not in files:
-			raise BadQMODFileError("Missing 'qmod.ini'")
-		files.remove('qmod.ini')
+		# Some QMODs wrap everything in a top-level directory, possibly due to
+		# the behaviour of OS ZIPing tools. This is not how QMODs are specced,
+		# but the following code can handle it.
+		wrapper = commonprefix(archive.namelist())
 
+		files = archive.namelist()
+		qmod_ini_name = wrapper + 'qmod.ini'
+		if qmod_ini_name not in files:
+			raise BadQMODFileError("Missing 'qmod.ini'")
+		files.remove(qmod_ini_name)
+
+		# FIXME check it's a dir
 		dirs = set([Path(x).parts[0] for x in files])
 		if len(dirs) > 1:
 			raise BadQMODFileError('Improper directory structure')
 
 		try:
-			ini_string = archive.read('qmod.ini').decode('utf-8')
+			ini_string = archive.read(qmod_ini_name).decode('utf-8')
 		except Exception as err:
 			raise BadQMODFileError(f"Couldn't read/decode 'qmod.ini': {err}")
 
@@ -49,23 +75,23 @@ class QMODFile():
 			raise BadQMODFileError(f"'qmod.ini' is invalid: {err}")
 
 		try:
-			self.name = config['ge3eral']['name']
+			self.name = config['general']['name']
 			self.shortdesc = config['general']['shortdesc']
 			self.version = config['general']['version']
 			self.longdesc = ' '.join(
 				[line for line in config['longdesc'].values()])
 			self.gamedir = config['general']['gamedir']
+			# FIXME check gamedir matches above dir
 		except KeyError as err:
 			raise BadQMODFileError(f"'qmod.ini' is missing section/key '{err}'")
 
-		self.datafiles = files
 		self.archive = archive
+		self.wrapper = wrapper
 
 	def install(self, root):
-		for datafile in self.datafiles:
-			self.archive.extract(datafile, path=root)  # will be within gamedir
-
-		self.archive.extract('qmod.ini', path=root / self.gamedir)
+		self.archive.extractall(
+			path=root,  # will be within gamedir
+			members=unwrap_and_embed_ini(self.archive, self.wrapper, self.gamedir))
 
 
 class InstalledQMOD():
