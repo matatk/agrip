@@ -4,9 +4,9 @@ import wx
 from launcherlib import dirs
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, pick_file, launch_core, \
-	Info, YesNoWithTitle
+	Info, YesNoWithTitle, Error
 
-from qmodlib import QMODFile, InstalledQMOD
+from qmodlib import QMODFile, InstalledQMOD, BadQMODFileError
 
 
 class ModTab(wx.Panel):
@@ -37,7 +37,12 @@ class ModTab(wx.Panel):
 		incoming = pick_file(
 			self, "Select a QMOD file", "QMOD files (*.qmod)|*.qmod")
 		if incoming:
-			qmod = QMODFile(incoming)
+			try:
+				qmod = QMODFile(incoming)
+			except BadQMODFileError as err:
+				Error(self, f'There is a problem with the QMOD file: {err}.')
+				return
+
 			title = qmod.name + ' ' + qmod.version
 			desc = qmod.shortdesc + '\n\n' + qmod.longdesc
 
