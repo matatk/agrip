@@ -88,7 +88,6 @@ class GameController():
 			self.opts_custom_map_base + ('+map ' + str(name),), game=game)
 
 	def launch_mod(self, name):
-		print('Launching mod:', name)
 		return self._launch_core(('-game', name))
 
 	def quit(self):
