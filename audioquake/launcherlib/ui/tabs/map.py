@@ -55,9 +55,9 @@ class MapTab(wx.Panel):
 
 		# File picker and choosing a tutorial or example map bits
 
-		add_widget(sizer, wx.StaticText(
-			self, -1, 'Open a Level Description Language (LDL) map',
-			style=wx.ALIGN_CENTRE_HORIZONTAL))
+		# FIXME VoiceOver gets to this label _after_ the first control within.
+		box = wx.StaticBoxSizer(
+			wx.VERTICAL, self, 'Open a Level Description Language (LDL) map')
 
 		def add_map_picker(place, kinda):
 			def pick_map_handler(event):
@@ -65,7 +65,7 @@ class MapTab(wx.Panel):
 
 			maps_button = wx.Button(self, -1, kinda + ' maps')
 			maps_button.Bind(wx.EVT_BUTTON, pick_map_handler)
-			add_widget(sizer, maps_button)
+			add_widget(box, maps_button)
 
 		def pick_ldl_map(place, kinda):
 			maps = find_ldl_maps(place)
@@ -80,8 +80,9 @@ class MapTab(wx.Panel):
 
 		file_picker = wx.FilePickerCtrl(
 			self, -1, message="Open map", wildcard=WILDCARD)
+		add_widget(box, file_picker)
 
-		add_widget(sizer, file_picker)
+		add_widget(sizer, box)
 
 		# Play and texture selection
 

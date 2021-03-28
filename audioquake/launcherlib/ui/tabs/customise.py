@@ -38,8 +38,9 @@ class CustomiseTab(wx.Panel):
 		# Video mode settings
 
 		add_widget(sizer, wx.StaticLine(self, -1))
-		add_widget(sizer, wx.StaticText(
-			self, -1, 'Video mode settings', style=wx.ALIGN_CENTRE_HORIZONTAL))
+
+		# FIXME VoiceOver gets to this label _after_ the first control within.
+		box = wx.StaticBoxSizer(wx.VERTICAL, self, 'Video mode settings')
 
 		fullscreen = wx.CheckBox(
 			self, -1, 'Run full-screen (instead of windowed)')
@@ -48,7 +49,7 @@ class CustomiseTab(wx.Panel):
 		fullscreen.Bind(
 			wx.EVT_CHECKBOX,
 			lambda event: config.fullscreen(event.IsChecked()))
-		add_widget(sizer, fullscreen)
+		add_widget(box, fullscreen)
 
 		resolution_hbox = wx.BoxSizer(wx.HORIZONTAL)
 		label = wx.StaticText(self, label='Resolution: ')
@@ -67,7 +68,7 @@ class CustomiseTab(wx.Panel):
 
 		add_widget(resolution_hbox, label, border=False)
 		add_widget(resolution_hbox, pick_res, border=False, expand=True)
-		add_widget(sizer, resolution_hbox)
+		add_widget(box, resolution_hbox)
 
 		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
 			self, -1, "Some modes may not be available full-screen.")))
@@ -77,7 +78,7 @@ class CustomiseTab(wx.Panel):
 		quick_test = wx.Button(self, -1, 'Try it out: Play tutorial')
 		quick_test.Bind(
 			wx.EVT_BUTTON, lambda event: game_controller.launch_tutorial())
-		add_widget(sizer, quick_test)
+		add_widget(box, quick_test)
 
 		def reset_to_defaults(event):
 			fullscreen.SetValue(False)
@@ -90,7 +91,9 @@ class CustomiseTab(wx.Panel):
 
 		reset = wx.Button(self, -1, 'Reset video mode to defaults')
 		reset.Bind(wx.EVT_BUTTON, reset_to_defaults)
-		add_widget(sizer, reset)
+		add_widget(box, reset)
+
+		add_widget(sizer, box)
 
 		# Wiring
 
