@@ -18,20 +18,22 @@ def gui_main(game_controller, args):
 	import wx
 
 	from launcherlib.ui.launcher import LauncherWindow
-	from launcherlib.ui.helpers import Warn, gui_error_hook
+	from launcherlib.ui.helpers import Error, gui_error_hook
+	from launcherlib.ui.dobcheck import dobcheck
 
 	app = wx.App()
 	sys.excepthook = gui_error_hook
 	game_controller.set_error_handler(gui_error_hook)
 
 	try:
-		if config.first_game_run():
-			about_page(None)
-		LauncherWindow(
-			None, "AudioQuake & LDL Launcher", game_controller).Show()
-		app.MainLoop()
+		if dobcheck():
+			if config.first_game_run():
+				about_page(None)
+			LauncherWindow(
+				None, 'AudioQuake & LDL Launcher', game_controller).Show()
+			app.MainLoop()
 	except OSError:
-		doset_only(mac=lambda: Warn(None, (
+		doset_only(mac=lambda: Error(None, (
 			'The code behind AudioQuake, Level Description Language and '
 			"supporting tools is not signed, so it can't be verified by "
 			'Apple.\n\n'
