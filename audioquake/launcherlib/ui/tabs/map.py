@@ -5,12 +5,13 @@ import shutil
 from sys import exc_info
 
 import wx
+import wx.lib.expando
 
 from launcherlib import dirs
 from launcherlib.game_controller import RootGame
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
-	Info, Warn, Error, HOW_TO_INSTALL
+	Info, Warn, Error, HOW_TO_INSTALL, associate_controls
 from launcherlib.utils import opener
 from ldllib.convert import convert
 from ldllib.build import build, bsp_maybe_hc
@@ -55,8 +56,8 @@ class MapTab(wx.Panel):
 
 		# File picker and choosing a tutorial or example map bits
 
-		# FIXME VoiceOver gets to this label _after_ the first control within.
-		box = wx.StaticBoxSizer(
+		# TODO: VoiceOver gets to this label _after_ the first control within.
+		open_map = wx.StaticBoxSizer(
 			wx.VERTICAL, self, 'Open a Level Description Language (LDL) map')
 
 		def add_map_picker(place, kinda):
@@ -65,7 +66,7 @@ class MapTab(wx.Panel):
 
 			maps_button = wx.Button(self, -1, kinda + ' maps')
 			maps_button.Bind(wx.EVT_BUTTON, pick_map_handler)
-			add_widget(box, maps_button)
+			add_widget(open_map, maps_button)
 
 		def pick_ldl_map(place, kinda):
 			maps = find_ldl_maps(place)
@@ -73,16 +74,32 @@ class MapTab(wx.Panel):
 				self, f'{kinda} maps:', 'Select map', list(maps.values()))
 			if chooser.ShowModal() == wx.ID_OK:
 				choice = chooser.GetSelection()
-				file_picker.SetPath(str(list(maps.keys())[choice]))
+				self.update_chosen_map(str(list(maps.keys())[choice]))
 
-		add_map_picker(dirs.maps_tutorial, 'LDL tutorial')
-		add_map_picker(dirs.maps_example, 'LDL example')
+		add_map_picker(dirs.maps_tutorial, 'Tutorial')
+		add_map_picker(dirs.maps_example, 'Example')
 
-		file_picker = wx.FilePickerCtrl(
-			self, -1, message="Open map", wildcard=WILDCARD)
-		add_widget(box, file_picker)
+		def pick_custom_map(event):
+			with wx.FileDialog(
+				self, message='Open map', wildcard=WILDCARD,
+				style=wx.FLP_OPEN | wx.FLP_FILE_MUST_EXIST) as fileDialog:
+				if fileDialog.ShowModal() == wx.ID_CANCEL:
+					return	 # the user changed their mind
+				# Proceed loading the file chosen by the user
+				self.update_chosen_map(fileDialog.GetPath())
 
-		add_widget(sizer, box)
+		file_picker_button = wx.Button(self, -1, 'Open custom map...')
+		file_picker_button.Bind(wx.EVT_BUTTON, pick_custom_map)
+		add_widget(open_map, file_picker_button)
+
+		chosen_label = wx.StaticText(self, -1, 'Map:')
+		self.chosen_text = wx.lib.expando.ExpandoTextCtrl(
+			self, -1, style=wx.TE_READONLY)
+		self.chosen_text.SetMaxHeight(1)
+		add_widget(
+			open_map, associate_controls(chosen_label, self.chosen_text))
+
+		add_widget(sizer, open_map)
 
 		# Play and texture selection
 
@@ -90,22 +107,17 @@ class MapTab(wx.Panel):
 		play_checkbox.SetValue(True)
 		add_widget(sizer, play_checkbox)
 
-		texture_set_hbox = wx.BoxSizer(wx.HORIZONTAL)
-
-		label = wx.StaticText(self, label='Play map with texture set: ')
-		pick = wx.Choice(self, -1, choices=list(game_names.keys()))
-		pick.SetSelection(0)  # Needed on Windows
-
-		add_widget(texture_set_hbox, label, border=False)
-		add_widget(texture_set_hbox, pick, border=False, expand=True)
-		add_widget(sizer, texture_set_hbox)
+		texture_label = wx.StaticText(self, label='Play map with texture set:')
+		texset_pick = wx.Choice(self, -1, choices=list(game_names.keys()))
+		texset_pick.SetSelection(0)  # Needed on Windows
+		add_widget(sizer, associate_controls(texture_label, texset_pick))
 
 		# Let's do this!
 
 		btn_build = wx.Button(self, -1, "Build the map")
 
 		def check_picker_path():
-			filename = file_picker.GetPath()
+			filename = self.map_path  # FIXME: shouldn't access internals
 
 			if len(filename) == 0:
 				Warn(self, 'No file chosen.')
@@ -123,7 +135,7 @@ class MapTab(wx.Panel):
 				return
 
 			if play_checkbox.GetValue() is True:
-				play_wad = list(game_names.values())[pick.GetSelection()]
+				play_wad = list(game_names.values())[texset_pick.GetSelection()]
 			else:
 				play_wad = None
 
@@ -191,6 +203,10 @@ class MapTab(wx.Panel):
 			Info(
 				self, xmlfile.stem
 				+ ' built (for all texture sets) and installed.')
+
+	def update_chosen_map(self, pathstr):
+		self.map_path = pathstr
+		self.chosen_text.SetValue(Path(pathstr).name)
 
 	@staticmethod
 	def build_and_copy(xmlfile, wad, dest_dirs):
