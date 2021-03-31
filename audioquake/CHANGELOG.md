@@ -20,7 +20,7 @@ that you could more easily make levels for it.
     or a new set of high-contrast textures.
 -   More flexible styling of LDL maps (supporting the above sets of
     textures, as well as additional styles you can apply to parts of
-    maps, e.g. to make some areas appear outside).
+    maps, e.g. to make some areas appear outside).
 -   The launcher can load in the registered Quake data if you bought the
     game.
 -   Big documentation updates.

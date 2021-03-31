@@ -5,13 +5,13 @@
 
 ### What?
 
-This is all about a format for packaging your modifications that will make them easy to install by end-users. The QMOD system is basically a rip-off of a similar idea used by the game *Unreal*—users are given a single file that contains the modification and some metadata; when they open this file, the game interprets the metadata and presents a set-up routine specific to that mod but using the game's standard user interface.
+This is all about a format for packaging your modifications that will make them easy to install by end-users. The QMOD system is basically a rip-off of a similar idea used by the game *Unreal*&mdash;users are given a single file that contains the modification and some metadata; when they open this file, the game interprets the metadata and presents a set-up routine specific to that mod but using the game's standard user interface.
 
 ### Why?
 
 As far as the user is concerned, installing mods for the game will be easy, with a guaranteed user interface and level of accessibility. They also get to choose which mod to play, from a list of installed ones, via the launcher. Finally, they can also uninstall mods easily, again via the launcher.
 
-For the developer, you get the benefit of giving your users the above benefits with very little work—simply package your mod up in the way described here, adding the required metadata\! In addition, you can ask the launcher to keep your mod's config files up-to-date with any changes put into the user's standard game config files (at no development cost to yourself).
+For the developer, you get the benefit of giving your users the above benefits with very little work&mdash;simply package your mod up in the way described here, adding the required metadata\! In addition, you can ask the launcher to keep your mod's config files up-to-date with any changes put into the user's standard game config files (at no development cost to yourself).
 
 #### Why not?
 
@@ -21,7 +21,7 @@ We felt that those of you making total conversions would want to make your own s
 
 ## How? (for developers)
 
-It's easy\! You need to package up all the files required by your mod, in a particular way, then create an INI file to describe your mod to the installer. Here is how…
+It's easy\! You need to package up all the files required by your mod, in a particular way, then create an INI file to describe your mod to the installer. Here is how&hellip;
 
 1. Ensure that you have packaged up all the files your mod needs (sound, progs, models, maps, graphics) into the correct directory structure below your *AudioQuake* parent directory.
 
@@ -60,9 +60,9 @@ It's easy\! You need to package up all the files required by your mod, in a part
    03=See the jediquake folder for documentation.
    ```
 
-5. Zip up the parent directory so that you have created a ZIP file with two items in it—the MOD's installation directory and the `qmod.ini` file.
+5. Zip up the parent directory so that you have created a ZIP file with two items in it&mdash;the MOD's installation directory and the `qmod.ini` file.
 
-   Finally, rename the ZIP file to the name of the parent directory (i.e. the MOD's name) with a `.qmod` extension to replace the `.zip` one it pops out of your ZIP creator with.
+   Finally, rename the ZIP file to the name of the parent directory (i.e. the MOD's name) with a `.qmod` extension to replace the `.zip` one it pops out of your ZIP creator with.
 
 ## How? (for users)
 

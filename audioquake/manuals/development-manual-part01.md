@@ -10,7 +10,7 @@ Permission is granted to copy, distribute and/or modify this document under the 
 
 As with the user manual, please note this has been edited to keep it technically up-to-date, but is largely as written in the mid-2000s. Whilst you still *could* use *AudioQuake* as a development platform, it'd be more fun to work on creating the next accessible games development platform :-).
 
-Alas the *Stats and Servers* system is no longer in operation due to time and support constraints, and we'd rather work to the future regarding the accessible level-editing tools mentioned here—but you can still use them to make levels non-visually, as discussed in the *Level Description Language (LDL)* tutorial.
+Alas the *Stats and Servers* system is no longer in operation due to time and support constraints, and we'd rather work to the future regarding the accessible level-editing tools mentioned here&mdash;but you can still use them to make levels non-visually, as discussed in the *Level Description Language (LDL)* tutorial.
 
 ## Background information
 
@@ -42,7 +42,7 @@ Our goal was to provide blind and vision-impaired people with the tools to make 
 
 ### Licencing
 
-AGRIP is an Open Source project, based on the groundbreaking work of id Software, the *ZQuake* and *QuakeForge* projects, and many others. Anyone is welcome to use our tools and code in the creation of their own games, provided that they keep their creations open (i.e. release the source and derived data files, under the GNU General Public Licence).
+AGRIP is an Open Source project, based on the groundbreaking work of id Software, the *ZQuake* and *QuakeForge* projects, and many others. Anyone is welcome to use our tools and code in the creation of their own games, provided that they keep their creations open (i.e. release the source and derived data files, under the GNU General Public Licence).
 
 If you are interested in using our software as the basis for your own, you must read the licence fully and ensure that you are aware of its ramifications.
 

@@ -6,7 +6,7 @@ The AGRIP *Level Description Language*, or LDL, is a text-based format that allo
 
 OK, whilst *Quake* is now ancient (but still a milestone in gaming), the techniques here could be applied to newer engines in much the same way; would love to see, or even help, that happen. In the meantime, you can still use this to make and explore your own somewhat-simplistically-shaped-but-nonetheless-3D worlds! :-)
 
-**The document does talk about possible future major features; it's unlikely these will be implemented in the current context of the game of *Quake*, but they could be if the system is brought to a more modern engine—if you're interested in helping us do this, please get in touch.**
+**The document does talk about possible future major features; it's unlikely these will be implemented in the current context of the game of *Quake*, but they could be if the system is brought to a more modern engine&mdash;if you're interested in helping us do this, please get in touch.**
 
 There are, however, a couple of new features that did get added...
 
@@ -21,7 +21,7 @@ How would one go about making maps for *Quake* before LDL? If you just want to f
 
 1. Level, or map, design would be done with a graphical CAD-like program that provides tools to draw the shapes of the component parts of the map's rooms on the screen. This typically presents four views in panes: one from each elevation (top, side, erm, other side?) and a 3D in-game style view that you can move around with a floating camera (without the constraints of things like gravity or solid walls) to get a better idea of your creation.
 
-2. The shapes you draw—brushes—would make up the rooms in the map. It works like building blocks and you have to put many blocks together to make a single room—one for the floor, ceiling and all of the sides. If you wanted to put a hole in a wall (for a door, for example), you would have to build the brushes around the space where you wanted the hole to be.
+2. The shapes you draw&mdash;brushes&mdash;would make up the rooms in the map. It works like building blocks and you have to put many blocks together to make a single room&mdash;one for the floor, ceiling and all of the sides. If you wanted to put a hole in a wall (for a door, for example), you would have to build the brushes around the space where you wanted the hole to be.
 
    Later editors alleviated the difficulties caused by this system and made up "smart" brushes that automatically created the gaps for holes (the editor used by the AGRIP project, QuArK, does this).
 
@@ -49,9 +49,9 @@ How would one go about making maps for *Quake* before LDL? If you just want to f
 
 The operating principle of LDL is that we start with as high-level a description as possible and gradually transform it, by filling in the details, into a low-level description suitable for compiling with the standard *Quake* map tools. This allows you to talk in terms of rooms and connections between them, whereas the map tools at the bottom of the chain want to know about scary things like intersecting 3D planes.
 
-LDL—the code—is actually a chain as mentioned above. Each stage is quite separate and the whole thing works by feeding the output of one into the next, until we have our final answer—the *.map* file.
+LDL&mdash;the code&mdash;is actually a chain as mentioned above. Each stage is quite separate and the whole thing works by feeding the output of one into the next, until we have our final answer&mdash;the *.map* file.
 
-You start by writing a pretty high-level XML file that describes your map (later we plan to add even easier ways to get data into the system, such as natural language, or an interactive editor program but for now we need to test the basic premise). An XML file is just a plain text file (think similar to HTML if you've used that before), which you can edit with any text editor (e.g. Notepad, Notepad++, ViM, …)
+You start by writing a pretty high-level XML file that describes your map (later we plan to add even easier ways to get data into the system, such as natural language, or an interactive editor program but for now we need to test the basic premise). An XML file is just a plain text file (think similar to HTML if you've used that before), which you can edit with any text editor (e.g. Notepad, Notepad++, ViM, &hellip;)
 
 The workflow for using LDL is as follows.
 
@@ -69,37 +69,37 @@ The workflow for using LDL is as follows.
 
 The test release is focused on describing the spaces and making simple deathmatch maps. It does the following.
 
-* Allows you to describe rooms—their size and style (which causes texturing and lighting to be automatically applied so that sighted people can play your maps too).
+* Allows you to describe rooms&mdash;their size and style (which causes texturing and lighting to be automatically applied so that sighted people can play your maps too).
 
-* Allows you to specify how rooms are connected (directly) to each other—i.e. you can specify that a given room is positioned north of another room and that there should be a door between them and both rooms will be positioned correctly—including at the right height—and the door—and any required stairs or an elevation platform—inserted.
+* Allows you to specify how rooms are connected (directly) to each other&mdash;i.e. you can specify that a given room is positioned north of another room and that there should be a door between them and both rooms will be positioned correctly&mdash;including at the right height&mdash;and the door&mdash;and any required stairs or an elevation platform&mdash;inserted.
 
 * Placement of items within rooms (such as player start points and weapons) on a compass directions system (this is planned to be expanded into percentage-based coordinates in the future).
 
-It does have some limitations, though…
+It does have some limitations, though&hellip;
 
 * It doesn't support non-rectangular rooms (sorry, my geometry sucks; but you can still make a lot of different overall shapes of interconnected spaces, even with this limitation).
 
-* It can't make connections between rooms that are not next to each other—that is to say you need to specify the corridors that connect between rooms (as rooms themselves, which they are—they’re usually just longer and thinner).
+* It can't make connections between rooms that are not next to each other&mdash;that is to say you need to specify the corridors that connect between rooms (as rooms themselves, which they are&mdash;they’re usually just longer and thinner).
 
-* It doesn't support: rooms containing water/slime/lava; switches/buttons and doors that require keys—though all of these could be added rather easily.
+* It doesn't support: rooms containing water/slime/lava; switches/buttons and doors that require keys&mdash;though all of these could be added rather easily.
 
 ### Possible and blue sky features
 
-Here are some features that would be fairly possible given the current foundations…
+Here are some features that would be fairly possible given the current foundations&hellip;
 
-* Higher-level descriptions—giving you the ability to say roughly where some rooms are in 3D space and the programs working out the best way to link them (i.e. with corridors, stairs or lifts).
+* Higher-level descriptions&mdash;giving you the ability to say roughly where some rooms are in 3D space and the programs working out the best way to link them (i.e. with corridors, stairs or lifts).
 
 * Providing a natural language-like interface. Currently the description is written in a type of XML file, but it would be easy to use something similar but lighter, like JSON, and quite do-able to expand to more natural language, and to provide level-editing programs based on the format.
 
 * Providing a level editor application to make writing the descriptions and make error-checking easier.
 
-Some limitations of the system that may be addressed in future include the inability of it to cope with angled/slanted brushes. This isn't so much of a limitation at the moment as we can use stairs and so on—and are not aware of the best way to present such complex structures. Once we've done more research into how to navigate such maps and how to represent them in LDL this may be an area of improvement.
+Some limitations of the system that may be addressed in future include the inability of it to cope with angled/slanted brushes. This isn't so much of a limitation at the moment as we can use stairs and so on&mdash;and are not aware of the best way to present such complex structures. Once we've done more research into how to navigate such maps and how to represent them in LDL this may be an area of improvement.
 
-For now, however, there's a great deal you *can* do—as we hope the tutorial below will show.
+For now, however, there's a great deal you *can* do&mdash;as we hope the tutorial below will show.
 
 ### Running LDL
 
-LDL comes as part of *AudioQuake*—you can access it via the launcher's "Map" tab. There you can open a map file you're working on (or one of the tutorial examples that match the tutorial steps below) and build and play it.
+LDL comes as part of *AudioQuake*&mdash;you can access it via the launcher's "Map" tab. There you can open a map file you're working on (or one of the tutorial examples that match the tutorial steps below) and build and play it.
 
 If you clone the AGRIP code repo from GitHub, you can also use the LDL command-line tools. Info on how to do that is provided in the READMEs and in the help for the LDL program itself.
 
@@ -113,7 +113,7 @@ Before you start, please be aware of the following.
 
 * LDL maps are XML files, which are plain text files and look similar to HTML files. You can edit them with any text editor. However, as with HTML, there are rules about opening/closing tags and how to specify attributes (more on this later).
 
-   You should be able to copy and paste from this document into a text file—name it something like *tutorial.xml*—and run it through the LDL system. If you are new to XML don't worry—you can copy the examples given here.
+   You should be able to copy and paste from this document into a text file&mdash;name it something like *tutorial.xml*&mdash;and run it through the LDL system. If you are new to XML don't worry&mdash;you can copy the examples given here.
 
 * It is strongly recommended that you keep testing the map as you go along with writing it, as often as you can do so. This will help you appreciate how the system works and help you to determine when an error in your map (or bug in our code) has been introduced.
 
@@ -121,7 +121,7 @@ Before you start, please be aware of the following.
 
 * Unless you add enough deathmatch player start points, you will have great problems running the map in deathmatch mode, as all of the bots will try to spawn out of one start point. You'll read later how to add start points.
 
-   For now, be aware that the *AudioQuake* launcher and the LDL command-line tools open your maps in non-deathmatch mode. For that to work, you have to have one—and only one—`info_player_start` entity in your map. Again, more on this later.
+   For now, be aware that the *AudioQuake* launcher and the LDL command-line tools open your maps in non-deathmatch mode. For that to work, you have to have one&mdash;and only one&mdash;`info_player_start` entity in your map. Again, more on this later.
 
 ### Example 1: Hello, world!
 
@@ -135,7 +135,7 @@ Let's start with a very simple example map.
 </map>
 ```
 
-That's the simplest map you can make with LDL that can be played. Let’s take a look at each line and see what it does…
+That's the simplest map you can make with LDL that can be played. Let’s take a look at each line and see what it does&hellip;
 
 ```xml
 <map name='tut01' style='base'>
@@ -147,13 +147,13 @@ This starts our map off; it's an XML *element* called "map". Elements are writte
 
 * A *style*, which is "base" in this case. This affects lighting, texturing, sounds and key types used in the map.
 
-  The style of a map is used to denote which texture, lighting and—to some extent—sound scheme is applied. Currently, LDL supports "base" and "medieval".
+  The style of a map is used to denote which texture, lighting and&mdash;to some extent&mdash;sound scheme is applied. Currently, LDL supports "base" and "medieval".
 
   When building a map, you can choose whether you want to use textures from *Quake* (if you bought and installed the data files), *Open Quartz* or a high-contrast texture set (from *Prototype.wad*). Each texture set supports both "base" and "medieval" styles.
 
 As well as having attributes, an element can contain other elements. When we get to the end of the map, we must *close* the map element with `</map>` (this is much like the starting tag, but the first thing within the angle-brackets is a forward slash).
 
-Back to the map file…
+Back to the map file&hellip;
 
 ```xml
 <room id='start'>
@@ -219,7 +219,7 @@ If you were to specify a size that is not valid, you would get an error message.
 </map>
 ```
 
-### Example 4: Room sizes in each dimension—or: corridors!
+### Example 4: Room sizes in each dimension&mdash;or: corridors!
 
 Because the room is a 3D object, you can also specify its size in the 3 dimensions: width, depth and height. Different programs and systems use these terms differently, so to avoid any possible confusion, we'll define them as LDL uses them here.
 
@@ -227,7 +227,7 @@ Because the room is a 3D object, you can also specify its size in the 3 dimensio
 * **depth** is the distance from back to front.
 * **height** is the distance from floor to ceiling.
 
-When you only give one word for the size, LDL will work out an appropriate 3D room size based on the one given. If you want more control, though, you'll need to specify all three (note that you can’t specify just 2 of the 3 dimensions—in that case, LDL could not know which 2 of the 3 you mean).
+When you only give one word for the size, LDL will work out an appropriate 3D room size based on the one given. If you want more control, though, you'll need to specify all three (note that you can’t specify just 2 of the 3 dimensions&mdash;in that case, LDL could not know which 2 of the 3 you mean).
 
 Try making the room into a corridor: copy and paste the following into a file, then save, compile and test it.
 
@@ -241,9 +241,9 @@ Try making the room into a corridor: copy and paste the following into a file, t
 
 You will spawn in the middle of a thin, but long, corridor-shaped room. Try strafing left/right and notice you hit the walls almost immediately. Then try going back and forward.
 
-One last thing to note about room sizes in LDL is that the sizes in the width and depth dimensions have been designed to increase more quickly than in height—that is to say that a room with the size "med" (which is the same as "med med med") will be wider and deeper than it is tall. It will be as wide as it is deep but it won't be quite as high. This is because in most *Quake* maps, as with most buildings, rooms are not completely cube-shaped. This feature is designed to make it easy for you to make realistically-sized rooms even when you only specify one word for the size attribute.
+One last thing to note about room sizes in LDL is that the sizes in the width and depth dimensions have been designed to increase more quickly than in height&mdash;that is to say that a room with the size "med" (which is the same as "med med med") will be wider and deeper than it is tall. It will be as wide as it is deep but it won't be quite as high. This is because in most *Quake* maps, as with most buildings, rooms are not completely cube-shaped. This feature is designed to make it easy for you to make realistically-sized rooms even when you only specify one word for the size attribute.
 
-If you really really want to make your room exactly cube-shaped, you can—use any of the following for your room's size attribute "vsmall vsmall small", "small small big", "med med vlarge", "big big xlarge", "large large huge", "xlarge xlarge vhuge" or "huge huge xhuge".
+If you really really want to make your room exactly cube-shaped, you can&mdash;use any of the following for your room's size attribute "vsmall vsmall small", "small small big", "med med vlarge", "big big xlarge", "large large huge", "xlarge xlarge vhuge" or "huge huge xhuge".
 
 #### XML errors
 
@@ -287,7 +287,7 @@ Now to make the map a bit more interesting! We will create two rooms and link th
 
 There are now 2 rooms, "start" and "other", which are linked by a door. LDL places the room "other" to the north of "start" because we asked the connection to "other" to be made via the north wall ("n") of "start". The north wall is the one you face when spawning in the map for the first time; west and east correspond to left and right respectively and south is behind you.
 
-This is the same as the way directions work in most Interactive Fiction games. If it helps, you could imagine being above the map and looking down on it as if it was an, erm, map. Then, north would be to the top, south to the bottom, west to the left and east to the right. (Both ways of imagining the situation are the same—hopefully at least one will be helpful.)
+This is the same as the way directions work in most Interactive Fiction games. If it helps, you could imagine being above the map and looking down on it as if it was an, erm, map. Then, north would be to the top, south to the bottom, west to the left and east to the right. (Both ways of imagining the situation are the same&mdash;hopefully at least one will be helpful.)
 
 ### Example 6: Connecting rooms the other way around
 
@@ -304,7 +304,7 @@ Above we specified the connection inside the room "start". It works the other wa
 </map>
 ```
 
-Run the map through LDL and experiment. The room you start in will lead onto another room, which you will access via a door that is directly in front of you when you start (LDL places doors in the middle of the wall they're on and at ground level by default—more on this later).
+Run the map through LDL and experiment. The room you start in will lead onto another room, which you will access via a door that is directly in front of you when you start (LDL places doors in the middle of the wall they're on and at ground level by default&mdash;more on this later).
 
 ### Example 7: Items and monsters
 
@@ -460,11 +460,11 @@ To make things a bit more exciting, however, you might want to make some rooms h
 
 This is very similar to the example above (*tut05*), however, we have added two attributes to the connection from the room "start" to the room "other". These are:
 
-* **pos** This is the position *on the connecting wall* that you want the hole/door to be created. That is to say: when you specify a position—"top" (t) in this case—you are specifying the position on that wall where you want the hole to be made, as if you were standing in front of the wall itself.
+* **pos** This is the position *on the connecting wall* that you want the hole/door to be created. That is to say: when you specify a position&mdash;"top" (t) in this case&mdash;you are specifying the position on that wall where you want the hole to be made, as if you were standing in front of the wall itself.
 
-   Valid positions are: "tl" (top left), "t" (top centre), "tr" (top right), "r" (right), "br" (bottom right), "b" (bottom centre—which is the default), "bl" (bottom left) and "c" (centre).
+   Valid positions are: "tl" (top left), "t" (top centre), "tr" (top right), "r" (right), "br" (bottom right), "b" (bottom centre&mdash;which is the default), "bl" (bottom left) and "c" (centre).
 
-* **elevtype** When you specify that the connecting hole/door is to be placed somewhere other than at ground level on the wall, it might be necessary to provide some means for the player to access the hole—i.e. stairs or a "plat" (lifting platform). You will be warned when this may be necessary, but as it's a design decision and you may not wish the player to be granted access through this route, you can specify "none" to disable the creation of such a device.
+* **elevtype** When you specify that the connecting hole/door is to be placed somewhere other than at ground level on the wall, it might be necessary to provide some means for the player to access the hole&mdash;i.e. stairs or a "plat" (lifting platform). You will be warned when this may be necessary, but as it's a design decision and you may not wish the player to be granted access through this route, you can specify "none" to disable the creation of such a device.
 
 Have a go running this map: walk straight forward and you will find some stairs. Carry on and you'll go up into the second room.
 
@@ -474,7 +474,7 @@ Try changing the value of the `elevtype` attribute for the connection to "plat" 
 
 Try changing the `pos` to "tl" from "t" and you'll find that you have to move to the left/west to find the stairs up to room "other".
 
-It is important to note that even when you use the `pos` attribute to change the position on the wall in the "start" room, you still always end up in "other" at the same place—the connection on that side is made in the default place of the middle of the connecting wall, at ground level.
+It is important to note that even when you use the `pos` attribute to change the position on the wall in the "start" room, you still always end up in "other" at the same place&mdash;the connection on that side is made in the default place of the middle of the connecting wall, at ground level.
 
 Once you're happy with this, you might be asking how you can reposition the connector on the target room’s side. Let’s take the example above and change it so that both rooms are actually at the same height but the door between them is at the top of the wall. Stairs will be built to get up to and down from the door on both sides.
 
@@ -494,9 +494,9 @@ Once you're happy with this, you might be asking how you can reposition the conn
 
 Say you have two rooms, at different heights and you want to make a connection between them, in the form of a corridor with stairs in it. This is an example of how you might go about doing so.
 
-We have two rooms—"start" and "other" as ever. We will position "other" to the north of "start", also as ever. This time, though, we will place a corridor between the two. The corridor will be not very wide, quite long and quite tall so that it can accommodate the change in height from "start" to "other".
+We have two rooms&mdash;"start" and "other" as ever. We will position "other" to the north of "start", also as ever. This time, though, we will place a corridor between the two. The corridor will be not very wide, quite long and quite tall so that it can accommodate the change in height from "start" to "other".
 
-As the corridor will be connecting "start" and "other" we'll give it the ID "start2other". This quickly identifies it as a corridor. Here is the map…
+As the corridor will be connecting "start" and "other" we'll give it the ID "start2other". This quickly identifies it as a corridor. Here is the map&hellip;
 
 ```xml
 <map name='tut11' style='base'>
@@ -515,19 +515,19 @@ As the corridor will be connecting "start" and "other" we'll give it the ID "sta
 
 When you enter this map, you'll find a door in front of you and then a corridor, which has a set of steps at the end that lead (without a door) into a room with the rocket launcher.
 
-But those steps are very steep and—as you're using the entirety of "start2other" as a corridor—it would be much better if those steps filled the whole room rather than just a small part of it. You can make this happen, as follows…
+But those steps are very steep and&mdash;as you're using the entirety of "start2other" as a corridor&mdash;it would be much better if those steps filled the whole room rather than just a small part of it. You can make this happen, as follows&hellip;
 
 ```xml
 <con wall='n' target='other' pos='t' elevtype='stairs' extent='+' />
 ```
 
-We've added an attribute, `extent`, to the connection and given it the size "+". That should be read as "fill all available space". Try making this change and running the map—the stairs will take up all of the available space in the corridor but not above the height they’re meant to be).
+We've added an attribute, `extent`, to the connection and given it the size "+". That should be read as "fill all available space". Try making this change and running the map&mdash;the stairs will take up all of the available space in the corridor but not above the height they’re meant to be).
 
 You can specify sizes ("small", "med" and so on) in the `extent` attribute, as you can with rooms. You can also mix and match, so saying `extent='+ med'` means "take up all available width, but be only medium-sized in depth". Bear in mind that if the corridor was going from east to west (or vice-verse) these would be reversed (which is why it's often easier to just use "+" as the size specifier).
 
 #### Vertical connections to other rooms
 
-It is possible for you to position one room entirely on top of or underneath another and link them with connections as discussed earlier, though you'd use "u" (up) and "d" (down) to identify the walls the connections lie on. Currently it is not possible to make elevation devices for these connections (e.g. a plat).
+It is possible for you to position one room entirely on top of or underneath another and link them with connections as discussed earlier, though you'd use "u" (up) and "d" (down) to identify the walls the connections lie on. Currently it is not possible to make elevation devices for these connections (e.g. a plat).
 
 Another thing that could be done in future is supporting teleporters, so you could move between rooms instantaneously.
 
@@ -545,7 +545,7 @@ Another thing that could be done in future is supporting teleporters, so you cou
 
 * Items are placed in rooms according to the same compass direction scheme.
 
-* When assigning sizes to things like rooms, we may say "large" or, if we want to be more precise, specify the size in each of the 3 dimensions of width, depth and height, separated by spaces—e.g. "medium large medium". When facing north in a room, its width is the distance from your left to your right; its depth is the distance from back to front and its height is vertical distance between its floor and ceiling.
+* When assigning sizes to things like rooms, we may say "large" or, if we want to be more precise, specify the size in each of the 3 dimensions of width, depth and height, separated by spaces&mdash;e.g. "medium large medium". When facing north in a room, its width is the distance from your left to your right; its depth is the distance from back to front and its height is vertical distance between its floor and ceiling.
 
 ## Tricks and treats
 
@@ -561,7 +561,7 @@ The file "style.xml" included with LDL contains information on the textures and 
 
 As well as the "base" and "medieval" styles described above, you can define other texture set styles to use in different rooms (but not the map as a whole). There are already two in the "style.xml" file: "outsidelight" and "outsidedark". When applied to a room, they change the walls and ceiling to a sky texture, and the floor to a ground/grass texture.
 
-These other styles can be applied to a room, but not the map itself. They don't have to define replacements for all of the textures defined by a set—if any are missing, LDL will fall back to the underlying map style ("base" or "medieval").
+These other styles can be applied to a room, but not the map itself. They don't have to define replacements for all of the textures defined by a set&mdash;if any are missing, LDL will fall back to the underlying map style ("base" or "medieval").
 
 You can define your own by editing "style.xml".
 
@@ -577,7 +577,7 @@ Whilst LDL doesn't allow for very advanced geometry, and it doesn't stop you fro
 
 The tutorial files ("tut\*.xml" as covered above) are provided for your reference and are available from the *AudioQuake* launcher. You'll also find various example maps there too.
 
-If you check out the code from the repository, you will find the test maps there too. They're named like "test_0\*_\*.xml"). The number in the name indicates which layer of the system the map is written for (remember earlier we discussed that LDL is composed of a number of layers). The layer "05" maps are the ones you want—lower levels rely on absolute coordinates.
+If you check out the code from the repository, you will find the test maps there too. They're named like "test_0\*_\*.xml"). The number in the name indicates which layer of the system the map is written for (remember earlier we discussed that LDL is composed of a number of layers). The layer "05" maps are the ones you want&mdash;lower levels rely on absolute coordinates.
 
 <!-- FIXME: is that true re absolutes? -->
 

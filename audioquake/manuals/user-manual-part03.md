@@ -26,7 +26,7 @@ If you want to use the high-contrast versions of the tutorial maps, you can inst
 tuthc
 ```
 
-**Tip:** For power users, the above is equivalent to entering the following three commands…
+**Tip:** For power users, the above is equivalent to entering the following three commands&hellip;
 
 ``` screen
 deathmatch 0
@@ -35,7 +35,7 @@ map agtut01
 
 ```
 
-This takes the game out of multiplayer mode and loads the first tutorial map. You can then play through the entire set of tutorials. Each tutorial map is linked to the next. If you wish to jump into a certain tutorial map, don't\! You can use the save and load features of the game to pause and resume your journey through the tutorial—for example…
+This takes the game out of multiplayer mode and loads the first tutorial map. You can then play through the entire set of tutorials. Each tutorial map is linked to the next. If you wish to jump into a certain tutorial map, don't\! You can use the save and load features of the game to pause and resume your journey through the tutorial&mdash;for example&hellip;
 
 ``` screen
 save tutorial
@@ -63,7 +63,7 @@ sp
 
 ```
 
-**Tip:** For power users, the above is equivalent to entering the following three commands…
+**Tip:** For power users, the above is equivalent to entering the following three commands&hellip;
 
 ``` screen
 deathmatch 0
@@ -78,7 +78,7 @@ Choosing which episode to play is done by entering one of the four doors in the 
 
 **Warning:** *AudioQuake* provides fairly decent accessibility on some of the game's maps, but they weren't designed with accessibility in mind, so it's most likely not possible to complete them all.
 
-The maps are named using a format "e*X*m*Y*" where *x* is a number from 1 to 4 and *y* is a number between 1 and 8. Episodes 2 and 3 only have 7 maps so that second (map) number is lower for them. The last map is always the secret one for that episode (i.e. it is found via a secret area on one of the other maps).
+The maps are named using a format "e*X*m*Y*" where *x* is a number from 1 to 4 and *y* is a number between 1 and 8. Episodes 2 and 3 only have 7 maps so that second (map) number is lower for them. The last map is always the secret one for that episode (i.e. it is found via a secret area on one of the other maps).
 
 To load a map in single-player mode, type
 

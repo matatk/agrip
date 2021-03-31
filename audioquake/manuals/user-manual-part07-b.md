@@ -10,7 +10,7 @@ Depending on how your browser is set up, you should be able to listen to these s
 
 This section explains the meaning of the various toggle sounds used in the game.
 
-| Sound                                        | Description                                                         | Played when…                                                                              |
+| Sound                                        | Description                                                         | Played when&hellip;                                                                              |
 | :------------------------------------------- | :------------------------------------------------------------------ | :---------------------------------------------------------------------------------------- |
 | [On](../id1/sound/toggles/on.wav)            | The generic "item is activated" sound.                              | Played when any device (for example the ESR, D5k or side hazard detection) is turned on.  |
 | [Off](../id1/sound/toggles/off.wav)          | The generic "item has been de-activated" sound.                     | Played when any device (for example the ESR, D5k or side hazard detection) is turned off. |
@@ -20,9 +20,9 @@ This section explains the meaning of the various toggle sounds used in the game.
 
 This section explains the meaning of the sounds that the navigation helper makes.
 
-#### Structures
+#### Structures
 
-| Sound                                               | Description                                                                           | Played when…                                                                                                                                                                            |
+| Sound                                               | Description                                                                           | Played when&hellip;                                                                                                                                                                            |
 | :-------------------------------------------------- | :------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Wall](../id1/sound/nav/wall.wav)                   | Sound indicating a wall has been detected.                                            | Played when there is a wall near you (at a volume proportional to your distance from it). Walls are "sounded" at half the volume of stairs and doors (to stop them getting in the way). |
 | [Slope](../id1/sound/nav/slope.wav)                 | Sound indicating a up or downwards slope (or set of stairs) has been detected.        | Played when there is a slope near you (at a volume proportional to your distance from it).                                                                                              |
@@ -33,14 +33,14 @@ This section explains the meaning of the sounds that the navigation helper makes
 
 #### Vertical movement
 
-| Sound                             | Description                                          | Played when…                                        |
+| Sound                             | Description                                          | Played when&hellip;                                        |
 | :-------------------------------- | :--------------------------------------------------- | :-------------------------------------------------- |
 | [Up](../id1/sound/nav/up.wav)     | This sound indicates you're going up in the world.   | Played when you go up stairs, slopes or on lifts.   |
 | [Down](../id1/sound/nav/down.wav) | This sound indicates you're going down in the world. | Played when you go down stairs, slopes or on lifts. |
 
-#### Hazard (drop/ledge) warnings
+#### Hazard (drop/ledge) warnings
 
-| Sound                                         | Description             | Played when…                                                                                                   |
+| Sound                                         | Description             | Played when&hellip;                                                                                                   |
 | :-------------------------------------------- | :---------------------- | :------------------------------------------------------------------------------------------------------------- |
 | [Small drop](../id1/sound/haz/drop-small.wav) | Indicates a small drop. | Played when a small drop is detected near you (and hazard warnings and/or side hazard warnings are turned on). |
 | [Big drop](../id1/sound/haz/drop-big.wav)     | Indicates a big drop.   | Played when a big drop is detected near you (and hazard warnings and/or side hazard warnings are turned on).   |
@@ -50,7 +50,7 @@ This section explains the meaning of the sounds that the navigation helper makes
 
 When you ask if you can make a jump, you'll either be told (via speech or Braille, depending on how you've set *AudioQuake* up) that you can make it with a normal jump or you'll need to do a running jump.
 
-If this information is not available (i.e. if there is no jump in front of you, or you're too far away from one), you'll hear this generic ["access denied"](../id1/sound/deny.wav)-type sound.
+If this information is not available (i.e. if there is no jump in front of you, or you're too far away from one), you'll hear this generic ["access denied"](../id1/sound/deny.wav)-type sound.
 
 You'll also hear the above sound if you ask for a description of what lies in the drop (ground, water, slime or lava) and there is no drop in front of you or you are too far away from one.
 
@@ -60,7 +60,7 @@ This section explains the meaning of sounds made by the independent navigation a
 
 #### Waypoint marker sounds
 
-| Sound                                               | Description                               | Played when…                                                                                                                                                                                   |
+| Sound                                               | Description                               | Played when&hellip;                                                                                                                                                                                   |
 | :-------------------------------------------------- | :---------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Marker homing signal](../id1/sound/nav/marker.wav) | Emanates from the marker's location.      | This lets you know where a marker is. When you touch a marker, you'll be told which waypoint number it is (the number increases with every marker you add).                                    |
 | [Denied](../id1/sound/deny.wav)                     | Indicates that an action is not possible. | This sound is used in a number of places to let you know that you can't do something. In this case, it is played when you press the "delete last marker" key and there is no marker to delete. |
@@ -73,7 +73,7 @@ When you activate the compass, you will be told the name of the direction you're
 
 This section explains the meaning of the sounds the D5k makes.
 
-| Sound                                                   | Description                                                                                                                                                       | Played when…                                                                                                 |
+| Sound                                                   | Description                                                                                                                                                       | Played when&hellip;                                                                                                 |
 | :------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
 | (standard *Quake* sounds)                                 | The *Quake* "item activation" sounds (such as health, ammo, armour, weapon or power-up pickup sounds) are played to indicate what type of object has been detected. | The sounds are played when you're near an object (at a volume proportional to your distance from it).        |
 | [Backpack](../id1/sound/d5k/backpack.wav)               | A dropped backpack. (*Quake* didn't have a sound for these.)                                                                                                        | Played when a dropped backpack is near you. Monsters drop them when they die (if they've not been exploded). |
@@ -91,9 +91,9 @@ If you try to use a weapon you don't yet possess, you'll hear this ["access deni
 
 This section explains the meaning of the sounds that the ESR makes.
 
-#### Monster indication sounds
+#### Monster indication sounds
 
-| Sound                                                          | Description                                                                      | Played when…                                                                |
+| Sound                                                          | Description                                                                      | Played when&hellip;                                                                |
 | :------------------------------------------------------------- | :------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
 | [Monster on lower level](../id1/sound/esr/monster-lower.wav)   | Sound indicating that a monster is at a lower level (elevation) to the player.   | Played when a monster is detected and is on the lower level as the player.  |
 | [Monster on same level](../id1/sound/esr/monster-same.wav)     | Sound indicating that a monster is at a similar level (elevation) to the player. | Played when a monster is detected and is on the same level as the player.   |
@@ -101,15 +101,15 @@ This section explains the meaning of the sounds that the ESR makes.
 
 #### Enemy (player or bot) indication sounds
 
-| Sound                                                      | Description                                                                    | Played when…                                                              |
+| Sound                                                      | Description                                                                    | Played when&hellip;                                                              |
 | :--------------------------------------------------------- | :----------------------------------------------------------------------------- | :------------------------------------------------------------------------ |
 | [Enemy on lower level](../id1/sound/esr/enemy-lower.wav)   | Sound indicating that a enemy is at a lower level (elevation) to the player.   | Played when a enemy is detected and is on the lower level as the player.  |
 | [Enemy on same level](../id1/sound/esr/enemy-same.wav)     | Sound indicating that a enemy is at a similar level (elevation) to the player. | Played when a enemy is detected and is on the same level as the player.   |
 | [Enemy on higher level](../id1/sound/esr/enemy-higher.wav) | Sound indicating that a enemy is at a higher level (elevation) to the player.  | Played when a enemy is detected and is on the higher level as the player. |
 
-#### Friend (player or bot) indication sounds
+#### Friend (player or bot) indication sounds
 
-| Sound                                                        | Description                                                                     | Played when…                                                               |
+| Sound                                                        | Description                                                                     | Played when&hellip;                                                               |
 | :----------------------------------------------------------- | :------------------------------------------------------------------------------ | :------------------------------------------------------------------------- |
 | [Friend on lower level](../id1/sound/esr/friend-lower.wav)   | Sound indicating that a friend is at a lower level (elevation) to the player.   | Played when a friend is detected and is on the lower level as the player.  |
 | [Friend on same level](../id1/sound/esr/friend-same.wav)     | Sound indicating that a friend is at a similar level (elevation) to the player. | Played when a friend is detected and is on the same level as the player.   |

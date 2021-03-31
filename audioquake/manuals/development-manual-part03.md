@@ -6,7 +6,7 @@
 
 QuakeC is a high-level gamecode language that is compiled into bytecode/assembly instructions for the QuakeC Virtual Machine (in much the same way that Java and Perl work). The virtual machine is what executes your compiled-down code (the `.dat` files). The reasons why a virtual machine is used are portability (QuakeC works on all platforms that *Quake* does) and security (your mod cannot access anything outside of the QuakeC VM, other than the "builtin" functions that the *Quake* engine provides).
 
-The engine provides builtin functions for doing performance-critical calculations (such as working out if a particular 3D vector corresponding to the aim of a weapon would hit a player) and interfacing with the outside world via the presentation of content to the user, such as sounds (e.g. when a weapon fires, a sound is made).
+The engine provides builtin functions for doing performance-critical calculations (such as working out if a particular 3D vector corresponding to the aim of a weapon would hit a player) and interfacing with the outside world via the presentation of content to the user, such as sounds (e.g. when a weapon fires, a sound is made).
 
 The whole gamecode for *Quake*, with AGRIP extensions, and any modifications you make must be compiled together into one `.dat` file. All of the code you need is in the Subversion repository. Unfortunately this has the side effect that only one modification can running any time; the Unreal engine (which powers a competing series of games) provides some ways to combat this and run multiple modifications at once. Alas it is not Open Source so hasn't been made accessible yet. In practise this limitation of the *Quake* engine should not make too much difference, as the user can have multiple mods installed at any time (the game launcher and QMOD system take care of this).
 
@@ -14,7 +14,7 @@ The whole gamecode for *Quake*, with AGRIP extensions, and any modifications you
 
 QuakeC is similar to C in nature. This is not a tutorial on the language itself; it is assumed the reader is used to programming in general. Much information can be found through the resources listed in [appendix section](#ref-qc) on the matter.
 
-### Building Code—The Basics
+### Building Code&mdash;The Basics
 
 QuakeC (`.qc`) files must be compiled into a `.dat` to be run by the game. The gamecode for the entire game is composed of many QuakeC files. Some of the files are only applicable to the single-player game and some are multiplayer-specific, so actually two `.dat` files are usually built (one for each type of gameplay).
 
@@ -40,7 +40,7 @@ The *ZQuake* project hosts gamecode for a number of popular game modes and mods.
 
 * qw
 
-  Where it all started—a maintained version of the *QuakeWorld* (DM, Classic TeamDM) gamecode.
+  Where it all started&mdash;a maintained version of the *QuakeWorld* (DM, Classic TeamDM) gamecode.
 
 * qwsp
 
@@ -58,7 +58,7 @@ The *ZQuake* project hosts gamecode for a number of popular game modes and mods.
 
 As has been pointed out, much of the code hare is linked and when you develop a mod, we recommend you start a new top-level directory in here and reuse as much of the existing code as you can. Start with one of the AGRIP `progs.src` files and add any extra `.qc` files you might need in your own directory.
 
-**Note:** If you need to override any functions in the main code, don't replace an entire file with your own version—there is a way for you to override individual functions elsewhere in the code, which will be explained later.
+**Note:** If you need to override any functions in the main code, don't replace an entire file with your own version&mdash;there is a way for you to override individual functions elsewhere in the code, which will be explained later.
 
 Constructing your mod in this way has the advantages of much easier upgrades between AGRIP versions (as if you follow the guidelines here you'll be hooking into our code mostly and won't have to worry about changes in the stock *ZQuake* code). It also keeps your mod's codebaese small, simple and therefore easy to maintain and (hopefully\!) more reliable.
 
@@ -76,11 +76,11 @@ The gamecode used in *AudioQuake* has two main goals:
 
 Many functions created in the development of *AudioQuake* are written to be as generic as possible. They form what could be thought of as an "accessibility library" on top of the standard QuakeC.
 
-**Anecdote:** This modular design approach was tested… all bot navigation code was modified to use the AGRIP accessibility aid functions. This meant that the bots' perception of the world was essentially that of a blind player. The bots performed well and began to navigate in a similar style to that of most blind gamers.
+**Anecdote:** This modular design approach was tested&hellip; all bot navigation code was modified to use the AGRIP accessibility aid functions. This meant that the bots' perception of the world was essentially that of a blind player. The bots performed well and began to navigate in a similar style to that of most blind gamers.
 
 ### Layout and design
 
-Our recommended method of setting up your mod, in terms of directory structure and code re-use, can be found above. This section explains how the AGRIP code is laid out internally (i.e. inside the `agrip/` directory).
+Our recommended method of setting up your mod, in terms of directory structure and code re-use, can be found above. This section explains how the AGRIP code is laid out internally (i.e. inside the `agrip/` directory).
 
 **Tip:** The source code is heavily commented; take advantage of this to learn how to make best use of the library code that has been written for your mods.
 

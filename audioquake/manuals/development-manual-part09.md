@@ -1,7 +1,7 @@
 <a name="qmod-ini"></a>
 ## `qmod.ini` file settings
 
-The following sections detail the various options available to mod authors in `qmod.ini` files. The are split into the two (current) sections of the INI file—"general" and "longdesc".
+The following sections detail the various options available to mod authors in `qmod.ini` files. The are split into the two (current) sections of the INI file&mdash;"general" and "longdesc".
 
 ### General
 
@@ -34,7 +34,7 @@ watch_autoexec=yes
 
 This section is optional and, if included, is used to give the user more information about the mod when they select it in the game launcher's menu.
 
-Create it by assigning each "chunk" of your mod's description to a key. Each chunk must be less than 80 characters long. Use keys which, when sorted, will result in the correct ordering of chunks (i.e. just number each chunk).
+Create it by assigning each "chunk" of your mod's description to a key. Each chunk must be less than 80 characters long. Use keys which, when sorted, will result in the correct ordering of chunks (i.e. just number each chunk).
 
 The obligatory example:
 

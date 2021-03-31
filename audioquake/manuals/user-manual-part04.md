@@ -46,7 +46,7 @@ The above may take some time, so a timelimit is usually set. This ends the match
 
 ### Team Deathmatch
 
-This mode is similar to the last one but has one main difference: You are not on your own – you can have an epic battle in which all the players on your team are against all the players/bots on the enemy team\!
+This mode is similar to the last one but has one main difference: You are not on your own&mdash;you can have an epic battle in which all the players on your team are against all the players/bots on the enemy team\!
 
 Team Deathmatch games are started in the same way as regular deathmatches and can have frag and time limits, except that the fraglimit is the number of frags that a team must score to win.
 
@@ -102,7 +102,7 @@ map agdm01
 
 ```
 
-When you're in the map, you will notice that there is not much going on. To create ("spawn") a bot, press the comma or dot key on your keyboard. An enemy will be provided for you to play with. When either of you is fragged, you'll "respawn" at a random teleporter in the map, ready to resume the game – but with a slightly decreased frag count (your score).
+When you're in the map, you will notice that there is not much going on. To create ("spawn") a bot, press the comma or dot key on your keyboard. An enemy will be provided for you to play with. When either of you is fragged, you'll "respawn" at a random teleporter in the map, ready to resume the game&mdash;but with a slightly decreased frag count (your score).
 
 Please note that the bots act like players; they use all the weapons and navigate the map on their own. In other words, they're tough\!
 
@@ -130,7 +130,7 @@ timelimit 10
 
 ### Team Deathmatch
 
-Team Deathmatch games are started in the same way as regular deathmatches and can have frag and time limits. The previous section explains how to set these up. The important thing to note about starting team deathmatches is that the teamplay mode must be set before you open the map and start spawning bots. This can be achieved by using the simple **teamdm** console command. As above, you can take more control over the game mode and may by setting them manually – for example:
+Team Deathmatch games are started in the same way as regular deathmatches and can have frag and time limits. The previous section explains how to set these up. The important thing to note about starting team deathmatches is that the teamplay mode must be set before you open the map and start spawning bots. This can be achieved by using the simple **teamdm** console command. As above, you can take more control over the game mode and may by setting them manually&mdash;for example:
 
 ``` screen
 teamplay 1
@@ -171,7 +171,7 @@ Now you know how to play the various game modes and have had some practice with 
 
 ### Multiplayer Basics
 
-When you play any of the gametypes (singleplayer or practice matches) mentioned above, it is your computer that controls all aspects of the game – from the generation of game sounds to the behaviour of the monsters or bots you're playing the game with. When you play a game over the Internet, this isn't the case. What happens is that your computer connects to another computer which acts as a *server*. The server manages connections from all of the players and controls most game-related things (such as keeping track of players' scores and movements round a map). Your computer still takes care of dealing with your input and playing back sounds, but it doesn't control the match being played in any way.
+When you play any of the gametypes (singleplayer or practice matches) mentioned above, it is your computer that controls all aspects of the game&mdash;from the generation of game sounds to the behaviour of the monsters or bots you're playing the game with. When you play a game over the Internet, this isn't the case. What happens is that your computer connects to another computer which acts as a *server*. The server manages connections from all of the players and controls most game-related things (such as keeping track of players' scores and movements round a map). Your computer still takes care of dealing with your input and playing back sounds, but it doesn't control the match being played in any way.
 
 So, to join an Internet game, you need to connect to a server that other people may also connect to. There are many *QuakeWorld* servers out there but most don't provide the accessibility features that *AudioQuake* does. You'll need to connect to a specific *AudioQuake* server in order to play the game.
 
@@ -194,11 +194,11 @@ If you're going to be playing a team deathmatch game, you'll probably want to gi
 
 There are two other personalisations you can make regarding your appearance to others in multiplayer games. These are the colour of your character's uniform within the game. The console commands **topcolor** and **bottomcolor** can be used to change these. We mention them here for completeness.
 
-Now you've made yourself a little more unique in the virtual world, it is time to join a game…
+Now you've made yourself a little more unique in the virtual world, it is time to join a game&hellip;
 
 ### Joining a Game
 
-We have set up a few game servers under the AGRIP banner (details can be found in an appendix), but you're certainly not restricted to playing *AudioQuake* on one of these – in fact, we encourage you to seek out other servers on the Internet to play on and/or to set up a server of your own. This can be especially rewarding if you know a few people that you'd like to play the game with. Anyone who sets up a server (covered later in the manual) can have it automatically advertised to every other *AudioQuake* player, via the AGRIP master server. This keeps a list of all active *AudioQuake* game servers on the Internet. By using a program that searches this list (known as a *server browser*), you can find a game to join. As server admins are free to chose any gametype and selection of maps that their server runs, you should be able to find a match that suits your tastes.
+We have set up a few game servers under the AGRIP banner (details can be found in an appendix), but you're certainly not restricted to playing *AudioQuake* on one of these&mdash;in fact, we encourage you to seek out other servers on the Internet to play on and/or to set up a server of your own. This can be especially rewarding if you know a few people that you'd like to play the game with. Anyone who sets up a server (covered later in the manual) can have it automatically advertised to every other *AudioQuake* player, via the AGRIP master server. This keeps a list of all active *AudioQuake* game servers on the Internet. By using a program that searches this list (known as a *server browser*), you can find a game to join. As server admins are free to chose any gametype and selection of maps that their server runs, you should be able to find a match that suits your tastes.
 
 To search for games over the whole Internet, you can use either the *AudioQuake* Stats and Servers site, or a command-line program called QStat. This is a very powerful, popular and accessible tool, which allows you fine control over your searches. For more information on using QStat, visit it's web site at <http://www.qstat.org/>. Information on the *AudioQuake* Stats and Servers web site can be found [in the next chapter](#mmodes-statsnservers "Chapter 15. *AudioQuake* Stats and Servers Website").
 
@@ -228,7 +228,7 @@ say_team message
 
 ```
 
-**Warning:** Be nice to the other people on the server – if you're not, the server admin has the power to *kick* you from the game and ban you from reconnecting\!
+**Warning:** Be nice to the other people on the server&mdash;if you're not, the server admin has the power to *kick* you from the game and ban you from reconnecting\!
 
 #### Chat History
 
@@ -286,7 +286,7 @@ The Stats and Servers website is part of the online community surrounding *Audio
 
 When you visit the stats and servers site, you're presented with a number of choices on where to go. The main page lists the sections you can visit, providing a brief description of each one. The most important areas of the site fall under a few categories:
 
-  - Pages containing global ranking tables, based on a number of criteria. They may be frags, efficiency, overall ranking or time-based (e.g. frags for the current day or month).
+  - Pages containing global ranking tables, based on a number of criteria. They may be frags, efficiency, overall ranking or time-based (e.g. frags for the current day or month).
 
   - Detailed stats for each known *AudioQuake* player (accessed via global players list).
 
@@ -302,13 +302,13 @@ To get your stats included, all you need to do is play on any of the public serv
 
 ## Setting up and Running your own Server
 
-Running your own *AudioQuake* server allows total control over which maps, gametypes and rules you play. It can also be a fun and rewarding thing to do. If you would like to try setting up your own server, we recommend that you have a go – it will provide you with your ideal game setup and other *AudioQuake* players with an extra place to play (if you run a public server).
+Running your own *AudioQuake* server allows total control over which maps, gametypes and rules you play. It can also be a fun and rewarding thing to do. If you would like to try setting up your own server, we recommend that you have a go&mdash;it will provide you with your ideal game setup and other *AudioQuake* players with an extra place to play (if you run a public server).
 
-### Clients and Dedicated vs. Listen Servers
+### Clients and Dedicated vs. Listen Servers
 
 Quake is a "client-server" game. This means that at any time, to play the game you need a client and a server. The client is the program that the user interacts with, that outputs audio/video and captures input (to be used when moving the player or typing in the console). The server runs the game itself. It controls the environment (lifts, buttons) and items in it (powerups, monsters) and keeps track of scoring in multiplayer games. If you're playing a singleplayer game or practice match on your own computer, the client and the server are both running on your computer. If you're playing an Internet multiplayer game, the server could be hundreds of miles away.
 
-When setting up a server, the most fundamental decision is what type of server to set up. Dedicated servers are programs that only perform the task of running the game. They do not output any audio/video and don't allow you to play a game on them directly. Listen servers, however, act as the singleplayer and offline game modes do – except that they allow connections from other players on the Internet. From your point-of-view, this makes listen servers "feel" very similar to the on or offline games you've been accustomed to playing up until now.
+When setting up a server, the most fundamental decision is what type of server to set up. Dedicated servers are programs that only perform the task of running the game. They do not output any audio/video and don't allow you to play a game on them directly. Listen servers, however, act as the singleplayer and offline game modes do&mdash;except that they allow connections from other players on the Internet. From your point-of-view, this makes listen servers "feel" very similar to the on or offline games you've been accustomed to playing up until now.
 
 #### Why Use Dedicated Servers?
 
@@ -318,13 +318,13 @@ Most servers on the Internet are dedicated ones. They try to be as fair as possi
 
 Another advantage to dedicated servers (which is most likely welcomed by anyone setting one up) is that they don't require terribly fancy computers to run on. This is partly because they don't need to perform any rendering of audio/video data, which can take quite a lot of computing power.
 
-### Public vs. Private and Stats Logging
+### Public vs. Private and Stats Logging
 
-This topic and many others is dealt with on the [Stats and Servers site](http://stats.agrip.org.uk/) (in the FAQ section) – be sure to check it out for the latest information.
+This topic and many others is dealt with on the [Stats and Servers site](http://stats.agrip.org.uk/) (in the FAQ section)&mdash;be sure to check it out for the latest information.
 
 ### Interacting with the Server Directly
 
-You can do all sorts of things with the server by interacting with its console when you start it. Tasks such as setting the gametype and map, getting status and kicking players (as well as chatting to the players from outside) can be done via the server's console directly. However, this is not always practical (you may be in the game yourself when you want to change the map, for example). In this case, you can use the "remote console" admin feature. It is beyond the scope of this manual to explain, but you can find out a lot about it and many other features by using the approach detailed in [Appendix B, *Finding out More – The Web is Your Friend\!*](#ref-weblinks "Appendix B. Finding out More – The Web is Your Friend!").
+You can do all sorts of things with the server by interacting with its console when you start it. Tasks such as setting the gametype and map, getting status and kicking players (as well as chatting to the players from outside) can be done via the server's console directly. However, this is not always practical (you may be in the game yourself when you want to change the map, for example). In this case, you can use the "remote console" admin feature. It is beyond the scope of this manual to explain, but you can find out a lot about it and many other features by using the approach detailed in [Appendix B, *Finding out More&mdash;The Web is Your Friend\!*](#ref-weblinks "Appendix B. Finding out More&mdash;The Web is Your Friend!").
 
 It is recommended that you run a dedicated server on Linux, using the [screen](http://www.gnu.org/software/screen/) program. This allows you to safely detatch from the machine without stopping the server. Furthermore, it is recommended that you copy the standard output of the server to a log file (this will help us fix bugs, should they arise).
 
@@ -347,7 +347,7 @@ The port should show up in the Stats and Servers site, but it may be a good idea
 
 #### Map Cycles
 
-You can specify a list of maps in your config file so that the server is not always playing on the same level. The server will move to the next map after each game is over. By making this list circular (i.e. after the last map, we tell the server to start again) we can keep the rotation going.
+You can specify a list of maps in your config file so that the server is not always playing on the same level. The server will move to the next map after each game is over. By making this list circular (i.e. after the last map, we tell the server to start again) we can keep the rotation going.
 
 Here is an example of how you'd set up such a map cycle (or "rotation") in `server.cfg`. Say you have four maps; A, B, C and D. You wish for them all to be used one after the other ad infinitum. Here is what you'd put into the config file:
 
@@ -359,8 +359,8 @@ localinfo D A
 
 ```
 
-**Note:** You can only specify two maps with each use of **localinfo** – you're effectively telling the game which map is next given the current one.
+**Note:** You can only specify two maps with each use of **localinfo**&mdash;you're effectively telling the game which map is next given the current one.
 
 ### Admin Tasks
 
-You'll find yourself needing to carry out a number of tasks as an admin. To get the best information on how to do these jobs, please consult [Appendix B, *Finding out More – The Web is Your Friend\!*](#ref-weblinks "Appendix B. Finding out More – The Web is Your Friend!"). Also, please join the mailing list for server admins. We use it to provide a lot of useful information and arrange regular matches.
+You'll find yourself needing to carry out a number of tasks as an admin. To get the best information on how to do these jobs, please consult [Appendix B, *Finding out More&mdash;The Web is Your Friend\!*](#ref-weblinks "Appendix B. Finding out More&mdash;The Web is Your Friend!"). Also, please join the mailing list for server admins. We use it to provide a lot of useful information and arrange regular matches.
