@@ -11,7 +11,7 @@ As has been touched on before, you are strongly encouraged to tailor the way *Au
 
 * The keys you press to use any of the navigation aids/devices.
 
-* How the spoken interface works – changing voices or using hardware synthesisers or Braille displays.
+* How the spoken interface works&mdash;changing voices or using hardware synthesisers or Braille displays.
 
 In this part, you'll learn how to change settings such as these and more.
 
@@ -49,4 +49,4 @@ Bindings work by specifying a key and then the command that key is meant to acti
 
 ### Aliases
 
-As mentioned above, aliases exist to provide human-readable equivalents to the commands *Quake* actually uses. You don't need to edit this section – it is maintained by us for each release. It only exists to make configuration easier.
+As mentioned above, aliases exist to provide human-readable equivalents to the commands *Quake* actually uses. You don't need to edit this section&mdash;it is maintained by us for each release. It only exists to make configuration easier.
