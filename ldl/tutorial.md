@@ -51,7 +51,7 @@ The operating principle of LDL is that we start with as high-level a description
 
 LDL&mdash;the code&mdash;is actually a chain as mentioned above. Each stage is quite separate and the whole thing works by feeding the output of one into the next, until we have our final answer&mdash;the *.map* file.
 
-You start by writing a pretty high-level XML file that describes your map (later we plan to add even easier ways to get data into the system, such as natural language, or an interactive editor program but for now we need to test the basic premise). An XML file is just a plain text file (think similar to HTML if you've used that before), which you can edit with any text editor (e.g. Notepad, Notepad++, ViM, …)
+You start by writing a pretty high-level XML file that describes your map (later we plan to add even easier ways to get data into the system, such as natural language, or an interactive editor program but for now we need to test the basic premise). An XML file is just a plain text file (think similar to HTML if you've used that before), which you can edit with any text editor (e.g. Notepad, Notepad++, ViM, &hellip;)
 
 The workflow for using LDL is as follows.
 
@@ -75,7 +75,7 @@ The test release is focused on describing the spaces and making simple deathmatc
 
 * Placement of items within rooms (such as player start points and weapons) on a compass directions system (this is planned to be expanded into percentage-based coordinates in the future).
 
-It does have some limitations, though…
+It does have some limitations, though&hellip;
 
 * It doesn't support non-rectangular rooms (sorry, my geometry sucks; but you can still make a lot of different overall shapes of interconnected spaces, even with this limitation).
 
@@ -85,7 +85,7 @@ It does have some limitations, though…
 
 ### Possible and blue sky features
 
-Here are some features that would be fairly possible given the current foundations…
+Here are some features that would be fairly possible given the current foundations&hellip;
 
 * Higher-level descriptions&mdash;giving you the ability to say roughly where some rooms are in 3D space and the programs working out the best way to link them (i.e. with corridors, stairs or lifts).
 
@@ -135,7 +135,7 @@ Let's start with a very simple example map.
 </map>
 ```
 
-That's the simplest map you can make with LDL that can be played. Let’s take a look at each line and see what it does…
+That's the simplest map you can make with LDL that can be played. Let’s take a look at each line and see what it does&hellip;
 
 ```xml
 <map name='tut01' style='base'>
@@ -153,7 +153,7 @@ This starts our map off; it's an XML *element* called "map". Elements are writte
 
 As well as having attributes, an element can contain other elements. When we get to the end of the map, we must *close* the map element with `</map>` (this is much like the starting tag, but the first thing within the angle-brackets is a forward slash).
 
-Back to the map file…
+Back to the map file&hellip;
 
 ```xml
 <room id='start'>
@@ -496,7 +496,7 @@ Say you have two rooms, at different heights and you want to make a connection b
 
 We have two rooms&mdash;"start" and "other" as ever. We will position "other" to the north of "start", also as ever. This time, though, we will place a corridor between the two. The corridor will be not very wide, quite long and quite tall so that it can accommodate the change in height from "start" to "other".
 
-As the corridor will be connecting "start" and "other" we'll give it the ID "start2other". This quickly identifies it as a corridor. Here is the map…
+As the corridor will be connecting "start" and "other" we'll give it the ID "start2other". This quickly identifies it as a corridor. Here is the map&hellip;
 
 ```xml
 <map name='tut11' style='base'>
@@ -515,7 +515,7 @@ As the corridor will be connecting "start" and "other" we'll give it the ID "sta
 
 When you enter this map, you'll find a door in front of you and then a corridor, which has a set of steps at the end that lead (without a door) into a room with the rocket launcher.
 
-But those steps are very steep and&mdash;as you're using the entirety of "start2other" as a corridor&mdash;it would be much better if those steps filled the whole room rather than just a small part of it. You can make this happen, as follows…
+But those steps are very steep and&mdash;as you're using the entirety of "start2other" as a corridor&mdash;it would be much better if those steps filled the whole room rather than just a small part of it. You can make this happen, as follows&hellip;
 
 ```xml
 <con wall='n' target='other' pos='t' elevtype='stairs' extent='+' />

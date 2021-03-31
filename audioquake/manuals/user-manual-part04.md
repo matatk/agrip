@@ -194,7 +194,7 @@ If you're going to be playing a team deathmatch game, you'll probably want to gi
 
 There are two other personalisations you can make regarding your appearance to others in multiplayer games. These are the colour of your character's uniform within the game. The console commands **topcolor** and **bottomcolor** can be used to change these. We mention them here for completeness.
 
-Now you've made yourself a little more unique in the virtual world, it is time to join a game…
+Now you've made yourself a little more unique in the virtual world, it is time to join a game&hellip;
 
 ### Joining a Game
 

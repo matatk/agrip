@@ -21,7 +21,7 @@ We felt that those of you making total conversions would want to make your own s
 
 ## How? (for developers)
 
-It's easy\! You need to package up all the files required by your mod, in a particular way, then create an INI file to describe your mod to the installer. Here is how…
+It's easy\! You need to package up all the files required by your mod, in a particular way, then create an INI file to describe your mod to the installer. Here is how&hellip;
 
 1. Ensure that you have packaged up all the files your mod needs (sound, progs, models, maps, graphics) into the correct directory structure below your *AudioQuake* parent directory.
 

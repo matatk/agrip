@@ -26,7 +26,7 @@ Over the years since, it's been truly awesome to witness the strides and leaps i
 
 *AudioQuake* is essentially a series of modifications to the game *Quake* by id Software that enable blind and vision-impaired people to play it. Actually, it is (or will be) quite a lot more than just that. This chapter explains the main things you need to know about *AudioQuake* to understand what it does and why it's here.
 
-So, *AudioQuake* is…
+So, *AudioQuake* is&hellip;
 
 ### More than just an "accessible game"
 
@@ -68,7 +68,7 @@ The process of customisation is described [in the "Customising *AudioQuake*" sec
 
 Everything we have created for the project (code, sounds, tools) is available for you to use, modify and redistribute. The licence we have used for the project, the GNU General Public Licence, permits anyone to do these things as long as they keep the source code to their work available for others, just as we have for you.
 
-Our reasons for making *AudioQuake* Free are that it should make it easier for people to get hold of and play the game. The most important reason, however, is described in the following section…
+Our reasons for making *AudioQuake* Free are that it should make it easier for people to get hold of and play the game. The most important reason, however, is described in the following section&hellip;
 
 ### Only the beginning
 

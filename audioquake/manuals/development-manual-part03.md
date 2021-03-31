@@ -76,7 +76,7 @@ The gamecode used in *AudioQuake* has two main goals:
 
 Many functions created in the development of *AudioQuake* are written to be as generic as possible. They form what could be thought of as an "accessibility library" on top of the standard QuakeC.
 
-**Anecdote:** This modular design approach was tested… all bot navigation code was modified to use the AGRIP accessibility aid functions. This meant that the bots' perception of the world was essentially that of a blind player. The bots performed well and began to navigate in a similar style to that of most blind gamers.
+**Anecdote:** This modular design approach was tested&hellip; all bot navigation code was modified to use the AGRIP accessibility aid functions. This meant that the bots' perception of the world was essentially that of a blind player. The bots performed well and began to navigate in a similar style to that of most blind gamers.
 
 ### Layout and design
 

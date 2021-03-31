@@ -185,7 +185,7 @@ To switch weapons, use the keys <kbd>1</kbd>-<kbd>8</kbd> on they keyboard. You 
 
 From <kbd>1</kbd> to <kbd>8</kbd>, the weapons available in *Quake* are: axe, shotgun, double-barrelled shotgun, nailgun, super nailgun, grenade launcher (grenades are often affectionately known as pineapples), rocket launcher (the "boomstick") and the lightning gun. There are four different types of ammo you can pick up: shells, nails, rockets and cells (the grenade launcher uses rocket ammo).
 
-Some weapons are more effective against certain types of enemy than others&mdash;you'll begin to get an idea of how your implements of destruction are working as you play the game. There are also a number of special moves you can do with some of the weapons. Again, you'll begin to learn techniques as you play but to help you on your way, here are the names of some of the most interesting ones are the "rocket jump" and the "pineapple jump". Beware of mixing liquids and electricity, too…
+Some weapons are more effective against certain types of enemy than others&mdash;you'll begin to get an idea of how your implements of destruction are working as you play the game. There are also a number of special moves you can do with some of the weapons. Again, you'll begin to learn techniques as you play but to help you on your way, here are the names of some of the most interesting ones are the "rocket jump" and the "pineapple jump". Beware of mixing liquids and electricity, too&hellip;
 
 If you run out of ammo, you'll automatically switch to the next best weapon for which you do have enough for at least 1 shot. For more information on weapons, please consult *Quake*'s `MANUAL.txt` file.
 

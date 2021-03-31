@@ -26,7 +26,7 @@ If you want to use the high-contrast versions of the tutorial maps, you can inst
 tuthc
 ```
 
-**Tip:** For power users, the above is equivalent to entering the following three commands…
+**Tip:** For power users, the above is equivalent to entering the following three commands&hellip;
 
 ``` screen
 deathmatch 0
@@ -35,7 +35,7 @@ map agtut01
 
 ```
 
-This takes the game out of multiplayer mode and loads the first tutorial map. You can then play through the entire set of tutorials. Each tutorial map is linked to the next. If you wish to jump into a certain tutorial map, don't\! You can use the save and load features of the game to pause and resume your journey through the tutorial&mdash;for example…
+This takes the game out of multiplayer mode and loads the first tutorial map. You can then play through the entire set of tutorials. Each tutorial map is linked to the next. If you wish to jump into a certain tutorial map, don't\! You can use the save and load features of the game to pause and resume your journey through the tutorial&mdash;for example&hellip;
 
 ``` screen
 save tutorial
@@ -63,7 +63,7 @@ sp
 
 ```
 
-**Tip:** For power users, the above is equivalent to entering the following three commands…
+**Tip:** For power users, the above is equivalent to entering the following three commands&hellip;
 
 ``` screen
 deathmatch 0
