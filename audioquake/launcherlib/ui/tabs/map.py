@@ -46,6 +46,7 @@ class MapTab(wx.Panel):
 	def __init__(self, parent, game_controller):
 		WILDCARD = "XML files (*.xml)|*.xml"
 		self.game_controller = game_controller
+		self._map_path = ''
 
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
@@ -91,7 +92,7 @@ class MapTab(wx.Panel):
 		file_picker_button.Bind(wx.EVT_BUTTON, pick_custom_map)
 		add_widget(open_map, file_picker_button)
 
-		chosen_label = wx.StaticText(self, -1, 'Map:')
+		chosen_label = wx.StaticText(self, -1, 'Chosen map:')
 		self.chosen_text = wx.lib.expando.ExpandoTextCtrl(
 			self, -1, style=wx.TE_READONLY)
 		self.chosen_text.SetMaxHeight(1)
@@ -149,7 +150,7 @@ class MapTab(wx.Panel):
 		btn_build.Bind(wx.EVT_BUTTON, build_and_play_handler)
 		add_widget(sizer, btn_build)
 
-		btn_edit = wx.Button(self, -1, "Edit the map (default editor)")
+		btn_edit = wx.Button(self, -1, "Edit map (with default editor)")
 
 		def edit_map_handler(event):
 			if path := check_picker_path():
