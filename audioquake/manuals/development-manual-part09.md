@@ -1,7 +1,7 @@
 <a name="qmod-ini"></a>
 ## `qmod.ini` file settings
 
-The following sections detail the various options available to mod authors in `qmod.ini` files. The are split into the two (current) sections of the INI file—"general" and "longdesc".
+The following sections detail the various options available to mod authors in `qmod.ini` files. The are split into the two (current) sections of the INI file&mdash;"general" and "longdesc".
 
 ### General
 

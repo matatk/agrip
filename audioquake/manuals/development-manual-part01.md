@@ -10,7 +10,7 @@ Permission is granted to copy, distribute and/or modify this document under the 
 
 As with the user manual, please note this has been edited to keep it technically up-to-date, but is largely as written in the mid-2000s. Whilst you still *could* use *AudioQuake* as a development platform, it'd be more fun to work on creating the next accessible games development platform :-).
 
-Alas the *Stats and Servers* system is no longer in operation due to time and support constraints, and we'd rather work to the future regarding the accessible level-editing tools mentioned here—but you can still use them to make levels non-visually, as discussed in the *Level Description Language (LDL)* tutorial.
+Alas the *Stats and Servers* system is no longer in operation due to time and support constraints, and we'd rather work to the future regarding the accessible level-editing tools mentioned here&mdash;but you can still use them to make levels non-visually, as discussed in the *Level Description Language (LDL)* tutorial.
 
 ## Background information
 

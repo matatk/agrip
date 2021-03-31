@@ -35,7 +35,7 @@ map agtut01
 
 ```
 
-This takes the game out of multiplayer mode and loads the first tutorial map. You can then play through the entire set of tutorials. Each tutorial map is linked to the next. If you wish to jump into a certain tutorial map, don't\! You can use the save and load features of the game to pause and resume your journey through the tutorial—for example…
+This takes the game out of multiplayer mode and loads the first tutorial map. You can then play through the entire set of tutorials. Each tutorial map is linked to the next. If you wish to jump into a certain tutorial map, don't\! You can use the save and load features of the game to pause and resume your journey through the tutorial&mdash;for example…
 
 ``` screen
 save tutorial

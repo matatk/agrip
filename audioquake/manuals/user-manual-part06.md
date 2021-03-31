@@ -19,9 +19,9 @@ In this part, you'll learn how to change settings such as these and more.
 
 There are two files that you can edit to customise the game. The game runs through the contents of these files when it starts up.
 
-* `autoexec.cfg`—by convention, this is the place where all *AudioQuake*-specific settings are kept. As the game starts, it reads this file and acts on the commands found in it.
+* `autoexec.cfg`&mdash;by convention, this is the place where all *AudioQuake*-specific settings are kept. As the game starts, it reads this file and acts on the commands found in it.
 
-* `config.cfg`—contains general *Quake* settings. The curious may want to read this file too, but it is beyond the scope of this section.
+* `config.cfg`&mdash;contains general *Quake* settings. The curious may want to read this file too, but it is beyond the scope of this section.
 
 You can open these files for editing via the launcher. They're plain text files. They have a number of sections and many comments (indicated by lines starting with two forward slashes) in it to explain what each individual setting actually does. This section doesn't repeat what is written in the file, but gives a general overview of what each section of the file is for.
 

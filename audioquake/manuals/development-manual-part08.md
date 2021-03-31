@@ -12,7 +12,7 @@ This section contains links to web sites I found useful whilst developing the AG
 * [QuakeC Reference Manual by David "DarkGrue" Hesprich (darkgrue@iname.com)](http://tylee.f2s.com/agrip/ref/QuakeC%20Reference%20Manual.doc)
     Another very good basics-to-advanced tutorial on QuakeC.
 * [The *Quake* Wiki](http://wiki.quakesrc.org/)
-    This site contains a comprehensive list of QuakeC functions, their availability in different engines and standard engine extensions—and includes detailed information on most of them.
+    This site contains a comprehensive list of QuakeC functions, their availability in different engines and standard engine extensions&mdash;and includes detailed information on most of them.
 * [Inside3D QuakeC Tutorials](http://www.inside3d.com/qctut/)
     Some great tutorials can be found here, but beware of the pop-ups :-S.
 * [AI Cafe Tutorials](http://www.planetquake.com/minion/tutorial%5Cmain.htm)
@@ -20,8 +20,8 @@ This section contains links to web sites I found useful whilst developing the AG
 
 ## *Quake* Engines and Standards
 
-* [QuakeSrc.org—The *Quake* Standards Group](http://www.quakesrc.org/)
-    *The* site for engine developers and modders — includes news and a list of extensions, with a community-based protocol for having new ones added.
+* [QuakeSrc.org&mdash;The *Quake* Standards Group](http://www.quakesrc.org/)
+    *The* site for engine developers and modders &mdash; includes news and a list of extensions, with a community-based protocol for having new ones added.
 * [ZQuake Development Board](http://www.besmella-*quake*.com/scripts/zquake/index.cgi)
     A place to report bugs/fixes, ask questions and get help with adding new features to this amazing *QuakeWorld* engine.
 
@@ -46,6 +46,6 @@ This section contains links to web sites I found useful whilst developing the AG
 
 * [DocBook.org](http://www.docbook.org/)
     Provides some general information on the standard.
-* [DocBook—The Definitive Guide](http://www.docbook.org/tdg/en/html/docbook.html)
+* [DocBook&mdash;The Definitive Guide](http://www.docbook.org/tdg/en/html/docbook.html)
     The complete reference manual.
 

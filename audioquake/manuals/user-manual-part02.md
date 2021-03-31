@@ -1,7 +1,7 @@
 <a name="playing-audioquake"></a>
 # Playing *AudioQuake*
 
-This part of the manual is a guide to playing *AudioQuake*. It is aimed at people who have played accessible games such as *Shades of Doom* and *Monkey Business* before—though if you're used to playing 3D/FPS games in general, you should feel at home.
+This part of the manual is a guide to playing *AudioQuake*. It is aimed at people who have played accessible games such as *Shades of Doom* and *Monkey Business* before&mdash;though if you're used to playing 3D/FPS games in general, you should feel at home.
 
 *AudioQuake* has a number of game modes. This part explains only what is common between all game modes. The [Singleplayer game modes](#singleplayer-game-modes) and [Multiplayer game modes](#multiplayer-game-modes) sections tell you more about each individual mode.
 
@@ -57,7 +57,7 @@ This section explains how you can navigate when you're in the game. If you've no
 
 ### Moving around
 
-To move around, use the arrow keys. Turning is implemented in a familiar way to users of accessible games—pressing the arrow keys snaps the player round a certain number of degrees. By default, the player has a 16-point turn (that is to say each tap of the arrow keys will turn you 22.5 degrees in that direction).
+To move around, use the arrow keys. Turning is implemented in a familiar way to users of accessible games&mdash;pressing the arrow keys snaps the player round a certain number of degrees. By default, the player has a 16-point turn (that is to say each tap of the arrow keys will turn you 22.5 degrees in that direction).
 
 A very important move in *Quake* is "strafing". To strafe, hold down <kbd>Alt</kbd> and press-and-hold the <kbd>Left</kbd> or <kbd>Right</kbd> arrow key. This moves you from side-to-side and helps you avoid incoming enemy fire.
 
@@ -73,7 +73,7 @@ To toggle the whole of the navigation subsystem on/off, use the <kbd>N</kbd> key
 
 If turned on, you'll hear a sound to your left, in front of you and to your right to indicate if a [wall](../id1/sound/nav/wall.wav), [slope](../id1/sound/nav/slope.wav) (which could be some steps or a ramp) or a [door](../id1/sound/nav/door.wav) is present near you in any of these directions. The sounds get louder the closer you are to the obstacle in question.
 
-The sound that walls make falls off more quickly than the sound steps/ramps and doors make. Also, side wall warnings are off by default—though you'll always be told about doors and slopes to your left and right. The fact that walls are given lower priority than slopes and doors should allow you to locate the key features of the map more efficiently. You can toggle the announcement of walls to your left and right with the <kbd>E</kbd> key. All obstacle sounds can be turned off with the <kbd>W</kbd> key.
+The sound that walls make falls off more quickly than the sound steps/ramps and doors make. Also, side wall warnings are off by default&mdash;though you'll always be told about doors and slopes to your left and right. The fact that walls are given lower priority than slopes and doors should allow you to locate the key features of the map more efficiently. You can toggle the announcement of walls to your left and right with the <kbd>E</kbd> key. All obstacle sounds can be turned off with the <kbd>W</kbd> key.
 
 ##### Wall hit and touch warnings
 
@@ -91,13 +91,13 @@ Press <kbd>J</kbd> to be told if you can make a jump or a running jump over the 
 
 You can find out how big a drop is by the pitch of the beep. There are 4 classifications:
 
-* Negligible drop—not announced.
+* Negligible drop&mdash;not announced.
 
-* [Small drop](../id1/sound/haz/drop-small.wav)—requires jumping to get over.
+* [Small drop](../id1/sound/haz/drop-small.wav)&mdash;requires jumping to get over.
 
-* [Big drop](../id1/sound/haz/drop-big.wav)—a drop that is too tall for you to jump back out of and get back to where you were before you fell down it.
+* [Big drop](../id1/sound/haz/drop-big.wav)&mdash;a drop that is too tall for you to jump back out of and get back to where you were before you fell down it.
 
-* [Huge drop](../id1/sound/haz/drop-huge.wav)—a drop this big will hurt you if you fall all the way to the ground (note that water will cushion you).
+* [Huge drop](../id1/sound/haz/drop-huge.wav)&mdash;a drop this big will hurt you if you fall all the way to the ground (note that water will cushion you).
 
 To find out what's at the bottom, use the K key. You will get the ["access denied"](../id1/sound/deny.wav) sound if you are too far away or not facing a ledge. If you are successful, you'll be told that the drop is either onto the ground or into water, slime or the dreaded lava.
 
@@ -105,7 +105,7 @@ To find out what's at the bottom, use the K key. You will get the ["access denie
 
 #### Open space detection
 
-This gives you a bit more of a feel for how big the area around you actually is. It will play a [gentle wind](../id1/sound/nav/wind.wav) sound at various points in front of you if there are no walls or other obstacles in that direction. The sounds are generated in a sweep from left to right around you, in response to a pres of the L key. It works as if you were using a mobility cane to scan the area—though it has significantly greater range.
+This gives you a bit more of a feel for how big the area around you actually is. It will play a [gentle wind](../id1/sound/nav/wind.wav) sound at various points in front of you if there are no walls or other obstacles in that direction. The sounds are generated in a sweep from left to right around you, in response to a pres of the L key. It works as if you were using a mobility cane to scan the area&mdash;though it has significantly greater range.
 
 The distance over which obstacles are scanned for is the navigation detection range and is customisable (please read [Customising *AudioQuake*](#customising-audioauake) for more details).
 
@@ -125,9 +125,9 @@ This chapter describes some helpful features that are not tied to, or part of, t
 
 #### Footsteps
 
-Footsteps can tell you a lot—whether you're moving and, if so, how fast. They can be toggled with the letter <kbd>F</kbd> key. As with all other keys, this can be customised.
+Footsteps can tell you a lot&mdash;whether you're moving and, if so, how fast. They can be toggled with the letter <kbd>F</kbd> key. As with all other keys, this can be customised.
 
-When you are totally stuck on an object, you will not be able to move. Consequently your footsteps will stop. If you're scraping along a wall (i.e. caught on it but still moving) you'll hear a [scraping sound](../id1/sound/nav/wall-scrape.wav) as you walk along—you'll also hear the footsteps' speed drop to indicate you're not walking freely.
+When you are totally stuck on an object, you will not be able to move. Consequently your footsteps will stop. If you're scraping along a wall (i.e. caught on it but still moving) you'll hear a [scraping sound](../id1/sound/nav/wall-scrape.wav) as you walk along&mdash;you'll also hear the footsteps' speed drop to indicate you're not walking freely.
 
 If you're stuck on an object, you'll continue to hear the "oomph" sound described above when you try to move in the direction it lies.
 
@@ -143,7 +143,7 @@ This is a helpful feature that will tell you if you've been somewhere before. Yo
 
 To drop a marker, press <kbd>Insert</kbd>. To delete the last one you dropped, press <kbd>Delete</kbd>.
 
-## Creature and hazard detection—the EtherScan RADAR
+## Creature and hazard detection&mdash;the EtherScan RADAR
 
 The EtherScan RADAR ("ESR" as it is known for short) is a device that alerts you to proximity of things. It has two modes, described below.
 
@@ -155,7 +155,7 @@ To toggle monster detection on/off, press <kbd>R</kbd>. This acts as a kind of R
 
 ### Hazard detection
 
-If there is a hazard in front of you—some kind of ledge/drop—you'll be told about it by the navigation helper. If you want to try and jump over the pit, you can use this alternative ESR mode to help you do so. Pressing the <kbd>R</kbd> key again when you have a drop in front of you will make the ESR lock onto it instead of enemies. It automatically falls back to detecting enemies when you lose the lock on the pit (by jumping over it successfully, falling in or just turning and facing another way).
+If there is a hazard in front of you&mdash;some kind of ledge/drop&mdash;you'll be told about it by the navigation helper. If you want to try and jump over the pit, you can use this alternative ESR mode to help you do so. Pressing the <kbd>R</kbd> key again when you have a drop in front of you will make the ESR lock onto it instead of enemies. It automatically falls back to detecting enemies when you lose the lock on the pit (by jumping over it successfully, falling in or just turning and facing another way).
 
 If it can't find a pit, it will just turn the ESR off.
 
@@ -185,7 +185,7 @@ To switch weapons, use the keys <kbd>1</kbd>-<kbd>8</kbd> on they keyboard. You 
 
 From <kbd>1</kbd> to <kbd>8</kbd>, the weapons available in *Quake* are: axe, shotgun, double-barrelled shotgun, nailgun, super nailgun, grenade launcher (grenades are often affectionately known as pineapples), rocket launcher (the "boomstick") and the lightning gun. There are four different types of ammo you can pick up: shells, nails, rockets and cells (the grenade launcher uses rocket ammo).
 
-Some weapons are more effective against certain types of enemy than others—you'll begin to get an idea of how your implements of destruction are working as you play the game. There are also a number of special moves you can do with some of the weapons. Again, you'll begin to learn techniques as you play but to help you on your way, here are the names of some of the most interesting ones are the "rocket jump" and the "pineapple jump". Beware of mixing liquids and electricity, too…
+Some weapons are more effective against certain types of enemy than others&mdash;you'll begin to get an idea of how your implements of destruction are working as you play the game. There are also a number of special moves you can do with some of the weapons. Again, you'll begin to learn techniques as you play but to help you on your way, here are the names of some of the most interesting ones are the "rocket jump" and the "pineapple jump". Beware of mixing liquids and electricity, too…
 
 If you run out of ammo, you'll automatically switch to the next best weapon for which you do have enough for at least 1 shot. For more information on weapons, please consult *Quake*'s `MANUAL.txt` file.
 
@@ -213,12 +213,12 @@ One of *Quake*'s strengths is that it allows total control over which keys do wh
 
 Some extra keys you may be interested in are:
 
-* <kbd>Home</kbd>—To have the last message that was announced repeated, press this key.
+* <kbd>Home</kbd>&mdash;To have the last message that was announced repeated, press this key.
 
-* <kbd>End</kbd>—Pressing this key mutes all currently queued speech.
+* <kbd>End</kbd>&mdash;Pressing this key mutes all currently queued speech.
 
-* <kbd>F10</kbd>—Press to exit *Quake* and return to the *AudioQuake* launcher's main menu.
+* <kbd>F10</kbd>&mdash;Press to exit *Quake* and return to the *AudioQuake* launcher's main menu.
 
-* <kbd>Pause</kbd>—Erm, pauses the game. Press again (or <kbd>Escape</kbd>, or <kbd>Ctrl</kbd>) to un-pause.
+* <kbd>Pause</kbd>&mdash;Erm, pauses the game. Press again (or <kbd>Escape</kbd>, or <kbd>Ctrl</kbd>) to un-pause.
 
 **Note:** You'll find that there are some keys for keeping up with chat messages in multiplayer games. These are discussed later on.

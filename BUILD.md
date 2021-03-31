@@ -23,7 +23,7 @@ There are three main components that are brought together by the build process.
 
 1. The engine, QuakeC compiler, gamecode and Quake map compilation tools, written predominantly in C (with some QuakeC), which need to be compiled. These can be found in the "giants" directory.
 2. AudioQuake is based on these and adds all of the custom game assets, launcher, support for mods, and documentation. The "audioquake" directory contains all of that stuff. The AudioQuake launcher and build system is written in Python.
-3. The Level Description Language tools and documentation can be found in the "ldl" directory—though the relevant files from there are automagically brought in to AudioQuake builds, so anyone can access them via the GUI launcher. You only need to venture into LDL's directory if you want to use it stand-alone on the command-line, and that's only currently supported on the Mac. LDL is also written in Python.
+3. The Level Description Language tools and documentation can be found in the "ldl" directory&mdash;though the relevant files from there are automagically brought in to AudioQuake builds, so anyone can access them via the GUI launcher. You only need to venture into LDL's directory if you want to use it stand-alone on the command-line, and that's only currently supported on the Mac. LDL is also written in Python.
 
 When you make a build of AudioQuake and Level Description Language, the Python code is "frozen" into a form that runs without the need for Python to be installed. A build has to be made on the platform (Mac or Windows) on which it's intended to be run.
 
@@ -42,7 +42,7 @@ These instructions were tested on macOS Catalina (10.15).
 * We also strongly recommend that you install the packages `git` and `bash-completion` (which allows you to quickly tab-complete many commands) to make working on the command line easy. Do this by running `brew install bash-completion` and `brew install git`. If you prefer a graphical UI for Git (and GitHub), you can install [GitHub Desktop](http://desktop.github.com).
 * Make sure you've added Homebrew's install location, `/usr/local/`, to your path, so that later on when you install Python via Homebrew, it will run that version rather than the macOS system version.
 
-After the above steps, you should end up with something like the following in your `~/.bashrc` file—you'll probably need to restart your shell for this to take effect.
+After the above steps, you should end up with something like the following in your `~/.bashrc` file&mdash;you'll probably need to restart your shell for this to take effect.
 
 ```bash
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
@@ -118,7 +118,7 @@ On both Mac and Windows, the build scripts can compile the engine and related co
 
 On Windows, a batch file that's part of the MS Build tools, or Visual Studio, is used to ensure that the compiler can be found. The `build-all.py` script assumes that you're using Command Prompt (not PowerShell) as your command-line interface.
 
-Further, on Windows, to ensure that the environment variables are usable, `build-all.py` actually creates a batch file that calls Microsoft's one to set up the development tools and then calls `build-giants.py` and `build-audioquake.py`—this is all handled for you, though.
+Further, on Windows, to ensure that the environment variables are usable, `build-all.py` actually creates a batch file that calls Microsoft's one to set up the development tools and then calls `build-giants.py` and `build-audioquake.py`&mdash;this is all handled for you, though.
 
 ### What do the build scripts do?
 

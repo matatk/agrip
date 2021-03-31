@@ -14,7 +14,7 @@ The whole gamecode for *Quake*, with AGRIP extensions, and any modifications you
 
 QuakeC is similar to C in nature. This is not a tutorial on the language itself; it is assumed the reader is used to programming in general. Much information can be found through the resources listed in [appendix section](#ref-qc) on the matter.
 
-### Building Code—The Basics
+### Building Code&mdash;The Basics
 
 QuakeC (`.qc`) files must be compiled into a `.dat` to be run by the game. The gamecode for the entire game is composed of many QuakeC files. Some of the files are only applicable to the single-player game and some are multiplayer-specific, so actually two `.dat` files are usually built (one for each type of gameplay).
 
@@ -40,7 +40,7 @@ The *ZQuake* project hosts gamecode for a number of popular game modes and mods.
 
 * qw
 
-  Where it all started—a maintained version of the *QuakeWorld* (DM, Classic TeamDM) gamecode.
+  Where it all started&mdash;a maintained version of the *QuakeWorld* (DM, Classic TeamDM) gamecode.
 
 * qwsp
 
@@ -58,7 +58,7 @@ The *ZQuake* project hosts gamecode for a number of popular game modes and mods.
 
 As has been pointed out, much of the code hare is linked and when you develop a mod, we recommend you start a new top-level directory in here and reuse as much of the existing code as you can. Start with one of the AGRIP `progs.src` files and add any extra `.qc` files you might need in your own directory.
 
-**Note:** If you need to override any functions in the main code, don't replace an entire file with your own version—there is a way for you to override individual functions elsewhere in the code, which will be explained later.
+**Note:** If you need to override any functions in the main code, don't replace an entire file with your own version&mdash;there is a way for you to override individual functions elsewhere in the code, which will be explained later.
 
 Constructing your mod in this way has the advantages of much easier upgrades between AGRIP versions (as if you follow the guidelines here you'll be hooking into our code mostly and won't have to worry about changes in the stock *ZQuake* code). It also keeps your mod's codebaese small, simple and therefore easy to maintain and (hopefully\!) more reliable.
 
