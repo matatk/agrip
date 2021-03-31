@@ -51,7 +51,7 @@ The operating principle of LDL is that we start with as high-level a description
 
 LDL&mdash;the code&mdash;is actually a chain as mentioned above. Each stage is quite separate and the whole thing works by feeding the output of one into the next, until we have our final answer&mdash;the *.map* file.
 
-You start by writing a pretty high-level XML file that describes your map (later we plan to add even easier ways to get data into the system, such as natural language, or an interactive editor program but for now we need to test the basic premise). An XML file is just a plain text file (think similar to HTML if you've used that before), which you can edit with any text editor (e.g. Notepad, Notepad++, ViM, &hellip;)
+You start by writing a pretty high-level XML file that describes your map (later we plan to add even easier ways to get data into the system, such as natural language, or an interactive editor program but for now we need to test the basic premise). An XML file is just a plain text file (think similar to HTML if you've used that before), which you can edit with any text editor (e.g. Notepad, Notepad++, ViM, &hellip;)
 
 The workflow for using LDL is as follows.
 
@@ -71,7 +71,7 @@ The test release is focused on describing the spaces and making simple deathmatc
 
 * Allows you to describe rooms&mdash;their size and style (which causes texturing and lighting to be automatically applied so that sighted people can play your maps too).
 
-* Allows you to specify how rooms are connected (directly) to each other&mdash;i.e. you can specify that a given room is positioned north of another room and that there should be a door between them and both rooms will be positioned correctly&mdash;including at the right height&mdash;and the door&mdash;and any required stairs or an elevation platform&mdash;inserted.
+* Allows you to specify how rooms are connected (directly) to each other&mdash;i.e. you can specify that a given room is positioned north of another room and that there should be a door between them and both rooms will be positioned correctly&mdash;including at the right height&mdash;and the door&mdash;and any required stairs or an elevation platform&mdash;inserted.
 
 * Placement of items within rooms (such as player start points and weapons) on a compass directions system (this is planned to be expanded into percentage-based coordinates in the future).
 
@@ -87,7 +87,7 @@ It does have some limitations, though&hellip;
 
 Here are some features that would be fairly possible given the current foundations&hellip;
 
-* Higher-level descriptions&mdash;giving you the ability to say roughly where some rooms are in 3D space and the programs working out the best way to link them (i.e. with corridors, stairs or lifts).
+* Higher-level descriptions&mdash;giving you the ability to say roughly where some rooms are in 3D space and the programs working out the best way to link them (i.e. with corridors, stairs or lifts).
 
 * Providing a natural language-like interface. Currently the description is written in a type of XML file, but it would be easy to use something similar but lighter, like JSON, and quite do-able to expand to more natural language, and to provide level-editing programs based on the format.
 
@@ -464,7 +464,7 @@ This is very similar to the example above (*tut05*), however, we have added two 
 
    Valid positions are: "tl" (top left), "t" (top centre), "tr" (top right), "r" (right), "br" (bottom right), "b" (bottom centre&mdash;which is the default), "bl" (bottom left) and "c" (centre).
 
-* **elevtype** When you specify that the connecting hole/door is to be placed somewhere other than at ground level on the wall, it might be necessary to provide some means for the player to access the hole&mdash;i.e. stairs or a "plat" (lifting platform). You will be warned when this may be necessary, but as it's a design decision and you may not wish the player to be granted access through this route, you can specify "none" to disable the creation of such a device.
+* **elevtype** When you specify that the connecting hole/door is to be placed somewhere other than at ground level on the wall, it might be necessary to provide some means for the player to access the hole&mdash;i.e. stairs or a "plat" (lifting platform). You will be warned when this may be necessary, but as it's a design decision and you may not wish the player to be granted access through this route, you can specify "none" to disable the creation of such a device.
 
 Have a go running this map: walk straight forward and you will find some stairs. Carry on and you'll go up into the second room.
 
@@ -527,7 +527,7 @@ You can specify sizes ("small", "med" and so on) in the `extent` attribute, as y
 
 #### Vertical connections to other rooms
 
-It is possible for you to position one room entirely on top of or underneath another and link them with connections as discussed earlier, though you'd use "u" (up) and "d" (down) to identify the walls the connections lie on. Currently it is not possible to make elevation devices for these connections (e.g. a plat).
+It is possible for you to position one room entirely on top of or underneath another and link them with connections as discussed earlier, though you'd use "u" (up) and "d" (down) to identify the walls the connections lie on. Currently it is not possible to make elevation devices for these connections (e.g. a plat).
 
 Another thing that could be done in future is supporting teleporters, so you could move between rooms instantaneously.
 
@@ -545,7 +545,7 @@ Another thing that could be done in future is supporting teleporters, so you cou
 
 * Items are placed in rooms according to the same compass direction scheme.
 
-* When assigning sizes to things like rooms, we may say "large" or, if we want to be more precise, specify the size in each of the 3 dimensions of width, depth and height, separated by spaces&mdash;e.g. "medium large medium". When facing north in a room, its width is the distance from your left to your right; its depth is the distance from back to front and its height is vertical distance between its floor and ceiling.
+* When assigning sizes to things like rooms, we may say "large" or, if we want to be more precise, specify the size in each of the 3 dimensions of width, depth and height, separated by spaces&mdash;e.g. "medium large medium". When facing north in a room, its width is the distance from your left to your right; its depth is the distance from back to front and its height is vertical distance between its floor and ceiling.
 
 ## Tricks and treats
 

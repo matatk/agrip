@@ -286,7 +286,7 @@ The Stats and Servers website is part of the online community surrounding *Audio
 
 When you visit the stats and servers site, you're presented with a number of choices on where to go. The main page lists the sections you can visit, providing a brief description of each one. The most important areas of the site fall under a few categories:
 
-  - Pages containing global ranking tables, based on a number of criteria. They may be frags, efficiency, overall ranking or time-based (e.g. frags for the current day or month).
+  - Pages containing global ranking tables, based on a number of criteria. They may be frags, efficiency, overall ranking or time-based (e.g. frags for the current day or month).
 
   - Detailed stats for each known *AudioQuake* player (accessed via global players list).
 
@@ -304,7 +304,7 @@ To get your stats included, all you need to do is play on any of the public serv
 
 Running your own *AudioQuake* server allows total control over which maps, gametypes and rules you play. It can also be a fun and rewarding thing to do. If you would like to try setting up your own server, we recommend that you have a go – it will provide you with your ideal game setup and other *AudioQuake* players with an extra place to play (if you run a public server).
 
-### Clients and Dedicated vs. Listen Servers
+### Clients and Dedicated vs. Listen Servers
 
 Quake is a "client-server" game. This means that at any time, to play the game you need a client and a server. The client is the program that the user interacts with, that outputs audio/video and captures input (to be used when moving the player or typing in the console). The server runs the game itself. It controls the environment (lifts, buttons) and items in it (powerups, monsters) and keeps track of scoring in multiplayer games. If you're playing a singleplayer game or practice match on your own computer, the client and the server are both running on your computer. If you're playing an Internet multiplayer game, the server could be hundreds of miles away.
 
@@ -318,13 +318,13 @@ Most servers on the Internet are dedicated ones. They try to be as fair as possi
 
 Another advantage to dedicated servers (which is most likely welcomed by anyone setting one up) is that they don't require terribly fancy computers to run on. This is partly because they don't need to perform any rendering of audio/video data, which can take quite a lot of computing power.
 
-### Public vs. Private and Stats Logging
+### Public vs. Private and Stats Logging
 
 This topic and many others is dealt with on the [Stats and Servers site](http://stats.agrip.org.uk/) (in the FAQ section) – be sure to check it out for the latest information.
 
 ### Interacting with the Server Directly
 
-You can do all sorts of things with the server by interacting with its console when you start it. Tasks such as setting the gametype and map, getting status and kicking players (as well as chatting to the players from outside) can be done via the server's console directly. However, this is not always practical (you may be in the game yourself when you want to change the map, for example). In this case, you can use the "remote console" admin feature. It is beyond the scope of this manual to explain, but you can find out a lot about it and many other features by using the approach detailed in [Appendix B, *Finding out More – The Web is Your Friend\!*](#ref-weblinks "Appendix B. Finding out More – The Web is Your Friend!").
+You can do all sorts of things with the server by interacting with its console when you start it. Tasks such as setting the gametype and map, getting status and kicking players (as well as chatting to the players from outside) can be done via the server's console directly. However, this is not always practical (you may be in the game yourself when you want to change the map, for example). In this case, you can use the "remote console" admin feature. It is beyond the scope of this manual to explain, but you can find out a lot about it and many other features by using the approach detailed in [Appendix B, *Finding out More – The Web is Your Friend\!*](#ref-weblinks "Appendix B. Finding out More – The Web is Your Friend!").
 
 It is recommended that you run a dedicated server on Linux, using the [screen](http://www.gnu.org/software/screen/) program. This allows you to safely detatch from the machine without stopping the server. Furthermore, it is recommended that you copy the standard output of the server to a log file (this will help us fix bugs, should they arise).
 
@@ -347,7 +347,7 @@ The port should show up in the Stats and Servers site, but it may be a good idea
 
 #### Map Cycles
 
-You can specify a list of maps in your config file so that the server is not always playing on the same level. The server will move to the next map after each game is over. By making this list circular (i.e. after the last map, we tell the server to start again) we can keep the rotation going.
+You can specify a list of maps in your config file so that the server is not always playing on the same level. The server will move to the next map after each game is over. By making this list circular (i.e. after the last map, we tell the server to start again) we can keep the rotation going.
 
 Here is an example of how you'd set up such a map cycle (or "rotation") in `server.cfg`. Say you have four maps; A, B, C and D. You wish for them all to be used one after the other ad infinitum. Here is what you'd put into the config file:
 
@@ -363,4 +363,4 @@ localinfo D A
 
 ### Admin Tasks
 
-You'll find yourself needing to carry out a number of tasks as an admin. To get the best information on how to do these jobs, please consult [Appendix B, *Finding out More – The Web is Your Friend\!*](#ref-weblinks "Appendix B. Finding out More – The Web is Your Friend!"). Also, please join the mailing list for server admins. We use it to provide a lot of useful information and arrange regular matches.
+You'll find yourself needing to carry out a number of tasks as an admin. To get the best information on how to do these jobs, please consult [Appendix B, *Finding out More – The Web is Your Friend\!*](#ref-weblinks "Appendix B. Finding out More – The Web is Your Friend!"). Also, please join the mailing list for server admins. We use it to provide a lot of useful information and arrange regular matches.

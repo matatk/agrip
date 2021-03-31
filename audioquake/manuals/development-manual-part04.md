@@ -62,7 +62,7 @@ It's easy\! You need to package up all the files required by your mod, in a part
 
 5. Zip up the parent directory so that you have created a ZIP file with two items in it&mdash;the MOD's installation directory and the `qmod.ini` file.
 
-   Finally, rename the ZIP file to the name of the parent directory (i.e. the MOD's name) with a `.qmod` extension to replace the `.zip` one it pops out of your ZIP creator with.
+   Finally, rename the ZIP file to the name of the parent directory (i.e. the MOD's name) with a `.qmod` extension to replace the `.zip` one it pops out of your ZIP creator with.
 
 ## How? (for users)
 

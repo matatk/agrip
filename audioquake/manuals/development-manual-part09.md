@@ -34,7 +34,7 @@ watch_autoexec=yes
 
 This section is optional and, if included, is used to give the user more information about the mod when they select it in the game launcher's menu.
 
-Create it by assigning each "chunk" of your mod's description to a key. Each chunk must be less than 80 characters long. Use keys which, when sorted, will result in the correct ordering of chunks (i.e. just number each chunk).
+Create it by assigning each "chunk" of your mod's description to a key. Each chunk must be less than 80 characters long. Use keys which, when sorted, will result in the correct ordering of chunks (i.e. just number each chunk).
 
 The obligatory example:
 

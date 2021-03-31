@@ -42,7 +42,7 @@ Our goal was to provide blind and vision-impaired people with the tools to make 
 
 ### Licencing
 
-AGRIP is an Open Source project, based on the groundbreaking work of id Software, the *ZQuake* and *QuakeForge* projects, and many others. Anyone is welcome to use our tools and code in the creation of their own games, provided that they keep their creations open (i.e. release the source and derived data files, under the GNU General Public Licence).
+AGRIP is an Open Source project, based on the groundbreaking work of id Software, the *ZQuake* and *QuakeForge* projects, and many others. Anyone is welcome to use our tools and code in the creation of their own games, provided that they keep their creations open (i.e. release the source and derived data files, under the GNU General Public Licence).
 
 If you are interested in using our software as the basis for your own, you must read the licence fully and ensure that you are aware of its ramifications.
 

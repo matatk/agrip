@@ -20,7 +20,7 @@ This section explains the meaning of the various toggle sounds used in the game.
 
 This section explains the meaning of the sounds that the navigation helper makes.
 
-#### Structures
+#### Structures
 
 | Sound                                               | Description                                                                           | Played when&hellip;                                                                                                                                                                            |
 | :-------------------------------------------------- | :------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -38,7 +38,7 @@ This section explains the meaning of the sounds that the navigation helper makes
 | [Up](../id1/sound/nav/up.wav)     | This sound indicates you're going up in the world.   | Played when you go up stairs, slopes or on lifts.   |
 | [Down](../id1/sound/nav/down.wav) | This sound indicates you're going down in the world. | Played when you go down stairs, slopes or on lifts. |
 
-#### Hazard (drop/ledge) warnings
+#### Hazard (drop/ledge) warnings
 
 | Sound                                         | Description             | Played when&hellip;                                                                                                   |
 | :-------------------------------------------- | :---------------------- | :------------------------------------------------------------------------------------------------------------- |
@@ -50,7 +50,7 @@ This section explains the meaning of the sounds that the navigation helper makes
 
 When you ask if you can make a jump, you'll either be told (via speech or Braille, depending on how you've set *AudioQuake* up) that you can make it with a normal jump or you'll need to do a running jump.
 
-If this information is not available (i.e. if there is no jump in front of you, or you're too far away from one), you'll hear this generic ["access denied"](../id1/sound/deny.wav)-type sound.
+If this information is not available (i.e. if there is no jump in front of you, or you're too far away from one), you'll hear this generic ["access denied"](../id1/sound/deny.wav)-type sound.
 
 You'll also hear the above sound if you ask for a description of what lies in the drop (ground, water, slime or lava) and there is no drop in front of you or you are too far away from one.
 
@@ -91,7 +91,7 @@ If you try to use a weapon you don't yet possess, you'll hear this ["access deni
 
 This section explains the meaning of the sounds that the ESR makes.
 
-#### Monster indication sounds
+#### Monster indication sounds
 
 | Sound                                                          | Description                                                                      | Played when&hellip;                                                                |
 | :------------------------------------------------------------- | :------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
@@ -107,7 +107,7 @@ This section explains the meaning of the sounds that the ESR makes.
 | [Enemy on same level](../id1/sound/esr/enemy-same.wav)     | Sound indicating that a enemy is at a similar level (elevation) to the player. | Played when a enemy is detected and is on the same level as the player.   |
 | [Enemy on higher level](../id1/sound/esr/enemy-higher.wav) | Sound indicating that a enemy is at a higher level (elevation) to the player.  | Played when a enemy is detected and is on the higher level as the player. |
 
-#### Friend (player or bot) indication sounds
+#### Friend (player or bot) indication sounds
 
 | Sound                                                        | Description                                                                     | Played when&hellip;                                                               |
 | :----------------------------------------------------------- | :------------------------------------------------------------------------------ | :------------------------------------------------------------------------- |

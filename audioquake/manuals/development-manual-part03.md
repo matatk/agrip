@@ -6,7 +6,7 @@
 
 QuakeC is a high-level gamecode language that is compiled into bytecode/assembly instructions for the QuakeC Virtual Machine (in much the same way that Java and Perl work). The virtual machine is what executes your compiled-down code (the `.dat` files). The reasons why a virtual machine is used are portability (QuakeC works on all platforms that *Quake* does) and security (your mod cannot access anything outside of the QuakeC VM, other than the "builtin" functions that the *Quake* engine provides).
 
-The engine provides builtin functions for doing performance-critical calculations (such as working out if a particular 3D vector corresponding to the aim of a weapon would hit a player) and interfacing with the outside world via the presentation of content to the user, such as sounds (e.g. when a weapon fires, a sound is made).
+The engine provides builtin functions for doing performance-critical calculations (such as working out if a particular 3D vector corresponding to the aim of a weapon would hit a player) and interfacing with the outside world via the presentation of content to the user, such as sounds (e.g. when a weapon fires, a sound is made).
 
 The whole gamecode for *Quake*, with AGRIP extensions, and any modifications you make must be compiled together into one `.dat` file. All of the code you need is in the Subversion repository. Unfortunately this has the side effect that only one modification can running any time; the Unreal engine (which powers a competing series of games) provides some ways to combat this and run multiple modifications at once. Alas it is not Open Source so hasn't been made accessible yet. In practise this limitation of the *Quake* engine should not make too much difference, as the user can have multiple mods installed at any time (the game launcher and QMOD system take care of this).
 
@@ -80,7 +80,7 @@ Many functions created in the development of *AudioQuake* are written to be as g
 
 ### Layout and design
 
-Our recommended method of setting up your mod, in terms of directory structure and code re-use, can be found above. This section explains how the AGRIP code is laid out internally (i.e. inside the `agrip/` directory).
+Our recommended method of setting up your mod, in terms of directory structure and code re-use, can be found above. This section explains how the AGRIP code is laid out internally (i.e. inside the `agrip/` directory).
 
 **Tip:** The source code is heavily commented; take advantage of this to learn how to make best use of the library code that has been written for your mods.
 

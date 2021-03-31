@@ -78,7 +78,7 @@ Choosing which episode to play is done by entering one of the four doors in the 
 
 **Warning:** *AudioQuake* provides fairly decent accessibility on some of the game's maps, but they weren't designed with accessibility in mind, so it's most likely not possible to complete them all.
 
-The maps are named using a format "e*X*m*Y*" where *x* is a number from 1 to 4 and *y* is a number between 1 and 8. Episodes 2 and 3 only have 7 maps so that second (map) number is lower for them. The last map is always the secret one for that episode (i.e. it is found via a secret area on one of the other maps).
+The maps are named using a format "e*X*m*Y*" where *x* is a number from 1 to 4 and *y* is a number between 1 and 8. Episodes 2 and 3 only have 7 maps so that second (map) number is lower for them. The last map is always the secret one for that episode (i.e. it is found via a secret area on one of the other maps).
 
 To load a map in single-player mode, type
 

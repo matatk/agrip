@@ -127,7 +127,7 @@ This chapter describes some helpful features that are not tied to, or part of, t
 
 Footsteps can tell you a lot&mdash;whether you're moving and, if so, how fast. They can be toggled with the letter <kbd>F</kbd> key. As with all other keys, this can be customised.
 
-When you are totally stuck on an object, you will not be able to move. Consequently your footsteps will stop. If you're scraping along a wall (i.e. caught on it but still moving) you'll hear a [scraping sound](../id1/sound/nav/wall-scrape.wav) as you walk along&mdash;you'll also hear the footsteps' speed drop to indicate you're not walking freely.
+When you are totally stuck on an object, you will not be able to move. Consequently your footsteps will stop. If you're scraping along a wall (i.e. caught on it but still moving) you'll hear a [scraping sound](../id1/sound/nav/wall-scrape.wav) as you walk along&mdash;you'll also hear the footsteps' speed drop to indicate you're not walking freely.
 
 If you're stuck on an object, you'll continue to hear the "oomph" sound described above when you try to move in the direction it lies.
 
