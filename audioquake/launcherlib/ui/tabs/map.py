@@ -74,7 +74,7 @@ class MapTab(wx.Panel):
 				self, f'{kinda} maps:', 'Select map', list(maps.values()))
 			if chooser.ShowModal() == wx.ID_OK:
 				choice = chooser.GetSelection()
-				self.update_chosen_map(str(list(maps.keys())[choice]))
+				self.map_path = str(list(maps.keys())[choice])
 
 		add_map_picker(dirs.maps_tutorial, 'Tutorial')
 		add_map_picker(dirs.maps_example, 'Example')
@@ -84,9 +84,8 @@ class MapTab(wx.Panel):
 				self, message='Open map', wildcard=WILDCARD,
 				style=wx.FLP_OPEN | wx.FLP_FILE_MUST_EXIST) as fileDialog:
 				if fileDialog.ShowModal() == wx.ID_CANCEL:
-					return	 # the user changed their mind
-				# Proceed loading the file chosen by the user
-				self.update_chosen_map(fileDialog.GetPath())
+					return
+				self.map_path = fileDialog.GetPath()
 
 		file_picker_button = wx.Button(self, -1, 'Open custom map...')
 		file_picker_button.Bind(wx.EVT_BUTTON, pick_custom_map)
@@ -117,7 +116,7 @@ class MapTab(wx.Panel):
 		btn_build = wx.Button(self, -1, "Build the map")
 
 		def check_picker_path():
-			filename = self.map_path  # FIXME: shouldn't access internals
+			filename = self.map_path
 
 			if len(filename) == 0:
 				Warn(self, 'No file chosen.')
@@ -204,8 +203,13 @@ class MapTab(wx.Panel):
 				self, xmlfile.stem
 				+ ' built (for all texture sets) and installed.')
 
-	def update_chosen_map(self, pathstr):
-		self.map_path = pathstr
+	@property
+	def map_path(self):
+		return self._map_path
+
+	@map_path.setter
+	def map_path(self, pathstr):
+		self._map_path = pathstr
 		self.chosen_text.SetValue(Path(pathstr).name)
 
 	@staticmethod
