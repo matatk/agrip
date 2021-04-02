@@ -6,7 +6,7 @@ Permission is granted to copy, distribute and/or modify this document under the 
 
 # Getting Started
 
-## Digital archaeology note from 2020
+## Digital archaeology note from 2021
 
 As with the user manual, please note this has been edited to keep it technically up-to-date, but is largely as written in the mid-2000s. Whilst you still *could* use *AudioQuake* as a development platform, it'd be more fun to work on creating the next accessible games development platform :-).
 

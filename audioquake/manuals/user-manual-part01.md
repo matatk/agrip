@@ -8,7 +8,7 @@ This part of the manual aims to introduce *AudioQuake* and gives you details on 
 
 If you're interested in historical details, this is the section for you&mdash;but if you just want to get into playing the game, by all means visit [the "Playing *AudioQuake*" section](#playing-audioquake) instead.
 
-## Digital archaeology note from 2020
+## Digital archaeology note from 2021
 
 <!-- Note: from repo README -->
 
