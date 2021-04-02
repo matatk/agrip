@@ -66,9 +66,9 @@ class CustomiseTab(wx.Panel):
 
 		add_widget(box, associate_controls(res_label, res_pick))
 
-		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
+		doset_only(windows=lambda: add_widget(box, wx.StaticText(
 			self, -1, "Some modes may not be available full-screen.")))
-		doset_only(windows=lambda: add_widget(sizer, wx.StaticText(
+		doset_only(windows=lambda: add_widget(box, wx.StaticText(
 			self, -1, "Modes may be cropped when Windows' UI is scaled.")))
 
 		quick_test = wx.Button(self, -1, 'Try it out: Play tutorial')
