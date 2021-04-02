@@ -3,12 +3,13 @@ import shutil
 
 import wx
 
-from buildlib import doset_only
+from buildlib import doset_only, doset
 import launcherlib.config as config
 from launcherlib import dirs
 from launcherlib.utils import opener, error_message_and_title, LaunchState
 
 BORDER_SIZE = 5
+GAP_BETWIXT_ASSOCIATED_CONTROLS = 5
 
 HOW_TO_INSTALL = (
 	'If you bought Quake, you can install the registered data - '
@@ -61,11 +62,33 @@ def add_opener_button(parent, sizer, title, thing_to_open):
 	add_widget(sizer, button)
 
 
-def add_widget(sizer, widget, border=True, expand=True):
-	expand_flag = wx.EXPAND if expand else 0
-	border_flag = wx.ALL if border else 0
-	border_size = BORDER_SIZE if border else 0
-	sizer.Add(widget, 0, expand_flag | border_flag, border_size)
+def add_widget(sizer, widget):
+	sizer.Add(widget, 0, wx.EXPAND | wx.ALL, BORDER_SIZE)
+
+
+def associate_controls(first, second):
+	sizer = wx.BoxSizer(wx.HORIZONTAL)
+	sizer.Add(first, flag=wx.ALIGN_CENTER_VERTICAL)
+	sizer.AddSpacer(GAP_BETWIXT_ASSOCIATED_CONTROLS)
+	sizer.Add(second, flag=wx.EXPAND, proportion=1)
+	return sizer
+
+
+def platform_appropriate_grouping(parent, label):
+	"""On macOS (Catalina and Big Sur) the focus order with VoiceOver is a bit
+	weird with StaticBoxSizer labels coming after so many of the controls
+	within. Therefore on macOS we'll just use a sizer and some text, but on
+	Windows we can use a StaticBoxSizer."""
+
+	def mac_gropuing():
+		group = wx.BoxSizer(wx.VERTICAL)
+		add_widget(group, wx.StaticText(
+			parent, -1, label, style=wx.ALIGN_CENTRE_HORIZONTAL))
+		return group
+
+	return doset(
+		mac=mac_gropuing,
+		windows=wx.StaticBoxSizer(wx.VERTICAL, parent, label))
 
 
 def Info(parent, message):
