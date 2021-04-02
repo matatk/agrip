@@ -11,7 +11,8 @@ from launcherlib import dirs
 from launcherlib.game_controller import RootGame
 from launcherlib.ui.helpers import \
 	add_widget, add_opener_button, launch_core, \
-	Info, Warn, Error, HOW_TO_INSTALL, associate_controls
+	Info, Warn, Error, HOW_TO_INSTALL, associate_controls, \
+	platform_appropriate_grouping
 from launcherlib.utils import opener
 from ldllib.convert import convert
 from ldllib.build import build, bsp_maybe_hc
@@ -57,9 +58,8 @@ class MapTab(wx.Panel):
 
 		# File picker and choosing a tutorial or example map bits
 
-		# TODO: VoiceOver gets to this label _after_ the first control within.
-		open_map = wx.StaticBoxSizer(
-			wx.VERTICAL, self, 'Open a Level Description Language (LDL) map')
+		open_map = platform_appropriate_grouping(
+			self, 'Open a Level Description Language (LDL) map')
 
 		def add_map_picker(place, kinda):
 			def pick_map_handler(event):

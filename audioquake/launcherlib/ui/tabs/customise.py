@@ -8,7 +8,8 @@ from launcherlib import dirs
 import launcherlib.config as config
 from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import associate_controls, \
-	add_opener_buttons, add_widget, pick_directory, Info, Error
+	add_opener_buttons, add_widget, pick_directory, Info, Error, \
+	platform_appropriate_grouping
 from launcherlib.ui.munging import copy_paks_and_create_textures_wad
 from launcherlib.resolutions import resolution_index_from_config, \
 	RESOLUTIONS, DEFAULT_RESOLUTION_INDEX
@@ -39,8 +40,7 @@ class CustomiseTab(wx.Panel):
 
 		add_widget(sizer, wx.StaticLine(self, -1))
 
-		# TODO: VoiceOver gets to this label _after_ the first control within.
-		box = wx.StaticBoxSizer(wx.VERTICAL, self, 'Video mode settings')
+		box = platform_appropriate_grouping(self, 'Video mode settings')
 
 		fullscreen = wx.CheckBox(
 			self, -1, 'Run full-screen (instead of windowed)')

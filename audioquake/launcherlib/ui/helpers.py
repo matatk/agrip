@@ -3,7 +3,7 @@ import shutil
 
 import wx
 
-from buildlib import doset_only
+from buildlib import doset_only, doset
 import launcherlib.config as config
 from launcherlib import dirs
 from launcherlib.utils import opener, error_message_and_title, LaunchState
@@ -72,6 +72,23 @@ def associate_controls(first, second):
 	sizer.AddSpacer(GAP_BETWIXT_ASSOCIATED_CONTROLS)
 	sizer.Add(second, flag=wx.EXPAND, proportion=1)
 	return sizer
+
+
+def platform_appropriate_grouping(parent, label):
+	"""On macOS (Catalina and Big Sur) the focus order with VoiceOver is a bit
+	weird with StaticBoxSizer labels coming after so many of the controls
+	within. Therefore on macOS we'll just use a sizer and some text, but on
+	Windows we can use a StaticBoxSizer."""
+
+	def mac_gropuing():
+		group = wx.BoxSizer(wx.VERTICAL)
+		add_widget(group, wx.StaticText(
+			parent, -1, label, style=wx.ALIGN_CENTRE_HORIZONTAL))
+		return group
+
+	return doset(
+		mac=mac_gropuing,
+		windows=wx.StaticBoxSizer(wx.VERTICAL, parent, label))
 
 
 def Info(parent, message):
