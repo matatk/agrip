@@ -2,7 +2,7 @@
 
 The AGRIP *Level Description Language*, or LDL, is a text-based format that allows people to easily describe 3D spaces. LDL is currently aimed at blind gamers who want to make maps for *Quake*. This is a preliminary concept release, so it's important to say what it does, doesn't and might do.
 
-### Digital archaeology note from 2020
+### Digital archaeology note from 2021
 
 OK, whilst *Quake* is now ancient (but still a milestone in gaming), the techniques here could be applied to newer engines in much the same way; would love to see, or even help, that happen. In the meantime, you can still use this to make and explore your own somewhat-simplistically-shaped-but-nonetheless-3D worlds! :-)
 
