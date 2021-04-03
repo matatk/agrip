@@ -6,7 +6,9 @@ import wx
 from buildlib import doset_only, doset
 import launcherlib.config as config
 from launcherlib import dirs
-from launcherlib.utils import opener, error_message_and_title, LaunchState
+from launcherlib.utils import opener, error_message_and_title, LaunchState, \
+	html_template
+from release import version_string, release_name
 
 BORDER_SIZE = 5
 GAP_BETWIXT_ASSOCIATED_CONTROLS = 5
@@ -22,6 +24,50 @@ launch_messages = {
 		'Registered Quake data not found.\n\n' + HOW_TO_INSTALL + '\n\n'
 		'You can play Open Quartz without the registered version of Quake.')
 }
+
+
+class _HTMLPageDialog(wx.Dialog):
+	def __init__(self, parent, title, html):
+		screen_width, screen_height = wx.GetDisplaySize()
+
+		wx.Dialog.__init__(
+			self, parent, style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER,
+			size=(screen_width * 0.6, screen_height * 0.75),
+			title=title)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		browser = wx.html2.WebView.New(self)
+		browser.SetPage(html, "")
+		sizer.Add(browser, 1, wx.EXPAND, 10)
+
+		close = wx.Button(self, -1, 'Close')
+		close.Bind(wx.EVT_BUTTON, lambda event: self.EndModal(wx.OK))
+		add_widget(sizer, close)
+
+		self.SetSizer(sizer)
+
+		def windows_accessibility_fix():
+			robot = wx.UIActionSimulator()
+			browser.SetFocus()
+			position = browser.GetPosition()
+			position = browser.ClientToScreen(position)
+			robot.MouseMove(position)
+			robot.MouseClick()
+
+		doset_only(windows=windows_accessibility_fix)
+
+
+def modal_html_page(parent, title, html):
+	with _HTMLPageDialog(parent, title, html) as dialog:
+		dialog.ShowModal()
+
+
+def about_page(parent):
+	html = html_template(
+		dirs.gubbins / 'about.html',
+		version=version_string + ': ' + release_name)
+	modal_html_page(
+		parent, 'About AudioQuake & Level Description Language', html)
 
 
 def pick_file(parent, message, wildcard):
