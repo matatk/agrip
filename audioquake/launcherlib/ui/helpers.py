@@ -32,7 +32,9 @@ class _HTMLPageDialog(wx.Dialog):
 
 		wx.Dialog.__init__(
 			self, parent, style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER,
-			size=(screen_width * 0.6, screen_height * 0.75),
+			size=(
+				min(screen_width * 0.6, 1000),
+				min(screen_height * 0.75, 703)),
 			title=title)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 
