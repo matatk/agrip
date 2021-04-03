@@ -329,6 +329,10 @@ def make_zip():
 	program_name = 'AudioQuake+LDL'
 	platform_name = doset(mac='Mac', windows='Windows')
 	archive_name = f'{program_name}_{version_string}_{platform_name}'
+	# TODO: I think that unlinking first is needed, as it seems like otherwise
+	#       things may only be added to the archive...
+	#       https://github.com/python/cpython/blob/b2a91e0c9ee18b50cc86b21211c2258520a9f5d0/Lib/shutil.py#L935
+	(Build.dir_dist / f'{archive_name}.zip').unlink(missing_ok=True)
 	shutil.make_archive(
 		Build.dir_dist / archive_name, 'zip', Build.dir_dist_collated)
 
