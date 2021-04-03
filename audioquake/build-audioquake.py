@@ -225,7 +225,7 @@ def convert_manuals():
 		'AudioQuake sound legend': [
 			Build.dir_manuals_src / 'user-manual-part07-b.md', 'sound-legend'],
 		'Level Description Language tutorial': [
-			Build.dir_ldl / 'tutorial.md', 'ldl-tutorial']
+			Build.dir_ldl / 'tutorial.md', 'LDL-tutorial']
 	}
 
 	for title, details in single_docs_to_convert.items():
