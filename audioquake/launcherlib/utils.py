@@ -101,6 +101,11 @@ def get_bindings():
 
 	config_keys = list(config_keys_directions.values()) + config_keys_other
 
+	# Improve legibility
+	for record in autoexec_keys:
+		for field in ['current', 'default']:
+			record[field] = record[field].upper()
+
 	return config_keys, autoexec_keys
 
 
@@ -128,9 +133,14 @@ def format_bindings_as_html():
 			f"<tr><td>{key['current']}</td><td>{key['help']}</td>"
 			f"<td>{key['default']}</td></tr>\n")
 
-	with open(dirs.gubbins / 'bindings-template.html', 'r') as f:
+	return html_template(
+		dirs.gubbins / 'bindings-template.html',
+		basic=cfg,
+		advanced=autoexec)
+
+
+def html_template(file_path, **kwargs):
+	with open(file_path, 'r') as f:
 		html = Template(f.read())
 		return html.substitute(
-			path=str(dirs.manuals / 'agrip.css'),
-			basic=cfg,
-			advanced=autoexec)
+			path=str(dirs.manuals / 'agrip.css'), **kwargs)

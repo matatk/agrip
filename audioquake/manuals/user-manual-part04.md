@@ -3,7 +3,7 @@
 
 <!-- FIXME -->
 
-**WARNING: This section has not yet been updated for the 2020 re-release.**
+**WARNING: This section has not yet been updated for the 2021 re-release.**
 
 Quake is not just a singleplayer fragfest\! In fact, many would say that it is far more fun to play over the Internet both with and against other humans. This part explains the variety of game modes on offer and how you can join in the fun.
 

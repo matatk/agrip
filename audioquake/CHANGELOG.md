@@ -1,5 +1,4 @@
-AudioQuake 2020.0 (Latest beta: ??/??/2020)
-===========================================
+# AudioQuake & Level Description Language 2021.0 (03/04/2021)
 
 This is a re-release in which we've massively revamped the
 code---including the Level Description Language (LDL)---to run on modern
@@ -11,26 +10,36 @@ that you could more easily make levels for it.
 
 -   Level Description Language (LDL) tools and tutorials are included
     with the game.
--   Shiny new GUI launcher (based on wxWidgets), with all the main
-    features of the previous text-based launcher (including QMOD and
-    registered Quake data installation) and more.
+
+-   Shiny new GUI launcher (based on wxWidgets and wxPython), with all
+    the main features of the previous text-based launcher (including
+    QMOD and registered Quake data installation) and more.
+
 -   You can play out-of-the-box courtesy of the Open Quartz community
     data pack.
+
 -   Levels you make can be played using Quake or Open Quartz textures,
-    or a new set of high-contrast textures.
+    or a new set of high-contrast textures (inspired by *The Last of Us
+    Part II*).
+
 -   More flexible styling of LDL maps (supporting the above sets of
     textures, as well as additional styles you can apply to parts of
     maps, e.g. to make some areas appear outside).
--   The launcher can load in the registered Quake data if you bought the
-    game.
+
 -   Big documentation updates.
+
 -   Much code clean-up behind the scenes.
+
     -   All of the Python code has been tidied up a lot.
+
     -   We are now using PyInstaller to bundle the app.
+
     -   Slicker text-to-speech performance.
 
-AudioQuake 0.3.0 (02/01/2008)
-=============================
+The Stats and Servers site is no longer available, but you can still run
+your own servers if you have the registered version of Quake.
+
+# AudioQuake 0.3.0 (02/01/2008)
 
 This is the first release of AudioQuake; a game based on AccessibleQuake
 that aims to take accessibility and community involvement to its logical
@@ -40,22 +49,30 @@ of hard work. So much has changed that only a summary is given here.
 -   Move to the ZQuake QuakeWorld engine---the first Open Source
     mainstream accessible game engine (many thanks to Tonik and the
     other developers for allowing our patches in).
+
 -   Port of the AccessibleQuake game code to ZQuake's QuakeC system
     (which supports multiple online and offline gametypes).
+
 -   Internet Multiplayer support---Yes; you can play Quake online a
     variety of game modes!
+
 -   Internet Game Server---Set up your own games with total control over
     maps and game rules.
+
 -   Online statistics---track your progress with respect to other
     AudioQuake players.
+
 -   http://stats.agrip.org.uk/ is a portal for all online features of
     the game.
+
 -   Manual re-written to take into account new features and be even more
     helpful :-).
+
 -   Ease of setup increased due to more support programs being included
     and the ability to install from a Registered Quake CD on Windows and
     Linux, as well as being able to use the data from the downloadable
     version of Quake for Windows.
+
 -   Many bug fixes and feature enhancements to both the engine and game
     code in this move---such as new footstep sounds (from Davy Loots)
     and movement speed indication, ESR enhancements and general gameplay
@@ -67,8 +84,7 @@ game types (such as Capture The Flag). Major new features (such as
 ImplicitAccessibility and LevML support) shall be added in future
 release series.
 
-AccessibleQuake 0.2.1 (29/07/2004)
-==================================
+# AccessibleQuake 0.2.1 (29/07/2004)
 
 Changed the name of this "product" to AccessibleQuake (from "AGRIP") to
 differentiate it from the name of the organisation and of the other
@@ -108,8 +124,7 @@ project we now host ("AudioQuake").
 
 -   Open space detection works underwater.
 
-AGRIP 0.2.0 (06/07/2004)
-========================
+# AGRIP 0.2.0 (06/07/2004)
 
 In development this was 0.1.1 but the decision to release as 0.2.0 was
 made because there have been a number of big improvements.
@@ -176,8 +191,7 @@ made because there have been a number of big improvements.
     Unfortunately we still have not been able to find any footstep
     sounds after a great deal of searching.
 
-AGRIP 0.1.0 (11/06/2004)
-========================
+# AGRIP 0.1.0 (11/06/2004)
 
 Whilst in development, this was 0.0.5, but was re-released as 0.1.0
 (beta) due to the new sounds going in.
@@ -205,8 +219,7 @@ Whilst in development, this was 0.0.5, but was re-released as 0.1.0
 
 -   Sebby's sounds are now in! These include ESR, D5k and toggle sounds.
 
-AGRIP 0.0.4 (22/05/2004)
-========================
+# AGRIP 0.0.4 (22/05/2004)
 
 -   Added jump detection---you can press J for a description of ho you
     will be able to make a jump. If the hazard doesn't represent a jump,
@@ -275,8 +288,7 @@ AGRIP 0.0.4 (22/05/2004)
 
 -   Included Sebby's on/off toggle sounds for various items.
 
-AGRIP 0.0.3 (13/05/2004)
-========================
+# AGRIP 0.0.3 (13/05/2004)
 
 First release after 0.0.x has been extended.
 
@@ -332,8 +344,7 @@ First release after 0.0.x has been extended.
     disable this sound so that no sound whatsoever is made when an
     object is outside your FOV.
 
-AGRIP 0.0.2 (15/04/2004)
-========================
+# AGRIP 0.0.2 (15/04/2004)
 
 Same as 0.0.1 but with the following fixes:
 
@@ -348,8 +359,7 @@ Same as 0.0.1 but with the following fixes:
     wall half of the volume of the other wall-hit sounds (so you know
     that the wall is behind, not in front, of you).
 
-AGRIP 0.0.1 (14/04/2004)
-========================
+# AGRIP 0.0.1 (14/04/2004)
 
 The first alpha release. This is also the first release to support
 Windows.
@@ -379,7 +389,6 @@ Windows.
 -   A compass has been added and works quite well (a few minor tweaks
     are on their way).
 
-AGRIP 0.0.0 (14/03/2004)
-========================
+# AGRIP 0.0.0 (14/03/2004)
 
 Initial pre-alpha release.

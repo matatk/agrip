@@ -7,6 +7,7 @@ import launcherlib.config as config
 import launcherlib.dirs as dirs
 from launcherlib.game_controller import GameController
 from launcherlib.utils import error_message_and_title, format_bindings_as_text
+from launcherlib.ui.helpers import about_page
 
 
 #
@@ -24,6 +25,8 @@ def gui_main(game_controller, args):
 	game_controller.set_error_handler(gui_error_hook)
 
 	try:
+		if config.first_game_run():
+			about_page(None)
 		LauncherWindow(
 			None, "AudioQuake & LDL Launcher", game_controller).Show()
 		app.MainLoop()

@@ -7,11 +7,11 @@ except ImportError:
 import wx
 import wx.html2
 
-from buildlib import doset, doset_only
+from buildlib import doset
 from launcherlib import dirs
 from launcherlib.utils import have_registered_data, format_bindings_as_html
 from launcherlib.ui.helpers import add_widget, launch_core, \
-	Error, HOW_TO_INSTALL
+	Error, HOW_TO_INSTALL, modal_html_page
 
 
 #
@@ -81,42 +81,9 @@ def add_cli_tool_button(parent, sizer, title, action):
 	add_widget(sizer, button)
 
 
-def windows_accessibility_fix(browser):
-	robot = wx.UIActionSimulator()
-	browser.SetFocus()
-	position = browser.GetPosition()
-	position = browser.ClientToScreen(position)
-	robot.MouseMove(position)
-	robot.MouseClick()
-
-
 #
 # The main event
 #
-
-class KeyBindingsView(wx.Dialog):
-	def __init__(self, parent):
-		screen_width, screen_height = wx.GetDisplaySize()
-
-		wx.Dialog.__init__(
-			self, parent, style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER,
-			size=(screen_width * 0.5, screen_height * 0.7),
-			title='Key bindings')
-		sizer = wx.BoxSizer(wx.VERTICAL)
-
-		browser = wx.html2.WebView.New(self)
-		display = format_bindings_as_html()
-		browser.SetPage(display, "")
-		sizer.Add(browser, 1, wx.EXPAND, 10)
-
-		close = wx.Button(self, -1, 'Close')
-		close.Bind(wx.EVT_BUTTON, lambda event: self.Destroy())
-		add_widget(sizer, close)
-
-		self.SetSizer(sizer)
-
-		doset_only(windows=lambda: windows_accessibility_fix(browser))
-
 
 class PlayTab(wx.Panel):
 	def __init__(self, parent, game_controller):
@@ -141,13 +108,14 @@ class PlayTab(wx.Panel):
 
 		add_widget(sizer, wx.StaticLine(self, -1))
 
-		bindings = wx.Button(self, -1, 'List key bindings')
+		keys_button = wx.Button(self, -1, 'List key bindings')
 
-		def bindings_window(event):
-			KeyBindingsView(self).Show()
+		def show_bindings(event):
+			bindings_html = format_bindings_as_html()
+			modal_html_page(self, 'Key bindings', bindings_html)
 
-		bindings.Bind(wx.EVT_BUTTON, bindings_window)
-		add_widget(sizer, bindings)
+		keys_button.Bind(wx.EVT_BUTTON, show_bindings)
+		add_widget(sizer, keys_button)
 
 		# Server stuff
 

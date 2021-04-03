@@ -20,6 +20,7 @@ from buildlib import Build, \
 from ldllib.build import build, swap_wad, bsp_maybe_hc
 from ldllib.utils import use_repo_wads, have_wad, WADs, \
 	have_needed_tools, use_repo_bins
+from release import version_string, release_name
 
 
 #
@@ -96,7 +97,6 @@ if next(Build.dir_maps_quakewad.glob('*.bsp'), None) is not None:
 # Constants and state
 #
 
-version_string = None     # read from 'release' file
 skip_pyinstaller = False  # set via command-line option
 force_map_build = False   # also set via CLI
 needed_quake_wad = False  # detected via build_maps_for_quake()
@@ -219,14 +219,13 @@ def convert_manuals():
 	single_docs_to_convert = {
 		'README': [Build.dir_readme_licence / 'README.md', 'README'],
 		'LICENCE': [Build.dir_readme_licence / 'LICENCE.md', 'LICENCE'],
+		'CHANGELOG': [Build.dir_aq / 'CHANGELOG.md', 'CHANGELOG'],
+		'ACKNOWLEDGEMENTS': [
+			Build.dir_aq / 'ACKNOWLEDGEMENTS.md', 'ACKNOWLEDGEMENTS'],
 		'AudioQuake sound legend': [
-			Build.dir_manuals_src / 'user-manual-part07-b.md',
-			'sound-legend'
-		],
+			Build.dir_manuals_src / 'user-manual-part07-b.md', 'sound-legend'],
 		'Level Description Language tutorial': [
-			Build.dir_ldl / 'tutorial.md',
-			'ldl-tutorial'
-		]
+			Build.dir_ldl / 'tutorial.md', 'LDL-tutorial']
 	}
 
 	for title, details in single_docs_to_convert.items():
@@ -339,14 +338,9 @@ def make_zip():
 #
 
 def build_audioquake():
-	global version_string
-
-	with open(Build.file_aq_release, 'r') as f:
-		version_string = f.readline().rstrip()
-		version_name = f.readline().rstrip()
-		print(
-			'Building AudioQuake & Level Description Language',
-			version_string + ': ' + version_name)
+	print(
+		'Building AudioQuake & Level Description Language',
+		version_string + ': ' + release_name)
 
 	check_platform()
 

@@ -2,7 +2,7 @@
 """
 	level_03_down_lighting.py
 	Part of the Level Description Language (LDL) from the AGRIP project.
-	Copyright 2005-2020 Matthew Tylee Atkinson
+	Copyright 2005-2021 Matthew Tylee Atkinson
 	Released under the GNU GPL v2 -- See ``COPYING'' for more information.
 """
 

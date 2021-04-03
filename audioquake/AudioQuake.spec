@@ -10,7 +10,8 @@ data_files = [
 	('../ldl/style.xml', 'maptools'),
 	('../giants/prototype_wad_1_2/prototype_1_2.wad', 'maptools'),
 	('../giants/oq-pak-src-2004.08.01/maps/textures/free_wad.wad', 'maptools'),
-	('bindings-template.html', '.')]
+	('bindings-template.html', '.'),
+	('about.html', '.')]
 
 binary_files = doset(
 	mac=[

@@ -13,7 +13,8 @@ from launcherlib.ui.tabs.map import MapTab
 
 class LauncherWindow(wx.Frame):
 	def __init__(self, parent, title, game_controller):
-		wx.Frame.__init__(self, parent, title=title)
+		flags = wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX)
+		wx.Frame.__init__(self, parent, title=title, style=flags)
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
 

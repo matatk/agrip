@@ -1,4 +1,4 @@
-Copyright (c)  2005-2020  Matthew Tylee Atkinson
+Copyright (c)  2005-2021  Matthew Tylee Atkinson
 
 Copyright (c)  2007  Sabahattin Gucukoglu
 
