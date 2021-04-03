@@ -1,4 +1,4 @@
-# AudioQuake 2021.0 (03/04/2021)
+# AudioQuake & Level Description Language 2021.0 (03/04/2021)
 
 This is a re-release in which we've massively revamped the
 code---including the Level Description Language (LDL)---to run on modern
@@ -24,7 +24,7 @@ that you could more easily make levels for it.
 
 -   More flexible styling of LDL maps (supporting the above sets of
     textures, as well as additional styles you can apply to parts of
-    maps, e.g. to make some areas appear outside).
+    maps, e.g. to make some areas appear outside).
 
 -   Big documentation updates.
 
