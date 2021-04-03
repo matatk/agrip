@@ -17,16 +17,18 @@ class HelpTab(wx.Panel):
 
 		add_widget(sizer, wx.StaticLine(self, -1))
 
+		about = wx.Button(self, -1, 'About')
+		about.Bind(wx.EVT_BUTTON, lambda event: about_page(self))
+		add_widget(sizer, about)
+
+		add_widget(sizer, wx.StaticLine(self, -1))
+
 		add_opener_buttons(self, sizer, {
 			'README': dirs.manuals / 'README.html',
 			'LICENCE': dirs.manuals / 'LICENCE.html',
 			'CHANGELOG': dirs.manuals / 'CHANGELOG.html',
 			'ACKNOWLEDGEMENTS': dirs.manuals / 'ACKNOWLEDGEMENTS.html'
 		})
-
-		about = wx.Button(self, -1, 'About')
-		about.Bind(wx.EVT_BUTTON, lambda event: about_page(self))
-		add_widget(sizer, about)
 
 		sizer.SetSizeHints(self)
 		self.SetSizer(sizer)
