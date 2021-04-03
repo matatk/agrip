@@ -14,7 +14,9 @@ class HelpTab(wx.Panel):
 			'README': dirs.manuals / 'README.html',
 			'User manual': dirs.manuals / 'user-manual.html',
 			'Sound legend': dirs.manuals / 'sound-legend.html',
-			'LICENCE': dirs.manuals / 'LICENCE.html'
+			'LICENCE': dirs.manuals / 'LICENCE.html',
+			'CHANGELOG': dirs.manuals / 'CHANGELOG.html',
+			'ACKNOWLEDGEMENTS': dirs.manuals / 'ACKNOWLEDGEMENTS.html'
 		})
 
 		about = wx.Button(self, -1, 'About')

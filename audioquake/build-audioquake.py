@@ -219,14 +219,13 @@ def convert_manuals():
 	single_docs_to_convert = {
 		'README': [Build.dir_readme_licence / 'README.md', 'README'],
 		'LICENCE': [Build.dir_readme_licence / 'LICENCE.md', 'LICENCE'],
+		'CHANGELOG': [Build.dir_aq / 'CHANGELOG.md', 'CHANGELOG'],
+		'ACKNOWLEDGEMENTS': [
+			Build.dir_aq / 'ACKNOWLEDGEMENTS.md', 'ACKNOWLEDGEMENTS'],
 		'AudioQuake sound legend': [
-			Build.dir_manuals_src / 'user-manual-part07-b.md',
-			'sound-legend'
-		],
+			Build.dir_manuals_src / 'user-manual-part07-b.md', 'sound-legend'],
 		'Level Description Language tutorial': [
-			Build.dir_ldl / 'tutorial.md',
-			'ldl-tutorial'
-		]
+			Build.dir_ldl / 'tutorial.md', 'ldl-tutorial']
 	}
 
 	for title, details in single_docs_to_convert.items():
