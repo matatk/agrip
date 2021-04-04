@@ -9,6 +9,8 @@ from launcherlib.game_controller import GameController
 from launcherlib.utils import error_message_and_title, format_bindings_as_text
 from launcherlib.ui.helpers import about_page
 
+_dob_validated = None
+
 
 #
 # Modes
@@ -17,21 +19,38 @@ from launcherlib.ui.helpers import about_page
 def gui_main(game_controller, args):
 	import wx
 
-	from launcherlib.ui.launcher import LauncherWindow
-	from launcherlib.ui.helpers import Error, gui_error_hook
+	from launcherlib.ui.helpers import gui_error_hook
 	from launcherlib.ui.dobcheck import dobcheck
+	from launcherlib.ui.launcher import LauncherWindow
 
 	app = wx.App()
 	sys.excepthook = gui_error_hook
 	game_controller.set_error_handler(gui_error_hook)
 
-	try:
+	def gui_main_loop():
+		if config.first_game_run():
+			about_page(None)
+		LauncherWindow(
+			None, 'AudioQuake & LDL Launcher', game_controller).Show()
+		app.MainLoop()
+
+	print('validated?', _dob_validated)
+	if not _dob_validated:
 		if dobcheck():
-			if config.first_game_run():
-				about_page(None)
-			LauncherWindow(
-				None, 'AudioQuake & LDL Launcher', game_controller).Show()
-			app.MainLoop()
+			config.set_is_valid()
+			gui_main_loop()
+	else:
+		gui_main_loop()
+
+
+def _woo_presently_unused(app):
+	from launcherlib.ui.launcher import LauncherWindow
+	from launcherlib.ui.helpers import Error
+
+	try:
+		LauncherWindow(
+			None, 'AudioQuake & LDL Launcher', game_controller).Show()
+		app.MainLoop()
 	except OSError:
 		doset_only(mac=lambda: Error(None, (
 			'The code behind AudioQuake, Level Description Language and '
@@ -102,7 +121,7 @@ if __name__ == '__main__':
 	sys.excepthook = text_error_hook
 	game_controller = GameController()
 	game_controller.set_error_handler(text_error_hook)
-	config.init(dirs.config)
+	_dob_validated = config.init(dirs.config)
 	doset_only(windows=windows_chdir)
 
 	parser = argparse.ArgumentParser(
@@ -130,4 +149,12 @@ if __name__ == '__main__':
 
 	parser.set_defaults(func=gui_main)
 	args = parser.parse_args()
-	args.func(game_controller, args)
+
+	if not _dob_validated and args.func != gui_main:
+		print(
+			'Error: date-of-birth check not validated; please run the '
+			'launcher in GUI mode first.')
+		sys.exit(42)
+	else:
+		args.func(game_controller, args)
+		config.quit()

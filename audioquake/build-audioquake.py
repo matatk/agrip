@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 import string
 import shutil
+from uuid import uuid4
 
 try:
 	import winshell
@@ -347,6 +348,13 @@ def build_audioquake():
 		version_string + ': ' + release_name)
 
 	check_platform()
+
+	key_file_name = Build.dir_aq / 'key.py'
+	if not key_file_name.exists():
+		print('Generating a new key for date-of-birth validation')
+		with open(key_file_name, 'w') as key_module:
+			generated = uuid4().hex
+			key_module.write(f"SECRET = '{generated}'\n")
 
 	print('Converting manuals and single docs to HTML')
 	prep_dir(Build.dir_manuals_converted)
