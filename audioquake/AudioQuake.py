@@ -43,28 +43,6 @@ def gui_main(game_controller, args):
 		gui_main_loop()
 
 
-def _woo_presently_unused(app):
-	from launcherlib.ui.launcher import LauncherWindow
-	from launcherlib.ui.helpers import Error
-
-	try:
-		LauncherWindow(
-			None, 'AudioQuake & LDL Launcher', game_controller).Show()
-		app.MainLoop()
-	except OSError:
-		doset_only(mac=lambda: Error(None, (
-			'The code behind AudioQuake, Level Description Language and '
-			"supporting tools is not signed, so it can't be verified by "
-			'Apple.\n\n'
-
-			'If you still want to run them, move this application somewhere '
-			'else on your computer and re-open it.\n\n'
-
-			"If you've already done that, you may need to grant permission "
-			'for the application to access certain folders, in System '
-			'Preferences > Security & Privacy > Privacy tab.')))
-
-
 def play_map(game_controller, args):
 	_play_core(lambda: game_controller.launch_map(args.name))
 
@@ -117,7 +95,31 @@ def _play_core(action):
 	print('Result of launching game:', result)
 
 
+def macos_gatekeeper_warning():
+	import wx
+	from launcherlib.ui.helpers import Info
+	app = wx.App()  # noqa F401
+	try:
+		open(dirs.data / 'id1' / 'config.cfg', 'r')
+	except OSError:
+		Info(None, (
+			'The code behind AudioQuake, Level Description Language and '
+			"supporting tools is not signed, so it can't be verified by "
+			'Apple.\n\n'
+
+			'If you still want to run them, move this application somewhere '
+			'else on your computer and re-open it.\n\n'
+
+			"If you've already done that, you may need to grant permission "
+			'for the application to access certain folders, in System '
+			'Preferences > Security & Privacy > Privacy tab.'))
+		sys.exit(0)
+
+
 if __name__ == '__main__':
+	if hasattr(sys, '_MEIPASS'):
+		doset_only(mac=macos_gatekeeper_warning)
+
 	sys.excepthook = text_error_hook
 	game_controller = GameController()
 	game_controller.set_error_handler(text_error_hook)
