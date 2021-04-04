@@ -234,7 +234,7 @@ def main(xml_in, wad):
 	s = utils.StyleFetcher(wad)
 	try:
 		m = xml.dom.minidom.parseString(xml_in)
-	except:  # noqa: E722
+	except:  # noqa E722
 		utils.failParse()
 	utils.remove_whitespace_nodes(m)
 	processMap(m, wad)

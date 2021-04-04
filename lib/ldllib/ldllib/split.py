@@ -271,7 +271,7 @@ def splitWallCore(chunk, holes):
 
 
 def qsortHoles(list):
-	"""adapted from http://en.literateprograms.org/Quicksort_(Python)#Using_list_comprehensions"""  # noqa: E501
+	"""adapted from http://en.literateprograms.org/Quicksort_(Python)#Using_list_comprehensions"""  # noqa E501
 	if list == []:
 		return []
 	else:
