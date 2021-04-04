@@ -1,6 +1,5 @@
 """AudioQuake & LDL Launcher - Configuration service"""
 from configparser import ConfigParser
-from datetime import datetime, timezone
 from hashlib import sha224
 from time import time
 
@@ -45,38 +44,30 @@ def init(root):
 	_config = ConfigParser()
 	_config_file_path = root / CONFIG_FILENAME
 	_config.read(_config_file_path)
+
 	if len(_config.sections()) == 0:
 		_config['launcher'] = INITIAL_CONFIG
 	else:
 		_upgrade_config()
 
 	if not _config_file_path.exists():
-		print('no config file yet')
 		return False
 
 	previous_hash = _get_or_set_core('_validation')
-
 	if not previous_hash:
-		print('no validation yet')
 		return False
 
-	mtime = int(_config_file_path.stat().st_mtime)
-	modified = datetime.fromtimestamp(mtime, tz=timezone.utc)
-	print("config.init(): ini mod'd:", mtime, modified)
-	ini_modified_hash = _wrap(mtime)
-
+	ini_modified_hash = _wrap(int(_config_file_path.stat().st_mtime))
 	if ini_modified_hash == previous_hash:
 		set_is_valid()
 		return True
-	else:
-		print('hashes do not match')
-		_initial_validation_mismatch = True
-		return False
+
+	_initial_validation_mismatch = True
+	return False
 
 
 def set_is_valid():
 	"""Called when it's been ascertained the user may play the game."""
-	print('config.set_is_valid(): validation passed')
 	global _has_been_validated
 	global _made_changes
 	_has_been_validated = True
@@ -88,21 +79,14 @@ def quit():
 	"""Call this when the program is exiting to persist any changes."""
 	if _made_changes or not _config_file_path.exists():
 		if _has_been_validated:
-			new_time = int(time())
-			modified = datetime.fromtimestamp(new_time, tz=timezone.utc)
-			print('config.quit(): new time will be:', new_time, modified)
-			_get_or_set_core('_validation', _wrap(new_time))
+			_get_or_set_core('_validation', _wrap(int(time())))
 
-		print('config.quit(): new file or had made changes; saving...')
 		with open(_config_file_path, 'w') as configfile:
 			_config.write(configfile)
-	else:
-		print('config.quit(): no changes made to config; not saving')
 
 
 def _wrap(thing):
 	hashed = sha224(bytes(SECRET + str(thing), 'utf-8')).hexdigest()
-	print(hashed)
 	return hashed
 
 

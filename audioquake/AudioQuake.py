@@ -33,8 +33,8 @@ def gui_main(game_controller, args):
 		LauncherWindow(
 			None, 'AudioQuake & LDL Launcher', game_controller).Show()
 		app.MainLoop()
+		config.quit()
 
-	print('validated?', _dob_validated)
 	if not _dob_validated:
 		if dobcheck():
 			config.set_is_valid()
@@ -150,11 +150,16 @@ if __name__ == '__main__':
 	parser.set_defaults(func=gui_main)
 	args = parser.parse_args()
 
-	if not _dob_validated and args.func != gui_main:
+	running_gui = args.func == gui_main
+
+	if not _dob_validated and not running_gui:
 		print(
 			'Error: date-of-birth check not validated; please run the '
 			'launcher in GUI mode first.')
 		sys.exit(42)
 	else:
 		args.func(game_controller, args)
-		config.quit()
+
+		if not running_gui:
+			# This is called within the GUI function (in case of errors).
+			config.quit()
