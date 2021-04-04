@@ -4,12 +4,12 @@ pywin32==300; sys_platform=="win32"
 winshell==0.6; sys_platform=="win32"
 mistune==0.8.4
 mistune-contrib==0.1
-PyInstaller==4.1
+PyInstaller==4.2
 vgio==1.2.0
 
 argcomplete==1.12.2
 xmltodict==0.12.0
 patch_ng==1.17.4
 
-flake8==3.8.4
-md-toc==7.0.5
+flake8==3.9.0
+md-toc==7.1.0
