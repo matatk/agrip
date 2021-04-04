@@ -108,7 +108,7 @@ def macos_gatekeeper_warning():
 			'Apple.\n\n'
 
 			'If you still want to run them, move this application somewhere '
-			'else on your computer and re-open it.\n\n'
+			'else on your computer, then move it back here and re-open it.\n\n'
 
 			"If you've already done that, you may need to grant permission "
 			'for the application to access certain folders, in System '
