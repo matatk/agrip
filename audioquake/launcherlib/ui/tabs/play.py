@@ -1,5 +1,12 @@
 """AudioQuake & LDL Launcher - Play tab"""
-import os  # on Windows
+from platform import system
+
+if system() == 'Darwin':
+	from subprocess import run, CalledProcessError
+elif system() == 'Windows':
+	import os
+else:
+	raise NotImplementedError
 
 import wx
 import wx.html2
