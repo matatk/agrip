@@ -1,8 +1,12 @@
 """AudioQuake & LDL Launcher - Play tab"""
-try:
-	from subprocess import run, CalledProcessError, CREATE_NEW_CONSOLE
-except ImportError:
-	pass
+from platform import system
+
+if system() == 'Darwin':
+	from subprocess import run, CalledProcessError
+elif system() == 'Windows':
+	import os
+else:
+	raise NotImplementedError
 
 import wx
 import wx.html2
@@ -56,7 +60,9 @@ def start_server_windows(event):
 
 
 def run_win_console(prog):
-	run(prog, creationflags=CREATE_NEW_CONSOLE)
+	args = [str(x) for x in prog]
+	command = ' '.join(args)
+	os.system(f'start cmd /k {command}')
 
 
 #
@@ -128,7 +134,7 @@ class PlayTab(wx.Panel):
 				set_only=True),
 			"Remote console": doset(
 				mac=lambda evt: run_apple_script(dirs.gubbins / 'rcon'),
-				windows=lambda evt: run_win_console(dirs.gubbins / 'rcon.exe'),
+				windows=lambda evt: run_win_console([dirs.gubbins / 'rcon.exe']),
 				set_only=True)
 		}
 
