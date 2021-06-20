@@ -5,3 +5,4 @@ maps-prototypewad/
 build/
 dist/
 audioquake.ini
+key.py

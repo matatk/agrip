@@ -6,6 +6,7 @@ mistune==0.8.4
 mistune-contrib==0.1
 PyInstaller==4.3
 vgio==1.2.0
+python-dateutil==2.8.1
 
 argcomplete==1.12.3
 xmltodict==0.12.0

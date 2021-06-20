@@ -9,6 +9,8 @@ from launcherlib.game_controller import GameController
 from launcherlib.utils import error_message_and_title, format_bindings_as_text
 from launcherlib.ui.helpers import about_page
 
+_dob_validated = None
+
 
 #
 # Modes
@@ -17,31 +19,28 @@ from launcherlib.ui.helpers import about_page
 def gui_main(game_controller, args):
 	import wx
 
+	from launcherlib.ui.helpers import gui_error_hook
+	from launcherlib.ui.dobcheck import dobcheck
 	from launcherlib.ui.launcher import LauncherWindow
-	from launcherlib.ui.helpers import Warn, gui_error_hook
 
 	app = wx.App()
 	sys.excepthook = gui_error_hook
 	game_controller.set_error_handler(gui_error_hook)
 
-	try:
+	def gui_main_loop():
 		if config.first_game_run():
 			about_page(None)
 		LauncherWindow(
-			None, "AudioQuake & LDL Launcher", game_controller).Show()
+			None, 'AudioQuake & LDL Launcher', game_controller).Show()
 		app.MainLoop()
-	except OSError:
-		doset_only(mac=lambda: Warn(None, (
-			'The code behind AudioQuake, Level Description Language and '
-			"supporting tools is not signed, so it can't be verified by "
-			'Apple.\n\n'
+		config.quit()
 
-			'If you still want to run them, move this application somewhere '
-			'else on your computer and re-open it.\n\n'
-
-			"If you've already done that, you may need to grant permission "
-			'for the application to access certain folders, in System '
-			'Preferences > Security & Privacy > Privacy tab.')))
+	if not _dob_validated:
+		if dobcheck():
+			config.set_is_valid()
+			gui_main_loop()
+	else:
+		gui_main_loop()
 
 
 def play_map(game_controller, args):
@@ -96,11 +95,35 @@ def _play_core(action):
 	print('Result of launching game:', result)
 
 
+def macos_gatekeeper_warning():
+	import wx
+	from launcherlib.ui.helpers import Info
+	app = wx.App()  # noqa F401
+	try:
+		open(dirs.data / 'id1' / 'config.cfg', 'r')
+	except OSError:
+		Info(None, (
+			'The code behind AudioQuake, Level Description Language and '
+			"supporting tools is not signed, so it can't be verified by "
+			'Apple.\n\n'
+
+			'If you still want to run them, move this application somewhere '
+			'else on your computer, then move it back here and re-open it.\n\n'
+
+			"If you've already done that, you may need to grant permission "
+			'for the application to access certain folders, in System '
+			'Preferences > Security & Privacy > Privacy tab.'))
+		sys.exit(0)
+
+
 if __name__ == '__main__':
+	if hasattr(sys, '_MEIPASS'):
+		doset_only(mac=macos_gatekeeper_warning)
+
 	sys.excepthook = text_error_hook
 	game_controller = GameController()
 	game_controller.set_error_handler(text_error_hook)
-	config.init(dirs.config)
+	_dob_validated = config.init(dirs.config)
 	doset_only(windows=windows_chdir)
 
 	parser = argparse.ArgumentParser(
@@ -128,4 +151,17 @@ if __name__ == '__main__':
 
 	parser.set_defaults(func=gui_main)
 	args = parser.parse_args()
-	args.func(game_controller, args)
+
+	running_gui = args.func == gui_main
+
+	if not _dob_validated and not running_gui:
+		print(
+			'Error: date-of-birth check not validated; please run the '
+			'launcher in GUI mode first.')
+		sys.exit(42)
+	else:
+		args.func(game_controller, args)
+
+		if not running_gui:
+			# This is called within the GUI function (in case of errors).
+			config.quit()

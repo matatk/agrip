@@ -94,7 +94,7 @@ def main(xml_in, wad_file):
 	conv = MapXML2Map(wad_file)
 	try:
 		xml.sax.parseString(xml_in, conv)
-	except:  # noqa: E722
+	except:  # noqa E722
 		raise
 		utils.failParse()
 	return conv._result

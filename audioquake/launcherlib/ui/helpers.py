@@ -114,9 +114,19 @@ def add_widget(sizer, widget):
 	sizer.Add(widget, 0, wx.EXPAND | wx.ALL, BORDER_SIZE)
 
 
-def associate_controls(first, second):
+def associate_controls(first, second, even_split=False):
+	"""Place the label and control in a horizontal sizer to associate them.
+
+	By default, the label will only take up as much space as it needs.
+
+	Setting even_split to True makes each control take half of the available
+	space."""
 	sizer = wx.BoxSizer(wx.HORIZONTAL)
-	sizer.Add(first, flag=wx.ALIGN_CENTER_VERTICAL)
+
+	first_flag = wx.EXPAND if even_split else wx.ALIGN_CENTER_VERTICAL
+	first_proportion = 1 if even_split else 0
+	sizer.Add(first, flag=first_flag, proportion=first_proportion)
+
 	sizer.AddSpacer(GAP_BETWIXT_ASSOCIATED_CONTROLS)
 	sizer.Add(second, flag=wx.EXPAND, proportion=1)
 	return sizer
