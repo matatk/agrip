@@ -170,20 +170,20 @@ def MsgBox(parent, message, caption, icon, style=wx.OK):
 
 
 # FIXME: need to apply to mod loading for the first time (already done?)
-def first_time_windows_prompt(parent):
-	prompt = (
-		'When you run the game for the first time, Windows may ask you to '
-		'allow it through the firewall.\n\n'
+def first_time_windows_firewall_info(parent):
+	if config.first_game_run():
+		prompt = (
+			'When you run the game for the first time, Windows may ask you '
+			'to allow it through the firewall.\n\n'
 
-		'This will be done in a secure window that pops up above the Quake '
-		'engine, which you will need to use ALT-TAB and an Assistive '
-		'Technology to access.\n\n'
+			'This will be done in a secure window that pops up above the '
+			'Quake engine or dedicated server terminal, which you will need '
+			'to use ALT-TAB and an Assistive Technology to access.\n\n'
 
-		# FIXME: do this somewhere else?
-		'Please also note that the server output window, and the remote '
-		'console, are not self-voicing; they are text-mode programs and will '
-		'run in a terminal window.')
-	Warn(parent, prompt)
+			'Please also note that the server output window, and the remote '
+			'console, are not self-voicing; they are text-mode programs and '
+			'will run in a terminal window.')
+		Warn(parent, prompt)
 
 
 def _update_oq_configs():
@@ -208,8 +208,7 @@ def game_flickering_check(parent):
 
 
 def launch_core(parent, method):
-	if config.first_game_run():
-		doset_only(windows=lambda: first_time_windows_prompt(parent))
+	doset_only(windows=lambda: first_time_windows_firewall_info(parent))
 
 	# FIXME: this should happen after registered check
 	if not game_flickering_check(parent):
