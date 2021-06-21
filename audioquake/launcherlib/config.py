@@ -10,6 +10,8 @@ CONFIG_FILENAME = 'audioquake.ini'
 INITIAL_CONFIG = {
 	'_validation': '',  # This will be set by code.
 	'first_game_run': 'yes',
+	'warning_acknowledged_flickering': 'no',
+	'warning_acknowledged_flickering_mode_test': 'no',
 	'fullscreen': 'no',
 	'resolution': ''    # The platform default will be inserted.
 }

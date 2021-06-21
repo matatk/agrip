@@ -194,9 +194,26 @@ def _update_oq_configs():
 			shutil.copy(id1_file, oq_file)
 
 
+def game_flickering_check(parent):
+	if not config.warning_acknowledged_flickering():
+		if does_user_confirm(
+			parent,
+			'Flickering warning',
+			'Please note that Quake is a video game (this is not audio-only)\n'
+			'and does include flickering lighting effects.'):
+			config.warning_acknowledged_flickering(True)
+		else:
+			return False
+	return True
+
+
 def launch_core(parent, method):
 	if config.first_game_run():
 		doset_only(windows=lambda: first_time_windows_prompt(parent))
+
+	# FIXME: this should happen after registered check
+	if not game_flickering_check(parent):
+		return
 
 	_update_oq_configs()
 
@@ -210,3 +227,23 @@ def launch_core(parent, method):
 def gui_error_hook(etype, value, traceback):
 	message, title = error_message_and_title(etype, value, traceback)
 	MsgBox(None, message, title, wx.ICON_ERROR)
+
+
+def does_user_confirm(parent, title, message):
+	while True:
+		dlg = wx.RichMessageDialog(
+			parent,
+			message,
+			caption=title,
+			style=wx.OK | wx.CANCEL | wx.CANCEL_DEFAULT | wx.ICON_WARNING)
+		dlg.ShowCheckBox("Acknowledged; run the game.")
+		if dlg.ShowModal() == wx.ID_OK:
+			if dlg.IsCheckBoxChecked():
+				return True
+			else:
+				wx.MessageDialog(
+					parent, 'If you wish to continue running the game, please '
+					'tick the box. You may also cancel running the game.', title
+				).ShowModal()
+		else:
+			return False
