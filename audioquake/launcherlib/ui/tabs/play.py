@@ -54,10 +54,10 @@ def run_apple_script(command):
 			'and be sure to select the "Terminal" checkbox.'))
 
 
-def start_server_windows(event, parent):
+def start_server_windows(parent):
+	doset_only(windows=lambda: first_time_windows_firewall_info(parent))
 	if registered_check():
 		run_win_console([dirs.engines / 'zqds.exe', '-basedir', dirs.data])
-	doset_only(windows=lambda: first_time_windows_firewall_info(parent))
 
 
 def run_win_console(prog):
@@ -131,7 +131,7 @@ class PlayTab(wx.Panel):
 		server_stuff = {
 			"Dedicated server": doset(
 				mac=start_server_mac,
-				windows=lambda: start_server_windows(self),
+				windows=lambda evt: start_server_windows(self),
 				set_only=True),
 			"Remote console": doset(
 				mac=lambda evt: run_apple_script(dirs.gubbins / 'rcon'),
