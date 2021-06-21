@@ -11,11 +11,11 @@ else:
 import wx
 import wx.html2
 
-from buildlib import doset
+from buildlib import doset, doset_only
 from launcherlib import dirs
 from launcherlib.utils import have_registered_data, format_bindings_as_html
 from launcherlib.ui.helpers import add_widget, launch_core, \
-	Error, HOW_TO_INSTALL, modal_html_page
+	Error, HOW_TO_INSTALL, modal_html_page, first_time_windows_firewall_info
 
 
 #
@@ -54,9 +54,10 @@ def run_apple_script(command):
 			'and be sure to select the "Terminal" checkbox.'))
 
 
-def start_server_windows(event):
+def start_server_windows(event, parent):
 	if registered_check():
 		run_win_console([dirs.engines / 'zqds.exe', '-basedir', dirs.data])
+	doset_only(windows=lambda: first_time_windows_firewall_info(parent))
 
 
 def run_win_console(prog):
@@ -130,11 +131,12 @@ class PlayTab(wx.Panel):
 		server_stuff = {
 			"Dedicated server": doset(
 				mac=start_server_mac,
-				windows=start_server_windows,
+				windows=lambda: start_server_windows(self),
 				set_only=True),
 			"Remote console": doset(
 				mac=lambda evt: run_apple_script(dirs.gubbins / 'rcon'),
-				windows=lambda evt: run_win_console([dirs.gubbins / 'rcon.exe']),
+				windows=lambda evt:
+					run_win_console([dirs.gubbins / 'rcon.exe']),
 				set_only=True)
 		}
 
