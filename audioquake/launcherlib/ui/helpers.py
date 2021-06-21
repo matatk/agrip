@@ -194,11 +194,7 @@ def _update_oq_configs():
 			shutil.copy(id1_file, oq_file)
 
 
-def launch_core(parent, method):
-	if config.first_game_run():
-		doset_only(windows=lambda: first_time_windows_prompt(parent))
-
-	# FIXME: this should happen after registered check
+def game_flickering_check(parent):
 	if not config.warning_acknowledged_flickering():
 		if does_user_confirm(
 			parent,
@@ -207,7 +203,17 @@ def launch_core(parent, method):
 			'and does include flickering lighting effects.'):
 			config.warning_acknowledged_flickering(True)
 		else:
-			return
+			return False
+	return True
+
+
+def launch_core(parent, method):
+	if config.first_game_run():
+		doset_only(windows=lambda: first_time_windows_prompt(parent))
+
+	# FIXME: this should happen after registered check
+	if not game_flickering_check(parent):
+		return
 
 	_update_oq_configs()
 
