@@ -89,8 +89,17 @@ def cli_first_time_windows_check():
 		sys.exit(42)
 
 
+def cli_acknowledged_warnings_check():
+	if not config.ack_flickering_warning():
+		print(
+			'Sorry, you must run AudioQuake from the GUI launcher for the '
+			'first time. You may then run it from the command line.')
+		sys.exit(42)
+
+
 def _play_core(action):
 	doset_only(windows=cli_first_time_windows_check)
+	cli_acknowledged_warnings_check()
 	result = action()
 	print('Result of launching game:', result)
 

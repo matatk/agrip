@@ -9,7 +9,7 @@ import launcherlib.config as config
 from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import associate_controls, \
 	add_opener_buttons, add_widget, pick_directory, Info, Error, \
-	platform_appropriate_grouping
+	platform_appropriate_grouping, does_user_confirm
 from launcherlib.ui.munging import copy_paks_and_create_textures_wad
 from launcherlib.resolutions import resolution_index_from_config, \
 	RESOLUTIONS, DEFAULT_RESOLUTION_INDEX
@@ -71,9 +71,21 @@ class CustomiseTab(wx.Panel):
 		doset_only(windows=lambda: add_widget(box, wx.StaticText(
 			self, -1, "Modes may be cropped when Windows' UI is scaled.")))
 
+		def mode_test(event):
+			if not config.warning_acknowledged_flickering_mode_test():
+				if fullscreen.GetValue() is True:
+					if does_user_confirm(
+						parent,
+						'Full-screen flickering warning',
+						warning_message):
+						config.warning_acknowledged_flickering_mode_test(True)
+					else:
+						fullscreen.SetValue(False)
+						return
+			game_controller.launch_tutorial()
+
 		quick_test = wx.Button(self, -1, 'Try it out: Play tutorial')
-		quick_test.Bind(
-			wx.EVT_BUTTON, lambda event: game_controller.launch_tutorial())
+		quick_test.Bind(wx.EVT_BUTTON, mode_test)
 		add_widget(box, quick_test)
 
 		def reset_to_defaults(event):
@@ -124,3 +136,11 @@ class CustomiseTab(wx.Panel):
 					Error(self, (
 						'One or both of the registered data files could '
 						'not be found in the chosen directory.'))
+
+
+warning_message = (
+	'Please note that on some systems, there may be flickering\n'
+	'graphical bugs in some full-screen modes (particularly if\n'
+	'you set custom modes in the config file). Also Quake does\n'
+	'use flickering lighting effects, and the screen may flicker\n'
+	'when the mode is changed.\n')
