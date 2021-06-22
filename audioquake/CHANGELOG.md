@@ -1,12 +1,13 @@
-# AudioQuake & Level Description Language 2021.0 (03/04/2021)
+# AudioQuake & Level Description Language 2021.0 (22/06/2021)
 
-This is a re-release in which we've massively revamped the
-code---including the Level Description Language (LDL)---to run on modern
-platforms, with a new GUI-based launcher and a new cross-platform build
-system. There are some new features, and it should be a great deal
-easier to get, play and modify the game now. Whilst no longer
-mainstream, we wanted to make sure that the game would still run, and
-that you could more easily make levels for it.
+This is a re-release, coinciding with Quake's 25th anniversary, in which
+we've massively revamped the code---including the Level Description
+Language (LDL)---to run on modern platforms, with a new GUI-based
+launcher and a new cross-platform build system. There are some new
+features, and it should be a great deal easier to get, play and modify
+the game now. Whilst no longer mainstream, we wanted to make sure that
+the game would still run, and that you could more easily make levels for
+it.
 
 -   Level Description Language (LDL) tools and tutorials are included
     with the game.
@@ -24,11 +25,13 @@ that you could more easily make levels for it.
 
 -   More flexible styling of LDL maps (supporting the above sets of
     textures, as well as additional styles you can apply to parts of
-    maps, e.g. to make some areas appear outside).
+    maps, e.g. to make some areas appear outside).
 
 -   Big documentation updates.
 
--   Much code clean-up behind the scenes.
+-   A huge amount of code clean-up behind the scenes.
+
+    -   Conversion to Python 3.
 
     -   All of the Python code has been tidied up a lot.
 
@@ -38,6 +41,10 @@ that you could more easily make levels for it.
 
 The Stats and Servers site is no longer available, but you can still run
 your own servers if you have the registered version of Quake.
+
+There was some significant development work done in 2014, and the
+conversion to Python 3 happened in 2019, along with work on the new
+build system and GUI.
 
 # AudioQuake 0.3.0 (02/01/2008)
 
@@ -280,9 +287,9 @@ Whilst in development, this was 0.0.5, but was re-released as 0.1.0
 
 -   The ESR can now find monsters, enemy players/bots and friendly
     players/bots. Sound sets for these three types of detected object
-    will be added soon. Until then they share the same sound set (i.e.
-    same lower/same level/higher/beyond FOV sounds). You can toggle
-    detection of each of the three on/off.
+    will be added soon. Until then they share the same sound set
+    (i.e. same lower/same level/higher/beyond FOV sounds). You can
+    toggle detection of each of the three on/off.
 
 -   Changed the default key setup so that it is much more logical.
 
@@ -369,10 +376,10 @@ Windows.
     scraping against it in the future.
 
 -   The "sounding" of walls to the left and right of the player can now
-    be toggled on/off. We're also making the wall sounding quieter (i.e.
-    fall off faster with distance from the wall). They've started to get
-    quieter and will continue to do so for a while, until we think we've
-    got a good balance.
+    be toggled on/off. We're also making the wall sounding quieter
+    (i.e. fall off faster with distance from the wall). They've started
+    to get quieter and will continue to do so for a while, until we
+    think we've got a good balance.
 
 -   Footsteps are included and can be toggled on/off (though we need
     decent sounds for them at the moment).
