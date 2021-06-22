@@ -81,6 +81,7 @@ class CustomiseTab(wx.Panel):
 						config.warning_acknowledged_flickering_mode_test(True)
 					else:
 						fullscreen.SetValue(False)
+						config.fullscreen(False)
 						return
 			else:
 				if not game_flickering_check(parent):
