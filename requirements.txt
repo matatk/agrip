@@ -4,7 +4,7 @@ pywin32==301; sys_platform=="win32"
 winshell==0.6; sys_platform=="win32"
 mistune==0.8.4
 mistune-contrib==0.1
-PyInstaller==4.3
+PyInstaller==4.2
 vgio==1.2.0
 python-dateutil==2.8.1
 
