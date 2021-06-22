@@ -5,8 +5,7 @@ import launcherlib.config as config
 from launcherlib import dirs
 from launcherlib.utils import have_registered_data, LaunchState
 from launcherlib.game_controller.engine_wrapper import EngineWrapper
-from launcherlib.resolutions import resolution_size_from_config, \
-	DEFAULT_WIDTH, DEFAULT_HEIGHT
+from launcherlib.resolutions import resolution_from_config
 
 
 class RootGame(enum.Enum):
@@ -38,13 +37,10 @@ class GameController():
 		if self._is_running():
 			return LaunchState.ALREADY_RUNNING
 
-		screen_mode = ('-fullscreen',) if config.fullscreen() else ('-window',)
+		screen_mode = ('',) if config.fullscreen() else ('-window',)
 
-		xstr, ystr, _ = resolution_size_from_config()
-		if xstr == DEFAULT_WIDTH and ystr == DEFAULT_HEIGHT:
-			resolution = ()
-		else:
-			resolution = ('-width', xstr, '-height', ystr)
+		x, y = resolution_from_config()
+		resolution = ('-width', str(x), '-height', str(y))
 
 		parameters = self.opts_default + options + screen_mode + resolution
 
@@ -63,6 +59,7 @@ class GameController():
 		else:
 			raise TypeError(f'Invalid game name "{game}"')
 
+		print(parameters)
 		self._engine_wrapper = EngineWrapper(parameters, self._on_error)
 
 		if not self._engine_wrapper.engine_found():
