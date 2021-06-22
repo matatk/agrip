@@ -1,7 +1,6 @@
 """AudioQuake & LDL Launcher - Game controller"""
 import enum
 
-import launcherlib.config as config
 from launcherlib import dirs
 from launcherlib.utils import have_registered_data, LaunchState
 from launcherlib.game_controller.engine_wrapper import EngineWrapper
@@ -37,12 +36,10 @@ class GameController():
 		if self._is_running():
 			return LaunchState.ALREADY_RUNNING
 
-		screen_mode = ('',) if config.fullscreen() else ('-window',)
-
 		x, y = resolution_from_config()
-		resolution = ('-width', str(x), '-height', str(y))
+		screen_mode = ('-window', '-width', str(x), '-height', str(y))
 
-		parameters = self.opts_default + options + screen_mode + resolution
+		parameters = self.opts_default + options + screen_mode
 
 		if game is RootGame.ANY:
 			if have_registered_data():
@@ -59,7 +56,6 @@ class GameController():
 		else:
 			raise TypeError(f'Invalid game name "{game}"')
 
-		print(parameters)
 		self._engine_wrapper = EngineWrapper(parameters, self._on_error)
 
 		if not self._engine_wrapper.engine_found():
