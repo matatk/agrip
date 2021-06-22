@@ -9,16 +9,25 @@ import launcherlib.config as config
 from launcherlib.utils import have_registered_data
 from launcherlib.ui.helpers import associate_controls, \
 	add_opener_buttons, add_widget, pick_directory, Info, Error, \
-	platform_appropriate_grouping, does_user_confirm, game_flickering_check
+	platform_appropriate_grouping, game_flickering_check, \
+	first_time_windows_firewall_info
 from launcherlib.ui.munging import copy_paks_and_create_textures_wad
-from launcherlib.resolutions import resolution_index_from_config, \
-	RESOLUTIONS, DEFAULT_RESOLUTION_INDEX
+from launcherlib.resolutions import RESOLUTIONS, DEFAULT_RESOLUTION_INDEX
+
+
+def get_resolution_strings(resolutions):
+	out = []
+	for x, y in resolutions:
+		out.append(str(x) + 'x' + str(y))
+	return out
 
 
 class CustomiseTab(wx.Panel):
 	def __init__(self, parent, game_controller):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		resolution_strings = get_resolution_strings(RESOLUTIONS)
 
 		# Settings
 
@@ -40,51 +49,29 @@ class CustomiseTab(wx.Panel):
 
 		add_widget(sizer, wx.StaticLine(self, -1))
 
-		box = platform_appropriate_grouping(self, 'Video mode settings')
-
-		fullscreen = wx.CheckBox(
-			self, -1, 'Run full-screen (instead of windowed)')
-
-		fullscreen.SetValue(config.fullscreen())
-		fullscreen.Bind(
-			wx.EVT_CHECKBOX,
-			lambda event: config.fullscreen(event.IsChecked()))
-		add_widget(box, fullscreen)
+		box = platform_appropriate_grouping(self, 'Video mode')
 
 		res_label = wx.StaticText(self, label='Resolution:')
-		res_pick = wx.Choice(self, -1, choices=RESOLUTIONS)
+		res_pick = wx.Choice(self, -1, choices=resolution_strings)
 
-		index, _ = resolution_index_from_config()
-		if index >= 0:
-			res_pick.SetSelection(index)
-		else:
-			res_pick.Disable()
+		try:
+			index = int(config.resolution())
+		except:  # noqa 722
+			index = DEFAULT_RESOLUTION_INDEX
+		res_pick.SetSelection(index)
 
 		res_pick.Bind(
 			wx.EVT_CHOICE,
-			lambda event: config.resolution(RESOLUTIONS[event.GetSelection()]))
+			lambda event: config.resolution(event.GetSelection()))
 
 		add_widget(box, associate_controls(res_label, res_pick))
 
 		doset_only(windows=lambda: add_widget(box, wx.StaticText(
-			self, -1, "Some modes may not be available full-screen.")))
-		doset_only(windows=lambda: add_widget(box, wx.StaticText(
 			self, -1, "Modes may be cropped when Windows' UI is scaled.")))
 
 		def mode_test(event):
-			if fullscreen.GetValue() is True:
-				if not config.warning_acknowledged_flickering_mode_test():
-					if does_user_confirm(
-						parent,
-						'Full-screen flickering warning',
-						fullscreen_warning_message):
-						config.warning_acknowledged_flickering_mode_test(True)
-					else:
-						fullscreen.SetValue(False)
-						config.fullscreen(False)
-						return
-			else:
-				if not game_flickering_check(parent):
+			doset_only(windows=lambda: first_time_windows_firewall_info(parent))
+			if not game_flickering_check(parent):
 					return
 			game_controller.launch_tutorial()
 
@@ -93,15 +80,13 @@ class CustomiseTab(wx.Panel):
 		add_widget(box, quick_test)
 
 		def reset_to_defaults(event):
-			fullscreen.SetValue(False)
-			wx.PostEvent(fullscreen, wx.CommandEvent(wx.wxEVT_CHECKBOX))
 			res_pick.SetSelection(DEFAULT_RESOLUTION_INDEX)
 			choice_event = wx.CommandEvent(wx.wxEVT_CHOICE)
 			choice_event.SetInt(DEFAULT_RESOLUTION_INDEX)
 			wx.PostEvent(res_pick, choice_event)
 			res_pick.Enable()
 
-		reset = wx.Button(self, -1, 'Reset video mode to defaults')
+		reset = wx.Button(self, -1, 'Reset video mode to default')
 		reset.Bind(wx.EVT_BUTTON, reset_to_defaults)
 		add_widget(box, reset)
 
@@ -140,11 +125,3 @@ class CustomiseTab(wx.Panel):
 					Error(self, (
 						'One or both of the registered data files could '
 						'not be found in the chosen directory.'))
-
-
-fullscreen_warning_message = (
-	'Please note that on some systems, there may be flickering\n'
-	'graphical bugs in some full-screen modes (particularly if\n'
-	'you set custom modes in the config file). Also Quake does\n'
-	'use flickering lighting effects, and the screen may flicker\n'
-	'when the mode is changed.\n')

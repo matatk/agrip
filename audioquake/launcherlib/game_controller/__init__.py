@@ -1,12 +1,10 @@
 """AudioQuake & LDL Launcher - Game controller"""
 import enum
 
-import launcherlib.config as config
 from launcherlib import dirs
 from launcherlib.utils import have_registered_data, LaunchState
 from launcherlib.game_controller.engine_wrapper import EngineWrapper
-from launcherlib.resolutions import resolution_size_from_config, \
-	DEFAULT_WIDTH, DEFAULT_HEIGHT
+from launcherlib.resolutions import resolution_from_config
 
 
 class RootGame(enum.Enum):
@@ -38,15 +36,10 @@ class GameController():
 		if self._is_running():
 			return LaunchState.ALREADY_RUNNING
 
-		screen_mode = ('-fullscreen',) if config.fullscreen() else ('-window',)
+		x, y = resolution_from_config()
+		screen_mode = ('-window', '-width', str(x), '-height', str(y))
 
-		xstr, ystr, _ = resolution_size_from_config()
-		if xstr == DEFAULT_WIDTH and ystr == DEFAULT_HEIGHT:
-			resolution = ()
-		else:
-			resolution = ('-width', xstr, '-height', ystr)
-
-		parameters = self.opts_default + options + screen_mode + resolution
+		parameters = self.opts_default + options + screen_mode
 
 		if game is RootGame.ANY:
 			if have_registered_data():

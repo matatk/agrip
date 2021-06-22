@@ -299,6 +299,7 @@ static void uninstall_grabs(void)
 
 void HotKey_ToggleFullScreen(void)
 {
+#ifndef AGRIP
 	SDL_Surface *screen;
 
 	screen = SDL_GetVideoSurface();
@@ -310,6 +311,7 @@ void HotKey_ToggleFullScreen(void)
 		flags ^= SDL_FULLSCREEN;
 		screen = SDL_SetVideoMode(screen->w, screen->h, bpp, flags);
 	}
+#endif
 }
 
 void HotKey_ToggleGrab(void)
@@ -493,8 +495,10 @@ void VID_Init(unsigned char *palette)
 
 	vid.colormap = host_colormap;
 
+#ifndef AGRIP
 	if (!(COM_CheckParm("-window")) )
 		flags |= SDL_FULLSCREEN;
+#endif
 
 	if ((i = COM_CheckParm("-bpp")) != 0)
 		bpp = atoi(com_argv[i+1]);

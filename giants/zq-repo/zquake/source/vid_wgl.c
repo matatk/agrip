@@ -1611,8 +1611,10 @@ void	VID_Init (unsigned char *palette)
 
 	VID_InitFullDIB (global_hInstance);
 
+#ifndef AGRIP
 	if (COM_CheckParm("-window") || COM_CheckParm("-startwindowed"))
 	{
+#endif
 		hdc = GetDC (NULL);
 
 		if (GetDeviceCaps(hdc, RASTERCAPS) & RC_PALETTE)
@@ -1625,6 +1627,7 @@ void	VID_Init (unsigned char *palette)
 		windowed = true;
 
 		vid_default = MODE_WINDOWED;
+#ifndef AGRIP
 	}
 	else
 	{
@@ -1781,6 +1784,7 @@ void	VID_Init (unsigned char *palette)
 			}
 		}
 	}
+#endif
 
 	vid_initialized = true;
 
